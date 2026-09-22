@@ -41,16 +41,7 @@ a { color: inherit; }
 
 .marca { display: flex; align-items: center; gap: 0.6rem; font-weight: 700; }
 
-.avatar {
-  display: inline-grid;
-  place-items: center;
-  width: 2rem;
-  height: 2rem;
-  border-radius: 50%;
-  background: var(--canal);
-  color: #fff;
-  font-weight: 800;
-}
+.avatar { width: 2.2rem; height: auto; display: block; }
 
 .menu { display: flex; gap: 1.2rem; font-size: 0.92rem; }
 .menu a { text-decoration: none; color: var(--texto-fraco); }
@@ -58,7 +49,14 @@ a { color: inherit; }
 
 main { max-width: 1120px; margin: 0 auto; padding: 0 clamp(1rem, 4vw, 3rem); }
 
-.hero { padding: clamp(3rem, 10vw, 6.5rem) 0 3rem; }
+.hero {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  align-items: center;
+  gap: 2rem;
+  padding: clamp(3rem, 8vw, 5.5rem) 0 3rem;
+}
+.hero-logo { width: 100%; height: auto; filter: drop-shadow(0 18px 40px rgba(0, 0, 0, 0.45)); }
 
 .hero-sobretitulo {
   margin: 0 0 0.8rem;
@@ -199,6 +197,11 @@ select, input {
   border-top: 1px solid var(--borda);
   color: var(--texto-fraco);
   font-size: 0.9rem;
+}
+
+@media (max-width: 860px) {
+  .hero { grid-template-columns: 1fr; }
+  .hero-logo { order: -1; max-width: 300px; margin: 0 auto; }
 }
 
 @media (max-width: 640px) {
