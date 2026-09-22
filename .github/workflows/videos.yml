@@ -1,0 +1,36 @@
+# Atualiza dados/videos.json a partir do feed RSS do canal, uma vez por dia.
+# So faz commit quando a lista mudou; o push com GITHUB_TOKEN dispara o
+# rebuild do GitHub Pages.
+name: videos do canal
+
+on:
+  schedule:
+    - cron: "17 9 * * *"   # 06h17 em Brasilia
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  atualizar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: testes do leitor do feed
+        run: python -m unittest discover -s scripts
+      - name: le o feed
+        run: python scripts/atualizar_videos.py
+      - name: commit se mudou
+        run: |
+          if git diff --quiet -- dados/videos.json; then
+            echo "nenhum video novo"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add dados/videos.json
+          git commit -m "dados: videos do canal atualizados"
+          git push

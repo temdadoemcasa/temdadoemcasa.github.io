@@ -1,0 +1,210 @@
+/* Mesma paleta do modo gravacao do app: o site e a vitrine do video. */
+:root {
+  --fundo: #0d1117;
+  --fundo-cartao: #161b22;
+  --borda: #30363d;
+  --texto: #e6edf3;
+  --texto-fraco: #8b949e;
+  --canal: #f57c00;
+  --raio: 14px;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--fundo);
+  color: var(--texto);
+  font-family: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; }
+
+.topo {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9rem clamp(1rem, 4vw, 3rem);
+  background: rgba(13, 17, 23, 0.88);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--borda);
+}
+
+.marca { display: flex; align-items: center; gap: 0.6rem; font-weight: 700; }
+
+.avatar {
+  display: inline-grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: var(--canal);
+  color: #fff;
+  font-weight: 800;
+}
+
+.menu { display: flex; gap: 1.2rem; font-size: 0.92rem; }
+.menu a { text-decoration: none; color: var(--texto-fraco); }
+.menu a:hover { color: var(--texto); }
+
+main { max-width: 1120px; margin: 0 auto; padding: 0 clamp(1rem, 4vw, 3rem); }
+
+.hero { padding: clamp(3rem, 10vw, 6.5rem) 0 3rem; }
+
+.hero-sobretitulo {
+  margin: 0 0 0.8rem;
+  color: var(--canal);
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(2.2rem, 6.5vw, 4.2rem);
+  line-height: 1.05;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  max-width: 14ch;
+}
+
+.destaque { color: var(--canal); }
+
+.hero-texto { max-width: 58ch; color: var(--texto-fraco); font-size: 1.1rem; margin: 1.4rem 0 0; }
+
+.hero-acoes { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 2rem; }
+
+.botao {
+  display: inline-block;
+  padding: 0.75rem 1.3rem;
+  border-radius: 999px;
+  border: 1px solid var(--borda);
+  text-decoration: none;
+  font-weight: 600;
+}
+.botao:hover { border-color: var(--texto-fraco); }
+.botao-primario { background: var(--canal); border-color: var(--canal); color: #111; }
+.botao-primario:hover { filter: brightness(1.08); border-color: var(--canal); }
+
+.numeros { display: flex; flex-wrap: wrap; gap: 2.5rem; margin: 3rem 0 0; }
+.numeros div { min-width: 8rem; }
+.numeros dt { color: var(--texto-fraco); font-size: 0.85rem; }
+.numeros dd { margin: 0; font-size: 2rem; font-weight: 800; }
+
+.secao { padding: 3.5rem 0; border-top: 1px solid var(--borda); }
+.secao h2 { margin: 0 0 1.5rem; font-size: 1.7rem; letter-spacing: -0.01em; }
+.secao-cabecalho { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0.5rem 2rem; }
+.nota { color: var(--texto-fraco); font-size: 0.9rem; margin: 0 0 1.5rem; }
+
+.videos { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.2rem; }
+
+.video {
+  display: block;
+  text-decoration: none;
+  background: var(--fundo-cartao);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  overflow: hidden;
+}
+.video:hover { border-color: var(--texto-fraco); }
+.video img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+.video-texto { padding: 0.8rem 1rem 1rem; }
+.video-titulo { font-weight: 600; }
+.video-data { color: var(--texto-fraco); font-size: 0.85rem; }
+
+.vazio {
+  grid-column: 1 / -1;
+  padding: 2rem;
+  border: 1px dashed var(--borda);
+  border-radius: var(--raio);
+  color: var(--texto-fraco);
+  text-align: center;
+}
+.vazio strong { display: block; color: var(--texto); font-size: 1.1rem; margin-bottom: 0.3rem; }
+
+.controles { display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem; }
+.controles label { display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.8rem; color: var(--texto-fraco); }
+
+select, input {
+  font: inherit;
+  font-size: 1rem;
+  color: var(--texto);
+  background: var(--fundo-cartao);
+  border: 1px solid var(--borda);
+  border-radius: 10px;
+  padding: 0.55rem 0.8rem;
+  min-width: 12rem;
+}
+
+.elenco-titulo { display: flex; align-items: center; gap: 0.7rem; margin: 0 0 1rem; font-size: 1.25rem; }
+.faixa { width: 0.9rem; height: 0.9rem; border-radius: 3px; background: var(--cor-time); }
+
+.jogadores { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
+
+.jogador {
+  display: grid;
+  grid-template-columns: 3.6rem 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.65rem 1rem;
+  background: var(--fundo-cartao);
+  border: 1px solid var(--borda);
+  border-left: 4px solid var(--cor-time);
+  border-radius: 10px;
+}
+
+.overall { font-size: 1.7rem; font-weight: 800; text-align: center; color: var(--cor-time); font-variant-numeric: tabular-nums; }
+.jogador-nome { font-weight: 600; }
+.jogador-info { color: var(--texto-fraco); font-size: 0.85rem; }
+
+.eixos { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 0.3rem; max-width: 22rem; }
+.eixo {
+  font-size: 0.72rem;
+  padding: 0.15rem 0.45rem;
+  border-radius: 6px;
+  background: rgba(139, 148, 158, 0.12);
+  color: var(--texto-fraco);
+  font-variant-numeric: tabular-nums;
+}
+.eixo b { color: var(--texto); font-weight: 600; }
+
+.sem-nota { border-left-color: var(--borda); }
+.sem-nota-grupo { margin-top: 0.8rem; }
+.sem-nota-grupo summary { cursor: pointer; color: var(--texto-fraco); padding: 0.5rem 0; }
+.sem-nota-grupo .jogadores { margin-top: 0.4rem; }
+.time + .time { margin-top: 2rem; }
+.sem-nota .overall { color: var(--texto-fraco); font-size: 0.8rem; font-weight: 600; line-height: 1.2; }
+
+.metodo .cartoes { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; }
+.metodo article { background: var(--fundo-cartao); border: 1px solid var(--borda); border-radius: var(--raio); padding: 1.3rem; }
+.metodo h3 { margin: 0 0 0.5rem; font-size: 1.05rem; }
+.metodo p { margin: 0; color: var(--texto-fraco); }
+
+.rodape {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+  padding: 2.5rem 1rem;
+  border-top: 1px solid var(--borda);
+  color: var(--texto-fraco);
+  font-size: 0.9rem;
+}
+
+@media (max-width: 640px) {
+  .menu { display: none; }
+  .jogador { grid-template-columns: 3rem 1fr; }
+  .eixos { grid-column: 1 / -1; justify-content: flex-start; max-width: none; }
+  select, input { min-width: 0; width: 100%; }
+  .controles label { flex: 1 1 100%; }
+}

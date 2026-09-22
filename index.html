@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tem dado em casa</title>
+  <meta name="description" content="Tem dado em casa: futebol brasileiro medido, não opinado. Vídeos, overalls de todos os jogadores do Brasileirão e como os números são feitos.">
+  <meta property="og:title" content="Tem dado em casa">
+  <meta property="og:description" content="Futebol brasileiro medido, não opinado.">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#0d1117">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='32' fill='%23f57c00'/%3E%3Ctext x='32' y='44' font-family='Arial' font-size='36' font-weight='700' fill='white' text-anchor='middle'%3ET%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+  <header class="topo">
+    <div class="marca">
+      <span class="avatar" aria-hidden="true">T</span>
+      <span class="marca-nome">Tem dado em casa</span>
+    </div>
+    <nav class="menu" aria-label="Seções">
+      <a href="#videos">Vídeos</a>
+      <a href="#overalls">Overalls</a>
+      <a href="#metodo">Como medimos</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <p class="hero-sobretitulo">Canal de dados de futebol</p>
+      <h1>Futebol brasileiro <span class="destaque">medido</span>, não opinado.</h1>
+      <p class="hero-texto">
+        Cada jogador do Brasileirão vira uma carta: um número geral e até sete eixos,
+        todos em percentil contra a liga inteira. Sem achismo, sem nota inventada
+        para quem jogou pouco.
+      </p>
+      <div class="hero-acoes">
+        <a class="botao botao-primario" href="https://www.youtube.com/@temdadoemcasafc?sub_confirmation=1" target="_blank" rel="noopener">Inscrever-se no YouTube</a>
+        <a class="botao" href="#overalls">Ver os overalls</a>
+      </div>
+      <dl class="numeros" id="numeros" aria-live="polite"></dl>
+    </section>
+
+    <section id="videos" class="secao">
+      <h2>Últimos vídeos</h2>
+      <div id="lista-videos" class="videos"></div>
+    </section>
+
+    <section id="overalls" class="secao">
+      <div class="secao-cabecalho">
+        <h2>Overalls por time</h2>
+        <p class="nota" id="nota-retrato"></p>
+      </div>
+      <div class="controles">
+        <label>Temporada
+          <select id="temporada"></select>
+        </label>
+        <label>Time
+          <select id="time"></select>
+        </label>
+        <label>Buscar jogador
+          <input id="busca" type="search" placeholder="nome" autocomplete="off">
+        </label>
+      </div>
+      <div id="elenco" class="elenco" aria-live="polite"></div>
+    </section>
+
+    <section id="metodo" class="secao metodo">
+      <h2>Como os números são feitos</h2>
+      <div class="cartoes">
+        <article>
+          <h3>Percentil, não nota</h3>
+          <p>Cada eixo diz em que ponto da liga o jogador está: 80 quer dizer que ele supera 80% dos jogadores da mesma família (goleiro só contra goleiro). O número geral é a média ponderada dos eixos, com pesos por posição.</p>
+        </article>
+        <article>
+          <h3>Pouco jogo não é jogo ruim</h3>
+          <p>Abaixo do piso de minutos o jogador aparece <em>sem nota</em>, nunca com zero. Dado que falta não vira desempenho: ausência nunca é zero.</p>
+        </article>
+        <article>
+          <h3>O mesmo número do vídeo</h3>
+          <p>Os overalls desta página saem da mesma conta que desenha a carta nos vídeos. O retrato diz a data e quantos jogos da temporada já estavam na base.</p>
+        </article>
+        <article>
+          <h3>De onde vem</h3>
+          <p>Estatísticas por partida do Brasileirão, coletadas e guardadas em bruto com proveniência. Nomes e cores dos clubes são marcas dos próprios clubes.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <span>Tem dado em casa</span>
+    <a href="https://www.youtube.com/@temdadoemcasafc" target="_blank" rel="noopener">YouTube</a>
+    <a href="https://github.com/temdadoemcasa" target="_blank" rel="noopener">GitHub</a>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
