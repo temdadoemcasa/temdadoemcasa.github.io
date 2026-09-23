@@ -129,6 +129,30 @@ function textoSobre(hex) {
   return (1.05 / (l + 0.05)) >= ((l + 0.05) / 0.05) ? "#ffffff" : "#10131a";
 }
 
+// Os 6 atributos do card, na convencao que todo jogador de FIFA conhece.
+// Os 7 eixos da carta viram 6: Precisao e Criacao se juntam em PAS (media
+// dos que existirem). Eixo ausente (ex.: velocidade sem tracking) sai como
+// travessao, NUNCA como zero. Goleiro mantem os 5 eixos proprios.
+const ATRIBUTOS_DE_LINHA = [
+  ["RIT", "Ritmo (velocidade)", ["VEL"]],
+  ["FIN", "Finalização", ["CHU"]],
+  ["PAS", "Passe (precisão e criação)", ["PAS", "CRI"]],
+  ["DRI", "Drible", ["DRI"]],
+  ["DEF", "Defesa", ["DEF"]],
+  ["FÍS", "Físico (duelo)", ["FOR"]],
+];
+
+function atributosDoCard(jogador, rotulos) {
+  if (jogador.posicao === "G") {
+    return Object.entries(jogador.eixos).map(([chave, valor]) => [chave, rotulos[chave] || chave, valor]);
+  }
+  return ATRIBUTOS_DE_LINHA.map(([sigla, titulo, chaves]) => {
+    const valores = chaves.map((c) => jogador.eixos[c]).filter((v) => typeof v === "number");
+    const valor = valores.length ? Math.round(valores.reduce((a, b) => a + b, 0) / valores.length) : null;
+    return [sigla, titulo, valor];
+  });
+}
+
 // O card: escudo com as cores do time, nota e posicao no canto, o boneco
 // vestindo a camisa do jogador, nome e os eixos numa linha.
 function cardDoJogador(jogador, time, rotulos) {
@@ -152,10 +176,10 @@ function cardDoJogador(jogador, time, rotulos) {
   card.append(el("h4", "card-nome", jogador.nome));
 
   const eixos = el("dl", "card-eixos");
-  for (const [chave, valor] of Object.entries(jogador.eixos)) {
+  for (const [sigla, titulo, valor] of atributosDoCard(jogador, rotulos)) {
     const item = el("div");
-    item.title = rotulos[chave] || chave;
-    item.append(el("dt", null, chave), el("dd", null, String(valor)));
+    item.title = titulo;
+    item.append(el("dt", null, sigla), el("dd", null, valor === null ? "—" : String(valor)));
     eixos.append(item);
   }
   card.append(eixos);

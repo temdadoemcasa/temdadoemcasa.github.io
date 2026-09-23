@@ -196,17 +196,17 @@ select, input {
 .card-eixos {
   position: relative;
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0.3rem 0.2rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.35rem 0.4rem;
   margin: 0.45rem 0 0;
   padding-top: 0.45rem;
   border-top: 1px solid color-mix(in srgb, var(--card-texto) 30%, transparent);
   font-variant-numeric: tabular-nums;
   text-align: center;
 }
-.card-eixos div { display: flex; flex-direction: column; line-height: 1.1; }
-.card-eixos dt { font-size: 0.66rem; font-weight: 700; opacity: 0.8; }
-.card-eixos dd { margin: 0; font-size: 1rem; font-weight: 800; }
+.card-eixos div { display: flex; justify-content: center; align-items: baseline; gap: 0.3rem; line-height: 1.1; }
+.card-eixos dt { font-size: 0.7rem; font-weight: 700; opacity: 0.8; order: 2; }
+.card-eixos dd { margin: 0; font-size: 1.05rem; font-weight: 800; order: 1; }
 
 .card-info { position: relative; margin-top: auto; text-align: center; font-size: 0.66rem; opacity: 0.8; }
 
