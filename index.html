@@ -16,7 +16,7 @@
   <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="estilo.css">
 </head>
 <body>
@@ -39,7 +39,7 @@
       <h1>Opinião todo mundo tem. <span class="destaque">Dado</span> tem em casa.</h1>
       <p class="hero-texto">
         A gente joga o Brasileirão inteiro na planilha e cada jogador vira uma carta:
-        um número geral e até sete eixos, contra a liga toda. Jogou pouco? Fica sem
+        um número geral e seis atributos, contra a liga toda. Jogou pouco? Fica sem
         nota. Aqui ninguém leva zero de graça.
       </p>
       <div class="hero-acoes">
@@ -48,7 +48,14 @@
       </div>
       <dl class="numeros" id="numeros" aria-live="polite"></dl>
       </div>
-      <img class="hero-logo" src="img/simbolo.svg" alt="Tem dado em casa: uma casa com um dado de seis pontos" width="400" height="400">
+      <div class="vitrine">
+        <div class="palco" id="palco">
+          <img class="hero-logo" src="img/simbolo.svg" alt="Tem dado em casa: uma casa com um dado de seis pontos" width="400" height="400">
+        </div>
+        <p class="vitrine-legenda" id="vitrine-legenda" aria-live="polite"></p>
+        <button class="botao botao-envelope" id="abrir-envelope" type="button" hidden>Abrir um envelope</button>
+        <p class="album" id="album" aria-live="polite"></p>
+      </div>
     </section>
 
     <section id="videos" class="secao">
@@ -68,12 +75,42 @@
         <label>Time
           <select id="time"></select>
         </label>
-        <label>Procurar o craque (ou o bagre)
+        <label>Procurar o craque
           <input id="busca" type="search" placeholder="nome" autocomplete="off">
         </label>
+        <label>Ordenar por
+          <select id="ordem">
+            <option value="overall">Overall</option>
+            <option value="RIT">RIT · ritmo</option>
+            <option value="FIN">FIN · finalização</option>
+            <option value="PAS">PAS · passe</option>
+            <option value="DRI">DRI · drible</option>
+            <option value="DEF">DEF · defesa</option>
+            <option value="FIS">FÍS · físico</option>
+          </select>
+        </label>
+      </div>
+      <div class="filtros">
+        <div class="chips" role="group" aria-label="Visão">
+          <button class="chip" type="button" data-grupo="visao" data-valor="time" aria-pressed="true">Por time</button>
+          <button class="chip" type="button" data-grupo="visao" data-valor="liga" aria-pressed="false">Liga toda</button>
+        </div>
+        <div class="chips" role="group" aria-label="Posição">
+          <button class="chip" type="button" data-grupo="posicao" data-valor="todas" aria-pressed="true">Todas</button>
+          <button class="chip" type="button" data-grupo="posicao" data-valor="G" aria-pressed="false">GOL</button>
+          <button class="chip" type="button" data-grupo="posicao" data-valor="D" aria-pressed="false">DEF</button>
+          <button class="chip" type="button" data-grupo="posicao" data-valor="M" aria-pressed="false">MEI</button>
+          <button class="chip" type="button" data-grupo="posicao" data-valor="F" aria-pressed="false">ATA</button>
+        </div>
+        <div class="niveis" id="niveis" aria-label="Níveis da temporada"></div>
       </div>
       <div id="elenco" class="elenco" aria-live="polite"></div>
     </section>
+
+    <dialog class="ficha" id="ficha" aria-labelledby="ficha-titulo">
+      <button class="ficha-fechar" id="ficha-fechar" type="button" aria-label="Fechar ficha">×</button>
+      <div class="ficha-grade" id="ficha-conteudo"></div>
+    </dialog>
 
     <section id="metodo" class="secao metodo">
       <h2>Tá, mas de onde saiu esse número?</h2>
@@ -84,7 +121,11 @@
         </article>
         <article>
           <h3>Jogou pouco? Sem nota.</h3>
-          <p>Abaixo do piso de minutos o jogador aparece <em>sem nota</em>, nunca com zero. Reserva que entrou três vezes não é bagre nem craque: é amostra pequena.</p>
+          <p>Abaixo do piso de minutos o jogador aparece <em>sem nota</em>, nunca com zero. Reserva que entrou três vezes não é casa de palha nem de grafeno: é amostra pequena.</p>
+        </article>
+        <article>
+          <h3>Palha, madeira, tijolo, grafeno</h3>
+          <p>Lembra dos três porquinhos? A opinião é o lobo. Abaixo de 50 de número geral a casa é de palha, 50 é madeira, 65 é tijolo, que o lobo não derruba. De 75 pra cima é grafeno: fora da curva, coisa de 1% da liga. Nas células da carta a cor é a da planilha: vermelho é pouco, verde é muito.</p>
         </article>
         <article>
           <h3>O mesmo número do vídeo</h3>
