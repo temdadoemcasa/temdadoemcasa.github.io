@@ -855,6 +855,113 @@ function iniciarVitrine(r) {
 
 // --- controles ------------------------------------------------------------
 
+// "Sao Paulo" acha "são paulo", "gremio" acha "Grêmio"
+const semAcento = (s) => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLocaleLowerCase("pt-BR");
+
+// Escolha de time pesquisavel. O <select id="time"> escondido continua sendo
+// a fonte do valor (o resto da pagina le dele); este combobox so escreve nele
+// e dispara "change". Teclado: setas andam, Enter escolhe, Esc desiste.
+function ligarComboDeTimes() {
+  const select = document.getElementById("time");
+  const entrada = document.getElementById("time-busca");
+  const lista = document.getElementById("time-lista");
+  let visiveis = [];
+  let ativo = -1;
+
+  const nomeAtual = () => (select.selectedOptions[0] ? select.selectedOptions[0].text : "");
+  const corDe = (teamId) => {
+    const time = estado.r && estado.r.times.find((t) => t.team_id === teamId);
+    return time ? corDoClube(time) : "#30363d";
+  };
+
+  function marcar(i) {
+    ativo = i;
+    visiveis.forEach((li, k) => li.setAttribute("aria-selected", String(k === i)));
+    if (i >= 0) {
+      entrada.setAttribute("aria-activedescendant", visiveis[i].id);
+      visiveis[i].scrollIntoView({ block: "nearest" });
+    } else {
+      entrada.removeAttribute("aria-activedescendant");
+    }
+  }
+
+  function filtrar(termo) {
+    const t = semAcento(termo.trim());
+    lista.replaceChildren();
+    visiveis = [];
+    for (const opcao of select.options) {
+      if (t && !semAcento(opcao.text).includes(t)) continue;
+      const li = el("li", "combo-opcao");
+      li.id = `time-opcao-${opcao.value}`;
+      li.setAttribute("role", "option");
+      li.dataset.valor = opcao.value;
+      const bolinha = el("i", "combo-cor");
+      bolinha.style.background = corDe(Number(opcao.value));
+      li.append(bolinha, el("span", null, opcao.text));
+      if (opcao.value === select.value) li.classList.add("atual");
+      lista.append(li);
+      visiveis.push(li);
+    }
+    if (!visiveis.length) lista.append(el("li", "combo-vazio", "Nenhum time com esse nome."));
+    const atual = visiveis.findIndex((li) => li.dataset.valor === select.value);
+    marcar(t ? (visiveis.length ? 0 : -1) : atual);
+  }
+
+  function abrir() {
+    if (entrada.disabled) return;
+    filtrar("");
+    lista.hidden = false;
+    entrada.setAttribute("aria-expanded", "true");
+  }
+
+  function fechar() {
+    lista.hidden = true;
+    entrada.setAttribute("aria-expanded", "false");
+    entrada.removeAttribute("aria-activedescendant");
+    entrada.value = nomeAtual();
+  }
+
+  function escolher(valor) {
+    if (valor !== select.value) {
+      select.value = valor;
+      select.dispatchEvent(new Event("change"));
+    }
+    fechar();
+  }
+
+  entrada.addEventListener("focus", () => { abrir(); entrada.select(); });
+  entrada.addEventListener("click", () => { if (lista.hidden) abrir(); });
+  entrada.addEventListener("input", () => {
+    if (lista.hidden) { lista.hidden = false; entrada.setAttribute("aria-expanded", "true"); }
+    filtrar(entrada.value);
+  });
+  entrada.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+      e.preventDefault();
+      if (lista.hidden) { abrir(); return; }
+      if (!visiveis.length) return;
+      const passo = e.key === "ArrowDown" ? 1 : -1;
+      marcar((ativo + passo + visiveis.length) % visiveis.length);
+    } else if (e.key === "Enter") {
+      if (lista.hidden) return;
+      e.preventDefault();
+      if (ativo >= 0) escolher(visiveis[ativo].dataset.valor);
+    } else if (e.key === "Escape") {
+      if (!lista.hidden) { e.preventDefault(); fechar(); entrada.select(); }
+    }
+  });
+  // mousedown, nao click: o click viria depois do blur, com a lista ja fechada
+  lista.addEventListener("mousedown", (e) => {
+    e.preventDefault();
+    const li = e.target instanceof Element ? e.target.closest(".combo-opcao") : null;
+    if (li) escolher(li.dataset.valor);
+  });
+  entrada.addEventListener("blur", fechar);
+
+  // o select muda por fora (troca de temporada): o texto acompanha
+  return { sincronizar: () => { if (lista.hidden) entrada.value = nomeAtual(); } };
+}
+
 function ligarChips(seletor, chave, aoMudar) {
   const botoes = document.querySelectorAll(seletor);
   for (const b of botoes) {
@@ -876,9 +983,11 @@ async function iniciarOveralls() {
   const anos = await json("dados/temporadas.json");
   for (const ano of anos) selTemporada.append(new Option(String(ano), String(ano)));
 
+  const combo = ligarComboDeTimes();
+  const buscaTime = document.getElementById("time-busca");
   const sincronizarVisao = () => {
-    selTime.disabled = estado.visao === "liga";
-    selTime.closest("label").classList.toggle("desligado", estado.visao === "liga");
+    buscaTime.disabled = estado.visao === "liga";
+    document.getElementById("campo-time").classList.toggle("desligado", estado.visao === "liga");
   };
 
   async function trocarTemporada() {
@@ -887,6 +996,7 @@ async function iniciarOveralls() {
     const anterior = Number(selTime.value);
     selTime.replaceChildren(...r.times.map((t) => new Option(t.nome, String(t.team_id))));
     if (r.times.some((t) => t.team_id === anterior)) selTime.value = String(anterior);
+    combo.sincronizar();
     nota.textContent = notaDoRetrato(r);
     mostrarNiveis(r);
     mostrarElenco();

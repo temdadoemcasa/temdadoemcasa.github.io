@@ -72,9 +72,16 @@
         <label>Temporada
           <select id="temporada"></select>
         </label>
-        <label>Time
-          <select id="time"></select>
-        </label>
+        <div class="campo-time" id="campo-time">
+          <span id="time-rotulo">Time</span>
+          <div class="combo">
+            <input id="time-busca" type="text" role="combobox" aria-labelledby="time-rotulo"
+              aria-expanded="false" aria-controls="time-lista" aria-autocomplete="list"
+              placeholder="Digita o time" autocomplete="off" spellcheck="false">
+            <ul id="time-lista" class="combo-lista" role="listbox" aria-labelledby="time-rotulo" hidden></ul>
+          </div>
+          <select id="time" hidden aria-hidden="true" tabindex="-1"></select>
+        </div>
         <label>Procurar o craque
           <input id="busca" type="search" placeholder="nome" autocomplete="off">
         </label>
