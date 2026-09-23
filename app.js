@@ -31,8 +31,8 @@ function mostrarVideos(videos) {
   if (!videos.length) {
     // canal sem video e estado valido: dizer, nao sumir com a secao
     const vazio = el("div", "vazio");
-    vazio.append(el("strong", null, "Primeiro vídeo em breve."));
-    vazio.append(el("span", null, "Inscreva-se no canal para ver quando sair."));
+    vazio.append(el("strong", null, "O primeiro vídeo tá no forno."));
+    vazio.append(el("span", null, "Se inscreve no canal que a gente avisa quando sair."));
     lista.append(vazio);
     return;
   }
@@ -201,7 +201,7 @@ function campinho(time) {
   }
   quadro.append(campo);
   quadro.append(el("figcaption", null,
-    `${base.formacao}, a formação de ${base.jogos} jogos. Em cada posição, quem mais jogou nela.`));
+    `${base.formacao}, o esquema de ${base.jogos} jogos. Em cada posição, quem mais bateu ponto ali.`));
   return quadro;
 }
 
@@ -241,7 +241,7 @@ function mostrarElenco(r, teamId, busca) {
       const recolhido = el("details", "sem-nota-grupo");
       if (termo) recolhido.open = true;
       recolhido.append(el("summary", null,
-        `${semNota.length} sem nota — abaixo do piso de ${r.piso_minutos} minutos`));
+        `${semNota.length} sem nota: menos de ${r.piso_minutos} minutos em campo. Sem minuto, sem carta.`));
       const lista = el("ul", "sem-nota-lista");
       for (const jogador of semNota) lista.append(linhaSemNota(jogador));
       recolhido.append(lista);
@@ -249,7 +249,7 @@ function mostrarElenco(r, teamId, busca) {
     }
     alvo.append(bloco);
   }
-  if (!achados) alvo.append(el("div", "vazio", termo ? "Nenhum jogador com esse nome nesta temporada." : "Sem jogadores."));
+  if (!achados) alvo.append(el("div", "vazio", termo ? "Ninguém com esse nome nesta temporada. Confere a grafia?" : "Sem jogadores."));
 }
 
 function mostrarNumeros(r) {
@@ -305,6 +305,6 @@ function falha(idAlvo, mensagem) {
 
 json("dados/videos.json")
   .then(mostrarVideos)
-  .catch(() => falha("lista-videos", "Não foi possível carregar os vídeos agora."));
+  .catch(() => falha("lista-videos", "Os vídeos não carregaram agora. Tenta de novo daqui a pouco."));
 
-iniciarOveralls().catch(() => falha("elenco", "Não foi possível carregar os overalls agora."));
+iniciarOveralls().catch(() => falha("elenco", "As cartas não carregaram agora. Tenta de novo daqui a pouco."));
