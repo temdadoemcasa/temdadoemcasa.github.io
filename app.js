@@ -111,10 +111,34 @@ function figura(uniforme, camisa, { cabeca = true } = {}) {
   return raiz;
 }
 
+// --- cor: luminancia e mistura, para o card escolher texto claro ou escuro
+
+function canal(v) { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }
+function luminancia(hex) {
+  const n = parseInt(hex.slice(1), 16);
+  return 0.2126 * canal((n >> 16) & 255) + 0.7152 * canal((n >> 8) & 255) + 0.0722 * canal(n & 255);
+}
+function misturar(hex, alvo, t) {
+  const a = parseInt(hex.slice(1), 16), b = parseInt(alvo.slice(1), 16);
+  const c = [16, 8, 0].map((d) => Math.round(((a >> d) & 255) * (1 - t) + ((b >> d) & 255) * t));
+  return "#" + c.map((v) => v.toString(16).padStart(2, "0")).join("");
+}
+// texto do card: o que tiver MAIS contraste com o meio do degrade
+function textoSobre(hex) {
+  const l = luminancia(hex);
+  return (1.05 / (l + 0.05)) >= ((l + 0.05) / 0.05) ? "#ffffff" : "#10131a";
+}
+
+// O card: escudo com as cores do time, nota e posicao no canto, o boneco
+// vestindo a camisa do jogador, nome e os eixos numa linha.
 function cardDoJogador(jogador, time, rotulos) {
   const card = el("article", "card");
-  card.style.setProperty("--cor-time", time.cor);
-  card.style.setProperty("--cor-uniforme", corOu(time.uniforme && time.uniforme.primaria, "#30363d"));
+  const base = corOu(time.uniforme && time.uniforme.primaria, "#30363d");
+  const meio = misturar(base, "#000000", 0.18);
+  card.style.setProperty("--card-claro", misturar(base, "#ffffff", 0.28));
+  card.style.setProperty("--card-meio", meio);
+  card.style.setProperty("--card-escuro", misturar(base, "#000000", 0.55));
+  card.style.setProperty("--card-texto", textoSobre(meio));
 
   const topo = el("div", "card-topo");
   const nota = el("div", "card-nota");
@@ -126,8 +150,6 @@ function cardDoJogador(jogador, time, rotulos) {
   card.append(topo);
 
   card.append(el("h4", "card-nome", jogador.nome));
-  card.append(el("div", "card-info",
-    `${POSICAO[jogador.posicao] || ""} · ${jogador.jogos} jogos · ${jogador.minutos} min`));
 
   const eixos = el("dl", "card-eixos");
   for (const [chave, valor] of Object.entries(jogador.eixos)) {
@@ -137,6 +159,8 @@ function cardDoJogador(jogador, time, rotulos) {
     eixos.append(item);
   }
   card.append(eixos);
+  // o time ja esta no titulo do bloco: repetir aqui quebrava a linha na ponta do escudo
+  card.append(el("div", "card-info", `${jogador.jogos} jogos · ${jogador.minutos} min`));
   return card;
 }
 
@@ -156,6 +180,9 @@ function sobrenome(nome) {
 
 // Campo vertical, ataque para cima. x e y vem do futdata (0-1), a mesma
 // geometria do campinho do app.
+// Campo vertical, ataque para cima, com listras. x e y vem do futdata
+// (0-1); a altura e esticada pela linha mais avancada da formacao, para
+// os onze ocuparem o campo inteiro em vez de se espremerem embaixo.
 function campinho(time) {
   const base = time.escalacao_base;
   const quadro = el("figure", "campinho");
@@ -164,38 +191,59 @@ function campinho(time) {
     return quadro;
   }
   const porId = new Map(time.jogadores.map((j) => [j.player_id, j]));
-  const L = 100, A = 140, M = 6;
+  const L = 100, A = 150, M = 5;
   const campo = svg("svg", { viewBox: `0 0 ${L} ${A}`, role: "img",
     "aria-label": `Escalação base do ${time.nome} no ${base.formacao}` });
-  const linha = { fill: "none", stroke: "rgba(255,255,255,0.28)", "stroke-width": 0.5 };
+  for (let i = 0; i < 10; i++) {
+    campo.append(svg("rect", { x: 0, y: (i * A) / 10, width: L, height: A / 10 + 0.2,
+      fill: i % 2 ? "#1b6e35" : "#1f7a3b" }));
+  }
+  const linha = { fill: "none", stroke: "rgba(255,255,255,0.55)", "stroke-width": 0.5 };
   campo.append(
-    svg("rect", { x: 0, y: 0, width: L, height: A, fill: "#143d2b", rx: 3 }),
     svg("rect", { x: M, y: M, width: L - 2 * M, height: A - 2 * M, ...linha }),
     svg("line", { x1: M, y1: A / 2, x2: L - M, y2: A / 2, ...linha }),
-    svg("circle", { cx: L / 2, cy: A / 2, r: 10, ...linha }),
-    svg("rect", { x: 28, y: M, width: 44, height: 16, ...linha }),
-    svg("rect", { x: 28, y: A - M - 16, width: 44, height: 16, ...linha }),
+    svg("circle", { cx: L / 2, cy: A / 2, r: 11, ...linha }),
+    svg("circle", { cx: L / 2, cy: A / 2, r: 0.8, fill: "rgba(255,255,255,0.55)" }),
+    svg("rect", { x: 24, y: M, width: 52, height: 18, ...linha }),
+    svg("rect", { x: 37, y: M, width: 26, height: 7, ...linha }),
+    svg("rect", { x: 24, y: A - M - 18, width: 52, height: 18, ...linha }),
+    svg("rect", { x: 37, y: A - M - 7, width: 26, height: 7, ...linha }),
+    svg("path", { d: `M 40 ${M + 18} A 10 10 0 0 0 60 ${M + 18}`, ...linha }),
+    svg("path", { d: `M 40 ${A - M - 18} A 10 10 0 0 1 60 ${A - M - 18}`, ...linha }),
   );
+  const yMax = Math.max(...base.posicoes.map((p) => p.y), 0.01);
+  const topo = 20, fundo = 132;
+  const corNota = corOu(time.cor, "#e6edf3");
+  const textoNota = textoSobre(corNota);
   for (const pos of base.posicoes) {
-    const cx = M + pos.x * (L - 2 * M);
-    const cy = A - M - 8 - pos.y * (A - 2 * M - 16);
+    const cx = 13 + pos.x * 74;
+    const cy = fundo - (pos.y / yMax) * (fundo - topo);
     const jogador = pos.player_id ? porId.get(pos.player_id) : null;
     const g = svg("g", { transform: `translate(${cx.toFixed(2)} ${cy.toFixed(2)})` });
     if (!jogador) {
       // posicao que ninguem ocupou de forma recorrente: tracejado, nao um nome inventado
-      g.append(svg("circle", { r: 5, fill: "none", stroke: "rgba(255,255,255,0.5)", "stroke-dasharray": "1.5 1.5", "stroke-width": 0.6 }));
+      g.append(svg("circle", { r: 5.5, fill: "rgba(13,17,23,0.35)", stroke: "rgba(255,255,255,0.7)",
+        "stroke-dasharray": "1.5 1.5", "stroke-width": 0.6 }));
+      const t = svg("text", { y: 1.2, "text-anchor": "middle", "font-size": 3.6, fill: "#ffffff", "font-weight": 700 });
+      t.textContent = "?";
+      g.append(t);
     } else {
+      g.append(svg("circle", { r: 6.2, fill: "rgba(13,17,23,0.78)" }));
       const camisa = figura(time.uniforme, jogador.camisa, { cabeca: false });
-      camisa.setAttribute("x", -6); camisa.setAttribute("y", -7);
-      camisa.setAttribute("width", 12); camisa.setAttribute("height", 11);
+      camisa.setAttribute("x", -5); camisa.setAttribute("y", -5.6);
+      camisa.setAttribute("width", 10); camisa.setAttribute("height", 9.4);
       g.append(camisa);
-      // no campo vai o sobrenome: "G. de Arrascaeta" -> "Arrascaeta". Dois
-      // nomes inteiros lado a lado numa linha de tres se atropelavam
-      const nome = svg("text", { y: 8.5, "text-anchor": "middle", "font-size": 3.1, fill: "#e6edf3", "font-weight": 600 });
+      // a nota num hexagono na cor do time, embaixo do jogador
+      g.append(svg("path", { d: "M-5 8.2 L-3 6.4 L3 6.4 L5 8.2 L3 10 L-3 10 Z",
+        fill: jogador.overall === null ? "#30363d" : corNota }));
+      const nota = svg("text", { y: 9.35, "text-anchor": "middle", "font-size": 2.9, "font-weight": 800,
+        fill: jogador.overall === null ? "#e6edf3" : textoNota });
+      nota.textContent = jogador.overall === null ? "s/n" : String(jogador.overall);
+      // no campo vai o sobrenome: "G. de Arrascaeta" -> "Arrascaeta"
+      const nome = svg("text", { y: 13.6, "text-anchor": "middle", "font-size": 2.9, fill: "#ffffff",
+        "font-weight": 700, stroke: "rgba(0,0,0,0.55)", "stroke-width": 0.5, "paint-order": "stroke" });
       nome.textContent = sobrenome(jogador.nome);
-      const nota = svg("text", { y: 12.5, "text-anchor": "middle", "font-size": 3.2, fill: time.cor, "font-weight": 800 });
-      nota.textContent = jogador.overall === null ? "sem nota" : String(jogador.overall);
-      g.append(nome, nota);
+      g.append(nota, nome);
     }
     campo.append(g);
   }

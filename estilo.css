@@ -154,49 +154,61 @@ select, input {
 .campinho svg { display: block; width: 100%; height: auto; border-radius: 12px; }
 .campinho figcaption { color: var(--texto-fraco); font-size: 0.8rem; margin-top: 0.5rem; }
 
-.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(168px, 1fr)); gap: 0.9rem; }
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(178px, 1fr)); gap: 1rem; }
 
 .card {
   position: relative;
   min-width: 0;
-  overflow: hidden;
-  padding: 0.8rem 0.8rem 0.9rem;
-  border-radius: 16px;
-  border: 1px solid var(--borda);
-  background:
-    linear-gradient(160deg, color-mix(in srgb, var(--cor-uniforme) 55%, transparent) 0%, transparent 58%),
-    var(--fundo-cartao);
+  aspect-ratio: 0.7;
+  padding: 1rem 0.9rem 1.6rem;
+  display: flex;
+  flex-direction: column;
+  color: var(--card-texto);
+  background: linear-gradient(160deg, var(--card-claro) 0%, var(--card-meio) 48%, var(--card-escuro) 100%);
+  /* escudo: cantos de cima chanfrados e ponta embaixo */
+  clip-path: polygon(10% 0, 90% 0, 100% 5%, 100% 86%, 50% 100%, 0 86%, 0 5%);
 }
-.card::after {
+.card::before {
   content: "";
   position: absolute;
   inset: 0;
-  border-radius: 16px;
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--cor-time) 35%, transparent);
+  background: linear-gradient(115deg, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0) 38%);
   pointer-events: none;
 }
 
-.card-topo { display: grid; grid-template-columns: auto 1fr; align-items: start; }
-.card-nota { display: flex; flex-direction: column; line-height: 1; }
-.card-nota strong { font-size: 2.3rem; font-weight: 800; font-variant-numeric: tabular-nums; }
-.card-nota span { font-size: 0.8rem; font-weight: 700; color: var(--texto-fraco); margin-top: 0.25rem; }
-.card-figura svg { display: block; width: 100%; max-width: 110px; margin-left: auto; height: auto; }
+.card-topo { position: relative; display: grid; grid-template-columns: auto 1fr; align-items: start; }
+.card-nota { display: flex; flex-direction: column; align-items: center; line-height: 1; padding-top: 0.3rem; }
+.card-nota strong { font-size: 2.5rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+.card-nota span { font-size: 0.85rem; font-weight: 800; letter-spacing: 0.06em; margin-top: 0.2rem; opacity: 0.85; }
+.card-figura svg { display: block; width: 100%; max-width: 120px; margin: 0 auto; height: auto; filter: drop-shadow(0 6px 10px rgba(0,0,0,0.35)); }
 
-.card-nome { margin: 0.5rem 0 0; font-size: 1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.card-info { color: var(--texto-fraco); font-size: 0.72rem; }
+.card-nome {
+  position: relative;
+  margin: 0.4rem 0 0;
+  font-size: 1.12rem;
+  font-weight: 800;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
 .card-eixos {
+  position: relative;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.15rem 0.8rem;
-  margin: 0.6rem 0 0;
-  padding-top: 0.55rem;
-  border-top: 1px solid var(--borda);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.3rem 0.2rem;
+  margin: 0.45rem 0 0;
+  padding-top: 0.45rem;
+  border-top: 1px solid color-mix(in srgb, var(--card-texto) 30%, transparent);
   font-variant-numeric: tabular-nums;
+  text-align: center;
 }
-.card-eixos div { display: flex; justify-content: space-between; font-size: 0.8rem; }
-.card-eixos dt { color: var(--texto-fraco); font-weight: 600; }
-.card-eixos dd { margin: 0; font-weight: 700; }
+.card-eixos div { display: flex; flex-direction: column; line-height: 1.1; }
+.card-eixos dt { font-size: 0.66rem; font-weight: 700; opacity: 0.8; }
+.card-eixos dd { margin: 0; font-size: 1rem; font-weight: 800; }
+
+.card-info { position: relative; margin-top: auto; text-align: center; font-size: 0.66rem; opacity: 0.8; }
 
 .sem-nota-grupo { margin-top: 1rem; }
 .sem-nota-grupo summary { cursor: pointer; color: var(--texto-fraco); padding: 0.5rem 0; }
