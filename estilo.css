@@ -154,13 +154,13 @@ select, input {
 .campinho svg { display: block; width: 100%; height: auto; border-radius: 12px; }
 .campinho figcaption { color: var(--texto-fraco); font-size: 0.8rem; margin-top: 0.5rem; }
 
-.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(178px, 1fr)); gap: 1rem; }
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(138px, 150px)); gap: 0.8rem; }
 
 .card {
   position: relative;
   min-width: 0;
   aspect-ratio: 0.7;
-  padding: 1rem 0.9rem 1.6rem;
+  padding: 0.75rem 0.65rem 1.25rem;
   display: flex;
   flex-direction: column;
   color: var(--card-texto);
@@ -178,14 +178,14 @@ select, input {
 
 .card-topo { position: relative; display: grid; grid-template-columns: auto 1fr; align-items: start; }
 .card-nota { display: flex; flex-direction: column; align-items: center; line-height: 1; padding-top: 0.3rem; }
-.card-nota strong { font-size: 2.5rem; font-weight: 800; font-variant-numeric: tabular-nums; }
-.card-nota span { font-size: 0.85rem; font-weight: 800; letter-spacing: 0.06em; margin-top: 0.2rem; opacity: 0.85; }
-.card-figura svg { display: block; width: 100%; max-width: 120px; margin: 0 auto; height: auto; filter: drop-shadow(0 6px 10px rgba(0,0,0,0.35)); }
+.card-nota strong { font-size: 1.9rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+.card-nota span { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.06em; margin-top: 0.2rem; opacity: 0.85; }
+.card-figura svg { display: block; width: 100%; max-width: 86px; margin: 0 auto; height: auto; filter: drop-shadow(0 6px 10px rgba(0,0,0,0.35)); }
 
 .card-nome {
   position: relative;
-  margin: 0.4rem 0 0;
-  font-size: 1.12rem;
+  margin: 0.3rem 0 0;
+  font-size: 0.9rem;
   font-weight: 800;
   text-align: center;
   white-space: nowrap;
@@ -205,10 +205,10 @@ select, input {
   text-align: center;
 }
 .card-eixos div { display: flex; justify-content: center; align-items: baseline; gap: 0.3rem; line-height: 1.1; }
-.card-eixos dt { font-size: 0.7rem; font-weight: 700; opacity: 0.8; order: 2; }
-.card-eixos dd { margin: 0; font-size: 1.05rem; font-weight: 800; order: 1; }
+.card-eixos dt { font-size: 0.58rem; font-weight: 700; opacity: 0.8; order: 2; }
+.card-eixos dd { margin: 0; font-size: 0.85rem; font-weight: 800; order: 1; }
 
-.card-info { position: relative; margin-top: auto; text-align: center; font-size: 0.66rem; opacity: 0.8; }
+.card-info { position: relative; margin-top: auto; text-align: center; font-size: 0.56rem; opacity: 0.8; }
 
 .sem-nota-grupo { margin-top: 1rem; }
 .sem-nota-grupo summary { cursor: pointer; color: var(--texto-fraco); padding: 0.5rem 0; }
