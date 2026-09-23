@@ -130,16 +130,19 @@ function textoSobre(hex) {
 }
 
 // Os 6 atributos do card, na convencao que todo jogador de FIFA conhece.
-// Os 7 eixos da carta viram 6: Precisao e Criacao se juntam em PAS (media
-// dos que existirem). Eixo ausente (ex.: velocidade sem tracking) sai como
+// Ate a Task 4 do modelo de notas v2 (2026-09-23), o modelo tinha 7 eixos
+// de linha e este arquivo fazia a fusao (Precisao e Criacao viravam PAS
+// pela media dos que existissem). Hoje o modelo JA produz as seis chaves
+// do FIFA (RIT FIN PAS DRI DEF FIS) -- este arquivo so le a chave direta,
+// sem agregar nada. Eixo ausente (ex.: velocidade sem tracking) sai como
 // travessao, NUNCA como zero. Goleiro mantem os 5 eixos proprios.
 const ATRIBUTOS_DE_LINHA = [
-  ["RIT", "Ritmo (velocidade)", ["VEL"]],
-  ["FIN", "Finalização", ["CHU"]],
-  ["PAS", "Passe (precisão e criação)", ["PAS", "CRI"]],
+  ["RIT", "Ritmo (velocidade)", ["RIT"]],
+  ["FIN", "Finalização", ["FIN"]],
+  ["PAS", "Passe (precisão e criação)", ["PAS"]],
   ["DRI", "Drible", ["DRI"]],
   ["DEF", "Defesa", ["DEF"]],
-  ["FÍS", "Físico (duelo)", ["FOR"]],
+  ["FÍS", "Físico (duelo)", ["FIS"]],
 ];
 
 function atributosDoCard(jogador, rotulos) {
