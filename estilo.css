@@ -147,41 +147,64 @@ select, input {
 .elenco-titulo { display: flex; align-items: center; gap: 0.7rem; margin: 0 0 1rem; font-size: 1.25rem; }
 .faixa { width: 0.9rem; height: 0.9rem; border-radius: 3px; background: var(--cor-time); }
 
-.jogadores { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
+.time-corpo { display: grid; grid-template-columns: minmax(260px, 340px) minmax(0, 1fr); gap: 1.5rem; align-items: start; }
+.time-corpo.so-cards { grid-template-columns: minmax(0, 1fr); }
 
-.jogador {
-  display: grid;
-  grid-template-columns: 3.6rem 1fr auto;
-  align-items: center;
-  gap: 1rem;
-  padding: 0.65rem 1rem;
-  background: var(--fundo-cartao);
+.campinho { margin: 0; position: sticky; top: 5rem; }
+.campinho svg { display: block; width: 100%; height: auto; border-radius: 12px; }
+.campinho figcaption { color: var(--texto-fraco); font-size: 0.8rem; margin-top: 0.5rem; }
+
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(168px, 1fr)); gap: 0.9rem; }
+
+.card {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  padding: 0.8rem 0.8rem 0.9rem;
+  border-radius: 16px;
   border: 1px solid var(--borda);
-  border-left: 4px solid var(--cor-time);
-  border-radius: 10px;
+  background:
+    linear-gradient(160deg, color-mix(in srgb, var(--cor-uniforme) 55%, transparent) 0%, transparent 58%),
+    var(--fundo-cartao);
+}
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--cor-time) 35%, transparent);
+  pointer-events: none;
 }
 
-.overall { font-size: 1.7rem; font-weight: 800; text-align: center; color: var(--cor-time); font-variant-numeric: tabular-nums; }
-.jogador-nome { font-weight: 600; }
-.jogador-info { color: var(--texto-fraco); font-size: 0.85rem; }
+.card-topo { display: grid; grid-template-columns: auto 1fr; align-items: start; }
+.card-nota { display: flex; flex-direction: column; line-height: 1; }
+.card-nota strong { font-size: 2.3rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+.card-nota span { font-size: 0.8rem; font-weight: 700; color: var(--texto-fraco); margin-top: 0.25rem; }
+.card-figura svg { display: block; width: 100%; max-width: 110px; margin-left: auto; height: auto; }
 
-.eixos { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 0.3rem; max-width: 22rem; }
-.eixo {
-  font-size: 0.72rem;
-  padding: 0.15rem 0.45rem;
-  border-radius: 6px;
-  background: rgba(139, 148, 158, 0.12);
-  color: var(--texto-fraco);
+.card-nome { margin: 0.5rem 0 0; font-size: 1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.card-info { color: var(--texto-fraco); font-size: 0.72rem; }
+
+.card-eixos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.15rem 0.8rem;
+  margin: 0.6rem 0 0;
+  padding-top: 0.55rem;
+  border-top: 1px solid var(--borda);
   font-variant-numeric: tabular-nums;
 }
-.eixo b { color: var(--texto); font-weight: 600; }
+.card-eixos div { display: flex; justify-content: space-between; font-size: 0.8rem; }
+.card-eixos dt { color: var(--texto-fraco); font-weight: 600; }
+.card-eixos dd { margin: 0; font-weight: 700; }
 
-.sem-nota { border-left-color: var(--borda); }
-.sem-nota-grupo { margin-top: 0.8rem; }
+.sem-nota-grupo { margin-top: 1rem; }
 .sem-nota-grupo summary { cursor: pointer; color: var(--texto-fraco); padding: 0.5rem 0; }
-.sem-nota-grupo .jogadores { margin-top: 0.4rem; }
-.time + .time { margin-top: 2rem; }
-.sem-nota .overall { color: var(--texto-fraco); font-size: 0.8rem; font-weight: 600; line-height: 1.2; }
+.sem-nota-lista { list-style: none; margin: 0.3rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.4rem; }
+.sem-nota { display: flex; flex-direction: column; padding: 0.5rem 0.8rem; border: 1px dashed var(--borda); border-radius: 10px; }
+.sem-nota-nome { font-weight: 600; font-size: 0.9rem; }
+.sem-nota-info { color: var(--texto-fraco); font-size: 0.75rem; }
+.time + .time { margin-top: 2.5rem; }
 
 .metodo .cartoes { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; }
 .metodo article { background: var(--fundo-cartao); border: 1px solid var(--borda); border-radius: var(--raio); padding: 1.3rem; }
@@ -206,8 +229,9 @@ select, input {
 
 @media (max-width: 640px) {
   .menu { display: none; }
-  .jogador { grid-template-columns: 3rem 1fr; }
-  .eixos { grid-column: 1 / -1; justify-content: flex-start; max-width: none; }
+  .time-corpo { grid-template-columns: minmax(0, 1fr); }
+  .campinho { position: static; max-width: 360px; margin: 0 auto; }
+  .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.6rem; }
   select, input { min-width: 0; width: 100%; }
   .controles label { flex: 1 1 100%; }
 }
