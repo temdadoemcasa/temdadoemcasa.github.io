@@ -125,13 +125,83 @@ function corOu(cor, reserva) {
   return typeof cor === "string" && HEX.test(cor) ? cor : reserva;
 }
 
+// --- uniformes ----------------------------------------------------------------
+
+// Padrao da camisa de cada clube vem de dados/uniformes.json (chave = nome do
+// time no retrato). Sem entrada, cai na camisa lisa com a cor do retrato.
+// So listras e cores: escudo de clube e marca registrada, nao entra.
+//   lisa:        { base }
+//   vertical /
+//   horizontal:  { faixas: [[cor, largura], ...] }  repete ate cobrir
+//   faixa-peito: { base, faixas: [[cor, altura], ...], inicio }
+//   diagonal:    { base, faixa, largura }
+let UNIFORMES = {};
+let contadorSvg = 0;
+const CAMISA = "M30 42 L43 36 Q50 43 57 36 L70 42 L90 58 L80 72 L72 66 V116 H28 V66 L20 72 L10 58 Z";
+
+function kitDoTime(time) {
+  const k = UNIFORMES[time.nome];
+  if (k && (k.base || (k.faixas && k.faixas.length))) return k;
+  return {
+    padrao: "lisa",
+    base: corOu(time.uniforme && time.uniforme.primaria, "#30363d"),
+    numero: corOu(time.uniforme && time.uniforme.numero, "#e6edf3"),
+  };
+}
+
+// cor dominante do kit: fundo liso ou a primeira listra
+function corDoKit(kit) {
+  return corOu(kit.base, corOu(kit.faixas && kit.faixas[0] && kit.faixas[0][0], "#30363d"));
+}
+
+function listras(g, faixas, eixo) {
+  const validas = faixas.filter(([cor, l]) => HEX.test(cor) && l > 0);
+  const ciclo = validas.reduce((s, [, l]) => s + l, 0);
+  if (!ciclo) return;
+  // vertical centra a primeira listra no meio do peito; horizontal comeca na gola
+  let pos = eixo === "vertical" ? 50 - validas[0][1] / 2 : 34;
+  const [ini, fim] = eixo === "vertical" ? [8, 92] : [30, 118];
+  while (pos > ini) pos -= ciclo;
+  for (let i = 0; pos < fim; i = (i + 1) % validas.length) {
+    const [cor, l] = validas[i];
+    g.append(eixo === "vertical"
+      ? svg("rect", { x: pos, y: 30, width: l + 0.05, height: 90, fill: cor })
+      : svg("rect", { x: 0, y: pos, width: 100, height: l + 0.05, fill: cor }));
+    pos += l;
+  }
+}
+
+function pintarTecido(g, kit) {
+  const base = corDoKit(kit);
+  g.append(svg("rect", { x: 0, y: 30, width: 100, height: 90, fill: base }));
+  if (kit.padrao === "vertical" || kit.padrao === "horizontal") {
+    listras(g, kit.faixas || [], kit.padrao);
+  } else if (kit.padrao === "faixa-peito") {
+    let y = typeof kit.inicio === "number" ? kit.inicio : 58;
+    for (const [cor, altura] of kit.faixas || []) {
+      if (!HEX.test(cor)) continue;
+      g.append(svg("rect", { x: 0, y, width: 100, height: altura, fill: cor }));
+      y += altura;
+    }
+  } else if (kit.padrao === "diagonal" && HEX.test(kit.faixa || "")) {
+    const l = kit.largura || 12;
+    // do ombro direito do jogador (esquerda de quem olha) ate o quadril oposto
+    g.append(svg("path", { d: `M${40 - l / 2} 34 L${40 + l / 2} 34 L${70 + l / 2} 120 L${70 - l / 2} 120 Z`, fill: kit.faixa }));
+  }
+}
+
 // A camisa (e, no card, o boneco generico por cima dela). viewBox fixo
 // 0 0 100 120; o numero e texto, nao imagem, entao escala sem perder.
-function figura(uniforme, camisa, { cabeca = true } = {}) {
-  const primaria = corOu(uniforme && uniforme.primaria, "#30363d");
-  const numero = corOu(uniforme && uniforme.numero, "#e6edf3");
-  // camisa branca com numero branco (Botafogo, Chape): o numero precisa aparecer
-  const corNumero = Math.abs(luminancia(primaria) - luminancia(numero)) < 0.25 ? textoSobre(primaria) : numero;
+// ids do clipPath e do degrade sao unicos: varias camisas na mesma pagina.
+function figura(time, camisa, { cabeca = true } = {}) {
+  const kit = kitDoTime(time);
+  const base = corDoKit(kit);
+  let numero = corOu(kit.numero, textoSobre(base));
+  // camisa branca com numero branco: o numero precisa aparecer
+  if (kit.padrao !== "vertical" && kit.padrao !== "horizontal" && Math.abs(luminancia(base) - luminancia(numero)) < 0.25) {
+    numero = textoSobre(base);
+  }
+  const id = `camisa-${++contadorSvg}`;
   const raiz = svg("svg", { viewBox: cabeca ? "0 0 100 120" : "0 30 100 90", "aria-hidden": "true" });
   if (cabeca) {
     raiz.append(
@@ -139,14 +209,33 @@ function figura(uniforme, camisa, { cabeca = true } = {}) {
       svg("circle", { cx: 50, cy: 22, r: 16, fill: "rgba(20,24,30,0.55)" }),
     );
   }
-  raiz.append(svg("path", {
-    d: "M30 42 L43 36 Q50 43 57 36 L70 42 L90 58 L80 72 L72 66 V116 H28 V66 L20 72 L10 58 Z",
-    fill: primaria, stroke: "rgba(0,0,0,0.35)", "stroke-width": 1.5, "stroke-linejoin": "round",
-  }));
+  raiz.append(svg("defs", {}, [
+    svg("clipPath", { id: `${id}-corte` }, [svg("path", { d: CAMISA })]),
+    svg("linearGradient", { id: `${id}-sombra`, x1: 0, x2: 1, y1: 0, y2: 0 }, [
+      svg("stop", { offset: "0", "stop-color": "#000", "stop-opacity": "0.28" }),
+      svg("stop", { offset: "0.3", "stop-color": "#000", "stop-opacity": "0" }),
+      svg("stop", { offset: "0.62", "stop-color": "#fff", "stop-opacity": "0.1" }),
+      svg("stop", { offset: "1", "stop-color": "#000", "stop-opacity": "0.3" }),
+    ]),
+  ]));
+  const tecido = svg("g", { "clip-path": `url(#${id}-corte)` });
+  pintarTecido(tecido, kit);
+  // punhos e barra levemente mais escuros, e o volume do tecido por cima
+  tecido.append(
+    svg("path", { d: "M10 58 L20 72 L16 66 Z M90 58 L80 72 L84 66 Z", fill: "rgba(0,0,0,0.2)" }),
+    svg("rect", { x: 0, y: 30, width: 100, height: 90, fill: `url(#${id}-sombra)` }),
+  );
+  raiz.append(tecido);
+  raiz.append(svg("path", { d: CAMISA, fill: "none", stroke: "rgba(0,0,0,0.45)", "stroke-width": 1.5, "stroke-linejoin": "round" }));
+  // gola
+  raiz.append(svg("path", { d: "M43 36 Q50 43 57 36", fill: "none", stroke: corOu(kit.gola, numero), "stroke-width": 2.6, "stroke-linecap": "round" }));
   if (camisa !== null && camisa !== undefined) {
     const texto = svg("text", {
       x: 50, y: 96, "text-anchor": "middle", "font-size": String(camisa).length > 2 ? 22 : 30,
-      "font-weight": 800, fill: corNumero, "font-family": "'Barlow Condensed', Inter, sans-serif",
+      "font-weight": 800, fill: numero, "font-family": "'Barlow Condensed', Inter, sans-serif",
+      // contorno garante leitura em cima de listra
+      stroke: luminancia(numero) > 0.4 ? "rgba(0,0,0,0.55)" : "rgba(255,255,255,0.7)",
+      "stroke-width": 2.2, "paint-order": "stroke", "stroke-linejoin": "round",
     });
     texto.textContent = String(camisa);
     raiz.append(texto);
@@ -200,7 +289,7 @@ function siglaClube(nome) {
 }
 
 function corDoClube(time) {
-  return corOu(time.uniforme && time.uniforme.primaria, corOu(time.cor, "#30363d"));
+  return corDoKit(kitDoTime(time));
 }
 
 // --- eixos ------------------------------------------------------------------
@@ -287,7 +376,7 @@ function cartaDoJogador(jogador, time, r, { estatica = false } = {}) {
   selo.title = time.nome;
   nota.append(el("strong", null, String(jogador.overall)), el("span", "carta-pos", SIGLA[jogador.posicao] || ""), selo);
   const boneco = el("div", "carta-figura");
-  boneco.append(figura(time.uniforme, jogador.camisa));
+  boneco.append(figura(time, jogador.camisa));
   topo.append(nota, boneco);
 
   const nome = el("h4", "carta-nome", jogador.nome);
@@ -357,17 +446,11 @@ function sobrenome(nome) {
 // (0-1); a altura e esticada pela linha mais avancada da formacao, para
 // os onze ocuparem o campo inteiro em vez de se espremerem embaixo.
 // Jogador com nota e clicavel: abre a ficha.
-function campinho(time) {
-  const base = time.escalacao_base;
-  const quadro = el("figure", "campinho");
-  if (!base) {
-    quadro.append(el("figcaption", null, "Sem formação registrada nesta temporada."));
-    return quadro;
-  }
-  const porId = new Map(time.jogadores.map((j) => [j.player_id, j]));
+// O gramado listrado com as linhas, viewBox 0 0 100 150 (ataque para cima).
+// Serve ao campinho de cada time e ao campo da selecao.
+function gramado(rotulo) {
   const L = 100, A = 150, M = 5;
-  const campo = svg("svg", { viewBox: `0 0 ${L} ${A}`, role: "img",
-    "aria-label": `Escalação base do ${time.nome} no ${base.formacao}` });
+  const campo = svg("svg", { viewBox: `0 0 ${L} ${A}`, role: "img", "aria-label": rotulo });
   for (let i = 0; i < 10; i++) {
     campo.append(svg("rect", { x: 0, y: (i * A) / 10, width: L, height: A / 10 + 0.2,
       fill: i % 2 ? "#1b6e35" : "#1f7a3b" }));
@@ -385,6 +468,58 @@ function campinho(time) {
     svg("path", { d: `M 40 ${M + 18} A 10 10 0 0 0 60 ${M + 18}`, ...linha }),
     svg("path", { d: `M 40 ${A - M - 18} A 10 10 0 0 1 60 ${A - M - 18}`, ...linha }),
   );
+  return campo;
+}
+
+// Um jogador no campo: camisa do clube, nota no hexagono do nivel e o
+// sobrenome. Com nota, vira botao que abre a ficha. `clube` escreve a sigla
+// do time embaixo (a selecao mistura clubes; o campinho de um time nao).
+function desenharNo(g, jogador, time, { clube = false } = {}) {
+  const comNota = jogador.overall !== null;
+  if (comNota) {
+    g.setAttribute("class", "no-campo");
+    g.setAttribute("tabindex", "0");
+    g.setAttribute("role", "button");
+    g.setAttribute("aria-label", `${jogador.nome}, ${time.nome}, overall ${jogador.overall}. Abrir ficha.`);
+    g.dataset.id = String(jogador.player_id);
+    g.dataset.time = String(time.team_id);
+  }
+  const dentro = svg("g", { class: "no-campo-corpo" });
+  dentro.append(svg("circle", { r: 6.2, fill: "rgba(13,17,23,0.78)", class: "no-campo-aro" }));
+  const camisa = figura(time, jogador.camisa, { cabeca: false });
+  camisa.setAttribute("x", -5); camisa.setAttribute("y", -5.6);
+  camisa.setAttribute("width", 10); camisa.setAttribute("height", 9.4);
+  dentro.append(camisa);
+  // a nota num hexagono na cor do nivel, embaixo do jogador
+  const hexagono = svg("path", { d: "M-5 8.2 L-3 6.4 L3 6.4 L5 8.2 L3 10 L-3 10 Z", fill: "#30363d" });
+  if (comNota) hexagono.setAttribute("class", `hex-nivel nivel-${nivel(jogador.overall).id}`);
+  dentro.append(hexagono);
+  const nota = svg("text", { y: 9.35, "text-anchor": "middle", "font-size": 2.9, "font-weight": 800,
+    fill: comNota ? "#10131a" : "#e6edf3" });
+  nota.textContent = comNota ? String(jogador.overall) : "s/n";
+  // no campo vai o sobrenome: "G. de Arrascaeta" -> "Arrascaeta"
+  const nome = svg("text", { y: 13.6, "text-anchor": "middle", "font-size": 2.9, fill: "#ffffff",
+    "font-weight": 700, stroke: "rgba(0,0,0,0.55)", "stroke-width": 0.5, "paint-order": "stroke" });
+  nome.textContent = sobrenome(jogador.nome);
+  dentro.append(nota, nome);
+  if (clube) {
+    const sigla = svg("text", { y: 16.9, "text-anchor": "middle", "font-size": 2.3, fill: "rgba(255,255,255,0.8)",
+      "font-weight": 700, "letter-spacing": 0.2, stroke: "rgba(0,0,0,0.5)", "stroke-width": 0.4, "paint-order": "stroke" });
+    sigla.textContent = siglaClube(time.nome);
+    dentro.append(sigla);
+  }
+  g.append(dentro);
+}
+
+function campinho(time) {
+  const base = time.escalacao_base;
+  const quadro = el("figure", "campinho");
+  if (!base) {
+    quadro.append(el("figcaption", null, "Sem formação registrada nesta temporada."));
+    return quadro;
+  }
+  const porId = new Map(time.jogadores.map((j) => [j.player_id, j]));
+  const campo = gramado(`Escalação base do ${time.nome} no ${base.formacao}`);
   const yMax = Math.max(...base.posicoes.map((p) => p.y), 0.01);
   const topo = 20, fundo = 132;
   for (const pos of base.posicoes) {
@@ -400,34 +535,7 @@ function campinho(time) {
       t.textContent = "?";
       g.append(t);
     } else {
-      const comNota = jogador.overall !== null;
-      if (comNota) {
-        g.setAttribute("class", "no-campo");
-        g.setAttribute("tabindex", "0");
-        g.setAttribute("role", "button");
-        g.setAttribute("aria-label", `${jogador.nome}, overall ${jogador.overall}. Abrir ficha.`);
-        g.dataset.id = String(jogador.player_id);
-        g.dataset.time = String(time.team_id);
-      }
-      const dentro = svg("g", { class: "no-campo-corpo" });
-      dentro.append(svg("circle", { r: 6.2, fill: "rgba(13,17,23,0.78)", class: "no-campo-aro" }));
-      const camisa = figura(time.uniforme, jogador.camisa, { cabeca: false });
-      camisa.setAttribute("x", -5); camisa.setAttribute("y", -5.6);
-      camisa.setAttribute("width", 10); camisa.setAttribute("height", 9.4);
-      dentro.append(camisa);
-      // a nota num hexagono na cor do nivel, embaixo do jogador
-      const hexagono = svg("path", { d: "M-5 8.2 L-3 6.4 L3 6.4 L5 8.2 L3 10 L-3 10 Z", fill: "#30363d" });
-      if (comNota) hexagono.setAttribute("class", `hex-nivel nivel-${nivel(jogador.overall).id}`);
-      dentro.append(hexagono);
-      const nota = svg("text", { y: 9.35, "text-anchor": "middle", "font-size": 2.9, "font-weight": 800,
-        fill: comNota ? "#10131a" : "#e6edf3" });
-      nota.textContent = comNota ? String(jogador.overall) : "s/n";
-      // no campo vai o sobrenome: "G. de Arrascaeta" -> "Arrascaeta"
-      const nome = svg("text", { y: 13.6, "text-anchor": "middle", "font-size": 2.9, fill: "#ffffff",
-        "font-weight": 700, stroke: "rgba(0,0,0,0.55)", "stroke-width": 0.5, "paint-order": "stroke" });
-      nome.textContent = sobrenome(jogador.nome);
-      dentro.append(nota, nome);
-      g.append(dentro);
+      desenharNo(g, jogador, time);
     }
     campo.append(g);
   }
@@ -549,19 +657,99 @@ function mostrarNiveis(r) {
   }
 }
 
-function mostrarNumeros(r) {
-  const alvo = document.getElementById("numeros");
-  alvo.replaceChildren();
-  const pares = [
-    ["times", r.times.length],
-    ["jogadores com carta", r.indice.comNota.length],
-    ["jogos na base", r.jogos_com_placar],
-  ];
-  for (const [rotulo, valor] of pares) {
-    const item = el("div");
-    item.append(el("dd", null, valor.toLocaleString("pt-BR")), el("dt", null, `${rotulo} em ${r.temporada}`));
-    alvo.append(item);
+// --- a selecao da temporada (topo da pagina) -------------------------------
+
+// Lateral ou zagueiro? O modelo so sabe "D". O x do jogador na escalacao
+// base do proprio time decide: perto da linha lateral e lateral, no meio e
+// zagueiro. Quem nao tem posicao registrada pode ocupar qualquer vaga.
+function ladoDoDefensor(r) {
+  const x = new Map();
+  for (const time of r.times) {
+    for (const p of (time.escalacao_base && time.escalacao_base.posicoes) || []) {
+      if (p.player_id) x.set(p.player_id, p.x);
+    }
   }
+  return x;
+}
+
+// 4-3-3 pelo maior overall de cada posicao (desempate: mais minutos). So
+// entra quem tem nota, entao o piso de minutos ja vale aqui.
+// Devolve [{ jogador, time, x, y }] com x e y de 0 a 1 (ataque em y = 1).
+function selecaoDaTemporada(r) {
+  const ordem = (a, b) => b.overall - a.overall || b.minutos - a.minutos;
+  const da = (pos) => r.indice.comNota.filter((j) => j.posicao === pos).sort(ordem);
+  const vaga = (jogador, x, y) => ({ jogador, time: TIME_DE.get(jogador), x, y });
+  const escalados = [];
+
+  const [goleiro] = da("G");
+  if (goleiro) escalados.push(vaga(goleiro, 0.5, 0));
+
+  const xDe = ladoDoDefensor(r);
+  const laterais = [], zagueiros = [];
+  for (const j of da("D")) {
+    if (laterais.length === 2 && zagueiros.length === 2) break;
+    const x = xDe.get(j.player_id);
+    const lateral = typeof x === "number" && (x <= 0.3 || x >= 0.7);
+    const central = typeof x === "number" && !lateral;
+    if (lateral && laterais.length < 2) laterais.push([j, x]);
+    else if (central && zagueiros.length < 2) zagueiros.push(j);
+    else if (typeof x !== "number") {
+      if (zagueiros.length < 2) zagueiros.push(j);
+      else if (laterais.length < 2) laterais.push([j, null]);
+    }
+  }
+  // um lateral de cada lado: o de x menor vai para a esquerda
+  laterais.sort((a, b) => (a[1] ?? 0.5) - (b[1] ?? 0.5));
+  if (laterais.length === 2 && laterais[0][1] !== null && laterais[0][1] >= 0.7) laterais.reverse();
+  laterais.forEach(([j], i) => escalados.push(vaga(j, i === 0 ? 0.04 : 0.96, 0.3)));
+  zagueiros.forEach((j, i) => escalados.push(vaga(j, i === 0 ? 0.33 : 0.67, 0.2)));
+
+  // o melhor do setor fica no centro; o 2o e o 3o abrem pelos lados
+  da("M").slice(0, 3).forEach((j, i) => escalados.push(vaga(j, [0.5, 0.18, 0.82][i], i === 0 ? 0.5 : 0.56)));
+  da("F").slice(0, 3).forEach((j, i) => escalados.push(vaga(j, [0.5, 0.12, 0.88][i], i === 0 ? 0.97 : 0.86)));
+  return escalados;
+}
+
+function mostrarSelecao(r) {
+  const alvo = document.getElementById("selecao");
+  alvo.replaceChildren();
+  document.getElementById("selecao-titulo").textContent = `A seleção do Brasileirão ${r.temporada}`;
+  const parcial = r.jogos_com_placar < r.jogos_esperados;
+  const jogos = parcial
+    ? `${r.jogos_com_placar} de ${r.jogos_esperados} jogos na base.`
+    : `Temporada completa, ${r.jogos_esperados} jogos.`;
+  document.getElementById("selecao-regra").textContent =
+    `Sem opinião, só planilha: o maior overall de cada posição, entre quem jogou ${r.piso_minutos}+ minutos. ${jogos}`;
+
+  const escalados = selecaoDaTemporada(r);
+  if (!escalados.length) {
+    alvo.append(el("figcaption", null, "Ainda não tem jogador com nota nesta temporada."));
+    return;
+  }
+  const campo = gramado(`Seleção do Brasileirão ${r.temporada} no 4-3-3`);
+  const topo = 20, fundo = 132;
+  for (const { jogador, time, x, y } of escalados) {
+    const cx = 13 + x * 74;
+    const cy = fundo - y * (fundo - topo);
+    const g = svg("g", { transform: `translate(${cx.toFixed(2)} ${cy.toFixed(2)})` });
+    desenharNo(g, jogador, time, { clube: true });
+    campo.append(g);
+  }
+  alvo.append(campo);
+  alvo.append(el("figcaption", null, "4-3-3. Clica num jogador pra abrir a carta."));
+}
+
+// A busca do topo usa a busca da secao de cartas: preenche e rola ate la.
+function ligarBuscaDoTopo() {
+  const form = document.getElementById("hero-busca");
+  const campo = document.getElementById("hero-busca-campo");
+  const busca = document.getElementById("busca");
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    busca.value = campo.value.trim();
+    busca.dispatchEvent(new Event("input"));
+    document.getElementById("overalls").scrollIntoView({ behavior: movimentoReduzido ? "auto" : "smooth" });
+  });
 }
 
 // --- ficha do jogador (radar, barras, comparacao) -------------------------
@@ -799,30 +987,46 @@ function albumDe(temporada) {
   };
 }
 
-function iniciarVitrine(r) {
+// O envelope mora num dialogo aberto pelo link do topo. Sorteia sempre da
+// temporada escolhida na secao de cartas (a ficha que abre ao clicar na
+// figurinha procura o jogador nela).
+function iniciarVitrine() {
+  const dialogo = document.getElementById("vitrine-dialogo");
   const palco = document.getElementById("palco");
   const legenda = document.getElementById("vitrine-legenda");
   const contador = document.getElementById("album");
   const botao = document.getElementById("abrir-envelope");
-  const melhor = r.indice.comNota[0];
-  if (!melhor) return;
-  const album = albumDe(r.temporada);
-  const mostrarAlbum = () => {
+  const link = document.getElementById("abrir-vitrine");
+  const mostrarAlbum = (r) => {
+    const album = albumDe(r.temporada);
     contador.textContent = album.tamanho
       ? `Seu álbum ${r.temporada}: ${album.tamanho} de ${r.indice.comNota.length}`
       : "";
   };
-  palco.replaceChildren(cartaDoJogador(melhor, TIME_DE.get(melhor), r));
-  palco.className = `palco nivel-${nivel(melhor.overall).id}`;
-  legenda.textContent = `Maior overall de ${r.temporada}: ${melhor.nome}, ${TIME_DE.get(melhor).nome}.`;
-  mostrarAlbum();
-  botao.hidden = false;
+  const envelopeFechado = () => {
+    palco.className = "palco";
+    palco.replaceChildren(montarEnvelope(estado.r.temporada));
+    legenda.textContent = "Uma figurinha por envelope. Grafeno é raro.";
+    botao.textContent = "Abrir o envelope";
+    mostrarAlbum(estado.r);
+  };
+
+  link.hidden = false;
+  link.addEventListener("click", () => {
+    if (!estado.r || !estado.r.indice.comNota.length) return;
+    envelopeFechado();
+    dialogo.showModal();
+  });
+  document.getElementById("vitrine-fechar").addEventListener("click", () => dialogo.close());
+  dialogo.addEventListener("click", (e) => { if (e.target === dialogo) dialogo.close(); });
 
   botao.addEventListener("click", async () => {
+    const r = estado.r;
     botao.disabled = true;
     const jogador = sortear(r);
     const time = TIME_DE.get(jogador);
     const t = nivel(jogador.overall);
+    const album = albumDe(r.temporada);
     const repetida = album.tem(jogador.player_id);
     palco.className = `palco nivel-${t.id}`;
     if (!movimentoReduzido) {
@@ -841,7 +1045,7 @@ function iniciarVitrine(r) {
     carta.classList.add("revelando");
     palco.replaceChildren(carta);
     album.colar(jogador.player_id);
-    mostrarAlbum();
+    mostrarAlbum(r);
     const grito = repetida
       ? "Repetida. Guarda pro bafo."
       : { grafeno: "Bati! Casa de grafeno, essa é rara.", tijolo: "Bati! Casa de tijolo, o lobo não derruba.", madeira: "Figurinha nova. Casa de madeira.", palha: "Figurinha nova. Casa de palha: o lobo sopra, mas conta." }[t.id];
@@ -980,6 +1184,8 @@ async function iniciarOveralls() {
   const busca = document.getElementById("busca");
   const nota = document.getElementById("nota-retrato");
 
+  // uniforme e enfeite: se o arquivo faltar, as camisas saem lisas
+  UNIFORMES = await json("dados/uniformes.json").catch(() => ({}));
   const anos = await json("dados/temporadas.json");
   for (const ano of anos) selTemporada.append(new Option(String(ano), String(ano)));
 
@@ -999,13 +1205,14 @@ async function iniciarOveralls() {
     combo.sincronizar();
     nota.textContent = notaDoRetrato(r);
     mostrarNiveis(r);
+    mostrarSelecao(r);
     mostrarElenco();
     return r;
   }
 
   const primeiro = await trocarTemporada();
-  mostrarNumeros(primeiro);
-  iniciarVitrine(primeiro);
+  iniciarVitrine();
+  ligarBuscaDoTopo();
   selTemporada.addEventListener("change", trocarTemporada);
   selTime.addEventListener("change", mostrarElenco);
   selOrdem.addEventListener("change", () => { estado.ordem = selOrdem.value; mostrarElenco(); });

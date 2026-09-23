@@ -34,29 +34,33 @@
 
   <main>
     <section class="hero">
+      <figure class="selecao" id="selecao" aria-live="polite"></figure>
       <div class="hero-texto-bloco">
-      <p class="hero-sobretitulo">Resenha de futebol, com planilha</p>
-      <h1>Opinião todo mundo tem. <span class="destaque">Dado</span> tem em casa.</h1>
-      <p class="hero-texto">
-        A gente joga o Brasileirão inteiro na planilha e cada jogador vira uma carta:
-        um número geral e seis atributos, contra a liga toda. Jogou pouco? Fica sem
-        nota. Aqui ninguém leva zero de graça.
-      </p>
-      <div class="hero-acoes">
-        <a class="botao botao-primario" href="https://www.youtube.com/@temdadoemcasafc?sub_confirmation=1" target="_blank" rel="noopener">Bora se inscrever</a>
-        <a class="botao" href="#overalls">Ver as cartas</a>
-      </div>
-      <dl class="numeros" id="numeros" aria-live="polite"></dl>
-      </div>
-      <div class="vitrine">
-        <div class="palco" id="palco">
-          <img class="hero-logo" src="img/simbolo.svg" alt="Tem dado em casa: uma casa com um dado de seis pontos" width="400" height="400">
+        <p class="hero-sobretitulo">Tem dado em casa · resenha com planilha</p>
+        <h1 id="selecao-titulo">A seleção do Brasileirão</h1>
+        <p class="hero-texto" id="selecao-regra">Sem opinião, só planilha: o maior overall de cada posição.</p>
+        <form class="hero-busca" id="hero-busca" role="search">
+          <label class="visualmente-oculto" for="hero-busca-campo">Procurar jogador</label>
+          <input id="hero-busca-campo" type="search" placeholder="Procura qualquer jogador" autocomplete="off">
+          <button class="botao botao-primario" type="submit">Procurar</button>
+        </form>
+        <div class="hero-acoes">
+          <a class="botao" href="https://www.youtube.com/@temdadoemcasafc?sub_confirmation=1" target="_blank" rel="noopener">Bora se inscrever</a>
+          <a class="botao" href="#overalls">Ver as cartas</a>
         </div>
-        <p class="vitrine-legenda" id="vitrine-legenda" aria-live="polite"></p>
-        <button class="botao botao-envelope" id="abrir-envelope" type="button" hidden>Abrir um envelope</button>
-        <p class="album" id="album" aria-live="polite"></p>
+        <button class="link-envelope" id="abrir-vitrine" type="button" hidden>ou abre um envelope de figurinha</button>
       </div>
     </section>
+
+    <dialog class="vitrine-dialogo" id="vitrine-dialogo" aria-label="Envelope de figurinha">
+      <button class="ficha-fechar" id="vitrine-fechar" type="button" aria-label="Fechar envelope">×</button>
+      <div class="vitrine">
+        <div class="palco" id="palco"></div>
+        <p class="vitrine-legenda" id="vitrine-legenda" aria-live="polite"></p>
+        <button class="botao botao-envelope" id="abrir-envelope" type="button">Abrir o envelope</button>
+        <p class="album" id="album" aria-live="polite"></p>
+      </div>
+    </dialog>
 
     <section id="videos" class="secao">
       <h2>Saiu do forno</h2>

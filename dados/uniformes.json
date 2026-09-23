@@ -1,0 +1,332 @@
+{
+ "_leia": "Camisa principal de cada clube, chave = nome do time no retrato. Padroes: lisa {base}, vertical/horizontal {faixas: [[cor, largura]]}, faixa-peito {base, faixas: [[cor, altura]], inicio}, diagonal {base, faixa, largura}. numero e gola opcionais. So cores e listras, sem escudo.",
+ "Athletico": {
+  "padrao": "vertical",
+  "faixas": [
+   [
+    "#c8102e",
+    7
+   ],
+   [
+    "#111111",
+    7
+   ]
+  ],
+  "numero": "#ffffff"
+ },
+ "Atlético-MG": {
+  "padrao": "vertical",
+  "faixas": [
+   [
+    "#111111",
+    7
+   ],
+   [
+    "#ffffff",
+    7
+   ]
+  ],
+  "numero": "#ffffff"
+ },
+ "Atlético-GO": {
+  "padrao": "vertical",
+  "faixas": [
+   [
+    "#c8102e",
+    7
+   ],
+   [
+    "#111111",
+    7
+   ]
+  ],
+  "numero": "#ffffff"
+ },
+ "Bahia": {
+  "padrao": "vertical",
+  "faixas": [
+   [
+    "#0b4ea2",
+    6
+   ],
+   [
+    "#ffffff",
+    1.5
+   ],
+   [
+    "#e32530",
+    6
+   ],
+   [
+    "#ffffff",
+    1.5
+   ]
+  ],
+  "numero": "#ffffff"
+ },
+ "Botafogo": {
+  "padrao": "vertical",
+  "faixas": [
+   [
+    "#111111",
+    7
+   ],
+   [
+    "#ffffff",
+    7
+   ]
+  ],
+  "numero": "#ffffff"
+ },
+ "Ceará": {
+  "padrao": "vertical",
+  "faixas": [
+   [
+    "#111111",
+    7
+   ],
+   [
+    "#ffffff",
+    7
+   ]
+  ],
+  "numero": "#ffffff"
+ },
+ "Chapecoense": {
+  "padrao": "lisa",
+  "base": "#0a8a3f",
+  "numero": "#ffffff"
+ },
+ "Corinthians": {
+  "padrao": "lisa",
+  "base": "#ffffff",
+  "numero": "#111111",
+  "gola": "#111111"
+ },
+ "Coritiba": {
+  "padrao": "faixa-peito",
+  "base": "#ffffff",
+  "faixas": [
+   [
+    "#00543c",
+    6
+   ],
+   [
+    "#ffffff",
+    3
+   ],
+   [
+    "#00543c",
+    6
+   ]
+  ],
+  "inicio": 56,
+  "numero": "#00543c"
+ },
+ "Criciúma": {
+  "padrao": "vertical",
+  "faixas": [
+   [
+    "#ffd200",
+    6
+   ],
+   [
+    "#111111",
+    6
+   ],
+   [
+    "#ffffff",
+    2
+   ]
+  ],
+  "numero": "#ffffff"
+ },
+ "Cruzeiro": {
+  "padrao": "lisa",
+  "base": "#0455a3",
+  "numero": "#ffffff"
+ },
+ "Flamengo": {
+  "padrao": "horizontal",
+  "faixas": [
+   [
+    "#c8102e",
+    7
+   ],
+   [
+    "#111111",
+    7
+   ]
+  ],
+  "numero": "#ffffff"
+ },
+ "Fluminense": {
+  "padrao": "vertical",
+  "faixas": [
+   [
+    "#7a1f36",
+    6
+   ],
+   [
+    "#ffffff",
+    1.5
+   ],
+   [
+    "#0b6b3a",
+    6
+   ],
+   [
+    "#ffffff",
+    1.5
+   ]
+  ],
+  "numero": "#ffffff"
+ },
+ "Fortaleza": {
+  "padrao": "horizontal",
+  "faixas": [
+   [
+    "#e30613",
+    6
+   ],
+   [
+    "#ffffff",
+    1.5
+   ],
+   [
+    "#1d3f8f",
+    6
+   ],
+   [
+    "#ffffff",
+    1.5
+   ]
+  ],
+  "numero": "#ffffff"
+ },
+ "Grêmio": {
+  "padrao": "vertical",
+  "faixas": [
+   [
+    "#0d80bf",
+    6
+   ],
+   [
+    "#111111",
+    6
+   ],
+   [
+    "#0d80bf",
+    6
+   ],
+   [
+    "#ffffff",
+    1.5
+   ]
+  ],
+  "numero": "#ffffff"
+ },
+ "Internacional": {
+  "padrao": "lisa",
+  "base": "#e30613",
+  "numero": "#ffffff"
+ },
+ "Juventude": {
+  "padrao": "vertical",
+  "faixas": [
+   [
+    "#00843d",
+    7
+   ],
+   [
+    "#ffffff",
+    7
+   ]
+  ],
+  "numero": "#ffffff"
+ },
+ "Mirassol": {
+  "padrao": "lisa",
+  "base": "#ffd700",
+  "numero": "#076450",
+  "gola": "#076450"
+ },
+ "Palmeiras": {
+  "padrao": "lisa",
+  "base": "#006437",
+  "numero": "#ffffff"
+ },
+ "RB Bragantino": {
+  "padrao": "lisa",
+  "base": "#ffffff",
+  "numero": "#e30613",
+  "gola": "#e30613"
+ },
+ "Remo": {
+  "padrao": "lisa",
+  "base": "#0b1f45",
+  "numero": "#ffffff"
+ },
+ "Santos": {
+  "padrao": "lisa",
+  "base": "#ffffff",
+  "numero": "#111111",
+  "gola": "#111111"
+ },
+ "São Paulo": {
+  "padrao": "faixa-peito",
+  "base": "#ffffff",
+  "faixas": [
+   [
+    "#e30613",
+    5
+   ],
+   [
+    "#ffffff",
+    2
+   ],
+   [
+    "#111111",
+    5
+   ]
+  ],
+  "inicio": 56,
+  "numero": "#111111",
+  "gola": "#111111"
+ },
+ "Sport Recife": {
+  "padrao": "horizontal",
+  "faixas": [
+   [
+    "#e30613",
+    7
+   ],
+   [
+    "#111111",
+    7
+   ]
+  ],
+  "numero": "#ffffff"
+ },
+ "Vasco": {
+  "padrao": "diagonal",
+  "base": "#111111",
+  "faixa": "#ffffff",
+  "largura": 12,
+  "numero": "#ffffff"
+ },
+ "Vitória": {
+  "padrao": "horizontal",
+  "faixas": [
+   [
+    "#e30613",
+    7
+   ],
+   [
+    "#111111",
+    7
+   ]
+  ],
+  "numero": "#ffffff"
+ }
+}
