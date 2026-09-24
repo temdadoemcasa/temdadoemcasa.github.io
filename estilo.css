@@ -896,3 +896,12 @@ select, input {
 /* abertura enxuta: so o titulo, os minigames chamam atencao logo de cara */
 .abertura-topo { display: block; }
 .abertura-topo .hero-sobretitulo { margin-bottom: 0.5rem; }
+
+/* abertura so com os dois minigames (a selecao desce pra secao propria) */
+.abertura .jogos { margin-top: clamp(1.4rem, 3vw, 2rem); }
+.abertura .jogos .jogo-visual { height: clamp(210px, 22vw, 280px); }
+.abertura .jogos .jogo-textos { display: flex; flex-direction: column; gap: 0.5rem; }
+.abertura .jogos .jogo-textos .botao { margin-top: auto; align-self: flex-start; }
+.abertura .jogos .leque-carta { width: clamp(120px, 12vw, 158px); bottom: -16%; }
+.secao-selecao .selecao { max-width: 440px; }
+.secao-selecao .link-envelope { margin-top: 0.4rem; }
