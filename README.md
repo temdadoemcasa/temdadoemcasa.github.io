@@ -36,12 +36,12 @@ eixos {sigla: rótulo}, times[]
         jogadores[]
     jogador: player_id, nome, camisa, posicao (G/D/M/F), jogos, minutos,
              overall | null, eixos {…}, sem_nota_por | null
-niveis {madeira, tijolo, grafeno}      ← opcional
+niveis {madeira, tijolo, concreto}     ← opcional (aceita "grafeno" no lugar de "concreto")
 ```
 
 - **`niveis` (opcional):** overall mínimo de cada casa na temporada. Se vier,
   o site usa. Se não vier, calcula pela posição na liga (palha = 35% de
-  baixo, madeira até 85%, tijolo até 98%, grafeno = 2% do topo), então a
+  baixo, madeira até 85%, tijolo até 98%, concreto = 2% do topo), então a
   escala do modelo pode mudar sem quebrar nada.
 
 - **Eixos de linha:** `RIT FIN PAS DRI DEF FIS` (modelo v2). Retrato antigo
@@ -75,7 +75,7 @@ opcionais:   "numero": "#hex", "gola": "#hex"
 - **Casas (nível):** cortes vêm de `niveis` no retrato ou da posição na liga
   (ver o contrato acima); a legenda das cartas mostra os números da temporada.
 - **Envelope:** chance fixa por casa (palha 55%, madeira 38%, tijolo 6,5%,
-  grafeno 0,5%), mostrada na página; `CHANCES` em `app.js`. O Draft usa a mesma.
+  concreto 1%), mostrada na página; `CHANCES` em `app.js`. O Draft usa a mesma.
 - **Link direto para uma carta:** `…/#jogador-{player_id}` (vai na descrição do vídeo).
 
 ## Atualizar os dados
