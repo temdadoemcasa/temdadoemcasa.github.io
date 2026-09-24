@@ -219,7 +219,6 @@ function bandeira(p) {
 function atualizarPreviaCamisa() {
   const p = paisDe(C.pais);
   $("previa-costas").replaceChildren(camisaDeCostas(p.kit, C.nome, C.numero));
-  $("previa-frente").replaceChildren(figura({ nome: p.nome, kit: p.kit }, C.numero, { cabeca: false }));
 }
 
 function montarPaises() {
