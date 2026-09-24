@@ -56,16 +56,42 @@ const interpolar = (pts, x) => {
   for (let i = 1; i < pts.length; i++) if (x <= pts[i][0]) { const [x0, y0] = pts[i - 1], [x1, y1] = pts[i]; return y0 + (y1 - y0) * (x - x0) / (x1 - x0); }
   return pts[pts.length - 1][1];
 };
-const CURVA_GOL = [[60, 0.1], [70, 0.18], [76, 0.25], [80, 0.31], [84, 0.4], [88, 0.53], [92, 0.72], [95, 0.9], [97, 0.98]];
-const CURVA_ASSIST = [[60, 0.05], [70, 0.1], [80, 0.17], [88, 0.25], [95, 0.34], [97, 0.37]];
-const FRACAO_GOL = { CA: 1, PON: 0.55, MEI: 0.42, MC: 0.2, VOL: 0.1, LAT: 0.07, ZAG: 0.09, GOL: 0 };
-const FRACAO_ASSIST = { MEI: 1, PON: 0.85, MC: 0.6, CA: 0.45, LAT: 0.5, VOL: 0.35, ZAG: 0.12, GOL: 0.02 };
+const CURVA_GOL = [[60, 0.1], [70, 0.19], [76, 0.27], [80, 0.35], [84, 0.47], [88, 0.64], [92, 0.84], [95, 1.0], [97, 1.08]];
+const CURVA_ASSIST = [[60, 0.06], [70, 0.13], [80, 0.22], [88, 0.31], [95, 0.4], [97, 0.43]];
+const FRACAO_GOL = { CA: 1, PON: 0.5, MEI: 0.3, MC: 0.2, VOL: 0.1, LAT: 0.07, ZAG: 0.09, GOL: 0 };
+const FRACAO_ASSIST = { MEI: 1, PON: 0.85, MC: 0.6, CA: 0.5, LAT: 0.5, VOL: 0.35, ZAG: 0.12, GOL: 0.02 };
+// O ritmo sai do OVR, mas o jeito de jogar vem dos atributos, comparados com o
+// perfil normal da posicao: finalizacao e ritmo acima do normal viram gol (e
+// o velocista puro da menos passe); passe e drible viram assistencia. Quem
+// passa mais do que finaliza joga de falso 9: troca gol por assistencia.
+// Perfil "normal" da posicao num dado OVR: a base de 16 anos mais o quanto
+// cada atributo cresce, em media, por ponto de OVR (medido simulando
+// carreiras sem foco de treino). Quem foge desse perfil tem estilo proprio.
+const CRESCIMENTO = {
+  CA: { RIT: 0.75, FIN: 1.41, PAS: 0.81, DRI: 0.8, DEF: 0.26, FIS: 0.77 }, PON: { RIT: 1.14, FIN: 0.91, PAS: 0.98, DRI: 1.17, DEF: 0.23, FIS: 0.22 },
+  MEI: { RIT: 0.48, FIN: 0.77, PAS: 1.35, DRI: 1.22, DEF: 0.52, FIS: 0.51 }, MC: { RIT: 0.48, FIN: 0.54, PAS: 1.41, DRI: 0.77, DEF: 1.06, FIS: 0.76 },
+  VOL: { RIT: 0.4, FIN: 0.21, PAS: 1.1, DRI: 0.2, DEF: 1.45, FIS: 0.76 }, LAT: { RIT: 1.18, FIN: 0.25, PAS: 1.02, DRI: 0.52, DEF: 1.33, FIS: 0.72 },
+  ZAG: { RIT: 0.41, FIN: 0, PAS: 0.66, DRI: 0.21, DEF: 1.37, FIS: 1.03 }, GOL: { REF: 1.34, EVI: 1.1, MAO: 0.88, PES: 0.42, SAI: 0.69 },
+};
+function perfilEsperado(f, ovr) {
+  const base = BASE[f], ob = ovrDe(base, f);
+  return Object.fromEntries(Object.keys(base).map((k) => [k, Math.min(99, base[k] + (ovr - ob) * CRESCIMENTO[f][k])]));
+}
+
 function ritmoDoJogador(J, nivelLiga) {
   const f = funcaoDe(C.pos);
-  const efetivo = J.ovr + (72 - nivelLiga) * 0.2; // Serie D facilita, Premier League aperta
-  const fin = f === "GOL" ? 1 : limitar(1 + ((J.attrs.FIN ?? J.ovr) - J.ovr) / 60, 0.7, 1.3);
-  const pas = f === "GOL" ? 1 : limitar(1 + ((J.attrs.PAS ?? J.ovr) - J.ovr) / 60, 0.7, 1.3);
-  return { gol: interpolar(CURVA_GOL, efetivo) * FRACAO_GOL[f] * fin, assist: interpolar(CURVA_ASSIST, efetivo) * FRACAO_ASSIST[f] * pas };
+  const liga = (72 - nivelLiga) * 0.2; // Serie D facilita, Premier League aperta
+  if (f === "GOL") return { gol: 0, assist: interpolar(CURVA_ASSIST, J.ovr + liga) * FRACAO_ASSIST.GOL, estilo: 0 };
+  const a = J.attrs, o = J.ovr, esp = perfilEsperado(f, o);
+  const d = (k) => limitar((a[k] ?? o) - esp[k], -15, 15); // desvio do atributo em relacao ao perfil da posicao
+  const notaGol = o + liga + d("FIN") * 0.45 + d("RIT") * 0.2 + d("FIS") * 0.08 - Math.max(0, d("DEF")) * 0.12 - Math.max(0, d("PAS")) * 0.05;
+  const notaAssist = o + liga + d("PAS") * 0.45 + d("DRI") * 0.2 - Math.max(0, d("RIT")) * 0.08 - Math.max(0, d("FIN")) * 0.05;
+  const estilo = limitar((d("PAS") - d("FIN")) / 40, -0.4, 0.4);
+  return {
+    gol: interpolar(CURVA_GOL, notaGol) * FRACAO_GOL[f] * (1 - estilo * 0.5),
+    assist: interpolar(CURVA_ASSIST, notaAssist) * FRACAO_ASSIST[f] * Math.max(0.65, 1 + estilo * 1.8),
+    estilo,
+  };
 }
 function poissonC(rng, media) {
   if (media > 30) return Math.max(0, Math.round(media + normal(rng, Math.sqrt(media))));
@@ -131,7 +157,7 @@ const C = {
 
 const $ = (id) => document.getElementById(id);
 const paisDe = (id) => PAISES.find((p) => p.id === id) || PAISES[0];
-const dinheiro = (m) => (m >= 1 ? `€${m.toLocaleString("pt-BR", { maximumFractionDigits: 1 })} mi` : `€${Math.round(m * 1000)} mil`);
+const dinheiro = (m) => `€${m.toLocaleString("pt-BR", { minimumFractionDigits: m < 10 ? 1 : 0, maximumFractionDigits: 1 })} mi`;
 const normal = (rng, dp = 1) => { let u = 0, v = 0; while (!u) u = rng(); while (!v) v = rng(); return dp * Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); };
 const limitar = (v, a, b) => Math.max(a, Math.min(b, v));
 const logistica = (x) => 1 / (1 + Math.exp(-x));
@@ -241,6 +267,41 @@ function taca(nome, { premio = false, tamanho = "" } = {}) {
   return s;
 }
 
+// Escudo generico nas cores do clube, com a sigla (nao e o escudo oficial)
+const SIGLAS_FORA = {
+  "Real Madrid": "RMA", "Barcelona": "BAR", "Atlético de Madrid": "ATM", "Manchester City": "MCI", "Manchester United": "MUN",
+  "Paris Saint-Germain": "PSG", "Bayern de Munique": "BAY", "Borussia Dortmund": "BVB", "Bayer Leverkusen": "B04", "Inter": "INT",
+  "Juventus": "JUV", "Milan": "MIL", "River Plate": "RIV", "Boca Juniors": "BOC", "Al-Hilal": "HIL", "Al-Nassr": "NAS",
+  "Olympique de Marseille": "OM", "Athletic Bilbao": "ATH", "América-MG": "AMG", "Atlético-GO": "ACG", "Botafogo-SP": "BFC",
+};
+function escudo(c, tamanho = "") {
+  const kit = kitDoTime(timeParaCamisa(c));
+  const cor1 = corDoKit(kit);
+  const cor2 = corOu(kit.faixas && kit.faixas[1] && kit.faixas[1][0], corOu(kit.faixa, corOu(kit.numero, "#ffffff")));
+  const texto = luminancia(cor1) > 0.45 ? "#111111" : "#ffffff";
+  const sigla = SIGLAS_FORA[c.nome] || siglaClube(c.nome);
+  const s = el("span", `escudo${tamanho ? ` escudo-${tamanho}` : ""}`);
+  s.innerHTML = `<svg viewBox="0 0 24 28" aria-hidden="true"><path d="M12 1.5 22 4.5v9.5c0 6.3-4.3 10.5-10 12.5C6.3 24.5 2 20.3 2 14V4.5z" fill="${cor1}" stroke="${cor2}" stroke-width="1.8"/><path d="M2.9 17.5h18.2" stroke="${cor2}" stroke-width="1.2" stroke-opacity="0.8"/><text x="12" y="14.6" text-anchor="middle" font-family="'Barlow Condensed', Inter, sans-serif" font-weight="800" font-size="${sigla.length > 3 ? 6 : 7.2}" fill="${texto}">${sigla}</text></svg>`;
+  s.title = c.nome;
+  return s;
+}
+
+// estilo de jogo pelos atributos (o que a carta diz sobre o jeito de jogar)
+function estiloDeJogo(attrs, pos) {
+  const f = POSICOES[pos].funcao;
+  if (f === "GOL") return null;
+  const esp = perfilEsperado(f, ovrDe(attrs, f));
+  const d = Object.fromEntries(Object.keys(esp).map((k) => [k, attrs[k] - esp[k]]));
+  const [k, v] = Object.entries(d).sort((a, b) => b[1] - a[1])[0];
+  if (v < 4) return { nome: "Equilibrado", dica: "rende como a média da posição" };
+  const NOMES = {
+    FIN: ["Finalizador", "mais gols"], RIT: ["Velocista", "ataca o espaço: mais gol, menos passe"],
+    PAS: [f === "CA" ? "Falso 9" : "Armador", "troca gol por assistência"], DRI: ["Driblador", "cria jogadas e assistências"],
+    DEF: [f === "CA" || f === "PON" ? "Operário" : "Marcador", "ajuda sem a bola, marca menos"], FIS: ["Físico", "aguenta mais jogos, se machuca menos"],
+  };
+  return { nome: NOMES[k][0], dica: NOMES[k][1] };
+}
+
 // --- 1. criacao ------------------------------------------------------------------------
 
 // Bandeiras desenhadas em SVG (30x20), simplificadas mas fieis nas cores e no desenho
@@ -347,6 +408,8 @@ function desenharMontagem() {
   $("carta-montagem").replaceChildren(cartaDoCriado(C.attrs, ovr, null));
   $("pontos-restantes").textContent = String(C.pontos);
   $("ovr-montagem").textContent = String(ovr);
+  const est = estiloDeJogo(C.attrs, C.pos);
+  $("estilo-montagem").textContent = est ? `Estilo: ${est.nome} · ${est.dica}` : "";
   const lista = $("atributos");
   lista.replaceChildren();
   const rotulos = f === "GOL" ? Object.fromEntries(EIXOS_GOLEIRO.map(([c, s]) => [c, C.r.eixos[c] || s])) : ROTULOS_LINHA;
@@ -555,7 +618,7 @@ function cartaoDeProposta(c, aoAssinar, { rotulo = "Assinar", extra = null } = {
   const J = C.J;
   const card = el("article", "proposta");
   const camisa = el("span", "proposta-camisa");
-  camisa.append(figura(timeParaCamisa(c), J.numero, { cabeca: false }));
+  camisa.append(figura(timeParaCamisa(c), J.numero, { cabeca: false }), escudo(c, "m"));
   const est = el("span", "estrelas");
   const n = estrelas(c.forca);
   for (let i = 0; i < 5; i++) est.append(el("i", i + 1 <= n ? "cheia" : i + 0.5 === n ? "meia" : ""));
@@ -916,18 +979,28 @@ function evoluir(J, p, rng) {
     const queda = [0, -0.4, -0.9, -1.5, -2.1, -2.8][k] ?? -3.4;
     delta = Math.min(0.5, queda + J.efeito.queda + J.efeito.evolucao * 0.5) + normal(rng, 0.7);
   }
+  const mudou = {};
   let alvo = limitar(Math.round(antes + limitar(delta, -6, 8)), 40, 97);
   if (proxima <= J.idadePico) alvo = Math.min(alvo, Math.max(antes, J.potencial + Math.max(0, Math.round(J.efeito.evolucao)))); // nao passa do teto
   const pesos = Object.entries(PESOS[f]).filter(([, w]) => w > 0);
-  const mudou = {};
   // sobe (ou desce) atributo a atributo, puxado pelo peso da funcao, ate o OVR bater
+  // foco de treino: os primeiros pontos do ano vao pro atributo escolhido
+  // (mesmo que ele pese pouco no OVR); na queda, ele e o ultimo a cair
+  let pontosDeFoco = J.foco && J.foco in J.attrs ? 3 : 0;
+  if (pontosDeFoco && alvo <= antes) { J.attrs[J.foco] = limitar(J.attrs[J.foco] + 1, 20, 99); mudou[J.foco] = 1; pontosDeFoco = 0; J.ovr = ovrDe(J.attrs, f); }
   for (let guarda = 0; J.ovr !== alvo && guarda < 400; guarda++) {
     const sobe = J.ovr < alvo;
     let k;
-    if (sobe) k = Motor.sortearPeso(rng, pesos, ([, w]) => w)[0];
+    if (sobe && pontosDeFoco > 0) { k = J.foco; pontosDeFoco--; }
+    else if (sobe) {
+      // cada um melhora mais no que ja e bom: o estilo da carta se mantem
+      const esp = perfilEsperado(f, J.ovr);
+      const forte = pesos.map(([c, w]) => [c, w * (1 + Math.max(0, J.attrs[c] - esp[c]) / 16)]);
+      k = Motor.sortearPeso(rng, forte, ([, w]) => w)[0];
+    }
     else {
       // o corpo cai primeiro: ritmo e fisico perdem mais
-      const queda = pesos.map(([c, w]) => [c, w * (["RIT", "FIS", "REF"].includes(c) ? 2.5 : 1)]);
+      const queda = pesos.map(([c, w]) => [c, w * (["RIT", "FIS", "REF"].includes(c) ? 2.5 : 1) * (c === J.foco ? 0.3 : 1)]);
       k = Motor.sortearPeso(rng, queda, ([, w]) => w)[0];
     }
     const novo = limitar(J.attrs[k] + (sobe ? 1 : -1), 20, 99);
@@ -936,7 +1009,9 @@ function evoluir(J, p, rng) {
     mudou[k] = (mudou[k] || 0) + (sobe ? 1 : -1);
     J.ovr = ovrDe(J.attrs, f);
   }
-  return { antes, depois: J.ovr, mudou };
+  const foco = J.foco;
+  J.foco = null;
+  return { antes, depois: J.ovr, mudou, foco };
 }
 
 function valorDeMercado(J) {
@@ -1321,12 +1396,43 @@ const EVENTOS = [
   },
 ];
 
+// Foco da pre-temporada: tres atributos pra escolher (os dois que mais pesam
+// na posicao e um terceiro pra mudar o estilo). O escolhido recebe os
+// primeiros pontos de evolucao do ano e muda o jeito de jogar.
+const DICA_FOCO = {
+  FIN: "mais gols", RIT: "ataca o espaço: mais gol, menos passe", PAS: "mais assistências (falso 9, meia armador)",
+  DRI: "mais assistências e jogadas individuais", DEF: "ajuda sem a bola, marca menos gols", FIS: "aguenta mais jogos e se machuca menos",
+  REF: "defesas difíceis", EVI: "pega mais chutes", MAO: "segura mais bolas", PES: "sai jogando com os pés", SAI: "domina a área",
+};
+function eventoDeTreino(J, rng) {
+  const f = funcaoDe(C.pos);
+  const ordem = Object.entries(PESOS[f]).sort((a, b) => b[1] - a[1]).map(([k]) => k);
+  // o que mais pesa na posicao, o ponto forte do seu estilo e mais um pra variar
+  const esp = perfilEsperado(f, J.ovr);
+  const forte = Object.keys(esp).sort((a, b) => (J.attrs[b] - esp[b]) - (J.attrs[a] - esp[a]))[0];
+  const opcoes = [ordem[0]];
+  if (!opcoes.includes(forte)) opcoes.push(forte);
+  for (const k of Motor.embaralhar(rng, ordem.slice(1))) if (opcoes.length < 3 && !opcoes.includes(k)) opcoes.push(k);
+  return {
+    id: "foco", titulo: "Foco da pré-temporada",
+    texto: () => "O preparador quer saber onde você vai colocar a energia neste ano.",
+    opcoes: opcoes.map((k) => ({
+      rotulo: `${rotuloAttr(k)} (${J.attrs[k]})`, dica: DICA_FOCO[k],
+      sempre: (JJ) => { JJ.foco = k; if (k === "FIS") JJ.efeito.lesao = Math.max(0, JJ.efeito.lesao - 0.03); return `Pré-temporada focada em ${rotuloAttr(k).toLowerCase()}: ${DICA_FOCO[k]}.`; },
+    })),
+  };
+}
+
+// Rapido: 1 decisao por temporada (as vezes o foco de treino). Completo: o
+// foco de treino e mais 2 situacoes.
 function sortearEventos(J, rng, n = 2) {
   const ultimos = J.ultimosEventos || [];
   const pool = EVENTOS.filter((e) => e.quando(J) && !ultimos.includes(e.id));
-  const escolhidos = Motor.embaralhar(rng, pool).slice(0, n);
+  const completo = C.modo === "completo";
+  const qtd = completo ? 2 : rng() < 0.35 ? 0 : 1;
+  const escolhidos = Motor.embaralhar(rng, pool).slice(0, qtd);
   J.ultimosEventos = escolhidos.map((e) => e.id);
-  return escolhidos;
+  return completo || !qtd ? [eventoDeTreino(J, rng), ...escolhidos] : escolhidos;
 }
 
 function resolverOpcao(J, op, rng) {
@@ -1372,7 +1478,8 @@ function desenharPainelJogador() {
   ]) { const d = el("div"); d.append(el("dt", null, k), el("dd", null, String(v))); fatos.append(d); }
   const pais = paisDe(C.pais);
   const cab = el("p", "painel-cab");
-  cab.append(bandeira(pais), el("span", null, `${pais.nome} · #${J.numero} · ${POSICOES[C.pos].nome} · pé ${C.pe.toLowerCase()}`));
+  const est = estiloDeJogo(J.attrs, C.pos);
+  cab.append(bandeira(pais), el("span", null, `${pais.nome} · #${J.numero} · ${POSICOES[C.pos].nome} · pé ${C.pe.toLowerCase()}${est ? ` · ${est.nome.toLowerCase()}` : ""}`));
   alvo.append(cab, fatos);
   for (const [rotulo, itens, classe] of [["Títulos", J.titulos, "galeria"], ["Prêmios", J.premios, "galeria galeria-premios"]]) {
     if (!itens.length) continue;
@@ -1398,8 +1505,7 @@ function desenharTabelaCarreira() {
   for (const h of J.historico) {
     const tr = el("tr", h.titulos.length || (h.selecao && h.selecao.titulos.length) ? "com-titulo" : "");
     const clube = el("td", "tc-clube");
-    const mini = el("span", "tabela-camisa");
-    mini.append(figura(h.time || { nome: h.clube, kit: h.kit }, null, { cabeca: false }));
+    const mini = escudo({ nome: h.clube, time: h.time, kit: h.kit });
     const nomeClube = el("span", null, h.clube);
     nomeClube.append(el("small", null, h.liga));
     clube.append(mini, nomeClube);
@@ -1482,6 +1588,7 @@ function mostrarLinha(linha) {
     alvo.append(pr);
   }
   const ev = linha.evolucao;
+  if (ev.foco) alvo.append(el("p", "temporada-foco", `Foco do ano: ${rotuloAttr(ev.foco).toLowerCase()}`));
   const dif = ev.depois - ev.antes;
   const evo = el("div", `temporada-evolucao ${dif > 0 ? "sobe" : dif < 0 ? "desce" : ""}`);
   evo.append(el("span", null, `OVR ${ev.antes} → ${ev.depois}`));
@@ -1540,6 +1647,7 @@ function mostrarEvento(i) {
     b.type = "button";
     b.append(el("span", null, op.rotulo));
     if (op.chance) b.append(el("small", null, `${Math.round(op.chance(J) * 100)}% de dar certo`));
+    if (op.dica) b.append(el("small", null, op.dica));
     b.addEventListener("click", () => {
       const r = resolverOpcao(J, op, C.rng);
       J.efeito.textos.push({ titulo: ev.titulo, escolha: op.rotulo, texto: r.texto, ok: r.ok });
@@ -1558,6 +1666,16 @@ function mostrarEvento(i) {
 
 function fecharTemporadaCompleta() {
   C.eventos = null;
+  if (C.modo !== "completo") {
+    const linha = jogarTemporada();
+    mostrarLinha(linha);
+    desenharPainelJogador();
+    desenharTabelaCarreira();
+    $("proxima").disabled = false;
+    if (C.J.aposentado) { $("proxima").textContent = "Ver a aposentadoria"; $("tudo").disabled = true; }
+    else $("proxima").textContent = "Próxima temporada";
+    return;
+  }
   const linha = jogarTemporada({ decidir: false });
   mostrarLinha(linha);
   desenharPainelJogador();
@@ -1835,8 +1953,7 @@ async function iniciarCarreiraPagina() {
   $("confirmar-carta").addEventListener("click", () => { criarJogador(); mostrarPropostasDaBase(); });
   $("proxima").addEventListener("click", () => {
     if (C.J.aposentado) mostrarAposentadoria();
-    else if (C.modo === "completo") avancarCompleto();
-    else proximaTemporada();
+    else avancarCompleto();
   });
   $("tudo").addEventListener("click", simularCarreira);
 
