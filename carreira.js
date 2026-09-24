@@ -968,8 +968,10 @@ function premiosDoAno(J, t, linha, rng) {
   const limiarGol = t.maxOutrosLiga ?? Math.round(jl * 0.5 + normal(rng, 2));
   if (f !== "GOL" && t.st.golsLiga >= Math.max(5, limiarGol)) premios.push(`Artilheiro ${da}`);
   if (f !== "GOL" && assistLiga >= Math.max(4, Math.round(jl * 0.26 + normal(rng, 1.5)))) premios.push(`Líder de assistências ${da}`);
-  if (f === "GOL" && regular && linha.semSofrer >= Math.max(4, Math.round(jl * 0.37 + normal(rng, 1.5)))) premios.push(`Luva de Ouro ${da}`);
-  if (regular && linha.nota >= 7.45 + normal(rng, 0.2)) premios.push(`Melhor ${NOME_DA_POSICAO(C.pos)} ${da}`);
+  if (f === "GOL" && regular && linha.semSofrer >= Math.max(5, Math.round(jl * 0.42 + normal(rng, 1.5)))) premios.push(`Luva de Ouro ${da}`);
+  const jaGanhou = (nome) => J.premios.filter((x) => x.nome === nome).length;
+  const melhor = `Melhor ${NOME_DA_POSICAO(C.pos)} ${da}`;
+  if (regular && linha.nota >= 7.5 + jaGanhou(melhor) * 0.08 + normal(rng, 0.2)) premios.push(melhor);
   if (regular && linha.nota >= 7.95 + normal(rng, 0.25)) premios.push(`Craque ${da}`);
   if (J.idade <= 20 && t.p >= 0.45 && (J.clube.divisao === "A" || J.clube.tipo === "ext") && linha.nota >= 7.15 + normal(rng, 0.2)
     && !J.premios.some((x) => x.nome.startsWith("Revelação"))) premios.push(`Revelação ${da}`);
@@ -1061,7 +1063,8 @@ function decidirTransferencia(J, ofertas, rebaixado) {
     // Arabia e Russia pagam o que o Brasil nao paga: pesa pra quem ja passou dos 26
     const salario = J.idade >= 26 && J.clube.continente !== "europa" ? ({ asia: 2, leste: 0.5 }[c.continente] || 0) : 0;
     const emCasa = c.tipo !== "ext" && C.pais === "BRA" ? 3 : 0; // brasileiro prefere subir aqui dentro
-    return c.forca + c.prestigio * 0.8 + s * pesoJogar - (s < 0.2 ? 5 : 0) + salario + emCasa;
+    const euro = c.continente === "europa" && J.idade <= 26 ? 1.5 : 0; // ...mas a Europa paga e mostra mais
+    return c.forca + c.prestigio * 0.8 + s * pesoJogar - (s < 0.2 ? 5 : 0) + salario + emCasa + euro;
   };
   const atual = nota(J.clube) - (rebaixado ? 3 : 0);
   const melhor = [...ofertas].sort((a, b) => nota(b) - nota(a))[0];
@@ -1088,7 +1091,7 @@ function jogarTemporada({ decidir = true } = {}) {
   st.golsLiga = Math.round(gols * st.jogosLiga / Math.max(1, st.jogos));
   // quem defende pontua pelo jogo sem sofrer gol; quem ataca, por gol e assistencia
   const fam = POSICOES[C.pos].fam;
-  const muralha = fam === "G" || fam === "D" ? (st.semSofrerLiga / Math.max(1, st.jogosLiga) - 0.3) * (fam === "G" ? 1.6 : 1.1) : 0;
+  const muralha = fam === "G" || fam === "D" ? (st.semSofrerLiga / Math.max(1, st.jogosLiga) - 0.3) * (fam === "G" ? 0.9 : 0.8) : 0;
   const contrib = (jogos ? (gols + assist * 0.6) / jogos : 0) + muralha;
   const nota = limitar(6.55 + Math.tanh((J.ovr - t.nivelLiga) / 12) * 1.3 + contrib * 0.9 + J.efeito.nota + normal(rng, 0.18), 5.4, 9.3);
   const selecao = temporadaNaSelecao(J, J.ano, rng, t.p);
@@ -1132,7 +1135,7 @@ function jogarTemporada({ decidir = true } = {}) {
   J.anosNoClube += 1;
   J.valor = valorDeMercado(J);
   // aposentadoria
-  const folga = J.idade - (J.idadePico + 4); // uns quatro anos depois do pico ja da pra pensar em parar
+  const folga = J.idade - (J.idadePico + (f === "GOL" ? 3 : 4)); // uns quatro anos depois do pico ja da pra pensar em parar
   const chanceParar = J.idade >= (f === "GOL" ? 42 : 40) ? 1
     : (folga >= 0 ? 0.12 + folga * 0.15 : 0) + (J.idade >= 30 && J.ovr < 64 ? 0.3 : 0) + (J.idade >= 33 && J.ovr < 70 ? 0.15 : 0);
   J.efeito = efeitoZerado();
@@ -1769,7 +1772,7 @@ function mostrarAposentadoria() {
 // Potencial escondido, por faixa (piso 76): a maioria para entre 76 e 87; 10% chegam
 // a 88-91, 7% a 92-94 e 5% viram o proximo Pele (95+). A carta montada so
 // empurra um pouco.
-const FAIXAS_POTENCIAL = [[0.05, 95, 97], [0.12, 92, 94], [0.22, 88, 91], [0.52, 83, 87], [1, 76, 82]];
+const FAIXAS_POTENCIAL = [[0.06, 95, 97], [0.12, 92, 94], [0.22, 88, 91], [0.52, 83, 87], [1, 76, 82]];
 function sortearPotencial(ovr, f) {
   const rng = C.rng;
   const u = rng();
