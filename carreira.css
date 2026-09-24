@@ -277,3 +277,44 @@
 .proposta-camisa { position: relative; }
 .estilo-montagem { margin: -0.3rem 0 0.8rem; font-size: 0.85rem; color: var(--canal); min-height: 1.3em; }
 .temporada-foco { margin: 0.7rem 0 0; font-size: 0.8rem; color: var(--texto-fraco); }
+
+/* --- criacao: acabamento ---------------------------------------------------------- */
+.criar-campos input, .campos-linha input { width: 100%; min-width: 0; }
+.criar-campos { gap: 1.1rem; }
+.criar-campos .campo, .campo-posicao { gap: 0.45rem; }
+.rotulo { font-size: 0.78rem; font-weight: 600; letter-spacing: 0.04em; color: var(--texto-fraco); }
+.criar-fim { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1.2rem 2rem; margin-top: 1.6rem; padding-top: 1.4rem; border-top: 1px solid var(--borda); }
+.campo-modo { flex: 1 1 32rem; }
+.modos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.7rem; }
+.modo {
+  display: grid; gap: 0.25rem; justify-items: start; text-align: left;
+  padding: 0.85rem 1rem; border-radius: 14px; border: 1px solid var(--borda);
+  background: var(--fundo-cartao); color: var(--texto); font: inherit; cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.modo strong { font-family: var(--numeros); font-size: 1.25rem; letter-spacing: 0.04em; text-transform: uppercase; }
+.modo span { font-size: 0.85rem; color: var(--texto-fraco); line-height: 1.4; }
+.modo:hover { border-color: var(--texto-fraco); }
+.modo[aria-pressed="true"] { border-color: var(--canal); background: linear-gradient(135deg, rgba(200, 255, 0, 0.1), transparent 60%), var(--fundo-cartao); box-shadow: 0 0 0 1px var(--canal); }
+.modo[aria-pressed="true"] strong { color: var(--canal); }
+.botao-grande { padding: 0.95rem 1.8rem; font-size: 1.05rem; }
+.paises { scrollbar-width: thin; scrollbar-color: var(--borda) transparent; }
+@media (max-width: 1100px) {
+  .criacao { grid-template-columns: minmax(150px, 200px) minmax(0, 1fr); }
+  .campo-posicao { grid-column: 1 / -1; max-width: 380px; width: 100%; justify-self: center; }
+}
+@media (max-width: 640px) {
+  .modos { grid-template-columns: 1fr; }
+  .criar-fim .botao-grande { width: 100%; text-align: center; }
+}
+
+/* ordem importa: o celular vem depois do 1100 */
+@media (max-width: 900px) {
+  .montagem { grid-template-columns: 1fr; }
+  .montagem-carta { max-width: 240px; margin: 0 auto; }
+}
+@media (max-width: 640px) {
+  .criacao { grid-template-columns: 1fr; }
+  .previas { max-width: 220px; margin: 0 auto; }
+  .campo-posicao { max-width: 340px; }
+}

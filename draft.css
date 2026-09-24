@@ -119,7 +119,7 @@ a.marca { text-decoration: none; }
 .vaga-ativa .vaga-vazia { border-color: var(--canal); color: var(--canal); animation: pulsar 1.2s ease-in-out infinite; }
 @keyframes pulsar { 50% { box-shadow: 0 0 0 6px rgba(200, 255, 0, 0.25); } }
 
-.leque { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 0.9rem 0.8rem; margin-top: 1rem; }
+.leque { display: grid; grid-template-columns: repeat(auto-fill, minmax(138px, 1fr)); gap: 0.9rem 0.8rem; margin-top: 1rem; }
 .opcao {
   display: grid;
   gap: 0.35rem;
@@ -536,4 +536,21 @@ body.simulando .cal-dia { pointer-events: none; }
   .pen-linha { grid-template-columns: 5.5rem minmax(0, 1fr) 1.6rem; gap: 0.4rem; }
   .pen-bola { width: 0.85rem; height: 0.85rem; }
   .pen-bolas { flex-wrap: nowrap; gap: 0.22rem; overflow: hidden; }
+}
+
+/* tablet: jogo em cima, tabelas embaixo (lado a lado apertava o placar) */
+@media (max-width: 1000px) {
+  .temporada-grade { grid-template-columns: 1fr; }
+}
+.painel-status { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, max-content)); }
+@media (max-width: 640px) {
+  .painel-status { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .status-item strong { font-size: 1.05rem; }
+}
+@media (max-width: 640px) {
+  .controles-jogo:not(.controles-longos) { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .controles-jogo:not(.controles-longos) .botao { text-align: center; padding-left: 0.6rem; padding-right: 0.6rem; }
+  .controles-jogo:not(.controles-longos) #proximo { grid-column: 1 / -1; }
+  .controles-longos { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; }
+  .controles-longos .controles-nota { grid-column: 1 / -1; }
 }

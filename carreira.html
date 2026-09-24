@@ -78,14 +78,22 @@
           <div class="gramado campo-posicoes" id="campo-posicoes" aria-label="Escolha a posição"></div>
         </div>
       </div>
-      <div class="campo">
-        <span class="rotulo">Modo</span>
-        <div class="chips" role="group" aria-label="Modo">
-          <button class="chip" type="button" data-modo="rapido" aria-pressed="true">Rápido · 1 decisão por temporada</button>
-          <button class="chip" type="button" data-modo="completo" aria-pressed="false">Completo · 3 decisões e mercado</button>
+      <div class="criar-fim">
+        <div class="campo campo-modo">
+          <span class="rotulo">Modo de jogo</span>
+          <div class="modos" role="group" aria-label="Modo de jogo">
+            <button class="modo" type="button" data-modo="rapido" aria-pressed="true">
+              <strong>Rápido</strong>
+              <span>1 decisão por temporada. As transferências acontecem sozinhas.</span>
+            </button>
+            <button class="modo" type="button" data-modo="completo" aria-pressed="false">
+              <strong>Completo</strong>
+              <span>Foco de treino e mais 2 decisões por temporada. Você escolhe as propostas.</span>
+            </button>
+          </div>
         </div>
+        <button class="botao botao-primario botao-grande" id="confirmar-jogador" type="button">Montar a carta →</button>
       </div>
-      <button class="botao botao-primario" id="confirmar-jogador" type="button">Montar a carta</button>
     </section>
 
     <!-- 2. carta -->
