@@ -1479,7 +1479,7 @@ function falha(idAlvo, mensagem) {
   alvo.replaceChildren(el("div", "vazio", mensagem));
 }
 
-// Este arquivo tambem e carregado pelo draft.html (que reaproveita carta,
+// Este arquivo tambem e carregado pelo tem-time-em-casa.html (que reaproveita carta,
 // camisa, niveis e CHANCES): cada parte so liga se a pagina tiver o pedaco dela.
 ligarInclinacao();
 if (document.getElementById("ficha")) ligarFicha();

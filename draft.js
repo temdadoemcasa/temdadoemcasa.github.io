@@ -1055,7 +1055,7 @@ function encerrar() {
     ...compsDoUsuario().map((c) => `${COMP[c]}: ${campanha(c)}`),
     `${tudo.v}V ${tudo.e}E ${tudo.d}D · ${tudo.gp} gols · ${aproveitamento}%`,
     art ? `Artilheiro: ${art.nome} (${art.gols})` : "",
-    "temdadoemcasa.github.io/draft.html",
+    "temdadoemcasa.github.io/tem-time-em-casa.html",
   ].filter(Boolean).join("\n");
   const rodape = el("footer", "bl-rodape");
   const copiar = el("button", "botao", "Copiar resultado");
