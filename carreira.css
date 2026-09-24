@@ -609,3 +609,4 @@
 .tc-divisao { font-weight: 800; }
 .tc-divisao.desce { color: #ff7d95; }
 .tc-divisao.sobe { color: var(--canal); }
+.fase-aviso { margin: 0.2rem 0 0.4rem; padding: 0.4rem 0.7rem; border-radius: 10px; font-size: 0.82rem; background: rgba(92, 200, 255, 0.1); border: 1px solid rgba(92, 200, 255, 0.35); color: #5cc8ff; }
