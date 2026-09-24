@@ -1,0 +1,995 @@
+{
+ "_leia": "Clubes das divisoes de baixo pro modo Carreira: onde o jogador estreia aos 16. A lista de cada divisao e APROXIMADA (serve de ponto de partida; o jogo sobe e desce os clubes a cada ano) e a forca e ESTIMADA a mao na regua do motor (Serie A 2026 vai de ~50 a ~62). Kit: so cores e listras, sem escudo. Pode editar.",
+ "divisoes": [
+  {
+   "id": "B",
+   "nome": "Série B",
+   "clubes": [
+    {
+     "nome": "Fortaleza",
+     "uf": "CE",
+     "forca": 51,
+     "uniforme": {
+      "padrao": "horizontal",
+      "faixas": [
+       [
+        "#e30613",
+        6
+       ],
+       [
+        "#ffffff",
+        1.5
+       ],
+       [
+        "#1d3f8f",
+        6
+       ],
+       [
+        "#ffffff",
+        1.5
+       ]
+      ],
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Sport Recife",
+     "uf": "PE",
+     "forca": 50,
+     "uniforme": {
+      "padrao": "horizontal",
+      "faixas": [
+       [
+        "#e30613",
+        7
+       ],
+       [
+        "#111111",
+        7
+       ]
+      ],
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Ceará",
+     "uf": "CE",
+     "forca": 50,
+     "uniforme": {
+      "padrao": "vertical",
+      "faixas": [
+       [
+        "#111111",
+        7
+       ],
+       [
+        "#ffffff",
+        7
+       ]
+      ],
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Juventude",
+     "uf": "RS",
+     "forca": 48,
+     "uniforme": {
+      "padrao": "vertical",
+      "faixas": [
+       [
+        "#00843d",
+        7
+       ],
+       [
+        "#ffffff",
+        7
+       ]
+      ],
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Goiás",
+     "uf": "GO",
+     "forca": 48,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#006b3f",
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Criciúma",
+     "uf": "SC",
+     "forca": 47,
+     "uniforme": {
+      "padrao": "vertical",
+      "faixas": [
+       [
+        "#ffd200",
+        6
+       ],
+       [
+        "#111111",
+        6
+       ],
+       [
+        "#ffffff",
+        2
+       ]
+      ],
+      "numero": "#111111"
+     }
+    },
+    {
+     "nome": "América-MG",
+     "uf": "MG",
+     "forca": 47,
+     "uniforme": {
+      "padrao": "vertical",
+      "faixas": [
+       [
+        "#00843d",
+        7
+       ],
+       [
+        "#111111",
+        7
+       ]
+      ],
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Cuiabá",
+     "uf": "MT",
+     "forca": 47,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#f2c500",
+      "numero": "#006b3f"
+     }
+    },
+    {
+     "nome": "Novorizontino",
+     "uf": "SP",
+     "forca": 47,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#ffd200",
+      "numero": "#111111"
+     }
+    },
+    {
+     "nome": "Atlético-GO",
+     "uf": "GO",
+     "forca": 47,
+     "uniforme": {
+      "padrao": "horizontal",
+      "faixas": [
+       [
+        "#c8102e",
+        7
+       ],
+       [
+        "#111111",
+        7
+       ]
+      ],
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Avaí",
+     "uf": "SC",
+     "forca": 46,
+     "uniforme": {
+      "padrao": "vertical",
+      "faixas": [
+       [
+        "#1b4f9c",
+        7
+       ],
+       [
+        "#ffffff",
+        7
+       ]
+      ],
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "CRB",
+     "uf": "AL",
+     "forca": 45,
+     "uniforme": {
+      "padrao": "horizontal",
+      "faixas": [
+       [
+        "#e30613",
+        7
+       ],
+       [
+        "#ffffff",
+        7
+       ]
+      ],
+      "numero": "#111111"
+     }
+    },
+    {
+     "nome": "Vila Nova",
+     "uf": "GO",
+     "forca": 45,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#c8102e",
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Operário-PR",
+     "uf": "PR",
+     "forca": 45,
+     "uniforme": {
+      "padrao": "vertical",
+      "faixas": [
+       [
+        "#111111",
+        7
+       ],
+       [
+        "#ffffff",
+        7
+       ]
+      ],
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Ponte Preta",
+     "uf": "SP",
+     "forca": 45,
+     "uniforme": {
+      "padrao": "faixa-peito",
+      "base": "#ffffff",
+      "faixas": [
+       [
+        "#111111",
+        8
+       ]
+      ],
+      "inicio": 56,
+      "numero": "#111111"
+     }
+    },
+    {
+     "nome": "Náutico",
+     "uf": "PE",
+     "forca": 44,
+     "uniforme": {
+      "padrao": "vertical",
+      "faixas": [
+       [
+        "#c8102e",
+        7
+       ],
+       [
+        "#ffffff",
+        7
+       ]
+      ],
+      "numero": "#111111"
+     }
+    },
+    {
+     "nome": "Botafogo-SP",
+     "uf": "SP",
+     "forca": 44,
+     "uniforme": {
+      "padrao": "vertical",
+      "faixas": [
+       [
+        "#c8102e",
+        7
+       ],
+       [
+        "#ffffff",
+        7
+       ]
+      ],
+      "numero": "#111111"
+     }
+    },
+    {
+     "nome": "Londrina",
+     "uf": "PR",
+     "forca": 44,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#29a8e0",
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Athletic",
+     "uf": "MG",
+     "forca": 43,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#111111",
+      "numero": "#f5c400"
+     }
+    },
+    {
+     "nome": "São Bernardo",
+     "uf": "SP",
+     "forca": 43,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#f5c400",
+      "numero": "#111111"
+     }
+    }
+   ]
+  },
+  {
+   "id": "C",
+   "nome": "Série C",
+   "clubes": [
+    {
+     "nome": "Paysandu",
+     "uf": "PA",
+     "forca": 44,
+     "uniforme": {
+      "padrao": "vertical",
+      "faixas": [
+       [
+        "#5bb4e5",
+        7
+       ],
+       [
+        "#ffffff",
+        7
+       ]
+      ],
+      "numero": "#111111"
+     }
+    },
+    {
+     "nome": "Amazonas",
+     "uf": "AM",
+     "forca": 43,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#f5c400",
+      "numero": "#111111"
+     }
+    },
+    {
+     "nome": "Volta Redonda",
+     "uf": "RJ",
+     "forca": 42,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#f5c400",
+      "numero": "#111111"
+     }
+    },
+    {
+     "nome": "Ferroviária",
+     "uf": "SP",
+     "forca": 42,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#8b1a2b",
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Guarani",
+     "uf": "SP",
+     "forca": 43,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#00843d",
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Figueirense",
+     "uf": "SC",
+     "forca": 42,
+     "uniforme": {
+      "padrao": "vertical",
+      "faixas": [
+       [
+        "#111111",
+        7
+       ],
+       [
+        "#ffffff",
+        7
+       ]
+      ],
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Santa Cruz",
+     "uf": "PE",
+     "forca": 42,
+     "uniforme": {
+      "padrao": "horizontal",
+      "faixas": [
+       [
+        "#c8102e",
+        5
+       ],
+       [
+        "#111111",
+        5
+       ]
+      ],
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Brusque",
+     "uf": "SC",
+     "forca": 41,
+     "uniforme": {
+      "padrao": "horizontal",
+      "faixas": [
+       [
+        "#f5c400",
+        7
+       ],
+       [
+        "#00843d",
+        7
+       ]
+      ],
+      "numero": "#111111"
+     }
+    },
+    {
+     "nome": "Caxias",
+     "uf": "RS",
+     "forca": 41,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#8b1a2b",
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Ypiranga-RS",
+     "uf": "RS",
+     "forca": 40,
+     "uniforme": {
+      "padrao": "vertical",
+      "faixas": [
+       [
+        "#f5c400",
+        7
+       ],
+       [
+        "#00843d",
+        7
+       ]
+      ],
+      "numero": "#111111"
+     }
+    },
+    {
+     "nome": "Confiança",
+     "uf": "SE",
+     "forca": 40,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#1b4f9c",
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Botafogo-PB",
+     "uf": "PB",
+     "forca": 40,
+     "uniforme": {
+      "padrao": "vertical",
+      "faixas": [
+       [
+        "#111111",
+        7
+       ],
+       [
+        "#ffffff",
+        7
+       ]
+      ],
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "ABC",
+     "uf": "RN",
+     "forca": 41,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#ffffff",
+      "numero": "#111111"
+     }
+    },
+    {
+     "nome": "Floresta",
+     "uf": "CE",
+     "forca": 39,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#00843d",
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Itabaiana",
+     "uf": "SE",
+     "forca": 39,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#1b4f9c",
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Maringá",
+     "uf": "PR",
+     "forca": 40,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#1b4f9c",
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Anápolis",
+     "uf": "GO",
+     "forca": 39,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#c8102e",
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Barra-SC",
+     "uf": "SC",
+     "forca": 39,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#ffffff",
+      "numero": "#1b4f9c"
+     }
+    },
+    {
+     "nome": "Inter de Limeira",
+     "uf": "SP",
+     "forca": 40,
+     "uniforme": {
+      "padrao": "vertical",
+      "faixas": [
+       [
+        "#111111",
+        7
+       ],
+       [
+        "#ffffff",
+        7
+       ]
+      ],
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Tombense",
+     "uf": "MG",
+     "forca": 40,
+     "uniforme": {
+      "padrao": "horizontal",
+      "faixas": [
+       [
+        "#c8102e",
+        7
+       ],
+       [
+        "#ffffff",
+        7
+       ]
+      ],
+      "numero": "#111111"
+     }
+    }
+   ]
+  },
+  {
+   "id": "D",
+   "nome": "Série D",
+   "clubes": [
+    {
+     "nome": "Portuguesa",
+     "uf": "SP",
+     "forca": 40,
+     "uniforme": {
+      "padrao": "faixa-peito",
+      "base": "#c8102e",
+      "faixas": [
+       [
+        "#00843d",
+        6
+       ]
+      ],
+      "inicio": 56,
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "CSA",
+     "uf": "AL",
+     "forca": 40,
+     "uniforme": {
+      "padrao": "horizontal",
+      "faixas": [
+       [
+        "#1b4f9c",
+        7
+       ],
+       [
+        "#ffffff",
+        7
+       ]
+      ],
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Sampaio Corrêa",
+     "uf": "MA",
+     "forca": 39,
+     "uniforme": {
+      "padrao": "vertical",
+      "faixas": [
+       [
+        "#c8102e",
+        7
+       ],
+       [
+        "#f5c400",
+        7
+       ]
+      ],
+      "numero": "#111111"
+     }
+    },
+    {
+     "nome": "Joinville",
+     "uf": "SC",
+     "forca": 39,
+     "uniforme": {
+      "padrao": "vertical",
+      "faixas": [
+       [
+        "#c8102e",
+        7
+       ],
+       [
+        "#111111",
+        7
+       ]
+      ],
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Brasil de Pelotas",
+     "uf": "RS",
+     "forca": 38,
+     "uniforme": {
+      "padrao": "horizontal",
+      "faixas": [
+       [
+        "#c8102e",
+        7
+       ],
+       [
+        "#111111",
+        7
+       ]
+      ],
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Treze",
+     "uf": "PB",
+     "forca": 37,
+     "uniforme": {
+      "padrao": "vertical",
+      "faixas": [
+       [
+        "#111111",
+        7
+       ],
+       [
+        "#ffffff",
+        7
+       ]
+      ],
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Campinense",
+     "uf": "PB",
+     "forca": 37,
+     "uniforme": {
+      "padrao": "vertical",
+      "faixas": [
+       [
+        "#c8102e",
+        7
+       ],
+       [
+        "#111111",
+        7
+       ]
+      ],
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "América-RN",
+     "uf": "RN",
+     "forca": 38,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#c8102e",
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Ferroviário",
+     "uf": "CE",
+     "forca": 37,
+     "uniforme": {
+      "padrao": "horizontal",
+      "faixas": [
+       [
+        "#111111",
+        7
+       ],
+       [
+        "#1b4f9c",
+        7
+       ]
+      ],
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Manaus",
+     "uf": "AM",
+     "forca": 36,
+     "uniforme": {
+      "padrao": "horizontal",
+      "faixas": [
+       [
+        "#00843d",
+        7
+       ],
+       [
+        "#f5c400",
+        7
+       ]
+      ],
+      "numero": "#111111"
+     }
+    },
+    {
+     "nome": "Madureira",
+     "uf": "RJ",
+     "forca": 36,
+     "uniforme": {
+      "padrao": "vertical",
+      "faixas": [
+       [
+        "#f5c400",
+        7
+       ],
+       [
+        "#1b4f9c",
+        7
+       ]
+      ],
+      "numero": "#111111"
+     }
+    },
+    {
+     "nome": "Nova Iguaçu",
+     "uf": "RJ",
+     "forca": 37,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#f58220",
+      "numero": "#111111"
+     }
+    },
+    {
+     "nome": "Juazeirense",
+     "uf": "BA",
+     "forca": 36,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#c8102e",
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Altos",
+     "uf": "PI",
+     "forca": 35,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#1b4f9c",
+      "numero": "#f5c400"
+     }
+    },
+    {
+     "nome": "Cianorte",
+     "uf": "PR",
+     "forca": 36,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#1b4f9c",
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "XV de Piracicaba",
+     "uf": "SP",
+     "forca": 37,
+     "uniforme": {
+      "padrao": "horizontal",
+      "faixas": [
+       [
+        "#111111",
+        7
+       ],
+       [
+        "#ffffff",
+        7
+       ]
+      ],
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Operário-MS",
+     "uf": "MS",
+     "forca": 35,
+     "uniforme": {
+      "padrao": "horizontal",
+      "faixas": [
+       [
+        "#111111",
+        7
+       ],
+       [
+        "#ffffff",
+        7
+       ]
+      ],
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "River-PI",
+     "uf": "PI",
+     "forca": 35,
+     "uniforme": {
+      "padrao": "vertical",
+      "faixas": [
+       [
+        "#c8102e",
+        7
+       ],
+       [
+        "#ffffff",
+        7
+       ]
+      ],
+      "numero": "#111111"
+     }
+    },
+    {
+     "nome": "Moto Club",
+     "uf": "MA",
+     "forca": 35,
+     "uniforme": {
+      "padrao": "vertical",
+      "faixas": [
+       [
+        "#c8102e",
+        7
+       ],
+       [
+        "#111111",
+        7
+       ]
+      ],
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Rio Branco-ES",
+     "uf": "ES",
+     "forca": 34,
+     "uniforme": {
+      "padrao": "vertical",
+      "faixas": [
+       [
+        "#111111",
+        7
+       ],
+       [
+        "#ffffff",
+        7
+       ]
+      ],
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Aparecidense",
+     "uf": "GO",
+     "forca": 36,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#00843d",
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Real Brasília",
+     "uf": "DF",
+     "forca": 34,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#ffffff",
+      "numero": "#c8102e"
+     }
+    },
+    {
+     "nome": "São José-RS",
+     "uf": "RS",
+     "forca": 35,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#1b4f9c",
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Tuna Luso",
+     "uf": "PA",
+     "forca": 34,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#00843d",
+      "numero": "#ffffff"
+     }
+    }
+   ]
+  }
+ ]
+}

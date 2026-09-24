@@ -492,6 +492,62 @@ function ligarInclinacao() {
   }, { passive: true });
 }
 
+// --- funcao de cada jogador (Draft e Carreira usam) ------------------------
+
+const NOME_FUNCAO = { GOL: "Goleiro", LAT: "Lateral", ZAG: "Zagueiro", VOL: "Volante", MC: "Meio-campo", MEI: "Meia", PON: "Ponta", CA: "Centroavante" };
+const FAMILIA = { GOL: ["G"], LAT: ["D"], ZAG: ["D"], VOL: ["M"], MC: ["M"], MEI: ["M"], PON: ["F", "M"], CA: ["F"] };
+
+// Funcao de cada jogador. Quem e titular sai de onde joga na escalacao base
+// (linha e lado); quem nao e, sai do perfil dos eixos. Chute honesto: os
+// dados nao tem posicao fina, so G/D/M/F.
+const FUNCAO = new Map();
+function inferirFuncoes(r) {
+  FUNCAO.clear();
+  for (const t of r.times) {
+    if (!t.escalacao_base) continue;
+    const porId = new Map(t.jogadores.map((j) => [j.player_id, j]));
+    const linhas = new Map();
+    for (const p of t.escalacao_base.posicoes) {
+      const k = Math.round(p.y * 100);
+      if (!linhas.has(k)) linhas.set(k, []);
+      linhas.get(k).push(p);
+    }
+    const ordem = [...linhas.keys()].sort((a, b) => a - b);
+    const nDefesa = ordem[1] !== undefined ? linhas.get(ordem[1]).length : 4;
+    ordem.forEach((k, idx) => {
+      const fila = linhas.get(k).sort((a, b) => a.x - b.x);
+      const n = fila.length;
+      fila.forEach((p, i) => {
+        const j = porId.get(p.player_id);
+        if (!j || FUNCAO.has(j)) return;
+        const extremo = n >= 3 && (i === 0 || i === n - 1);
+        let f;
+        if (j.posicao === "G") f = "GOL";
+        else if (j.posicao === "D") f = extremo && n >= 4 ? "LAT" : "ZAG";
+        else if (j.posicao === "M") {
+          if (extremo && n >= 4) f = idx === 2 && nDefesa === 3 ? "LAT" : "PON";
+          else if (p.y >= 0.6) f = extremo ? "PON" : "MEI";
+          else if (idx === 2 && n >= 3) f = i === Math.floor(n / 2) ? "VOL" : "MC";
+          else if (n <= 2 && p.y <= 0.4) f = "VOL";
+          else f = "MC";
+        } else f = extremo ? "PON" : "CA";
+        FUNCAO.set(j, f);
+      });
+    });
+  }
+  const e = (j, k) => (typeof j.eixos[k] === "number" ? j.eixos[k] : 50);
+  for (const j of r.indice.comNota) {
+    if (FUNCAO.has(j)) continue;
+    let f;
+    if (j.posicao === "G") f = "GOL";
+    // eixos do modelo v2: RIT (ritmo), FIN, PAS, DRI, DEF, FIS
+    else if (j.posicao === "D") f = e(j, "RIT") + e(j, "PAS") >= e(j, "DEF") + e(j, "FIS") ? "LAT" : "ZAG";
+    else if (j.posicao === "M") f = e(j, "DEF") >= Math.max(e(j, "PAS"), e(j, "FIN")) ? "VOL" : (e(j, "PAS") + e(j, "FIN")) / 2 >= 60 ? "MEI" : "MC";
+    else f = e(j, "DRI") + e(j, "RIT") >= e(j, "FIN") + e(j, "FIS") + 10 ? "PON" : "CA";
+    FUNCAO.set(j, f);
+  }
+}
+
 // --- lista sem nota e campinho -------------------------------------------
 
 function linhaSemNota(jogador) {
