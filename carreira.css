@@ -77,6 +77,7 @@
 .chip:disabled { opacity: 0.45; cursor: not-allowed; }
 
 /* --- 2. montagem da carta ----------------------------------------------------------- */
+.montagem-carta { width: 100%; }
 .montagem { display: grid; grid-template-columns: minmax(220px, 290px) minmax(0, 1fr); gap: 1.8rem; align-items: start; margin: 1rem 0 1.5rem; }
 .montagem-placar { display: flex; gap: 2rem; margin-bottom: 0.8rem; }
 .montagem-placar div { display: flex; align-items: baseline; gap: 0.4rem; }
@@ -209,7 +210,7 @@
   .criacao { grid-template-columns: 1fr; }
   .previas { max-width: 220px; margin: 0 auto; }
   .montagem { grid-template-columns: 1fr; }
-  .montagem-carta { max-width: 240px; margin: 0 auto; }
+  .montagem-carta { width: 100%; max-width: 240px; margin: 0 auto; }
   .atributo { grid-template-columns: 5.5rem minmax(40px, 1fr) 2rem 2rem 2.6rem; }
   .atributo-peso { display: none; }
   .painel-jogador { grid-template-columns: 1fr; }
