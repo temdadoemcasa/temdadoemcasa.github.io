@@ -124,7 +124,8 @@ Cada jogador pode trazer `numeros`, com o total da temporada no Brasileirão. To
 
 ```json
 "numeros": { "gols": 12, "assistencias": 5, "desarmes": 38, "interceptacoes": 21, "duelos_ganhos": 95,
-             "dribles_certos": 30, "grandes_chances_criadas": 7, "defesas": 64, "jogos_sem_sofrer": 9 }
+             "dribles_certos": 30, "grandes_chances_criadas": 7, "defesas": 64, "jogos_sem_sofrer": 9,
+             "passes_certos_pct": 88 }
 ```
 
-Na carta, o rodapé troca os minutos por: gols e assistências (meio e ataque), desarmes e interceptações (defesa), jogos sem sofrer gol e defesas (goleiro). Na ficha aparecem todos os que vierem. São totais calculados, nunca a base bruta.
+Na carta, o rodapé troca os minutos pelos dois números da função do jogador: gols e assistências (centroavante, ponta, meia e meio-campo), desarmes e % de passes certos (volante), desarmes e assistências (lateral), desarmes e interceptações (zagueiro), jogos sem sofrer gol e defesas (goleiro). Na ficha aparecem todos os que vierem. São totais calculados, nunca a base bruta.

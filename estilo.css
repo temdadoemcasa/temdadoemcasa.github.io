@@ -57,6 +57,99 @@ a { color: inherit; }
 
 main { max-width: 1180px; margin: 0 auto; padding: 0 clamp(1rem, 4vw, 3rem); }
 
+/* --- abertura: chamada pros minigames ------------------------------------- */
+
+.abertura { padding: clamp(2rem, 5vw, 3.5rem) 0 2.5rem; }
+.abertura-topo h1 { max-width: 20ch; }
+.abertura-topo .hero-texto { margin-top: 1rem; }
+.jogos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1rem, 2.5vw, 1.6rem); margin-top: clamp(1.6rem, 4vw, 2.4rem); }
+.jogo-card {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  overflow: hidden;
+  border-radius: 20px;
+  border: 1px solid var(--borda);
+  background: var(--fundo-cartao);
+  color: var(--texto);
+  text-decoration: none;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.jogo-card:hover { transform: translateY(-4px); border-color: var(--jogo-cor); box-shadow: 0 24px 50px rgba(0, 0, 0, 0.45); }
+.jogo-card:focus-visible { outline: 2px solid var(--jogo-cor); outline-offset: 4px; }
+.jogo-draft { --jogo-cor: var(--canal); }
+.jogo-carreira { --jogo-cor: #ff7d95; }
+.jogo-visual {
+  position: relative;
+  height: clamp(210px, 24vw, 270px);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 1.2rem 1rem 0;
+  overflow: hidden;
+  background:
+    radial-gradient(70% 90% at 50% 100%, color-mix(in srgb, var(--jogo-cor) 22%, transparent), transparent 70%),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.025) 0 1px, transparent 1px 42px),
+    var(--fundo-alto);
+  border-bottom: 1px solid var(--borda);
+}
+.jogo-draft .jogo-visual {
+  background:
+    radial-gradient(70% 90% at 50% 100%, rgba(200, 255, 0, 0.16), transparent 70%),
+    repeating-linear-gradient(180deg, #1f7a3b 0 18%, #1b6e35 18% 36%);
+}
+.jogo-textos { display: grid; align-content: start; gap: 0.5rem; padding: 1.3rem 1.4rem 1.5rem; }
+.jogo-textos h2 { margin: 0; font-family: var(--numeros); font-size: clamp(2rem, 4vw, 2.6rem); line-height: 1; text-transform: uppercase; }
+.jogo-textos p { margin: 0; color: var(--texto-fraco); max-width: 46ch; }
+.jogo-textos .jogo-papel { color: var(--jogo-cor); font-weight: 700; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; }
+.jogo-textos .botao { justify-self: start; margin-top: 0.6rem; }
+.jogo-carreira .botao-primario { background: #ff7d95; border-color: #ff7d95; }
+
+/* Draft: leque de tres cartas */
+.leque-carta { position: absolute; bottom: -22%; width: clamp(118px, 12vw, 150px); transition: transform 0.25s ease; }
+.leque-0 { transform: translateX(-72%) rotate(-11deg); }
+.leque-1 { transform: translateY(-6%); z-index: 2; }
+.leque-2 { transform: translateX(72%) rotate(11deg); }
+.jogo-card:hover .leque-0 { transform: translateX(-86%) rotate(-15deg); }
+.jogo-card:hover .leque-1 { transform: translateY(-12%); }
+.jogo-card:hover .leque-2 { transform: translateX(86%) rotate(15deg); }
+
+/* Carreira: a mesma carta em tres idades, subindo */
+.jogo-carreira .jogo-visual { gap: clamp(0.4rem, 1.5vw, 1rem); align-items: flex-end; }
+.evolucao-carta { position: relative; display: grid; justify-items: center; gap: 0.3rem; transition: transform 0.25s ease; }
+.evolucao-0 { width: clamp(78px, 8vw, 98px); margin-bottom: 0.4rem; opacity: 0.9; }
+.evolucao-1 { width: clamp(92px, 9.5vw, 116px); margin-bottom: 0.9rem; }
+.evolucao-2 { width: clamp(108px, 11vw, 136px); margin-bottom: 1.4rem; }
+.evolucao-rotulo { max-width: 100%; font-size: 0.68rem; font-weight: 700; color: var(--texto-fraco); white-space: nowrap; letter-spacing: 0.02em; }
+.evolucao-carta + .evolucao-carta::before {
+  content: "›"; position: absolute; left: calc(-0.2rem - clamp(0.2rem, 0.75vw, 0.5rem)); top: 38%;
+  transform: translateX(-50%); color: #ff7d95; font-size: 1.6rem; font-weight: 800;
+}
+.jogo-card:hover .evolucao-2 { transform: translateY(-6px); }
+
+.abertura-rodape { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem 1.6rem; margin-top: 1.6rem; }
+.abertura-rodape .hero-busca { margin: 0; flex: 1 1 22rem; }
+.abertura-links { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 1.4rem; font-size: 0.92rem; }
+.abertura-links a { color: var(--texto-fraco); }
+.abertura-links a:hover { color: var(--texto); }
+.abertura .link-envelope { margin: 0; color: var(--texto-fraco); font-weight: 500; }
+.abertura .link-envelope:hover { color: var(--canal); }
+
+/* a selecao desce pra logo depois da abertura */
+.secao-selecao { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); align-items: center; gap: clamp(1.5rem, 4vw, 3rem); }
+.secao-selecao h2 { margin-top: 0; }
+.selecao-textos { display: grid; gap: 0.8rem; justify-items: start; }
+
+@media (max-width: 760px) {
+  .jogos { grid-template-columns: 1fr; }
+  .jogo-visual { height: 220px; }
+  .leque-carta { width: 120px; }
+  .secao-selecao { grid-template-columns: 1fr; }
+  .abertura-rodape { flex-direction: column; align-items: stretch; }
+  .abertura-rodape .hero-busca { flex: none; }
+  .evolucao-rotulo { white-space: normal; text-align: center; font-size: 0.62rem; line-height: 1.2; }
+}
+
 /* --- hero ---------------------------------------------------------------- */
 
 .hero {
