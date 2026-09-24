@@ -1271,7 +1271,13 @@ function jogarTemporada({ decidir = true } = {}) {
     efe.aplicar(J.efeito, J);
     if (perdida) J.efeito.lesao = Math.max(1, J.efeito.lesao);
   }
-  const lesao = sortearLesao(J, rng);
+  let lesao;
+  if (J.lesaoPre !== undefined) {
+    const lp = J.lesaoPre;
+    J.lesaoPre = undefined;
+    if (lp && !lp.aplicada) aplicarLesao(J, lp.dados);
+    lesao = lp ? { nome: lp.dados.nome, jogos: lp.dados.jogos } : null;
+  } else lesao = sortearLesao(J, rng);
   const t = J.clube.tipo === "ext" ? temporadaNoExterior(J, J.ano, rng)
     : J.clube.divisao === "A" ? temporadaNoBrasil(J, J.ano, rng) : temporadaInferior(J, J.ano, rng);
   const f = funcaoDe(C.pos);
@@ -1367,16 +1373,23 @@ const temporadaPerdida = (J) => J.efeito.lesao >= 1;
 const minutosDe = (J, s) => (temporadaPerdida(J) ? 0 : limitar(fracaoDeMinutos(s) * (1 - J.efeito.lesao) + J.efeito.minutos, 0.02, 0.95));
 
 // lesao: todo ano tem risco (nos dois modos); corpo fraco e idade pesam
-function sortearLesao(J, rng) {
+function sortearLesaoDados(J, rng) {
   const fis = J.attrs.FIS ?? J.attrs.REF ?? 60;
   const risco = 0.13 + (J.idade >= 30 ? 0.06 : 0) + (J.idade >= 34 ? 0.06 : 0) + (fis < 55 ? 0.05 : 0) - (fis >= 75 ? 0.03 : 0);
   if (rng() >= risco) return null;
   const u = rng();
   const [nome, fora] = u < 0.55 ? ["Lesão muscular leve", 0.08] : u < 0.88 ? ["Entorse no tornozelo", 0.2] : ["Ruptura de ligamento", 0.45];
+  return { nome, fora, jogos: Math.round(fora * 38) };
+}
+function aplicarLesao(J, d) {
   // soma sem nunca reduzir o que ja estava acumulado (antes o teto de 0,7 cortava)
-  if (!temporadaPerdida(J)) J.efeito.lesao = Math.max(J.efeito.lesao, Math.min(0.9, J.efeito.lesao + fora));
-  if (fora >= 0.45) J.efeito.evolucao -= J.idade >= 28 ? 1.5 : 0.8;
-  return { nome, jogos: Math.round(fora * 38) };
+  if (!temporadaPerdida(J)) J.efeito.lesao = Math.max(J.efeito.lesao, Math.min(0.9, J.efeito.lesao + d.fora));
+  if (d.fora >= 0.45) J.efeito.evolucao -= J.idade >= 28 ? 1.5 : 0.8;
+}
+function sortearLesao(J, rng) {
+  const d = sortearLesaoDados(J, rng);
+  if (d) aplicarLesao(J, d);
+  return d && { nome: d.nome, jogos: d.jogos };
 }
 
 // atributo principal da posicao (o que mais pesa no OVR) e o da finalizacao/defesa
@@ -1556,6 +1569,16 @@ const DICA_FOCO = {
   DRI: "mais assistências e jogadas individuais", DEF: "ajuda sem a bola, marca menos gols", FIS: "aguenta mais jogos e se machuca menos",
   REF: "defesas difíceis", EVI: "pega mais chutes", MAO: "segura mais bolas", PES: "sai jogando com os pés", SAI: "domina a área",
 };
+// o foco rende ja no ano (alem dos pontos de atributo no fim da temporada)
+function aplicarFoco(J, k) {
+  const e = J.efeito;
+  if (k === "FIN") e.gol += 0.12;
+  else if (k === "RIT") { e.gol += 0.07; e.assist += 0.03; }
+  else if (k === "PAS") e.assist += 0.15;
+  else if (k === "DRI") { e.assist += 0.1; e.gol += 0.03; }
+  else if (k === "FIS") { e.lesao = Math.max(0, e.lesao - 0.03); e.minutos += 0.03; }
+  else e.nota += 0.12; // DEF e os de goleiro: aparece na nota
+}
 function eventoDeTreino(J, rng) {
   const f = funcaoDe(C.pos);
   const ordem = Object.entries(PESOS[f]).sort((a, b) => b[1] - a[1]).map(([k]) => k);
@@ -1570,7 +1593,7 @@ function eventoDeTreino(J, rng) {
     texto: () => "O preparador quer saber onde você vai colocar a energia neste ano.",
     opcoes: opcoes.map((k) => ({
       rotulo: `${rotuloAttr(k)} (${J.attrs[k]})`, dica: DICA_FOCO[k],
-      sempre: (JJ) => { JJ.foco = k; if (k === "FIS") JJ.efeito.lesao = Math.max(0, JJ.efeito.lesao - 0.03); return `Pré-temporada focada em ${rotuloAttr(k).toLowerCase()}: ${DICA_FOCO[k]}.`; },
+      sempre: (JJ) => { JJ.foco = k; aplicarFoco(JJ, k); return `Pré-temporada focada em ${rotuloAttr(k).toLowerCase()}: ${DICA_FOCO[k]}.`; },
     })),
   };
 }
@@ -1799,7 +1822,7 @@ function proximaTemporada() {
 
 function simularCarreira() {
   // no completo, o resto da carreira vai no automatico (propostas abertas: fica)
-  C.eventos = null; C.ofertasAbertas = null; $("mercado").hidden = true;
+  C.eventos = null; C.ofertasAbertas = null; C.rolagem = null; $("mercado").hidden = true; $("proxima").hidden = false;
   let linha;
   while (!C.J.aposentado) linha = jogarTemporada();
   mostrarLinha(linha);
@@ -1811,34 +1834,203 @@ function simularCarreira() {
 
 // --- tela do modo completo -------------------------------------------------------------
 
-function mostrarEvento(i) {
+// A temporada rola numa linha do tempo enquanto as decisoes aparecem. Os
+// numeros de cima sao a projecao do ano (mesma conta da simulacao, sem o
+// sorteio): cada decisao, lesao ou foco mexe neles na hora, com a diferenca
+// na tela. No fim o ano e jogado de verdade e o resultado substitui a projecao.
+const MESES_BR = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
+const MESES_EU = ["Ago", "Set", "Out", "Nov", "Dez", "Jan", "Fev", "Mar", "Abr", "Mai"];
+const JOGOS_POR_DIVISAO = { A: 50, B: 40, C: 22, D: 16 };
+const esperar = (ms) => new Promise((ok) => setTimeout(ok, movimentoReduzido ? Math.min(ms, 150) : ms));
+
+function jogosDoAno(J) {
+  return J.clube.tipo === "ext" ? 44 : JOGOS_POR_DIVISAO[J.clube.divisao] || 38;
+}
+
+function projecao(Jreal) {
+  const J = Object.create(Jreal);
+  J.efeito = { ...Jreal.efeito };
+  if (Jreal.historia) Historia.aplicarReputacao({ efeito: J.efeito, historia: Jreal.historia });
+  const s = chanceDeTitular(J.ovr, J.clube.nivel, J.idade);
+  const p = minutosDe(J, s);
+  const G = jogosDoAno(J);
+  const jogos = Math.round(G * p);
+  const nivelLiga = (J.clube.nivel ?? 65) - 1;
+  const r = ritmoDoJogador(J, nivelLiga);
+  const noventa = jogos * (0.7 + 0.3 * s);
+  const gols = r.gol * noventa * (1 + (J.efeito.gol || 0)), assist = r.assist * noventa * (1 + (J.efeito.assist || 0));
+  const contrib = jogos ? (gols + assist * 0.6) / jogos : 0;
+  const nota = limitar(6.55 + Math.tanh((J.ovr - nivelLiga) / 12) * 1.3 + contrib * 0.9 + J.efeito.nota, 5.4, 9.3);
+  const prox = J.idade + 1;
+  let d;
+  if (prox <= J.idadePico) d = (trajetoria(J, prox) - J.ovr) * 0.8 * limitar(0.5 + 0.6 * p, 0.5, 1) + J.efeito.evolucao;
+  else d = Math.min(0.5, ([0, -0.4, -0.9, -1.5, -2.1, -2.8][prox - J.idadePico] ?? -3.4) + J.efeito.queda + J.efeito.evolucao * 0.5);
+  let ovr = limitar(Math.round(J.ovr + limitar(d, -6, 8)), 40, J.tetoOvr ?? 95);
+  if (prox <= J.idadePico) ovr = Math.min(ovr, Math.max(J.ovr, J.potencial + Math.max(0, Math.round(J.efeito.evolucao))));
+  return { jogos: G * p, gols, assist, nota, ovr, vitrine: J.efeito.vitrine, G };
+}
+
+const ITENS_PROJECAO = [
+  ["jogos", "Jogos"], ["gols", "Gols"], ["assist", "Assist."], ["nota", "Nota"], ["ovr", "OVR fim"], ["vitrine", "Vitrine"],
+];
+const fmtProj = (k, v) => (k === "nota" ? v.toFixed(1).replace(".", ",") : k === "vitrine" ? (v > 0 ? `+${v.toFixed(1)}` : v.toFixed(1)).replace(".", ",") : String(Math.round(v)));
+// diferenca: inteira quando da, com uma casa quando e pequena (foco de treino num garoto de 16 anos mexe pouco)
+const fmtDif = (k, d) => {
+  const a = Math.abs(d);
+  const txt = k === "nota" || k === "vitrine" || a < 0.95 ? a.toFixed(1).replace(".", ",") : String(Math.round(a));
+  return `${d > 0 ? "+" : "−"}${txt}`;
+};
+
+function iniciarRolagem() {
   const J = C.J;
-  const ev = C.eventos[i];
+  const R = { id: Symbol("rolagem"), prog: 0, eventos: C.eventos, i: 0 };
+  C.rolagem = R;
+  $("proxima").hidden = true;
+  const ext = J.clube.tipo === "ext";
+  R.meses = ext ? MESES_EU : MESES_BR;
+  // onde cada decisao cai no ano: o foco na pre-temporada, o resto espalhado
+  const resto = R.eventos.filter((e) => e.id !== "foco").length;
+  let j = 0;
+  R.pontos = R.eventos.map((e) => (e.id === "foco" ? 0.02 : 0.22 + (j++ + 0.5) * (0.66 / resto) + (C.rng() - 0.5) * 0.08));
+  // a lesao do ano (se vier) ja tem data marcada, mas so pesa quando chega
+  const les = sortearLesaoDados(J, C.rng);
+  J.lesaoPre = les ? { dados: les, pos: 0.1 + C.rng() * 0.8, aplicada: false } : null;
+
   const alvo = $("temporada-atual");
-  const palco = alvo.closest(".carreira-palco");
-  if (palco) palco.scrollTop = 0;
-  const cartao = el("div", `evento-cartao${ev.arco ? " evento-arco" : ""}${ev.consequencia ? " evento-consequencia" : ""}`);
+  alvo.replaceChildren();
+  alvo.append(el("p", "jogo-etapa", `Temporada ${J.ano} · ${J.idade} anos · ${J.clube.nome} (${J.clube.liga})`));
+  // linha do tempo
+  const linha = el("div", "rolagem");
+  const trilho = el("div", "rolagem-trilho");
+  R.barra = el("div", "rolagem-barra");
+  trilho.append(R.barra);
+  R.marcos = R.pontos.map((p) => { const m = el("span", "rolagem-marco"); m.style.left = `${p * 100}%`; trilho.append(m); return m; });
+  const meses = el("div", "rolagem-meses");
+  for (const m of R.meses) meses.append(el("span", null, m));
+  R.status = el("p", "rolagem-status", "Pré-temporada");
+  linha.append(trilho, meses, R.status);
+  // projecao
+  const proj = el("dl", "projecao");
+  R.celulas = {};
+  const goleiroAgora = goleiro();
+  for (const [k, rot] of ITENS_PROJECAO) {
+    if (goleiroAgora && k === "gols") continue;
+    const d = el("div", "projecao-item");
+    const dd = el("dd"), delta = el("span", "projecao-delta");
+    d.append(dd, el("dt", null, rot), delta);
+    proj.append(d);
+    R.celulas[k] = { dd, delta, box: d };
+  }
+  R.proj = projecao(J);
+  for (const [k, c] of Object.entries(R.celulas)) c.dd.textContent = fmtProj(k, R.proj[k]);
+  const legenda = el("p", "projecao-legenda", "Projeção do ano. Cada decisão mexe nesses números.");
+  R.log = el("ol", "rolagem-log");
+  R.caixa = el("div", "evento-caixa");
+  // linha do tempo e projecao ficam presas no topo do palco enquanto a decisao rola
+  R.topo = el("div", "rolagem-topo");
+  R.topo.append(alvo.firstChild, linha, proj, legenda);
+  alvo.append(R.topo, R.caixa, R.log);
+  rolarProximo(R);
+}
+
+const mesDe = (R, p) => R.meses[Math.min(R.meses.length - 1, Math.floor(p * R.meses.length))];
+const vivo = (R) => C.rolagem === R;
+
+function anotar(R, p, texto, classe = "") {
+  const li = el("li", classe);
+  li.append(el("b", null, mesDe(R, p)), el("span", null, texto));
+  R.log.prepend(li);
+}
+
+// recalcula a projecao e mostra o que mudou em cada numero
+function atualizarProjecao(R) {
+  const antes = R.proj;
+  R.proj = projecao(C.J);
+  for (const [k, c] of Object.entries(R.celulas)) {
+    const dif = R.proj[k] - antes[k];
+    c.dd.textContent = fmtProj(k, R.proj[k]);
+    const limiar = k === "ovr" ? 0.5 : 0.05;
+    c.box.classList.remove("mudou-sobe", "mudou-desce");
+    if (Math.abs(dif) < limiar) { c.delta.textContent = ""; continue; }
+    void c.box.offsetWidth; // reinicia a animacao
+    c.box.classList.add(dif > 0 ? "mudou-sobe" : "mudou-desce");
+    c.delta.textContent = fmtDif(k, dif);
+  }
+}
+
+// anda a barra ate o proximo ponto (a lesao no meio do caminho para a barra)
+function rolarAte(R, alvoProg) {
+  return new Promise((pronto) => {
+    const inicio = R.prog, dur = movimentoReduzido ? 120 : 400 + (alvoProg - inicio) * 2600;
+    const t0 = performance.now();
+    const passo = (agora) => {
+      if (!vivo(R)) return;
+      const x = Math.min(1, (agora - t0) / dur);
+      let p = inicio + (alvoProg - inicio) * x;
+      const lp = C.J.lesaoPre;
+      if (lp && !lp.aplicada && p >= lp.pos) {
+        p = lp.pos;
+        R.prog = p; desenharProgresso(R);
+        lp.aplicada = true;
+        aplicarLesao(C.J, lp.dados);
+        anotar(R, p, `${lp.dados.nome}: fora por uns ${lp.dados.jogos} jogos.`, "desce");
+        const m = el("span", "rolagem-marco rolagem-lesao"); m.style.left = `${p * 100}%`; R.barra.parentNode.append(m);
+        atualizarProjecao(R);
+        esperar(1300).then(() => rolarAte(R, alvoProg).then(pronto));
+        return;
+      }
+      R.prog = p; desenharProgresso(R);
+      if (x < 1) requestAnimationFrame(passo); else pronto();
+    };
+    requestAnimationFrame(passo);
+  });
+}
+
+function desenharProgresso(R) {
+  R.barra.style.width = `${R.prog * 100}%`;
+  const jogo = Math.max(1, Math.round(R.prog * R.proj.G));
+  R.status.textContent = R.prog < 0.03 ? "Pré-temporada" : R.prog >= 1 ? "Fim da temporada" : `${mesDe(R, R.prog)} · jogo ${jogo} de ~${R.proj.G}`;
+}
+
+async function rolarProximo(R) {
+  if (!vivo(R)) return;
+  if (R.i >= R.eventos.length) {
+    await rolarAte(R, 1);
+    if (!vivo(R)) return;
+    await esperar(600);
+    if (!vivo(R)) return;
+    C.rolagem = null;
+    fecharTemporadaCompleta();
+    return;
+  }
+  await rolarAte(R, R.pontos[R.i]);
+  if (!vivo(R)) return;
+  R.marcos[R.i].classList.add("ativo");
+  mostrarDecisao(R);
+}
+
+function mostrarDecisao(R) {
+  const J = C.J;
+  const ev = R.eventos[R.i];
+  const caixa = R.caixa;
+  caixa.className = `evento-caixa${ev.arco ? " evento-arco" : ""}${ev.consequencia ? " evento-consequencia" : ""}`;
   const selos = el("div", "evento-selos");
   if (ev.arco) selos.append(el("span", "evento-selo", ev.arco));
   if (ev.consequencia) selos.append(el("span", "evento-selo selo-volta", `↻ consequência de: ${ev.consequencia}`));
-  // cabecalho numa linha so: quando e onde a esquerda, o progresso a direita
-  const topo = el("header", "evento-topo");
-  const meta = el("p", "evento-meta");
-  meta.append(el("b", null, String(J.ano)), ` · ${J.idade} anos · `, el("span", "evento-clube", J.clube.nome));
-  const progresso = el("div", "evento-progresso");
-  progresso.setAttribute("aria-label", `Decisão ${i + 1} de ${C.eventos.length}`);
-  const pontos = el("span", "evento-pontos");
-  pontos.setAttribute("aria-hidden", "true");
-  for (let k = 0; k < C.eventos.length; k++) pontos.append(el("i", k < i ? "feito" : k === i ? "atual" : null));
-  progresso.append(el("span", "evento-passo", `Decisão ${i + 1}/${C.eventos.length}`), pontos);
-  topo.append(meta, progresso);
-  cartao.append(
-    topo,
+  caixa.replaceChildren(
+    el("p", "evento-cab", `Decisão ${R.i + 1} de ${R.eventos.length} · ${mesDe(R, R.prog)}`),
     ...(selos.childElementCount ? [selos] : []),
     el("h3", "temporada-titulo", ev.titulo),
     el("p", "evento-texto", ev.texto(J)),
   );
-  alvo.replaceChildren(cartao);
+  // o palco tem altura fixa no desktop: traz a decisao pra vista
+  const palco = caixa.closest(".carreira-palco");
+  if (palco && palco.scrollHeight > palco.clientHeight) requestAnimationFrame(() => {
+    const topo = palco.scrollTop + caixa.getBoundingClientRect().top - palco.getBoundingClientRect().top - R.topo.offsetHeight - 8;
+    palco.scrollTo({ top: Math.max(0, topo), behavior: movimentoReduzido ? "auto" : "smooth" });
+  });
+  caixa.classList.remove("saindo");
+  caixa.style.animation = "none"; void caixa.offsetWidth; caixa.style.animation = "";
   const ops = el("div", "evento-opcoes");
   for (const op of ev.opcoes) {
     const b = el("button", "botao evento-opcao");
@@ -1852,29 +2044,87 @@ function mostrarEvento(i) {
     }
     if (op.dica) b.append(el("small", null, op.dica));
     if (op.consequencia) b.append(el("small", "evento-aviso", "↻ isso vai ter consequência"));
-    b.addEventListener("click", () => {
+    b.addEventListener("click", async () => {
+      ops.querySelectorAll("button").forEach((x) => { x.disabled = true; });
+      const chance = op.chance ? op.chance(J) : null;
       const r = resolverOpcao(J, op, C.rng);
+      if (chance !== null) {
+        ops.replaceWith(roleta(chance, r.ok));
+        await esperar(movimentoReduzido ? 200 : 3400);
+        if (!vivo(R)) return;
+      } else ops.remove();
       J.efeito.textos.push({ titulo: ev.titulo, escolha: op.rotulo, texto: r.texto, ok: r.ok });
       Historia.registrar(J, ev, op, r);
-      // a cena seguinte do arco entra logo depois desta decisao
-      if (r.emSeguida) C.eventos.splice(i + 1, 0, r.emSeguida);
-      ops.remove();
-      cartao.append(el("p", "evento-escolha", `Você escolheu: ${op.rotulo}`));
-      cartao.append(el("p", `evento-resultado ${r.ok === true ? "sobe" : r.ok === false ? "desce" : ""}`, r.texto));
-      if (op.consequencia || r.emSeguida) cartao.append(el("p", "evento-lembra", r.emSeguida ? "A história continua…" : "Isso vai voltar."));
-      const seguir = el("button", "botao botao-primario", i + 1 < C.eventos.length ? "Próxima decisão" : "Jogar a temporada");
-      seguir.type = "button";
-      seguir.addEventListener("click", () => (i + 1 < C.eventos.length ? mostrarEvento(i + 1) : fecharTemporadaCompleta()));
-      alvo.append(seguir);
-      seguir.focus();
+      // a cena seguinte do arco entra logo depois, no mesmo mes
+      if (r.emSeguida) {
+        const prox = R.pontos[R.i + 1] ?? 1;
+        const ponto = Math.min(R.prog + 0.05, (R.prog + prox) / 2);
+        R.eventos.splice(R.i + 1, 0, r.emSeguida);
+        R.pontos.splice(R.i + 1, 0, ponto);
+        const m = el("span", "rolagem-marco"); m.style.left = `${ponto * 100}%`; R.barra.parentNode.append(m);
+        R.marcos.splice(R.i + 1, 0, m);
+      }
+      caixa.append(el("p", "evento-escolha", `Você escolheu: ${op.rotulo}`));
+      caixa.append(el("p", `evento-resultado ${r.ok === true ? "sobe" : r.ok === false ? "desce" : ""}`, r.texto));
+      if (op.consequencia || r.emSeguida) caixa.append(el("p", "evento-lembra", r.emSeguida ? "A história continua…" : "Isso vai voltar."));
+      anotar(R, R.prog, `${ev.titulo}: ${op.rotulo.toLowerCase()}.`, r.ok === true ? "sobe" : r.ok === false ? "desce" : "");
+      R.marcos[R.i].classList.add(r.ok === false ? "falhou" : "feito");
+      atualizarProjecao(R);
+      await esperar(2200);
+      if (!vivo(R)) return;
+      caixa.classList.add("saindo");
+      R.i += 1;
+      rolarProximo(R);
     });
     ops.append(b);
   }
-  cartao.append(ops);
+  caixa.append(ops);
+}
+
+// roleta: fatia verde do tamanho da chance, vermelha no resto. Gira e para
+// no lado que o dado ja decidiu (a porcentagem mostrada e a de verdade).
+function roleta(chance, ok) {
+  const caixa = el("div", "roleta");
+  const RAIO = 70, L = 2 * Math.PI * RAIO;
+  const roda = svg("g", { class: "roleta-roda" });
+  roda.append(
+    svg("circle", { cx: 100, cy: 100, r: RAIO, fill: "none", stroke: "#ff4d6d", "stroke-width": 44 }),
+    svg("circle", { cx: 100, cy: 100, r: RAIO, fill: "none", stroke: "#c8ff00", "stroke-width": 44,
+      "stroke-dasharray": `${chance * L} ${L}`, transform: "rotate(-90 100 100)" }),
+  );
+  // riscos pra dar a sensacao de giro
+  for (let k = 0; k < 24; k++) {
+    const a = (k / 24) * 2 * Math.PI;
+    roda.append(svg("line", { x1: 100 + Math.sin(a) * 48, y1: 100 - Math.cos(a) * 48, x2: 100 + Math.sin(a) * 52, y2: 100 - Math.cos(a) * 52, stroke: "rgba(0,0,0,0.35)", "stroke-width": 2 }));
+  }
+  const centro = svg("text", { x: 100, y: 106, "text-anchor": "middle", class: "roleta-centro" });
+  centro.textContent = `${Math.round(chance * 100)}%`;
+  const ponteiro = svg("path", { d: "M100 34 L90 12 L110 12 Z", class: "roleta-ponteiro" });
+  const desenho = svg("svg", { viewBox: "0 0 200 200", class: "roleta-svg", role: "img", "aria-label": `Roleta: ${Math.round(chance * 100)}% de dar certo` }, [roda, centro, ponteiro]);
+  const leg = el("p", "roleta-legenda");
+  leg.append(el("span", "roleta-ok", `Dá certo ${Math.round(chance * 100)}%`), el("span", "roleta-falha", `Dá errado ${100 - Math.round(chance * 100)}%`));
+  caixa.append(desenho, leg);
+  // angulo final (sentido horario a partir do topo) dentro da fatia certa
+  const verde = chance * 360;
+  const [ini, tam] = ok ? [0, verde] : [verde, 360 - verde];
+  const alvoAng = ini + tam * (0.12 + Math.random() * 0.76);
+  const voltas = movimentoReduzido ? 0 : 5;
+  const final = voltas * 360 + (360 - alvoAng);
+  roda.style.transformOrigin = "100px 100px";
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    roda.style.transition = movimentoReduzido ? "none" : "transform 3s cubic-bezier(0.12, 0.8, 0.18, 1)";
+    roda.style.transform = `rotate(${final}deg)`;
+  }));
+  setTimeout(() => {
+    caixa.classList.add(ok ? "deu-certo" : "deu-errado");
+    centro.textContent = ok ? "Deu certo" : "Deu errado";
+  }, movimentoReduzido ? 100 : 3100);
+  return caixa;
 }
 
 function fecharTemporadaCompleta() {
   C.eventos = null;
+  $("proxima").hidden = false;
   if (C.modo !== "completo") {
     const linha = jogarTemporada();
     mostrarLinha(linha);
@@ -2030,7 +2280,7 @@ function avancarCompleto() {
   $("mercado").hidden = true;
   $("proxima").disabled = true;
   C.eventos = sortearEventos(J, C.rng);
-  mostrarEvento(0);
+  iniciarRolagem();
 }
 
 // --- 5. aposentadoria --------------------------------------------------------------
