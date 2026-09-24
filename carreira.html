@@ -13,9 +13,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="estilo.css?v=2026-09-24b">
-  <link rel="stylesheet" href="draft.css?v=2026-09-24b">
-  <link rel="stylesheet" href="carreira.css?v=2026-09-24b">
+  <link rel="stylesheet" href="estilo.css?v=2026-09-24c">
+  <link rel="stylesheet" href="draft.css?v=2026-09-24c">
+  <link rel="stylesheet" href="carreira.css?v=2026-09-24c">
 </head>
 <body>
   <header class="topo">
@@ -82,7 +82,7 @@
         <span class="rotulo">Modo</span>
         <div class="chips" role="group" aria-label="Modo">
           <button class="chip" type="button" data-modo="rapido" aria-pressed="true">Rápido · o jogo decide</button>
-          <button class="chip" type="button" data-modo="completo" aria-pressed="false" disabled title="Em breve">Completo · você decide (em breve)</button>
+          <button class="chip" type="button" data-modo="completo" aria-pressed="false">Completo · você decide</button>
         </div>
       </div>
       <button class="botao botao-primario" id="confirmar-jogador" type="button">Montar a carta</button>
@@ -123,9 +123,10 @@
         <aside class="painel-jogador" id="painel-jogador"></aside>
         <div class="carreira-centro">
           <div class="jogo temporada-atual" id="temporada-atual" aria-live="polite"></div>
+          <section class="mercado" id="mercado" aria-live="polite" hidden></section>
           <div class="controles-jogo">
             <button class="botao botao-primario" id="proxima" type="button">Jogar a temporada</button>
-            <button class="botao" id="tudo" type="button">Simular a carreira toda</button>
+            <button class="botao" id="tudo" type="button">Simular o resto da carreira</button>
           </div>
           <div class="tabela-rolagem">
             <table class="tabela tabela-carreira">
@@ -152,8 +153,8 @@
     <a href="https://www.youtube.com/@temdadoemcasafc" target="_blank" rel="noopener">YouTube</a>
   </footer>
 
-  <script src="app.js?v=2026-09-24b"></script>
-  <script src="motor.js?v=2026-09-24b"></script>
-  <script src="carreira.js?v=2026-09-24b"></script>
+  <script src="app.js?v=2026-09-24c"></script>
+  <script src="motor.js?v=2026-09-24c"></script>
+  <script src="carreira.js?v=2026-09-24c"></script>
 </body>
 </html>

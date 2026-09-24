@@ -164,6 +164,56 @@ function camisaDeCostas(kit, nome, numero) {
   return s;
 }
 
+// --- tacas e premios em SVG (24x24): formato do trofeu + metal + fita da competicao --------
+
+const METAL = { ouro: "#f2c230", prata: "#d3dae2", bronze: "#c9844c" };
+const FORMAS = {
+  copa: (c, f) => `<path d="M7 3h10v4.2a5 5 0 0 1-10 0z" fill="${c}"/><path d="M7 4.6H4.8a2.4 2.4 0 0 0 2.9 4.3M17 4.6h2.2a2.4 2.4 0 0 1-2.9 4.3" fill="none" stroke="${c}" stroke-width="1.4"/><rect x="11" y="12" width="2" height="4" fill="${c}"/><rect x="8" y="15.8" width="8" height="2.4" rx="0.5" fill="${c}"/><rect x="7" y="18.4" width="10" height="2.8" rx="0.6" fill="${f}"/><path d="M9.2 4.4v3" stroke="#fff" stroke-opacity="0.55" stroke-width="1" stroke-linecap="round"/>`,
+  orelhas: (c, f) => `<path d="M8 3h8v4.5a4 4 0 0 1-8 0z" fill="${c}"/><path d="M8.2 4.2C2.2 2.6 2.4 12.4 9 11.2M15.8 4.2c6-1.6 5.8 8.2-.8 7" fill="none" stroke="${c}" stroke-width="1.7"/><rect x="11" y="11.4" width="2" height="4.6" fill="${c}"/><rect x="8" y="15.8" width="8" height="2.4" rx="0.5" fill="${c}"/><rect x="7" y="18.4" width="10" height="2.8" rx="0.6" fill="${f}"/>`,
+  alta: (c, f) => `<path d="M8.6 2h6.8v5.2a3.4 3.4 0 0 1-6.8 0z" fill="${c}"/><path d="M8.6 3.6H7a1.8 1.8 0 0 0 2 3.2M15.4 3.6H17a1.8 1.8 0 0 1-2 3.2" fill="none" stroke="${c}" stroke-width="1.1"/><path d="M11.2 10.4h1.6l.8 5.6h-3.2z" fill="${c}"/><rect x="8.5" y="15.8" width="7" height="2.4" rx="0.5" fill="${c}"/><rect x="7.5" y="18.4" width="9" height="2.8" rx="0.6" fill="${f}"/>`,
+  prato: (c, f) => `<circle cx="12" cy="11.5" r="9" fill="${c}"/><circle cx="12" cy="11.5" r="6.2" fill="none" stroke="#000" stroke-opacity="0.22" stroke-width="1.2"/><circle cx="12" cy="11.5" r="2.6" fill="${f}"/><path d="M6.5 7.5a7 7 0 0 1 4-3" stroke="#fff" stroke-opacity="0.55" stroke-width="1" fill="none" stroke-linecap="round"/>`,
+  globo: (c, f) => `<circle cx="12" cy="6.6" r="4.4" fill="${c}"/><path d="M7.8 6.6h8.4M12 2.4v8.4" stroke="#000" stroke-opacity="0.22" stroke-width="0.8"/><path d="M8.8 18c0-4 1.2-6.2 3.2-7.6 2 1.4 3.2 3.6 3.2 7.6z" fill="${c}"/><rect x="7.5" y="18.2" width="9" height="3" rx="0.6" fill="${f}"/>`,
+  bola: (c) => `<circle cx="12" cy="12" r="8.6" fill="${c}"/><polygon points="12,8.4 15.4,10.9 14.1,14.9 9.9,14.9 8.6,10.9" fill="#000" fill-opacity="0.28"/><path d="M12 8.4V3.6M15.4 10.9l4.3-1.6M14.1 14.9l2.7 3.8M9.9 14.9l-2.7 3.8M8.6 10.9L4.3 9.3" stroke="#000" stroke-opacity="0.25" stroke-width="0.9"/>`,
+  medalha: (c, f) => `<path d="M7.5 2h3.3l2.4 6.4H9.9zM16.5 2h-3.3l-2.4 6.4h3.3z" fill="${f}"/><circle cx="12" cy="14.6" r="6" fill="${c}"/><circle cx="12" cy="14.6" r="3.8" fill="none" stroke="#000" stroke-opacity="0.2" stroke-width="1"/>`,
+  luva: (c, f) => `<path d="M6.5 11V6.2a1.3 1.3 0 0 1 2.6 0V10V4.4a1.3 1.3 0 0 1 2.6 0V10V3.8a1.3 1.3 0 0 1 2.6 0V10V5a1.3 1.3 0 0 1 2.6 0v7.5a6 6 0 0 1-6 6h-.6a5 5 0 0 1-4.4-2.7L3.9 11.6a1.3 1.3 0 0 1 2.2-1.3z" fill="${c}"/><rect x="7.6" y="18.4" width="8.8" height="2.8" rx="0.6" fill="${f}"/>`,
+  chuteira: (c, f) => `<path d="M3 13.5c2.5 0 4.5-1 6-3.5l2.4 1.2c1.2.6 3 .8 4.6.8 2.4 0 5 1.3 5 3.5v1.5H3z" fill="${c}"/><path d="M3 17h18" stroke="${f}" stroke-width="2.2"/><path d="M6 19v1.5M10 19v1.5M14 19v1.5M18 19v1.5" stroke="${c}" stroke-width="1.2"/>`,
+};
+
+// competicao (inicio do nome) -> [forma, metal, fita]
+const TACAS = [
+  ["Brasileirão", "copa", "ouro", "#c8ff00"], ["Copa do Brasil", "copa", "ouro", "#1f8f4e"],
+  ["Libertadores", "alta", "prata", "#ff7d95"], ["Sul-Americana", "alta", "prata", "#5cc8ff"],
+  ["Série B", "copa", "prata", "#8b949e"], ["Série C", "copa", "bronze", "#8b949e"], ["Série D", "copa", "bronze", "#6e7681"],
+  ["Champions League", "orelhas", "prata", "#1b3a8f"], ["Champions da Ásia", "orelhas", "prata", "#0a7d6e"],
+  ["Mundial de Clubes", "globo", "ouro", "#c8102e"], ["Copa do Mundo", "globo", "ouro", "#1f8f4e"], ["Copa América", "alta", "prata", "#ffdf00"],
+  ["Premier League Russa", "copa", "prata", "#d52b1e"], ["Premier League", "copa", "ouro", "#6a2c91"], ["LaLiga", "copa", "prata", "#ee3124"],
+  ["Serie A (Itália)", "alta", "prata", "#0b5fbf"], ["Bundesliga", "prato", "prata", "#d20515"], ["Ligue 1", "alta", "prata", "#0b1e5b"],
+  ["Liga Portugal", "copa", "prata", "#0a6e3c"], ["Eredivisie", "prato", "prata", "#f36c21"], ["Liga Argentina", "copa", "prata", "#74acdf"],
+  ["Saudi Pro League", "copa", "ouro", "#0a7d3c"],
+  ["FA Cup", "copa", "prata", "#c8102e"], ["Copa do Rei", "copa", "prata", "#aa151b"], ["Coppa Italia", "copa", "prata", "#009246"],
+  ["DFB-Pokal", "alta", "prata", "#111111"], ["Copa da França", "alta", "prata", "#002395"], ["Taça de Portugal", "copa", "prata", "#006600"],
+  ["Copa da Holanda", "copa", "prata", "#21468b"], ["Copa Argentina", "copa", "prata", "#74acdf"], ["Copa do Rei Saudita", "copa", "ouro", "#0a7d3c"],
+  ["Copa da Rússia", "copa", "prata", "#0039a6"],
+];
+function formaDoPremio(nome) {
+  if (nome.startsWith("Bola de Ouro")) return ["bola", "ouro", "#f2c230"];
+  if (nome.startsWith("Luva de Ouro")) return ["luva", "ouro", "#f2c230"];
+  if (nome.startsWith("Artilheiro")) return ["chuteira", "ouro", "#111111"];
+  if (nome.startsWith("Craque")) return ["medalha", "ouro", "#c8ff00"];
+  if (nome.startsWith("Revelação")) return ["medalha", "prata", "#5cc8ff"];
+  return ["medalha", "prata", "#5cc8ff"];
+}
+
+// icone de uma taca (titulo) ou de um premio individual
+function taca(nome, { premio = false, tamanho = "" } = {}) {
+  const achado = premio ? formaDoPremio(nome) : (TACAS.find(([n]) => nome.startsWith(n)) || [null, "copa", "prata", "#8b949e"]).slice(1);
+  const [forma, metal, fita] = achado;
+  const s = el("span", `taca${tamanho ? ` taca-${tamanho}` : ""}`);
+  s.innerHTML = `<svg viewBox="0 0 24 24" aria-hidden="true">${FORMAS[forma](METAL[metal], fita)}</svg>`;
+  s.title = nome;
+  return s;
+}
+
 // --- 1. criacao ------------------------------------------------------------------------
 
 // Bandeiras desenhadas em SVG (30x20), simplificadas mas fieis nas cores e no desenho
@@ -439,9 +489,10 @@ function clubesDoMundo(J) {
   return lista;
 }
 
+// Meia a 5 estrelas numa escala so pro mundo todo: Serie D ~0,5-1,
+// C ~1-1,5, B ~1,5-2,5, Serie A ~2,5-4, elite europeia 4,5-5
 function estrelas(forca) {
-  // 1 a 5 estrelas pela forca na regua (50 fraco, 68 gigante)
-  return limitar(Math.round((forca - 49) / 3.8), 1, 5);
+  return limitar(Math.round((forca - 32) / 7 * 2) / 2, 0.5, 5);
 }
 
 // --- 3. propostas da base ----------------------------------------------------------
@@ -460,9 +511,9 @@ function propostasIniciais() {
 function linhaDeTitular(c, ovr, idade) {
   const s = chanceDeTitular(ovr, c.nivel, idade);
   const jogos = MIN_POR_TEMPORADA[c.divisao] || 38;
-  const min = Math.round(fracaoDeMinutos(s) * jogos * 90 / 50) * 50;
+  const esperados = Math.round(fracaoDeMinutos(s) * jogos);
   const quem = c.titular ? `${c.titular.nome} (${c.titular.overall})` : `nível ${Math.round(c.nivel)}`;
-  return { s, texto: `Titular hoje: ${quem}`, minutos: `~${min.toLocaleString("pt-BR")} min ${daLiga(c.liga).replace(/^d/, "n")}` };
+  return { s, texto: `Titular hoje: ${quem}`, minutos: `~${esperados} de ${jogos} jogos ${daLiga(c.liga).replace(/^d/, "n")}` };
 }
 
 function mostrarPropostasDaBase() {
@@ -473,15 +524,15 @@ function mostrarPropostasDaBase() {
   for (const c of propostasIniciais()) alvo.append(cartaoDeProposta(c, () => assinar(c, "base")));
 }
 
-function cartaoDeProposta(c, aoAssinar, { rotulo = "Assinar" } = {}) {
+function cartaoDeProposta(c, aoAssinar, { rotulo = "Assinar", extra = null } = {}) {
   const J = C.J;
   const card = el("article", "proposta");
   const camisa = el("span", "proposta-camisa");
   camisa.append(figura(timeParaCamisa(c), J.numero, { cabeca: false }));
   const est = el("span", "estrelas");
   const n = estrelas(c.forca);
-  for (let i = 0; i < 5; i++) est.append(el("i", i < n ? "cheia" : ""));
-  est.setAttribute("aria-label", `${n} de 5 estrelas`);
+  for (let i = 0; i < 5; i++) est.append(el("i", i + 1 <= n ? "cheia" : i + 0.5 === n ? "meia" : ""));
+  est.setAttribute("aria-label", `${String(n).replace(".", ",")} de 5 estrelas`);
   const t = linhaDeTitular(c, J.ovr, J.idade);
   const chance = el("div", "proposta-chance");
   const barra = el("i"); barra.style.width = `${Math.round(t.s * 100)}%`;
@@ -496,6 +547,12 @@ function cartaoDeProposta(c, aoAssinar, { rotulo = "Assinar" } = {}) {
     chance, el("p", "proposta-minutos", `Chance de ser titular: ${Math.round(t.s * 100)}% · ${c.tipo !== "ext" ? t.minutos : `nível do titular ~${Math.round(c.nivel)}`}`),
     botao,
   );
+  if (extra) {
+    const b2 = el("button", "botao", extra.rotulo);
+    b2.type = "button";
+    b2.addEventListener("click", () => extra.acao(card, b2));
+    card.append(b2);
+  }
   return card;
 }
 
@@ -550,7 +607,7 @@ function timeAbstrato(nome, forca, rng, ano) {
 // o clube do jogador: reforco dele e ele na lista de quem faz gol
 function prepararClube(clube, J, rng) {
   const s = chanceDeTitular(J.ovr, J.clube.nivel, J.idade);
-  const p = fracaoDeMinutos(s);
+  const p = minutosDe(J, s);
   reforcoDoJogador(clube, J, p, J.clube.nivel);
   clube.artilheiros = [{ nome: J.nome, peso: pesoDeGol(J) * p }, { nome: "__outro", peso: 5 }];
   return { s, p };
@@ -619,12 +676,15 @@ function temporadaNoBrasil(J, ano, rng) {
   regras.copa_do_brasil.convidados = regras.copa_do_brasil.convidados.map((c) => {
     if (!noA.has(c.nome)) return c;
     const n = reserva.shift();
+    if (!n) return c;
     return { nome: n, forca: forcaNoMundo(n), uniforme: C.inf.get(n)?.uniforme };
   });
   const times = { ...Motor.timesDeFora(regras), ...reais, ...subiram };
+  // clube que subiu ano passado e ja caiu ainda pode estar no grupo continental
+  for (const [nome, d] of C.inf) if (!times[nome]) times[nome] = { ...timeAbstrato(nome, d.forca, rng, ano), kit: d.uniforme };
   const clube = times[J.clube.id];
   const s = chanceDeTitular(J.ovr, J.clube.nivel, J.idade);
-  const p = fracaoDeMinutos(s);
+  const p = minutosDe(J, s);
   reforcoDoJogador(clube, J, p, J.clube.nivel);
   clube.artilheiros = [...(clube.artilheiros || []), { nome: J.nome, pos: POSICOES[C.pos].fam, peso: pesoDeGol(J) * p }];
   if (clube.artilheiros.length === 1) clube.artilheiros.push({ nome: "__outro", peso: 5 });
@@ -760,25 +820,40 @@ function temporadaNoExterior(J, ano, rng) {
 }
 
 // Selecao: convocado se o OVR passa o corte do pais e esta jogando
+// Selecao: convocado se o OVR passa o corte do pais e esta jogando no clube.
+// Ano de Copa do Mundo (2030, 2034...) ou Copa America (2028, 2032...) tem
+// torneio fase a fase, com gols, assistencias e premios proprios.
+const FASES_COPA = ["Fase de grupos", "Oitavas", "Quartas", "Semifinal", "Vice", "Campeão"];
 function temporadaNaSelecao(J, ano, rng, p) {
   const pais = paisDe(C.pais);
   if (J.ovr < pais.corte || p < 0.45) return null;
   const f = funcaoDe(C.pos);
-  const jogos = 4 + Math.floor(rng() * 6);
-  let gols = 0;
-  for (let i = 0; i < jogos; i++) if (rng() < TAXA_GOL[f] * 0.8 * ((J.attrs.FIN ?? 30) / 70)) gols++;
-  const r = { jogos, gols, titulos: [] };
-  // Copa do Mundo (2030, 2034...) e Copa America (2028, 2032...)
-  const torneio = ano % 4 === 2 && ano > ANO_INICIAL ? `Copa do Mundo ${ano}`
-    : ano % 4 === 0 && SUL_AMERICANOS.includes(pais.id) ? `Copa América ${ano}` : null;
-  if (torneio) {
-    const base = torneio.startsWith("Copa do Mundo") ? pais.copa : Math.min(0.45, pais.copa * 2.2);
-    const chance = base * (1 + (J.ovr - pais.corte) / 25);
-    r.torneio = torneio;
-    r.jogos += 5;
-    if (rng() < chance) { r.titulos.push(torneio); r.torneioRes = "Campeão"; }
-    else r.torneioRes = ["Fase de grupos", "Oitavas", "Quartas", "Semifinal", "Vice"][Math.floor(rng() * 5)];
-  }
+  const golPorJogo = TAXA_GOL[f] * 0.8 * ((J.attrs.FIN ?? 30) / 70);
+  const assistPorJogo = TAXA_ASSIST[f] * 0.7 * ((J.attrs.PAS ?? 30) / 70);
+  const r = { jogos: 4 + Math.floor(rng() * 6), gols: 0, assist: 0, titulos: [], premios: [] };
+  for (let i = 0; i < r.jogos; i++) { if (rng() < golPorJogo) r.gols++; if (rng() < assistPorJogo) r.assist++; }
+  if (!J.estreouSelecao) { r.estreia = true; J.estreouSelecao = ano; }
+  const copa = ano % 4 === 2 && ano > ANO_INICIAL;
+  const torneio = copa ? `Copa do Mundo ${ano}` : ano % 4 === 0 && SUL_AMERICANOS.includes(pais.id) ? `Copa América ${ano}` : null;
+  if (!torneio) return r;
+  // chance de titulo -> chance de passar cada fase (5 passagens ate a taca)
+  const base = copa ? pais.copa * 0.8 : Math.min(0.25, pais.copa * 1.4);
+  const titulo = limitar(base * (1 + (J.ovr - pais.corte) / 40), 0.002, 0.45);
+  const passa = Math.pow(titulo, 1 / 5);
+  let k = 0;
+  while (k < 5 && rng() < (k === 0 ? Math.max(passa, 0.7) : passa)) k++;
+  const tj = 3 + Math.min(k, 4);
+  let tg = 0, ta = 0;
+  for (let i = 0; i < tj; i++) { if (rng() < golPorJogo * 1.1) tg++; if (rng() < assistPorJogo) ta++; }
+  Object.assign(r, { torneio, torneioRes: FASES_COPA[k], torneioJogos: tj, torneioGols: tg, torneioAssist: ta });
+  r.jogos += tj; r.gols += tg; r.assist += ta;
+  if (k === 5) r.titulos.push(torneio);
+  const nome = torneio.replace(/ \d{4}$/, "");
+  const craque = k >= 4 && rng() < logistica((J.ovr - 92 + (k === 5 ? 1.5 : 0) + (tg + ta * 0.5 - 3) * 0.5) / 1.2);
+  if (craque) r.premios.push(`Craque da ${nome}`);
+  if (f !== "GOL" && tg >= Math.max(4, Math.round(5 + normal(rng, 1.2)))) r.premios.push(`Artilheiro da ${nome}`);
+  if (f === "GOL" && k >= 4 && J.ovr >= 82 && rng() < 0.5) r.premios.push(`Luva de Ouro da ${nome}`);
+  if (!craque && k >= 2 && rng() < logistica((J.ovr - 89.5 + k * 0.4) / 1.6)) r.premios.push(`Seleção da ${nome}`);
   return r;
 }
 
@@ -807,14 +882,14 @@ function evoluir(J, p, rng) {
   let delta;
   if (proxima <= J.idadePico) {
     const m = limitar(0.5 + 0.6 * p, 0.5, 1); // quem nao joga cresce menos (e recupera depois, em parte)
-    delta = (trajetoria(J, proxima) - J.ovr) * 0.8 * m + normal(rng, 0.8);
+    delta = (trajetoria(J, proxima) - J.ovr) * 0.8 * m + normal(rng, 0.8) + J.efeito.evolucao;
   } else {
     const k = proxima - J.idadePico; // anos depois do pico
     const queda = [0, -0.4, -0.9, -1.5, -2.1, -2.8][k] ?? -3.4;
-    delta = queda + normal(rng, 0.7);
+    delta = Math.min(0.5, queda + J.efeito.queda + J.efeito.evolucao * 0.5) + normal(rng, 0.7);
   }
   let alvo = limitar(Math.round(antes + limitar(delta, -6, 8)), 40, 97);
-  if (proxima <= J.idadePico) alvo = Math.min(alvo, Math.max(antes, J.potencial)); // nao passa do teto
+  if (proxima <= J.idadePico) alvo = Math.min(alvo, Math.max(antes, J.potencial + Math.max(0, Math.round(J.efeito.evolucao)))); // nao passa do teto
   const pesos = Object.entries(PESOS[f]).filter(([, w]) => w > 0);
   const mudou = {};
   // sobe (ou desce) atributo a atributo, puxado pelo peso da funcao, ate o OVR bater
@@ -878,7 +953,7 @@ function premiosDoAno(J, t, linha, rng) {
   linha.craqueDoJogo = motm;
 
   // Bola de Ouro (o mundo) e Craque da America
-  const tem = (nome) => linha.titulos.some((x) => x.startsWith(nome));
+  const tem = (nome) => [...linha.titulos, ...(linha.selecao ? linha.selecao.titulos : [])].some((x) => x.startsWith(nome));
   const base = J.ovr + (linha.nota - 7) * 2.5 + (premios.some((x) => x.startsWith("Artilheiro")) ? 1 : 0) + (t.campeaoLiga ? 0.4 * J.clube.prestigio : 0);
   if (t.p >= 0.5) {
     const mundo = base + (tem("Champions League") ? 3 : tem("Libertadores") ? 1.5 : 0) + (tem("Copa do Mundo") ? 4 : tem("Copa América") ? 1.2 : 0)
@@ -904,7 +979,7 @@ const degrau = (c) => (c.tipo === "ext" ? (c.continente === "europa" ? (c.presti
 
 function propostasDoAno(J, t, linha) {
   const atual = J.clube;
-  const vitrine = (linha.nota - 6.9) * 2.2 + linha.premios.length * 1.2 + (J.idade <= 21 ? 1 : 0);
+  const vitrine = (linha.nota - 6.9) * 2.2 + linha.premios.length * 1.2 + (J.idade <= 21 ? 1 : 0) + (linha.vitrineExtra || 0);
   const sorte = C.rng() < 0.08 ? 5 : 0; // o olheiro estava no jogo certo
   linha.olheiro = sorte > 0;
   const interessados = [];
@@ -931,7 +1006,11 @@ function propostasDoAno(J, t, linha) {
     const novinho = J.idade <= 17 && pulo > 0 ? 2.5 : 0;
     const salto = Math.max(0, c.prestigio - atual.prestigio - 0.8) * 3;
     const interesse = logistica((J.ovr - c.nivel + 2 + vitrine + sorte - salto - novinho) / 2.2);
-    if (C.rng() < interesse) interessados.push(c);
+    // o jogo e sobre o futebol brasileiro: fora da Europa, o exterior e excecao
+    // (a Argentina pesa normal so pra quem e argentino)
+    const peso = c.tipo !== "ext" || c.continente === "europa" ? 1
+      : c.ligaId === "arg" ? (C.pais === "ARG" ? 1 : 0.08) : c.continente === "asia" ? 0.5 : 0.35;
+    if (C.rng() < interesse * peso) interessados.push(c);
   }
   const escolhidas = [];
   while (escolhidas.length < 3 && interessados.length) {
@@ -948,8 +1027,9 @@ function decidirTransferencia(J, ofertas, rebaixado) {
   const nota = (c) => {
     const s = chanceDeTitular(J.ovr, c.nivel, J.idade);
     // Arabia e Russia pagam o que o Brasil nao paga: pesa pra quem ja passou dos 26
-    const salario = J.idade >= 26 && J.clube.continente !== "europa" ? ({ asia: 2.5, leste: 1.5 }[c.continente] || 0) : 0;
-    return c.forca + c.prestigio * 0.8 + s * pesoJogar - (s < 0.2 ? 5 : 0) + salario;
+    const salario = J.idade >= 26 && J.clube.continente !== "europa" ? ({ asia: 2, leste: 0.5 }[c.continente] || 0) : 0;
+    const emCasa = c.tipo !== "ext" && C.pais === "BRA" ? 3 : 0; // brasileiro prefere subir aqui dentro
+    return c.forca + c.prestigio * 0.8 + s * pesoJogar - (s < 0.2 ? 5 : 0) + salario + emCasa;
   };
   const atual = nota(J.clube) - (rebaixado ? 3 : 0);
   const melhor = [...ofertas].sort((a, b) => nota(b) - nota(a))[0];
@@ -958,9 +1038,10 @@ function decidirTransferencia(J, ofertas, rebaixado) {
 
 // --- avancar um ano --------------------------------------------------------------
 
-function jogarTemporada() {
+function jogarTemporada({ decidir = true } = {}) {
   const J = C.J;
   const rng = C.rng;
+  const lesao = sortearLesao(J, rng);
   const t = J.clube.tipo === "ext" ? temporadaNoExterior(J, J.ano, rng)
     : J.clube.divisao === "A" ? temporadaNoBrasil(J, J.ano, rng) : temporadaInferior(J, J.ano, rng);
   const f = funcaoDe(C.pos);
@@ -974,19 +1055,31 @@ function jogarTemporada() {
   const fam = POSICOES[C.pos].fam;
   const muralha = fam === "G" || fam === "D" ? (st.semSofrerLiga / Math.max(1, st.jogosLiga) - 0.3) * (fam === "G" ? 1.6 : 1.1) : 0;
   const contrib = (jogos ? (gols + assist * 0.6) / jogos : 0) + muralha;
-  const nota = limitar(6.55 + Math.tanh((J.ovr - t.nivelLiga) / 12) * 1.3 + contrib * 0.9 + normal(rng, 0.18), 5.4, 9.3);
+  const nota = limitar(6.55 + Math.tanh((J.ovr - t.nivelLiga) / 12) * 1.3 + contrib * 0.9 + J.efeito.nota + normal(rng, 0.18), 5.4, 9.3);
   const selecao = temporadaNaSelecao(J, J.ano, rng, t.p);
   const titulos = jogos >= 5 ? [...t.tituloNomes] : [];
-  if (selecao) titulos.push(...selecao.titulos);
+  // quem ganha o continental joga o Mundial de Clubes
+  const continental = titulos.find((x) => CONTINENTAIS.includes(x));
+  if (continental) {
+    const chance = { "Champions League": 0.6, Libertadores: 0.3, "Champions da Ásia": 0.06 }[continental];
+    const venceu = rng() < chance;
+    t.campanha.push({ comp: "Mundial de Clubes", res: venceu ? "Campeão" : rng() < 0.6 ? "Vice" : "Semifinal", campeao: venceu });
+    if (venceu) titulos.push("Mundial de Clubes");
+  }
   const linha = {
     ano: J.ano, idade: J.idade, clube: J.clube.nome, liga: J.clube.liga, kit: J.clube.kit || null,
     time: J.clube.time || null, ovr: J.ovr, attrs: { ...J.attrs }, jogos, gols, assist, nota,
     semSofrer: f === "GOL" ? Math.round(st.semSofrerLiga * t.p) : null,
     campanha: t.campanha, titulos, selecao, minutos: Math.round(jogos * 90 * (0.7 + 0.3 * t.s)), titular: t.s,
+    lesao, decisoes: J.efeito.textos, vitrineExtra: J.efeito.vitrine,
   };
   linha.premios = premiosDoAno(J, t, linha, rng);
   J.historico.push(linha);
-  J.titulos.push(...titulos.map((nome) => ({ nome, ano: J.ano, clube: nome.startsWith("Copa do Mundo") || nome.startsWith("Copa América") ? paisDe(C.pais).nome : J.clube.nome })));
+  J.titulos.push(...titulos.map((nome) => ({ nome, ano: J.ano, clube: J.clube.nome })));
+  if (selecao) {
+    J.titulos.push(...selecao.titulos.map((nome) => ({ nome, ano: J.ano, clube: paisDe(C.pais).nome, selecao: true })));
+    J.premios.push(...selecao.premios.map((nome) => ({ nome: `${nome} ${J.ano}`, ano: J.ano, clube: paisDe(C.pais).nome, selecao: true })));
+  }
   J.premios.push(...linha.premios.map((nome) => ({ nome, ano: J.ano, clube: J.clube.nome })));
   // acesso e queda do clube (so quando ele e brasileiro)
   if (J.clube.tipo !== "ext") {
@@ -1007,18 +1100,209 @@ function jogarTemporada() {
   const folga = J.idade - (J.idadePico + 4); // uns quatro anos depois do pico ja da pra pensar em parar
   const chanceParar = J.idade >= (f === "GOL" ? 42 : 40) ? 1
     : (folga >= 0 ? 0.12 + folga * 0.15 : 0) + (J.idade >= 30 && J.ovr < 64 ? 0.3 : 0) + (J.idade >= 33 && J.ovr < 70 ? 0.15 : 0);
+  J.efeito = efeitoZerado();
   if (rng() < chanceParar) { J.aposentado = true; linha.fim = "Pendurou as chuteiras"; return linha; }
   // clube atual com a divisao e o titular de agora
   J.clube = clubesDoMundo(J).find((c) => c.id === J.clube.id) || J.clube;
   const ofertas = propostasDoAno(J, t, linha);
   linha.ofertas = ofertas.map((c) => c.nome);
-  const destino = decidirTransferencia(J, ofertas, t.rebaixado);
   if (t.rebaixado) linha.rebaixado = true;
+  // modo completo: quem escolhe e voce (a tela de mercado resolve)
+  if (!decidir) { C.ofertasAbertas = ofertas; return linha; }
+  const destino = decidirTransferencia(J, ofertas, t.rebaixado);
   if (destino) {
     linha.transferencia = { para: destino.nome, liga: destino.liga, valor: J.valor };
     assinar(destino, "mercado");
   }
   return linha;
+}
+
+// --- modo completo: o que acontece durante a temporada -------------------------------
+
+// Efeitos que valem por uma temporada: minutos (fracao a mais ou a menos),
+// nota, vitrine pro mercado, lesao (fracao da temporada fora), evolucao
+// (pontos de OVR a mais no fim do ano) e queda (freia o declinio do veterano).
+const efeitoZerado = () => ({ minutos: 0, nota: 0, vitrine: 0, lesao: 0, evolucao: 0, queda: 0, textos: [] });
+const minutosDe = (J, s) => limitar(fracaoDeMinutos(s) * (1 - J.efeito.lesao) + J.efeito.minutos, 0.02, 0.95);
+
+// lesao: todo ano tem risco (nos dois modos); corpo fraco e idade pesam
+function sortearLesao(J, rng) {
+  const fis = J.attrs.FIS ?? J.attrs.REF ?? 60;
+  const risco = 0.13 + (J.idade >= 30 ? 0.06 : 0) + (J.idade >= 34 ? 0.06 : 0) + (fis < 55 ? 0.05 : 0) - (fis >= 75 ? 0.03 : 0);
+  if (rng() >= risco) return null;
+  const u = rng();
+  const [nome, fora] = u < 0.55 ? ["Lesão muscular leve", 0.08] : u < 0.88 ? ["Entorse no tornozelo", 0.2] : ["Ruptura de ligamento", 0.45];
+  J.efeito.lesao = Math.min(0.7, J.efeito.lesao + fora);
+  if (fora >= 0.45) J.efeito.evolucao -= J.idade >= 28 ? 1.5 : 0.8;
+  return { nome, jogos: Math.round(fora * 38) };
+}
+
+// atributo principal da posicao (o que mais pesa no OVR) e o da finalizacao/defesa
+const atributoChave = () => Object.entries(PESOS[funcaoDe(C.pos)]).sort((a, b) => b[1] - a[1])[0][0];
+const chanceAttr = (J, k, centro = 62, escala = 9) => limitar(logistica(((J.attrs[k] ?? 50) - centro) / escala), 0.12, 0.92);
+const goleiro = () => funcaoDe(C.pos) === "GOL";
+const rotuloAttr = (k) => ({ ...ROTULOS_LINHA, ...Object.fromEntries(EIXOS_GOLEIRO.map(([c, s]) => [c, C.r.eixos[c] || s])) })[k] || k;
+
+// Cada evento: quando pode aparecer, o texto e as opcoes. Opcao com "chance"
+// mostra a porcentagem no botao e resolve pelo dado; sem chance e certeza.
+const EVENTOS = [
+  {
+    id: "treino", quando: () => true,
+    titulo: "Treino acabou, campo vazio",
+    texto: (J) => `Sobrou gramado e bola. Dá pra ficar trabalhando ${rotuloAttr(atributoChave()).toLowerCase()} mais uma hora.`,
+    opcoes: [
+      { rotulo: "Fica treinando", chance: () => 0.75,
+        ok: (J) => { J.efeito.evolucao += 1; return "O trabalho extra apareceu: +1 de evolução no fim do ano."; },
+        falha: (J) => { J.efeito.lesao += 0.08; return "Sobrecarga. Sentiu a posterior e ficou umas semanas fora."; } },
+      { rotulo: "Vai descansar", sempre: () => "Corpo inteiro pra próxima semana. Nada muda." },
+    ],
+  },
+  {
+    id: "dor", quando: () => true,
+    titulo: "Jogo grande e uma dor na coxa",
+    texto: () => "O departamento médico libera se você quiser. O técnico deixa a decisão com você.",
+    opcoes: [
+      { rotulo: "Joga no sacrifício", chance: (J) => chanceAttr(J, goleiro() ? "REF" : "FIS", 50, 10),
+        ok: (J) => { J.efeito.nota += 0.25; J.efeito.vitrine += 1.5; return "Aguentou os 90 e foi dos melhores em campo. A torcida não esquece."; },
+        falha: (J) => { J.efeito.lesao += 0.22; return "A coxa não aguentou. Saiu no primeiro tempo e perdeu uns dois meses."; } },
+      { rotulo: "Fica de fora", sempre: (J) => { J.efeito.minutos -= 0.02; return "Assistiu do banco. Perdeu um jogo, ganhou saúde."; } },
+    ],
+  },
+  {
+    id: "penalti", quando: () => !goleiro(),
+    titulo: "Pênalti aos 47 do segundo tempo",
+    texto: () => "Empate no placar, estádio cheio. O batedor oficial olha pra você.",
+    opcoes: [
+      { rotulo: "Bato eu", chance: (J) => limitar(0.5 + ((J.attrs.FIN ?? 50) - 55) / 80, 0.35, 0.9),
+        ok: (J) => { J.efeito.vitrine += 2; J.efeito.nota += 0.15; return "Bola num canto, goleiro no outro. Virou o nome do jogo."; },
+        falha: (J) => { J.efeito.vitrine -= 1; J.efeito.nota -= 0.15; return "Isolou. A semana foi longa."; } },
+      { rotulo: "Deixo pro batedor", sempre: () => "Ele bateu, fez, e você correu pra abraçar. Vida que segue." },
+    ],
+  },
+  {
+    id: "penalti-gol", quando: () => goleiro(),
+    titulo: "Pênalti contra no último lance",
+    texto: () => "Um gol decide o jogo. O batedor deles ajeita a bola.",
+    opcoes: [
+      { rotulo: "Espera até o último instante", chance: (J) => limitar(0.2 + ((J.attrs.REF ?? 50) - 55) / 90, 0.15, 0.5),
+        ok: (J) => { J.efeito.vitrine += 2.5; J.efeito.nota += 0.2; return "Defendeu. Saiu carregado pelos companheiros."; },
+        falha: () => "Ele bateu no canto. Não tinha o que fazer." },
+      { rotulo: "Escolhe um canto e vai", chance: () => 0.24,
+        ok: (J) => { J.efeito.vitrine += 2.5; J.efeito.nota += 0.2; return "Chutou pro lado que você escolheu. Defesa e festa."; },
+        falha: () => "Foi pro outro lado. Faz parte." },
+    ],
+  },
+  {
+    id: "festa", quando: (J) => J.idade <= 30,
+    titulo: "Aniversário de um companheiro, véspera de jogo",
+    texto: () => "O elenco inteiro vai. Folga só depois de amanhã.",
+    opcoes: [
+      { rotulo: "Vai, mas sai cedo", chance: () => 0.75,
+        ok: (J) => { J.efeito.minutos += 0.03; return "Entrosamento em dia e todo mundo bem no jogo."; },
+        falha: (J) => { J.efeito.nota -= 0.1; return "Saiu mais tarde do que queria. Jogou no automático."; } },
+      { rotulo: "Vai até o fim", chance: () => 0.45,
+        ok: (J) => { J.efeito.minutos += 0.05; return "Noite histórica, e no dia seguinte ninguém sentiu. O grupo fechou com você."; },
+        falha: (J) => { J.efeito.minutos -= 0.06; J.efeito.vitrine -= 1; return "Foto da festa rodou nas redes antes do jogo. O técnico não gostou."; } },
+      { rotulo: "Fica em casa", sempre: () => "Dormiu cedo. Ninguém lembra de festa que não foi." },
+    ],
+  },
+  {
+    id: "funcao", quando: () => !goleiro(),
+    titulo: "Técnico novo, ideia nova",
+    texto: () => "Ele quer te testar numa função diferente por algumas semanas.",
+    opcoes: [
+      { rotulo: "Topa o teste", chance: () => 0.5,
+        ok: (J) => { J.efeito.minutos += 0.08; return "Encaixou. Virou peça fixa do esquema."; },
+        falha: (J) => { J.efeito.nota -= 0.12; return "Não rendeu fora de posição. Voltou pro lugar, mas a nota caiu."; } },
+      { rotulo: "Pede pra jogar na sua", sempre: (J) => { J.efeito.minutos -= 0.03; return "Ele respeitou, mas anotou."; } },
+    ],
+  },
+  {
+    id: "empresario", quando: (J) => J.idade >= 19 && J.idade <= 30,
+    titulo: "O empresário ligou",
+    texto: () => "Tem clube de olho em você. Ele pergunta se pode fazer barulho na imprensa.",
+    opcoes: [
+      { rotulo: "Pode fazer barulho", sempre: (J) => { J.efeito.vitrine += 3; J.efeito.minutos -= 0.05; return "Seu nome apareceu em tudo que é site. No clube, o clima esfriou."; } },
+      { rotulo: "Foco no clube", sempre: (J) => { J.efeito.nota += 0.1; J.efeito.minutos += 0.02; return "Cabeça no lugar, e o técnico percebeu."; } },
+    ],
+  },
+  {
+    id: "entrevista", quando: () => true,
+    titulo: "Derrota feia e o microfone na sua frente",
+    texto: () => "A torcida está na bronca. O repórter quer saber o que aconteceu.",
+    opcoes: [
+      { rotulo: "Cobra o elenco", chance: () => 0.5,
+        ok: (J) => { J.efeito.vitrine += 1.5; return "A torcida adorou. Virou líder dentro e fora de campo."; },
+        falha: (J) => { J.efeito.minutos -= 0.05; return "O vestiário não gostou de ler aquilo. Clima pesado."; } },
+      { rotulo: "Assume a culpa", sempre: (J) => { J.efeito.minutos += 0.02; return "Resposta madura. O grupo agradeceu."; } },
+    ],
+  },
+  {
+    id: "base", quando: (J) => J.idade <= 19,
+    titulo: "Convocação pra seleção sub-20",
+    texto: () => "Vale vitrine e experiência, mas você perde umas rodadas no clube.",
+    opcoes: [
+      { rotulo: "Vai pra seleção", chance: () => 0.6,
+        ok: (J) => { J.efeito.evolucao += 1; J.efeito.vitrine += 1.5; J.efeito.minutos -= 0.05; return "Treinou com os melhores da idade e voltou outro jogador."; },
+        falha: (J) => { J.efeito.minutos -= 0.06; return "Ficou no banco da seleção e perdeu espaço no clube."; } },
+      { rotulo: "Pede pra ficar", sempre: (J) => { J.efeito.minutos += 0.04; return "O clube agradeceu e te deu sequência."; } },
+    ],
+  },
+  {
+    id: "veterano", quando: (J) => J.idade >= 30,
+    titulo: "O preparador físico tem um plano",
+    texto: () => "Rotina de recuperação pesada: gelo, sono regrado, academia todo dia.",
+    opcoes: [
+      { rotulo: "Topa a rotina", sempre: (J) => { J.efeito.queda += 0.8; return "O corpo agradeceu. A idade pesou menos esse ano."; } },
+      { rotulo: "Segue do seu jeito", chance: () => 0.6,
+        ok: () => "Deu certo do seu jeito mesmo. Experiência conta.",
+        falha: (J) => { J.efeito.lesao += 0.12; J.efeito.queda -= 0.5; return "A panturrilha reclamou. Umas semanas fora."; } },
+    ],
+  },
+  {
+    id: "classico", quando: () => !goleiro(),
+    titulo: "Clássico e provocação do rival",
+    texto: () => "O camisa 10 deles falou de você na coletiva.",
+    opcoes: [
+      { rotulo: "Responde com a bola", chance: (J) => chanceAttr(J, "DRI", 60, 9),
+        ok: (J) => { J.efeito.vitrine += 2; J.efeito.nota += 0.1; return "Caneta, gol e comemoração na frente da torcida deles."; },
+        falha: () => "Jogo travado, nada saiu. Ficou pra próxima." },
+      { rotulo: "Ignora", sempre: () => "Cabeça fria. Jogo normal." },
+    ],
+  },
+  {
+    id: "nutri", quando: () => true,
+    titulo: "Nutricionista nova no clube",
+    texto: () => "Ela propõe uma dieta bem mais rígida pro resto da temporada.",
+    opcoes: [
+      { rotulo: "Segue à risca", chance: () => 0.7,
+        ok: (J) => { J.efeito.evolucao += 0.8; J.efeito.lesao = Math.max(0, J.efeito.lesao - 0.04); return "Mais fôlego no fim dos jogos. Deu pra sentir."; },
+        falha: () => "Não se adaptou, voltou pro de sempre." },
+      { rotulo: "Mantém o cardápio", sempre: () => "Churrasco de domingo mantido." },
+    ],
+  },
+];
+
+function sortearEventos(J, rng, n = 2) {
+  const ultimos = J.ultimosEventos || [];
+  const pool = EVENTOS.filter((e) => e.quando(J) && !ultimos.includes(e.id));
+  const escolhidos = Motor.embaralhar(rng, pool).slice(0, n);
+  J.ultimosEventos = escolhidos.map((e) => e.id);
+  return escolhidos;
+}
+
+function resolverOpcao(J, op, rng) {
+  if (op.sempre) return { texto: op.sempre(J), ok: null };
+  const ok = rng() < op.chance(J);
+  return { texto: ok ? op.ok(J) : op.falha(J), ok };
+}
+
+// Negociacao: pedir garantia de titular. O clube aceita mais facil se voce
+// for melhor que o titular dele; se recusar, pode desistir.
+function pedirGarantia(J, c, rng) {
+  const aceita = limitar(logistica((J.ovr - c.nivel + 1) / 3), 0.1, 0.9);
+  if (rng() < aceita) return { resultado: "aceitou", chance: aceita };
+  return { resultado: rng() < 0.45 ? "desistiu" : "recusou", chance: aceita };
 }
 
 // --- tela da carreira ---------------------------------------------------------------
@@ -1057,7 +1341,13 @@ function desenharPainelJogador() {
     const gal = el("div", classe);
     gal.append(el("span", "galeria-rotulo", `${rotulo} · ${itens.length}`));
     const lista = el("ul");
-    for (const t of itens.slice(-6).reverse()) lista.append(el("li", null, `${t.nome} · ${t.ano}`));
+    for (const t of itens.slice(-6).reverse()) {
+      const li = el("li");
+      li.append(taca(t.nome, { premio: rotulo === "Prêmios" }));
+      if (t.selecao) li.append(bandeira(paisDe(C.pais)));
+      li.append(el("span", null, t.nome.endsWith(String(t.ano)) ? t.nome : `${t.nome} · ${t.ano}`));
+      lista.append(li);
+    }
     gal.append(lista);
     alvo.append(gal);
   }
@@ -1068,7 +1358,7 @@ function desenharTabelaCarreira() {
   const tbody = $("tabela-carreira");
   tbody.replaceChildren();
   for (const h of J.historico) {
-    const tr = el("tr", h.titulos.length ? "com-titulo" : "");
+    const tr = el("tr", h.titulos.length || (h.selecao && h.selecao.titulos.length) ? "com-titulo" : "");
     const clube = el("td", "tc-clube");
     const mini = el("span", "tabela-camisa");
     mini.append(figura(h.time || { nome: h.clube, kit: h.kit }, null, { cabeca: false }));
@@ -1078,8 +1368,12 @@ function desenharTabelaCarreira() {
     const ovr = el("td", `tc-ovr nivel-${nivel(h.ovr).id}`);
     ovr.append(el("b", null, String(h.ovr)));
     tr.append(el("td", "tc-idade", String(h.idade)), clube, ovr, el("td", null, String(h.jogos)), el("td", null, String(h.gols)), el("td", null, String(h.assist)),
-      el("td", "tc-titulos", h.titulos.length ? `${h.titulos.length}` : ""), el("td", "tc-premios", h.premios.length ? `${h.premios.length}` : ""));
-    if (h.titulos.length) tr.querySelector(".tc-titulos").title = h.titulos.join(", ");
+      el("td", "tc-titulos"), el("td", "tc-premios", h.premios.length ? `${h.premios.length}` : ""));
+    const tits = [...h.titulos, ...(h.selecao ? h.selecao.titulos : [])];
+    const tdT = tr.querySelector(".tc-titulos");
+    for (const nome of tits.slice(0, 3)) tdT.append(taca(nome, { tamanho: "p" }));
+    if (tits.length > 3) tdT.append(el("small", null, `+${tits.length - 3}`));
+    if (tits.length) tdT.title = tits.join(", ");
     if (h.premios.length) tr.querySelector(".tc-premios").title = h.premios.join(", ");
     tbody.append(tr);
   }
@@ -1104,19 +1398,48 @@ function mostrarLinha(linha) {
   const camp = el("ul", "temporada-campanha");
   for (const c of linha.campanha) {
     const li = el("li", c.campeao ? "campeao" : "");
-    li.append(el("span", null, c.comp), el("b", null, c.res));
-    camp.append(li);
-  }
-  if (linha.selecao) {
-    const li = el("li", linha.selecao.titulos.length ? "campeao" : "");
-    li.append(el("span", null, `Seleção${linha.selecao.torneio ? ` · ${linha.selecao.torneio}` : ""}`),
-      el("b", null, `${linha.selecao.jogos} J · ${linha.selecao.gols} G${linha.selecao.torneioRes ? ` · ${linha.selecao.torneioRes}` : ""}`));
+    const nomeComp = el("span", "comp-nome");
+    if (c.campeao) nomeComp.append(taca(c.comp));
+    nomeComp.append(document.createTextNode(c.comp));
+    li.append(nomeComp, el("b", null, c.res));
     camp.append(li);
   }
   alvo.append(camp);
+  if (linha.selecao) {
+    const s = linha.selecao;
+    const box = el("div", "temporada-selecao");
+    const cab = el("p", "temporada-selecao-cab");
+    cab.append(bandeira(paisDe(C.pais)), el("b", null, s.estreia ? "Primeira convocação!" : "Seleção"), el("span", null, `${s.jogos} J · ${s.gols} G · ${s.assist} A`));
+    box.append(cab);
+    if (s.torneio) {
+      const li = el("ul", "temporada-campanha");
+      const item = el("li", s.torneioRes === "Campeão" ? "campeao" : "");
+      const nomeT = el("span", "comp-nome");
+      if (s.torneioRes === "Campeão") nomeT.append(taca(s.torneio));
+      nomeT.append(document.createTextNode(`${s.torneio} · ${s.torneioJogos} J, ${s.torneioGols} G, ${s.torneioAssist} A`));
+      item.append(nomeT, el("b", null, s.torneioRes));
+      li.append(item);
+      box.append(li);
+    }
+    if (s.premios.length) {
+      const pr = el("ul", "temporada-premios");
+      for (const n of s.premios) { const li = el("li", n.startsWith("Craque") ? "ouro" : ""); li.append(taca(n, { premio: true }), document.createTextNode(n)); pr.append(li); }
+      box.append(pr);
+    }
+    alvo.append(box);
+  }
+  if (linha.decisoes && linha.decisoes.length) {
+    const dec = el("ul", "temporada-decisoes");
+    for (const d of linha.decisoes) {
+      const li = el("li", d.ok === true ? "sobe" : d.ok === false ? "desce" : "");
+      li.append(el("b", null, `${d.titulo}: ${d.escolha.toLowerCase()}.`), el("span", null, ` ${d.texto}`));
+      dec.append(li);
+    }
+    alvo.append(dec);
+  }
   if (linha.premios.length || linha.bolaDeOuro) {
     const pr = el("ul", "temporada-premios");
-    for (const nome of linha.premios) pr.append(el("li", nome === "Bola de Ouro" ? "ouro" : "", nome));
+    for (const nome of linha.premios) { const li = el("li", nome === "Bola de Ouro" ? "ouro" : ""); li.append(taca(nome, { premio: true }), document.createTextNode(nome)); pr.append(li); }
     if (linha.bolaDeOuro && linha.bolaDeOuro > 1) pr.append(el("li", "indicacao", `Bola de Ouro: ${linha.bolaDeOuro}º lugar`));
     alvo.append(pr);
   }
@@ -1131,10 +1454,12 @@ function mostrarLinha(linha) {
   alvo.append(evo);
   const avisos = [];
   if (linha.titulos.length) avisos.push(`Título: ${linha.titulos.join(", ")}.`);
+  if (linha.selecao && linha.selecao.titulos.length) avisos.push(`Campeão com a seleção: ${linha.selecao.titulos.join(", ")}.`);
+  if (linha.lesao) avisos.push(`${linha.lesao.nome}: ficou fora de uns ${linha.lesao.jogos} jogos.`);
   if (linha.divisao) avisos.push(`${linha.divisao}.`);
   else if (linha.rebaixado) avisos.push("O time terminou na zona de rebaixamento.");
   if (linha.olheiro && linha.ofertas && linha.ofertas.length) avisos.push("Tinha olheiro na arquibancada.");
-  if (linha.ofertas && linha.ofertas.length && !linha.transferencia) avisos.push(`Sondado por ${linha.ofertas.join(", ")}; ficou.`);
+  if (linha.ofertas && linha.ofertas.length && !linha.transferencia && C.modo !== "completo") avisos.push(`Sondado por ${linha.ofertas.join(", ")}; ficou.`);
   if (linha.transferencia) avisos.push(`Transferido pro ${linha.transferencia.para} (${linha.transferencia.liga}) por ${dinheiro(linha.transferencia.valor)}.`);
   if (linha.fim) avisos.push(`${linha.fim} aos ${linha.idade + 1} anos.`);
   for (const a of avisos) alvo.append(el("p", "temporada-aviso", a));
@@ -1149,6 +1474,8 @@ function proximaTemporada() {
 }
 
 function simularCarreira() {
+  // no completo, o resto da carreira vai no automatico (propostas abertas: fica)
+  C.eventos = null; C.ofertasAbertas = null; $("mercado").hidden = true;
   let linha;
   while (!C.J.aposentado) linha = jogarTemporada();
   mostrarLinha(linha);
@@ -1157,13 +1484,157 @@ function simularCarreira() {
   mostrarAposentadoria();
 }
 
+
+// --- tela do modo completo -------------------------------------------------------------
+
+function mostrarEvento(i) {
+  const J = C.J;
+  const ev = C.eventos[i];
+  const alvo = $("temporada-atual");
+  alvo.replaceChildren(
+    el("p", "jogo-etapa", `Temporada ${J.ano} · ${J.idade} anos · ${J.clube.nome} · decisão ${i + 1} de ${C.eventos.length}`),
+    el("h3", "temporada-titulo", ev.titulo),
+    el("p", "evento-texto", ev.texto(J)),
+  );
+  const ops = el("div", "evento-opcoes");
+  for (const op of ev.opcoes) {
+    const b = el("button", "botao evento-opcao");
+    b.type = "button";
+    b.append(el("span", null, op.rotulo));
+    if (op.chance) b.append(el("small", null, `${Math.round(op.chance(J) * 100)}% de dar certo`));
+    b.addEventListener("click", () => {
+      const r = resolverOpcao(J, op, C.rng);
+      J.efeito.textos.push({ titulo: ev.titulo, escolha: op.rotulo, texto: r.texto, ok: r.ok });
+      ops.remove();
+      alvo.append(el("p", `evento-resultado ${r.ok === true ? "sobe" : r.ok === false ? "desce" : ""}`, r.texto));
+      const seguir = el("button", "botao botao-primario", i + 1 < C.eventos.length ? "Próxima decisão" : "Jogar a temporada");
+      seguir.type = "button";
+      seguir.addEventListener("click", () => (i + 1 < C.eventos.length ? mostrarEvento(i + 1) : fecharTemporadaCompleta()));
+      alvo.append(seguir);
+      seguir.focus();
+    });
+    ops.append(b);
+  }
+  alvo.append(ops);
+}
+
+function fecharTemporadaCompleta() {
+  C.eventos = null;
+  const linha = jogarTemporada({ decidir: false });
+  mostrarLinha(linha);
+  desenharPainelJogador();
+  desenharTabelaCarreira();
+  if (C.J.aposentado) { $("proxima").textContent = "Ver a aposentadoria"; $("proxima").disabled = false; $("tudo").disabled = true; return; }
+  mostrarMercado(linha);
+}
+
+// janela de transferencias: voce escolhe (ou fica). Da pra pedir vaga de titular.
+function mostrarMercado(linha) {
+  const J = C.J;
+  const alvo = $("mercado");
+  alvo.hidden = false;
+  alvo.replaceChildren(el("h3", "mercado-titulo", `Janela de transferências · ${J.idade} anos · OVR ${J.ovr}`));
+  const ofertas = C.ofertasAbertas || [];
+  const fechar = (texto) => {
+    alvo.replaceChildren(el("p", "temporada-aviso", texto));
+    C.ofertasAbertas = null;
+    $("proxima").disabled = false;
+    $("proxima").textContent = "Próxima temporada";
+    desenharPainelJogador();
+    desenharTabelaCarreira();
+  };
+  if (!ofertas.length) {
+    alvo.append(el("p", "nota", "Nenhuma proposta chegou. Segue o jogo no clube."));
+    const ok = el("button", "botao botao-primario", `Seguir no ${J.clube.nome}`);
+    ok.type = "button";
+    ok.addEventListener("click", () => fechar(`Ficou no ${J.clube.nome}.`));
+    alvo.append(ok);
+    return;
+  }
+  alvo.append(el("p", "nota", `Chance de titular no ${J.clube.nome} hoje: ${Math.round(chanceDeTitular(J.ovr, J.clube.nivel, J.idade) * 100)}%. Pedir vaga de titular pode render a garantia, ou fazer o clube desistir.`));
+  const grade = el("div", "propostas");
+  for (const c of ofertas) {
+    const assinarAqui = (garantia) => {
+      linha.transferencia = { para: c.nome, liga: c.liga, valor: J.valor };
+      assinar(c, "mercado");
+      if (garantia) J.efeito.minutos += 0.15;
+      fechar(`Assinou com o ${c.nome}${garantia ? ", com vaga de titular prometida" : ""}. Valor da transferência: ${dinheiro(J.valor)}.`);
+    };
+    grade.append(cartaoDeProposta(c, () => assinarAqui(false), {
+      extra: {
+        rotulo: "Pedir vaga de titular",
+        acao: (card, botao) => {
+          const r = pedirGarantia(J, c, C.rng);
+          if (r.resultado === "aceitou") return assinarAqui(true);
+          botao.remove();
+          if (r.resultado === "desistiu") {
+            card.classList.add("proposta-retirada");
+            card.querySelectorAll("button").forEach((b) => { b.disabled = true; });
+            card.append(el("p", "proposta-resposta desce", "O clube não gostou e retirou a proposta."));
+          } else card.append(el("p", "proposta-resposta", "Não prometeram nada, mas a proposta segue de pé."));
+        },
+      },
+    }));
+  }
+  const ficar = el("article", "proposta proposta-ficar");
+  ficar.append(el("p", "proposta-liga", "Seu clube"), el("h3", "proposta-nome", J.clube.nome), el("p", "proposta-titular", "Fica, briga pela vaga e tenta de novo na próxima janela."));
+  const b = el("button", "botao", "Ficar");
+  b.type = "button";
+  b.addEventListener("click", () => fechar(`Recusou as propostas e ficou no ${J.clube.nome}.`));
+  ficar.append(b);
+  grade.append(ficar);
+  alvo.append(grade);
+}
+
+function avancarCompleto() {
+  const J = C.J;
+  $("mercado").hidden = true;
+  $("proxima").disabled = true;
+  C.eventos = sortearEventos(J, C.rng);
+  mostrarEvento(0);
+}
+
 // --- 5. aposentadoria --------------------------------------------------------------
+
+// bloco da selecao no relatorio: numeros, Copas disputadas, titulos e premios
+function blocoSelecao(J) {
+  const pais = paisDe(C.pais);
+  const sel = J.historico.filter((h) => h.selecao);
+  const sec = el("section", "bl-bloco bl-selecao");
+  const h4 = el("h4");
+  h4.append(bandeira(pais), el("span", null, `Seleção · ${pais.nome}`));
+  sec.append(h4);
+  if (!sel.length) { sec.append(el("p", "nota", `Nunca foi convocado. A seleção ${pais.id === "BRA" ? "brasileira" : "de " + pais.nome} pede OVR ${pais.corte}+ e jogando no clube.`)); return sec; }
+  const t = sel.reduce((a, h) => ({ j: a.j + h.selecao.jogos, g: a.g + h.selecao.gols, a: a.a + (h.selecao.assist || 0) }), { j: 0, g: 0, a: 0 });
+  const tiles = el("dl", "bl-tiles");
+  for (const [k, v] of [["Jogos", t.j], ["Gols", t.g], ["Assist.", t.a]]) { const d = el("div"); d.append(el("dd", null, String(v)), el("dt", null, k)); tiles.append(d); }
+  sec.append(el("p", "nota", `Estreia em ${J.estreouSelecao}, aos ${sel[0].idade} anos · convocado em ${sel.length} ${sel.length === 1 ? "temporada" : "temporadas"}`), tiles);
+  const copas = sel.filter((h) => h.selecao.torneio);
+  if (copas.length) {
+    const ul = el("ul", "sel-copas");
+    for (const h of copas) {
+      const s = h.selecao;
+      const li = el("li", s.torneioRes === "Campeão" ? "campeao" : "");
+      li.append(el("span", null, s.torneio), el("b", null, s.torneioRes), el("small", null, `${s.torneioJogos} J · ${s.torneioGols} G · ${s.torneioAssist} A`));
+      ul.append(li);
+    }
+    sec.append(ul);
+  }
+  const extras = [...J.titulos.filter((x) => x.selecao).map((x) => ({ nome: x.nome, ouro: true })), ...J.premios.filter((x) => x.selecao).map((x) => ({ nome: x.nome }))];
+  if (extras.length) {
+    const pr = el("ul", "temporada-premios");
+    for (const x of extras) { const li = el("li", x.ouro ? "ouro" : ""); li.append(taca(x.nome, { premio: !x.ouro }), document.createTextNode(x.ouro ? `Campeão · ${x.nome}` : x.nome)); pr.append(li); }
+    sec.append(pr);
+  }
+  return sec;
+}
 
 function mostrarAposentadoria() {
   const J = C.J;
   const alvo = $("relatorio");
   alvo.replaceChildren();
-  const tot = J.historico.reduce((a, h) => ({ j: a.j + h.jogos, g: a.g + h.gols, a: a.a + h.assist, s: a.s + (h.selecao ? h.selecao.jogos : 0), sg: a.sg + (h.selecao ? h.selecao.gols : 0) }), { j: 0, g: 0, a: 0, s: 0, sg: 0 });
+  const tot = J.historico.reduce((a, h) => ({ j: a.j + h.jogos, g: a.g + h.gols, a: a.a + h.assist }), { j: 0, g: 0, a: 0 });
+  const titulosClube = J.titulos.filter((t) => !t.selecao), premiosClube = J.premios.filter((t) => !t.selecao);
   const auge = [...J.historico].sort((a, b) => b.ovr - a.ovr)[0];
   const melhor = [...J.historico].sort((a, b) => (b.gols + b.assist) - (a.gols + a.assist) || b.nota - a.nota)[0];
   const clubes = [...new Set(J.historico.map((h) => h.clube))];
@@ -1187,7 +1658,8 @@ function mostrarAposentadoria() {
   sNum.append(el("h4", null, "Números da carreira"));
   const tiles = el("dl", "bl-tiles");
   const motm = J.historico.reduce((a, h) => a + (h.craqueDoJogo || 0), 0);
-  for (const [k, v] of [["Jogos", tot.j], ["Gols", tot.g], ["Assist.", tot.a], ["OVR no auge", `${auge.ovr} (${auge.idade})`], ["Seleção", `${tot.s} J · ${tot.sg} G`], ["Craque do jogo", motm]]) {
+  sNum.firstChild.textContent = "Números pelos clubes";
+  for (const [k, v] of [["Jogos", tot.j], ["Gols", tot.g], ["Assist.", tot.a], ["OVR no auge", `${auge.ovr} (${auge.idade})`], ["Títulos", titulosClube.length], ["Craque do jogo", motm]]) {
     const d = el("div"); d.append(el("dd", null, String(v)), el("dt", null, k)); tiles.append(d);
   }
   sNum.append(tiles);
@@ -1200,31 +1672,31 @@ function mostrarAposentadoria() {
   add("Trajetória", clubes.join(" → "));
   if (J.transferencias.length) add("Maior venda", dinheiro(Math.max(...J.historico.filter((h) => h.transferencia).map((h) => h.transferencia.valor), 0)));
   sDest.append(dl);
-  esquerda.append(sNum, sDest);
+  esquerda.append(sNum, blocoSelecao(J), sDest);
   const sGal = el("section", "bl-bloco");
-  sGal.append(el("h4", null, `Galeria · ${J.titulos.length}`));
-  if (!J.titulos.length) sGal.append(el("p", "nota", "Nenhum título. O lobo soprou forte."));
+  sGal.append(el("h4", null, `Títulos pelos clubes · ${titulosClube.length}`));
+  if (!titulosClube.length) sGal.append(el("p", "nota", "Nenhum título. O lobo soprou forte."));
   else {
     const cont = {};
-    for (const t of J.titulos) cont[t.nome.replace(/ \d{4}$/, "")] = (cont[t.nome.replace(/ \d{4}$/, "")] || 0) + 1;
+    for (const t of titulosClube) cont[t.nome.replace(/ \d{4}$/, "")] = (cont[t.nome.replace(/ \d{4}$/, "")] || 0) + 1;
     const ul = el("ul", "bl-campeoes");
     for (const [nome, n] of Object.entries(cont).sort((a, b) => b[1] - a[1])) {
-      const li = el("li", "comp-bra");
-      li.append(el("span", "bl-comp-nome", `${n}×`), el("strong", null, nome));
+      const li = el("li", "comp-bra com-taca");
+      li.append(taca(nome, { tamanho: "g" }), el("span", "bl-comp-nome", `${n}×`), el("strong", null, nome));
       ul.append(li);
     }
     sGal.append(ul);
   }
   const sPre = el("section", "bl-bloco");
-  sPre.append(el("h4", null, `Prêmios individuais · ${J.premios.length}`));
-  if (!J.premios.length) sPre.append(el("p", "nota", "Nenhum prêmio individual. Carreira de operário, que também faz falta."));
+  sPre.append(el("h4", null, `Prêmios individuais · ${premiosClube.length}`));
+  if (!premiosClube.length) sPre.append(el("p", "nota", "Nenhum prêmio individual. Carreira de operário, que também faz falta."));
   else {
     const cont = {};
-    for (const t of J.premios) (cont[t.nome] ||= []).push(t.ano);
+    for (const t of premiosClube) (cont[t.nome] ||= []).push(t.ano);
     const ul = el("ul", "bl-campeoes bl-premios");
     for (const [nome, anos] of Object.entries(cont).sort((a, b) => b[1].length - a[1].length)) {
-      const li = el("li", nome === "Bola de Ouro" ? "premio-ouro" : "");
-      li.append(el("span", "bl-comp-nome", `${anos.length}×`), el("strong", null, nome));
+      const li = el("li", `com-taca${nome === "Bola de Ouro" ? " premio-ouro" : ""}`);
+      li.append(taca(nome, { premio: true, tamanho: "g" }), el("span", "bl-comp-nome", `${anos.length}×`), el("strong", null, nome));
       li.title = anos.join(", ");
       ul.append(li);
     }
@@ -1279,6 +1751,7 @@ function criarJogador() {
     nome: C.nome || "Sem Nome", numero: C.numero, attrs: { ...C.attrs }, ovr, idade: IDADE_INICIAL, ano: ANO_INICIAL,
     ...sortearPotencial(ovr, f),
     clube: null, historico: [], titulos: [], premios: [], transferencias: [], valor: 0, anosNoClube: 0, aposentado: false,
+    efeito: efeitoZerado(), ultimosEventos: [],
   };
   reiniciarMundo();
   C.J.valor = valorDeMercado(C.J);
@@ -1322,7 +1795,11 @@ async function iniciarCarreiraPagina() {
   $("voltar-criacao").addEventListener("click", () => mostrarTela("criar"));
   $("zerar-pontos").addEventListener("click", iniciarCarta);
   $("confirmar-carta").addEventListener("click", () => { criarJogador(); mostrarPropostasDaBase(); });
-  $("proxima").addEventListener("click", () => { if (C.J.aposentado) mostrarAposentadoria(); else proximaTemporada(); });
+  $("proxima").addEventListener("click", () => {
+    if (C.J.aposentado) mostrarAposentadoria();
+    else if (C.modo === "completo") avancarCompleto();
+    else proximaTemporada();
+  });
   $("tudo").addEventListener("click", simularCarreira);
 
   montarPaises();
