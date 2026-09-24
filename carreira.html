@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Carreira · Tem dado em casa</title>
+  <meta name="description" content="Crie um jogador, monte a carta e jogue a carreira inteira: estreia aos 16 na Série B, C ou D, propostas, títulos, prêmios e seleção.">
+  <meta property="og:title" content="Carreira · Tem dado em casa">
+  <meta property="og:description" content="Dos 16 anos na Série D até a Bola de Ouro. Ou não.">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#0b0b0c">
+  <link rel="icon" type="image/svg+xml" href="img/simbolo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="estilo.css?v=2026-09-24f">
+  <link rel="stylesheet" href="draft.css?v=2026-09-24f">
+  <link rel="stylesheet" href="carreira.css?v=2026-09-24f">
+</head>
+<body>
+  <header class="topo">
+    <a class="marca" href="index.html">
+      <img class="avatar" src="img/simbolo.svg" alt="" width="36" height="36">
+      <span class="marca-nome">Tem dado em casa</span>
+    </a>
+    <nav class="menu" aria-label="Seções">
+      <a href="index.html#overalls">Cartas</a>
+      <a href="draft.html">Draft</a>
+      <a href="carreira.html" aria-current="page">Carreira</a>
+    </nav>
+  </header>
+
+  <main class="draft carreira">
+    <section class="draft-cabecalho">
+      <p class="hero-sobretitulo">Minigame · a partir de 2026</p>
+      <h1>Carreira</h1>
+      <p class="hero-texto">Cria o jogador, monta a carta e estreia aos 16 anos num clube da Série B, C ou D. Jogando bem, aparecem as propostas: Série A, América do Sul, Europa. Cada temporada roda com o mesmo motor do Draft, contra os titulares de verdade do Brasileirão.</p>
+      <ol class="passos" id="passos" aria-label="Etapas">
+        <li data-passo="criar" aria-current="step">Jogador</li>
+        <li data-passo="carta">Carta</li>
+        <li data-passo="carreira">Carreira</li>
+      </ol>
+    </section>
+
+    <!-- 1. jogador -->
+    <section class="tela" id="tela-criar" aria-labelledby="t-criar">
+      <h2 id="t-criar">Quem é você</h2>
+      <div class="criacao">
+        <div class="previas" aria-hidden="true">
+          <div class="previa" id="previa-costas"></div>
+        </div>
+        <div class="criar-campos">
+          <div class="campos-linha">
+            <label>Nome na camisa
+              <input id="nome-camisa" type="text" maxlength="14" autocomplete="off" placeholder="ex.: SOUZA">
+            </label>
+            <label class="campo-numero">Número
+              <input id="numero-camisa" type="number" min="1" max="99" value="10" inputmode="numeric">
+            </label>
+          </div>
+          <p class="aviso" id="aviso-nome" hidden>Põe um nome na camisa.</p>
+          <div class="campo">
+            <span class="rotulo">Pé bom</span>
+            <div class="chips" role="group" aria-label="Pé bom">
+              <button class="chip" type="button" data-pe="Direito" aria-pressed="true">Direito</button>
+              <button class="chip" type="button" data-pe="Esquerdo" aria-pressed="false">Esquerdo</button>
+              <button class="chip" type="button" data-pe="Ambidestro" aria-pressed="false">Os dois</button>
+            </div>
+          </div>
+          <div class="campo">
+            <span class="rotulo">Nacionalidade</span>
+            <input id="busca-pais" type="search" placeholder="procurar país" autocomplete="off">
+            <div class="paises" id="paises" role="radiogroup" aria-label="Nacionalidade"></div>
+          </div>
+        </div>
+        <div class="campo campo-posicao">
+          <span class="rotulo">Posição · <b id="pos-nome">Centroavante</b></span>
+          <div class="gramado campo-posicoes" id="campo-posicoes" aria-label="Escolha a posição"></div>
+        </div>
+      </div>
+      <div class="campo">
+        <span class="rotulo">Modo</span>
+        <div class="chips" role="group" aria-label="Modo">
+          <button class="chip" type="button" data-modo="rapido" aria-pressed="true">Rápido · 1 decisão por temporada</button>
+          <button class="chip" type="button" data-modo="completo" aria-pressed="false">Completo · 3 decisões e mercado</button>
+        </div>
+      </div>
+      <button class="botao botao-primario" id="confirmar-jogador" type="button">Montar a carta</button>
+    </section>
+
+    <!-- 2. carta -->
+    <section class="tela" id="tela-carta" aria-labelledby="t-carta" hidden>
+      <h2 id="t-carta">Monte a carta</h2>
+      <p class="nota">A base vem da posição. Você tem 30 pontos pra somar, de 5 em 5, no máximo 15 por atributo. Atributo "chave" pesa mais no OVR da posição.</p>
+      <div class="montagem">
+        <div class="montagem-carta" id="carta-montagem"></div>
+        <div class="montagem-lado">
+          <div class="montagem-placar">
+            <div><b id="pontos-restantes">30</b><span>pontos</span></div>
+            <div><b id="ovr-montagem">0</b><span>OVR</span></div>
+          </div>
+          <p class="estilo-montagem" id="estilo-montagem"></p>
+          <ul class="atributos" id="atributos"></ul>
+          <div class="controles-jogo">
+            <button class="botao" id="voltar-criacao" type="button">Voltar</button>
+            <button class="botao" id="zerar-pontos" type="button">Zerar pontos</button>
+            <button class="botao botao-primario" id="confirmar-carta" type="button" disabled>Distribua 30 pontos</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2b. primeiro contrato -->
+    <section class="tela" id="tela-base" aria-labelledby="t-base" hidden>
+      <h2 id="t-base">Primeiro contrato</h2>
+      <p class="nota">Aos 16 ninguém estreia em clube grande. Três clubes de baixo querem você: divisão maior dá vitrine, mas o titular é mais difícil de passar.</p>
+      <div class="propostas" id="propostas-base"></div>
+    </section>
+
+    <!-- 3. carreira -->
+    <section class="tela" id="tela-carreira" aria-labelledby="t-carreira" hidden>
+      <h2 id="t-carreira" class="sr">Carreira</h2>
+      <div class="carreira-grade">
+        <aside class="painel-jogador" id="painel-jogador"></aside>
+        <div class="carreira-centro">
+          <div class="jogo temporada-atual" id="temporada-atual" aria-live="polite"></div>
+          <section class="mercado" id="mercado" aria-live="polite" hidden></section>
+          <div class="controles-jogo">
+            <button class="botao botao-primario" id="proxima" type="button">Jogar a temporada</button>
+            <button class="botao" id="tudo" type="button">Simular o resto da carreira</button>
+          </div>
+          <div class="tabela-rolagem">
+            <table class="tabela tabela-carreira">
+              <thead>
+                <tr><th>Idade</th><th>Clube</th><th>OVR</th><th>J</th><th>G</th><th>A</th><th title="Títulos">Tít.</th><th title="Prêmios individuais">Prêm.</th></tr>
+              </thead>
+              <tbody id="tabela-carreira"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. aposentadoria -->
+    <section class="tela" id="tela-fim" aria-labelledby="t-fim" hidden>
+      <h2 id="t-fim">Pendurou as chuteiras</h2>
+      <div class="balanco" id="relatorio"></div>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <span>Tem dado em casa · resenha com planilha</span>
+    <a href="index.html">Cartas</a>
+    <a href="https://www.youtube.com/@temdadoemcasafc" target="_blank" rel="noopener">YouTube</a>
+  </footer>
+
+  <script src="app.js?v=2026-09-24f"></script>
+  <script src="motor.js?v=2026-09-24f"></script>
+  <script src="carreira.js?v=2026-09-24f"></script>
+</body>
+</html>

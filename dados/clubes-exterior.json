@@ -1,0 +1,1310 @@
+{
+ "_leia": "Clubes de fora do Brasil para as transferencias do modo Carreira. Forca ESTIMADA a mao, na regua do motor (Serie A 2026 vai de ~50 a ~62). Kit: so cores e listras, sem escudo. Pode editar.",
+ "ligas": [
+  {
+   "id": "eng",
+   "nome": "Premier League",
+   "pais": "Inglaterra",
+   "continente": "europa",
+   "prestigio": 5,
+   "copa": "Champions League",
+   "clubes": [
+    {
+     "nome": "Manchester City",
+     "forca": 67,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#6cabdd",
+      "numero": "#1c2c5b"
+     }
+    },
+    {
+     "nome": "Arsenal",
+     "forca": 67,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#ef0107",
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Liverpool",
+     "forca": 67,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#c8102e",
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Chelsea",
+     "forca": 65,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#034694",
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Manchester United",
+     "forca": 63,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#da291c",
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Tottenham",
+     "forca": 63,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#ffffff",
+      "numero": "#132257"
+     }
+    },
+    {
+     "nome": "Newcastle",
+     "forca": 63,
+     "uniforme": {
+      "padrao": "vertical",
+      "faixas": [
+       [
+        "#111111",
+        7
+       ],
+       [
+        "#ffffff",
+        7
+       ]
+      ],
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Aston Villa",
+     "forca": 62,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#670e36",
+      "numero": "#95bfe5"
+     }
+    },
+    {
+     "nome": "Brighton",
+     "forca": 60,
+     "uniforme": {
+      "padrao": "vertical",
+      "faixas": [
+       [
+        "#0057b8",
+        7
+       ],
+       [
+        "#ffffff",
+        7
+       ]
+      ],
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "West Ham",
+     "forca": 59,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#7a263a",
+      "numero": "#1bb1e7"
+     }
+    }
+   ]
+  },
+  {
+   "id": "esp",
+   "nome": "LaLiga",
+   "pais": "Espanha",
+   "continente": "europa",
+   "prestigio": 5,
+   "copa": "Champions League",
+   "clubes": [
+    {
+     "nome": "Real Madrid",
+     "forca": 68,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#ffffff",
+      "numero": "#111111"
+     }
+    },
+    {
+     "nome": "Barcelona",
+     "forca": 67,
+     "uniforme": {
+      "padrao": "vertical",
+      "faixas": [
+       [
+        "#a50044",
+        7
+       ],
+       [
+        "#004d98",
+        7
+       ]
+      ],
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Atlético de Madrid",
+     "forca": 65,
+     "uniforme": {
+      "padrao": "vertical",
+      "faixas": [
+       [
+        "#cb3524",
+        7
+       ],
+       [
+        "#ffffff",
+        7
+       ]
+      ],
+      "numero": "#1b2a5c"
+     }
+    },
+    {
+     "nome": "Athletic Bilbao",
+     "forca": 62,
+     "uniforme": {
+      "padrao": "vertical",
+      "faixas": [
+       [
+        "#ee2523",
+        7
+       ],
+       [
+        "#ffffff",
+        7
+       ]
+      ],
+      "numero": "#111111"
+     }
+    },
+    {
+     "nome": "Real Sociedad",
+     "forca": 61,
+     "uniforme": {
+      "padrao": "vertical",
+      "faixas": [
+       [
+        "#0067b1",
+        7
+       ],
+       [
+        "#ffffff",
+        7
+       ]
+      ],
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Villarreal",
+     "forca": 61,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#ffe667",
+      "numero": "#005187"
+     }
+    },
+    {
+     "nome": "Betis",
+     "forca": 60,
+     "uniforme": {
+      "padrao": "vertical",
+      "faixas": [
+       [
+        "#00954c",
+        7
+       ],
+       [
+        "#ffffff",
+        7
+       ]
+      ],
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Girona",
+     "forca": 59,
+     "uniforme": {
+      "padrao": "vertical",
+      "faixas": [
+       [
+        "#cd2534",
+        7
+       ],
+       [
+        "#ffffff",
+        7
+       ]
+      ],
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Sevilla",
+     "forca": 59,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#ffffff",
+      "numero": "#d71a28"
+     }
+    },
+    {
+     "nome": "Valencia",
+     "forca": 58,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#ffffff",
+      "numero": "#111111"
+     }
+    }
+   ]
+  },
+  {
+   "id": "ita",
+   "nome": "Serie A (Itália)",
+   "pais": "Itália",
+   "continente": "europa",
+   "prestigio": 4,
+   "copa": "Champions League",
+   "clubes": [
+    {
+     "nome": "Inter",
+     "forca": 66,
+     "uniforme": {
+      "padrao": "vertical",
+      "faixas": [
+       [
+        "#0068a8",
+        7
+       ],
+       [
+        "#111111",
+        7
+       ]
+      ],
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Napoli",
+     "forca": 64,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#12a0d7",
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Milan",
+     "forca": 64,
+     "uniforme": {
+      "padrao": "vertical",
+      "faixas": [
+       [
+        "#fb090b",
+        7
+       ],
+       [
+        "#111111",
+        7
+       ]
+      ],
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Juventus",
+     "forca": 64,
+     "uniforme": {
+      "padrao": "vertical",
+      "faixas": [
+       [
+        "#111111",
+        7
+       ],
+       [
+        "#ffffff",
+        7
+       ]
+      ],
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Atalanta",
+     "forca": 63,
+     "uniforme": {
+      "padrao": "vertical",
+      "faixas": [
+       [
+        "#1e71b8",
+        7
+       ],
+       [
+        "#111111",
+        7
+       ]
+      ],
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Roma",
+     "forca": 62,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#8e1f2f",
+      "numero": "#f0bc42"
+     }
+    },
+    {
+     "nome": "Lazio",
+     "forca": 61,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#87d8f7",
+      "numero": "#111111"
+     }
+    },
+    {
+     "nome": "Fiorentina",
+     "forca": 60,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#482e92",
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Bologna",
+     "forca": 60,
+     "uniforme": {
+      "padrao": "vertical",
+      "faixas": [
+       [
+        "#a21c26",
+        7
+       ],
+       [
+        "#1a2f48",
+        7
+       ]
+      ],
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Torino",
+     "forca": 58,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#881f19",
+      "numero": "#ffffff"
+     }
+    }
+   ]
+  },
+  {
+   "id": "ale",
+   "nome": "Bundesliga",
+   "pais": "Alemanha",
+   "continente": "europa",
+   "prestigio": 4,
+   "copa": "Champions League",
+   "clubes": [
+    {
+     "nome": "Bayern de Munique",
+     "forca": 67,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#dc052d",
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Bayer Leverkusen",
+     "forca": 65,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#e32221",
+      "numero": "#111111"
+     }
+    },
+    {
+     "nome": "Borussia Dortmund",
+     "forca": 64,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#fde100",
+      "numero": "#111111"
+     }
+    },
+    {
+     "nome": "RB Leipzig",
+     "forca": 63,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#ffffff",
+      "numero": "#dd0741"
+     }
+    },
+    {
+     "nome": "Stuttgart",
+     "forca": 61,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#ffffff",
+      "numero": "#e32219"
+     }
+    },
+    {
+     "nome": "Eintracht Frankfurt",
+     "forca": 61,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#e1000f",
+      "numero": "#111111"
+     }
+    },
+    {
+     "nome": "Wolfsburg",
+     "forca": 59,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#65b32e",
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Freiburg",
+     "forca": 59,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#111111",
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Hoffenheim",
+     "forca": 58,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#1961b5",
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Borussia Mönchengladbach",
+     "forca": 58,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#ffffff",
+      "numero": "#111111"
+     }
+    }
+   ]
+  },
+  {
+   "id": "fra",
+   "nome": "Ligue 1",
+   "pais": "França",
+   "continente": "europa",
+   "prestigio": 3,
+   "copa": "Champions League",
+   "clubes": [
+    {
+     "nome": "Paris Saint-Germain",
+     "forca": 67,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#004170",
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Monaco",
+     "forca": 62,
+     "uniforme": {
+      "padrao": "diagonal",
+      "base": "#e7182b",
+      "faixa": "#ffffff",
+      "largura": 40,
+      "numero": "#111111"
+     }
+    },
+    {
+     "nome": "Olympique de Marseille",
+     "forca": 62,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#ffffff",
+      "numero": "#2faee0"
+     }
+    },
+    {
+     "nome": "Lille",
+     "forca": 61,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#e01e13",
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Lyon",
+     "forca": 61,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#ffffff",
+      "numero": "#1b3a8f"
+     }
+    },
+    {
+     "nome": "Nice",
+     "forca": 60,
+     "uniforme": {
+      "padrao": "vertical",
+      "faixas": [
+       [
+        "#c8102e",
+        7
+       ],
+       [
+        "#111111",
+        7
+       ]
+      ],
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Lens",
+     "forca": 60,
+     "uniforme": {
+      "padrao": "vertical",
+      "faixas": [
+       [
+        "#ffd200",
+        7
+       ],
+       [
+        "#e30613",
+        7
+       ]
+      ],
+      "numero": "#111111"
+     }
+    },
+    {
+     "nome": "Rennes",
+     "forca": 59,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#e13327",
+      "numero": "#111111"
+     }
+    },
+    {
+     "nome": "Strasbourg",
+     "forca": 58,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#009fe3",
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Nantes",
+     "forca": 56,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#fcdb00",
+      "numero": "#00843d"
+     }
+    }
+   ]
+  },
+  {
+   "id": "por",
+   "nome": "Liga Portugal",
+   "pais": "Portugal",
+   "continente": "europa",
+   "prestigio": 3,
+   "copa": "Champions League",
+   "clubes": [
+    {
+     "nome": "Benfica",
+     "forca": 62,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#e20e0e",
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Porto",
+     "forca": 62,
+     "uniforme": {
+      "padrao": "vertical",
+      "faixas": [
+       [
+        "#003a8c",
+        7
+       ],
+       [
+        "#ffffff",
+        7
+       ]
+      ],
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Sporting",
+     "forca": 62,
+     "uniforme": {
+      "padrao": "horizontal",
+      "faixas": [
+       [
+        "#008057",
+        7
+       ],
+       [
+        "#ffffff",
+        7
+       ]
+      ],
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Braga",
+     "forca": 59,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#dc2d2d",
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Vitória de Guimarães",
+     "forca": 56,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#ffffff",
+      "numero": "#111111"
+     }
+    },
+    {
+     "nome": "Famalicão",
+     "forca": 54,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#1b3a8f",
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Gil Vicente",
+     "forca": 53,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#d0102a",
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Rio Ave",
+     "forca": 53,
+     "uniforme": {
+      "padrao": "horizontal",
+      "faixas": [
+       [
+        "#00843d",
+        7
+       ],
+       [
+        "#ffffff",
+        7
+       ]
+      ],
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Casa Pia",
+     "forca": 52,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#111111",
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Estoril",
+     "forca": 52,
+     "uniforme": {
+      "padrao": "vertical",
+      "faixas": [
+       [
+        "#ffd200",
+        7
+       ],
+       [
+        "#1b3a8f",
+        7
+       ]
+      ],
+      "numero": "#ffffff"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hol",
+   "nome": "Eredivisie",
+   "pais": "Holanda",
+   "continente": "europa",
+   "prestigio": 3,
+   "copa": "Champions League",
+   "clubes": [
+    {
+     "nome": "PSV",
+     "forca": 61,
+     "uniforme": {
+      "padrao": "vertical",
+      "faixas": [
+       [
+        "#ed1c24",
+        7
+       ],
+       [
+        "#ffffff",
+        7
+       ]
+      ],
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Feyenoord",
+     "forca": 60,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#ffffff",
+      "numero": "#d0102a"
+     }
+    },
+    {
+     "nome": "Ajax",
+     "forca": 60,
+     "uniforme": {
+      "padrao": "faixa-peito",
+      "base": "#ffffff",
+      "faixas": [
+       [
+        "#d2122e",
+        24
+       ]
+      ],
+      "inicio": 52,
+      "numero": "#111111"
+     }
+    },
+    {
+     "nome": "AZ Alkmaar",
+     "forca": 58,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#d0102a",
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Twente",
+     "forca": 57,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#d0102a",
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Utrecht",
+     "forca": 55,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#d0102a",
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "NEC",
+     "forca": 54,
+     "uniforme": {
+      "padrao": "vertical",
+      "faixas": [
+       [
+        "#d0102a",
+        7
+       ],
+       [
+        "#00843d",
+        7
+       ]
+      ],
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Go Ahead Eagles",
+     "forca": 53,
+     "uniforme": {
+      "padrao": "vertical",
+      "faixas": [
+       [
+        "#d0102a",
+        7
+       ],
+       [
+        "#ffd200",
+        7
+       ]
+      ],
+      "numero": "#111111"
+     }
+    },
+    {
+     "nome": "Heerenveen",
+     "forca": 53,
+     "uniforme": {
+      "padrao": "vertical",
+      "faixas": [
+       [
+        "#1b3a8f",
+        7
+       ],
+       [
+        "#ffffff",
+        7
+       ]
+      ],
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Sparta Rotterdam",
+     "forca": 52,
+     "uniforme": {
+      "padrao": "vertical",
+      "faixas": [
+       [
+        "#d0102a",
+        7
+       ],
+       [
+        "#ffffff",
+        7
+       ]
+      ],
+      "numero": "#ffffff"
+     }
+    }
+   ]
+  },
+  {
+   "id": "arg",
+   "nome": "Liga Argentina",
+   "pais": "Argentina",
+   "continente": "america",
+   "prestigio": 3,
+   "copa": "Libertadores",
+   "clubes": [
+    {
+     "nome": "River Plate",
+     "forca": 63,
+     "uniforme": {
+      "padrao": "diagonal",
+      "base": "#ffffff",
+      "faixa": "#d0102a",
+      "largura": 14,
+      "sentido": "inverso",
+      "numero": "#111111"
+     }
+    },
+    {
+     "nome": "Boca Juniors",
+     "forca": 62,
+     "uniforme": {
+      "padrao": "faixa-peito",
+      "base": "#0a3d91",
+      "faixas": [
+       [
+        "#ffd200",
+        14
+       ]
+      ],
+      "inicio": 60,
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Racing",
+     "forca": 61,
+     "uniforme": {
+      "padrao": "vertical",
+      "faixas": [
+       [
+        "#6fc3ea",
+        7
+       ],
+       [
+        "#ffffff",
+        7
+       ]
+      ],
+      "numero": "#111111"
+     }
+    },
+    {
+     "nome": "Estudiantes",
+     "forca": 60,
+     "uniforme": {
+      "padrao": "vertical",
+      "faixas": [
+       [
+        "#e30613",
+        7
+       ],
+       [
+        "#ffffff",
+        7
+       ]
+      ],
+      "numero": "#111111"
+     }
+    },
+    {
+     "nome": "Lanús",
+     "forca": 59,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#7a1f36",
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Rosario Central",
+     "forca": 59,
+     "uniforme": {
+      "padrao": "vertical",
+      "faixas": [
+       [
+        "#ffd200",
+        7
+       ],
+       [
+        "#0a3d91",
+        7
+       ]
+      ],
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Vélez Sarsfield",
+     "forca": 58,
+     "uniforme": {
+      "padrao": "faixa-peito",
+      "base": "#ffffff",
+      "faixas": [
+       [
+        "#1b3a8f",
+        10
+       ]
+      ],
+      "inicio": 56,
+      "numero": "#1b3a8f"
+     }
+    },
+    {
+     "nome": "Talleres",
+     "forca": 58,
+     "uniforme": {
+      "padrao": "vertical",
+      "faixas": [
+       [
+        "#0a2a6b",
+        7
+       ],
+       [
+        "#ffffff",
+        7
+       ]
+      ],
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Independiente",
+     "forca": 57,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#d0102a",
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "San Lorenzo",
+     "forca": 56,
+     "uniforme": {
+      "padrao": "vertical",
+      "faixas": [
+       [
+        "#1b3a8f",
+        7
+       ],
+       [
+        "#d0102a",
+        7
+       ]
+      ],
+      "numero": "#ffffff"
+     }
+    }
+   ]
+  },
+  {
+   "id": "ara",
+   "nome": "Saudi Pro League",
+   "pais": "Arábia Saudita",
+   "continente": "asia",
+   "prestigio": 2,
+   "copa": "Champions da Ásia",
+   "clubes": [
+    {
+     "nome": "Al-Hilal",
+     "forca": 61,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#0055a5",
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Al-Nassr",
+     "forca": 60,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#fff200",
+      "numero": "#0b2c73"
+     }
+    },
+    {
+     "nome": "Al-Ittihad",
+     "forca": 59,
+     "uniforme": {
+      "padrao": "vertical",
+      "faixas": [
+       [
+        "#ffd200",
+        7
+       ],
+       [
+        "#111111",
+        7
+       ]
+      ],
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Al-Ahli",
+     "forca": 59,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#00843d",
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Al-Qadsiah",
+     "forca": 57,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#d0102a",
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Al-Ettifaq",
+     "forca": 56,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#00843d",
+      "numero": "#d0102a"
+     }
+    },
+    {
+     "nome": "Al-Shabab",
+     "forca": 55,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#ffffff",
+      "numero": "#111111"
+     }
+    },
+    {
+     "nome": "Al-Taawoun",
+     "forca": 54,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#ffd200",
+      "numero": "#111111"
+     }
+    },
+    {
+     "nome": "Al-Fateh",
+     "forca": 53,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#1b3a8f",
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Al-Khaleej",
+     "forca": 52,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#ffd200",
+      "numero": "#00843d"
+     }
+    }
+   ]
+  },
+  {
+   "id": "rus",
+   "nome": "Premier League Russa",
+   "pais": "Rússia",
+   "continente": "leste",
+   "prestigio": 2,
+   "copa": null,
+   "clubes": [
+    {
+     "nome": "Zenit",
+     "forca": 59,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#1e73be",
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Krasnodar",
+     "forca": 57,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#111111",
+      "numero": "#1a9e4a"
+     }
+    },
+    {
+     "nome": "Spartak Moscou",
+     "forca": 57,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#c8102e",
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "CSKA Moscou",
+     "forca": 56,
+     "uniforme": {
+      "padrao": "horizontal",
+      "faixas": [
+       [
+        "#c8102e",
+        7
+       ],
+       [
+        "#1b3a8f",
+        7
+       ]
+      ],
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Lokomotiv Moscou",
+     "forca": 55,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#c8102e",
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Dínamo Moscou",
+     "forca": 55,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#1b4f9c",
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Rostov",
+     "forca": 52,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#f5c400",
+      "numero": "#1b4f9c"
+     }
+    },
+    {
+     "nome": "Rubin Kazan",
+     "forca": 51,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#8b1a2b",
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Akhmat",
+     "forca": 50,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#00843d",
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Krylya Sovetov",
+     "forca": 49,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#1b4f9c",
+      "numero": "#ffffff"
+     }
+    }
+   ]
+  }
+ ]
+}
