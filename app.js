@@ -823,7 +823,12 @@ function mostrarNiveis(r) {
 // base do proprio time decide: perto da linha lateral e lateral, no meio e
 // zagueiro. Quem nao tem posicao registrada pode ocupar qualquer vaga.
 function ladoDoDefensor(r) {
+  // lado medido de todo jogador (x medio de titular, x alto = direita); a
+  // escalacao base, quando tem o jogador, vale por cima
   const x = new Map();
+  for (const time of r.times) {
+    for (const j of time.jogadores) if (typeof j.x_medio === "number") x.set(j.player_id, j.x_medio);
+  }
   for (const time of r.times) {
     for (const p of (time.escalacao_base && time.escalacao_base.posicoes) || []) {
       if (p.player_id) x.set(p.player_id, p.x);

@@ -118,12 +118,24 @@ function montarClubes() {
 
 // --- draft -------------------------------------------------------------------------
 
+const LADO_DA_VAGA = { LD: "D", ALD: "D", LE: "E", ALE: "E" };
+
 function sortearLeque(vaga) {
   const funcao = VAGAS[vaga][0];
   const usados = new Set(D.onze.map((s) => s.jogador).filter(Boolean));
   let pool = D.r.indice.comNota.filter((j) => FUNCAO.get(j) === funcao && !usados.has(j));
   // funcao com pouca gente: completa com a familia da posicao
   if (pool.length < 12) pool = D.r.indice.comNota.filter((j) => FAMILIA[funcao].includes(j.posicao) && !usados.has(j));
+  // lateral e ala: so quem joga daquele lado (x medio; x alto = direita)
+  const lado = LADO_DA_VAGA[vaga];
+  if (lado) {
+    const xDe = ladoDoDefensor(D.r);
+    const doLado = pool.filter((j) => {
+      const x = xDe.get(j.player_id);
+      return typeof x === "number" && (lado === "D" ? x >= 0.5 : x < 0.5);
+    });
+    if (doLado.length >= 5) pool = doLado;
+  }
   const porNivel = {};
   for (const j of pool) (porNivel[nivel(j.overall).id] ||= []).push(j);
   const opcoes = [];
