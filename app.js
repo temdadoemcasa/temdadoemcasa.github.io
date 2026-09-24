@@ -561,7 +561,11 @@ function inferirFuncoes(r) {
         if (j.posicao === "G") f = "GOL";
         else if (j.posicao === "D") f = extremo && n >= 4 ? "LAT" : "ZAG";
         else if (j.posicao === "M") {
-          if (extremo && n >= 4) f = idx === 2 && nDefesa === 3 ? "LAT" : "PON";
+          // meia aberto na linha de 4 de um esquema de 3 zagueiros (3-4-2-1)
+          // e ALA, mas nao lateral: na selecao e no draft lateral e defensor
+          // ("D"). Era assim que o Mendoza, meia do Athletico, virava lateral
+          // esquerdo da selecao (2026-09-24).
+          if (extremo && n >= 4) f = idx === 2 && nDefesa === 3 ? "MEI" : "PON";
           else if (p.y >= 0.6) f = extremo ? "PON" : "MEI";
           else if (idx === 2 && n >= 3) f = i === Math.floor(n / 2) ? "VOL" : "MC";
           else if (n <= 2 && p.y <= 0.4) f = "VOL";
