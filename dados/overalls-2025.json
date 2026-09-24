@@ -1,6 +1,6 @@
 {
  "temporada": 2025,
- "gerado_em": "2026-09-24T02:07:03+00:00",
+ "gerado_em": "2026-09-24T02:27:28+00:00",
  "populacao": "Brasileirão",
  "piso_minutos": 450,
  "jogos_com_placar": 380,
@@ -118,7 +118,7 @@
      "camisa": 33,
      "jogos": 35,
      "minutos": 2511,
-     "overall": 69,
+     "overall": 72,
      "eixos": {
       "RIT": 82,
       "FIN": 80,
@@ -136,7 +136,7 @@
      "camisa": 6,
      "jogos": 31,
      "minutos": 2618,
-     "overall": 68,
+     "overall": 71,
      "eixos": {
       "RIT": 71,
       "FIN": 41,
@@ -144,6 +144,96 @@
       "DRI": 60,
       "DEF": 84,
       "FIS": 78
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 822729,
+     "nome": "A. Franco",
+     "posicao": "M",
+     "camisa": 21,
+     "jogos": 30,
+     "minutos": 2630,
+     "overall": 69,
+     "eixos": {
+      "RIT": 72,
+      "FIN": 43,
+      "PAS": 69,
+      "DRI": 69,
+      "DEF": 70,
+      "FIS": 73
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 34705,
+     "nome": "Hulk",
+     "posicao": "F",
+     "camisa": 7,
+     "jogos": 33,
+     "minutos": 2442,
+     "overall": 69,
+     "eixos": {
+      "RIT": 75,
+      "FIN": 76,
+      "PAS": 69,
+      "DRI": 81,
+      "DEF": 34,
+      "FIS": 60
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 559036,
+     "nome": "G. Scarpa",
+     "posicao": "M",
+     "camisa": 10,
+     "jogos": 36,
+     "minutos": 2304,
+     "overall": 69,
+     "eixos": {
+      "RIT": 75,
+      "FIN": 64,
+      "PAS": 81,
+      "DRI": 75,
+      "DEF": 54,
+      "FIS": 63
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 913598,
+     "nome": "I. Gomes",
+     "posicao": "M",
+     "camisa": 17,
+     "jogos": 34,
+     "minutos": 1847,
+     "overall": 69,
+     "eixos": {
+      "RIT": 72,
+      "FIN": 66,
+      "PAS": 78,
+      "DRI": 77,
+      "DEF": 70,
+      "FIS": 76
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 794838,
+     "nome": "V. Hugo",
+     "posicao": "D",
+     "camisa": 14,
+     "jogos": 23,
+     "minutos": 1639,
+     "overall": 68,
+     "eixos": {
+      "RIT": 73,
+      "FIN": 54,
+      "PAS": 65,
+      "DRI": 60,
+      "DEF": 89,
+      "FIS": 82
      },
      "sem_nota_por": null
     },
@@ -165,103 +255,13 @@
      "sem_nota_por": null
     },
     {
-     "player_id": 822729,
-     "nome": "A. Franco",
-     "posicao": "M",
-     "camisa": 21,
-     "jogos": 30,
-     "minutos": 2630,
-     "overall": 65,
-     "eixos": {
-      "RIT": 72,
-      "FIN": 43,
-      "PAS": 69,
-      "DRI": 69,
-      "DEF": 70,
-      "FIS": 73
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 34705,
-     "nome": "Hulk",
-     "posicao": "F",
-     "camisa": 7,
-     "jogos": 33,
-     "minutos": 2442,
-     "overall": 65,
-     "eixos": {
-      "RIT": 75,
-      "FIN": 76,
-      "PAS": 69,
-      "DRI": 81,
-      "DEF": 34,
-      "FIS": 60
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 913598,
-     "nome": "I. Gomes",
-     "posicao": "M",
-     "camisa": 17,
-     "jogos": 34,
-     "minutos": 1847,
-     "overall": 65,
-     "eixos": {
-      "RIT": 72,
-      "FIN": 66,
-      "PAS": 78,
-      "DRI": 77,
-      "DEF": 70,
-      "FIS": 76
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 559036,
-     "nome": "G. Scarpa",
-     "posicao": "M",
-     "camisa": 10,
-     "jogos": 36,
-     "minutos": 2304,
-     "overall": 64,
-     "eixos": {
-      "RIT": 75,
-      "FIN": 64,
-      "PAS": 81,
-      "DRI": 75,
-      "DEF": 54,
-      "FIS": 63
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 794838,
-     "nome": "V. Hugo",
-     "posicao": "D",
-     "camisa": 14,
-     "jogos": 23,
-     "minutos": 1639,
-     "overall": 63,
-     "eixos": {
-      "RIT": 73,
-      "FIN": 54,
-      "PAS": 65,
-      "DRI": 60,
-      "DEF": 89,
-      "FIS": 82
-     },
-     "sem_nota_por": null
-    },
-    {
      "player_id": 797893,
      "nome": "Lyanco",
      "posicao": "D",
      "camisa": 4,
      "jogos": 17,
      "minutos": 1413,
-     "overall": 62,
+     "overall": 67,
      "eixos": {
       "RIT": 66,
       "FIN": 49,
@@ -279,7 +279,7 @@
      "camisa": 2,
      "jogos": 34,
      "minutos": 2157,
-     "overall": 61,
+     "overall": 66,
      "eixos": {
       "RIT": 82,
       "FIN": 47,
@@ -297,7 +297,7 @@
      "camisa": 13,
      "jogos": 25,
      "minutos": 1751,
-     "overall": 61,
+     "overall": 66,
      "eixos": {
       "RIT": 72,
       "FIN": 62,
@@ -309,31 +309,13 @@
      "sem_nota_por": null
     },
     {
-     "player_id": 1093196,
-     "nome": "Rubens",
-     "posicao": "M",
-     "camisa": 44,
-     "jogos": 13,
-     "minutos": 1034,
-     "overall": 61,
-     "eixos": {
-      "RIT": 76,
-      "FIN": 66,
-      "PAS": 68,
-      "DRI": 75,
-      "DEF": 87,
-      "FIS": 68
-     },
-     "sem_nota_por": null
-    },
-    {
      "player_id": 241488,
      "nome": "Bernard",
      "posicao": "M",
      "camisa": 11,
      "jogos": 30,
      "minutos": 1240,
-     "overall": 60,
+     "overall": 66,
      "eixos": {
       "RIT": 81,
       "FIN": 67,
@@ -345,13 +327,31 @@
      "sem_nota_por": null
     },
     {
+     "player_id": 1093196,
+     "nome": "Rubens",
+     "posicao": "M",
+     "camisa": 44,
+     "jogos": 13,
+     "minutos": 1034,
+     "overall": 66,
+     "eixos": {
+      "RIT": 76,
+      "FIN": 66,
+      "PAS": 68,
+      "DRI": 75,
+      "DEF": 87,
+      "FIS": 68
+     },
+     "sem_nota_por": null
+    },
+    {
      "player_id": 931591,
      "nome": "C. Paulista",
      "posicao": "M",
      "camisa": 38,
      "jogos": 20,
      "minutos": 894,
-     "overall": 60,
+     "overall": 66,
      "eixos": {
       "RIT": 84,
       "FIN": 66,
@@ -369,7 +369,7 @@
      "camisa": 77,
      "jogos": 17,
      "minutos": 589,
-     "overall": 60,
+     "overall": 66,
      "eixos": {
       "RIT": 85,
       "FIN": 78,
@@ -387,7 +387,7 @@
      "camisa": 92,
      "jogos": 23,
      "minutos": 1282,
-     "overall": 59,
+     "overall": 65,
      "eixos": {
       "RIT": 77,
       "FIN": 73,
@@ -405,7 +405,7 @@
      "camisa": 28,
      "jogos": 16,
      "minutos": 1206,
-     "overall": 59,
+     "overall": 65,
      "eixos": {
       "RIT": 72,
       "FIN": 71,
@@ -417,31 +417,13 @@
      "sem_nota_por": null
     },
     {
-     "player_id": 930690,
-     "nome": "F. Vera",
-     "posicao": "M",
-     "camisa": 8,
-     "jogos": 18,
-     "minutos": 1130,
-     "overall": 58,
-     "eixos": {
-      "RIT": 71,
-      "FIN": 57,
-      "PAS": 72,
-      "DRI": 74,
-      "DEF": 70,
-      "FIS": 70
-     },
-     "sem_nota_por": null
-    },
-    {
      "player_id": 974556,
      "nome": "G. Menino",
      "posicao": "M",
      "camisa": 25,
      "jogos": 23,
      "minutos": 885,
-     "overall": 58,
+     "overall": 65,
      "eixos": {
       "RIT": 71,
       "FIN": 64,
@@ -459,7 +441,7 @@
      "camisa": 16,
      "jogos": 16,
      "minutos": 1171,
-     "overall": 57,
+     "overall": 64,
      "eixos": {
       "RIT": 69,
       "FIN": 41,
@@ -471,13 +453,31 @@
      "sem_nota_por": null
     },
     {
+     "player_id": 930690,
+     "nome": "F. Vera",
+     "posicao": "M",
+     "camisa": 8,
+     "jogos": 18,
+     "minutos": 1130,
+     "overall": 64,
+     "eixos": {
+      "RIT": 71,
+      "FIN": 57,
+      "PAS": 72,
+      "DRI": 74,
+      "DEF": 70,
+      "FIS": 70
+     },
+     "sem_nota_por": null
+    },
+    {
      "player_id": 315916,
      "nome": "R. Saravia",
      "posicao": "D",
      "camisa": 26,
      "jogos": 19,
      "minutos": 1063,
-     "overall": 56,
+     "overall": 63,
      "eixos": {
       "RIT": 73,
       "FIN": 42,
@@ -495,7 +495,7 @@
      "camisa": 23,
      "jogos": 12,
      "minutos": 717,
-     "overall": 56,
+     "overall": 63,
      "eixos": {
       "RIT": 66,
       "FIN": 52,
@@ -513,7 +513,7 @@
      "camisa": 5,
      "jogos": 14,
      "minutos": 833,
-     "overall": 53,
+     "overall": 61,
      "eixos": {
       "RIT": 66,
       "FIN": 62,
@@ -747,6 +747,24 @@
      "sem_nota_por": null
     },
     {
+     "player_id": 989843,
+     "nome": "S. R. Mingo",
+     "posicao": "D",
+     "camisa": 21,
+     "jogos": 33,
+     "minutos": 2883,
+     "overall": 78,
+     "eixos": {
+      "RIT": 67,
+      "FIN": 49,
+      "PAS": 69,
+      "DRI": 64,
+      "DEF": 78,
+      "FIS": 78
+     },
+     "sem_nota_por": null
+    },
+    {
      "player_id": 1017264,
      "nome": "L. Juba",
      "posicao": "D",
@@ -783,31 +801,13 @@
      "sem_nota_por": null
     },
     {
-     "player_id": 989843,
-     "nome": "S. R. Mingo",
-     "posicao": "D",
-     "camisa": 21,
-     "jogos": 33,
-     "minutos": 2883,
-     "overall": 77,
-     "eixos": {
-      "RIT": 67,
-      "FIN": 49,
-      "PAS": 69,
-      "DRI": 64,
-      "DEF": 78,
-      "FIS": 78
-     },
-     "sem_nota_por": null
-    },
-    {
      "player_id": 959620,
      "nome": "N. Acevedo",
      "posicao": "M",
      "camisa": 26,
      "jogos": 32,
      "minutos": 1711,
-     "overall": 76,
+     "overall": 77,
      "eixos": {
       "RIT": 67,
       "FIN": 59,
@@ -825,7 +825,7 @@
      "camisa": 16,
      "jogos": 24,
      "minutos": 1652,
-     "overall": 76,
+     "overall": 77,
      "eixos": {
       "RIT": 85,
       "FIN": 79,
@@ -843,7 +843,7 @@
      "camisa": 12,
      "jogos": 33,
      "minutos": 2128,
-     "overall": 75,
+     "overall": 76,
      "eixos": {
       "RIT": 63,
       "FIN": 81,
@@ -861,7 +861,7 @@
      "camisa": 33,
      "jogos": 25,
      "minutos": 2207,
-     "overall": 74,
+     "overall": 75,
      "eixos": {
       "RIT": 70,
       "FIN": 55,
@@ -879,7 +879,7 @@
      "camisa": 77,
      "jogos": 25,
      "minutos": 891,
-     "overall": 73,
+     "overall": 75,
      "eixos": {
       "RIT": 80,
       "FIN": 80,
@@ -891,13 +891,31 @@
      "sem_nota_por": null
     },
     {
+     "player_id": 145063,
+     "nome": "E. Ribeiro",
+     "posicao": "M",
+     "camisa": 10,
+     "jogos": 31,
+     "minutos": 1949,
+     "overall": 74,
+     "eixos": {
+      "RIT": 67,
+      "FIN": 65,
+      "PAS": 82,
+      "DRI": 76,
+      "DEF": 53,
+      "FIS": 58
+     },
+     "sem_nota_por": null
+    },
+    {
      "player_id": 261687,
      "nome": "Gilberto",
      "posicao": "D",
      "camisa": 2,
      "jogos": 23,
      "minutos": 1783,
-     "overall": 72,
+     "overall": 74,
      "eixos": {
       "RIT": 70,
       "FIN": 50,
@@ -905,6 +923,60 @@
       "DRI": 67,
       "DEF": 81,
       "FIS": 69
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 1106151,
+     "nome": "Kayky",
+     "posicao": "F",
+     "camisa": 37,
+     "jogos": 26,
+     "minutos": 882,
+     "overall": 74,
+     "eixos": {
+      "RIT": 77,
+      "FIN": 73,
+      "PAS": 75,
+      "DRI": 83,
+      "DEF": 38,
+      "FIS": 71
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 874063,
+     "nome": "Erick",
+     "posicao": "M",
+     "camisa": 14,
+     "jogos": 16,
+     "minutos": 674,
+     "overall": 73,
+     "eixos": {
+      "RIT": 75,
+      "FIN": 69,
+      "PAS": 68,
+      "DRI": 71,
+      "DEF": 81,
+      "FIS": 82
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 1008832,
+     "nome": "C. Alexandre",
+     "posicao": "M",
+     "camisa": 19,
+     "jogos": 21,
+     "minutos": 1276,
+     "overall": 72,
+     "eixos": {
+      "RIT": 68,
+      "FIN": 53,
+      "PAS": 80,
+      "DRI": 70,
+      "DEF": 70,
+      "FIS": 64
      },
      "sem_nota_por": null
     },
@@ -926,85 +998,13 @@
      "sem_nota_por": null
     },
     {
-     "player_id": 1106151,
-     "nome": "Kayky",
-     "posicao": "F",
-     "camisa": 37,
-     "jogos": 26,
-     "minutos": 882,
-     "overall": 72,
-     "eixos": {
-      "RIT": 77,
-      "FIN": 73,
-      "PAS": 75,
-      "DRI": 83,
-      "DEF": 38,
-      "FIS": 71
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 145063,
-     "nome": "E. Ribeiro",
-     "posicao": "M",
-     "camisa": 10,
-     "jogos": 31,
-     "minutos": 1949,
-     "overall": 71,
-     "eixos": {
-      "RIT": 67,
-      "FIN": 65,
-      "PAS": 82,
-      "DRI": 76,
-      "DEF": 53,
-      "FIS": 58
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 874063,
-     "nome": "Erick",
-     "posicao": "M",
-     "camisa": 14,
-     "jogos": 16,
-     "minutos": 674,
-     "overall": 71,
-     "eixos": {
-      "RIT": 75,
-      "FIN": 69,
-      "PAS": 68,
-      "DRI": 71,
-      "DEF": 81,
-      "FIS": 82
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 1008832,
-     "nome": "C. Alexandre",
-     "posicao": "M",
-     "camisa": 19,
-     "jogos": 21,
-     "minutos": 1276,
-     "overall": 69,
-     "eixos": {
-      "RIT": 68,
-      "FIN": 53,
-      "PAS": 80,
-      "DRI": 70,
-      "DEF": 70,
-      "FIS": 64
-     },
-     "sem_nota_por": null
-    },
-    {
      "player_id": 255873,
      "nome": "Cauly",
      "posicao": "M",
      "camisa": 8,
      "jogos": 29,
      "minutos": 891,
-     "overall": 69,
+     "overall": 72,
      "eixos": {
       "RIT": 77,
       "FIN": 72,
@@ -1022,7 +1022,7 @@
      "camisa": 17,
      "jogos": 18,
      "minutos": 787,
-     "overall": 69,
+     "overall": 72,
      "eixos": {
       "RIT": 77,
       "FIN": 79,
@@ -1040,7 +1040,7 @@
      "camisa": 13,
      "jogos": 19,
      "minutos": 1231,
-     "overall": 68,
+     "overall": 71,
      "eixos": {
       "RIT": 73,
       "FIN": 48,
@@ -1052,13 +1052,31 @@
      "sem_nota_por": null
     },
     {
+     "player_id": 905461,
+     "nome": "R. Nestor",
+     "posicao": "M",
+     "camisa": 11,
+     "jogos": 22,
+     "minutos": 876,
+     "overall": 71,
+     "eixos": {
+      "RIT": 74,
+      "FIN": 67,
+      "PAS": 73,
+      "DRI": 70,
+      "DEF": 50,
+      "FIS": 71
+     },
+     "sem_nota_por": null
+    },
+    {
      "player_id": 924857,
      "nome": "M. Araújo",
      "posicao": "M",
      "camisa": 15,
      "jogos": 24,
      "minutos": 853,
-     "overall": 68,
+     "overall": 71,
      "eixos": {
       "RIT": 70,
       "FIN": 67,
@@ -1066,6 +1084,78 @@
       "DRI": 69,
       "DEF": 64,
       "FIS": 79
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 868030,
+     "nome": "Rezende",
+     "posicao": "M",
+     "camisa": 5,
+     "jogos": 11,
+     "minutos": 584,
+     "overall": 70,
+     "eixos": {
+      "RIT": 66,
+      "FIN": 53,
+      "PAS": 68,
+      "DRI": 69,
+      "DEF": 69,
+      "FIS": 83
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 1117710,
+     "nome": "G. Xavier",
+     "posicao": "D",
+     "camisa": 3,
+     "jogos": 13,
+     "minutos": 965,
+     "overall": 69,
+     "eixos": {
+      "RIT": 66,
+      "FIN": 39,
+      "PAS": 59,
+      "DRI": 56,
+      "DEF": 83,
+      "FIS": 78
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 869644,
+     "nome": "I. Borduchi",
+     "posicao": "D",
+     "camisa": 25,
+     "jogos": 15,
+     "minutos": 634,
+     "overall": 69,
+     "eixos": {
+      "RIT": 77,
+      "FIN": 61,
+      "PAS": 63,
+      "DRI": 57,
+      "DEF": 72,
+      "FIS": 75
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 871705,
+     "nome": "Kanu",
+     "posicao": "D",
+     "camisa": 4,
+     "jogos": 7,
+     "minutos": 515,
+     "overall": 68,
+     "eixos": {
+      "RIT": 64,
+      "FIN": 43,
+      "PAS": 65,
+      "DRI": 59,
+      "DEF": 83,
+      "FIS": 69
      },
      "sem_nota_por": null
     },
@@ -1087,85 +1177,13 @@
      "sem_nota_por": null
     },
     {
-     "player_id": 905461,
-     "nome": "R. Nestor",
-     "posicao": "M",
-     "camisa": 11,
-     "jogos": 22,
-     "minutos": 876,
-     "overall": 67,
-     "eixos": {
-      "RIT": 74,
-      "FIN": 67,
-      "PAS": 73,
-      "DRI": 70,
-      "DEF": 50,
-      "FIS": 71
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 868030,
-     "nome": "Rezende",
-     "posicao": "M",
-     "camisa": 5,
-     "jogos": 11,
-     "minutos": 584,
-     "overall": 66,
-     "eixos": {
-      "RIT": 66,
-      "FIN": 53,
-      "PAS": 68,
-      "DRI": 69,
-      "DEF": 69,
-      "FIS": 83
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 1117710,
-     "nome": "G. Xavier",
-     "posicao": "D",
-     "camisa": 3,
-     "jogos": 13,
-     "minutos": 965,
-     "overall": 65,
-     "eixos": {
-      "RIT": 66,
-      "FIN": 39,
-      "PAS": 59,
-      "DRI": 56,
-      "DEF": 83,
-      "FIS": 78
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 869644,
-     "nome": "I. Borduchi",
-     "posicao": "D",
-     "camisa": 25,
-     "jogos": 15,
-     "minutos": 634,
-     "overall": 65,
-     "eixos": {
-      "RIT": 77,
-      "FIN": 61,
-      "PAS": 63,
-      "DRI": 57,
-      "DEF": 72,
-      "FIS": 75
-     },
-     "sem_nota_por": null
-    },
-    {
      "player_id": 1182233,
      "nome": "M. Sanabria",
      "posicao": "M",
      "camisa": 23,
      "jogos": 10,
      "minutos": 573,
-     "overall": 63,
+     "overall": 67,
      "eixos": {
       "RIT": 77,
       "FIN": 65,
@@ -1173,24 +1191,6 @@
       "DRI": 72,
       "DEF": 47,
       "FIS": 59
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 871705,
-     "nome": "Kanu",
-     "posicao": "D",
-     "camisa": 4,
-     "jogos": 7,
-     "minutos": 515,
-     "overall": 63,
-     "eixos": {
-      "RIT": 64,
-      "FIN": 43,
-      "PAS": 65,
-      "DRI": 59,
-      "DEF": 83,
-      "FIS": 69
      },
      "sem_nota_por": null
     },
@@ -1459,6 +1459,78 @@
      "sem_nota_por": null
     },
     {
+     "player_id": 975216,
+     "nome": "S. Rodríguez",
+     "posicao": "M",
+     "camisa": 23,
+     "jogos": 26,
+     "minutos": 1327,
+     "overall": 78,
+     "eixos": {
+      "RIT": 76,
+      "FIN": 66,
+      "PAS": 78,
+      "DRI": 77,
+      "DEF": 56,
+      "FIS": 75
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 981619,
+     "nome": "I. Jesus",
+     "posicao": "F",
+     "camisa": 99,
+     "jogos": 10,
+     "minutos": 877,
+     "overall": 78,
+     "eixos": {
+      "RIT": 80,
+      "FIN": 78,
+      "PAS": 65,
+      "DRI": 80,
+      "DEF": 47,
+      "FIS": 82
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 312110,
+     "nome": "A. Telles",
+     "posicao": "D",
+     "camisa": 13,
+     "jogos": 27,
+     "minutos": 1699,
+     "overall": 77,
+     "eixos": {
+      "RIT": 73,
+      "FIN": 68,
+      "PAS": 74,
+      "DRI": 66,
+      "DEF": 72,
+      "FIS": 67
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 1160554,
+     "nome": "Cuiabano",
+     "posicao": "D",
+     "camisa": 6,
+     "jogos": 30,
+     "minutos": 1544,
+     "overall": 77,
+     "eixos": {
+      "RIT": 73,
+      "FIN": 69,
+      "PAS": 66,
+      "DRI": 62,
+      "DEF": 77,
+      "FIS": 73
+     },
+     "sem_nota_por": null
+    },
+    {
      "player_id": 1463909,
      "nome": "Newton",
      "posicao": "M",
@@ -1477,20 +1549,20 @@
      "sem_nota_por": null
     },
     {
-     "player_id": 975216,
-     "nome": "S. Rodríguez",
+     "player_id": 840276,
+     "nome": "Gregore",
      "posicao": "M",
-     "camisa": 23,
-     "jogos": 26,
-     "minutos": 1327,
+     "camisa": 26,
+     "jogos": 12,
+     "minutos": 983,
      "overall": 77,
      "eixos": {
-      "RIT": 76,
-      "FIN": 66,
-      "PAS": 78,
-      "DRI": 77,
-      "DEF": 56,
-      "FIS": 75
+      "RIT": 73,
+      "FIN": 54,
+      "PAS": 75,
+      "DRI": 70,
+      "DEF": 79,
+      "FIS": 78
      },
      "sem_nota_por": null
     },
@@ -1513,85 +1585,13 @@
      "sem_nota_por": null
     },
     {
-     "player_id": 981619,
-     "nome": "I. Jesus",
-     "posicao": "F",
-     "camisa": 99,
-     "jogos": 10,
-     "minutos": 877,
-     "overall": 77,
-     "eixos": {
-      "RIT": 80,
-      "FIN": 78,
-      "PAS": 65,
-      "DRI": 80,
-      "DEF": 47,
-      "FIS": 82
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 312110,
-     "nome": "A. Telles",
-     "posicao": "D",
-     "camisa": 13,
-     "jogos": 27,
-     "minutos": 1699,
-     "overall": 76,
-     "eixos": {
-      "RIT": 73,
-      "FIN": 68,
-      "PAS": 74,
-      "DRI": 66,
-      "DEF": 72,
-      "FIS": 67
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 1160554,
-     "nome": "Cuiabano",
-     "posicao": "D",
-     "camisa": 6,
-     "jogos": 30,
-     "minutos": 1544,
-     "overall": 76,
-     "eixos": {
-      "RIT": 73,
-      "FIN": 69,
-      "PAS": 66,
-      "DRI": 62,
-      "DEF": 77,
-      "FIS": 73
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 840276,
-     "nome": "Gregore",
-     "posicao": "M",
-     "camisa": 26,
-     "jogos": 12,
-     "minutos": 983,
-     "overall": 76,
-     "eixos": {
-      "RIT": 73,
-      "FIN": 54,
-      "PAS": 75,
-      "DRI": 70,
-      "DEF": 79,
-      "FIS": 78
-     },
-     "sem_nota_por": null
-    },
-    {
      "player_id": 914819,
      "nome": "C. Ramos",
      "posicao": "F",
      "camisa": 9,
      "jogos": 13,
      "minutos": 721,
-     "overall": 76,
+     "overall": 77,
      "eixos": {
       "RIT": 81,
       "FIN": 81,
@@ -1609,7 +1609,7 @@
      "camisa": 21,
      "jogos": 15,
      "minutos": 1007,
-     "overall": 75,
+     "overall": 76,
      "eixos": {
       "RIT": 69,
       "FIN": 60,
@@ -1627,7 +1627,7 @@
      "camisa": 32,
      "jogos": 11,
      "minutos": 990,
-     "overall": 74,
+     "overall": 75,
      "eixos": {
       "RIT": 74,
       "FIN": 49,
@@ -1639,13 +1639,31 @@
      "sem_nota_por": null
     },
     {
+     "player_id": 1650770,
+     "nome": "Á. Montoro",
+     "posicao": "M",
+     "camisa": 8,
+     "jogos": 16,
+     "minutos": 938,
+     "overall": 75,
+     "eixos": {
+      "RIT": 69,
+      "FIN": 69,
+      "PAS": 80,
+      "DRI": 78,
+      "DEF": 62,
+      "FIS": 58
+     },
+     "sem_nota_por": null
+    },
+    {
      "player_id": 990193,
      "nome": "K. Pantaleão",
      "posicao": "D",
      "camisa": 31,
      "jogos": 11,
      "minutos": 935,
-     "overall": 74,
+     "overall": 75,
      "eixos": {
       "RIT": 74,
       "FIN": 53,
@@ -1663,7 +1681,7 @@
      "camisa": 4,
      "jogos": 21,
      "minutos": 679,
-     "overall": 74,
+     "overall": 75,
      "eixos": {
       "RIT": 83,
       "FIN": 65,
@@ -1671,6 +1689,60 @@
       "DRI": 62,
       "DEF": 83,
       "FIS": 72
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 1106779,
+     "nome": "M. Martins",
+     "posicao": "F",
+     "camisa": 11,
+     "jogos": 15,
+     "minutos": 651,
+     "overall": 75,
+     "eixos": {
+      "RIT": 83,
+      "FIN": 76,
+      "PAS": 66,
+      "DRI": 78,
+      "DEF": 39,
+      "FIS": 65
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 1064039,
+     "nome": "D. Santos",
+     "posicao": "M",
+     "camisa": 35,
+     "jogos": 13,
+     "minutos": 829,
+     "overall": 74,
+     "eixos": {
+      "RIT": 71,
+      "FIN": 63,
+      "PAS": 81,
+      "DRI": 74,
+      "DEF": 66,
+      "FIS": 66
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 1016948,
+     "nome": "Jeffinho",
+     "posicao": "M",
+     "camisa": 47,
+     "jogos": 17,
+     "minutos": 700,
+     "overall": 74,
+     "eixos": {
+      "RIT": 77,
+      "FIN": 68,
+      "PAS": 74,
+      "DRI": 77,
+      "DEF": 58,
+      "FIS": 63
      },
      "sem_nota_por": null
     },
@@ -1692,85 +1764,13 @@
      "sem_nota_por": null
     },
     {
-     "player_id": 1650770,
-     "nome": "Á. Montoro",
-     "posicao": "M",
-     "camisa": 8,
-     "jogos": 16,
-     "minutos": 938,
-     "overall": 73,
-     "eixos": {
-      "RIT": 69,
-      "FIN": 69,
-      "PAS": 80,
-      "DRI": 78,
-      "DEF": 62,
-      "FIS": 58
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 1106779,
-     "nome": "M. Martins",
-     "posicao": "F",
-     "camisa": 11,
-     "jogos": 15,
-     "minutos": 651,
-     "overall": 73,
-     "eixos": {
-      "RIT": 83,
-      "FIN": 76,
-      "PAS": 66,
-      "DRI": 78,
-      "DEF": 39,
-      "FIS": 65
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 1064039,
-     "nome": "D. Santos",
-     "posicao": "M",
-     "camisa": 35,
-     "jogos": 13,
-     "minutos": 829,
-     "overall": 72,
-     "eixos": {
-      "RIT": 71,
-      "FIN": 63,
-      "PAS": 81,
-      "DRI": 74,
-      "DEF": 66,
-      "FIS": 66
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 1016948,
-     "nome": "Jeffinho",
-     "posicao": "M",
-     "camisa": 47,
-     "jogos": 17,
-     "minutos": 700,
-     "overall": 72,
-     "eixos": {
-      "RIT": 77,
-      "FIN": 68,
-      "PAS": 74,
-      "DRI": 77,
-      "DEF": 58,
-      "FIS": 63
-     },
-     "sem_nota_por": null
-    },
-    {
      "player_id": 158277,
      "nome": "Allan",
      "posicao": "M",
      "camisa": 25,
      "jogos": 21,
      "minutos": 975,
-     "overall": 68,
+     "overall": 71,
      "eixos": {
       "RIT": 69,
       "FIN": 49,
@@ -2064,7 +2064,7 @@
      "camisa": 27,
      "jogos": 38,
      "minutos": 3148,
-     "overall": 59,
+     "overall": 65,
      "eixos": {
       "RIT": 80,
       "FIN": 67,
@@ -2072,6 +2072,204 @@
       "DRI": 69,
       "DEF": 44,
       "FIS": 68
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 925871,
+     "nome": "W. Machado",
+     "posicao": "D",
+     "camisa": 23,
+     "jogos": 36,
+     "minutos": 3220,
+     "overall": 64,
+     "eixos": {
+      "RIT": 64,
+      "FIN": 41,
+      "PAS": 62,
+      "DRI": 56,
+      "DEF": 79,
+      "FIS": 80
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 866911,
+     "nome": "P. Raul",
+     "posicao": "F",
+     "camisa": 9,
+     "jogos": 34,
+     "minutos": 2905,
+     "overall": 64,
+     "eixos": {
+      "RIT": 67,
+      "FIN": 80,
+      "PAS": 58,
+      "DRI": 70,
+      "DEF": 37,
+      "FIS": 76
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 1016930,
+     "nome": "Dieguinho",
+     "posicao": "M",
+     "camisa": 20,
+     "jogos": 32,
+     "minutos": 2667,
+     "overall": 64,
+     "eixos": {
+      "RIT": 65,
+      "FIN": 46,
+      "PAS": 69,
+      "DRI": 70,
+      "DEF": 78,
+      "FIS": 72
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 1130513,
+     "nome": "F. Souza",
+     "posicao": "D",
+     "camisa": 70,
+     "jogos": 34,
+     "minutos": 2912,
+     "overall": 62,
+     "eixos": {
+      "RIT": 75,
+      "FIN": 39,
+      "PAS": 65,
+      "DRI": 61,
+      "DEF": 71,
+      "FIS": 60
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 1047204,
+     "nome": "M. Bahia",
+     "posicao": "D",
+     "camisa": 79,
+     "jogos": 28,
+     "minutos": 2468,
+     "overall": 61,
+     "eixos": {
+      "RIT": 77,
+      "FIN": 40,
+      "PAS": 65,
+      "DRI": 61,
+      "DEF": 66,
+      "FIS": 65
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 879871,
+     "nome": "Lourenço",
+     "posicao": "M",
+     "camisa": 97,
+     "jogos": 33,
+     "minutos": 1405,
+     "overall": 61,
+     "eixos": {
+      "RIT": 74,
+      "FIN": 66,
+      "PAS": 74,
+      "DRI": 70,
+      "DEF": 74,
+      "FIS": 76
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 871219,
+     "nome": "Fernandinho",
+     "posicao": "F",
+     "camisa": 77,
+     "jogos": 22,
+     "minutos": 1009,
+     "overall": 61,
+     "eixos": {
+      "RIT": 79,
+      "FIN": 75,
+      "PAS": 64,
+      "DRI": 80,
+      "DEF": 55,
+      "FIS": 74
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 249881,
+     "nome": "L. Mugni",
+     "posicao": "M",
+     "camisa": 10,
+     "jogos": 33,
+     "minutos": 1733,
+     "overall": 60,
+     "eixos": {
+      "RIT": 73,
+      "FIN": 64,
+      "PAS": 74,
+      "DRI": 70,
+      "DEF": 52,
+      "FIS": 68
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 931479,
+     "nome": "F. Sobral",
+     "posicao": "M",
+     "camisa": 88,
+     "jogos": 30,
+     "minutos": 1509,
+     "overall": 60,
+     "eixos": {
+      "RIT": 76,
+      "FIN": 52,
+      "PAS": 70,
+      "DRI": 68,
+      "DEF": 63,
+      "FIS": 73
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 364528,
+     "nome": "Aylon",
+     "posicao": "F",
+     "camisa": 11,
+     "jogos": 23,
+     "minutos": 802,
+     "overall": 60,
+     "eixos": {
+      "RIT": 79,
+      "FIN": 78,
+      "PAS": 59,
+      "DRI": 78,
+      "DEF": 42,
+      "FIS": 82
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 1174206,
+     "nome": "P. Baya",
+     "posicao": "F",
+     "camisa": 17,
+     "jogos": 19,
+     "minutos": 482,
+     "overall": 60,
+     "eixos": {
+      "RIT": 86,
+      "FIN": 76,
+      "PAS": 69,
+      "DRI": 85,
+      "DEF": 33,
+      "FIS": 67
      },
      "sem_nota_por": null
     },
@@ -2093,228 +2291,13 @@
      "sem_nota_por": null
     },
     {
-     "player_id": 925871,
-     "nome": "W. Machado",
-     "posicao": "D",
-     "camisa": 23,
-     "jogos": 36,
-     "minutos": 3220,
-     "overall": 58,
-     "eixos": {
-      "RIT": 64,
-      "FIN": 41,
-      "PAS": 62,
-      "DRI": 56,
-      "DEF": 79,
-      "FIS": 80
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 866911,
-     "nome": "P. Raul",
-     "posicao": "F",
-     "camisa": 9,
-     "jogos": 34,
-     "minutos": 2905,
-     "overall": 58,
-     "eixos": {
-      "RIT": 67,
-      "FIN": 80,
-      "PAS": 58,
-      "DRI": 70,
-      "DEF": 37,
-      "FIS": 76
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 1016930,
-     "nome": "Dieguinho",
-     "posicao": "M",
-     "camisa": 20,
-     "jogos": 32,
-     "minutos": 2667,
-     "overall": 58,
-     "eixos": {
-      "RIT": 65,
-      "FIN": 46,
-      "PAS": 69,
-      "DRI": 70,
-      "DEF": 78,
-      "FIS": 72
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 1130513,
-     "nome": "F. Souza",
-     "posicao": "D",
-     "camisa": 70,
-     "jogos": 34,
-     "minutos": 2912,
-     "overall": 55,
-     "eixos": {
-      "RIT": 75,
-      "FIN": 39,
-      "PAS": 65,
-      "DRI": 61,
-      "DEF": 71,
-      "FIS": 60
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 879871,
-     "nome": "Lourenço",
-     "posicao": "M",
-     "camisa": 97,
-     "jogos": 33,
-     "minutos": 1405,
-     "overall": 54,
-     "eixos": {
-      "RIT": 74,
-      "FIN": 66,
-      "PAS": 74,
-      "DRI": 70,
-      "DEF": 74,
-      "FIS": 76
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 358418,
-     "nome": "F. Miguel",
-     "posicao": "G",
-     "camisa": 16,
-     "jogos": 8,
-     "minutos": 656,
-     "overall": 54,
-     "eixos": {
-      "REF": 92,
-      "EVI": 78,
-      "MAO": 82,
-      "PES": 56,
-      "SAI": 78
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 1047204,
-     "nome": "M. Bahia",
-     "posicao": "D",
-     "camisa": 79,
-     "jogos": 28,
-     "minutos": 2468,
-     "overall": 53,
-     "eixos": {
-      "RIT": 77,
-      "FIN": 40,
-      "PAS": 65,
-      "DRI": 61,
-      "DEF": 66,
-      "FIS": 65
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 871219,
-     "nome": "Fernandinho",
-     "posicao": "F",
-     "camisa": 77,
-     "jogos": 22,
-     "minutos": 1009,
-     "overall": 53,
-     "eixos": {
-      "RIT": 79,
-      "FIN": 75,
-      "PAS": 64,
-      "DRI": 80,
-      "DEF": 55,
-      "FIS": 74
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 249881,
-     "nome": "L. Mugni",
-     "posicao": "M",
-     "camisa": 10,
-     "jogos": 33,
-     "minutos": 1733,
-     "overall": 52,
-     "eixos": {
-      "RIT": 73,
-      "FIN": 64,
-      "PAS": 74,
-      "DRI": 70,
-      "DEF": 52,
-      "FIS": 68
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 364528,
-     "nome": "Aylon",
-     "posicao": "F",
-     "camisa": 11,
-     "jogos": 23,
-     "minutos": 802,
-     "overall": 52,
-     "eixos": {
-      "RIT": 79,
-      "FIN": 78,
-      "PAS": 59,
-      "DRI": 78,
-      "DEF": 42,
-      "FIS": 82
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 1174206,
-     "nome": "P. Baya",
-     "posicao": "F",
-     "camisa": 17,
-     "jogos": 19,
-     "minutos": 482,
-     "overall": 52,
-     "eixos": {
-      "RIT": 86,
-      "FIN": 76,
-      "PAS": 69,
-      "DRI": 85,
-      "DEF": 33,
-      "FIS": 67
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 931479,
-     "nome": "F. Sobral",
-     "posicao": "M",
-     "camisa": 88,
-     "jogos": 30,
-     "minutos": 1509,
-     "overall": 51,
-     "eixos": {
-      "RIT": 76,
-      "FIN": 52,
-      "PAS": 70,
-      "DRI": 68,
-      "DEF": 63,
-      "FIS": 73
-     },
-     "sem_nota_por": null
-    },
-    {
      "player_id": 219190,
      "nome": "P. Henrique",
      "posicao": "M",
      "camisa": 7,
      "jogos": 28,
      "minutos": 1414,
-     "overall": 51,
+     "overall": 59,
      "eixos": {
       "RIT": 79,
       "FIN": 70,
@@ -2332,7 +2315,7 @@
      "camisa": 3,
      "jogos": 25,
      "minutos": 2091,
-     "overall": 49,
+     "overall": 58,
      "eixos": {
       "RIT": 70,
       "FIN": 42,
@@ -2350,7 +2333,7 @@
      "camisa": 44,
      "jogos": 15,
      "minutos": 1344,
-     "overall": 49,
+     "overall": 58,
      "eixos": {
       "RIT": 70,
       "FIN": 53,
@@ -2368,7 +2351,7 @@
      "camisa": 25,
      "jogos": 15,
      "minutos": 1089,
-     "overall": 49,
+     "overall": 58,
      "eixos": {
       "RIT": 65,
       "FIN": 59,
@@ -2386,7 +2369,7 @@
      "camisa": 2,
      "jogos": 20,
      "minutos": 924,
-     "overall": 49,
+     "overall": 58,
      "eixos": {
       "RIT": 82,
       "FIN": 42,
@@ -2404,7 +2387,7 @@
      "camisa": 29,
      "jogos": 16,
      "minutos": 571,
-     "overall": 49,
+     "overall": 58,
      "eixos": {
       "RIT": 75,
       "FIN": 73,
@@ -2422,7 +2405,7 @@
      "camisa": 26,
      "jogos": 16,
      "minutos": 807,
-     "overall": 46,
+     "overall": 56,
      "eixos": {
       "RIT": 65,
       "FIN": 51,
@@ -2440,7 +2423,7 @@
      "camisa": 30,
      "jogos": 13,
      "minutos": 591,
-     "overall": 46,
+     "overall": 56,
      "eixos": {
       "RIT": 82,
       "FIN": 44,
@@ -2448,6 +2431,23 @@
       "DRI": 64,
       "DEF": 75,
       "FIS": 64
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 358418,
+     "nome": "F. Miguel",
+     "posicao": "G",
+     "camisa": 16,
+     "jogos": 8,
+     "minutos": 656,
+     "overall": 54,
+     "eixos": {
+      "REF": 92,
+      "EVI": 78,
+      "MAO": 82,
+      "PES": 56,
+      "SAI": 78
      },
      "sem_nota_por": null
     },
@@ -2662,7 +2662,7 @@
      "camisa": 2,
      "jogos": 31,
      "minutos": 2635,
-     "overall": 71,
+     "overall": 73,
      "eixos": {
       "RIT": 81,
       "FIN": 49,
@@ -2680,7 +2680,7 @@
      "camisa": 14,
      "jogos": 30,
      "minutos": 2022,
-     "overall": 69,
+     "overall": 72,
      "eixos": {
       "RIT": 77,
       "FIN": 62,
@@ -2698,7 +2698,7 @@
      "camisa": 21,
      "jogos": 26,
      "minutos": 1975,
-     "overall": 68,
+     "overall": 71,
      "eixos": {
       "RIT": 78,
       "FIN": 52,
@@ -2716,7 +2716,7 @@
      "camisa": 9,
      "jogos": 26,
      "minutos": 2006,
-     "overall": 67,
+     "overall": 70,
      "eixos": {
       "RIT": 77,
       "FIN": 82,
@@ -2734,7 +2734,7 @@
      "camisa": 43,
      "jogos": 24,
      "minutos": 969,
-     "overall": 66,
+     "overall": 70,
      "eixos": {
       "RIT": 80,
       "FIN": 81,
@@ -2752,7 +2752,7 @@
      "camisa": 27,
      "jogos": 33,
      "minutos": 2540,
-     "overall": 65,
+     "overall": 69,
      "eixos": {
       "RIT": 71,
       "FIN": 50,
@@ -2770,7 +2770,7 @@
      "camisa": 13,
      "jogos": 23,
      "minutos": 2070,
-     "overall": 65,
+     "overall": 69,
      "eixos": {
       "RIT": 66,
       "FIN": 63,
@@ -2782,31 +2782,13 @@
      "sem_nota_por": null
     },
     {
-     "player_id": 311462,
-     "nome": "F. Angileri",
-     "posicao": "D",
-     "camisa": 26,
-     "jogos": 28,
-     "minutos": 1660,
-     "overall": 64,
-     "eixos": {
-      "RIT": 80,
-      "FIN": 39,
-      "PAS": 68,
-      "DRI": 61,
-      "DEF": 73,
-      "FIS": 75
-     },
-     "sem_nota_por": null
-    },
-    {
      "player_id": 138833,
      "nome": "M. Depay",
      "posicao": "F",
      "camisa": 10,
      "jogos": 23,
      "minutos": 1547,
-     "overall": 64,
+     "overall": 69,
      "eixos": {
       "RIT": 72,
       "FIN": 80,
@@ -2818,13 +2800,31 @@
      "sem_nota_por": null
     },
     {
+     "player_id": 311462,
+     "nome": "F. Angileri",
+     "posicao": "D",
+     "camisa": 26,
+     "jogos": 28,
+     "minutos": 1660,
+     "overall": 68,
+     "eixos": {
+      "RIT": 80,
+      "FIN": 39,
+      "PAS": 68,
+      "DRI": 61,
+      "DEF": 73,
+      "FIS": 75
+     },
+     "sem_nota_por": null
+    },
+    {
      "player_id": 929200,
      "nome": "Cacá",
      "posicao": "D",
      "camisa": 25,
      "jogos": 18,
      "minutos": 1408,
-     "overall": 63,
+     "overall": 68,
      "eixos": {
       "RIT": 74,
       "FIN": 52,
@@ -2832,6 +2832,258 @@
       "DRI": 65,
       "DEF": 76,
       "FIS": 77
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 148155,
+     "nome": "A. Ramalho",
+     "posicao": "D",
+     "camisa": 5,
+     "jogos": 21,
+     "minutos": 1781,
+     "overall": 67,
+     "eixos": {
+      "RIT": 63,
+      "FIN": 45,
+      "PAS": 70,
+      "DRI": 53,
+      "DEF": 79,
+      "FIS": 77
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 1197041,
+     "nome": "Á. Romero",
+     "posicao": "F",
+     "camisa": 11,
+     "jogos": 27,
+     "minutos": 1077,
+     "overall": 67,
+     "eixos": {
+      "RIT": 70,
+      "FIN": 76,
+      "PAS": 70,
+      "DRI": 77,
+      "DEF": 37,
+      "FIS": 68
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 994454,
+     "nome": "R. Garro",
+     "posicao": "M",
+     "camisa": 8,
+     "jogos": 19,
+     "minutos": 1416,
+     "overall": 66,
+     "eixos": {
+      "RIT": 66,
+      "FIN": 64,
+      "PAS": 82,
+      "DRI": 72,
+      "DEF": 41,
+      "FIS": 62
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 979325,
+     "nome": "J. Martínez",
+     "posicao": "M",
+     "camisa": 70,
+     "jogos": 24,
+     "minutos": 1400,
+     "overall": 66,
+     "eixos": {
+      "RIT": 79,
+      "FIN": 55,
+      "PAS": 74,
+      "DRI": 69,
+      "DEF": 62,
+      "FIS": 64
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 242054,
+     "nome": "Vitinho",
+     "posicao": "F",
+     "camisa": 29,
+     "jogos": 12,
+     "minutos": 475,
+     "overall": 66,
+     "eixos": {
+      "RIT": 74,
+      "FIN": 75,
+      "PAS": 74,
+      "DRI": 78,
+      "DEF": 41,
+      "FIS": 73
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 115182,
+     "nome": "A. Carrillo",
+     "posicao": "M",
+     "camisa": 19,
+     "jogos": 22,
+     "minutos": 1284,
+     "overall": 65,
+     "eixos": {
+      "RIT": 73,
+      "FIN": 60,
+      "PAS": 75,
+      "DRI": 72,
+      "DEF": 60,
+      "FIS": 57
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 1411150,
+     "nome": "J. Pedro",
+     "posicao": "D",
+     "camisa": 47,
+     "jogos": 16,
+     "minutos": 1248,
+     "overall": 65,
+     "eixos": {
+      "RIT": 68,
+      "FIN": 52,
+      "PAS": 67,
+      "DRI": 60,
+      "DEF": 81,
+      "FIS": 69
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 1922597,
+     "nome": "G. Negão",
+     "posicao": "F",
+     "camisa": 56,
+     "jogos": 22,
+     "minutos": 976,
+     "overall": 65,
+     "eixos": {
+      "RIT": 77,
+      "FIN": 75,
+      "PAS": 63,
+      "DRI": 72,
+      "DEF": 45,
+      "FIS": 63
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 1017827,
+     "nome": "Hugo",
+     "posicao": "D",
+     "camisa": 46,
+     "jogos": 10,
+     "minutos": 472,
+     "overall": 65,
+     "eixos": {
+      "RIT": 80,
+      "FIN": 53,
+      "PAS": 65,
+      "DRI": 58,
+      "DEF": 76,
+      "FIS": 81
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 831778,
+     "nome": "Maycon",
+     "posicao": "M",
+     "camisa": 7,
+     "jogos": 25,
+     "minutos": 1491,
+     "overall": 64,
+     "eixos": {
+      "RIT": 63,
+      "FIN": 62,
+      "PAS": 72,
+      "DRI": 68,
+      "DEF": 52,
+      "FIS": 63
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 881848,
+     "nome": "F. Torres",
+     "posicao": "D",
+     "camisa": 3,
+     "jogos": 10,
+     "minutos": 653,
+     "overall": 64,
+     "eixos": {
+      "RIT": 66,
+      "FIN": 45,
+      "PAS": 64,
+      "DRI": 58,
+      "DEF": 89,
+      "FIS": 70
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 845178,
+     "nome": "Charles",
+     "posicao": "M",
+     "camisa": 35,
+     "jogos": 17,
+     "minutos": 601,
+     "overall": 64,
+     "eixos": {
+      "RIT": 75,
+      "FIN": 62,
+      "PAS": 67,
+      "DRI": 71,
+      "DEF": 67,
+      "FIS": 69
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 1170779,
+     "nome": "Ryan",
+     "posicao": "M",
+     "camisa": 37,
+     "jogos": 16,
+     "minutos": 531,
+     "overall": 64,
+     "eixos": {
+      "RIT": 69,
+      "FIN": 55,
+      "PAS": 66,
+      "DRI": 66,
+      "DEF": 80,
+      "FIS": 71
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 1916131,
+     "nome": "Dieguinho",
+     "posicao": "M",
+     "camisa": 61,
+     "jogos": 13,
+     "minutos": 451,
+     "overall": 64,
+     "eixos": {
+      "RIT": 71,
+      "FIN": 67,
+      "PAS": 77,
+      "DRI": 76,
+      "DEF": 51,
+      "FIS": 63
      },
      "sem_nota_por": null
     },
@@ -2853,114 +3105,6 @@
      "sem_nota_por": null
     },
     {
-     "player_id": 148155,
-     "nome": "A. Ramalho",
-     "posicao": "D",
-     "camisa": 5,
-     "jogos": 21,
-     "minutos": 1781,
-     "overall": 62,
-     "eixos": {
-      "RIT": 63,
-      "FIN": 45,
-      "PAS": 70,
-      "DRI": 53,
-      "DEF": 79,
-      "FIS": 77
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 1197041,
-     "nome": "Á. Romero",
-     "posicao": "F",
-     "camisa": 11,
-     "jogos": 27,
-     "minutos": 1077,
-     "overall": 62,
-     "eixos": {
-      "RIT": 70,
-      "FIN": 76,
-      "PAS": 70,
-      "DRI": 77,
-      "DEF": 37,
-      "FIS": 68
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 994454,
-     "nome": "R. Garro",
-     "posicao": "M",
-     "camisa": 8,
-     "jogos": 19,
-     "minutos": 1416,
-     "overall": 61,
-     "eixos": {
-      "RIT": 66,
-      "FIN": 64,
-      "PAS": 82,
-      "DRI": 72,
-      "DEF": 41,
-      "FIS": 62
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 979325,
-     "nome": "J. Martínez",
-     "posicao": "M",
-     "camisa": 70,
-     "jogos": 24,
-     "minutos": 1400,
-     "overall": 61,
-     "eixos": {
-      "RIT": 79,
-      "FIN": 55,
-      "PAS": 74,
-      "DRI": 69,
-      "DEF": 62,
-      "FIS": 64
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 242054,
-     "nome": "Vitinho",
-     "posicao": "F",
-     "camisa": 29,
-     "jogos": 12,
-     "minutos": 475,
-     "overall": 61,
-     "eixos": {
-      "RIT": 74,
-      "FIN": 75,
-      "PAS": 74,
-      "DRI": 78,
-      "DEF": 41,
-      "FIS": 73
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 1411150,
-     "nome": "J. Pedro",
-     "posicao": "D",
-     "camisa": 47,
-     "jogos": 16,
-     "minutos": 1248,
-     "overall": 60,
-     "eixos": {
-      "RIT": 68,
-      "FIN": 52,
-      "PAS": 67,
-      "DRI": 60,
-      "DEF": 81,
-      "FIS": 69
-     },
-     "sem_nota_por": null
-    },
-    {
      "player_id": 1002609,
      "nome": "M. Donelli",
      "posicao": "G",
@@ -2973,150 +3117,6 @@
       "MAO": 75,
       "PES": 85,
       "SAI": 66
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 115182,
-     "nome": "A. Carrillo",
-     "posicao": "M",
-     "camisa": 19,
-     "jogos": 22,
-     "minutos": 1284,
-     "overall": 59,
-     "eixos": {
-      "RIT": 73,
-      "FIN": 60,
-      "PAS": 75,
-      "DRI": 72,
-      "DEF": 60,
-      "FIS": 57
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 1922597,
-     "nome": "G. Negão",
-     "posicao": "F",
-     "camisa": 56,
-     "jogos": 22,
-     "minutos": 976,
-     "overall": 59,
-     "eixos": {
-      "RIT": 77,
-      "FIN": 75,
-      "PAS": 63,
-      "DRI": 72,
-      "DEF": 45,
-      "FIS": 63
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 1017827,
-     "nome": "Hugo",
-     "posicao": "D",
-     "camisa": 46,
-     "jogos": 10,
-     "minutos": 472,
-     "overall": 59,
-     "eixos": {
-      "RIT": 80,
-      "FIN": 53,
-      "PAS": 65,
-      "DRI": 58,
-      "DEF": 76,
-      "FIS": 81
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 831778,
-     "nome": "Maycon",
-     "posicao": "M",
-     "camisa": 7,
-     "jogos": 25,
-     "minutos": 1491,
-     "overall": 58,
-     "eixos": {
-      "RIT": 63,
-      "FIN": 62,
-      "PAS": 72,
-      "DRI": 68,
-      "DEF": 52,
-      "FIS": 63
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 881848,
-     "nome": "F. Torres",
-     "posicao": "D",
-     "camisa": 3,
-     "jogos": 10,
-     "minutos": 653,
-     "overall": 57,
-     "eixos": {
-      "RIT": 66,
-      "FIN": 45,
-      "PAS": 64,
-      "DRI": 58,
-      "DEF": 89,
-      "FIS": 70
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 845178,
-     "nome": "Charles",
-     "posicao": "M",
-     "camisa": 35,
-     "jogos": 17,
-     "minutos": 601,
-     "overall": 57,
-     "eixos": {
-      "RIT": 75,
-      "FIN": 62,
-      "PAS": 67,
-      "DRI": 71,
-      "DEF": 67,
-      "FIS": 69
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 1170779,
-     "nome": "Ryan",
-     "posicao": "M",
-     "camisa": 37,
-     "jogos": 16,
-     "minutos": 531,
-     "overall": 57,
-     "eixos": {
-      "RIT": 69,
-      "FIN": 55,
-      "PAS": 66,
-      "DRI": 66,
-      "DEF": 80,
-      "FIS": 71
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 1916131,
-     "nome": "Dieguinho",
-     "posicao": "M",
-     "camisa": 61,
-     "jogos": 13,
-     "minutos": 451,
-     "overall": 57,
-     "eixos": {
-      "RIT": 71,
-      "FIN": 67,
-      "PAS": 77,
-      "DRI": 76,
-      "DEF": 51,
-      "FIS": 63
      },
      "sem_nota_por": null
     },
@@ -3435,30 +3435,13 @@
      "sem_nota_por": null
     },
     {
-     "player_id": 27756,
-     "nome": "Cássio",
-     "posicao": "G",
-     "camisa": 1,
-     "jogos": 35,
-     "minutos": 3042,
-     "overall": 75,
-     "eixos": {
-      "REF": 89,
-      "EVI": 81,
-      "MAO": 59,
-      "PES": 78,
-      "SAI": 72
-     },
-     "sem_nota_por": null
-    },
-    {
      "player_id": 245159,
      "nome": "L. Silva",
      "posicao": "M",
      "camisa": 16,
      "jogos": 34,
      "minutos": 2716,
-     "overall": 75,
+     "overall": 76,
      "eixos": {
       "RIT": 73,
       "FIN": 50,
@@ -3476,7 +3459,7 @@
      "camisa": 88,
      "jogos": 30,
      "minutos": 2340,
-     "overall": 75,
+     "overall": 76,
      "eixos": {
       "RIT": 75,
       "FIN": 72,
@@ -3488,20 +3471,19 @@
      "sem_nota_por": null
     },
     {
-     "player_id": 247483,
-     "nome": "Wanderson",
-     "posicao": "M",
-     "camisa": 94,
-     "jogos": 27,
-     "minutos": 1771,
-     "overall": 71,
+     "player_id": 27756,
+     "nome": "Cássio",
+     "posicao": "G",
+     "camisa": 1,
+     "jogos": 35,
+     "minutos": 3042,
+     "overall": 75,
      "eixos": {
-      "RIT": 75,
-      "FIN": 65,
-      "PAS": 66,
-      "DRI": 76,
-      "DEF": 51,
-      "FIS": 62
+      "REF": 89,
+      "EVI": 81,
+      "MAO": 59,
+      "PES": 78,
+      "SAI": 72
      },
      "sem_nota_por": null
     },
@@ -3512,7 +3494,7 @@
      "camisa": 9,
      "jogos": 30,
      "minutos": 1097,
-     "overall": 71,
+     "overall": 74,
      "eixos": {
       "RIT": 77,
       "FIN": 82,
@@ -3524,13 +3506,31 @@
      "sem_nota_por": null
     },
     {
+     "player_id": 247483,
+     "nome": "Wanderson",
+     "posicao": "M",
+     "camisa": 94,
+     "jogos": 27,
+     "minutos": 1771,
+     "overall": 73,
+     "eixos": {
+      "RIT": 75,
+      "FIN": 65,
+      "PAS": 66,
+      "DRI": 76,
+      "DEF": 51,
+      "FIS": 62
+     },
+     "sem_nota_por": null
+    },
+    {
      "player_id": 1498670,
      "nome": "J. Jesus",
      "posicao": "D",
      "camisa": 34,
      "jogos": 13,
      "minutos": 806,
-     "overall": 69,
+     "overall": 72,
      "eixos": {
       "RIT": 74,
       "FIN": 39,
@@ -3548,7 +3548,7 @@
      "camisa": 21,
      "jogos": 29,
      "minutos": 939,
-     "overall": 68,
+     "overall": 71,
      "eixos": {
       "RIT": 74,
       "FIN": 62,
@@ -3566,7 +3566,7 @@
      "camisa": 99,
      "jogos": 13,
      "minutos": 650,
-     "overall": 68,
+     "overall": 71,
      "eixos": {
       "RIT": 74,
       "FIN": 72,
@@ -3584,7 +3584,7 @@
      "camisa": 8,
      "jogos": 17,
      "minutos": 725,
-     "overall": 66,
+     "overall": 70,
      "eixos": {
       "RIT": 78,
       "FIN": 57,
@@ -3602,7 +3602,7 @@
      "camisa": 23,
      "jogos": 10,
      "minutos": 830,
-     "overall": 65,
+     "overall": 69,
      "eixos": {
       "RIT": 65,
       "FIN": 40,
@@ -4124,6 +4124,42 @@
      "sem_nota_por": null
     },
     {
+     "player_id": 590392,
+     "nome": "J. Carrascal",
+     "posicao": "M",
+     "camisa": 15,
+     "jogos": 16,
+     "minutos": 824,
+     "overall": 78,
+     "eixos": {
+      "RIT": 72,
+      "FIN": 72,
+      "PAS": 79,
+      "DRI": 73,
+      "DEF": 48,
+      "FIS": 81
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 1466084,
+     "nome": "Wallace",
+     "posicao": "F",
+     "camisa": 64,
+     "jogos": 17,
+     "minutos": 453,
+     "overall": 78,
+     "eixos": {
+      "RIT": 82,
+      "FIN": 80,
+      "PAS": 73,
+      "DRI": 82,
+      "DEF": 38,
+      "FIS": 71
+     },
+     "sem_nota_por": null
+    },
+    {
      "player_id": 132874,
      "nome": "Jorginho",
      "posicao": "M",
@@ -4138,6 +4174,24 @@
       "DRI": 69,
       "DEF": 71,
       "FIS": 74
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 311456,
+     "nome": "G. Varela",
+     "posicao": "D",
+     "camisa": 2,
+     "jogos": 20,
+     "minutos": 1343,
+     "overall": 77,
+     "eixos": {
+      "RIT": 80,
+      "FIN": 45,
+      "PAS": 76,
+      "DRI": 61,
+      "DEF": 66,
+      "FIS": 72
      },
      "sem_nota_por": null
     },
@@ -4160,67 +4214,13 @@
      "sem_nota_por": null
     },
     {
-     "player_id": 590392,
-     "nome": "J. Carrascal",
-     "posicao": "M",
-     "camisa": 15,
-     "jogos": 16,
-     "minutos": 824,
-     "overall": 77,
-     "eixos": {
-      "RIT": 72,
-      "FIN": 72,
-      "PAS": 79,
-      "DRI": 73,
-      "DEF": 48,
-      "FIS": 81
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 1466084,
-     "nome": "Wallace",
-     "posicao": "F",
-     "camisa": 64,
-     "jogos": 17,
-     "minutos": 453,
-     "overall": 77,
-     "eixos": {
-      "RIT": 82,
-      "FIN": 80,
-      "PAS": 73,
-      "DRI": 82,
-      "DEF": 38,
-      "FIS": 71
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 311456,
-     "nome": "G. Varela",
-     "posicao": "D",
-     "camisa": 2,
-     "jogos": 20,
-     "minutos": 1343,
-     "overall": 76,
-     "eixos": {
-      "RIT": 80,
-      "FIN": 45,
-      "PAS": 76,
-      "DRI": 61,
-      "DEF": 66,
-      "FIS": 72
-     },
-     "sem_nota_por": null
-    },
-    {
      "player_id": 818473,
      "nome": "A. Lucas",
      "posicao": "D",
      "camisa": 6,
      "jogos": 18,
      "minutos": 1231,
-     "overall": 75,
+     "overall": 76,
      "eixos": {
       "RIT": 75,
       "FIN": 60,
@@ -4238,7 +4238,7 @@
      "camisa": 43,
      "jogos": 11,
      "minutos": 983,
-     "overall": 75,
+     "overall": 76,
      "eixos": {
       "RIT": 79,
       "FIN": 48,
@@ -4256,7 +4256,7 @@
      "camisa": 9,
      "jogos": 21,
      "minutos": 1059,
-     "overall": 74,
+     "overall": 75,
      "eixos": {
       "RIT": 66,
       "FIN": 83,
@@ -4274,7 +4274,7 @@
      "camisa": 29,
      "jogos": 13,
      "minutos": 693,
-     "overall": 74,
+     "overall": 75,
      "eixos": {
       "RIT": 73,
       "FIN": 56,
@@ -4292,7 +4292,7 @@
      "camisa": 18,
      "jogos": 19,
      "minutos": 1030,
-     "overall": 72,
+     "overall": 74,
      "eixos": {
       "RIT": 65,
       "FIN": 60,
@@ -4310,7 +4310,7 @@
      "camisa": 8,
      "jogos": 9,
      "minutos": 718,
-     "overall": 71,
+     "overall": 74,
      "eixos": {
       "RIT": 69,
       "FIN": 63,
@@ -4328,7 +4328,7 @@
      "camisa": 52,
      "jogos": 18,
      "minutos": 993,
-     "overall": 70,
+     "overall": 72,
      "eixos": {
       "RIT": 66,
       "FIN": 56,
@@ -4616,7 +4616,7 @@
      "camisa": 90,
      "jogos": 33,
      "minutos": 2098,
-     "overall": 73,
+     "overall": 75,
      "eixos": {
       "RIT": 84,
       "FIN": 74,
@@ -4634,7 +4634,7 @@
      "camisa": 22,
      "jogos": 33,
      "minutos": 2925,
-     "overall": 72,
+     "overall": 74,
      "eixos": {
       "RIT": 74,
       "FIN": 45,
@@ -4652,7 +4652,7 @@
      "camisa": 6,
      "jogos": 28,
      "minutos": 2363,
-     "overall": 72,
+     "overall": 74,
      "eixos": {
       "RIT": 76,
       "FIN": 42,
@@ -4664,31 +4664,13 @@
      "sem_nota_por": null
     },
     {
-     "player_id": 1067671,
-     "nome": "Martinelli",
-     "posicao": "M",
-     "camisa": 8,
-     "jogos": 33,
-     "minutos": 2730,
-     "overall": 71,
-     "eixos": {
-      "RIT": 67,
-      "FIN": 59,
-      "PAS": 75,
-      "DRI": 69,
-      "DEF": 63,
-      "FIS": 76
-     },
-     "sem_nota_por": null
-    },
-    {
      "player_id": 846413,
      "nome": "A. Canobbio",
      "posicao": "M",
      "camisa": 17,
      "jogos": 30,
      "minutos": 2121,
-     "overall": 71,
+     "overall": 74,
      "eixos": {
       "RIT": 82,
       "FIN": 73,
@@ -4696,6 +4678,24 @@
       "DRI": 74,
       "DEF": 52,
       "FIS": 69
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 1067671,
+     "nome": "Martinelli",
+     "posicao": "M",
+     "camisa": 8,
+     "jogos": 33,
+     "minutos": 2730,
+     "overall": 73,
+     "eixos": {
+      "RIT": 67,
+      "FIN": 59,
+      "PAS": 75,
+      "DRI": 69,
+      "DEF": 63,
+      "FIS": 76
      },
      "sem_nota_por": null
     },
@@ -4717,31 +4717,13 @@
      "sem_nota_por": null
     },
     {
-     "player_id": 386212,
-     "nome": "Everaldo",
-     "posicao": "F",
-     "camisa": 9,
-     "jogos": 28,
-     "minutos": 1372,
-     "overall": 67,
-     "eixos": {
-      "RIT": 71,
-      "FIN": 77,
-      "PAS": 59,
-      "DRI": 76,
-      "DEF": 33,
-      "FIS": 81
-     },
-     "sem_nota_por": null
-    },
-    {
      "player_id": 795773,
      "nome": "S. Xavier",
      "posicao": "D",
      "camisa": 2,
      "jogos": 29,
      "minutos": 2387,
-     "overall": 66,
+     "overall": 70,
      "eixos": {
       "RIT": 68,
       "FIN": 45,
@@ -4759,7 +4741,7 @@
      "camisa": 35,
      "jogos": 34,
      "minutos": 2165,
-     "overall": 66,
+     "overall": 70,
      "eixos": {
       "RIT": 64,
       "FIN": 61,
@@ -4777,7 +4759,7 @@
      "camisa": 3,
      "jogos": 25,
      "minutos": 2158,
-     "overall": 66,
+     "overall": 70,
      "eixos": {
       "RIT": 65,
       "FIN": 50,
@@ -4789,13 +4771,31 @@
      "sem_nota_por": null
     },
     {
+     "player_id": 386212,
+     "nome": "Everaldo",
+     "posicao": "F",
+     "camisa": 9,
+     "jogos": 28,
+     "minutos": 1372,
+     "overall": 70,
+     "eixos": {
+      "RIT": 71,
+      "FIN": 77,
+      "PAS": 59,
+      "DRI": 76,
+      "DEF": 33,
+      "FIS": 81
+     },
+     "sem_nota_por": null
+    },
+    {
      "player_id": 548030,
      "nome": "L. Acosta",
      "posicao": "M",
      "camisa": 32,
      "jogos": 16,
      "minutos": 1213,
-     "overall": 66,
+     "overall": 70,
      "eixos": {
       "RIT": 76,
       "FIN": 70,
@@ -4807,31 +4807,13 @@
      "sem_nota_por": null
     },
     {
-     "player_id": 927551,
-     "nome": "G. Fuentes",
-     "posicao": "D",
-     "camisa": 12,
-     "jogos": 11,
-     "minutos": 825,
-     "overall": 65,
-     "eixos": {
-      "RIT": 78,
-      "FIN": 45,
-      "PAS": 68,
-      "DRI": 63,
-      "DEF": 80,
-      "FIS": 81
-     },
-     "sem_nota_por": null
-    },
-    {
      "player_id": 33238,
      "nome": "G. Cano",
      "posicao": "F",
      "camisa": 14,
      "jogos": 22,
      "minutos": 1516,
-     "overall": 64,
+     "overall": 69,
      "eixos": {
       "RIT": 68,
       "FIN": 78,
@@ -4843,31 +4825,13 @@
      "sem_nota_por": null
     },
     {
-     "player_id": 958382,
-     "nome": "Ignácio",
-     "posicao": "D",
-     "camisa": 4,
-     "jogos": 19,
-     "minutos": 1179,
-     "overall": 64,
-     "eixos": {
-      "RIT": 71,
-      "FIN": 42,
-      "PAS": 59,
-      "DRI": 60,
-      "DEF": 85,
-      "FIS": 76
-     },
-     "sem_nota_por": null
-    },
-    {
      "player_id": 844096,
      "nome": "J. Arias",
      "posicao": "M",
      "camisa": 21,
      "jogos": 12,
      "minutos": 1079,
-     "overall": 64,
+     "overall": 69,
      "eixos": {
       "RIT": 73,
       "FIN": 68,
@@ -4879,38 +4843,38 @@
      "sem_nota_por": null
     },
     {
-     "player_id": 928134,
-     "nome": "Guga",
+     "player_id": 927551,
+     "nome": "G. Fuentes",
      "posicao": "D",
-     "camisa": 23,
-     "jogos": 17,
-     "minutos": 990,
-     "overall": 64,
+     "camisa": 12,
+     "jogos": 11,
+     "minutos": 825,
+     "overall": 69,
      "eixos": {
-      "RIT": 73,
-      "FIN": 40,
-      "PAS": 73,
+      "RIT": 78,
+      "FIN": 45,
+      "PAS": 68,
       "DRI": 63,
-      "DEF": 73,
-      "FIS": 77
+      "DEF": 80,
+      "FIS": 81
      },
      "sem_nota_por": null
     },
     {
-     "player_id": 787607,
-     "nome": "Keno",
-     "posicao": "F",
-     "camisa": 11,
-     "jogos": 18,
-     "minutos": 520,
-     "overall": 64,
+     "player_id": 958382,
+     "nome": "Ignácio",
+     "posicao": "D",
+     "camisa": 4,
+     "jogos": 19,
+     "minutos": 1179,
+     "overall": 68,
      "eixos": {
       "RIT": 71,
-      "FIN": 77,
-      "PAS": 71,
-      "DRI": 76,
-      "DEF": 33,
-      "FIS": 74
+      "FIN": 42,
+      "PAS": 59,
+      "DRI": 60,
+      "DEF": 85,
+      "FIS": 76
      },
      "sem_nota_por": null
     },
@@ -4921,7 +4885,7 @@
      "camisa": 5,
      "jogos": 22,
      "minutos": 1058,
-     "overall": 63,
+     "overall": 68,
      "eixos": {
       "RIT": 67,
       "FIN": 58,
@@ -4933,13 +4897,31 @@
      "sem_nota_por": null
     },
     {
+     "player_id": 928134,
+     "nome": "Guga",
+     "posicao": "D",
+     "camisa": 23,
+     "jogos": 17,
+     "minutos": 990,
+     "overall": 68,
+     "eixos": {
+      "RIT": 73,
+      "FIN": 40,
+      "PAS": 73,
+      "DRI": 63,
+      "DEF": 73,
+      "FIS": 77
+     },
+     "sem_nota_por": null
+    },
+    {
      "player_id": 922566,
      "nome": "Nonato",
      "posicao": "M",
      "camisa": 16,
      "jogos": 20,
      "minutos": 918,
-     "overall": 63,
+     "overall": 68,
      "eixos": {
       "RIT": 71,
       "FIN": 61,
@@ -4957,7 +4939,7 @@
      "camisa": 7,
      "jogos": 22,
      "minutos": 821,
-     "overall": 63,
+     "overall": 68,
      "eixos": {
       "RIT": 78,
       "FIN": 71,
@@ -4975,7 +4957,7 @@
      "camisa": 99,
      "jogos": 17,
      "minutos": 625,
-     "overall": 63,
+     "overall": 68,
      "eixos": {
       "RIT": 75,
       "FIN": 78,
@@ -4987,13 +4969,31 @@
      "sem_nota_por": null
     },
     {
+     "player_id": 787607,
+     "nome": "Keno",
+     "posicao": "F",
+     "camisa": 11,
+     "jogos": 18,
+     "minutos": 520,
+     "overall": 68,
+     "eixos": {
+      "RIT": 71,
+      "FIN": 77,
+      "PAS": 71,
+      "DRI": 76,
+      "DEF": 33,
+      "FIS": 74
+     },
+     "sem_nota_por": null
+    },
+    {
      "player_id": 807850,
      "nome": "Lima",
      "posicao": "M",
      "camisa": 45,
      "jogos": 28,
      "minutos": 1101,
-     "overall": 62,
+     "overall": 67,
      "eixos": {
       "RIT": 66,
       "FIN": 70,
@@ -5011,7 +5011,7 @@
      "camisa": 10,
      "jogos": 17,
      "minutos": 647,
-     "overall": 58,
+     "overall": 64,
      "eixos": {
       "RIT": 64,
       "FIN": 61,
@@ -5255,7 +5255,7 @@
      "camisa": 88,
      "jogos": 31,
      "minutos": 2617,
-     "overall": 74,
+     "overall": 75,
      "eixos": {
       "RIT": 66,
       "FIN": 47,
@@ -5273,7 +5273,7 @@
      "camisa": 26,
      "jogos": 32,
      "minutos": 2297,
-     "overall": 74,
+     "overall": 75,
      "eixos": {
       "RIT": 83,
       "FIN": 71,
@@ -5291,7 +5291,7 @@
      "camisa": 9,
      "jogos": 27,
      "minutos": 1409,
-     "overall": 72,
+     "overall": 74,
      "eixos": {
       "RIT": 73,
       "FIN": 78,
@@ -5309,7 +5309,7 @@
      "camisa": 5,
      "jogos": 19,
      "minutos": 1299,
-     "overall": 72,
+     "overall": 74,
      "eixos": {
       "RIT": 69,
       "FIN": 57,
@@ -5321,31 +5321,13 @@
      "sem_nota_por": null
     },
     {
-     "player_id": 1179171,
-     "nome": "J. Herrera",
-     "posicao": "M",
-     "camisa": 80,
-     "jogos": 19,
-     "minutos": 1055,
-     "overall": 71,
-     "eixos": {
-      "RIT": 75,
-      "FIN": 73,
-      "PAS": 71,
-      "DRI": 79,
-      "DEF": 52,
-      "FIS": 78
-     },
-     "sem_nota_por": null
-    },
-    {
      "player_id": 824626,
      "nome": "T. Pochettino",
      "posicao": "M",
      "camisa": 7,
      "jogos": 26,
      "minutos": 1552,
-     "overall": 70,
+     "overall": 73,
      "eixos": {
       "RIT": 78,
       "FIN": 68,
@@ -5363,7 +5345,7 @@
      "camisa": 18,
      "jogos": 27,
      "minutos": 1208,
-     "overall": 70,
+     "overall": 73,
      "eixos": {
       "RIT": 75,
       "FIN": 80,
@@ -5375,13 +5357,31 @@
      "sem_nota_por": null
     },
     {
+     "player_id": 1179171,
+     "nome": "J. Herrera",
+     "posicao": "M",
+     "camisa": 80,
+     "jogos": 19,
+     "minutos": 1055,
+     "overall": 73,
+     "eixos": {
+      "RIT": 75,
+      "FIN": 73,
+      "PAS": 71,
+      "DRI": 79,
+      "DEF": 52,
+      "FIS": 78
+     },
+     "sem_nota_por": null
+    },
+    {
      "player_id": 1116624,
      "nome": "E. Mancuso",
      "posicao": "D",
      "camisa": 14,
      "jogos": 30,
      "minutos": 2383,
-     "overall": 69,
+     "overall": 72,
      "eixos": {
       "RIT": 67,
       "FIN": 58,
@@ -5399,7 +5399,7 @@
      "camisa": 3,
      "jogos": 27,
      "minutos": 2321,
-     "overall": 69,
+     "overall": 72,
      "eixos": {
       "RIT": 64,
       "FIN": 47,
@@ -5417,7 +5417,7 @@
      "camisa": 27,
      "jogos": 21,
      "minutos": 900,
-     "overall": 69,
+     "overall": 72,
      "eixos": {
       "RIT": 70,
       "FIN": 82,
@@ -5429,31 +5429,13 @@
      "sem_nota_por": null
     },
     {
-     "player_id": 363688,
-     "nome": "Y. Pikachu",
-     "posicao": "M",
-     "camisa": 22,
-     "jogos": 31,
-     "minutos": 1406,
-     "overall": 68,
-     "eixos": {
-      "RIT": 73,
-      "FIN": 70,
-      "PAS": 70,
-      "DRI": 74,
-      "DEF": 49,
-      "FIS": 64
-     },
-     "sem_nota_por": null
-    },
-    {
      "player_id": 590324,
      "nome": "B. Kuscevic",
      "posicao": "D",
      "camisa": 13,
      "jogos": 20,
      "minutos": 1716,
-     "overall": 67,
+     "overall": 71,
      "eixos": {
       "RIT": 68,
       "FIN": 53,
@@ -5471,7 +5453,7 @@
      "camisa": 33,
      "jogos": 18,
      "minutos": 1598,
-     "overall": 67,
+     "overall": 71,
      "eixos": {
       "RIT": 64,
       "FIN": 45,
@@ -5479,6 +5461,168 @@
       "DRI": 54,
       "DEF": 84,
       "FIS": 75
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 363688,
+     "nome": "Y. Pikachu",
+     "posicao": "M",
+     "camisa": 22,
+     "jogos": 31,
+     "minutos": 1406,
+     "overall": 71,
+     "eixos": {
+      "RIT": 73,
+      "FIN": 70,
+      "PAS": 70,
+      "DRI": 74,
+      "DEF": 49,
+      "FIS": 64
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 870691,
+     "nome": "B. Pacheco",
+     "posicao": "D",
+     "camisa": 6,
+     "jogos": 15,
+     "minutos": 1265,
+     "overall": 70,
+     "eixos": {
+      "RIT": 70,
+      "FIN": 39,
+      "PAS": 65,
+      "DRI": 65,
+      "DEF": 72,
+      "FIS": 75
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 1017710,
+     "nome": "Pierre",
+     "posicao": "M",
+     "camisa": 30,
+     "jogos": 13,
+     "minutos": 844,
+     "overall": 70,
+     "eixos": {
+      "RIT": 68,
+      "FIN": 51,
+      "PAS": 72,
+      "DRI": 71,
+      "DEF": 84,
+      "FIS": 64
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 330057,
+     "nome": "Tinga",
+     "posicao": "D",
+     "camisa": 2,
+     "jogos": 11,
+     "minutos": 750,
+     "overall": 70,
+     "eixos": {
+      "RIT": 69,
+      "FIN": 47,
+      "PAS": 65,
+      "DRI": 57,
+      "DEF": 87,
+      "FIS": 83
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 798127,
+     "nome": "Marinho",
+     "posicao": "F",
+     "camisa": 11,
+     "jogos": 17,
+     "minutos": 709,
+     "overall": 70,
+     "eixos": {
+      "RIT": 67,
+      "FIN": 79,
+      "PAS": 71,
+      "DRI": 84,
+      "DEF": 39,
+      "FIS": 64
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 243107,
+     "nome": "D. Barbosa",
+     "posicao": "D",
+     "camisa": 16,
+     "jogos": 19,
+     "minutos": 1236,
+     "overall": 69,
+     "eixos": {
+      "RIT": 74,
+      "FIN": 50,
+      "PAS": 61,
+      "DRI": 63,
+      "DEF": 67,
+      "FIS": 71
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 1103705,
+     "nome": "L. Gazal",
+     "posicao": "D",
+     "camisa": 34,
+     "jogos": 7,
+     "minutos": 550,
+     "overall": 69,
+     "eixos": {
+      "RIT": 63,
+      "FIN": 55,
+      "PAS": 69,
+      "DRI": 61,
+      "DEF": 88,
+      "FIS": 80
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 842682,
+     "nome": "M. Rossetto",
+     "posicao": "M",
+     "camisa": 20,
+     "jogos": 20,
+     "minutos": 935,
+     "overall": 68,
+     "eixos": {
+      "RIT": 68,
+      "FIN": 48,
+      "PAS": 73,
+      "DRI": 69,
+      "DEF": 61,
+      "FIS": 68
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 794312,
+     "nome": "E. Martinez",
+     "posicao": "M",
+     "camisa": 8,
+     "jogos": 14,
+     "minutos": 746,
+     "overall": 68,
+     "eixos": {
+      "RIT": 68,
+      "FIN": 61,
+      "PAS": 77,
+      "DRI": 72,
+      "DEF": 65,
+      "FIS": 67
      },
      "sem_nota_por": null
     },
@@ -5500,74 +5644,38 @@
      "sem_nota_por": null
     },
     {
-     "player_id": 798127,
-     "nome": "Marinho",
-     "posicao": "F",
-     "camisa": 11,
-     "jogos": 17,
-     "minutos": 709,
+     "player_id": 2034540,
+     "nome": "G. Mancha",
+     "posicao": "D",
+     "camisa": 39,
+     "jogos": 13,
+     "minutos": 1031,
      "overall": 67,
      "eixos": {
-      "RIT": 67,
-      "FIN": 79,
-      "PAS": 71,
-      "DRI": 84,
-      "DEF": 39,
-      "FIS": 64
+      "RIT": 66,
+      "FIN": 45,
+      "PAS": 64,
+      "DRI": 56,
+      "DEF": 76,
+      "FIS": 67
      },
      "sem_nota_por": null
     },
     {
-     "player_id": 870691,
-     "nome": "B. Pacheco",
-     "posicao": "D",
-     "camisa": 6,
-     "jogos": 15,
-     "minutos": 1265,
-     "overall": 66,
-     "eixos": {
-      "RIT": 70,
-      "FIN": 39,
-      "PAS": 65,
-      "DRI": 65,
-      "DEF": 72,
-      "FIS": 75
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 1017710,
-     "nome": "Pierre",
+     "player_id": 1631235,
+     "nome": "L. Prior",
      "posicao": "M",
-     "camisa": 30,
-     "jogos": 13,
-     "minutos": 844,
-     "overall": 66,
+     "camisa": 38,
+     "jogos": 12,
+     "minutos": 657,
+     "overall": 67,
      "eixos": {
-      "RIT": 68,
-      "FIN": 51,
-      "PAS": 72,
-      "DRI": 71,
-      "DEF": 84,
-      "FIS": 64
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 330057,
-     "nome": "Tinga",
-     "posicao": "D",
-     "camisa": 2,
-     "jogos": 11,
-     "minutos": 750,
-     "overall": 66,
-     "eixos": {
-      "RIT": 69,
-      "FIN": 47,
-      "PAS": 65,
-      "DRI": 57,
-      "DEF": 87,
-      "FIS": 83
+      "RIT": 64,
+      "FIN": 64,
+      "PAS": 70,
+      "DRI": 74,
+      "DEF": 57,
+      "FIS": 71
      },
      "sem_nota_por": null
     },
@@ -5585,114 +5693,6 @@
       "MAO": 72,
       "PES": 65,
       "SAI": 58
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 1103705,
-     "nome": "L. Gazal",
-     "posicao": "D",
-     "camisa": 34,
-     "jogos": 7,
-     "minutos": 550,
-     "overall": 65,
-     "eixos": {
-      "RIT": 63,
-      "FIN": 55,
-      "PAS": 69,
-      "DRI": 61,
-      "DEF": 88,
-      "FIS": 80
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 243107,
-     "nome": "D. Barbosa",
-     "posicao": "D",
-     "camisa": 16,
-     "jogos": 19,
-     "minutos": 1236,
-     "overall": 64,
-     "eixos": {
-      "RIT": 74,
-      "FIN": 50,
-      "PAS": 61,
-      "DRI": 63,
-      "DEF": 67,
-      "FIS": 71
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 794312,
-     "nome": "E. Martinez",
-     "posicao": "M",
-     "camisa": 8,
-     "jogos": 14,
-     "minutos": 746,
-     "overall": 64,
-     "eixos": {
-      "RIT": 68,
-      "FIN": 61,
-      "PAS": 77,
-      "DRI": 72,
-      "DEF": 65,
-      "FIS": 67
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 842682,
-     "nome": "M. Rossetto",
-     "posicao": "M",
-     "camisa": 20,
-     "jogos": 20,
-     "minutos": 935,
-     "overall": 63,
-     "eixos": {
-      "RIT": 68,
-      "FIN": 48,
-      "PAS": 73,
-      "DRI": 69,
-      "DEF": 61,
-      "FIS": 68
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 1631235,
-     "nome": "L. Prior",
-     "posicao": "M",
-     "camisa": 38,
-     "jogos": 12,
-     "minutos": 657,
-     "overall": 63,
-     "eixos": {
-      "RIT": 64,
-      "FIN": 64,
-      "PAS": 70,
-      "DRI": 74,
-      "DEF": 57,
-      "FIS": 71
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 2034540,
-     "nome": "G. Mancha",
-     "posicao": "D",
-     "camisa": 39,
-     "jogos": 13,
-     "minutos": 1031,
-     "overall": 62,
-     "eixos": {
-      "RIT": 66,
-      "FIN": 45,
-      "PAS": 64,
-      "DRI": 56,
-      "DEF": 76,
-      "FIS": 67
      },
      "sem_nota_por": null
     },
@@ -5995,7 +5995,7 @@
      "camisa": 23,
      "jogos": 32,
      "minutos": 2774,
-     "overall": 64,
+     "overall": 68,
      "eixos": {
       "RIT": 82,
       "FIN": 49,
@@ -6003,6 +6003,186 @@
       "DRI": 67,
       "DEF": 81,
       "FIS": 62
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 976235,
+     "nome": "W. Leonardo",
+     "posicao": "D",
+     "camisa": 3,
+     "jogos": 29,
+     "minutos": 2368,
+     "overall": 66,
+     "eixos": {
+      "RIT": 66,
+      "FIN": 53,
+      "PAS": 66,
+      "DRI": 56,
+      "DEF": 89,
+      "FIS": 77
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 1463912,
+     "nome": "A. Henrique",
+     "posicao": "F",
+     "camisa": 77,
+     "jogos": 25,
+     "minutos": 799,
+     "overall": 66,
+     "eixos": {
+      "RIT": 77,
+      "FIN": 81,
+      "PAS": 72,
+      "DRI": 80,
+      "DEF": 41,
+      "FIS": 84
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 1631879,
+     "nome": "Alysson",
+     "posicao": "M",
+     "camisa": 47,
+     "jogos": 31,
+     "minutos": 1729,
+     "overall": 65,
+     "eixos": {
+      "RIT": 82,
+      "FIN": 69,
+      "PAS": 66,
+      "DRI": 72,
+      "DEF": 51,
+      "FIS": 77
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 870804,
+     "nome": "Dodi",
+     "posicao": "M",
+     "camisa": 17,
+     "jogos": 32,
+     "minutos": 2349,
+     "overall": 64,
+     "eixos": {
+      "RIT": 71,
+      "FIN": 46,
+      "PAS": 66,
+      "DRI": 66,
+      "DEF": 71,
+      "FIS": 61
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 221636,
+     "nome": "Edenilson",
+     "posicao": "M",
+     "camisa": 8,
+     "jogos": 31,
+     "minutos": 1819,
+     "overall": 64,
+     "eixos": {
+      "RIT": 75,
+      "FIN": 69,
+      "PAS": 70,
+      "DRI": 72,
+      "DEF": 60,
+      "FIS": 66
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 66471,
+     "nome": "M. Braithwaite",
+     "posicao": "F",
+     "camisa": 22,
+     "jogos": 18,
+     "minutos": 1465,
+     "overall": 64,
+     "eixos": {
+      "RIT": 74,
+      "FIN": 79,
+      "PAS": 62,
+      "DRI": 75,
+      "DEF": 32,
+      "FIS": 74
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 358956,
+     "nome": "C. Pavón",
+     "posicao": "F",
+     "camisa": 7,
+     "jogos": 28,
+     "minutos": 1372,
+     "overall": 64,
+     "eixos": {
+      "RIT": 80,
+      "FIN": 70,
+      "PAS": 74,
+      "DRI": 76,
+      "DEF": 64,
+      "FIS": 68
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 558820,
+     "nome": "F. Cristaldo",
+     "posicao": "M",
+     "camisa": 10,
+     "jogos": 30,
+     "minutos": 1251,
+     "overall": 64,
+     "eixos": {
+      "RIT": 74,
+      "FIN": 68,
+      "PAS": 79,
+      "DRI": 77,
+      "DEF": 56,
+      "FIS": 72
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 249647,
+     "nome": "W. Kannemann",
+     "posicao": "D",
+     "camisa": 4,
+     "jogos": 20,
+     "minutos": 1723,
+     "overall": 63,
+     "eixos": {
+      "RIT": 64,
+      "FIN": 41,
+      "PAS": 59,
+      "DRI": 53,
+      "DEF": 87,
+      "FIS": 81
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 1000502,
+     "nome": "A. Aravena",
+     "posicao": "F",
+     "camisa": 16,
+     "jogos": 22,
+     "minutos": 577,
+     "overall": 63,
+     "eixos": {
+      "RIT": 84,
+      "FIN": 81,
+      "PAS": 63,
+      "DRI": 75,
+      "DEF": 39,
+      "FIS": 74
      },
      "sem_nota_por": null
     },
@@ -6024,246 +6204,13 @@
      "sem_nota_por": null
     },
     {
-     "player_id": 976235,
-     "nome": "W. Leonardo",
-     "posicao": "D",
-     "camisa": 3,
-     "jogos": 29,
-     "minutos": 2368,
-     "overall": 61,
-     "eixos": {
-      "RIT": 66,
-      "FIN": 53,
-      "PAS": 66,
-      "DRI": 56,
-      "DEF": 89,
-      "FIS": 77
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 1631879,
-     "nome": "Alysson",
-     "posicao": "M",
-     "camisa": 47,
-     "jogos": 31,
-     "minutos": 1729,
-     "overall": 60,
-     "eixos": {
-      "RIT": 82,
-      "FIN": 69,
-      "PAS": 66,
-      "DRI": 72,
-      "DEF": 51,
-      "FIS": 77
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 1463912,
-     "nome": "A. Henrique",
-     "posicao": "F",
-     "camisa": 77,
-     "jogos": 25,
-     "minutos": 799,
-     "overall": 60,
-     "eixos": {
-      "RIT": 77,
-      "FIN": 81,
-      "PAS": 72,
-      "DRI": 80,
-      "DEF": 41,
-      "FIS": 84
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 221636,
-     "nome": "Edenilson",
-     "posicao": "M",
-     "camisa": 8,
-     "jogos": 31,
-     "minutos": 1819,
-     "overall": 58,
-     "eixos": {
-      "RIT": 75,
-      "FIN": 69,
-      "PAS": 70,
-      "DRI": 72,
-      "DEF": 60,
-      "FIS": 66
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 66471,
-     "nome": "M. Braithwaite",
-     "posicao": "F",
-     "camisa": 22,
-     "jogos": 18,
-     "minutos": 1465,
-     "overall": 58,
-     "eixos": {
-      "RIT": 74,
-      "FIN": 79,
-      "PAS": 62,
-      "DRI": 75,
-      "DEF": 32,
-      "FIS": 74
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 358956,
-     "nome": "C. Pavón",
-     "posicao": "F",
-     "camisa": 7,
-     "jogos": 28,
-     "minutos": 1372,
-     "overall": 58,
-     "eixos": {
-      "RIT": 80,
-      "FIN": 70,
-      "PAS": 74,
-      "DRI": 76,
-      "DEF": 64,
-      "FIS": 68
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 558820,
-     "nome": "F. Cristaldo",
-     "posicao": "M",
-     "camisa": 10,
-     "jogos": 30,
-     "minutos": 1251,
-     "overall": 58,
-     "eixos": {
-      "RIT": 74,
-      "FIN": 68,
-      "PAS": 79,
-      "DRI": 77,
-      "DEF": 56,
-      "FIS": 72
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 870804,
-     "nome": "Dodi",
-     "posicao": "M",
-     "camisa": 17,
-     "jogos": 32,
-     "minutos": 2349,
-     "overall": 57,
-     "eixos": {
-      "RIT": 71,
-      "FIN": 46,
-      "PAS": 66,
-      "DRI": 66,
-      "DEF": 71,
-      "FIS": 61
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 249647,
-     "nome": "W. Kannemann",
-     "posicao": "D",
-     "camisa": 4,
-     "jogos": 20,
-     "minutos": 1723,
-     "overall": 56,
-     "eixos": {
-      "RIT": 64,
-      "FIN": 41,
-      "PAS": 59,
-      "DRI": 53,
-      "DEF": 87,
-      "FIS": 81
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 1000502,
-     "nome": "A. Aravena",
-     "posicao": "F",
-     "camisa": 16,
-     "jogos": 22,
-     "minutos": 577,
-     "overall": 56,
-     "eixos": {
-      "RIT": 84,
-      "FIN": 81,
-      "PAS": 63,
-      "DRI": 75,
-      "DEF": 39,
-      "FIS": 74
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 1111770,
-     "nome": "G. Grando",
-     "posicao": "G",
-     "camisa": 12,
-     "jogos": 6,
-     "minutos": 540,
-     "overall": 56,
-     "eixos": {
-      "REF": 78,
-      "EVI": 85,
-      "MAO": 85,
-      "PES": 62,
-      "SAI": 62
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 1139775,
-     "nome": "M. Villasanti",
-     "posicao": "M",
-     "camisa": 20,
-     "jogos": 16,
-     "minutos": 1159,
-     "overall": 55,
-     "eixos": {
-      "RIT": 68,
-      "FIN": 49,
-      "PAS": 66,
-      "DRI": 73,
-      "DEF": 78,
-      "FIS": 73
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 1387272,
-     "nome": "L. Esteves",
-     "posicao": "D",
-     "camisa": 25,
-     "jogos": 10,
-     "minutos": 671,
-     "overall": 55,
-     "eixos": {
-      "RIT": 80,
-      "FIN": 46,
-      "PAS": 67,
-      "DRI": 66,
-      "DEF": 79,
-      "FIS": 79
-     },
-     "sem_nota_por": null
-    },
-    {
      "player_id": 1105796,
      "nome": "G. Martins",
      "posicao": "D",
      "camisa": 53,
      "jogos": 19,
      "minutos": 1323,
-     "overall": 54,
+     "overall": 62,
      "eixos": {
       "RIT": 67,
       "FIN": 59,
@@ -6281,7 +6228,7 @@
      "camisa": 9,
      "jogos": 22,
      "minutos": 1167,
-     "overall": 54,
+     "overall": 62,
      "eixos": {
       "RIT": 81,
       "FIN": 71,
@@ -6293,13 +6240,31 @@
      "sem_nota_por": null
     },
     {
+     "player_id": 1139775,
+     "nome": "M. Villasanti",
+     "posicao": "M",
+     "camisa": 20,
+     "jogos": 16,
+     "minutos": 1159,
+     "overall": 62,
+     "eixos": {
+      "RIT": 68,
+      "FIN": 49,
+      "PAS": 66,
+      "DRI": 73,
+      "DEF": 78,
+      "FIS": 73
+     },
+     "sem_nota_por": null
+    },
+    {
      "player_id": 82576,
      "nome": "M. Rocha",
      "posicao": "D",
      "camisa": 14,
      "jogos": 13,
      "minutos": 1053,
-     "overall": 54,
+     "overall": 62,
      "eixos": {
       "RIT": 66,
       "FIN": 43,
@@ -6317,7 +6282,7 @@
      "camisa": 95,
      "jogos": 14,
      "minutos": 949,
-     "overall": 54,
+     "overall": 62,
      "eixos": {
       "RIT": 71,
       "FIN": 82,
@@ -6329,13 +6294,31 @@
      "sem_nota_por": null
     },
     {
+     "player_id": 1387272,
+     "nome": "L. Esteves",
+     "posicao": "D",
+     "camisa": 25,
+     "jogos": 10,
+     "minutos": 671,
+     "overall": 62,
+     "eixos": {
+      "RIT": 80,
+      "FIN": 46,
+      "PAS": 67,
+      "DRI": 66,
+      "DEF": 79,
+      "FIS": 79
+     },
+     "sem_nota_por": null
+    },
+    {
      "player_id": 1068987,
      "nome": "C. Olivera",
      "posicao": "M",
      "camisa": 99,
      "jogos": 22,
      "minutos": 1289,
-     "overall": 53,
+     "overall": 61,
      "eixos": {
       "RIT": 82,
       "FIN": 69,
@@ -6353,7 +6336,7 @@
      "camisa": 6,
      "jogos": 17,
      "minutos": 889,
-     "overall": 53,
+     "overall": 61,
      "eixos": {
       "RIT": 79,
       "FIN": 54,
@@ -6371,7 +6354,7 @@
      "camisa": 15,
      "jogos": 16,
      "minutos": 730,
-     "overall": 53,
+     "overall": 61,
      "eixos": {
       "RIT": 73,
       "FIN": 57,
@@ -6389,7 +6372,7 @@
      "camisa": 29,
      "jogos": 13,
      "minutos": 1088,
-     "overall": 52,
+     "overall": 60,
      "eixos": {
       "RIT": 73,
       "FIN": 59,
@@ -6407,7 +6390,7 @@
      "camisa": 21,
      "jogos": 9,
      "minutos": 770,
-     "overall": 52,
+     "overall": 60,
      "eixos": {
       "RIT": 74,
       "FIN": 56,
@@ -6425,7 +6408,7 @@
      "camisa": 34,
      "jogos": 7,
      "minutos": 513,
-     "overall": 52,
+     "overall": 60,
      "eixos": {
       "RIT": 70,
       "FIN": 46,
@@ -6443,7 +6426,7 @@
      "camisa": 19,
      "jogos": 14,
      "minutos": 1186,
-     "overall": 51,
+     "overall": 59,
      "eixos": {
       "RIT": 61,
       "FIN": 46,
@@ -6461,7 +6444,7 @@
      "camisa": 80,
      "jogos": 11,
      "minutos": 492,
-     "overall": 51,
+     "overall": 59,
      "eixos": {
       "RIT": 73,
       "FIN": 66,
@@ -6479,7 +6462,7 @@
      "camisa": 18,
      "jogos": 7,
      "minutos": 456,
-     "overall": 51,
+     "overall": 59,
      "eixos": {
       "RIT": 76,
       "FIN": 45,
@@ -6497,7 +6480,7 @@
      "camisa": 2,
      "jogos": 10,
      "minutos": 514,
-     "overall": 49,
+     "overall": 58,
      "eixos": {
       "RIT": 73,
       "FIN": 45,
@@ -6505,6 +6488,23 @@
       "DRI": 61,
       "DEF": 80,
       "FIS": 68
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 1111770,
+     "nome": "G. Grando",
+     "posicao": "G",
+     "camisa": 12,
+     "jogos": 6,
+     "minutos": 540,
+     "overall": 56,
+     "eixos": {
+      "REF": 78,
+      "EVI": 85,
+      "MAO": 85,
+      "PES": 62,
+      "SAI": 62
      },
      "sem_nota_por": null
     },
@@ -6719,7 +6719,7 @@
      "camisa": 26,
      "jogos": 30,
      "minutos": 2581,
-     "overall": 72,
+     "overall": 74,
      "eixos": {
       "RIT": 84,
       "FIN": 52,
@@ -6731,31 +6731,13 @@
      "sem_nota_por": null
     },
     {
-     "player_id": 124997,
-     "nome": "A. Patrick",
-     "posicao": "M",
-     "camisa": 10,
-     "jogos": 30,
-     "minutos": 2517,
-     "overall": 71,
-     "eixos": {
-      "RIT": 67,
-      "FIN": 76,
-      "PAS": 81,
-      "DRI": 78,
-      "DEF": 43,
-      "FIS": 62
-     },
-     "sem_nota_por": null
-    },
-    {
      "player_id": 358550,
      "nome": "T. Maia",
      "posicao": "M",
      "camisa": 29,
      "jogos": 31,
      "minutos": 1989,
-     "overall": 71,
+     "overall": 74,
      "eixos": {
       "RIT": 72,
       "FIN": 55,
@@ -6767,13 +6749,31 @@
      "sem_nota_por": null
     },
     {
+     "player_id": 124997,
+     "nome": "A. Patrick",
+     "posicao": "M",
+     "camisa": 10,
+     "jogos": 30,
+     "minutos": 2517,
+     "overall": 73,
+     "eixos": {
+      "RIT": 67,
+      "FIN": 76,
+      "PAS": 81,
+      "DRI": 78,
+      "DEF": 43,
+      "FIS": 62
+     },
+     "sem_nota_por": null
+    },
+    {
      "player_id": 876625,
      "nome": "Vitão",
      "posicao": "D",
      "camisa": 4,
      "jogos": 31,
      "minutos": 2721,
-     "overall": 68,
+     "overall": 71,
      "eixos": {
       "RIT": 71,
       "FIN": 46,
@@ -6791,7 +6791,7 @@
      "camisa": 35,
      "jogos": 30,
      "minutos": 2393,
-     "overall": 68,
+     "overall": 71,
      "eixos": {
       "RIT": 80,
       "FIN": 46,
@@ -6809,7 +6809,7 @@
      "camisa": 19,
      "jogos": 30,
      "minutos": 1815,
-     "overall": 68,
+     "overall": 71,
      "eixos": {
       "RIT": 73,
       "FIN": 80,
@@ -6827,7 +6827,7 @@
      "camisa": 28,
      "jogos": 27,
      "minutos": 1688,
-     "overall": 68,
+     "overall": 71,
      "eixos": {
       "RIT": 82,
       "FIN": 72,
@@ -6845,7 +6845,7 @@
      "camisa": 7,
      "jogos": 23,
      "minutos": 1462,
-     "overall": 66,
+     "overall": 70,
      "eixos": {
       "RIT": 76,
       "FIN": 78,
@@ -6857,31 +6857,13 @@
      "sem_nota_por": null
     },
     {
-     "player_id": 985766,
-     "nome": "W. Ribeiro",
-     "posicao": "M",
-     "camisa": 21,
-     "jogos": 18,
-     "minutos": 1244,
-     "overall": 66,
-     "eixos": {
-      "RIT": 78,
-      "FIN": 69,
-      "PAS": 70,
-      "DRI": 76,
-      "DEF": 56,
-      "FIS": 76
-     },
-     "sem_nota_por": null
-    },
-    {
      "player_id": 845433,
      "nome": "B. Tabata",
      "posicao": "F",
      "camisa": 17,
      "jogos": 24,
      "minutos": 1082,
-     "overall": 66,
+     "overall": 70,
      "eixos": {
       "RIT": 80,
       "FIN": 78,
@@ -6899,7 +6881,7 @@
      "camisa": 18,
      "jogos": 20,
      "minutos": 1512,
-     "overall": 65,
+     "overall": 69,
      "eixos": {
       "RIT": 71,
       "FIN": 53,
@@ -6911,13 +6893,31 @@
      "sem_nota_por": null
     },
     {
+     "player_id": 985766,
+     "nome": "W. Ribeiro",
+     "posicao": "M",
+     "camisa": 21,
+     "jogos": 18,
+     "minutos": 1244,
+     "overall": 69,
+     "eixos": {
+      "RIT": 78,
+      "FIN": 69,
+      "PAS": 70,
+      "DRI": 76,
+      "DEF": 56,
+      "FIS": 76
+     },
+     "sem_nota_por": null
+    },
+    {
      "player_id": 995071,
      "nome": "B. Gomes",
      "posicao": "M",
      "camisa": 15,
      "jogos": 14,
      "minutos": 981,
-     "overall": 65,
+     "overall": 69,
      "eixos": {
       "RIT": 75,
       "FIN": 57,
@@ -6929,31 +6929,13 @@
      "sem_nota_por": null
     },
     {
-     "player_id": 345113,
-     "nome": "B. Henrique",
-     "posicao": "M",
-     "camisa": 8,
-     "jogos": 29,
-     "minutos": 1410,
-     "overall": 64,
-     "eixos": {
-      "RIT": 75,
-      "FIN": 68,
-      "PAS": 68,
-      "DRI": 64,
-      "DEF": 66,
-      "FIS": 78
-     },
-     "sem_nota_por": null
-    },
-    {
      "player_id": 824152,
      "nome": "Ronaldo",
      "posicao": "M",
      "camisa": 16,
      "jogos": 15,
      "minutos": 766,
-     "overall": 64,
+     "overall": 69,
      "eixos": {
       "RIT": 74,
       "FIN": 60,
@@ -6965,13 +6947,31 @@
      "sem_nota_por": null
     },
     {
+     "player_id": 345113,
+     "nome": "B. Henrique",
+     "posicao": "M",
+     "camisa": 8,
+     "jogos": 29,
+     "minutos": 1410,
+     "overall": 68,
+     "eixos": {
+      "RIT": 75,
+      "FIN": 68,
+      "PAS": 68,
+      "DRI": 64,
+      "DEF": 66,
+      "FIS": 78
+     },
+     "sem_nota_por": null
+    },
+    {
      "player_id": 1106487,
      "nome": "V. Gabriel",
      "posicao": "D",
      "camisa": 41,
      "jogos": 14,
      "minutos": 1108,
-     "overall": 63,
+     "overall": 68,
      "eixos": {
       "RIT": 66,
       "FIN": 56,
@@ -6989,7 +6989,7 @@
      "camisa": 49,
      "jogos": 22,
      "minutos": 805,
-     "overall": 63,
+     "overall": 68,
      "eixos": {
       "FIN": 81,
       "PAS": 63,
@@ -7006,7 +7006,7 @@
      "camisa": 39,
      "jogos": 20,
      "minutos": 771,
-     "overall": 63,
+     "overall": 67,
      "eixos": {
       "RIT": 75,
       "FIN": 57,
@@ -7018,13 +7018,31 @@
      "sem_nota_por": null
     },
     {
+     "player_id": 1394242,
+     "nome": "C. Sampaio",
+     "posicao": "D",
+     "camisa": 20,
+     "jogos": 11,
+     "minutos": 762,
+     "overall": 67,
+     "eixos": {
+      "RIT": 75,
+      "FIN": 49,
+      "PAS": 65,
+      "DRI": 57,
+      "DEF": 88,
+      "FIS": 74
+     },
+     "sem_nota_por": null
+    },
+    {
      "player_id": 128376,
      "nome": "G. Mercado",
      "posicao": "D",
      "camisa": 25,
      "jogos": 14,
      "minutos": 1197,
-     "overall": 61,
+     "overall": 66,
      "eixos": {
       "RIT": 65,
       "FIN": 50,
@@ -7042,7 +7060,7 @@
      "camisa": 14,
      "jogos": 15,
      "minutos": 944,
-     "overall": 61,
+     "overall": 66,
      "eixos": {
       "RIT": 72,
       "FIN": 59,
@@ -7054,31 +7072,13 @@
      "sem_nota_por": null
     },
     {
-     "player_id": 1394242,
-     "nome": "C. Sampaio",
-     "posicao": "D",
-     "camisa": 20,
-     "jogos": 11,
-     "minutos": 762,
-     "overall": 61,
-     "eixos": {
-      "RIT": 75,
-      "FIN": 49,
-      "PAS": 65,
-      "DRI": 57,
-      "DEF": 88,
-      "FIS": 74
-     },
-     "sem_nota_por": null
-    },
-    {
      "player_id": 106456,
      "nome": "E. Valencia",
      "posicao": "F",
      "camisa": 13,
      "jogos": 14,
      "minutos": 628,
-     "overall": 61,
+     "overall": 66,
      "eixos": {
       "RIT": 77,
       "FIN": 78,
@@ -7086,6 +7086,78 @@
       "DRI": 76,
       "DEF": 42,
       "FIS": 70
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 312824,
+     "nome": "A. Benítez",
+     "posicao": "D",
+     "camisa": 23,
+     "jogos": 11,
+     "minutos": 556,
+     "overall": 64,
+     "eixos": {
+      "RIT": 77,
+      "FIN": 58,
+      "PAS": 66,
+      "DRI": 58,
+      "DEF": 68,
+      "FIS": 71
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 1485220,
+     "nome": "G. Prado",
+     "posicao": "M",
+     "camisa": 47,
+     "jogos": 18,
+     "minutos": 555,
+     "overall": 64,
+     "eixos": {
+      "RIT": 69,
+      "FIN": 68,
+      "PAS": 68,
+      "DRI": 75,
+      "DEF": 54,
+      "FIS": 66
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 146416,
+     "nome": "Ó. Romero",
+     "posicao": "M",
+     "camisa": 11,
+     "jogos": 17,
+     "minutos": 514,
+     "overall": 64,
+     "eixos": {
+      "RIT": 72,
+      "FIN": 61,
+      "PAS": 81,
+      "DRI": 66,
+      "DEF": 62,
+      "FIS": 67
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 875293,
+     "nome": "A. Rogel",
+     "posicao": "D",
+     "camisa": 3,
+     "jogos": 5,
+     "minutos": 450,
+     "overall": 63,
+     "eixos": {
+      "RIT": 67,
+      "FIN": 45,
+      "PAS": 61,
+      "DRI": 59,
+      "DEF": 73,
+      "FIS": 75
      },
      "sem_nota_por": null
     },
@@ -7120,78 +7192,6 @@
       "MAO": 70,
       "PES": 45,
       "SAI": 75
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 1485220,
-     "nome": "G. Prado",
-     "posicao": "M",
-     "camisa": 47,
-     "jogos": 18,
-     "minutos": 555,
-     "overall": 58,
-     "eixos": {
-      "RIT": 69,
-      "FIN": 68,
-      "PAS": 68,
-      "DRI": 75,
-      "DEF": 54,
-      "FIS": 66
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 146416,
-     "nome": "Ó. Romero",
-     "posicao": "M",
-     "camisa": 11,
-     "jogos": 17,
-     "minutos": 514,
-     "overall": 58,
-     "eixos": {
-      "RIT": 72,
-      "FIN": 61,
-      "PAS": 81,
-      "DRI": 66,
-      "DEF": 62,
-      "FIS": 67
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 312824,
-     "nome": "A. Benítez",
-     "posicao": "D",
-     "camisa": 23,
-     "jogos": 11,
-     "minutos": 556,
-     "overall": 57,
-     "eixos": {
-      "RIT": 77,
-      "FIN": 58,
-      "PAS": 66,
-      "DRI": 58,
-      "DEF": 68,
-      "FIS": 71
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 875293,
-     "nome": "A. Rogel",
-     "posicao": "D",
-     "camisa": 3,
-     "jogos": 5,
-     "minutos": 450,
-     "overall": 56,
-     "eixos": {
-      "RIT": 67,
-      "FIN": 45,
-      "PAS": 61,
-      "DRI": 59,
-      "DEF": 73,
-      "FIS": 75
      },
      "sem_nota_por": null
     },
@@ -7417,30 +7417,13 @@
    },
    "jogadores": [
     {
-     "player_id": 874979,
-     "nome": "Jandrei",
-     "posicao": "G",
-     "camisa": 13,
-     "jogos": 19,
-     "minutos": 1710,
-     "overall": 56,
-     "eixos": {
-      "REF": 53,
-      "EVI": 64,
-      "MAO": 78,
-      "PES": 80,
-      "SAI": 88
-     },
-     "sem_nota_por": null
-    },
-    {
      "player_id": 243651,
      "nome": "Jádson",
      "posicao": "M",
      "camisa": 16,
      "jogos": 35,
      "minutos": 2842,
-     "overall": 55,
+     "overall": 62,
      "eixos": {
       "RIT": 74,
       "FIN": 49,
@@ -7452,31 +7435,13 @@
      "sem_nota_por": null
     },
     {
-     "player_id": 933955,
-     "nome": "G. Taliari",
-     "posicao": "F",
-     "camisa": 19,
-     "jogos": 34,
-     "minutos": 2309,
-     "overall": 55,
-     "eixos": {
-      "RIT": 74,
-      "FIN": 77,
-      "PAS": 64,
-      "DRI": 73,
-      "DEF": 41,
-      "FIS": 68
-     },
-     "sem_nota_por": null
-    },
-    {
      "player_id": 1116677,
      "nome": "L. Mandaca",
      "posicao": "M",
      "camisa": 44,
      "jogos": 32,
      "minutos": 2457,
-     "overall": 54,
+     "overall": 62,
      "eixos": {
       "RIT": 72,
       "FIN": 67,
@@ -7488,20 +7453,20 @@
      "sem_nota_por": null
     },
     {
-     "player_id": 1009030,
-     "nome": "Igor Formiga",
-     "posicao": "M",
-     "camisa": 32,
-     "jogos": 19,
-     "minutos": 1425,
-     "overall": 54,
+     "player_id": 933955,
+     "nome": "G. Taliari",
+     "posicao": "F",
+     "camisa": 19,
+     "jogos": 34,
+     "minutos": 2309,
+     "overall": 62,
      "eixos": {
-      "RIT": 81,
-      "FIN": 54,
-      "PAS": 70,
+      "RIT": 74,
+      "FIN": 77,
+      "PAS": 64,
       "DRI": 73,
-      "DEF": 76,
-      "FIS": 75
+      "DEF": 41,
+      "FIS": 68
      },
      "sem_nota_por": null
     },
@@ -7512,7 +7477,7 @@
      "camisa": 95,
      "jogos": 28,
      "minutos": 2062,
-     "overall": 53,
+     "overall": 61,
      "eixos": {
       "RIT": 70,
       "FIN": 43,
@@ -7524,13 +7489,31 @@
      "sem_nota_por": null
     },
     {
+     "player_id": 1009030,
+     "nome": "Igor Formiga",
+     "posicao": "M",
+     "camisa": 32,
+     "jogos": 19,
+     "minutos": 1425,
+     "overall": 61,
+     "eixos": {
+      "RIT": 81,
+      "FIN": 54,
+      "PAS": 70,
+      "DRI": 73,
+      "DEF": 76,
+      "FIS": 75
+     },
+     "sem_nota_por": null
+    },
+    {
      "player_id": 794640,
      "nome": "R. Sam",
      "posicao": "D",
      "camisa": 34,
      "jogos": 18,
      "minutos": 1463,
-     "overall": 51,
+     "overall": 60,
      "eixos": {
       "RIT": 74,
       "FIN": 50,
@@ -7548,7 +7531,7 @@
      "camisa": 47,
      "jogos": 19,
      "minutos": 1375,
-     "overall": 51,
+     "overall": 59,
      "eixos": {
       "RIT": 76,
       "FIN": 40,
@@ -7556,6 +7539,329 @@
       "DRI": 64,
       "DEF": 77,
       "FIS": 84
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 158561,
+     "nome": "Gilberto",
+     "posicao": "F",
+     "camisa": 9,
+     "jogos": 23,
+     "minutos": 1109,
+     "overall": 59,
+     "eixos": {
+      "RIT": 72,
+      "FIN": 75,
+      "PAS": 64,
+      "DRI": 77,
+      "DEF": 37,
+      "FIS": 76
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 1464653,
+     "nome": "Abner",
+     "posicao": "D",
+     "camisa": 23,
+     "jogos": 19,
+     "minutos": 1317,
+     "overall": 58,
+     "eixos": {
+      "RIT": 63,
+      "FIN": 42,
+      "PAS": 63,
+      "DRI": 62,
+      "DEF": 87,
+      "FIS": 79
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 797649,
+     "nome": "Giovanny",
+     "posicao": "F",
+     "camisa": 11,
+     "jogos": 19,
+     "minutos": 665,
+     "overall": 58,
+     "eixos": {
+      "RIT": 73,
+      "FIN": 74,
+      "PAS": 72,
+      "DRI": 81,
+      "DEF": 44,
+      "FIS": 73
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 1007431,
+     "nome": "Matheus Babi",
+     "posicao": "F",
+     "camisa": 17,
+     "jogos": 20,
+     "minutos": 478,
+     "overall": 58,
+     "eixos": {
+      "RIT": 74,
+      "FIN": 80,
+      "PAS": 58,
+      "DRI": 79,
+      "DEF": 36,
+      "FIS": 83
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 783490,
+     "nome": "M. Hermes",
+     "posicao": "D",
+     "camisa": 22,
+     "jogos": 22,
+     "minutos": 1858,
+     "overall": 57,
+     "eixos": {
+      "RIT": 69,
+      "FIN": 52,
+      "PAS": 69,
+      "DRI": 60,
+      "DEF": 69,
+      "FIS": 64
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 986064,
+     "nome": "Luan Freitas",
+     "posicao": "D",
+     "camisa": 3,
+     "jogos": 14,
+     "minutos": 1125,
+     "overall": 57,
+     "eixos": {
+      "RIT": 71,
+      "FIN": 40,
+      "PAS": 64,
+      "DRI": 55,
+      "DEF": 80,
+      "FIS": 75
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 5672,
+     "nome": "Nenê",
+     "posicao": "M",
+     "camisa": 10,
+     "jogos": 25,
+     "minutos": 1007,
+     "overall": 57,
+     "eixos": {
+      "RIT": 69,
+      "FIN": 73,
+      "PAS": 76,
+      "DRI": 73,
+      "DEF": 43,
+      "FIS": 63
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 1002819,
+     "nome": "G. Veron",
+     "posicao": "F",
+     "camisa": 7,
+     "jogos": 19,
+     "minutos": 768,
+     "overall": 57,
+     "eixos": {
+      "RIT": 81,
+      "FIN": 69,
+      "PAS": 61,
+      "DRI": 74,
+      "DEF": 40,
+      "FIS": 74
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 874979,
+     "nome": "Jandrei",
+     "posicao": "G",
+     "camisa": 13,
+     "jogos": 19,
+     "minutos": 1710,
+     "overall": 56,
+     "eixos": {
+      "REF": 53,
+      "EVI": 64,
+      "MAO": 78,
+      "PES": 80,
+      "SAI": 88
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 147358,
+     "nome": "W. Ángel",
+     "posicao": "D",
+     "camisa": 4,
+     "jogos": 18,
+     "minutos": 1434,
+     "overall": 56,
+     "eixos": {
+      "RIT": 61,
+      "FIN": 47,
+      "PAS": 58,
+      "DRI": 59,
+      "DEF": 79,
+      "FIS": 79
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 992512,
+     "nome": "Ewerthon",
+     "posicao": "D",
+     "camisa": 2,
+     "jogos": 18,
+     "minutos": 1158,
+     "overall": 56,
+     "eixos": {
+      "RIT": 76,
+      "FIN": 62,
+      "PAS": 60,
+      "DRI": 60,
+      "DEF": 77,
+      "FIS": 67
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 1049781,
+     "nome": "Peixoto",
+     "posicao": "M",
+     "camisa": 72,
+     "jogos": 13,
+     "minutos": 736,
+     "overall": 56,
+     "eixos": {
+      "RIT": 73,
+      "FIN": 62,
+      "PAS": 66,
+      "DRI": 73,
+      "DEF": 70,
+      "FIS": 73
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 1022945,
+     "nome": "E. Batalla",
+     "posicao": "M",
+     "camisa": 27,
+     "jogos": 22,
+     "minutos": 1327,
+     "overall": 55,
+     "eixos": {
+      "RIT": 70,
+      "FIN": 64,
+      "PAS": 66,
+      "DRI": 66,
+      "DEF": 46,
+      "FIS": 60
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 551674,
+     "nome": "A. L. Ruschel",
+     "posicao": "D",
+     "camisa": 28,
+     "jogos": 21,
+     "minutos": 1242,
+     "overall": 55,
+     "eixos": {
+      "RIT": 68,
+      "FIN": 38,
+      "PAS": 59,
+      "DRI": 59,
+      "DEF": 74,
+      "FIS": 69
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 555456,
+     "nome": "Reginaldo",
+     "posicao": "D",
+     "camisa": 93,
+     "jogos": 18,
+     "minutos": 1172,
+     "overall": 55,
+     "eixos": {
+      "RIT": 79,
+      "FIN": 39,
+      "PAS": 64,
+      "DRI": 55,
+      "DEF": 71,
+      "FIS": 60
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 1015935,
+     "nome": "Ênio",
+     "posicao": "M",
+     "camisa": 97,
+     "jogos": 26,
+     "minutos": 1112,
+     "overall": 55,
+     "eixos": {
+      "RIT": 69,
+      "FIN": 70,
+      "PAS": 65,
+      "DRI": 72,
+      "DEF": 43,
+      "FIS": 60
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 959005,
+     "nome": "Rafael Bilú",
+     "posicao": "F",
+     "camisa": 99,
+     "jogos": 15,
+     "minutos": 690,
+     "overall": 55,
+     "eixos": {
+      "RIT": 72,
+      "FIN": 71,
+      "PAS": 61,
+      "DRI": 81,
+      "DEF": 38,
+      "FIS": 63
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 1136107,
+     "nome": "D. Giraldo",
+     "posicao": "M",
+     "camisa": 8,
+     "jogos": 15,
+     "minutos": 685,
+     "overall": 55,
+     "eixos": {
+      "RIT": 66,
+      "FIN": 52,
+      "PAS": 67,
+      "DRI": 68,
+      "DEF": 69,
+      "FIS": 74
      },
      "sem_nota_por": null
     },
@@ -7577,150 +7883,6 @@
      "sem_nota_por": null
     },
     {
-     "player_id": 158561,
-     "nome": "Gilberto",
-     "posicao": "F",
-     "camisa": 9,
-     "jogos": 23,
-     "minutos": 1109,
-     "overall": 50,
-     "eixos": {
-      "RIT": 72,
-      "FIN": 75,
-      "PAS": 64,
-      "DRI": 77,
-      "DEF": 37,
-      "FIS": 76
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 797649,
-     "nome": "Giovanny",
-     "posicao": "F",
-     "camisa": 11,
-     "jogos": 19,
-     "minutos": 665,
-     "overall": 50,
-     "eixos": {
-      "RIT": 73,
-      "FIN": 74,
-      "PAS": 72,
-      "DRI": 81,
-      "DEF": 44,
-      "FIS": 73
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 1464653,
-     "nome": "Abner",
-     "posicao": "D",
-     "camisa": 23,
-     "jogos": 19,
-     "minutos": 1317,
-     "overall": 49,
-     "eixos": {
-      "RIT": 63,
-      "FIN": 42,
-      "PAS": 63,
-      "DRI": 62,
-      "DEF": 87,
-      "FIS": 79
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 1007431,
-     "nome": "Matheus Babi",
-     "posicao": "F",
-     "camisa": 17,
-     "jogos": 20,
-     "minutos": 478,
-     "overall": 49,
-     "eixos": {
-      "RIT": 74,
-      "FIN": 80,
-      "PAS": 58,
-      "DRI": 79,
-      "DEF": 36,
-      "FIS": 83
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 783490,
-     "nome": "M. Hermes",
-     "posicao": "D",
-     "camisa": 22,
-     "jogos": 22,
-     "minutos": 1858,
-     "overall": 48,
-     "eixos": {
-      "RIT": 69,
-      "FIN": 52,
-      "PAS": 69,
-      "DRI": 60,
-      "DEF": 69,
-      "FIS": 64
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 5672,
-     "nome": "Nenê",
-     "posicao": "M",
-     "camisa": 10,
-     "jogos": 25,
-     "minutos": 1007,
-     "overall": 48,
-     "eixos": {
-      "RIT": 69,
-      "FIN": 73,
-      "PAS": 76,
-      "DRI": 73,
-      "DEF": 43,
-      "FIS": 63
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 147358,
-     "nome": "W. Ángel",
-     "posicao": "D",
-     "camisa": 4,
-     "jogos": 18,
-     "minutos": 1434,
-     "overall": 47,
-     "eixos": {
-      "RIT": 61,
-      "FIN": 47,
-      "PAS": 58,
-      "DRI": 59,
-      "DEF": 79,
-      "FIS": 79
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 986064,
-     "nome": "Luan Freitas",
-     "posicao": "D",
-     "camisa": 3,
-     "jogos": 14,
-     "minutos": 1125,
-     "overall": 47,
-     "eixos": {
-      "RIT": 71,
-      "FIN": 40,
-      "PAS": 64,
-      "DRI": 55,
-      "DEF": 80,
-      "FIS": 75
-     },
-     "sem_nota_por": null
-    },
-    {
      "player_id": 124766,
      "nome": "Gustavo",
      "posicao": "G",
@@ -7734,168 +7896,6 @@
       "MAO": 67,
       "PES": 86,
       "SAI": 45
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 1002819,
-     "nome": "G. Veron",
-     "posicao": "F",
-     "camisa": 7,
-     "jogos": 19,
-     "minutos": 768,
-     "overall": 47,
-     "eixos": {
-      "RIT": 81,
-      "FIN": 69,
-      "PAS": 61,
-      "DRI": 74,
-      "DEF": 40,
-      "FIS": 74
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 1049781,
-     "nome": "Peixoto",
-     "posicao": "M",
-     "camisa": 72,
-     "jogos": 13,
-     "minutos": 736,
-     "overall": 47,
-     "eixos": {
-      "RIT": 73,
-      "FIN": 62,
-      "PAS": 66,
-      "DRI": 73,
-      "DEF": 70,
-      "FIS": 73
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 992512,
-     "nome": "Ewerthon",
-     "posicao": "D",
-     "camisa": 2,
-     "jogos": 18,
-     "minutos": 1158,
-     "overall": 46,
-     "eixos": {
-      "RIT": 76,
-      "FIN": 62,
-      "PAS": 60,
-      "DRI": 60,
-      "DEF": 77,
-      "FIS": 67
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 1022945,
-     "nome": "E. Batalla",
-     "posicao": "M",
-     "camisa": 27,
-     "jogos": 22,
-     "minutos": 1327,
-     "overall": 45,
-     "eixos": {
-      "RIT": 70,
-      "FIN": 64,
-      "PAS": 66,
-      "DRI": 66,
-      "DEF": 46,
-      "FIS": 60
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 551674,
-     "nome": "A. L. Ruschel",
-     "posicao": "D",
-     "camisa": 28,
-     "jogos": 21,
-     "minutos": 1242,
-     "overall": 45,
-     "eixos": {
-      "RIT": 68,
-      "FIN": 38,
-      "PAS": 59,
-      "DRI": 59,
-      "DEF": 74,
-      "FIS": 69
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 555456,
-     "nome": "Reginaldo",
-     "posicao": "D",
-     "camisa": 93,
-     "jogos": 18,
-     "minutos": 1172,
-     "overall": 45,
-     "eixos": {
-      "RIT": 79,
-      "FIN": 39,
-      "PAS": 64,
-      "DRI": 55,
-      "DEF": 71,
-      "FIS": 60
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 1015935,
-     "nome": "Ênio",
-     "posicao": "M",
-     "camisa": 97,
-     "jogos": 26,
-     "minutos": 1112,
-     "overall": 45,
-     "eixos": {
-      "RIT": 69,
-      "FIN": 70,
-      "PAS": 65,
-      "DRI": 72,
-      "DEF": 43,
-      "FIS": 60
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 959005,
-     "nome": "Rafael Bilú",
-     "posicao": "F",
-     "camisa": 99,
-     "jogos": 15,
-     "minutos": 690,
-     "overall": 45,
-     "eixos": {
-      "RIT": 72,
-      "FIN": 71,
-      "PAS": 61,
-      "DRI": 81,
-      "DEF": 38,
-      "FIS": 63
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 1136107,
-     "nome": "D. Giraldo",
-     "posicao": "M",
-     "camisa": 8,
-     "jogos": 15,
-     "minutos": 685,
-     "overall": 45,
-     "eixos": {
-      "RIT": 66,
-      "FIN": 52,
-      "PAS": 67,
-      "DRI": 68,
-      "DEF": 69,
-      "FIS": 74
      },
      "sem_nota_por": null
     },
@@ -8353,6 +8353,24 @@
      "sem_nota_por": null
     },
     {
+     "player_id": 871015,
+     "nome": "Alesson",
+     "posicao": "F",
+     "camisa": 77,
+     "jogos": 26,
+     "minutos": 1461,
+     "overall": 78,
+     "eixos": {
+      "RIT": 78,
+      "FIN": 79,
+      "PAS": 70,
+      "DRI": 78,
+      "DEF": 37,
+      "FIS": 72
+     },
+     "sem_nota_por": null
+    },
+    {
      "player_id": 1148306,
      "nome": "C. Renato",
      "posicao": "F",
@@ -8371,31 +8389,13 @@
      "sem_nota_por": null
     },
     {
-     "player_id": 871015,
-     "nome": "Alesson",
-     "posicao": "F",
-     "camisa": 77,
-     "jogos": 26,
-     "minutos": 1461,
-     "overall": 77,
-     "eixos": {
-      "RIT": 78,
-      "FIN": 79,
-      "PAS": 70,
-      "DRI": 78,
-      "DEF": 37,
-      "FIS": 72
-     },
-     "sem_nota_por": null
-    },
-    {
      "player_id": 988851,
      "nome": "J. Aldo",
      "posicao": "M",
      "camisa": 21,
      "jogos": 30,
      "minutos": 1368,
-     "overall": 76,
+     "overall": 77,
      "eixos": {
       "RIT": 71,
       "FIN": 60,
@@ -8403,6 +8403,24 @@
       "DRI": 72,
       "DEF": 73,
       "FIS": 78
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 1048612,
+     "nome": "E. Carioca",
+     "posicao": "F",
+     "camisa": 95,
+     "jogos": 21,
+     "minutos": 1178,
+     "overall": 76,
+     "eixos": {
+      "RIT": 81,
+      "FIN": 77,
+      "PAS": 65,
+      "DRI": 81,
+      "DEF": 41,
+      "FIS": 65
      },
      "sem_nota_por": null
     },
@@ -8425,31 +8443,13 @@
      "sem_nota_por": null
     },
     {
-     "player_id": 1048612,
-     "nome": "E. Carioca",
-     "posicao": "F",
-     "camisa": 95,
-     "jogos": 21,
-     "minutos": 1178,
-     "overall": 74,
-     "eixos": {
-      "RIT": 81,
-      "FIN": 77,
-      "PAS": 65,
-      "DRI": 81,
-      "DEF": 41,
-      "FIS": 65
-     },
-     "sem_nota_por": null
-    },
-    {
      "player_id": 794874,
      "nome": "D. Borges",
      "posicao": "D",
      "camisa": 20,
      "jogos": 16,
      "minutos": 908,
-     "overall": 71,
+     "overall": 73,
      "eixos": {
       "RIT": 79,
       "FIN": 50,
@@ -8467,7 +8467,7 @@
      "camisa": 41,
      "jogos": 19,
      "minutos": 657,
-     "overall": 71,
+     "overall": 73,
      "eixos": {
       "RIT": 69,
       "FIN": 63,
@@ -8485,7 +8485,7 @@
      "camisa": 91,
      "jogos": 20,
      "minutos": 1195,
-     "overall": 70,
+     "overall": 72,
      "eixos": {
       "RIT": 64,
       "FIN": 78,
@@ -8503,7 +8503,7 @@
      "camisa": 12,
      "jogos": 12,
      "minutos": 546,
-     "overall": 70,
+     "overall": 72,
      "eixos": {
       "RIT": 78,
       "FIN": 67,
@@ -8521,7 +8521,7 @@
      "camisa": 77,
      "jogos": 9,
      "minutos": 501,
-     "overall": 68,
+     "overall": 71,
      "eixos": {
       "RIT": 74,
       "FIN": 74,
@@ -9056,7 +9056,7 @@
      "camisa": 23,
      "jogos": 25,
      "minutos": 1072,
-     "overall": 76,
+     "overall": 77,
      "eixos": {
       "RIT": 77,
       "FIN": 69,
@@ -9074,7 +9074,7 @@
      "camisa": 30,
      "jogos": 19,
      "minutos": 1046,
-     "overall": 75,
+     "overall": 76,
      "eixos": {
       "RIT": 69,
       "FIN": 64,
@@ -9092,7 +9092,7 @@
      "camisa": 8,
      "jogos": 15,
      "minutos": 1008,
-     "overall": 75,
+     "overall": 76,
      "eixos": {
       "RIT": 72,
       "FIN": 62,
@@ -9110,7 +9110,7 @@
      "camisa": 6,
      "jogos": 12,
      "minutos": 763,
-     "overall": 75,
+     "overall": 76,
      "eixos": {
       "RIT": 77,
       "FIN": 45,
@@ -9128,7 +9128,7 @@
      "camisa": 8,
      "jogos": 10,
      "minutos": 741,
-     "overall": 75,
+     "overall": 76,
      "eixos": {
       "RIT": 80,
       "FIN": 62,
@@ -9146,7 +9146,7 @@
      "camisa": 13,
      "jogos": 16,
      "minutos": 1295,
-     "overall": 74,
+     "overall": 75,
      "eixos": {
       "RIT": 69,
       "FIN": 43,
@@ -9154,6 +9154,24 @@
       "DRI": 59,
       "DEF": 73,
       "FIS": 79
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 1597265,
+     "nome": "Estêvão",
+     "posicao": "F",
+     "camisa": 41,
+     "jogos": 11,
+     "minutos": 836,
+     "overall": 75,
+     "eixos": {
+      "RIT": 75,
+      "FIN": 73,
+      "PAS": 72,
+      "DRI": 75,
+      "DEF": 34,
+      "FIS": 61
      },
      "sem_nota_por": null
     },
@@ -9192,31 +9210,13 @@
      "sem_nota_por": null
     },
     {
-     "player_id": 1597265,
-     "nome": "Estêvão",
-     "posicao": "F",
-     "camisa": 41,
-     "jogos": 11,
-     "minutos": 836,
-     "overall": 73,
-     "eixos": {
-      "RIT": 75,
-      "FIN": 73,
-      "PAS": 72,
-      "DRI": 75,
-      "DEF": 34,
-      "FIS": 61
-     },
-     "sem_nota_por": null
-    },
-    {
      "player_id": 984896,
      "nome": "Khellven",
      "posicao": "D",
      "camisa": 12,
      "jogos": 13,
      "minutos": 983,
-     "overall": 71,
+     "overall": 73,
      "eixos": {
       "RIT": 77,
       "FIN": 40,
@@ -9443,30 +9443,13 @@
    },
    "jogadores": [
     {
-     "player_id": 844576,
-     "nome": "Cleiton",
-     "posicao": "G",
-     "camisa": 1,
-     "jogos": 34,
-     "minutos": 3060,
-     "overall": 65,
-     "eixos": {
-      "REF": 79,
-      "EVI": 53,
-      "MAO": 90,
-      "PES": 84,
-      "SAI": 88
-     },
-     "sem_nota_por": null
-    },
-    {
      "player_id": 1167069,
      "nome": "Jhon Jhon",
      "posicao": "M",
      "camisa": 10,
      "jogos": 34,
      "minutos": 2858,
-     "overall": 61,
+     "overall": 66,
      "eixos": {
       "RIT": 72,
       "FIN": 71,
@@ -9484,7 +9467,7 @@
      "camisa": 14,
      "jogos": 31,
      "minutos": 2656,
-     "overall": 61,
+     "overall": 66,
      "eixos": {
       "RIT": 70,
       "FIN": 44,
@@ -9496,31 +9479,13 @@
      "sem_nota_por": null
     },
     {
-     "player_id": 870556,
-     "nome": "J. Capixaba",
-     "posicao": "D",
-     "camisa": 29,
-     "jogos": 24,
-     "minutos": 1973,
-     "overall": 61,
-     "eixos": {
-      "RIT": 82,
-      "FIN": 62,
-      "PAS": 75,
-      "DRI": 62,
-      "DEF": 82,
-      "FIS": 83
-     },
-     "sem_nota_por": null
-    },
-    {
      "player_id": 143846,
      "nome": "E. Sasha",
      "posicao": "F",
      "camisa": 8,
      "jogos": 33,
      "minutos": 2266,
-     "overall": 60,
+     "overall": 66,
      "eixos": {
       "RIT": 77,
       "FIN": 80,
@@ -9532,13 +9497,48 @@
      "sem_nota_por": null
     },
     {
+     "player_id": 870556,
+     "nome": "J. Capixaba",
+     "posicao": "D",
+     "camisa": 29,
+     "jogos": 24,
+     "minutos": 1973,
+     "overall": 66,
+     "eixos": {
+      "RIT": 82,
+      "FIN": 62,
+      "PAS": 75,
+      "DRI": 62,
+      "DEF": 82,
+      "FIS": 83
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 844576,
+     "nome": "Cleiton",
+     "posicao": "G",
+     "camisa": 1,
+     "jogos": 34,
+     "minutos": 3060,
+     "overall": 65,
+     "eixos": {
+      "REF": 79,
+      "EVI": 53,
+      "MAO": 90,
+      "PES": 84,
+      "SAI": 88
+     },
+     "sem_nota_por": null
+    },
+    {
      "player_id": 1067641,
      "nome": "L. Barbosa",
      "posicao": "M",
      "camisa": 21,
      "jogos": 34,
      "minutos": 2349,
-     "overall": 59,
+     "overall": 65,
      "eixos": {
       "RIT": 80,
       "FIN": 71,
@@ -9556,7 +9556,7 @@
      "camisa": 6,
      "jogos": 33,
      "minutos": 2650,
-     "overall": 56,
+     "overall": 63,
      "eixos": {
       "RIT": 72,
       "FIN": 47,
@@ -9574,7 +9574,7 @@
      "camisa": 34,
      "jogos": 28,
      "minutos": 1887,
-     "overall": 55,
+     "overall": 62,
      "eixos": {
       "RIT": 76,
       "FIN": 41,
@@ -9586,31 +9586,13 @@
      "sem_nota_por": null
     },
     {
-     "player_id": 979861,
-     "nome": "I. Pitta",
-     "posicao": "F",
-     "camisa": 9,
-     "jogos": 24,
-     "minutos": 1082,
-     "overall": 55,
-     "eixos": {
-      "RIT": 75,
-      "FIN": 75,
-      "PAS": 67,
-      "DRI": 77,
-      "DEF": 37,
-      "FIS": 78
-     },
-     "sem_nota_por": null
-    },
-    {
      "player_id": 1117513,
      "nome": "Fabinho",
      "posicao": "M",
      "camisa": 5,
      "jogos": 28,
      "minutos": 1268,
-     "overall": 54,
+     "overall": 62,
      "eixos": {
       "RIT": 72,
       "FIN": 54,
@@ -9622,13 +9604,31 @@
      "sem_nota_por": null
     },
     {
+     "player_id": 979861,
+     "nome": "I. Pitta",
+     "posicao": "F",
+     "camisa": 9,
+     "jogos": 24,
+     "minutos": 1082,
+     "overall": 62,
+     "eixos": {
+      "RIT": 75,
+      "FIN": 75,
+      "PAS": 67,
+      "DRI": 77,
+      "DEF": 37,
+      "FIS": 78
+     },
+     "sem_nota_por": null
+    },
+    {
      "player_id": 997239,
      "nome": "G. Rodríguez",
      "posicao": "D",
      "camisa": 2,
      "jogos": 23,
      "minutos": 2052,
-     "overall": 53,
+     "overall": 61,
      "eixos": {
       "RIT": 70,
       "FIN": 47,
@@ -9646,7 +9646,7 @@
      "camisa": 7,
      "jogos": 31,
      "minutos": 1795,
-     "overall": 52,
+     "overall": 60,
      "eixos": {
       "RIT": 69,
       "FIN": 66,
@@ -9664,7 +9664,7 @@
      "camisa": 45,
      "jogos": 19,
      "minutos": 1162,
-     "overall": 52,
+     "overall": 60,
      "eixos": {
       "RIT": 77,
       "FIN": 39,
@@ -9682,7 +9682,7 @@
      "camisa": 17,
      "jogos": 23,
      "minutos": 1044,
-     "overall": 52,
+     "overall": 60,
      "eixos": {
       "RIT": 81,
       "FIN": 70,
@@ -9700,7 +9700,7 @@
      "camisa": 16,
      "jogos": 14,
      "minutos": 898,
-     "overall": 52,
+     "overall": 60,
      "eixos": {
       "RIT": 71,
       "FIN": 58,
@@ -9718,7 +9718,7 @@
      "camisa": 30,
      "jogos": 17,
      "minutos": 769,
-     "overall": 52,
+     "overall": 60,
      "eixos": {
       "RIT": 83,
       "FIN": 74,
@@ -9736,7 +9736,7 @@
      "camisa": 22,
      "jogos": 17,
      "minutos": 745,
-     "overall": 50,
+     "overall": 59,
      "eixos": {
       "RIT": 77,
       "FIN": 68,
@@ -9754,7 +9754,7 @@
      "camisa": 35,
      "jogos": 20,
      "minutos": 668,
-     "overall": 50,
+     "overall": 59,
      "eixos": {
       "RIT": 73,
       "FIN": 60,
@@ -9772,7 +9772,7 @@
      "camisa": 32,
      "jogos": 11,
      "minutos": 523,
-     "overall": 50,
+     "overall": 59,
      "eixos": {
       "RIT": 72,
       "FIN": 62,
@@ -9790,7 +9790,7 @@
      "camisa": 12,
      "jogos": 17,
      "minutos": 1253,
-     "overall": 49,
+     "overall": 58,
      "eixos": {
       "RIT": 75,
       "FIN": 39,
@@ -9808,7 +9808,7 @@
      "camisa": 33,
      "jogos": 23,
      "minutos": 1027,
-     "overall": 49,
+     "overall": 58,
      "eixos": {
       "RIT": 77,
       "FIN": 68,
@@ -9826,7 +9826,7 @@
      "camisa": 4,
      "jogos": 11,
      "minutos": 862,
-     "overall": 49,
+     "overall": 58,
      "eixos": {
       "RIT": 68,
       "FIN": 54,
@@ -9844,7 +9844,7 @@
      "camisa": 31,
      "jogos": 11,
      "minutos": 648,
-     "overall": 49,
+     "overall": 58,
      "eixos": {
       "RIT": 71,
       "FIN": 54,
@@ -10027,13 +10027,31 @@
    },
    "jogadores": [
     {
+     "player_id": 844605,
+     "nome": "Guilherme",
+     "posicao": "M",
+     "camisa": 11,
+     "jogos": 32,
+     "minutos": 2262,
+     "overall": 69,
+     "eixos": {
+      "RIT": 80,
+      "FIN": 72,
+      "PAS": 74,
+      "DRI": 77,
+      "DEF": 59,
+      "FIS": 80
+     },
+     "sem_nota_por": null
+    },
+    {
      "player_id": 244591,
      "nome": "J. Schmidt",
      "posicao": "M",
      "camisa": 5,
      "jogos": 31,
      "minutos": 2164,
-     "overall": 66,
+     "overall": 69,
      "eixos": {
       "RIT": 72,
       "FIN": 57,
@@ -10045,20 +10063,218 @@
      "sem_nota_por": null
     },
     {
-     "player_id": 844605,
-     "nome": "Guilherme",
+     "player_id": 949687,
+     "nome": "Á. Barreal",
      "posicao": "M",
-     "camisa": 11,
-     "jogos": 32,
-     "minutos": 2262,
-     "overall": 65,
+     "camisa": 22,
+     "jogos": 34,
+     "minutos": 2264,
+     "overall": 67,
+     "eixos": {
+      "RIT": 78,
+      "FIN": 76,
+      "PAS": 72,
+      "DRI": 69,
+      "DEF": 69,
+      "FIS": 64
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 922454,
+     "nome": "B. Rollheiser",
+     "posicao": "M",
+     "camisa": 32,
+     "jogos": 36,
+     "minutos": 2230,
+     "overall": 67,
      "eixos": {
       "RIT": 80,
-      "FIN": 72,
-      "PAS": 74,
-      "DRI": 77,
-      "DEF": 59,
+      "FIN": 69,
+      "PAS": 78,
+      "DRI": 75,
+      "DEF": 40,
+      "FIS": 60
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 840500,
+     "nome": "G. Escobar",
+     "posicao": "D",
+     "camisa": 31,
+     "jogos": 30,
+     "minutos": 2015,
+     "overall": 65,
+     "eixos": {
+      "RIT": 78,
+      "FIN": 43,
+      "PAS": 64,
+      "DRI": 57,
+      "DEF": 88,
+      "FIS": 69
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 124712,
+     "nome": "Neymar",
+     "posicao": "F",
+     "camisa": 10,
+     "jogos": 20,
+     "minutos": 1531,
+     "overall": 65,
+     "eixos": {
+      "RIT": 73,
+      "FIN": 82,
+      "PAS": 77,
+      "DRI": 76,
+      "DEF": 29,
+      "FIS": 62
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 789100,
+     "nome": "T. Soares",
+     "posicao": "F",
+     "camisa": 9,
+     "jogos": 27,
+     "minutos": 1250,
+     "overall": 65,
+     "eixos": {
+      "RIT": 69,
+      "FIN": 77,
+      "PAS": 67,
+      "DRI": 80,
+      "DEF": 31,
       "FIS": 80
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 842098,
+     "nome": "L. Peres",
+     "posicao": "D",
+     "camisa": 14,
+     "jogos": 24,
+     "minutos": 2051,
+     "overall": 64,
+     "eixos": {
+      "RIT": 65,
+      "FIN": 39,
+      "PAS": 63,
+      "DRI": 55,
+      "DEF": 83,
+      "FIS": 77
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 844602,
+     "nome": "Z. Ivaldo",
+     "posicao": "D",
+     "camisa": 2,
+     "jogos": 21,
+     "minutos": 1801,
+     "overall": 64,
+     "eixos": {
+      "RIT": 71,
+      "FIN": 49,
+      "PAS": 60,
+      "DRI": 59,
+      "DEF": 88,
+      "FIS": 78
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 1482340,
+     "nome": "Souza",
+     "posicao": "D",
+     "camisa": 33,
+     "jogos": 24,
+     "minutos": 1654,
+     "overall": 64,
+     "eixos": {
+      "RIT": 77,
+      "FIN": 53,
+      "PAS": 66,
+      "DRI": 66,
+      "DEF": 84,
+      "FIS": 67
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 992093,
+     "nome": "L. Díaz",
+     "posicao": "F",
+     "camisa": 19,
+     "jogos": 21,
+     "minutos": 1109,
+     "overall": 64,
+     "eixos": {
+      "RIT": 83,
+      "FIN": 76,
+      "PAS": 64,
+      "DRI": 80,
+      "DEF": 39,
+      "FIS": 73
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 1656036,
+     "nome": "G. Bontempo",
+     "posicao": "M",
+     "camisa": 49,
+     "jogos": 25,
+     "minutos": 999,
+     "overall": 64,
+     "eixos": {
+      "RIT": 83,
+      "FIN": 66,
+      "PAS": 74,
+      "DRI": 73,
+      "DEF": 72,
+      "FIS": 73
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 329069,
+     "nome": "Z. Rafael",
+     "posicao": "M",
+     "camisa": 6,
+     "jogos": 27,
+     "minutos": 1871,
+     "overall": 63,
+     "eixos": {
+      "RIT": 70,
+      "FIN": 64,
+      "PAS": 68,
+      "DRI": 68,
+      "DEF": 63,
+      "FIS": 69
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 840119,
+     "nome": "I. Vinícius",
+     "posicao": "D",
+     "camisa": 18,
+     "jogos": 23,
+     "minutos": 1466,
+     "overall": 63,
+     "eixos": {
+      "RIT": 82,
+      "FIN": 48,
+      "PAS": 72,
+      "DRI": 71,
+      "DEF": 70,
+      "FIS": 64
      },
      "sem_nota_por": null
     },
@@ -10080,229 +10296,13 @@
      "sem_nota_por": null
     },
     {
-     "player_id": 949687,
-     "nome": "Á. Barreal",
-     "posicao": "M",
-     "camisa": 22,
-     "jogos": 34,
-     "minutos": 2264,
-     "overall": 62,
-     "eixos": {
-      "RIT": 78,
-      "FIN": 76,
-      "PAS": 72,
-      "DRI": 69,
-      "DEF": 69,
-      "FIS": 64
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 922454,
-     "nome": "B. Rollheiser",
-     "posicao": "M",
-     "camisa": 32,
-     "jogos": 36,
-     "minutos": 2230,
-     "overall": 61,
-     "eixos": {
-      "RIT": 80,
-      "FIN": 69,
-      "PAS": 78,
-      "DRI": 75,
-      "DEF": 40,
-      "FIS": 60
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 840500,
-     "nome": "G. Escobar",
-     "posicao": "D",
-     "camisa": 31,
-     "jogos": 30,
-     "minutos": 2015,
-     "overall": 59,
-     "eixos": {
-      "RIT": 78,
-      "FIN": 43,
-      "PAS": 64,
-      "DRI": 57,
-      "DEF": 88,
-      "FIS": 69
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 124712,
-     "nome": "Neymar",
-     "posicao": "F",
-     "camisa": 10,
-     "jogos": 20,
-     "minutos": 1531,
-     "overall": 59,
-     "eixos": {
-      "RIT": 73,
-      "FIN": 82,
-      "PAS": 77,
-      "DRI": 76,
-      "DEF": 29,
-      "FIS": 62
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 789100,
-     "nome": "T. Soares",
-     "posicao": "F",
-     "camisa": 9,
-     "jogos": 27,
-     "minutos": 1250,
-     "overall": 59,
-     "eixos": {
-      "RIT": 69,
-      "FIN": 77,
-      "PAS": 67,
-      "DRI": 80,
-      "DEF": 31,
-      "FIS": 80
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 844602,
-     "nome": "Z. Ivaldo",
-     "posicao": "D",
-     "camisa": 2,
-     "jogos": 21,
-     "minutos": 1801,
-     "overall": 58,
-     "eixos": {
-      "RIT": 71,
-      "FIN": 49,
-      "PAS": 60,
-      "DRI": 59,
-      "DEF": 88,
-      "FIS": 78
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 1482340,
-     "nome": "Souza",
-     "posicao": "D",
-     "camisa": 33,
-     "jogos": 24,
-     "minutos": 1654,
-     "overall": 58,
-     "eixos": {
-      "RIT": 77,
-      "FIN": 53,
-      "PAS": 66,
-      "DRI": 66,
-      "DEF": 84,
-      "FIS": 67
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 992093,
-     "nome": "L. Díaz",
-     "posicao": "F",
-     "camisa": 19,
-     "jogos": 21,
-     "minutos": 1109,
-     "overall": 58,
-     "eixos": {
-      "RIT": 83,
-      "FIN": 76,
-      "PAS": 64,
-      "DRI": 80,
-      "DEF": 39,
-      "FIS": 73
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 1656036,
-     "nome": "G. Bontempo",
-     "posicao": "M",
-     "camisa": 49,
-     "jogos": 25,
-     "minutos": 999,
-     "overall": 58,
-     "eixos": {
-      "RIT": 83,
-      "FIN": 66,
-      "PAS": 74,
-      "DRI": 73,
-      "DEF": 72,
-      "FIS": 73
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 842098,
-     "nome": "L. Peres",
-     "posicao": "D",
-     "camisa": 14,
-     "jogos": 24,
-     "minutos": 2051,
-     "overall": 57,
-     "eixos": {
-      "RIT": 65,
-      "FIN": 39,
-      "PAS": 63,
-      "DRI": 55,
-      "DEF": 83,
-      "FIS": 77
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 329069,
-     "nome": "Z. Rafael",
-     "posicao": "M",
-     "camisa": 6,
-     "jogos": 27,
-     "minutos": 1871,
-     "overall": 56,
-     "eixos": {
-      "RIT": 70,
-      "FIN": 64,
-      "PAS": 68,
-      "DRI": 68,
-      "DEF": 63,
-      "FIS": 69
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 840119,
-     "nome": "I. Vinícius",
-     "posicao": "D",
-     "camisa": 18,
-     "jogos": 23,
-     "minutos": 1466,
-     "overall": 56,
-     "eixos": {
-      "RIT": 82,
-      "FIN": 48,
-      "PAS": 72,
-      "DRI": 71,
-      "DEF": 70,
-      "FIS": 64
-     },
-     "sem_nota_por": null
-    },
-    {
      "player_id": 940699,
      "nome": "A. Frías",
      "posicao": "D",
      "camisa": 98,
      "jogos": 13,
      "minutos": 1111,
-     "overall": 55,
+     "overall": 62,
      "eixos": {
       "RIT": 76,
       "FIN": 42,
@@ -10314,31 +10314,13 @@
      "sem_nota_por": null
     },
     {
-     "player_id": 46798,
-     "nome": "T. Rincón",
-     "posicao": "M",
-     "camisa": 8,
-     "jogos": 17,
-     "minutos": 926,
-     "overall": 54,
-     "eixos": {
-      "RIT": 65,
-      "FIN": 56,
-      "PAS": 69,
-      "DRI": 70,
-      "DEF": 76,
-      "FIS": 75
-     },
-     "sem_nota_por": null
-    },
-    {
      "player_id": 1485371,
      "nome": "D. Washington",
      "posicao": "F",
      "camisa": 36,
      "jogos": 17,
      "minutos": 552,
-     "overall": 54,
+     "overall": 62,
      "eixos": {
       "RIT": 76,
       "FIN": 77,
@@ -10350,13 +10332,31 @@
      "sem_nota_por": null
     },
     {
+     "player_id": 46798,
+     "nome": "T. Rincón",
+     "posicao": "M",
+     "camisa": 8,
+     "jogos": 17,
+     "minutos": 926,
+     "overall": 61,
+     "eixos": {
+      "RIT": 65,
+      "FIN": 56,
+      "PAS": 69,
+      "DRI": 70,
+      "DEF": 76,
+      "FIS": 75
+     },
+     "sem_nota_por": null
+    },
+    {
      "player_id": 242213,
      "nome": "Willian Arão",
      "posicao": "M",
      "camisa": 15,
      "jogos": 13,
      "minutos": 788,
-     "overall": 53,
+     "overall": 61,
      "eixos": {
       "RIT": 65,
       "FIN": 57,
@@ -10374,7 +10374,7 @@
      "camisa": 29,
      "jogos": 10,
      "minutos": 454,
-     "overall": 53,
+     "overall": 61,
      "eixos": {
       "RIT": 77,
       "FIN": 63,
@@ -10392,7 +10392,7 @@
      "camisa": 16,
      "jogos": 19,
      "minutos": 627,
-     "overall": 52,
+     "overall": 60,
      "eixos": {
       "RIT": 74,
       "FIN": 71,
@@ -10410,7 +10410,7 @@
      "camisa": 2,
      "jogos": 15,
      "minutos": 1036,
-     "overall": 51,
+     "overall": 59,
      "eixos": {
       "RIT": 74,
       "FIN": 43,
@@ -10428,7 +10428,7 @@
      "camisa": 4,
      "jogos": 8,
      "minutos": 720,
-     "overall": 49,
+     "overall": 58,
      "eixos": {
       "RIT": 69,
       "FIN": 51,
@@ -10446,7 +10446,7 @@
      "camisa": 3,
      "jogos": 6,
      "minutos": 519,
-     "overall": 49,
+     "overall": 58,
      "eixos": {
       "RIT": 62,
       "FIN": 46,
@@ -10684,13 +10684,31 @@
    },
    "jogadores": [
     {
+     "player_id": 244589,
+     "nome": "L. Lima",
+     "posicao": "M",
+     "camisa": 10,
+     "jogos": 33,
+     "minutos": 2561,
+     "overall": 61,
+     "eixos": {
+      "RIT": 68,
+      "FIN": 62,
+      "PAS": 81,
+      "DRI": 78,
+      "DEF": 41,
+      "FIS": 60
+     },
+     "sem_nota_por": null
+    },
+    {
      "player_id": 953736,
      "nome": "M. Alexandre",
      "posicao": "D",
      "camisa": 33,
      "jogos": 26,
      "minutos": 1788,
-     "overall": 54,
+     "overall": 61,
      "eixos": {
       "RIT": 82,
       "FIN": 42,
@@ -10708,7 +10726,7 @@
      "camisa": 14,
      "jogos": 33,
      "minutos": 2734,
-     "overall": 53,
+     "overall": 60,
      "eixos": {
       "RIT": 69,
       "FIN": 42,
@@ -10720,20 +10738,344 @@
      "sem_nota_por": null
     },
     {
-     "player_id": 244589,
-     "nome": "L. Lima",
-     "posicao": "M",
-     "camisa": 10,
-     "jogos": 33,
-     "minutos": 2561,
-     "overall": 53,
+     "player_id": 1035765,
+     "nome": "C. Barletta",
+     "posicao": "F",
+     "camisa": 30,
+     "jogos": 34,
+     "minutos": 1519,
+     "overall": 60,
+     "eixos": {
+      "RIT": 83,
+      "FIN": 77,
+      "PAS": 63,
+      "DRI": 77,
+      "DEF": 41,
+      "FIS": 73
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 994190,
+     "nome": "D. Lacerda",
+     "posicao": "F",
+     "camisa": 18,
+     "jogos": 17,
+     "minutos": 1450,
+     "overall": 60,
+     "eixos": {
+      "RIT": 82,
+      "FIN": 81,
+      "PAS": 57,
+      "DRI": 78,
+      "DEF": 42,
+      "FIS": 78
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 354894,
+     "nome": "R. Thyere",
+     "posicao": "D",
+     "camisa": 15,
+     "jogos": 24,
+     "minutos": 2107,
+     "overall": 59,
      "eixos": {
       "RIT": 68,
-      "FIN": 62,
-      "PAS": 81,
-      "DRI": 78,
-      "DEF": 41,
+      "FIN": 49,
+      "PAS": 61,
+      "DRI": 53,
+      "DEF": 86,
+      "FIS": 75
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 874195,
+     "nome": "I. Cariús",
+     "posicao": "D",
+     "camisa": 16,
+     "jogos": 28,
+     "minutos": 1737,
+     "overall": 59,
+     "eixos": {
+      "RIT": 75,
+      "FIN": 54,
+      "PAS": 60,
+      "DRI": 59,
+      "DEF": 82,
+      "FIS": 79
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 822523,
+     "nome": "Matheusinho",
+     "posicao": "M",
+     "camisa": 17,
+     "jogos": 25,
+     "minutos": 1669,
+     "overall": 59,
+     "eixos": {
+      "RIT": 75,
+      "FIN": 67,
+      "PAS": 73,
+      "DRI": 76,
+      "DEF": 65,
       "FIS": 60
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 2040561,
+     "nome": "Zé Lucas",
+     "posicao": "M",
+     "camisa": 58,
+     "jogos": 24,
+     "minutos": 1605,
+     "overall": 59,
+     "eixos": {
+      "RIT": 74,
+      "FIN": 59,
+      "PAS": 65,
+      "DRI": 67,
+      "DEF": 82,
+      "FIS": 71
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 839516,
+     "nome": "R. Menezes",
+     "posicao": "D",
+     "camisa": 40,
+     "jogos": 23,
+     "minutos": 1878,
+     "overall": 58,
+     "eixos": {
+      "RIT": 63,
+      "FIN": 53,
+      "PAS": 60,
+      "DRI": 60,
+      "DEF": 87,
+      "FIS": 78
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 905459,
+     "nome": "L. Cândido",
+     "posicao": "D",
+     "camisa": 36,
+     "jogos": 16,
+     "minutos": 1318,
+     "overall": 57,
+     "eixos": {
+      "RIT": 67,
+      "FIN": 57,
+      "PAS": 61,
+      "DRI": 58,
+      "DEF": 85,
+      "FIS": 79
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 1008491,
+     "nome": "L. Pereira",
+     "posicao": "F",
+     "camisa": 38,
+     "jogos": 22,
+     "minutos": 1283,
+     "overall": 57,
+     "eixos": {
+      "RIT": 85,
+      "FIN": 76,
+      "PAS": 62,
+      "DRI": 77,
+      "DEF": 33,
+      "FIS": 61
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 374486,
+     "nome": "Pablo",
+     "posicao": "F",
+     "camisa": 92,
+     "jogos": 21,
+     "minutos": 1076,
+     "overall": 57,
+     "eixos": {
+      "RIT": 69,
+      "FIN": 75,
+      "PAS": 64,
+      "DRI": 77,
+      "DEF": 41,
+      "FIS": 76
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 877904,
+     "nome": "Chico",
+     "posicao": "D",
+     "camisa": 44,
+     "jogos": 13,
+     "minutos": 1059,
+     "overall": 57,
+     "eixos": {
+      "RIT": 69,
+      "FIN": 48,
+      "PAS": 65,
+      "DRI": 59,
+      "DEF": 86,
+      "FIS": 78
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 991493,
+     "nome": "S. Oliveira",
+     "posicao": "M",
+     "camisa": 27,
+     "jogos": 19,
+     "minutos": 999,
+     "overall": 57,
+     "eixos": {
+      "RIT": 68,
+      "FIN": 66,
+      "PAS": 78,
+      "DRI": 76,
+      "DEF": 49,
+      "FIS": 71
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 870578,
+     "nome": "Romarinho",
+     "posicao": "F",
+     "camisa": 11,
+     "jogos": 26,
+     "minutos": 906,
+     "overall": 57,
+     "eixos": {
+      "RIT": 79,
+      "FIN": 72,
+      "PAS": 71,
+      "DRI": 78,
+      "DEF": 38,
+      "FIS": 62
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 981295,
+     "nome": "D. Hereda",
+     "posicao": "D",
+     "camisa": 32,
+     "jogos": 11,
+     "minutos": 851,
+     "overall": 56,
+     "eixos": {
+      "RIT": 73,
+      "FIN": 49,
+      "PAS": 71,
+      "DRI": 64,
+      "DEF": 73,
+      "FIS": 76
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 1199246,
+     "nome": "R. Atencio",
+     "posicao": "F",
+     "camisa": 20,
+     "jogos": 19,
+     "minutos": 552,
+     "overall": 56,
+     "eixos": {
+      "RIT": 71,
+      "FIN": 76,
+      "PAS": 75,
+      "DRI": 80,
+      "DEF": 42,
+      "FIS": 67
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 584432,
+     "nome": "Aderlan",
+     "posicao": "D",
+     "camisa": 13,
+     "jogos": 16,
+     "minutos": 1006,
+     "overall": 55,
+     "eixos": {
+      "RIT": 75,
+      "FIN": 40,
+      "PAS": 62,
+      "DRI": 59,
+      "DEF": 84,
+      "FIS": 65
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 1068519,
+     "nome": "J. Silva",
+     "posicao": "D",
+     "camisa": 6,
+     "jogos": 14,
+     "minutos": 990,
+     "overall": 55,
+     "eixos": {
+      "RIT": 69,
+      "FIN": 41,
+      "PAS": 64,
+      "DRI": 66,
+      "DEF": 75,
+      "FIS": 75
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 840118,
+     "nome": "Lucas Kal",
+     "posicao": "M",
+     "camisa": 21,
+     "jogos": 13,
+     "minutos": 866,
+     "overall": 55,
+     "eixos": {
+      "RIT": 67,
+      "FIN": 50,
+      "PAS": 64,
+      "DRI": 69,
+      "DEF": 70,
+      "FIS": 82
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 922556,
+     "nome": "P. Augusto",
+     "posicao": "M",
+     "camisa": 28,
+     "jogos": 14,
+     "minutos": 559,
+     "overall": 55,
+     "eixos": {
+      "RIT": 71,
+      "FIN": 59,
+      "PAS": 69,
+      "DRI": 70,
+      "DEF": 70,
+      "FIS": 75
      },
      "sem_nota_por": null
     },
@@ -10744,7 +11086,7 @@
      "camisa": 1,
      "jogos": 24,
      "minutos": 2160,
-     "overall": 53,
+     "overall": 54,
      "eixos": {
       "REF": 56,
       "EVI": 71,
@@ -10772,337 +11114,13 @@
      "sem_nota_por": null
     },
     {
-     "player_id": 1035765,
-     "nome": "C. Barletta",
-     "posicao": "F",
-     "camisa": 30,
-     "jogos": 34,
-     "minutos": 1519,
-     "overall": 52,
-     "eixos": {
-      "RIT": 83,
-      "FIN": 77,
-      "PAS": 63,
-      "DRI": 77,
-      "DEF": 41,
-      "FIS": 73
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 994190,
-     "nome": "D. Lacerda",
-     "posicao": "F",
-     "camisa": 18,
-     "jogos": 17,
-     "minutos": 1450,
-     "overall": 52,
-     "eixos": {
-      "RIT": 82,
-      "FIN": 81,
-      "PAS": 57,
-      "DRI": 78,
-      "DEF": 42,
-      "FIS": 78
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 354894,
-     "nome": "R. Thyere",
-     "posicao": "D",
-     "camisa": 15,
-     "jogos": 24,
-     "minutos": 2107,
-     "overall": 50,
-     "eixos": {
-      "RIT": 68,
-      "FIN": 49,
-      "PAS": 61,
-      "DRI": 53,
-      "DEF": 86,
-      "FIS": 75
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 839516,
-     "nome": "R. Menezes",
-     "posicao": "D",
-     "camisa": 40,
-     "jogos": 23,
-     "minutos": 1878,
-     "overall": 50,
-     "eixos": {
-      "RIT": 63,
-      "FIN": 53,
-      "PAS": 60,
-      "DRI": 60,
-      "DEF": 87,
-      "FIS": 78
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 874195,
-     "nome": "I. Cariús",
-     "posicao": "D",
-     "camisa": 16,
-     "jogos": 28,
-     "minutos": 1737,
-     "overall": 50,
-     "eixos": {
-      "RIT": 75,
-      "FIN": 54,
-      "PAS": 60,
-      "DRI": 59,
-      "DEF": 82,
-      "FIS": 79
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 822523,
-     "nome": "Matheusinho",
-     "posicao": "M",
-     "camisa": 17,
-     "jogos": 25,
-     "minutos": 1669,
-     "overall": 50,
-     "eixos": {
-      "RIT": 75,
-      "FIN": 67,
-      "PAS": 73,
-      "DRI": 76,
-      "DEF": 65,
-      "FIS": 60
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 2040561,
-     "nome": "Zé Lucas",
-     "posicao": "M",
-     "camisa": 58,
-     "jogos": 24,
-     "minutos": 1605,
-     "overall": 50,
-     "eixos": {
-      "RIT": 74,
-      "FIN": 59,
-      "PAS": 65,
-      "DRI": 67,
-      "DEF": 82,
-      "FIS": 71
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 1008491,
-     "nome": "L. Pereira",
-     "posicao": "F",
-     "camisa": 38,
-     "jogos": 22,
-     "minutos": 1283,
-     "overall": 48,
-     "eixos": {
-      "RIT": 85,
-      "FIN": 76,
-      "PAS": 62,
-      "DRI": 77,
-      "DEF": 33,
-      "FIS": 61
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 374486,
-     "nome": "Pablo",
-     "posicao": "F",
-     "camisa": 92,
-     "jogos": 21,
-     "minutos": 1076,
-     "overall": 48,
-     "eixos": {
-      "RIT": 69,
-      "FIN": 75,
-      "PAS": 64,
-      "DRI": 77,
-      "DEF": 41,
-      "FIS": 76
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 905459,
-     "nome": "L. Cândido",
-     "posicao": "D",
-     "camisa": 36,
-     "jogos": 16,
-     "minutos": 1318,
-     "overall": 47,
-     "eixos": {
-      "RIT": 67,
-      "FIN": 57,
-      "PAS": 61,
-      "DRI": 58,
-      "DEF": 85,
-      "FIS": 79
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 877904,
-     "nome": "Chico",
-     "posicao": "D",
-     "camisa": 44,
-     "jogos": 13,
-     "minutos": 1059,
-     "overall": 47,
-     "eixos": {
-      "RIT": 69,
-      "FIN": 48,
-      "PAS": 65,
-      "DRI": 59,
-      "DEF": 86,
-      "FIS": 78
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 991493,
-     "nome": "S. Oliveira",
-     "posicao": "M",
-     "camisa": 27,
-     "jogos": 19,
-     "minutos": 999,
-     "overall": 47,
-     "eixos": {
-      "RIT": 68,
-      "FIN": 66,
-      "PAS": 78,
-      "DRI": 76,
-      "DEF": 49,
-      "FIS": 71
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 870578,
-     "nome": "Romarinho",
-     "posicao": "F",
-     "camisa": 11,
-     "jogos": 26,
-     "minutos": 906,
-     "overall": 47,
-     "eixos": {
-      "RIT": 79,
-      "FIN": 72,
-      "PAS": 71,
-      "DRI": 78,
-      "DEF": 38,
-      "FIS": 62
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 1199246,
-     "nome": "R. Atencio",
-     "posicao": "F",
-     "camisa": 20,
-     "jogos": 19,
-     "minutos": 552,
-     "overall": 47,
-     "eixos": {
-      "RIT": 71,
-      "FIN": 76,
-      "PAS": 75,
-      "DRI": 80,
-      "DEF": 42,
-      "FIS": 67
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 981295,
-     "nome": "D. Hereda",
-     "posicao": "D",
-     "camisa": 32,
-     "jogos": 11,
-     "minutos": 851,
-     "overall": 46,
-     "eixos": {
-      "RIT": 73,
-      "FIN": 49,
-      "PAS": 71,
-      "DRI": 64,
-      "DEF": 73,
-      "FIS": 76
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 584432,
-     "nome": "Aderlan",
-     "posicao": "D",
-     "camisa": 13,
-     "jogos": 16,
-     "minutos": 1006,
-     "overall": 45,
-     "eixos": {
-      "RIT": 75,
-      "FIN": 40,
-      "PAS": 62,
-      "DRI": 59,
-      "DEF": 84,
-      "FIS": 65
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 1068519,
-     "nome": "J. Silva",
-     "posicao": "D",
-     "camisa": 6,
-     "jogos": 14,
-     "minutos": 990,
-     "overall": 45,
-     "eixos": {
-      "RIT": 69,
-      "FIN": 41,
-      "PAS": 64,
-      "DRI": 66,
-      "DEF": 75,
-      "FIS": 75
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 840118,
-     "nome": "Lucas Kal",
-     "posicao": "M",
-     "camisa": 21,
-     "jogos": 13,
-     "minutos": 866,
-     "overall": 45,
-     "eixos": {
-      "RIT": 67,
-      "FIN": 50,
-      "PAS": 64,
-      "DRI": 69,
-      "DEF": 70,
-      "FIS": 82
-     },
-     "sem_nota_por": null
-    },
-    {
      "player_id": 1128129,
      "nome": "D. Queiroz",
      "posicao": "M",
      "camisa": 37,
      "jogos": 11,
      "minutos": 618,
-     "overall": 45,
+     "overall": 53,
      "eixos": {
       "RIT": 70,
       "FIN": 63,
@@ -11110,24 +11128,6 @@
       "DRI": 69,
       "DEF": 59,
       "FIS": 64
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 922556,
-     "nome": "P. Augusto",
-     "posicao": "M",
-     "camisa": 28,
-     "jogos": 14,
-     "minutos": 559,
-     "overall": 45,
-     "eixos": {
-      "RIT": 71,
-      "FIN": 59,
-      "PAS": 69,
-      "DRI": 70,
-      "DEF": 70,
-      "FIS": 75
      },
      "sem_nota_por": null
     },
@@ -11430,7 +11430,7 @@
      "camisa": 35,
      "jogos": 30,
      "minutos": 2308,
-     "overall": 73,
+     "overall": 75,
      "eixos": {
       "RIT": 71,
       "FIN": 53,
@@ -11448,7 +11448,7 @@
      "camisa": 10,
      "jogos": 32,
      "minutos": 2111,
-     "overall": 72,
+     "overall": 74,
      "eixos": {
       "RIT": 74,
       "FIN": 82,
@@ -11466,7 +11466,7 @@
      "camisa": 32,
      "jogos": 24,
      "minutos": 1799,
-     "overall": 72,
+     "overall": 74,
      "eixos": {
       "RIT": 70,
       "FIN": 43,
@@ -11484,7 +11484,7 @@
      "camisa": 13,
      "jogos": 27,
      "minutos": 1891,
-     "overall": 71,
+     "overall": 73,
      "eixos": {
       "RIT": 76,
       "FIN": 42,
@@ -11492,6 +11492,60 @@
       "DRI": 66,
       "DEF": 77,
       "FIS": 80
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 875402,
+     "nome": "A. Franco",
+     "posicao": "D",
+     "camisa": 28,
+     "jogos": 29,
+     "minutos": 2289,
+     "overall": 72,
+     "eixos": {
+      "RIT": 64,
+      "FIN": 46,
+      "PAS": 63,
+      "DRI": 65,
+      "DEF": 87,
+      "FIS": 73
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 1015261,
+     "nome": "D. Bobadilla",
+     "posicao": "M",
+     "camisa": 21,
+     "jogos": 31,
+     "minutos": 2105,
+     "overall": 72,
+     "eixos": {
+      "RIT": 70,
+      "FIN": 66,
+      "PAS": 78,
+      "DRI": 68,
+      "DEF": 60,
+      "FIS": 74
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 998499,
+     "nome": "Ferreira",
+     "posicao": "F",
+     "camisa": 11,
+     "jogos": 28,
+     "minutos": 1586,
+     "overall": 72,
+     "eixos": {
+      "RIT": 77,
+      "FIN": 76,
+      "PAS": 76,
+      "DRI": 82,
+      "DEF": 40,
+      "FIS": 63
      },
      "sem_nota_por": null
     },
@@ -11513,67 +11567,13 @@
      "sem_nota_por": null
     },
     {
-     "player_id": 998499,
-     "nome": "Ferreira",
-     "posicao": "F",
-     "camisa": 11,
-     "jogos": 28,
-     "minutos": 1586,
-     "overall": 70,
-     "eixos": {
-      "RIT": 77,
-      "FIN": 76,
-      "PAS": 76,
-      "DRI": 82,
-      "DEF": 40,
-      "FIS": 63
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 875402,
-     "nome": "A. Franco",
-     "posicao": "D",
-     "camisa": 28,
-     "jogos": 29,
-     "minutos": 2289,
-     "overall": 69,
-     "eixos": {
-      "RIT": 64,
-      "FIN": 46,
-      "PAS": 63,
-      "DRI": 65,
-      "DEF": 87,
-      "FIS": 73
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 1015261,
-     "nome": "D. Bobadilla",
-     "posicao": "M",
-     "camisa": 21,
-     "jogos": 31,
-     "minutos": 2105,
-     "overall": 69,
-     "eixos": {
-      "RIT": 70,
-      "FIN": 66,
-      "PAS": 78,
-      "DRI": 68,
-      "DEF": 60,
-      "FIS": 74
-     },
-     "sem_nota_por": null
-    },
-    {
      "player_id": 338937,
      "nome": "R. Arboleda",
      "posicao": "D",
      "camisa": 5,
      "jogos": 24,
      "minutos": 2055,
-     "overall": 67,
+     "overall": 70,
      "eixos": {
       "RIT": 70,
       "FIN": 54,
@@ -11585,31 +11585,13 @@
      "sem_nota_por": null
     },
     {
-     "player_id": 925072,
-     "nome": "A. Silva",
-     "posicao": "F",
-     "camisa": 17,
-     "jogos": 20,
-     "minutos": 1361,
-     "overall": 67,
-     "eixos": {
-      "RIT": 74,
-      "FIN": 78,
-      "PAS": 64,
-      "DRI": 74,
-      "DEF": 47,
-      "FIS": 75
-     },
-     "sem_nota_por": null
-    },
-    {
      "player_id": 905453,
      "nome": "M. Antônio",
      "posicao": "M",
      "camisa": 20,
      "jogos": 28,
      "minutos": 1904,
-     "overall": 66,
+     "overall": 70,
      "eixos": {
       "RIT": 71,
       "FIN": 49,
@@ -11621,13 +11603,31 @@
      "sem_nota_por": null
     },
     {
+     "player_id": 925072,
+     "nome": "A. Silva",
+     "posicao": "F",
+     "camisa": 17,
+     "jogos": 20,
+     "minutos": 1361,
+     "overall": 70,
+     "eixos": {
+      "RIT": 74,
+      "FIN": 78,
+      "PAS": 64,
+      "DRI": 74,
+      "DEF": 47,
+      "FIS": 75
+     },
+     "sem_nota_por": null
+    },
+    {
      "player_id": 1002947,
      "nome": "G. Tapia",
      "posicao": "F",
      "camisa": 14,
      "jogos": 20,
      "minutos": 1118,
-     "overall": 66,
+     "overall": 70,
      "eixos": {
       "RIT": 76,
       "FIN": 80,
@@ -11645,7 +11645,7 @@
      "camisa": 25,
      "jogos": 31,
      "minutos": 1957,
-     "overall": 65,
+     "overall": 69,
      "eixos": {
       "RIT": 65,
       "FIN": 55,
@@ -11657,13 +11657,31 @@
      "sem_nota_por": null
     },
     {
+     "player_id": 44760,
+     "nome": "C. Soares",
+     "posicao": "M",
+     "camisa": 6,
+     "jogos": 25,
+     "minutos": 1905,
+     "overall": 69,
+     "eixos": {
+      "RIT": 71,
+      "FIN": 45,
+      "PAS": 72,
+      "DRI": 69,
+      "DEF": 62,
+      "FIS": 62
+     },
+     "sem_nota_por": null
+    },
+    {
      "player_id": 1120721,
      "nome": "P. Maia",
      "posicao": "M",
      "camisa": 29,
      "jogos": 25,
      "minutos": 1483,
-     "overall": 65,
+     "overall": 69,
      "eixos": {
       "RIT": 72,
       "FIN": 51,
@@ -11681,7 +11699,7 @@
      "camisa": 16,
      "jogos": 12,
      "minutos": 781,
-     "overall": 65,
+     "overall": 69,
      "eixos": {
       "RIT": 71,
       "FIN": 60,
@@ -11699,7 +11717,7 @@
      "camisa": 7,
      "jogos": 11,
      "minutos": 450,
-     "overall": 65,
+     "overall": 69,
      "eixos": {
       "RIT": 72,
       "FIN": 78,
@@ -11711,31 +11729,13 @@
      "sem_nota_por": null
     },
     {
-     "player_id": 44760,
-     "nome": "C. Soares",
-     "posicao": "M",
-     "camisa": 6,
-     "jogos": 25,
-     "minutos": 1905,
-     "overall": 64,
-     "eixos": {
-      "RIT": 71,
-      "FIN": 45,
-      "PAS": 72,
-      "DRI": 69,
-      "DEF": 62,
-      "FIS": 62
-     },
-     "sem_nota_por": null
-    },
-    {
      "player_id": 335033,
      "nome": "Wendell",
      "posicao": "D",
      "camisa": 18,
      "jogos": 16,
      "minutos": 851,
-     "overall": 64,
+     "overall": 68,
      "eixos": {
       "RIT": 77,
       "FIN": 48,
@@ -11753,7 +11753,7 @@
      "camisa": 15,
      "jogos": 18,
      "minutos": 740,
-     "overall": 64,
+     "overall": 68,
      "eixos": {
       "RIT": 79,
       "FIN": 68,
@@ -11771,7 +11771,7 @@
      "camisa": 48,
      "jogos": 13,
      "minutos": 768,
-     "overall": 61,
+     "overall": 66,
      "eixos": {
       "RIT": 79,
       "FIN": 66,
@@ -11789,7 +11789,7 @@
      "camisa": 2,
      "jogos": 7,
      "minutos": 501,
-     "overall": 59,
+     "overall": 65,
      "eixos": {
       "RIT": 67,
       "FIN": 41,
@@ -11807,7 +11807,7 @@
      "camisa": 42,
      "jogos": 9,
      "minutos": 608,
-     "overall": 58,
+     "overall": 64,
      "eixos": {
       "RIT": 67,
       "FIN": 57,
@@ -12089,13 +12089,31 @@
    },
    "jogadores": [
     {
+     "player_id": 1464966,
+     "nome": "Rayan",
+     "posicao": "M",
+     "camisa": 77,
+     "jogos": 34,
+     "minutos": 2842,
+     "overall": 72,
+     "eixos": {
+      "RIT": 78,
+      "FIN": 77,
+      "PAS": 63,
+      "DRI": 73,
+      "DEF": 42,
+      "FIS": 78
+     },
+     "sem_nota_por": null
+    },
+    {
      "player_id": 1021721,
      "nome": "P. Henrique",
      "posicao": "D",
      "camisa": 96,
      "jogos": 28,
      "minutos": 2494,
-     "overall": 70,
+     "overall": 72,
      "eixos": {
       "RIT": 83,
       "FIN": 55,
@@ -12107,20 +12125,74 @@
      "sem_nota_por": null
     },
     {
-     "player_id": 1464966,
-     "nome": "Rayan",
-     "posicao": "M",
-     "camisa": 77,
-     "jogos": 34,
-     "minutos": 2842,
-     "overall": 69,
+     "player_id": 583974,
+     "nome": "P. Vegetti",
+     "posicao": "F",
+     "camisa": 99,
+     "jogos": 35,
+     "minutos": 2346,
+     "overall": 71,
      "eixos": {
       "RIT": 78,
-      "FIN": 77,
-      "PAS": 63,
-      "DRI": 73,
-      "DEF": 42,
-      "FIS": 78
+      "FIN": 81,
+      "PAS": 61,
+      "DRI": 76,
+      "DEF": 39,
+      "FIS": 81
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 851285,
+     "nome": "N. Moreira",
+     "posicao": "M",
+     "camisa": 17,
+     "jogos": 36,
+     "minutos": 2577,
+     "overall": 69,
+     "eixos": {
+      "RIT": 73,
+      "FIN": 66,
+      "PAS": 75,
+      "DRI": 75,
+      "DEF": 54,
+      "FIS": 66
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 119159,
+     "nome": "P. Coutinho",
+     "posicao": "M",
+     "camisa": 10,
+     "jogos": 30,
+     "minutos": 2425,
+     "overall": 69,
+     "eixos": {
+      "RIT": 68,
+      "FIN": 70,
+      "PAS": 80,
+      "DRI": 75,
+      "DEF": 43,
+      "FIS": 65
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 973293,
+     "nome": "H. Moura",
+     "posicao": "M",
+     "camisa": 25,
+     "jogos": 33,
+     "minutos": 2416,
+     "overall": 69,
+     "eixos": {
+      "RIT": 66,
+      "FIN": 47,
+      "PAS": 75,
+      "DRI": 67,
+      "DEF": 73,
+      "FIS": 75
      },
      "sem_nota_por": null
     },
@@ -12142,85 +12214,13 @@
      "sem_nota_por": null
     },
     {
-     "player_id": 583974,
-     "nome": "P. Vegetti",
-     "posicao": "F",
-     "camisa": 99,
-     "jogos": 35,
-     "minutos": 2346,
-     "overall": 68,
-     "eixos": {
-      "RIT": 78,
-      "FIN": 81,
-      "PAS": 61,
-      "DRI": 76,
-      "DEF": 39,
-      "FIS": 81
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 851285,
-     "nome": "N. Moreira",
-     "posicao": "M",
-     "camisa": 17,
-     "jogos": 36,
-     "minutos": 2577,
-     "overall": 65,
-     "eixos": {
-      "RIT": 73,
-      "FIN": 66,
-      "PAS": 75,
-      "DRI": 75,
-      "DEF": 54,
-      "FIS": 66
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 119159,
-     "nome": "P. Coutinho",
-     "posicao": "M",
-     "camisa": 10,
-     "jogos": 30,
-     "minutos": 2425,
-     "overall": 65,
-     "eixos": {
-      "RIT": 68,
-      "FIN": 70,
-      "PAS": 80,
-      "DRI": 75,
-      "DEF": 43,
-      "FIS": 65
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 973293,
-     "nome": "H. Moura",
-     "posicao": "M",
-     "camisa": 25,
-     "jogos": 33,
-     "minutos": 2416,
-     "overall": 64,
-     "eixos": {
-      "RIT": 66,
-      "FIN": 47,
-      "PAS": 75,
-      "DRI": 67,
-      "DEF": 73,
-      "FIS": 75
-     },
-     "sem_nota_por": null
-    },
-    {
      "player_id": 982174,
      "nome": "L. Piton",
      "posicao": "D",
      "camisa": 6,
      "jogos": 30,
      "minutos": 2550,
-     "overall": 63,
+     "overall": 68,
      "eixos": {
       "RIT": 72,
       "FIN": 42,
@@ -12238,7 +12238,7 @@
      "camisa": 88,
      "jogos": 17,
      "minutos": 1347,
-     "overall": 63,
+     "overall": 68,
      "eixos": {
       "RIT": 66,
       "FIN": 62,
@@ -12256,7 +12256,7 @@
      "camisa": 43,
      "jogos": 21,
      "minutos": 1556,
-     "overall": 61,
+     "overall": 66,
      "eixos": {
       "RIT": 69,
       "FIN": 40,
@@ -12274,7 +12274,7 @@
      "camisa": 2,
      "jogos": 25,
      "minutos": 1446,
-     "overall": 61,
+     "overall": 66,
      "eixos": {
       "RIT": 75,
       "FIN": 57,
@@ -12292,7 +12292,7 @@
      "camisa": 30,
      "jogos": 15,
      "minutos": 1289,
-     "overall": 61,
+     "overall": 66,
      "eixos": {
       "RIT": 70,
       "FIN": 44,
@@ -12310,7 +12310,7 @@
      "camisa": 7,
      "jogos": 24,
      "minutos": 759,
-     "overall": 60,
+     "overall": 66,
      "eixos": {
       "RIT": 77,
       "FIN": 74,
@@ -12328,7 +12328,7 @@
      "camisa": 38,
      "jogos": 16,
      "minutos": 1436,
-     "overall": 59,
+     "overall": 65,
      "eixos": {
       "RIT": 70,
       "FIN": 56,
@@ -12346,7 +12346,7 @@
      "camisa": 11,
      "jogos": 16,
      "minutos": 1032,
-     "overall": 58,
+     "overall": 64,
      "eixos": {
       "RIT": 85,
       "FIN": 72,
@@ -12364,7 +12364,7 @@
      "camisa": 85,
      "jogos": 19,
      "minutos": 617,
-     "overall": 58,
+     "overall": 64,
      "eixos": {
       "RIT": 72,
       "FIN": 58,
@@ -12382,7 +12382,7 @@
      "camisa": 3,
      "jogos": 29,
      "minutos": 2016,
-     "overall": 56,
+     "overall": 63,
      "eixos": {
       "RIT": 70,
       "FIN": 49,
@@ -12400,7 +12400,7 @@
      "camisa": 46,
      "jogos": 13,
      "minutos": 1092,
-     "overall": 55,
+     "overall": 62,
      "eixos": {
       "RIT": 70,
       "FIN": 52,
@@ -12418,7 +12418,7 @@
      "camisa": 8,
      "jogos": 11,
      "minutos": 562,
-     "overall": 55,
+     "overall": 62,
      "eixos": {
       "RIT": 62,
       "FIN": 55,
@@ -12733,13 +12733,31 @@
    },
    "jogadores": [
     {
+     "player_id": 905450,
+     "nome": "L. Halter",
+     "posicao": "D",
+     "camisa": 5,
+     "jogos": 33,
+     "minutos": 2905,
+     "overall": 64,
+     "eixos": {
+      "RIT": 67,
+      "FIN": 60,
+      "PAS": 63,
+      "DRI": 53,
+      "DEF": 73,
+      "FIS": 74
+     },
+     "sem_nota_por": null
+    },
+    {
      "player_id": 922575,
      "nome": "G. Baralhas",
      "posicao": "M",
      "camisa": 44,
      "jogos": 28,
      "minutos": 2282,
-     "overall": 58,
+     "overall": 64,
      "eixos": {
       "RIT": 72,
       "FIN": 62,
@@ -12747,6 +12765,312 @@
       "DRI": 66,
       "DEF": 84,
       "FIS": 67
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 901700,
+     "nome": "Z. Marcos",
+     "posicao": "D",
+     "camisa": 3,
+     "jogos": 28,
+     "minutos": 2426,
+     "overall": 62,
+     "eixos": {
+      "RIT": 64,
+      "FIN": 55,
+      "PAS": 64,
+      "DRI": 54,
+      "DEF": 74,
+      "FIS": 76
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 814723,
+     "nome": "R. Kayzer",
+     "posicao": "F",
+     "camisa": 79,
+     "jogos": 30,
+     "minutos": 2097,
+     "overall": 62,
+     "eixos": {
+      "RIT": 68,
+      "FIN": 79,
+      "PAS": 58,
+      "DRI": 70,
+      "DEF": 31,
+      "FIS": 72
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 895650,
+     "nome": "Erick",
+     "posicao": "M",
+     "camisa": 33,
+     "jogos": 31,
+     "minutos": 2068,
+     "overall": 61,
+     "eixos": {
+      "RIT": 71,
+      "FIN": 64,
+      "PAS": 72,
+      "DRI": 78,
+      "DEF": 47,
+      "FIS": 56
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 795266,
+     "nome": "Matheuzinho",
+     "posicao": "M",
+     "camisa": 10,
+     "jogos": 29,
+     "minutos": 1771,
+     "overall": 61,
+     "eixos": {
+      "RIT": 70,
+      "FIN": 72,
+      "PAS": 70,
+      "DRI": 72,
+      "DEF": 49,
+      "FIS": 61
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 122971,
+     "nome": "R. Cáceres",
+     "posicao": "D",
+     "camisa": 27,
+     "jogos": 20,
+     "minutos": 1690,
+     "overall": 61,
+     "eixos": {
+      "RIT": 78,
+      "FIN": 52,
+      "PAS": 66,
+      "DRI": 61,
+      "DEF": 65,
+      "FIS": 75
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 823831,
+     "nome": "A. Cantalapiedra",
+     "posicao": "F",
+     "camisa": 17,
+     "jogos": 19,
+     "minutos": 1287,
+     "overall": 61,
+     "eixos": {
+      "RIT": 76,
+      "FIN": 74,
+      "PAS": 69,
+      "DRI": 77,
+      "DEF": 39,
+      "FIS": 63
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 972373,
+     "nome": "Jamerson",
+     "posicao": "D",
+     "camisa": 83,
+     "jogos": 12,
+     "minutos": 1027,
+     "overall": 61,
+     "eixos": {
+      "RIT": 75,
+      "FIN": 50,
+      "PAS": 70,
+      "DRI": 70,
+      "DEF": 81,
+      "FIS": 69
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 90468,
+     "nome": "Osvaldo",
+     "posicao": "F",
+     "camisa": 11,
+     "jogos": 27,
+     "minutos": 1011,
+     "overall": 61,
+     "eixos": {
+      "RIT": 79,
+      "FIN": 71,
+      "PAS": 71,
+      "DRI": 79,
+      "DEF": 39,
+      "FIS": 64
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 926513,
+     "nome": "R. López",
+     "posicao": "F",
+     "camisa": 31,
+     "jogos": 23,
+     "minutos": 649,
+     "overall": 61,
+     "eixos": {
+      "RIT": 74,
+      "FIN": 80,
+      "PAS": 58,
+      "DRI": 83,
+      "DEF": 37,
+      "FIS": 83
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 931521,
+     "nome": "Ronald",
+     "posicao": "M",
+     "camisa": 8,
+     "jogos": 29,
+     "minutos": 1876,
+     "overall": 60,
+     "eixos": {
+      "RIT": 74,
+      "FIN": 49,
+      "PAS": 73,
+      "DRI": 69,
+      "DEF": 61,
+      "FIS": 62
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 934801,
+     "nome": "L. Braga",
+     "posicao": "F",
+     "camisa": 22,
+     "jogos": 21,
+     "minutos": 982,
+     "overall": 60,
+     "eixos": {
+      "RIT": 79,
+      "FIN": 72,
+      "PAS": 61,
+      "DRI": 75,
+      "DEF": 42,
+      "FIS": 70
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 870943,
+     "nome": "R. Ryller",
+     "posicao": "M",
+     "camisa": 28,
+     "jogos": 20,
+     "minutos": 892,
+     "overall": 60,
+     "eixos": {
+      "RIT": 68,
+      "FIN": 63,
+      "PAS": 69,
+      "DRI": 70,
+      "DEF": 80,
+      "FIS": 79
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 980761,
+     "nome": "Ramon",
+     "posicao": "D",
+     "camisa": 13,
+     "jogos": 23,
+     "minutos": 1949,
+     "overall": 59,
+     "eixos": {
+      "RIT": 75,
+      "FIN": 44,
+      "PAS": 58,
+      "DRI": 55,
+      "DEF": 77,
+      "FIS": 72
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 295167,
+     "nome": "W. Oliveira",
+     "posicao": "M",
+     "camisa": 29,
+     "jogos": 20,
+     "minutos": 1413,
+     "overall": 59,
+     "eixos": {
+      "RIT": 64,
+      "FIN": 60,
+      "PAS": 62,
+      "DRI": 64,
+      "DEF": 72,
+      "FIS": 76
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 992791,
+     "nome": "Claudinho",
+     "posicao": "D",
+     "camisa": 2,
+     "jogos": 15,
+     "minutos": 905,
+     "overall": 59,
+     "eixos": {
+      "RIT": 73,
+      "FIN": 50,
+      "PAS": 65,
+      "DRI": 68,
+      "DEF": 81,
+      "FIS": 65
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 863283,
+     "nome": "G. Silva",
+     "posicao": "F",
+     "camisa": 7,
+     "jogos": 10,
+     "minutos": 481,
+     "overall": 59,
+     "eixos": {
+      "RIT": 80,
+      "FIN": 73,
+      "PAS": 70,
+      "DRI": 79,
+      "DEF": 39,
+      "FIS": 65
+     },
+     "sem_nota_por": null
+    },
+    {
+     "player_id": 989715,
+     "nome": "Edu",
+     "posicao": "D",
+     "camisa": 43,
+     "jogos": 20,
+     "minutos": 1075,
+     "overall": 58,
+     "eixos": {
+      "RIT": 68,
+      "FIN": 41,
+      "PAS": 59,
+      "DRI": 60,
+      "DEF": 81,
+      "FIS": 73
      },
      "sem_nota_por": null
     },
@@ -12768,354 +13092,13 @@
      "sem_nota_por": null
     },
     {
-     "player_id": 905450,
-     "nome": "L. Halter",
-     "posicao": "D",
-     "camisa": 5,
-     "jogos": 33,
-     "minutos": 2905,
-     "overall": 57,
-     "eixos": {
-      "RIT": 67,
-      "FIN": 60,
-      "PAS": 63,
-      "DRI": 53,
-      "DEF": 73,
-      "FIS": 74
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 814723,
-     "nome": "R. Kayzer",
-     "posicao": "F",
-     "camisa": 79,
-     "jogos": 30,
-     "minutos": 2097,
-     "overall": 55,
-     "eixos": {
-      "RIT": 68,
-      "FIN": 79,
-      "PAS": 58,
-      "DRI": 70,
-      "DEF": 31,
-      "FIS": 72
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 982558,
-     "nome": "L. Arcanjo",
-     "posicao": "G",
-     "camisa": 1,
-     "jogos": 29,
-     "minutos": 2546,
-     "overall": 54,
-     "eixos": {
-      "REF": 60,
-      "EVI": 65,
-      "MAO": 68,
-      "PES": 66,
-      "SAI": 48
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 901700,
-     "nome": "Z. Marcos",
-     "posicao": "D",
-     "camisa": 3,
-     "jogos": 28,
-     "minutos": 2426,
-     "overall": 54,
-     "eixos": {
-      "RIT": 64,
-      "FIN": 55,
-      "PAS": 64,
-      "DRI": 54,
-      "DEF": 74,
-      "FIS": 76
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 895650,
-     "nome": "Erick",
-     "posicao": "M",
-     "camisa": 33,
-     "jogos": 31,
-     "minutos": 2068,
-     "overall": 54,
-     "eixos": {
-      "RIT": 71,
-      "FIN": 64,
-      "PAS": 72,
-      "DRI": 78,
-      "DEF": 47,
-      "FIS": 56
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 926513,
-     "nome": "R. López",
-     "posicao": "F",
-     "camisa": 31,
-     "jogos": 23,
-     "minutos": 649,
-     "overall": 54,
-     "eixos": {
-      "RIT": 74,
-      "FIN": 80,
-      "PAS": 58,
-      "DRI": 83,
-      "DEF": 37,
-      "FIS": 83
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 931521,
-     "nome": "Ronald",
-     "posicao": "M",
-     "camisa": 8,
-     "jogos": 29,
-     "minutos": 1876,
-     "overall": 53,
-     "eixos": {
-      "RIT": 74,
-      "FIN": 49,
-      "PAS": 73,
-      "DRI": 69,
-      "DEF": 61,
-      "FIS": 62
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 795266,
-     "nome": "Matheuzinho",
-     "posicao": "M",
-     "camisa": 10,
-     "jogos": 29,
-     "minutos": 1771,
-     "overall": 53,
-     "eixos": {
-      "RIT": 70,
-      "FIN": 72,
-      "PAS": 70,
-      "DRI": 72,
-      "DEF": 49,
-      "FIS": 61
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 122971,
-     "nome": "R. Cáceres",
-     "posicao": "D",
-     "camisa": 27,
-     "jogos": 20,
-     "minutos": 1690,
-     "overall": 53,
-     "eixos": {
-      "RIT": 78,
-      "FIN": 52,
-      "PAS": 66,
-      "DRI": 61,
-      "DEF": 65,
-      "FIS": 75
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 823831,
-     "nome": "A. Cantalapiedra",
-     "posicao": "F",
-     "camisa": 17,
-     "jogos": 19,
-     "minutos": 1287,
-     "overall": 53,
-     "eixos": {
-      "RIT": 76,
-      "FIN": 74,
-      "PAS": 69,
-      "DRI": 77,
-      "DEF": 39,
-      "FIS": 63
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 972373,
-     "nome": "Jamerson",
-     "posicao": "D",
-     "camisa": 83,
-     "jogos": 12,
-     "minutos": 1027,
-     "overall": 53,
-     "eixos": {
-      "RIT": 75,
-      "FIN": 50,
-      "PAS": 70,
-      "DRI": 70,
-      "DEF": 81,
-      "FIS": 69
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 90468,
-     "nome": "Osvaldo",
-     "posicao": "F",
-     "camisa": 11,
-     "jogos": 27,
-     "minutos": 1011,
-     "overall": 53,
-     "eixos": {
-      "RIT": 79,
-      "FIN": 71,
-      "PAS": 71,
-      "DRI": 79,
-      "DEF": 39,
-      "FIS": 64
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 870943,
-     "nome": "R. Ryller",
-     "posicao": "M",
-     "camisa": 28,
-     "jogos": 20,
-     "minutos": 892,
-     "overall": 53,
-     "eixos": {
-      "RIT": 68,
-      "FIN": 63,
-      "PAS": 69,
-      "DRI": 70,
-      "DEF": 80,
-      "FIS": 79
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 980761,
-     "nome": "Ramon",
-     "posicao": "D",
-     "camisa": 13,
-     "jogos": 23,
-     "minutos": 1949,
-     "overall": 51,
-     "eixos": {
-      "RIT": 75,
-      "FIN": 44,
-      "PAS": 58,
-      "DRI": 55,
-      "DEF": 77,
-      "FIS": 72
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 934801,
-     "nome": "L. Braga",
-     "posicao": "F",
-     "camisa": 22,
-     "jogos": 21,
-     "minutos": 982,
-     "overall": 51,
-     "eixos": {
-      "RIT": 79,
-      "FIN": 72,
-      "PAS": 61,
-      "DRI": 75,
-      "DEF": 42,
-      "FIS": 70
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 863283,
-     "nome": "G. Silva",
-     "posicao": "F",
-     "camisa": 7,
-     "jogos": 10,
-     "minutos": 481,
-     "overall": 51,
-     "eixos": {
-      "RIT": 80,
-      "FIN": 73,
-      "PAS": 70,
-      "DRI": 79,
-      "DEF": 39,
-      "FIS": 65
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 295167,
-     "nome": "W. Oliveira",
-     "posicao": "M",
-     "camisa": 29,
-     "jogos": 20,
-     "minutos": 1413,
-     "overall": 50,
-     "eixos": {
-      "RIT": 64,
-      "FIN": 60,
-      "PAS": 62,
-      "DRI": 64,
-      "DEF": 72,
-      "FIS": 76
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 992791,
-     "nome": "Claudinho",
-     "posicao": "D",
-     "camisa": 2,
-     "jogos": 15,
-     "minutos": 905,
-     "overall": 50,
-     "eixos": {
-      "RIT": 73,
-      "FIN": 50,
-      "PAS": 65,
-      "DRI": 68,
-      "DEF": 81,
-      "FIS": 65
-     },
-     "sem_nota_por": null
-    },
-    {
-     "player_id": 989715,
-     "nome": "Edu",
-     "posicao": "D",
-     "camisa": 43,
-     "jogos": 20,
-     "minutos": 1075,
-     "overall": 49,
-     "eixos": {
-      "RIT": 68,
-      "FIN": 41,
-      "PAS": 59,
-      "DRI": 60,
-      "DEF": 81,
-      "FIS": 73
-     },
-     "sem_nota_por": null
-    },
-    {
      "player_id": 1462989,
      "nome": "Janderson",
      "posicao": "F",
      "camisa": 39,
      "jogos": 11,
      "minutos": 740,
-     "overall": 49,
+     "overall": 58,
      "eixos": {
       "RIT": 78,
       "FIN": 71,
@@ -13133,7 +13116,7 @@
      "camisa": 6,
      "jogos": 14,
      "minutos": 657,
-     "overall": 49,
+     "overall": 58,
      "eixos": {
       "RIT": 63,
       "FIN": 53,
@@ -13151,7 +13134,7 @@
      "camisa": 4,
      "jogos": 15,
      "minutos": 1239,
-     "overall": 46,
+     "overall": 56,
      "eixos": {
       "RIT": 62,
       "FIN": 44,
@@ -13163,13 +13146,31 @@
      "sem_nota_por": null
     },
     {
+     "player_id": 1836781,
+     "nome": "M. Jesus",
+     "posicao": "D",
+     "camisa": 66,
+     "jogos": 9,
+     "minutos": 766,
+     "overall": 56,
+     "eixos": {
+      "RIT": 73,
+      "FIN": 42,
+      "PAS": 58,
+      "DRI": 57,
+      "DEF": 71,
+      "FIS": 71
+     },
+     "sem_nota_por": null
+    },
+    {
      "player_id": 840247,
      "nome": "Neris",
      "posicao": "D",
      "camisa": 77,
      "jogos": 10,
      "minutos": 536,
-     "overall": 46,
+     "overall": 56,
      "eixos": {
       "RIT": 65,
       "FIN": 50,
@@ -13181,20 +13182,19 @@
      "sem_nota_por": null
     },
     {
-     "player_id": 1836781,
-     "nome": "M. Jesus",
-     "posicao": "D",
-     "camisa": 66,
-     "jogos": 9,
-     "minutos": 766,
-     "overall": 45,
+     "player_id": 982558,
+     "nome": "L. Arcanjo",
+     "posicao": "G",
+     "camisa": 1,
+     "jogos": 29,
+     "minutos": 2546,
+     "overall": 54,
      "eixos": {
-      "RIT": 73,
-      "FIN": 42,
-      "PAS": 58,
-      "DRI": 57,
-      "DEF": 71,
-      "FIS": 71
+      "REF": 60,
+      "EVI": 65,
+      "MAO": 68,
+      "PES": 66,
+      "SAI": 48
      },
      "sem_nota_por": null
     },
