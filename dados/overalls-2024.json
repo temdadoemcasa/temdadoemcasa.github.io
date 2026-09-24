@@ -1,6 +1,6 @@
 {
  "temporada": 2024,
- "gerado_em": "2026-09-24T17:58:34+00:00",
+ "gerado_em": "2026-09-24T18:04:17+00:00",
  "populacao": "Brasileirão",
  "piso_minutos": 450,
  "jogos_com_placar": 380,
@@ -128,7 +128,8 @@
       "DEF": 77,
       "FIS": 72
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.205
     },
     {
      "player_id": 874063,
@@ -146,7 +147,8 @@
       "DEF": 78,
       "FIS": 81
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.628
     },
     {
      "player_id": 963990,
@@ -164,7 +166,8 @@
       "DEF": 89,
       "FIS": 79
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.623
     },
     {
      "player_id": 1167536,
@@ -182,7 +185,8 @@
       "DEF": 47,
       "FIS": 86
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.343
     },
     {
      "player_id": 871273,
@@ -200,7 +204,8 @@
       "DEF": 62,
       "FIS": 65
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.486
     },
     {
      "player_id": 33106,
@@ -218,7 +223,8 @@
       "DEF": 87,
       "FIS": 77
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.435
     },
     {
      "player_id": 374486,
@@ -236,7 +242,8 @@
       "DEF": 41,
       "FIS": 77
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.508
     },
     {
      "player_id": 139300,
@@ -254,7 +261,8 @@
       "DEF": 46,
       "FIS": 72
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.729
     },
     {
      "player_id": 1085451,
@@ -272,7 +280,8 @@
       "DEF": 92,
       "FIS": 81
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.378
     },
     {
      "player_id": 13630,
@@ -290,7 +299,8 @@
       "DEF": 59,
       "FIS": 73
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.441
     },
     {
      "player_id": 242052,
@@ -308,7 +318,8 @@
       "DEF": 78,
       "FIS": 74
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.457
     },
     {
      "player_id": 1092354,
@@ -326,7 +337,8 @@
       "DEF": 55,
       "FIS": 65
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.526
     },
     {
      "player_id": 846413,
@@ -344,7 +356,8 @@
       "DEF": 36,
       "FIS": 71
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.4
     },
     {
      "player_id": 981733,
@@ -362,7 +375,8 @@
       "DEF": 56,
       "FIS": 73
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.5
     },
     {
      "player_id": 794006,
@@ -380,7 +394,8 @@
       "DEF": 67,
       "FIS": 67
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.8
     },
     {
      "player_id": 243439,
@@ -398,7 +413,8 @@
       "DEF": 83,
       "FIS": 81
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.794
     },
     {
      "player_id": 1107060,
@@ -416,7 +432,8 @@
       "DEF": 78,
       "FIS": 71
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.393
     },
     {
      "player_id": 1485226,
@@ -434,7 +451,8 @@
       "DEF": 50,
       "FIS": 71
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.472
     },
     {
      "player_id": 838303,
@@ -452,7 +470,8 @@
       "DEF": 40,
       "FIS": 83
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.5
     },
     {
      "player_id": 345847,
@@ -470,7 +489,8 @@
       "DEF": 46,
       "FIS": 78
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.517
     },
     {
      "player_id": 1017746,
@@ -488,7 +508,8 @@
       "DEF": 78,
       "FIS": 80
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.2
     },
     {
      "player_id": 1130040,
@@ -506,7 +527,8 @@
       "DEF": 88,
       "FIS": 77
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.578
     },
     {
      "player_id": 1018093,
@@ -524,7 +546,8 @@
       "DEF": 69,
       "FIS": 79
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.5
     },
     {
      "player_id": 1119887,
@@ -541,7 +564,8 @@
       "PES": 77,
       "SAI": 82
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.5
     },
     {
      "player_id": 1016104,
@@ -558,7 +582,8 @@
       "PES": 82,
       "SAI": 64
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.5
     },
     {
      "player_id": 1128850,
@@ -575,7 +600,8 @@
       "PES": 61,
       "SAI": 55
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.5
     },
     {
      "player_id": 1128844,
@@ -586,7 +612,8 @@
      "minutos": 382,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1128844 tem 382 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1128844 tem 382 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.75
     },
     {
      "player_id": 1188028,
@@ -597,7 +624,8 @@
      "minutos": 181,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1188028 tem 181 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1188028 tem 181 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1174196,
@@ -608,7 +636,8 @@
      "minutos": 11,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1174196 tem 11 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1174196 tem 11 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 2436883,
@@ -619,7 +648,8 @@
      "minutos": 2,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 2436883 tem 2 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 2436883 tem 2 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     }
    ],
    "sairam": []
@@ -733,7 +763,8 @@
       "DEF": 92,
       "FIS": 74
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.604
     },
     {
      "player_id": 883908,
@@ -751,7 +782,8 @@
       "DEF": 73,
       "FIS": 76
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.198
     },
     {
      "player_id": 922575,
@@ -769,7 +801,8 @@
       "DEF": 77,
       "FIS": 77
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.332
     },
     {
      "player_id": 874143,
@@ -787,7 +820,8 @@
       "DEF": 57,
       "FIS": 67
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.341
     },
     {
      "player_id": 874723,
@@ -805,7 +839,8 @@
       "DEF": 54,
       "FIS": 62
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.691
     },
     {
      "player_id": 1086925,
@@ -823,7 +858,8 @@
       "DEF": 48,
       "FIS": 72
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.293
     },
     {
      "player_id": 1117597,
@@ -841,7 +877,8 @@
       "DEF": 94,
       "FIS": 75
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.41
     },
     {
      "player_id": 992024,
@@ -859,7 +896,8 @@
       "DEF": 58,
       "FIS": 74
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.651
     },
     {
      "player_id": 840106,
@@ -876,7 +914,8 @@
       "PES": 69,
       "SAI": 85
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.5
     },
     {
      "player_id": 871209,
@@ -894,7 +933,8 @@
       "DEF": 74,
       "FIS": 75
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.797
     },
     {
      "player_id": 1046440,
@@ -912,7 +952,8 @@
       "DEF": 75,
       "FIS": 65
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.616
     },
     {
      "player_id": 931588,
@@ -930,7 +971,8 @@
       "DEF": 68,
       "FIS": 73
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.802
     },
     {
      "player_id": 840118,
@@ -948,7 +990,8 @@
       "DEF": 66,
       "FIS": 77
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.492
     },
     {
      "player_id": 924423,
@@ -966,7 +1009,8 @@
       "DEF": 36,
       "FIS": 73
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.5
     },
     {
      "player_id": 162579,
@@ -984,7 +1028,8 @@
       "DEF": 75,
       "FIS": 88
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.517
     },
     {
      "player_id": 1177548,
@@ -1002,7 +1047,8 @@
       "DEF": 35,
       "FIS": 78
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.512
     },
     {
      "player_id": 831993,
@@ -1020,7 +1066,8 @@
       "DEF": 86,
       "FIS": 77
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.45
     },
     {
      "player_id": 870898,
@@ -1038,7 +1085,8 @@
       "DEF": 36,
       "FIS": 61
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.761
     },
     {
      "player_id": 868777,
@@ -1056,7 +1104,8 @@
       "DEF": 37,
       "FIS": 77
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.5
     },
     {
      "player_id": 154508,
@@ -1074,7 +1123,8 @@
       "DEF": 36,
       "FIS": 71
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.542
     },
     {
      "player_id": 364778,
@@ -1092,7 +1142,8 @@
       "DEF": 71,
       "FIS": 80
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.4
     },
     {
      "player_id": 1016029,
@@ -1110,7 +1161,8 @@
       "DEF": 52,
       "FIS": 60
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.45
     },
     {
      "player_id": 1092614,
@@ -1127,7 +1179,8 @@
       "PES": 75,
       "SAI": 90
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.5
     },
     {
      "player_id": 1642625,
@@ -1138,7 +1191,8 @@
      "minutos": 297,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1642625 tem 297 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1642625 tem 297 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 351432,
@@ -1149,7 +1203,8 @@
      "minutos": 268,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 351432 tem 268 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 351432 tem 268 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.5
     },
     {
      "player_id": 13313,
@@ -1160,7 +1215,8 @@
      "minutos": 180,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 13313 tem 180 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 13313 tem 180 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.5
     },
     {
      "player_id": 1017363,
@@ -1171,7 +1227,8 @@
      "minutos": 105,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1017363 tem 105 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1017363 tem 105 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.2
     },
     {
      "player_id": 840218,
@@ -1182,7 +1239,8 @@
      "minutos": 100,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 840218 tem 100 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 840218 tem 100 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 588996,
@@ -1193,7 +1251,8 @@
      "minutos": 90,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 588996 tem 90 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 588996 tem 90 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.4
     },
     {
      "player_id": 1020259,
@@ -1204,7 +1263,8 @@
      "minutos": 81,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1020259 tem 81 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1020259 tem 81 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.75
     },
     {
      "player_id": 1645851,
@@ -1215,7 +1275,8 @@
      "minutos": 75,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1645851 tem 75 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1645851 tem 75 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.6
     },
     {
      "player_id": 793854,
@@ -1226,7 +1287,8 @@
      "minutos": 70,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 793854 tem 70 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 793854 tem 70 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1641101,
@@ -1237,7 +1299,8 @@
      "minutos": 70,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1641101 tem 70 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1641101 tem 70 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.333
     },
     {
      "player_id": 1177801,
@@ -1248,7 +1311,8 @@
      "minutos": 64,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1177801 tem 64 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1177801 tem 64 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1651712,
@@ -1259,7 +1323,8 @@
      "minutos": 64,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1651712 tem 64 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1651712 tem 64 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1588737,
@@ -1270,7 +1335,8 @@
      "minutos": 42,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1588737 tem 42 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1588737 tem 42 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 220094,
@@ -1281,7 +1347,8 @@
      "minutos": 34,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 220094 tem 34 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 220094 tem 34 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1936570,
@@ -1292,7 +1359,8 @@
      "minutos": 21,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1936570 tem 21 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1936570 tem 21 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1430099,
@@ -1303,7 +1371,8 @@
      "minutos": 13,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1430099 tem 13 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1430099 tem 13 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1564266,
@@ -1314,7 +1383,8 @@
      "minutos": 13,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1564266 tem 13 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1564266 tem 13 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     }
    ],
    "sairam": []
@@ -1428,7 +1498,8 @@
       "DEF": 56,
       "FIS": 64
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.621
     },
     {
      "player_id": 973737,
@@ -1446,7 +1517,8 @@
       "DEF": 88,
       "FIS": 73
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.53
     },
     {
      "player_id": 34705,
@@ -1464,7 +1536,8 @@
       "DEF": 34,
       "FIS": 71
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.545
     },
     {
      "player_id": 315916,
@@ -1482,7 +1555,8 @@
       "DEF": 78,
       "FIS": 71
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.777
     },
     {
      "player_id": 158257,
@@ -1500,7 +1574,8 @@
       "DEF": 73,
       "FIS": 78
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.521
     },
     {
      "player_id": 885179,
@@ -1518,7 +1593,8 @@
       "DEF": 42,
       "FIS": 64
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.466
     },
     {
      "player_id": 552686,
@@ -1536,7 +1612,8 @@
       "DEF": 75,
       "FIS": 71
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.514
     },
     {
      "player_id": 822729,
@@ -1554,7 +1631,8 @@
       "DEF": 62,
       "FIS": 78
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.465
     },
     {
      "player_id": 930690,
@@ -1572,7 +1650,8 @@
       "DEF": 71,
       "FIS": 70
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.533
     },
     {
      "player_id": 913598,
@@ -1590,7 +1669,8 @@
       "DEF": 49,
       "FIS": 66
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.469
     },
     {
      "player_id": 270287,
@@ -1608,7 +1688,8 @@
       "DEF": 39,
       "FIS": 81
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.488
     },
     {
      "player_id": 1093196,
@@ -1626,7 +1707,8 @@
       "DEF": 74,
       "FIS": 75
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.2
     },
     {
      "player_id": 37006,
@@ -1644,7 +1726,8 @@
       "DEF": 39,
       "FIS": 78
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.562
     },
     {
      "player_id": 1127439,
@@ -1662,7 +1745,8 @@
       "DEF": 78,
       "FIS": 68
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.204
     },
     {
      "player_id": 870748,
@@ -1679,7 +1763,8 @@
       "PES": 89,
       "SAI": 80
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.5
     },
     {
      "player_id": 333275,
@@ -1697,7 +1782,8 @@
       "DEF": 81,
       "FIS": 81
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.283
     },
     {
      "player_id": 1199473,
@@ -1715,7 +1801,8 @@
       "DEF": 41,
       "FIS": 75
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.415
     },
     {
      "player_id": 1471221,
@@ -1733,7 +1820,8 @@
       "DEF": 49,
       "FIS": 65
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.714
     },
     {
      "player_id": 1106599,
@@ -1751,7 +1839,8 @@
       "DEF": 39,
       "FIS": 61
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.74
     },
     {
      "player_id": 753662,
@@ -1769,7 +1858,8 @@
       "DEF": 86,
       "FIS": 82
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.54
     },
     {
      "player_id": 797893,
@@ -1787,7 +1877,8 @@
       "DEF": 90,
       "FIS": 69
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.34
     },
     {
      "player_id": 241488,
@@ -1805,7 +1896,8 @@
       "DEF": 46,
       "FIS": 62
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.478
     },
     {
      "player_id": 1117102,
@@ -1823,7 +1915,8 @@
       "DEF": 87,
       "FIS": 79
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.36
     },
     {
      "player_id": 1018555,
@@ -1840,7 +1933,8 @@
       "PES": 88,
       "SAI": 94
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.5
     },
     {
      "player_id": 859970,
@@ -1858,7 +1952,8 @@
       "DEF": 64,
       "FIS": 66
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.335
     },
     {
      "player_id": 40076,
@@ -1876,7 +1971,8 @@
       "DEF": 73,
       "FIS": 75
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.679
     },
     {
      "player_id": 1488136,
@@ -1894,7 +1990,8 @@
       "DEF": 54,
       "FIS": 84
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.489
     },
     {
      "player_id": 39656,
@@ -1905,7 +2002,8 @@
      "minutos": 434,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 39656 tem 434 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 39656 tem 434 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.5
     },
     {
      "player_id": 385916,
@@ -1916,7 +2014,8 @@
      "minutos": 381,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 385916 tem 381 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 385916 tem 381 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.38
     },
     {
      "player_id": 874030,
@@ -1927,7 +2026,8 @@
      "minutos": 208,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 874030 tem 208 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 874030 tem 208 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.667
     },
     {
      "player_id": 1117032,
@@ -1938,7 +2038,8 @@
      "minutos": 90,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1117032 tem 90 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1117032 tem 90 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.5
     },
     {
      "player_id": 1471217,
@@ -1949,7 +2050,8 @@
      "minutos": 30,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1471217 tem 30 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1471217 tem 30 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1650085,
@@ -1960,7 +2062,8 @@
      "minutos": 20,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1650085 tem 20 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1650085 tem 20 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1471239,
@@ -1971,7 +2074,8 @@
      "minutos": 8,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1471239 tem 8 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1471239 tem 8 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1129113,
@@ -1982,7 +2086,8 @@
      "minutos": 1,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1129113 tem 1 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1129113 tem 1 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     }
    ],
    "sairam": []
@@ -2096,7 +2201,8 @@
       "DEF": 91,
       "FIS": 82
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.604
     },
     {
      "player_id": 1017264,
@@ -2114,7 +2220,8 @@
       "DEF": 80,
       "FIS": 65
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.2
     },
     {
      "player_id": 927975,
@@ -2132,7 +2239,8 @@
       "DEF": 56,
       "FIS": 68
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.29
     },
     {
      "player_id": 255873,
@@ -2150,7 +2258,8 @@
       "DEF": 36,
       "FIS": 60
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.471
     },
     {
      "player_id": 145063,
@@ -2168,7 +2277,8 @@
       "DEF": 61,
       "FIS": 67
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.709
     },
     {
      "player_id": 872039,
@@ -2186,7 +2296,8 @@
       "DEF": 43,
       "FIS": 76
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.394
     },
     {
      "player_id": 1008832,
@@ -2204,7 +2315,8 @@
       "DEF": 49,
       "FIS": 64
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.519
     },
     {
      "player_id": 871705,
@@ -2222,7 +2334,8 @@
       "DEF": 81,
       "FIS": 71
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.408
     },
     {
      "player_id": 386212,
@@ -2240,7 +2353,8 @@
       "DEF": 36,
       "FIS": 80
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.562
     },
     {
      "player_id": 358524,
@@ -2257,7 +2371,8 @@
       "PES": 96,
       "SAI": 72
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.5
     },
     {
      "player_id": 158583,
@@ -2275,7 +2390,8 @@
       "DEF": 75,
       "FIS": 65
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.8
     },
     {
      "player_id": 922546,
@@ -2293,7 +2409,8 @@
       "DEF": 38,
       "FIS": 65
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.668
     },
     {
      "player_id": 311394,
@@ -2311,7 +2428,8 @@
       "DEF": 82,
       "FIS": 81
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.75
     },
     {
      "player_id": 261687,
@@ -2329,7 +2447,8 @@
       "DEF": 69,
       "FIS": 75
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.8
     },
     {
      "player_id": 1106140,
@@ -2347,7 +2466,8 @@
       "DEF": 43,
       "FIS": 62
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.458
     },
     {
      "player_id": 1099361,
@@ -2365,7 +2485,8 @@
       "DEF": 36,
       "FIS": 70
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.483
     },
     {
      "player_id": 868030,
@@ -2383,7 +2504,8 @@
       "DEF": 74,
       "FIS": 77
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.5
     },
     {
      "player_id": 587148,
@@ -2401,7 +2523,8 @@
       "DEF": 77,
       "FIS": 70
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.4
     },
     {
      "player_id": 869644,
@@ -2412,7 +2535,8 @@
      "minutos": 427,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 869644 tem 427 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 869644 tem 427 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.2
     },
     {
      "player_id": 352838,
@@ -2423,7 +2547,8 @@
      "minutos": 423,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 352838 tem 423 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 352838 tem 423 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1106840,
@@ -2434,7 +2559,8 @@
      "minutos": 333,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1106840 tem 333 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1106840 tem 333 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.5
     },
     {
      "player_id": 959620,
@@ -2445,7 +2571,8 @@
      "minutos": 270,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 959620 tem 270 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 959620 tem 270 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.5
     },
     {
      "player_id": 810715,
@@ -2456,7 +2583,8 @@
      "minutos": 256,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 810715 tem 256 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 810715 tem 256 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.467
     },
     {
      "player_id": 822089,
@@ -2467,7 +2595,8 @@
      "minutos": 249,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 822089 tem 249 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 822089 tem 249 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.333
     },
     {
      "player_id": 145054,
@@ -2478,7 +2607,8 @@
      "minutos": 90,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 145054 tem 90 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 145054 tem 90 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.5
     },
     {
      "player_id": 243271,
@@ -2489,7 +2619,8 @@
      "minutos": 87,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 243271 tem 87 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 243271 tem 87 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.8
     },
     {
      "player_id": 552164,
@@ -2500,7 +2631,8 @@
      "minutos": 84,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 552164 tem 84 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 552164 tem 84 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1469531,
@@ -2511,7 +2643,8 @@
      "minutos": 57,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1469531 tem 57 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1469531 tem 57 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1633616,
@@ -2522,7 +2655,8 @@
      "minutos": 16,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1633616 tem 16 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1633616 tem 16 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 794838,
@@ -2533,7 +2667,8 @@
      "minutos": 14,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 794838 tem 14 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 794838 tem 14 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     }
    ],
    "sairam": []
@@ -2647,7 +2782,8 @@
       "DEF": 85,
       "FIS": 85
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.499
     },
     {
      "player_id": 840103,
@@ -2664,7 +2800,8 @@
       "PES": 83,
       "SAI": 89
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.5
     },
     {
      "player_id": 1035995,
@@ -2682,7 +2819,8 @@
       "DEF": 48,
       "FIS": 66
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.735
     },
     {
      "player_id": 840202,
@@ -2700,7 +2838,8 @@
       "DEF": 71,
       "FIS": 66
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.468
     },
     {
      "player_id": 215956,
@@ -2718,7 +2857,8 @@
       "DEF": 82,
       "FIS": 75
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.51
     },
     {
      "player_id": 801044,
@@ -2736,7 +2876,8 @@
       "DEF": 90,
       "FIS": 80
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.393
     },
     {
      "player_id": 874739,
@@ -2754,7 +2895,8 @@
       "DEF": 41,
       "FIS": 61
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.452
     },
     {
      "player_id": 981619,
@@ -2772,7 +2914,8 @@
       "DEF": 37,
       "FIS": 78
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.479
     },
     {
      "player_id": 1160554,
@@ -2790,7 +2933,8 @@
       "DEF": 82,
       "FIS": 80
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.2
     },
     {
      "player_id": 922559,
@@ -2808,7 +2952,8 @@
       "DEF": 40,
       "FIS": 72
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.524
     },
     {
      "player_id": 330063,
@@ -2826,7 +2971,8 @@
       "DEF": 90,
       "FIS": 76
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.595
     },
     {
      "player_id": 789100,
@@ -2844,7 +2990,8 @@
       "DEF": 31,
       "FIS": 71
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.462
     },
     {
      "player_id": 944660,
@@ -2862,7 +3009,8 @@
       "DEF": 50,
       "FIS": 60
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.266
     },
     {
      "player_id": 840398,
@@ -2880,7 +3028,8 @@
       "DEF": 42,
       "FIS": 62
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.42
     },
     {
      "player_id": 143593,
@@ -2898,7 +3047,8 @@
       "DEF": 78,
       "FIS": 80
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.205
     },
     {
      "player_id": 1099163,
@@ -2916,7 +3066,8 @@
       "DEF": 81,
       "FIS": 75
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.796
     },
     {
      "player_id": 146416,
@@ -2934,7 +3085,8 @@
       "DEF": 57,
       "FIS": 66
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.683
     },
     {
      "player_id": 905450,
@@ -2952,7 +3104,8 @@
       "DEF": 74,
       "FIS": 69
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.6
     },
     {
      "player_id": 76507,
@@ -2970,7 +3123,8 @@
       "DEF": 58,
       "FIS": 70
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.573
     },
     {
      "player_id": 312110,
@@ -2988,7 +3142,8 @@
       "DEF": 84,
       "FIS": 75
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.206
     },
     {
      "player_id": 36982,
@@ -3006,7 +3161,8 @@
       "DEF": 65,
       "FIS": 63
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.8
     },
     {
      "player_id": 795261,
@@ -3024,7 +3180,8 @@
       "DEF": 84,
       "FIS": 80
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.567
     },
     {
      "player_id": 914477,
@@ -3042,7 +3199,8 @@
       "DEF": 65,
       "FIS": 75
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.8
     },
     {
      "player_id": 1018915,
@@ -3053,7 +3211,8 @@
      "minutos": 449,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1018915 tem 449 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1018915 tem 449 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.2
     },
     {
      "player_id": 1106779,
@@ -3064,7 +3223,8 @@
      "minutos": 448,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1106779 tem 448 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1106779 tem 448 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.438
     },
     {
      "player_id": 840027,
@@ -3075,7 +3235,8 @@
      "minutos": 360,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 840027 tem 360 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 840027 tem 360 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.5
     },
     {
      "player_id": 1016948,
@@ -3086,7 +3247,8 @@
      "minutos": 351,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1016948 tem 351 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1016948 tem 351 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.22
     },
     {
      "player_id": 158277,
@@ -3097,7 +3259,8 @@
      "minutos": 307,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 158277 tem 307 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 158277 tem 307 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.367
     },
     {
      "player_id": 1008700,
@@ -3108,7 +3271,8 @@
      "minutos": 234,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1008700 tem 234 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1008700 tem 234 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.583
     },
     {
      "player_id": 1086482,
@@ -3119,7 +3283,8 @@
      "minutos": 206,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1086482 tem 206 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1086482 tem 206 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1463916,
@@ -3130,7 +3295,8 @@
      "minutos": 181,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1463916 tem 181 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1463916 tem 181 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.2
     },
     {
      "player_id": 1807776,
@@ -3141,7 +3307,8 @@
      "minutos": 84,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1807776 tem 84 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1807776 tem 84 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1047683,
@@ -3152,7 +3319,8 @@
      "minutos": 25,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1047683 tem 25 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1047683 tem 25 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.333
     },
     {
      "player_id": 243735,
@@ -3163,7 +3331,8 @@
      "minutos": 21,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 243735 tem 21 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 243735 tem 21 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1591269,
@@ -3174,7 +3343,8 @@
      "minutos": 21,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1591269 tem 21 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1591269 tem 21 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1009787,
@@ -3185,7 +3355,8 @@
      "minutos": 18,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1009787 tem 18 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1009787 tem 18 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 39623,
@@ -3196,7 +3367,8 @@
      "minutos": 1,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 39623 tem 1 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 39623 tem 1 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     }
    ],
    "sairam": []
@@ -3310,7 +3482,8 @@
       "DEF": 50,
       "FIS": 63
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.562
     },
     {
      "player_id": 866392,
@@ -3328,7 +3501,8 @@
       "DEF": 87,
       "FIS": 77
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.5
     },
     {
      "player_id": 905463,
@@ -3346,7 +3520,8 @@
       "DEF": 35,
       "FIS": 71
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.497
     },
     {
      "player_id": 929200,
@@ -3364,7 +3539,8 @@
       "DEF": 73,
       "FIS": 77
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.435
     },
     {
      "player_id": 931540,
@@ -3382,7 +3558,8 @@
       "DEF": 78,
       "FIS": 60
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.8
     },
     {
      "player_id": 1017827,
@@ -3400,7 +3577,8 @@
       "DEF": 75,
       "FIS": 78
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.2
     },
     {
      "player_id": 1197041,
@@ -3418,7 +3596,8 @@
       "DEF": 35,
       "FIS": 75
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.677
     },
     {
      "player_id": 1199261,
@@ -3436,7 +3615,8 @@
       "DEF": 68,
       "FIS": 72
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.382
     },
     {
      "player_id": 881848,
@@ -3454,7 +3634,8 @@
       "DEF": 86,
       "FIS": 76
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.547
     },
     {
      "player_id": 981703,
@@ -3472,7 +3653,8 @@
       "DEF": 88,
       "FIS": 62
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.2
     },
     {
      "player_id": 152098,
@@ -3490,7 +3672,8 @@
       "DEF": 58,
       "FIS": 63
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.559
     },
     {
      "player_id": 148155,
@@ -3508,7 +3691,8 @@
       "DEF": 89,
       "FIS": 72
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.597
     },
     {
      "player_id": 243181,
@@ -3526,7 +3710,8 @@
       "DEF": 85,
       "FIS": 81
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.488
     },
     {
      "player_id": 1211632,
@@ -3544,7 +3729,8 @@
       "DEF": 44,
       "FIS": 53
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.262
     },
     {
      "player_id": 985860,
@@ -3562,7 +3748,8 @@
       "DEF": 50,
       "FIS": 76
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.333
     },
     {
      "player_id": 138833,
@@ -3580,7 +3767,8 @@
       "DEF": 37,
       "FIS": 62
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.407
     },
     {
      "player_id": 115182,
@@ -3598,7 +3786,8 @@
       "DEF": 67,
       "FIS": 58
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.688
     },
     {
      "player_id": 979325,
@@ -3616,7 +3805,8 @@
       "DEF": 77,
       "FIS": 75
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.569
     },
     {
      "player_id": 845178,
@@ -3634,7 +3824,8 @@
       "DEF": 74,
       "FIS": 79
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.62
     },
     {
      "player_id": 866911,
@@ -3652,7 +3843,8 @@
       "DEF": 40,
       "FIS": 84
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.5
     },
     {
      "player_id": 25554,
@@ -3670,7 +3862,8 @@
       "DEF": 75,
       "FIS": 60
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.8
     },
     {
      "player_id": 358166,
@@ -3688,7 +3881,8 @@
       "DEF": 67,
       "FIS": 72
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.503
     },
     {
      "player_id": 973738,
@@ -3705,7 +3899,8 @@
       "PES": 95,
       "SAI": 78
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.5
     },
     {
      "player_id": 950454,
@@ -3722,7 +3917,8 @@
       "PES": 71,
       "SAI": 54
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.5
     },
     {
      "player_id": 1170779,
@@ -3740,7 +3936,8 @@
       "DEF": 66,
       "FIS": 67
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.375
     },
     {
      "player_id": 1002609,
@@ -3757,7 +3954,8 @@
       "PES": 62,
       "SAI": 48
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.5
     },
     {
      "player_id": 219190,
@@ -3768,7 +3966,8 @@
      "minutos": 363,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 219190 tem 363 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 219190 tem 363 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.533
     },
     {
      "player_id": 959006,
@@ -3779,7 +3978,8 @@
      "minutos": 282,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 959006 tem 282 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 959006 tem 282 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.363
     },
     {
      "player_id": 1170773,
@@ -3790,7 +3990,8 @@
      "minutos": 276,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1170773 tem 276 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1170773 tem 276 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.5
     },
     {
      "player_id": 1170769,
@@ -3801,7 +4002,8 @@
      "minutos": 216,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1170769 tem 216 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1170769 tem 216 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.8
     },
     {
      "player_id": 115183,
@@ -3812,7 +4014,8 @@
      "minutos": 125,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 115183 tem 125 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 115183 tem 125 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.6
     },
     {
      "player_id": 1047422,
@@ -3823,7 +4026,8 @@
      "minutos": 90,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1047422 tem 90 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1047422 tem 90 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.4
     },
     {
      "player_id": 1485309,
@@ -3834,7 +4038,8 @@
      "minutos": 80,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1485309 tem 80 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1485309 tem 80 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.667
     },
     {
      "player_id": 352448,
@@ -3845,7 +4050,8 @@
      "minutos": 64,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 352448 tem 64 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 352448 tem 64 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.667
     },
     {
      "player_id": 831778,
@@ -3856,7 +4062,8 @@
      "minutos": 47,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 831778 tem 47 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 831778 tem 47 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1002617,
@@ -3867,7 +4074,8 @@
      "minutos": 40,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1002617 tem 40 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1002617 tem 40 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1411152,
@@ -3878,7 +4086,8 @@
      "minutos": 31,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1411152 tem 31 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1411152 tem 31 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1106667,
@@ -3889,7 +4098,8 @@
      "minutos": 23,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1106667 tem 23 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1106667 tem 23 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1411150,
@@ -3900,7 +4110,8 @@
      "minutos": 8,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1411150 tem 8 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1411150 tem 8 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     }
    ],
    "sairam": []
@@ -4014,7 +4225,8 @@
       "DEF": 96,
       "FIS": 81
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.603
     },
     {
      "player_id": 783490,
@@ -4032,7 +4244,8 @@
       "DEF": 72,
       "FIS": 71
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.218
     },
     {
      "player_id": 46620,
@@ -4050,7 +4263,8 @@
       "DEF": 34,
       "FIS": 71
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.528
     },
     {
      "player_id": 1463909,
@@ -4068,7 +4282,8 @@
       "DEF": 69,
       "FIS": 74
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.623
     },
     {
      "player_id": 599688,
@@ -4086,7 +4301,8 @@
       "DEF": 73,
       "FIS": 81
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.51
     },
     {
      "player_id": 96999,
@@ -4104,7 +4320,8 @@
       "DEF": 88,
       "FIS": 84
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.425
     },
     {
      "player_id": 992791,
@@ -4122,7 +4339,8 @@
       "DEF": 82,
       "FIS": 61
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.803
     },
     {
      "player_id": 865321,
@@ -4140,7 +4358,8 @@
       "DEF": 56,
       "FIS": 80
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.392
     },
     {
      "player_id": 829832,
@@ -4158,7 +4377,8 @@
       "DEF": 36,
       "FIS": 84
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.519
     },
     {
      "player_id": 822523,
@@ -4176,7 +4396,8 @@
       "DEF": 48,
       "FIS": 62
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.54
     },
     {
      "player_id": 796925,
@@ -4194,7 +4415,8 @@
       "DEF": 42,
       "FIS": 74
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.722
     },
     {
      "player_id": 931521,
@@ -4212,7 +4434,8 @@
       "DEF": 62,
       "FIS": 62
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.433
     },
     {
      "player_id": 973845,
@@ -4230,7 +4453,8 @@
       "DEF": 86,
       "FIS": 68
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.419
     },
     {
      "player_id": 552176,
@@ -4248,7 +4472,8 @@
       "DEF": 84,
       "FIS": 79
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.48
     },
     {
      "player_id": 247665,
@@ -4266,7 +4491,8 @@
       "DEF": 69,
       "FIS": 69
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.204
     },
     {
      "player_id": 90812,
@@ -4284,7 +4510,8 @@
       "DEF": 56,
       "FIS": 65
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.485
     },
     {
      "player_id": 147358,
@@ -4302,7 +4529,8 @@
       "DEF": 85,
       "FIS": 80
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.4
     },
     {
      "player_id": 124766,
@@ -4319,7 +4547,8 @@
       "PES": 72,
       "SAI": 52
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.5
     },
     {
      "player_id": 859083,
@@ -4337,7 +4566,8 @@
       "DEF": 74,
       "FIS": 73
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.804
     },
     {
      "player_id": 882351,
@@ -4355,7 +4585,8 @@
       "DEF": 79,
       "FIS": 68
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.804
     },
     {
      "player_id": 839635,
@@ -4373,7 +4604,8 @@
       "DEF": 36,
       "FIS": 82
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.433
     },
     {
      "player_id": 18082,
@@ -4391,7 +4623,8 @@
       "DEF": 31,
       "FIS": 62
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.433
     },
     {
      "player_id": 840166,
@@ -4402,7 +4635,8 @@
      "minutos": 419,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 840166 tem 419 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 840166 tem 419 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.5
     },
     {
      "player_id": 1015291,
@@ -4413,7 +4647,8 @@
      "minutos": 312,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1015291 tem 312 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1015291 tem 312 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.5
     },
     {
      "player_id": 794930,
@@ -4424,7 +4659,8 @@
      "minutos": 239,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 794930 tem 239 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 794930 tem 239 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.333
     },
     {
      "player_id": 998494,
@@ -4435,7 +4671,8 @@
      "minutos": 155,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 998494 tem 155 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 998494 tem 155 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.75
     },
     {
      "player_id": 1186631,
@@ -4446,7 +4683,8 @@
      "minutos": 72,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1186631 tem 72 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1186631 tem 72 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 849301,
@@ -4457,7 +4695,8 @@
      "minutos": 57,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 849301 tem 57 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 849301 tem 57 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1385610,
@@ -4468,7 +4707,8 @@
      "minutos": 56,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1385610 tem 56 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1385610 tem 56 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1462654,
@@ -4479,7 +4719,8 @@
      "minutos": 52,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1462654 tem 52 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1462654 tem 52 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1116590,
@@ -4490,7 +4731,8 @@
      "minutos": 46,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1116590 tem 46 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1116590 tem 46 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 158593,
@@ -4501,7 +4743,8 @@
      "minutos": 26,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 158593 tem 26 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 158593 tem 26 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1018777,
@@ -4512,7 +4755,8 @@
      "minutos": 17,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1018777 tem 17 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1018777 tem 17 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     }
    ],
    "sairam": []
@@ -4626,7 +4870,8 @@
       "DEF": 80,
       "FIS": 73
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.8
     },
     {
      "player_id": 377238,
@@ -4644,7 +4889,8 @@
       "DEF": 39,
       "FIS": 58
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.519
     },
     {
      "player_id": 978638,
@@ -4662,7 +4908,8 @@
       "DEF": 88,
       "FIS": 79
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.463
     },
     {
      "player_id": 263477,
@@ -4680,7 +4927,8 @@
       "DEF": 59,
       "FIS": 77
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.538
     },
     {
      "player_id": 844602,
@@ -4698,7 +4946,8 @@
       "DEF": 78,
       "FIS": 75
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.577
     },
     {
      "player_id": 870787,
@@ -4716,7 +4965,8 @@
       "DEF": 77,
       "FIS": 67
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.2
     },
     {
      "player_id": 245159,
@@ -4734,7 +4984,8 @@
       "DEF": 55,
       "FIS": 73
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.56
     },
     {
      "player_id": 27756,
@@ -4751,7 +5002,8 @@
       "PES": 96,
       "SAI": 68
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.5
     },
     {
      "player_id": 1002819,
@@ -4769,7 +5021,8 @@
       "DEF": 38,
       "FIS": 63
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.623
     },
     {
      "player_id": 949687,
@@ -4787,7 +5040,8 @@
       "DEF": 55,
       "FIS": 64
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.294
     },
     {
      "player_id": 330693,
@@ -4805,7 +5059,8 @@
       "DEF": 68,
       "FIS": 74
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.585
     },
     {
      "player_id": 954888,
@@ -4823,7 +5078,8 @@
       "DEF": 30,
       "FIS": 74
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.519
     },
     {
      "player_id": 260077,
@@ -4841,7 +5097,8 @@
       "DEF": 85,
       "FIS": 78
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.389
     },
     {
      "player_id": 822524,
@@ -4859,7 +5116,8 @@
       "DEF": 34,
       "FIS": 59
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.286
     },
     {
      "player_id": 912786,
@@ -4877,7 +5135,8 @@
       "DEF": 62,
       "FIS": 68
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.423
     },
     {
      "player_id": 1112484,
@@ -4895,7 +5154,8 @@
       "DEF": 82,
       "FIS": 66
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.2
     },
     {
      "player_id": 992093,
@@ -4913,7 +5173,8 @@
       "DEF": 33,
       "FIS": 74
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.477
     },
     {
      "player_id": 1836052,
@@ -4931,7 +5192,8 @@
       "DEF": 61,
       "FIS": 68
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.75
     },
     {
      "player_id": 823653,
@@ -4949,7 +5211,8 @@
       "DEF": 48,
       "FIS": 65
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.44
     },
     {
      "player_id": 243963,
@@ -4967,7 +5230,8 @@
       "DEF": 33,
       "FIS": 66
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.583
     },
     {
      "player_id": 942061,
@@ -4984,7 +5248,8 @@
       "PES": 82,
       "SAI": 73
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.5
     },
     {
      "player_id": 553686,
@@ -5002,7 +5267,8 @@
       "DEF": 62,
       "FIS": 64
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.472
     },
     {
      "player_id": 1500254,
@@ -5013,7 +5279,8 @@
      "minutos": 396,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1500254 tem 396 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1500254 tem 396 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.444
     },
     {
      "player_id": 1498670,
@@ -5024,7 +5291,8 @@
      "minutos": 343,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1498670 tem 343 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1498670 tem 343 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.637
     },
     {
      "player_id": 1459623,
@@ -5035,7 +5303,8 @@
      "minutos": 301,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1459623 tem 301 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1459623 tem 301 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.5
     },
     {
      "player_id": 1386893,
@@ -5046,7 +5315,8 @@
      "minutos": 278,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1386893 tem 278 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1386893 tem 278 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.378
     },
     {
      "player_id": 350082,
@@ -5057,7 +5327,8 @@
      "minutos": 237,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 350082 tem 237 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 350082 tem 237 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.5
     },
     {
      "player_id": 994479,
@@ -5068,7 +5339,8 @@
      "minutos": 165,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 994479 tem 165 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 994479 tem 165 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.8
     },
     {
      "player_id": 1836909,
@@ -5079,7 +5351,8 @@
      "minutos": 150,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1836909 tem 150 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1836909 tem 150 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.75
     },
     {
      "player_id": 928527,
@@ -5090,7 +5363,8 @@
      "minutos": 98,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 928527 tem 98 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 928527 tem 98 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 329597,
@@ -5101,7 +5375,8 @@
      "minutos": 88,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 329597 tem 88 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 329597 tem 88 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.8
     },
     {
      "player_id": 1633843,
@@ -5112,7 +5387,8 @@
      "minutos": 88,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1633843 tem 88 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1633843 tem 88 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1517440,
@@ -5123,7 +5399,8 @@
      "minutos": 78,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1517440 tem 78 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1517440 tem 78 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 846665,
@@ -5134,7 +5411,8 @@
      "minutos": 68,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 846665 tem 68 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 846665 tem 68 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.75
     },
     {
      "player_id": 1647579,
@@ -5145,7 +5423,8 @@
      "minutos": 57,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1647579 tem 57 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1647579 tem 57 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1105062,
@@ -5156,7 +5435,8 @@
      "minutos": 18,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1105062 tem 18 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1105062 tem 18 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1868440,
@@ -5167,7 +5447,8 @@
      "minutos": 9,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1868440 tem 9 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1868440 tem 9 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     }
    ],
    "sairam": []
@@ -5281,7 +5562,8 @@
       "DEF": 30,
       "FIS": 72
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.487
     },
     {
      "player_id": 221206,
@@ -5299,7 +5581,8 @@
       "DEF": 85,
       "FIS": 78
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.617
     },
     {
      "player_id": 931479,
@@ -5317,7 +5600,8 @@
       "DEF": 70,
       "FIS": 77
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.623
     },
     {
      "player_id": 329055,
@@ -5334,7 +5618,8 @@
       "PES": 84,
       "SAI": 50
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.5
     },
     {
      "player_id": 980761,
@@ -5352,7 +5637,8 @@
       "DEF": 71,
       "FIS": 63
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.197
     },
     {
      "player_id": 373740,
@@ -5370,7 +5656,8 @@
       "DEF": 76,
       "FIS": 70
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.364
     },
     {
      "player_id": 953736,
@@ -5388,7 +5675,8 @@
       "DEF": 73,
       "FIS": 76
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.808
     },
     {
      "player_id": 840077,
@@ -5406,7 +5694,8 @@
       "DEF": 66,
       "FIS": 77
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.531
     },
     {
      "player_id": 1175760,
@@ -5424,7 +5713,8 @@
       "DEF": 46,
       "FIS": 64
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.369
     },
     {
      "player_id": 811308,
@@ -5442,7 +5732,8 @@
       "DEF": 45,
       "FIS": 59
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.268
     },
     {
      "player_id": 551810,
@@ -5460,7 +5751,8 @@
       "DEF": 86,
       "FIS": 73
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.502
     },
     {
      "player_id": 994190,
@@ -5478,7 +5770,8 @@
       "DEF": 41,
       "FIS": 79
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.468
     },
     {
      "player_id": 790103,
@@ -5496,7 +5789,8 @@
       "DEF": 37,
       "FIS": 76
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.775
     },
     {
      "player_id": 1047213,
@@ -5514,7 +5808,8 @@
       "DEF": 80,
       "FIS": 67
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.802
     },
     {
      "player_id": 1105838,
@@ -5532,7 +5827,8 @@
       "DEF": 65,
       "FIS": 71
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.464
     },
     {
      "player_id": 837871,
@@ -5550,7 +5846,8 @@
       "DEF": 48,
       "FIS": 71
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.52
     },
     {
      "player_id": 254561,
@@ -5568,7 +5865,8 @@
       "DEF": 72,
       "FIS": 76
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.546
     },
     {
      "player_id": 1391413,
@@ -5586,7 +5884,8 @@
       "DEF": 42,
       "FIS": 78
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.75
     },
     {
      "player_id": 876286,
@@ -5604,7 +5903,8 @@
       "DEF": 44,
       "FIS": 76
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.708
     },
     {
      "player_id": 904505,
@@ -5622,7 +5922,8 @@
       "DEF": 47,
       "FIS": 66
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.679
     },
     {
      "player_id": 1102383,
@@ -5640,7 +5941,8 @@
       "DEF": 79,
       "FIS": 62
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.3
     },
     {
      "player_id": 1141510,
@@ -5651,7 +5953,8 @@
      "minutos": 342,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1141510 tem 342 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1141510 tem 342 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.175
     },
     {
      "player_id": 1465498,
@@ -5662,7 +5965,8 @@
      "minutos": 288,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1465498 tem 288 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1465498 tem 288 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.561
     },
     {
      "player_id": 914169,
@@ -5673,7 +5977,8 @@
      "minutos": 180,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 914169 tem 180 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 914169 tem 180 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.5
     },
     {
      "player_id": 1462231,
@@ -5684,7 +5989,8 @@
      "minutos": 145,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1462231 tem 145 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1462231 tem 145 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.75
     },
     {
      "player_id": 1463460,
@@ -5695,7 +6001,8 @@
      "minutos": 105,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1463460 tem 105 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1463460 tem 105 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1182435,
@@ -5706,7 +6013,8 @@
      "minutos": 97,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1182435 tem 97 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1182435 tem 97 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 809194,
@@ -5717,7 +6025,8 @@
      "minutos": 90,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 809194 tem 90 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 809194 tem 90 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.5
     },
     {
      "player_id": 1632322,
@@ -5728,7 +6037,8 @@
      "minutos": 24,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1632322 tem 24 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1632322 tem 24 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1633878,
@@ -5739,7 +6049,8 @@
      "minutos": 24,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1633878 tem 24 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1633878 tem 24 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1631777,
@@ -5750,7 +6061,8 @@
      "minutos": 12,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1631777 tem 12 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1631777 tem 12 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     }
    ],
    "sairam": []
@@ -5864,7 +6176,8 @@
       "DEF": 89,
       "FIS": 78
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.8
     },
     {
      "player_id": 611876,
@@ -5882,7 +6195,8 @@
       "DEF": 51,
       "FIS": 71
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.599
     },
     {
      "player_id": 818473,
@@ -5900,7 +6214,8 @@
       "DEF": 65,
       "FIS": 73
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.221
     },
     {
      "player_id": 795291,
@@ -5918,7 +6233,8 @@
       "DEF": 43,
       "FIS": 75
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.347
     },
     {
      "player_id": 590262,
@@ -5936,7 +6252,8 @@
       "DEF": 80,
       "FIS": 83
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.632
     },
     {
      "player_id": 840451,
@@ -5954,7 +6271,8 @@
       "DEF": 65,
       "FIS": 60
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.694
     },
     {
      "player_id": 840220,
@@ -5972,7 +6290,8 @@
       "DEF": 72,
       "FIS": 70
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.587
     },
     {
      "player_id": 358548,
@@ -5990,7 +6309,8 @@
       "DEF": 72,
       "FIS": 75
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.376
     },
     {
      "player_id": 869643,
@@ -6008,7 +6328,8 @@
       "DEF": 72,
       "FIS": 76
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.568
     },
     {
      "player_id": 840219,
@@ -6026,7 +6347,8 @@
       "DEF": 39,
       "FIS": 69
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.491
     },
     {
      "player_id": 1140986,
@@ -6043,7 +6365,8 @@
       "PES": 86,
       "SAI": 66
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.5
     },
     {
      "player_id": 21300,
@@ -6061,7 +6384,8 @@
       "DEF": 73,
       "FIS": 75
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.474
     },
     {
      "player_id": 828839,
@@ -6079,7 +6403,8 @@
       "DEF": 71,
       "FIS": 78
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.417
     },
     {
      "player_id": 877513,
@@ -6097,7 +6422,8 @@
       "DEF": 64,
       "FIS": 69
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.424
     },
     {
      "player_id": 333587,
@@ -6115,7 +6441,8 @@
       "DEF": 49,
       "FIS": 67
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.5
     },
     {
      "player_id": 1017392,
@@ -6133,7 +6460,8 @@
       "DEF": 60,
       "FIS": 74
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.398
     },
     {
      "player_id": 311456,
@@ -6151,7 +6479,8 @@
       "DEF": 76,
       "FIS": 76
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.8
     },
     {
      "player_id": 1145106,
@@ -6169,7 +6498,8 @@
       "DEF": 81,
       "FIS": 72
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.458
     },
     {
      "player_id": 1459764,
@@ -6187,7 +6517,8 @@
       "DEF": 45,
       "FIS": 68
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.552
     },
     {
      "player_id": 878084,
@@ -6205,7 +6536,8 @@
       "DEF": 47,
       "FIS": 67
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.319
     },
     {
      "player_id": 358554,
@@ -6223,7 +6555,8 @@
       "DEF": 29,
       "FIS": 59
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.5
     },
     {
      "player_id": 1175553,
@@ -6241,7 +6574,8 @@
       "DEF": 48,
       "FIS": 66
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.683
     },
     {
      "player_id": 937937,
@@ -6259,7 +6593,8 @@
       "DEF": 54,
       "FIS": 72
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.51
     },
     {
      "player_id": 84854,
@@ -6277,7 +6612,8 @@
       "DEF": 77,
       "FIS": 82
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.22
     },
     {
      "player_id": 386198,
@@ -6295,7 +6631,8 @@
       "DEF": 50,
       "FIS": 62
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.25
     },
     {
      "player_id": 852534,
@@ -6306,7 +6643,8 @@
      "minutos": 436,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 852534 tem 436 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 852534 tem 436 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.467
     },
     {
      "player_id": 875295,
@@ -6317,7 +6655,8 @@
      "minutos": 431,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 875295 tem 431 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 875295 tem 431 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.2
     },
     {
      "player_id": 1170954,
@@ -6328,7 +6667,8 @@
      "minutos": 282,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1170954 tem 282 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1170954 tem 282 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.25
     },
     {
      "player_id": 1105835,
@@ -6339,7 +6679,8 @@
      "minutos": 270,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1105835 tem 270 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1105835 tem 270 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.5
     },
     {
      "player_id": 1134199,
@@ -6350,7 +6691,8 @@
      "minutos": 102,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1134199 tem 102 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1134199 tem 102 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.4
     },
     {
      "player_id": 1170912,
@@ -6361,7 +6703,8 @@
      "minutos": 77,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1170912 tem 77 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1170912 tem 77 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.5
     },
     {
      "player_id": 1116390,
@@ -6372,7 +6715,8 @@
      "minutos": 49,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1116390 tem 49 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1116390 tem 49 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1645868,
@@ -6383,7 +6727,8 @@
      "minutos": 33,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1645868 tem 33 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1645868 tem 33 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1466084,
@@ -6394,7 +6739,8 @@
      "minutos": 15,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1466084 tem 15 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1466084 tem 15 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1634237,
@@ -6405,7 +6751,8 @@
      "minutos": 12,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1634237 tem 12 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1634237 tem 12 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1602833,
@@ -6416,7 +6763,8 @@
      "minutos": 8,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1602833 tem 8 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1602833 tem 8 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1459762,
@@ -6427,7 +6775,8 @@
      "minutos": 1,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1459762 tem 1 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1459762 tem 1 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1647589,
@@ -6438,7 +6787,8 @@
      "minutos": 1,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1647589 tem 1 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1647589 tem 1 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     }
    ],
    "sairam": []
@@ -6552,7 +6902,8 @@
       "DEF": 69,
       "FIS": 73
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.532
     },
     {
      "player_id": 844096,
@@ -6570,7 +6921,8 @@
       "DEF": 48,
       "FIS": 59
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.599
     },
     {
      "player_id": 795773,
@@ -6588,7 +6940,8 @@
       "DEF": 70,
       "FIS": 63
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.8
     },
     {
      "player_id": 17785,
@@ -6605,7 +6958,8 @@
       "PES": 65,
       "SAI": 71
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.5
     },
     {
      "player_id": 116853,
@@ -6623,7 +6977,8 @@
       "DEF": 46,
       "FIS": 60
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.522
     },
     {
      "player_id": 378590,
@@ -6641,7 +6996,8 @@
       "DEF": 85,
       "FIS": 78
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.396
     },
     {
      "player_id": 243107,
@@ -6659,7 +7015,8 @@
       "DEF": 65,
       "FIS": 71
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.2
     },
     {
      "player_id": 1482841,
@@ -6677,7 +7034,8 @@
       "DEF": 31,
       "FIS": 72
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.5
     },
     {
      "player_id": 807850,
@@ -6695,7 +7053,8 @@
       "DEF": 63,
       "FIS": 62
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.445
     },
     {
      "player_id": 1116954,
@@ -6713,7 +7072,8 @@
       "DEF": 50,
       "FIS": 72
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.724
     },
     {
      "player_id": 33238,
@@ -6731,7 +7091,8 @@
       "DEF": 34,
       "FIS": 61
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.492
     },
     {
      "player_id": 787607,
@@ -6749,7 +7110,8 @@
       "DEF": 55,
       "FIS": 63
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.256
     },
     {
      "player_id": 33541,
@@ -6767,7 +7129,8 @@
       "DEF": 78,
       "FIS": 74
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.6
     },
     {
      "player_id": 242209,
@@ -6785,7 +7148,8 @@
       "DEF": 91,
       "FIS": 84
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.577
     },
     {
      "player_id": 1177404,
@@ -6803,7 +7167,8 @@
       "DEF": 64,
       "FIS": 80
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.485
     },
     {
      "player_id": 981374,
@@ -6821,7 +7186,8 @@
       "DEF": 50,
       "FIS": 66
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.306
     },
     {
      "player_id": 1035996,
@@ -6839,7 +7205,8 @@
       "DEF": 81,
       "FIS": 60
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.514
     },
     {
      "player_id": 1185617,
@@ -6857,7 +7224,8 @@
       "DEF": 68,
       "FIS": 70
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.405
     },
     {
      "player_id": 17787,
@@ -6875,7 +7243,8 @@
       "DEF": 68,
       "FIS": 60
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.2
     },
     {
      "player_id": 1087399,
@@ -6893,7 +7262,8 @@
       "DEF": 37,
       "FIS": 73
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.433
     },
     {
      "player_id": 84845,
@@ -6911,7 +7281,8 @@
       "DEF": 74,
       "FIS": 62
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.533
     },
     {
      "player_id": 4811,
@@ -6929,7 +7300,8 @@
       "DEF": 83,
       "FIS": 75
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.429
     },
     {
      "player_id": 34152,
@@ -6940,7 +7312,8 @@
      "minutos": 444,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 34152 tem 444 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 34152 tem 444 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.35
     },
     {
      "player_id": 331853,
@@ -6951,7 +7324,8 @@
      "minutos": 353,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 331853 tem 353 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 331853 tem 353 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.512
     },
     {
      "player_id": 928134,
@@ -6962,7 +7336,8 @@
      "minutos": 327,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 928134 tem 327 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 928134 tem 327 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.637
     },
     {
      "player_id": 47908,
@@ -6973,7 +7348,8 @@
      "minutos": 309,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 47908 tem 309 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 47908 tem 309 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.75
     },
     {
      "player_id": 922566,
@@ -6984,7 +7360,8 @@
      "minutos": 308,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 922566 tem 308 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 922566 tem 308 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.667
     },
     {
      "player_id": 178407,
@@ -6995,7 +7372,8 @@
      "minutos": 238,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 178407 tem 238 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 178407 tem 238 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.556
     },
     {
      "player_id": 927551,
@@ -7006,7 +7384,8 @@
      "minutos": 228,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 927551 tem 228 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 927551 tem 228 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.2
     },
     {
      "player_id": 586662,
@@ -7017,7 +7396,8 @@
      "minutos": 212,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 586662 tem 212 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 586662 tem 212 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.708
     },
     {
      "player_id": 958382,
@@ -7028,7 +7408,8 @@
      "minutos": 195,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 958382 tem 195 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 958382 tem 195 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.5
     },
     {
      "player_id": 1464519,
@@ -7039,7 +7420,8 @@
      "minutos": 173,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1464519 tem 173 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1464519 tem 173 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.25
     },
     {
      "player_id": 1586575,
@@ -7050,7 +7432,8 @@
      "minutos": 166,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1586575 tem 166 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1586575 tem 166 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1597264,
@@ -7061,7 +7444,8 @@
      "minutos": 131,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1597264 tem 131 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1597264 tem 131 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.2
     },
     {
      "player_id": 1395634,
@@ -7072,7 +7456,8 @@
      "minutos": 122,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1395634 tem 122 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1395634 tem 122 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.5
     },
     {
      "player_id": 1175135,
@@ -7083,7 +7468,8 @@
      "minutos": 91,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1175135 tem 91 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1175135 tem 91 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 927666,
@@ -7094,7 +7480,8 @@
      "minutos": 90,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 927666 tem 90 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 927666 tem 90 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.5
     },
     {
      "player_id": 988906,
@@ -7105,7 +7492,8 @@
      "minutos": 78,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 988906 tem 78 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 988906 tem 78 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1835892,
@@ -7116,7 +7504,8 @@
      "minutos": 1,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1835892 tem 1 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1835892 tem 1 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     }
    ],
    "sairam": []
@@ -7229,7 +7618,8 @@
       "PES": 58,
       "SAI": 61
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.5
     },
     {
      "player_id": 789395,
@@ -7247,7 +7637,8 @@
       "DEF": 86,
       "FIS": 77
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.679
     },
     {
      "player_id": 330057,
@@ -7265,7 +7656,8 @@
       "DEF": 84,
       "FIS": 80
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.798
     },
     {
      "player_id": 359024,
@@ -7283,7 +7675,8 @@
       "DEF": 39,
       "FIS": 63
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.5
     },
     {
      "player_id": 937552,
@@ -7301,7 +7694,8 @@
       "DEF": 46,
       "FIS": 61
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.284
     },
     {
      "player_id": 824626,
@@ -7319,7 +7713,8 @@
       "DEF": 50,
       "FIS": 70
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.518
     },
     {
      "player_id": 1104068,
@@ -7337,7 +7732,8 @@
       "DEF": 58,
       "FIS": 63
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.615
     },
     {
      "player_id": 590324,
@@ -7355,7 +7751,8 @@
       "DEF": 83,
       "FIS": 79
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.581
     },
     {
      "player_id": 243435,
@@ -7373,7 +7770,8 @@
       "DEF": 84,
       "FIS": 69
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.376
     },
     {
      "player_id": 363688,
@@ -7391,7 +7789,8 @@
       "DEF": 48,
       "FIS": 58
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.762
     },
     {
      "player_id": 1046501,
@@ -7409,7 +7808,8 @@
       "DEF": 35,
       "FIS": 76
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.34
     },
     {
      "player_id": 849020,
@@ -7427,7 +7827,8 @@
       "DEF": 92,
       "FIS": 78
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.4
     },
     {
      "player_id": 123225,
@@ -7445,7 +7846,8 @@
       "DEF": 89,
       "FIS": 70
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.5
     },
     {
      "player_id": 814723,
@@ -7462,7 +7864,8 @@
       "DEF": 33,
       "FIS": 78
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.513
     },
     {
      "player_id": 922556,
@@ -7480,7 +7883,8 @@
       "DEF": 89,
       "FIS": 78
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.431
     },
     {
      "player_id": 842682,
@@ -7498,7 +7902,8 @@
       "DEF": 57,
       "FIS": 68
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.412
     },
     {
      "player_id": 931574,
@@ -7516,7 +7921,8 @@
       "DEF": 82,
       "FIS": 70
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.2
     },
     {
      "player_id": 798127,
@@ -7534,7 +7940,8 @@
       "DEF": 51,
       "FIS": 60
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.748
     },
     {
      "player_id": 870691,
@@ -7552,7 +7959,8 @@
       "DEF": 73,
       "FIS": 76
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.194
     },
     {
      "player_id": 794312,
@@ -7570,7 +7978,8 @@
       "DEF": 64,
       "FIS": 69
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.383
     },
     {
      "player_id": 551422,
@@ -7588,7 +7997,8 @@
       "DEF": 79,
       "FIS": 71
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.458
     },
     {
      "player_id": 974698,
@@ -7606,7 +8016,8 @@
       "DEF": 33,
       "FIS": 69
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.542
     },
     {
      "player_id": 1116624,
@@ -7624,7 +8035,8 @@
       "DEF": 68,
       "FIS": 61
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.306
     },
     {
      "player_id": 1117065,
@@ -7642,7 +8054,8 @@
       "DEF": 41,
       "FIS": 61
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.5
     },
     {
      "player_id": 1046796,
@@ -7653,7 +8066,8 @@
      "minutos": 123,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1046796 tem 123 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1046796 tem 123 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1516708,
@@ -7664,7 +8078,8 @@
      "minutos": 52,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1516708 tem 52 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1516708 tem 52 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     }
    ],
    "sairam": []
@@ -7778,7 +8193,8 @@
       "DEF": 67,
       "FIS": 70
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.8
     },
     {
      "player_id": 870804,
@@ -7796,7 +8212,8 @@
       "DEF": 77,
       "FIS": 64
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.471
     },
     {
      "player_id": 1139775,
@@ -7814,7 +8231,8 @@
       "DEF": 91,
       "FIS": 66
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.573
     },
     {
      "player_id": 558820,
@@ -7832,7 +8250,8 @@
       "DEF": 50,
       "FIS": 71
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.473
     },
     {
      "player_id": 243109,
@@ -7850,7 +8269,8 @@
       "DEF": 68,
       "FIS": 60
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.2
     },
     {
      "player_id": 66471,
@@ -7868,7 +8288,8 @@
       "DEF": 31,
       "FIS": 79
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.528
     },
     {
      "player_id": 358956,
@@ -7886,7 +8307,8 @@
       "DEF": 55,
       "FIS": 72
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.734
     },
     {
      "player_id": 789960,
@@ -7904,7 +8326,8 @@
       "DEF": 47,
       "FIS": 53
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.374
     },
     {
      "player_id": 168745,
@@ -7922,7 +8345,8 @@
       "DEF": 89,
       "FIS": 80
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.595
     },
     {
      "player_id": 47339,
@@ -7939,7 +8363,8 @@
       "PES": 55,
       "SAI": 59
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.5
     },
     {
      "player_id": 1105796,
@@ -7957,7 +8382,8 @@
       "DEF": 81,
       "FIS": 79
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.5
     },
     {
      "player_id": 221636,
@@ -7975,7 +8401,8 @@
       "DEF": 60,
       "FIS": 74
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.656
     },
     {
      "player_id": 946945,
@@ -7993,7 +8420,8 @@
       "DEF": 74,
       "FIS": 74
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.41
     },
     {
      "player_id": 1514747,
@@ -8011,7 +8439,8 @@
       "DEF": 43,
       "FIS": 63
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.286
     },
     {
      "player_id": 249647,
@@ -8029,7 +8458,8 @@
       "DEF": 87,
       "FIS": 79
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.377
     },
     {
      "player_id": 1066620,
@@ -8047,7 +8477,8 @@
       "DEF": 40,
       "FIS": 60
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.525
     },
     {
      "player_id": 1000502,
@@ -8065,7 +8496,8 @@
       "DEF": 47,
       "FIS": 72
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.295
     },
     {
      "player_id": 328519,
@@ -8083,7 +8515,8 @@
       "DEF": 79,
       "FIS": 76
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.403
     },
     {
      "player_id": 21212,
@@ -8101,7 +8534,8 @@
       "DEF": 45,
       "FIS": 79
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.433
     },
     {
      "player_id": 13338,
@@ -8119,7 +8553,8 @@
       "DEF": 88,
       "FIS": 76
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.6
     },
     {
      "player_id": 1128129,
@@ -8137,7 +8572,8 @@
       "DEF": 64,
       "FIS": 65
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.667
     },
     {
      "player_id": 1494695,
@@ -8155,7 +8591,8 @@
       "DEF": 37,
       "FIS": 65
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.75
     },
     {
      "player_id": 40677,
@@ -8173,7 +8610,8 @@
       "DEF": 70,
       "FIS": 74
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.65
     },
     {
      "player_id": 123208,
@@ -8191,7 +8629,8 @@
       "DEF": 33,
       "FIS": 79
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.524
     },
     {
      "player_id": 805038,
@@ -8209,7 +8648,8 @@
       "DEF": 60,
       "FIS": 74
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.427
     },
     {
      "player_id": 871162,
@@ -8227,7 +8667,8 @@
       "DEF": 41,
       "FIS": 64
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.487
     },
     {
      "player_id": 1175603,
@@ -8245,7 +8686,8 @@
       "DEF": 87,
       "FIS": 71
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.44
     },
     {
      "player_id": 839514,
@@ -8262,7 +8704,8 @@
       "PES": 46,
       "SAI": 87
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.5
     },
     {
      "player_id": 124980,
@@ -8279,7 +8722,8 @@
       "PES": 55,
       "SAI": 69
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.5
     },
     {
      "player_id": 166273,
@@ -8290,7 +8734,8 @@
      "minutos": 376,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 166273 tem 376 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 166273 tem 376 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.6
     },
     {
      "player_id": 944459,
@@ -8301,7 +8746,8 @@
      "minutos": 367,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 944459 tem 367 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 944459 tem 367 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.2
     },
     {
      "player_id": 358538,
@@ -8312,7 +8758,8 @@
      "minutos": 338,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 358538 tem 338 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 358538 tem 338 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.528
     },
     {
      "player_id": 1476894,
@@ -8323,7 +8770,8 @@
      "minutos": 225,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1476894 tem 225 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1476894 tem 225 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.2
     },
     {
      "player_id": 975814,
@@ -8334,7 +8782,8 @@
      "minutos": 135,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 975814 tem 135 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 975814 tem 135 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1631876,
@@ -8345,7 +8794,8 @@
      "minutos": 120,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1631876 tem 120 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1631876 tem 120 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.8
     },
     {
      "player_id": 1587711,
@@ -8356,7 +8806,8 @@
      "minutos": 100,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1587711 tem 100 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1587711 tem 100 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1631879,
@@ -8367,7 +8818,8 @@
      "minutos": 74,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1631879 tem 74 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1631879 tem 74 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     }
    ],
    "sairam": []
@@ -8481,7 +8933,8 @@
       "DEF": 50,
       "FIS": 76
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.333
     },
     {
      "player_id": 358550,
@@ -8499,7 +8952,8 @@
       "DEF": 78,
       "FIS": 82
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.426
     },
     {
      "player_id": 989200,
@@ -8517,7 +8971,8 @@
       "DEF": 87,
       "FIS": 77
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.2
     },
     {
      "player_id": 995071,
@@ -8535,7 +8990,8 @@
       "DEF": 75,
       "FIS": 75
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.757
     },
     {
      "player_id": 345113,
@@ -8553,7 +9009,8 @@
       "DEF": 65,
       "FIS": 78
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.583
     },
     {
      "player_id": 876625,
@@ -8571,7 +9028,8 @@
       "DEF": 72,
       "FIS": 74
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.5
     },
     {
      "player_id": 560116,
@@ -8589,7 +9047,8 @@
       "DEF": 31,
       "FIS": 78
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.528
     },
     {
      "player_id": 989384,
@@ -8607,7 +9066,8 @@
       "DEF": 88,
       "FIS": 84
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.517
     },
     {
      "player_id": 124997,
@@ -8625,7 +9085,8 @@
       "DEF": 41,
       "FIS": 64
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.517
     },
     {
      "player_id": 41837,
@@ -8643,7 +9104,8 @@
       "DEF": 75,
       "FIS": 78
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.521
     },
     {
      "player_id": 1485218,
@@ -8661,7 +9123,8 @@
       "DEF": 45,
       "FIS": 65
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.683
     },
     {
      "player_id": 845433,
@@ -8679,7 +9142,8 @@
       "DEF": 53,
       "FIS": 70
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.673
     },
     {
      "player_id": 243113,
@@ -8697,7 +9161,8 @@
       "DEF": 89,
       "FIS": 84
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.2
     },
     {
      "player_id": 247483,
@@ -8715,7 +9180,8 @@
       "DEF": 37,
       "FIS": 63
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.245
     },
     {
      "player_id": 850023,
@@ -8733,7 +9199,8 @@
       "DEF": 78,
       "FIS": 72
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.8
     },
     {
      "player_id": 581060,
@@ -8750,7 +9217,8 @@
       "PES": 58,
       "SAI": 77
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.5
     },
     {
      "player_id": 106456,
@@ -8768,7 +9236,8 @@
       "DEF": 30,
       "FIS": 70
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.5
     },
     {
      "player_id": 1191278,
@@ -8786,7 +9255,8 @@
       "DEF": 89,
       "FIS": 71
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.34
     },
     {
      "player_id": 997023,
@@ -8804,7 +9274,8 @@
       "DEF": 87,
       "FIS": 78
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.714
     },
     {
      "player_id": 128376,
@@ -8822,7 +9293,8 @@
       "DEF": 70,
       "FIS": 72
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.431
     },
     {
      "player_id": 875293,
@@ -8840,7 +9312,8 @@
       "DEF": 71,
       "FIS": 80
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.6
     },
     {
      "player_id": 1485220,
@@ -8858,7 +9331,8 @@
       "DEF": 49,
       "FIS": 69
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.583
     },
     {
      "player_id": 249893,
@@ -8876,7 +9350,8 @@
       "DEF": 35,
       "FIS": 79
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.472
     },
     {
      "player_id": 1394242,
@@ -8894,7 +9369,8 @@
       "DEF": 80,
       "FIS": 77
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.6
     },
     {
      "player_id": 883917,
@@ -8911,7 +9387,8 @@
       "PES": 50,
       "SAI": 83
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.5
     },
     {
      "player_id": 83506,
@@ -8922,7 +9399,8 @@
      "minutos": 370,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 83506 tem 370 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 83506 tem 370 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.8
     },
     {
      "player_id": 551348,
@@ -8933,7 +9411,8 @@
      "minutos": 358,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 551348 tem 358 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 551348 tem 358 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.417
     },
     {
      "player_id": 1199435,
@@ -8944,7 +9423,8 @@
      "minutos": 306,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1199435 tem 306 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1199435 tem 306 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.333
     },
     {
      "player_id": 18304,
@@ -8955,7 +9435,8 @@
      "minutos": 285,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 18304 tem 285 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 18304 tem 285 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.417
     },
     {
      "player_id": 1106134,
@@ -8966,7 +9447,8 @@
      "minutos": 180,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1106134 tem 180 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1106134 tem 180 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.5
     },
     {
      "player_id": 1878437,
@@ -8977,7 +9459,8 @@
      "minutos": 158,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1878437 tem 158 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1878437 tem 158 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.5
     },
     {
      "player_id": 1084963,
@@ -8988,7 +9471,8 @@
      "minutos": 90,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1084963 tem 90 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1084963 tem 90 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.8
     },
     {
      "player_id": 1483340,
@@ -8999,7 +9483,8 @@
      "minutos": 86,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1483340 tem 86 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1483340 tem 86 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1835768,
@@ -9010,7 +9495,8 @@
      "minutos": 75,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1835768 tem 75 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1835768 tem 75 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1020610,
@@ -9021,7 +9507,8 @@
      "minutos": 69,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1020610 tem 69 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1020610 tem 69 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.75
     },
     {
      "player_id": 1016912,
@@ -9032,7 +9519,8 @@
      "minutos": 4,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1016912 tem 4 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1016912 tem 4 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     }
    ],
    "sairam": []
@@ -9146,7 +9634,8 @@
       "DEF": 71,
       "FIS": 65
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.648
     },
     {
      "player_id": 924226,
@@ -9164,7 +9653,8 @@
       "DEF": 83,
       "FIS": 82
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.594
     },
     {
      "player_id": 981019,
@@ -9182,7 +9672,8 @@
       "DEF": 75,
       "FIS": 71
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.8
     },
     {
      "player_id": 1067641,
@@ -9200,7 +9691,8 @@
       "DEF": 54,
       "FIS": 79
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.753
     },
     {
      "player_id": 147467,
@@ -9217,7 +9709,8 @@
       "PES": 75,
       "SAI": 80
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.5
     },
     {
      "player_id": 551674,
@@ -9235,7 +9728,8 @@
       "DEF": 83,
       "FIS": 68
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.2
     },
     {
      "player_id": 927667,
@@ -9253,7 +9747,8 @@
       "DEF": 56,
       "FIS": 71
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.304
     },
     {
      "player_id": 901700,
@@ -9271,7 +9766,8 @@
       "DEF": 79,
       "FIS": 81
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.409
     },
     {
      "player_id": 5672,
@@ -9289,7 +9785,8 @@
       "DEF": 42,
       "FIS": 63
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.467
     },
     {
      "player_id": 871032,
@@ -9307,7 +9804,8 @@
       "DEF": 80,
       "FIS": 67
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.337
     },
     {
      "player_id": 992512,
@@ -9325,7 +9823,8 @@
       "DEF": 86,
       "FIS": 76
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.592
     },
     {
      "player_id": 824152,
@@ -9343,7 +9842,8 @@
       "DEF": 76,
       "FIS": 85
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.41
     },
     {
      "player_id": 1116677,
@@ -9361,7 +9861,8 @@
       "DEF": 53,
       "FIS": 78
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.467
     },
     {
      "player_id": 850475,
@@ -9379,7 +9880,8 @@
       "DEF": 50,
       "FIS": 70
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.474
     },
     {
      "player_id": 158561,
@@ -9397,7 +9899,8 @@
       "DEF": 32,
       "FIS": 80
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.489
     },
     {
      "player_id": 1069729,
@@ -9415,7 +9918,8 @@
       "DEF": 82,
       "FIS": 68
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.36
     },
     {
      "player_id": 1046439,
@@ -9433,7 +9937,8 @@
       "DEF": 40,
       "FIS": 68
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.405
     },
     {
      "player_id": 933955,
@@ -9451,7 +9956,8 @@
       "DEF": 31,
       "FIS": 73
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.5
     },
     {
      "player_id": 1047680,
@@ -9469,7 +9975,8 @@
       "DEF": 78,
       "FIS": 77
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.286
     },
     {
      "player_id": 794640,
@@ -9487,7 +9994,8 @@
       "DEF": 92,
       "FIS": 83
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.5
     },
     {
      "player_id": 922570,
@@ -9505,7 +10013,8 @@
       "DEF": 72,
       "FIS": 66
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.567
     },
     {
      "player_id": 1048612,
@@ -9523,7 +10032,8 @@
       "DEF": 40,
       "FIS": 66
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.25
     },
     {
      "player_id": 873891,
@@ -9541,7 +10051,8 @@
       "DEF": 40,
       "FIS": 77
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.537
     },
     {
      "player_id": 974334,
@@ -9552,7 +10063,8 @@
      "minutos": 405,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 974334 tem 405 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 974334 tem 405 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.5
     },
     {
      "player_id": 933329,
@@ -9563,7 +10075,8 @@
      "minutos": 307,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 933329 tem 307 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 933329 tem 307 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.333
     },
     {
      "player_id": 870270,
@@ -9574,7 +10087,8 @@
      "minutos": 272,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 870270 tem 272 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 870270 tem 272 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.444
     },
     {
      "player_id": 1176038,
@@ -9585,7 +10099,8 @@
      "minutos": 238,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1176038 tem 238 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1176038 tem 238 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.7
     },
     {
      "player_id": 344077,
@@ -9596,7 +10111,8 @@
      "minutos": 193,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 344077 tem 193 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 344077 tem 193 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1047095,
@@ -9607,7 +10123,8 @@
      "minutos": 121,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1047095 tem 121 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1047095 tem 121 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1464653,
@@ -9618,7 +10135,8 @@
      "minutos": 110,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1464653 tem 110 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1464653 tem 110 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.6
     },
     {
      "player_id": 1400494,
@@ -9629,7 +10147,8 @@
      "minutos": 109,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1400494 tem 109 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1400494 tem 109 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1823607,
@@ -9640,7 +10159,8 @@
      "minutos": 65,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1823607 tem 65 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1823607 tem 65 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.4
     },
     {
      "player_id": 1104714,
@@ -9651,7 +10171,8 @@
      "minutos": 60,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1104714 tem 60 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1104714 tem 60 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1046696,
@@ -9662,7 +10183,8 @@
      "minutos": 28,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1046696 tem 28 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1046696 tem 28 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1049781,
@@ -9673,7 +10195,8 @@
      "minutos": 26,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1049781 tem 26 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1049781 tem 26 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     }
    ],
    "sairam": []
@@ -9787,7 +10310,8 @@
       "DEF": 47,
       "FIS": 65
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.539
     },
     {
      "player_id": 977677,
@@ -9805,7 +10329,8 @@
       "DEF": 75,
       "FIS": 69
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.502
     },
     {
      "player_id": 1094179,
@@ -9823,7 +10348,8 @@
       "DEF": 39,
       "FIS": 82
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.5
     },
     {
      "player_id": 1597265,
@@ -9841,7 +10367,8 @@
       "DEF": 43,
       "FIS": 60
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.75
     },
     {
      "player_id": 243529,
@@ -9858,7 +10385,8 @@
       "PES": 60,
       "SAI": 76
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.5
     },
     {
      "player_id": 220833,
@@ -9876,7 +10404,8 @@
       "DEF": 85,
       "FIS": 79
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.548
     },
     {
      "player_id": 874729,
@@ -9894,7 +10423,8 @@
       "DEF": 80,
       "FIS": 79
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.374
     },
     {
      "player_id": 82576,
@@ -9912,7 +10442,8 @@
       "DEF": 85,
       "FIS": 69
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.795
     },
     {
      "player_id": 835260,
@@ -9930,7 +10461,8 @@
       "DEF": 34,
       "FIS": 68
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.412
     },
     {
      "player_id": 1015292,
@@ -9948,7 +10480,8 @@
       "DEF": 71,
       "FIS": 75
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.563
     },
     {
      "player_id": 152276,
@@ -9966,7 +10499,8 @@
       "DEF": 67,
       "FIS": 67
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.281
     },
     {
      "player_id": 986233,
@@ -9984,7 +10518,8 @@
       "DEF": 45,
       "FIS": 68
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.555
     },
     {
      "player_id": 273329,
@@ -10002,7 +10537,8 @@
       "DEF": 89,
       "FIS": 75
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.8
     },
     {
      "player_id": 1485300,
@@ -10020,7 +10556,8 @@
       "DEF": 77,
       "FIS": 81
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.591
     },
     {
      "player_id": 881110,
@@ -10038,7 +10575,8 @@
       "DEF": 74,
       "FIS": 72
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.203
     },
     {
      "player_id": 974556,
@@ -10056,7 +10594,8 @@
       "DEF": 68,
       "FIS": 72
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.395
     },
     {
      "player_id": 931591,
@@ -10074,7 +10613,8 @@
       "DEF": 68,
       "FIS": 66
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.209
     },
     {
      "player_id": 1067640,
@@ -10092,7 +10632,8 @@
       "DEF": 70,
       "FIS": 71
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.2
     },
     {
      "player_id": 329069,
@@ -10110,7 +10651,8 @@
       "DEF": 65,
       "FIS": 68
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.4
     },
     {
      "player_id": 1002556,
@@ -10128,7 +10670,8 @@
       "DEF": 31,
       "FIS": 70
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.296
     },
     {
      "player_id": 1117513,
@@ -10146,7 +10689,8 @@
       "DEF": 71,
       "FIS": 80
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.542
     },
     {
      "player_id": 1167068,
@@ -10164,7 +10708,8 @@
       "DEF": 88,
       "FIS": 76
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.522
     },
     {
      "player_id": 1106603,
@@ -10182,7 +10727,8 @@
       "DEF": 73,
       "FIS": 69
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.8
     },
     {
      "player_id": 147464,
@@ -10200,7 +10746,8 @@
       "DEF": 38,
       "FIS": 68
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.521
     },
     {
      "player_id": 1174937,
@@ -10217,7 +10764,8 @@
       "DEF": 32,
       "FIS": 68
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.486
     },
     {
      "player_id": 250351,
@@ -10228,7 +10776,8 @@
      "minutos": 237,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 250351 tem 237 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 250351 tem 237 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.5
     },
     {
      "player_id": 1016893,
@@ -10239,7 +10788,8 @@
      "minutos": 181,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1016893 tem 181 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1016893 tem 181 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.8
     },
     {
      "player_id": 1105078,
@@ -10250,7 +10800,8 @@
      "minutos": 180,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1105078 tem 180 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1105078 tem 180 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.25
     },
     {
      "player_id": 34141,
@@ -10261,7 +10812,8 @@
      "minutos": 90,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 34141 tem 90 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 34141 tem 90 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.5
     },
     {
      "player_id": 1597267,
@@ -10272,7 +10824,8 @@
      "minutos": 28,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1597267 tem 28 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1597267 tem 28 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1002443,
@@ -10283,7 +10836,8 @@
      "minutos": 22,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1002443 tem 22 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1002443 tem 22 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     }
    ],
    "sairam": []
@@ -10397,7 +10951,8 @@
       "DEF": 69,
       "FIS": 76
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.431
     },
     {
      "player_id": 143846,
@@ -10415,7 +10970,8 @@
       "DEF": 38,
       "FIS": 79
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.497
     },
     {
      "player_id": 870556,
@@ -10433,7 +10989,8 @@
       "DEF": 87,
       "FIS": 78
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.21
     },
     {
      "player_id": 844576,
@@ -10450,7 +11007,8 @@
       "PES": 58,
       "SAI": 98
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.5
     },
     {
      "player_id": 551774,
@@ -10468,7 +11026,8 @@
       "DEF": 80,
       "FIS": 74
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.585
     },
     {
      "player_id": 982405,
@@ -10486,7 +11045,8 @@
       "DEF": 43,
       "FIS": 71
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.389
     },
     {
      "player_id": 905459,
@@ -10504,7 +11064,8 @@
       "DEF": 87,
       "FIS": 80
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.305
     },
     {
      "player_id": 1170680,
@@ -10522,7 +11083,8 @@
       "DEF": 38,
       "FIS": 64
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.452
     },
     {
      "player_id": 925189,
@@ -10540,7 +11102,8 @@
       "DEF": 84,
       "FIS": 77
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.431
     },
     {
      "player_id": 964127,
@@ -10558,7 +11121,8 @@
       "DEF": 76,
       "FIS": 68
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.66
     },
     {
      "player_id": 794928,
@@ -10576,7 +11140,8 @@
       "DEF": 65,
       "FIS": 66
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.52
     },
     {
      "player_id": 987589,
@@ -10594,7 +11159,8 @@
       "DEF": 80,
       "FIS": 69
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.8
     },
     {
      "player_id": 870760,
@@ -10612,7 +11178,8 @@
       "DEF": 80,
       "FIS": 68
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.499
     },
     {
      "player_id": 906837,
@@ -10630,7 +11197,8 @@
       "DEF": 45,
       "FIS": 64
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.744
     },
     {
      "player_id": 1167069,
@@ -10648,7 +11216,8 @@
       "DEF": 57,
       "FIS": 65
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.36
     },
     {
      "player_id": 840150,
@@ -10666,7 +11235,8 @@
       "DEF": 83,
       "FIS": 76
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.583
     },
     {
      "player_id": 1134472,
@@ -10684,7 +11254,8 @@
       "DEF": 82,
       "FIS": 81
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.615
     },
     {
      "player_id": 1116955,
@@ -10702,7 +11273,8 @@
       "DEF": 77,
       "FIS": 70
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.8
     },
     {
      "player_id": 1463904,
@@ -10720,7 +11292,8 @@
       "DEF": 53,
       "FIS": 71
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.659
     },
     {
      "player_id": 950545,
@@ -10738,7 +11311,8 @@
       "DEF": 59,
       "FIS": 66
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.538
     },
     {
      "player_id": 1587965,
@@ -10756,7 +11330,8 @@
       "DEF": 44,
       "FIS": 68
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.393
     },
     {
      "player_id": 1018547,
@@ -10774,7 +11349,8 @@
       "DEF": 47,
       "FIS": 76
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.5
     },
     {
      "player_id": 1097858,
@@ -10792,7 +11368,8 @@
       "DEF": 79,
       "FIS": 75
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.2
     },
     {
      "player_id": 794139,
@@ -10810,7 +11387,8 @@
       "DEF": 75,
       "FIS": 75
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.469
     },
     {
      "player_id": 981586,
@@ -10827,7 +11405,8 @@
       "PES": 50,
       "SAI": 75
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.5
     },
     {
      "player_id": 948004,
@@ -10838,7 +11417,8 @@
      "minutos": 284,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 948004 tem 284 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 948004 tem 284 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.75
     },
     {
      "player_id": 1170780,
@@ -10849,7 +11429,8 @@
      "minutos": 189,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1170780 tem 189 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1170780 tem 189 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 110950,
@@ -10860,7 +11441,8 @@
      "minutos": 185,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 110950 tem 185 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 110950 tem 185 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.5
     },
     {
      "player_id": 1463902,
@@ -10871,7 +11453,8 @@
      "minutos": 113,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1463902 tem 113 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1463902 tem 113 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.5
     },
     {
      "player_id": 977676,
@@ -10882,7 +11465,8 @@
      "minutos": 90,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 977676 tem 90 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 977676 tem 90 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.4
     },
     {
      "player_id": 1047208,
@@ -10893,7 +11477,8 @@
      "minutos": 90,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1047208 tem 90 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1047208 tem 90 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.5
     },
     {
      "player_id": 1868441,
@@ -10904,7 +11489,8 @@
      "minutos": 79,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1868441 tem 79 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1868441 tem 79 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.75
     },
     {
      "player_id": 2125637,
@@ -10915,7 +11501,8 @@
      "minutos": 47,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 2125637 tem 47 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 2125637 tem 47 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1525493,
@@ -10926,7 +11513,8 @@
      "minutos": 29,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1525493 tem 29 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1525493 tem 29 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1199479,
@@ -10937,7 +11525,8 @@
      "minutos": 24,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1199479 tem 24 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1199479 tem 24 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1485595,
@@ -10948,7 +11537,8 @@
      "minutos": 23,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1485595 tem 23 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1485595 tem 23 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1828982,
@@ -10959,7 +11549,8 @@
      "minutos": 23,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1828982 tem 23 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1828982 tem 23 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1590502,
@@ -10970,7 +11561,8 @@
      "minutos": 10,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1590502 tem 10 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1590502 tem 10 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     }
    ],
    "sairam": []
@@ -11084,7 +11676,8 @@
       "DEF": 49,
       "FIS": 64
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.531
     },
     {
      "player_id": 149710,
@@ -11102,7 +11695,8 @@
       "DEF": 52,
       "FIS": 72
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.554
     },
     {
      "player_id": 840119,
@@ -11120,7 +11714,8 @@
       "DEF": 65,
       "FIS": 62
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.8
     },
     {
      "player_id": 29735,
@@ -11138,7 +11733,8 @@
       "DEF": 72,
       "FIS": 71
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.378
     },
     {
      "player_id": 340519,
@@ -11156,7 +11752,8 @@
       "DEF": 34,
       "FIS": 79
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.479
     },
     {
      "player_id": 338937,
@@ -11174,7 +11771,8 @@
       "DEF": 79,
       "FIS": 77
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.576
     },
     {
      "player_id": 875402,
@@ -11192,7 +11790,8 @@
       "DEF": 73,
       "FIS": 72
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.394
     },
     {
      "player_id": 1009920,
@@ -11210,7 +11809,8 @@
       "DEF": 72,
       "FIS": 73
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.2
     },
     {
      "player_id": 291723,
@@ -11228,7 +11828,8 @@
       "DEF": 62,
       "FIS": 66
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.554
     },
     {
      "player_id": 925072,
@@ -11246,7 +11847,8 @@
       "DEF": 38,
       "FIS": 72
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.495
     },
     {
      "player_id": 865356,
@@ -11264,7 +11866,8 @@
       "DEF": 47,
       "FIS": 69
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.755
     },
     {
      "player_id": 998499,
@@ -11282,7 +11885,8 @@
       "DEF": 39,
       "FIS": 61
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.25
     },
     {
      "player_id": 924857,
@@ -11300,7 +11904,8 @@
       "DEF": 55,
       "FIS": 77
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.226
     },
     {
      "player_id": 905461,
@@ -11318,7 +11923,8 @@
       "DEF": 59,
       "FIS": 67
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.35
     },
     {
      "player_id": 1015261,
@@ -11336,7 +11942,8 @@
       "DEF": 56,
       "FIS": 66
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.59
     },
     {
      "player_id": 975118,
@@ -11354,7 +11961,8 @@
       "DEF": 86,
       "FIS": 79
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.323
     },
     {
      "player_id": 995293,
@@ -11372,7 +11980,8 @@
       "DEF": 83,
       "FIS": 82
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.528
     },
     {
      "player_id": 895650,
@@ -11390,7 +11999,8 @@
       "DEF": 37,
       "FIS": 70
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.736
     },
     {
      "player_id": 881215,
@@ -11408,7 +12018,8 @@
       "DEF": 82,
       "FIS": 69
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.617
     },
     {
      "player_id": 905453,
@@ -11426,7 +12037,8 @@
       "DEF": 60,
       "FIS": 74
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.628
     },
     {
      "player_id": 33132,
@@ -11443,7 +12055,8 @@
       "PES": 91,
       "SAI": 47
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.5
     },
     {
      "player_id": 914487,
@@ -11461,7 +12074,8 @@
       "DEF": 77,
       "FIS": 78
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.637
     },
     {
      "player_id": 1639250,
@@ -11479,7 +12093,8 @@
       "DEF": 34,
       "FIS": 65
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.292
     },
     {
      "player_id": 874979,
@@ -11496,7 +12111,8 @@
       "PES": 84,
       "SAI": 57
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.5
     },
     {
      "player_id": 1002528,
@@ -11514,7 +12130,8 @@
       "DEF": 69,
       "FIS": 71
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.2
     },
     {
      "player_id": 12634,
@@ -11532,7 +12149,8 @@
       "DEF": 80,
       "FIS": 60
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.629
     },
     {
      "player_id": 926413,
@@ -11543,7 +12161,8 @@
      "minutos": 395,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 926413 tem 395 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 926413 tem 395 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.639
     },
     {
      "player_id": 822510,
@@ -11554,7 +12173,8 @@
      "minutos": 296,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 822510 tem 296 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 822510 tem 296 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.333
     },
     {
      "player_id": 1009928,
@@ -11565,7 +12185,8 @@
      "minutos": 282,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1009928 tem 282 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1009928 tem 282 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.656
     },
     {
      "player_id": 1120721,
@@ -11576,7 +12197,8 @@
      "minutos": 260,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1120721 tem 260 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1120721 tem 260 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.4
     },
     {
      "player_id": 891803,
@@ -11587,7 +12209,8 @@
      "minutos": 231,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 891803 tem 231 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 891803 tem 231 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.2
     },
     {
      "player_id": 1175765,
@@ -11598,7 +12221,8 @@
      "minutos": 196,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1175765 tem 196 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1175765 tem 196 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.8
     },
     {
      "player_id": 990171,
@@ -11609,7 +12233,8 @@
      "minutos": 173,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 990171 tem 173 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 990171 tem 173 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.4
     },
     {
      "player_id": 1200730,
@@ -11620,7 +12245,8 @@
      "minutos": 67,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1200730 tem 67 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1200730 tem 67 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 107414,
@@ -11631,7 +12257,8 @@
      "minutos": 43,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 107414 tem 43 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 107414 tem 43 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1807899,
@@ -11642,7 +12269,8 @@
      "minutos": 12,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1807899 tem 12 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1807899 tem 12 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1631904,
@@ -11653,7 +12281,8 @@
      "minutos": 1,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1631904 tem 1 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1631904 tem 1 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1637906,
@@ -11664,7 +12293,8 @@
      "minutos": 1,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1637906 tem 1 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1637906 tem 1 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     }
    ],
    "sairam": []
@@ -11778,7 +12408,8 @@
       "DEF": 41,
       "FIS": 80
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.495
     },
     {
      "player_id": 982174,
@@ -11796,7 +12427,8 @@
       "DEF": 75,
       "FIS": 66
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.201
     },
     {
      "player_id": 1021721,
@@ -11814,7 +12446,8 @@
       "DEF": 91,
       "FIS": 63
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.8
     },
     {
      "player_id": 1391962,
@@ -11832,7 +12465,8 @@
       "DEF": 76,
       "FIS": 75
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.323
     },
     {
      "player_id": 360940,
@@ -11850,7 +12484,8 @@
       "DEF": 78,
       "FIS": 65
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.393
     },
     {
      "player_id": 44691,
@@ -11868,7 +12503,8 @@
       "DEF": 86,
       "FIS": 78
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.578
     },
     {
      "player_id": 973293,
@@ -11886,7 +12522,8 @@
       "DEF": 69,
       "FIS": 69
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.636
     },
     {
      "player_id": 982998,
@@ -11904,7 +12541,8 @@
       "DEF": 82,
       "FIS": 72
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.555
     },
     {
      "player_id": 840291,
@@ -11922,7 +12560,8 @@
       "DEF": 50,
       "FIS": 67
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.247
     },
     {
      "player_id": 595598,
@@ -11939,7 +12578,8 @@
       "PES": 69,
       "SAI": 61
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.5
     },
     {
      "player_id": 1003013,
@@ -11957,7 +12597,8 @@
       "DEF": 75,
       "FIS": 85
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.401
     },
     {
      "player_id": 1105970,
@@ -11975,7 +12616,8 @@
       "DEF": 53,
       "FIS": 65
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.679
     },
     {
      "player_id": 14216,
@@ -11993,7 +12635,8 @@
       "DEF": 51,
       "FIS": 60
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.474
     },
     {
      "player_id": 877591,
@@ -12011,7 +12654,8 @@
       "DEF": 73,
       "FIS": 79
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.782
     },
     {
      "player_id": 386230,
@@ -12029,7 +12673,8 @@
       "DEF": 72,
       "FIS": 66
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.688
     },
     {
      "player_id": 1464966,
@@ -12047,7 +12692,8 @@
       "DEF": 43,
       "FIS": 82
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.631
     },
     {
      "player_id": 119159,
@@ -12065,7 +12711,8 @@
       "DEF": 50,
       "FIS": 68
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.524
     },
     {
      "player_id": 1082956,
@@ -12083,7 +12730,8 @@
       "DEF": 50,
       "FIS": 64
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.472
     },
     {
      "player_id": 1589416,
@@ -12101,7 +12749,8 @@
       "DEF": 60,
       "FIS": 79
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.22
     },
     {
      "player_id": 988852,
@@ -12119,7 +12768,8 @@
       "DEF": 73,
       "FIS": 80
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.356
     },
     {
      "player_id": 243425,
@@ -12137,7 +12787,8 @@
       "DEF": 60,
       "FIS": 70
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.7
     },
     {
      "player_id": 252781,
@@ -12148,7 +12799,8 @@
      "minutos": 443,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 252781 tem 443 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 252781 tem 443 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.2
     },
     {
      "player_id": 1641124,
@@ -12159,7 +12811,8 @@
      "minutos": 430,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1641124 tem 430 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1641124 tem 430 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.458
     },
     {
      "player_id": 818816,
@@ -12170,7 +12823,8 @@
      "minutos": 291,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 818816 tem 291 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 818816 tem 291 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.5
     },
     {
      "player_id": 268419,
@@ -12181,7 +12835,8 @@
      "minutos": 279,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 268419 tem 279 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 268419 tem 279 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.5
     },
     {
      "player_id": 282233,
@@ -12192,7 +12847,8 @@
      "minutos": 254,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 282233 tem 254 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 282233 tem 254 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.75
     },
     {
      "player_id": 39649,
@@ -12203,7 +12859,8 @@
      "minutos": 245,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 39649 tem 245 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 39649 tem 245 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.5
     },
     {
      "player_id": 874964,
@@ -12214,7 +12871,8 @@
      "minutos": 189,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 874964 tem 189 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 874964 tem 189 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.633
     },
     {
      "player_id": 1403439,
@@ -12225,7 +12883,8 @@
      "minutos": 169,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1403439 tem 169 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1403439 tem 169 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1017023,
@@ -12236,7 +12895,8 @@
      "minutos": 153,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1017023 tem 153 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1017023 tem 153 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.5
     },
     {
      "player_id": 1634144,
@@ -12247,7 +12907,8 @@
      "minutos": 149,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1634144 tem 149 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1634144 tem 149 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.5
     },
     {
      "player_id": 22975,
@@ -12258,7 +12919,8 @@
      "minutos": 109,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 22975 tem 109 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 22975 tem 109 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.6
     },
     {
      "player_id": 1444693,
@@ -12269,7 +12931,8 @@
      "minutos": 91,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1444693 tem 91 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1444693 tem 91 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.5
     },
     {
      "player_id": 1588106,
@@ -12280,7 +12943,8 @@
      "minutos": 85,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1588106 tem 85 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1588106 tem 85 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.25
     },
     {
      "player_id": 119035,
@@ -12291,7 +12955,8 @@
      "minutos": 76,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 119035 tem 76 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 119035 tem 76 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.333
     },
     {
      "player_id": 1463561,
@@ -12302,7 +12967,8 @@
      "minutos": 45,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1463561 tem 45 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1463561 tem 45 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 879902,
@@ -12313,7 +12979,8 @@
      "minutos": 25,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 879902 tem 25 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 879902 tem 25 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1652392,
@@ -12324,7 +12991,8 @@
      "minutos": 10,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1652392 tem 10 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1652392 tem 10 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     }
    ],
    "sairam": []
@@ -12438,7 +13106,8 @@
       "DEF": 92,
       "FIS": 75
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.394
     },
     {
      "player_id": 1387272,
@@ -12456,7 +13125,8 @@
       "DEF": 74,
       "FIS": 75
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.195
     },
     {
      "player_id": 295167,
@@ -12474,7 +13144,8 @@
       "DEF": 67,
       "FIS": 79
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.503
     },
     {
      "player_id": 795266,
@@ -12492,7 +13163,8 @@
       "DEF": 59,
       "FIS": 61
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.654
     },
     {
      "player_id": 923948,
@@ -12510,7 +13182,8 @@
       "DEF": 50,
       "FIS": 68
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.51
     },
     {
      "player_id": 868076,
@@ -12528,7 +13201,8 @@
       "DEF": 88,
       "FIS": 74
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.747
     },
     {
      "player_id": 1462989,
@@ -12546,7 +13220,8 @@
       "DEF": 51,
       "FIS": 79
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.417
     },
     {
      "player_id": 122971,
@@ -12564,7 +13239,8 @@
       "DEF": 65,
       "FIS": 69
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.807
     },
     {
      "player_id": 840247,
@@ -12582,7 +13258,8 @@
       "DEF": 77,
       "FIS": 75
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.58
     },
     {
      "player_id": 982558,
@@ -12599,7 +13276,8 @@
       "PES": 61,
       "SAI": 45
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.5
     },
     {
      "player_id": 942426,
@@ -12617,7 +13295,8 @@
       "DEF": 63,
       "FIS": 72
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.559
     },
     {
      "player_id": 870943,
@@ -12635,7 +13314,8 @@
       "DEF": 76,
       "FIS": 74
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.513
     },
     {
      "player_id": 863283,
@@ -12653,7 +13333,8 @@
       "DEF": 57,
       "FIS": 60
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.75
     },
     {
      "player_id": 1101061,
@@ -12671,7 +13352,8 @@
       "DEF": 77,
       "FIS": 75
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.464
     },
     {
      "player_id": 844601,
@@ -12689,7 +13371,8 @@
       "DEF": 74,
       "FIS": 67
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.385
     },
     {
      "player_id": 795295,
@@ -12707,7 +13390,8 @@
       "DEF": 47,
       "FIS": 77
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.312
     },
     {
      "player_id": 1166468,
@@ -12725,7 +13409,8 @@
       "DEF": 41,
       "FIS": 76
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": null
     },
     {
      "player_id": 987168,
@@ -12743,7 +13428,8 @@
       "DEF": 89,
       "FIS": 77
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.2
     },
     {
      "player_id": 90468,
@@ -12761,7 +13447,8 @@
       "DEF": 51,
       "FIS": 56
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.307
     },
     {
      "player_id": 989715,
@@ -12779,7 +13466,8 @@
       "DEF": 79,
       "FIS": 75
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.61
     },
     {
      "player_id": 924404,
@@ -12797,7 +13485,8 @@
       "DEF": 77,
       "FIS": 77
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.55
     },
     {
      "player_id": 931759,
@@ -12815,7 +13504,8 @@
       "DEF": 77,
       "FIS": 76
      },
-     "sem_nota_por": null
+     "sem_nota_por": null,
+     "x_medio": 0.58
     },
     {
      "player_id": 243231,
@@ -12826,7 +13516,8 @@
      "minutos": 442,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 243231 tem 442 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 243231 tem 442 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.5
     },
     {
      "player_id": 158267,
@@ -12837,7 +13528,8 @@
      "minutos": 438,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 158267 tem 438 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 158267 tem 438 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.58
     },
     {
      "player_id": 923951,
@@ -12848,7 +13540,8 @@
      "minutos": 411,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 923951 tem 411 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 923951 tem 411 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.417
     },
     {
      "player_id": 555454,
@@ -12859,7 +13552,8 @@
      "minutos": 389,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 555454 tem 389 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 555454 tem 389 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.788
     },
     {
      "player_id": 874398,
@@ -12870,7 +13564,8 @@
      "minutos": 386,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 874398 tem 386 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 874398 tem 386 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.621
     },
     {
      "player_id": 877470,
@@ -12881,7 +13576,8 @@
      "minutos": 355,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 877470 tem 355 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 877470 tem 355 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.278
     },
     {
      "player_id": 1124220,
@@ -12892,7 +13588,8 @@
      "minutos": 305,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1124220 tem 305 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1124220 tem 305 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.363
     },
     {
      "player_id": 338957,
@@ -12903,7 +13600,8 @@
      "minutos": 266,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 338957 tem 266 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 338957 tem 266 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.333
     },
     {
      "player_id": 787480,
@@ -12914,7 +13612,8 @@
      "minutos": 210,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 787480 tem 210 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 787480 tem 210 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.2
     },
     {
      "player_id": 39438,
@@ -12925,7 +13624,8 @@
      "minutos": 196,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 39438 tem 196 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 39438 tem 196 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.667
     },
     {
      "player_id": 1172052,
@@ -12936,7 +13636,8 @@
      "minutos": 139,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1172052 tem 139 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1172052 tem 139 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.667
     },
     {
      "player_id": 795020,
@@ -12947,7 +13648,8 @@
      "minutos": 127,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 795020 tem 127 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 795020 tem 127 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1587979,
@@ -12958,7 +13660,8 @@
      "minutos": 103,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1587979 tem 103 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1587979 tem 103 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 108486,
@@ -12969,7 +13672,8 @@
      "minutos": 90,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 108486 tem 90 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 108486 tem 90 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": 0.5
     },
     {
      "player_id": 1523441,
@@ -12980,7 +13684,8 @@
      "minutos": 87,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1523441 tem 87 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1523441 tem 87 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1841330,
@@ -12991,7 +13696,8 @@
      "minutos": 46,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1841330 tem 46 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1841330 tem 46 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 808786,
@@ -13002,7 +13708,8 @@
      "minutos": 17,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 808786 tem 17 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 808786 tem 17 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1892689,
@@ -13013,7 +13720,8 @@
      "minutos": 14,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1892689 tem 14 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1892689 tem 14 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     },
     {
      "player_id": 1896090,
@@ -13024,7 +13732,8 @@
      "minutos": 11,
      "overall": null,
      "eixos": {},
-     "sem_nota_por": "jogador 1896090 tem 11 minutos em 2024, abaixo do piso de 450 minutos"
+     "sem_nota_por": "jogador 1896090 tem 11 minutos em 2024, abaixo do piso de 450 minutos",
+     "x_medio": null
     }
    ],
    "sairam": []
