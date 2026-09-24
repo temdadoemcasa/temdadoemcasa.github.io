@@ -285,13 +285,10 @@ const SIGLAS_FORA = {
   "Olympique de Marseille": "OM", "Athletic Bilbao": "ATH", "América-MG": "AMG", "Atlético-GO": "ACG", "Botafogo-SP": "BFC",
 };
 function escudo(c, tamanho = "") {
-  const kit = kitDoTime(timeParaCamisa(c));
-  const cor1 = corDoKit(kit);
-  const cor2 = corOu(kit.faixas && kit.faixas[1] && kit.faixas[1][0], corOu(kit.faixa, corOu(kit.numero, "#ffffff")));
-  const texto = luminancia(cor1) > 0.45 ? "#111111" : "#ffffff";
-  const sigla = SIGLAS_FORA[c.nome] || siglaClube(c.nome);
+  // desenho generico por clube (escudos.js + dados/escudos.json), nunca o original
+  const time = timeParaCamisa(c);
   const s = el("span", `escudo${tamanho ? ` escudo-${tamanho}` : ""}`);
-  s.innerHTML = `<svg viewBox="0 0 24 28" aria-hidden="true"><path d="M12 1.5 22 4.5v9.5c0 6.3-4.3 10.5-10 12.5C6.3 24.5 2 20.3 2 14V4.5z" fill="${cor1}" stroke="${cor2}" stroke-width="1.8"/><path d="M2.9 17.5h18.2" stroke="${cor2}" stroke-width="1.2" stroke-opacity="0.8"/><text x="12" y="14.6" text-anchor="middle" font-family="'Barlow Condensed', Inter, sans-serif" font-weight="800" font-size="${sigla.length > 3 ? 6 : 7.2}" fill="${texto}">${sigla}</text></svg>`;
+  s.innerHTML = Escudos.svg(c.nome, { kit: kitDoTime(time), sigla: SIGLAS_FORA[c.nome] || siglaClube(c.nome) });
   s.title = c.nome;
   return s;
 }
@@ -2140,6 +2137,7 @@ function criarJogador() {
 
 async function iniciarCarreiraPagina() {
   UNIFORMES = await json("dados/uniformes.json").catch(() => ({}));
+  await Escudos.carregar();
   Motor.ELENCOS = (await json("dados/elencos-fora.json").catch(() => ({}))).times || {};
   const [r, regras, exterior, inferiores] = await Promise.all([
     retrato("2026"), json("dados/competicoes-2026.json"), json("dados/clubes-exterior.json"), json("dados/clubes-brasil-inferiores.json"),
