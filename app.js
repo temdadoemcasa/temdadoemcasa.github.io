@@ -303,7 +303,7 @@ function textoSobre(hex) {
 // --- niveis -----------------------------------------------------------------
 
 // O nivel e o material da casa, como nos tres porquinhos: opiniao e o
-// lobo. Grafeno e o outlier e leva a cor do canal.
+// lobo. Concreto (id interno "grafeno") e o outlier e leva a cor do canal.
 //
 // Os cortes NAO sao numeros fixos: a escala do overall muda entre versoes
 // do modelo do futdata. Ordem de preferencia:
@@ -313,7 +313,7 @@ function textoSobre(hex) {
 //      tijolo ate 98%, grafeno = os 2% do topo.
 // Os valores abaixo sao so o ponto de partida; usarCortes(r) troca.
 const NIVEIS = [
-  { id: "grafeno", nome: "Grafeno", min: 82, faixa: "" },
+  { id: "grafeno", nome: "Concreto", min: 82, faixa: "" }, // id interno segue "grafeno" (classes e JSON)
   { id: "tijolo", nome: "Tijolo", min: 75, faixa: "" },
   { id: "madeira", nome: "Madeira", min: 65, faixa: "" },
   { id: "palha", nome: "Palha", min: -Infinity, faixa: "" },
@@ -322,7 +322,8 @@ const QUANTIL_DO_NIVEL = { madeira: 0.35, tijolo: 0.85, grafeno: 0.98 };
 const nivel = (overall) => NIVEIS.find((t) => overall >= t.min);
 
 function cortesDoRetrato(r) {
-  const dado = r.niveis;
+  // o topo pode vir como "concreto" (nome novo) ou "grafeno" (nome antigo)
+  const dado = r.niveis && { ...r.niveis, grafeno: r.niveis.concreto ?? r.niveis.grafeno };
   if (dado && ["madeira", "tijolo", "grafeno"].every((k) => typeof dado[k] === "number")) {
     return { madeira: dado.madeira, tijolo: dado.tijolo, grafeno: dado.grafeno, origem: "futdata" };
   }
@@ -1200,7 +1201,7 @@ function montarEnvelope(temporada) {
 }
 
 const FALAS = {
-  grafeno: "GRAFENO! Essa quase ninguém tira.",
+  grafeno: "CASA DE CONCRETO! Essa quase ninguém tira.",
   tijolo: "Casa de tijolo! O lobo não derruba essa.",
   madeira: "Casa de madeira. Aguenta um sopro.",
   palha: "Casa de palha. O lobo sopra e leva.",
@@ -1392,7 +1393,7 @@ function ligarChips(seletor, chave, aoMudar) {
 // --- abertura: os dois minigames ---------------------------------------------
 
 // Draft: um leque com tres cartas reais (as melhores de posicoes diferentes).
-// Carreira: a sua carta crescendo, de casa de palha aos 16 ao grafeno aos 29.
+// Carreira: a sua carta crescendo, de casa de palha aos 16 a casa de concreto aos 29.
 function mostrarAbertura(r) {
   const vd = document.getElementById("visual-draft"), vc = document.getElementById("visual-carreira");
   if (!vd || !vc) return;
