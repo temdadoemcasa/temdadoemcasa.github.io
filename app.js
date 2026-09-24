@@ -540,6 +540,9 @@ const FUNCAO = new Map();
 // funcoes secundarias: onde mais ele foi titular nos jogos recentes (JSON:
 // `recentes`), pela MESMA regra de funcao. O draft deixa escolher e mover.
 const FUNCOES_EXTRAS = new Map();
+// o lado (x medio) em cada funcao secundaria: o ponta direita que jogou de
+// lateral ESQUERDO tem que caber na LE, nao na LD
+const X_DA_FUNCAO = new Map();
 
 // as posicoes de uma formacao "4-2-3-1", como o futdata desenha (viz/pitch.py):
 // goleiro em (0,5; 0); cada linha em y = i/(linhas+1), x da direita p/ esquerda
@@ -587,6 +590,7 @@ function funcaoNoSlot(posicao, posicoes, slot) {
 function inferirFuncoes(r) {
   FUNCAO.clear();
   FUNCOES_EXTRAS.clear();
+  X_DA_FUNCAO.clear();
   for (const t of r.times) {
     const porId = new Map(t.jogadores.map((j) => [j.player_id, j]));
     if (t.escalacao_base) {
@@ -597,14 +601,17 @@ function inferirFuncoes(r) {
     }
     // secundarias: funcao com 2+ jogos de titular nos recentes
     for (const j of t.jogadores) {
-      const conta = new Map();
+      const conta = new Map(), somaX = new Map();
       for (const [formacao, slot, vezes] of j.recentes || []) {
         const slots = slotsDaFormacao(formacao);
         const f = slots && funcaoNoSlot(j.posicao, slots, slot);
-        if (f) conta.set(f, (conta.get(f) || 0) + vezes);
+        if (!f) continue;
+        conta.set(f, (conta.get(f) || 0) + vezes);
+        somaX.set(f, (somaX.get(f) || 0) + slots[slot].x * vezes);
       }
       const extras = new Set([...conta].filter(([, v]) => v >= 2).map(([f]) => f));
       if (extras.size) FUNCOES_EXTRAS.set(j, extras);
+      if (conta.size) X_DA_FUNCAO.set(j, Object.fromEntries([...conta].map(([f, v]) => [f, somaX.get(f) / v])));
     }
   }
   const e = (j, k) => (typeof j.eixos[k] === "number" ? j.eixos[k] : 50);
@@ -622,6 +629,12 @@ function inferirFuncoes(r) {
 }
 // todas as funcoes do jogador: a principal primeiro
 const funcoesDe = (j) => [FUNCAO.get(j), ...(FUNCOES_EXTRAS.get(j) || [])].filter(Boolean);
+// lado do jogador NA funcao pedida: na principal, o x de sempre; na
+// secundaria, o x dos jogos em que ele fez essa funcao
+function xNaFuncao(j, funcao, xDe) {
+  if (funcao !== FUNCAO.get(j)) { const x = X_DA_FUNCAO.get(j)?.[funcao]; if (typeof x === "number") return x; }
+  return xDe.get(j.player_id);
+}
 
 // Busca por nome: sem acento e sem caixa, palavra por palavra, no nome curto
 // da carta ("B. Bidon") e no completo ("Breno Bidon"). "breno bidon",

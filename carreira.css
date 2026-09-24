@@ -427,7 +427,8 @@
 /* --- acabamento da decisao (2026-09-25) --------------------------------------------
    Cabecalho numa linha (quando/onde a esquerda, progresso a direita), cartao
    no meio do palco em vez de colado no topo, opcoes com mais corpo. */
-.carreira-palco:has(> .temporada-atual .evento-cartao) { align-content: center; }
+/* safe: cartao maior que o palco (tela baixa) nao perde o topo na rolagem */
+.carreira-palco:has(> .temporada-atual .evento-cartao) { align-content: safe center; }
 .carreira-palco .temporada-atual:has(.evento-cartao) { min-height: 0; padding: 1.3rem 1.5rem 1.4rem; }
 .evento-cartao { gap: 0.55rem; }
 .evento-topo {

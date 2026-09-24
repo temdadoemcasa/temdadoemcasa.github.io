@@ -46,6 +46,9 @@ const PESOS = {
   GOL: { REF: 0.3, EVI: 0.25, MAO: 0.2, SAI: 0.15, PES: 0.1 },
 };
 const PONTOS_INICIAIS = 30, PASSO = 5, MAX_POR_ATRIBUTO = 15;
+// teto da montagem aos 16 (o de 18 e 80, ver tetoDaIdade): o zagueiro
+// nascia com 79 de fisico (64 + 15)
+const TETO_NA_CRIACAO = 77;
 
 // Gols e assistencias por jogo (90 min) pelo OVR, com referencias reais pra
 // centroavante: ~0,35 um CA mediano, ~0,5 Pedro/Gabigol, ~0,65 Aguero,
@@ -482,7 +485,7 @@ function desenharMontagem() {
     menos.disabled = gasto <= 0;
     menos.setAttribute("aria-label", `Tirar ${PASSO} de ${rotulos[k] || k}`);
     const mais = el("button", "botao atributo-mais", `+${PASSO}`); mais.type = "button";
-    mais.disabled = C.pontos < PASSO || gasto >= MAX_POR_ATRIBUTO;
+    mais.disabled = C.pontos < PASSO || gasto >= MAX_POR_ATRIBUTO || C.attrs[k] + PASSO > TETO_NA_CRIACAO;
     mais.setAttribute("aria-label", `Somar ${PASSO} em ${rotulos[k] || k}`);
     menos.addEventListener("click", () => { C.gastos[k] = gasto - PASSO; C.attrs[k] -= PASSO; C.pontos += PASSO; desenharMontagem(); });
     mais.addEventListener("click", () => { C.gastos[k] = gasto + PASSO; C.attrs[k] += PASSO; C.pontos -= PASSO; desenharMontagem(); });
@@ -714,12 +717,14 @@ function cartaoDeProposta(c, aoAssinar, { rotulo = "Assinar", extra = null, cont
 
 // adaptacao: o 1o ano no clube novo evolui menos (outro continente, bem menos);
 // quem fica no clube ganha entrosamento (ver jogarTemporada)
-const continenteDe = (c) => c.continente || "america";
+// Russia ("leste") e Europa: mesmo continente. Clube sem pais e brasileiro.
+const continenteDe = (c) => ({ leste: "europa" })[c.continente] || c.continente || "america";
+const paisDoClube = (c) => (c.tipo === "ext" ? c.pais || c.liga : "Brasil");
 function custoDeAdaptacao(de, para) {
   if (!de || de.id === para.id) return null;
-  return continenteDe(de) !== continenteDe(para)
-    ? { evolucao: -1.2, nota: -0.15, texto: "adaptação difícil: outro país, outro futebol" }
-    : { evolucao: -0.6, nota: -0.08, texto: "1º ano de adaptação: evolui menos" };
+  if (continenteDe(de) !== continenteDe(para)) return { evolucao: -1.2, nota: -0.15, texto: "adaptação difícil: outro continente, outro futebol" };
+  if (paisDoClube(de) !== paisDoClube(para)) return { evolucao: -0.9, nota: -0.1, texto: "adaptação: outro país, outra língua" };
+  return { evolucao: -0.6, nota: -0.08, texto: "1º ano de adaptação: evolui menos" };
 }
 
 function assinar(c, contexto) {
@@ -1146,14 +1151,14 @@ function premiosDoAno(J, t, linha, rng) {
     && !J.premios.some((x) => x.nome.startsWith("Revelação"))) premios.push(`Revelação ${da}`);
 
   // craque da partida: jogo a jogo, puxado pela nota da temporada
-  const pm = limitar(0.03 + (linha.nota - 6.4) * 0.14 + (linha.jogos ? (linha.gols + linha.assist * 0.5) / linha.jogos : 0) * 0.18, 0.01, 0.55);
+  const pm = linha.nota === null ? 0.01 : limitar(0.03 + (linha.nota - 6.4) * 0.14 + (linha.jogos ? (linha.gols + linha.assist * 0.5) / linha.jogos : 0) * 0.18, 0.01, 0.55);
   let motm = 0;
   for (let i = 0; i < linha.jogos; i++) if (rng() < pm) motm++;
   linha.craqueDoJogo = motm;
 
   // Bola de Ouro (o mundo) e Craque da America
   const tem = (nome) => [...linha.titulos, ...(linha.selecao ? linha.selecao.titulos : [])].some((x) => x.startsWith(nome));
-  const base = J.ovr + (linha.nota - 7) * 2.5 + (premios.some((x) => x.startsWith("Artilheiro")) ? 1 : 0) + (t.campeaoLiga ? 0.4 * J.clube.prestigio : 0);
+  const base = linha.nota === null ? -Infinity : J.ovr + (linha.nota - 7) * 2.5 + (premios.some((x) => x.startsWith("Artilheiro")) ? 1 : 0) + (t.campeaoLiga ? 0.4 * J.clube.prestigio : 0);
   if (t.p >= 0.5) {
     const mundo = base + (tem("Champions League") ? 3 : tem("Libertadores") ? 1.5 : 0) + (tem("Copa do Mundo") ? 4 : tem("Copa América") ? 1.2 : 0)
       - (5 - J.clube.prestigio) * 1.3;
@@ -1180,7 +1185,8 @@ function propostasDoAno(J, t, linha) {
   const atual = J.clube;
   // renovou: contrato em vigor, a janela nem abre pra ele
   if (sobContrato(J)) { linha.olheiro = false; return []; }
-  const vitrine = (linha.nota - 6.9) * 2.2 + linha.premios.length * 1.2 + (J.idade <= 21 ? 1 : 0) + (linha.vitrineExtra || 0);
+  // sem nota (nao jogou) a vitrine e so o resto: premio, idade, extras
+  const vitrine = (linha.nota === null ? -4 : (linha.nota - 6.9) * 2.2) + linha.premios.length * 1.2 + (J.idade <= 21 ? 1 : 0) + (linha.vitrineExtra || 0);
   const sorte = C.rng() < 0.08 ? 5 : 0; // o olheiro estava no jogo certo
   linha.olheiro = sorte > 0;
   const interessados = [];
@@ -1253,6 +1259,12 @@ function jogarTemporada({ decidir = true } = {}) {
   Historia.aplicarReputacao(J);
   // entrosamento: do 3o ano no mesmo clube em diante, um pouco mais de evolucao
   if (J.anosNoClube >= 2) J.efeito.evolucao += 0.3;
+  // renovacao: o ano da assinatura ja recebeu o efeito na janela; os
+  // seguintes do contrato recebem aqui (J.efeito foi zerado no fim do ano)
+  if (J.renovacao && J.ano > J.renovacao.assinado && J.ano <= J.renovacao.ate) {
+    const r = RENOVACOES.find((x) => x.id === J.renovacao.id);
+    if (r) r.todoAno(J.efeito);
+  } else if (J.renovacao && J.ano > J.renovacao.ate) J.renovacao = null;
   const efe = efeitoDoEstilo(estiloDeJogo(J.attrs, C.pos));
   if (efe) {
     const perdida = temporadaPerdida(J); // estilo nao desfaz temporada perdida
@@ -1281,7 +1293,8 @@ function jogarTemporada({ decidir = true } = {}) {
   const acima = (k) => (J.attrs[k] ?? 0) - (espPos[k] ?? 0);
   const defesaExtra = fam === "G" ? (acima("REF") + acima("EVI")) / 2 : fam === "D" ? acima("DEF") : 0;
   const contrib = (jogos ? (gols + assist * 0.6) / jogos : 0) + muralha + limitar(defesaExtra, -15, 15) * 0.012;
-  const nota = limitar(6.55 + Math.tanh((J.ovr - t.nivelLiga) / 12) * 1.3 + contrib * 0.9 + J.efeito.nota + normal(rng, 0.18), 5.4, 9.3);
+  // sem jogo nao ha nota (temporada perdida, banco o ano todo): ausencia, nunca um numero
+  const nota = jogos ? limitar(6.55 + Math.tanh((J.ovr - t.nivelLiga) / 12) * 1.3 + contrib * 0.9 + J.efeito.nota + normal(rng, 0.18), 5.4, 9.3) : null;
   const selecao = temporadaNaSelecao(J, J.ano, rng, t.p);
   const titulos = jogos >= 5 ? [...t.tituloNomes] : [];
   // quem ganha o continental joga o Mundial de Clubes
@@ -1360,7 +1373,8 @@ function sortearLesao(J, rng) {
   if (rng() >= risco) return null;
   const u = rng();
   const [nome, fora] = u < 0.55 ? ["Lesão muscular leve", 0.08] : u < 0.88 ? ["Entorse no tornozelo", 0.2] : ["Ruptura de ligamento", 0.45];
-  if (!temporadaPerdida(J)) J.efeito.lesao = Math.min(0.7, J.efeito.lesao + fora);
+  // soma sem nunca reduzir o que ja estava acumulado (antes o teto de 0,7 cortava)
+  if (!temporadaPerdida(J)) J.efeito.lesao = Math.max(J.efeito.lesao, Math.min(0.9, J.efeito.lesao + fora));
   if (fora >= 0.45) J.efeito.evolucao -= J.idade >= 28 ? 1.5 : 0.8;
   return { nome, jogos: Math.round(fora * 38) };
 }
@@ -1698,7 +1712,7 @@ function mostrarLinha(linha) {
   alvo.replaceChildren();
   alvo.append(el("p", "jogo-etapa", `Temporada ${linha.ano} · ${linha.idade} anos · ${linha.clube} (${linha.liga})`));
   const numeros = el("dl", "temporada-numeros");
-  const itens = [["Jogos", linha.jogos], ["Gols", linha.gols], ["Assist.", linha.assist], ["Nota", linha.nota.toFixed(1).replace(".", ",")], ["Craque do jogo", linha.craqueDoJogo]];
+  const itens = [["Jogos", linha.jogos], ["Gols", linha.gols], ["Assist.", linha.assist], ["Nota", linha.nota === null ? "—" : linha.nota.toFixed(1).replace(".", ",")], ["Craque do jogo", linha.craqueDoJogo]];
   if (linha.semSofrer !== null) itens.splice(1, 1, ["Sem sofrer gol", linha.semSofrer]);
   for (const [k, v] of itens) { const d = el("div"); d.append(el("dd", null, String(v)), el("dt", null, k)); numeros.append(d); }
   alvo.append(numeros);
@@ -1943,22 +1957,24 @@ const sobContrato = (J) => Boolean(J.contratoAte && J.ano <= J.contratoAte);
 const RENOVACOES = [
   {
     id: "aumento", rotulo: "Aumento e mais minutos",
-    anos: 1, bom: "mais minutos na temporada", ruim: "o técnico cobra: nota pesa mais em jogo ruim",
-    aplicar: (J) => { J.efeito.minutos += 0.12; J.efeito.nota -= 0.05; },
+    anos: 1, bom: "mais minutos em cada ano do contrato", ruim: "o técnico cobra: nota pesa mais em jogo ruim",
+    todoAno: (e) => { e.minutos += 0.12; e.nota -= 0.05; },
     texto: (J) => `Renovou com o ${J.clube.nome}: aumento e promessa de minutos. Agora é entregar.`,
   },
   {
     id: "gol", rotulo: "Bônus por gol", anos: 1,
-    bom: "+15% de gols no ano", ruim: "vira fominha: vestiário torce o nariz e saem menos assistências",
+    bom: "+15% de gols em cada ano do contrato", ruim: "vira fominha: vestiário torce o nariz e saem menos assistências",
     so: (J) => ["CA", "PON", "MEI"].includes(funcaoDe(C.pos)),
-    aplicar: (J) => { J.efeito.gol += 0.15; J.efeito.assist -= 0.2; Historia.mexerReputacao(J, { vestiario: -1 }); },
+    todoAno: (e) => { e.gol += 0.15; e.assist -= 0.2; },
+    naAssinatura: (J) => Historia.mexerReputacao(J, { vestiario: -1 }),
     texto: (J) => `Renovou com o ${J.clube.nome} com bônus por gol. Tem companheiro achando que você só pensa no seu.`,
   },
   {
     id: "idolo", rotulo: "Contrato longo de ídolo",
     anos: 2, bom: "torcida abraça e a cabeça tranquila ajuda a evoluir", ruim: "a imprensa fala em acomodação",
     so: (J) => J.anosNoClube >= 2,
-    aplicar: (J) => { J.efeito.evolucao += 0.5; Historia.mexerReputacao(J, { torcida: 2, imprensa: -1 }); },
+    todoAno: (e) => { e.evolucao += 0.5; },
+    naAssinatura: (J) => Historia.mexerReputacao(J, { torcida: 2, imprensa: -1 }),
     texto: (J) => `Contrato longo com o ${J.clube.nome}. A torcida fez festa; a imprensa perguntou se você não quer mais.`,
   },
 ];
@@ -1988,11 +2004,15 @@ function cartaoDoClube(J, linha, fechar, textoFicar) {
       b.append(el("span", null, r.rotulo), el("small", "renova-bom", `+ ${r.bom}`), el("small", "renova-ruim", `− ${r.ruim}`),
         el("small", "renova-prazo", `contrato: fica mais ${r.anos === 1 ? "1 temporada" : `${r.anos} temporadas`}, sem propostas`));
       b.addEventListener("click", () => {
-        r.aplicar(J);
+        // o efeito vale em TODA temporada do contrato (jogarTemporada), a
+        // reputacao mexe uma vez so, na assinatura
         J.contratoAte = J.ano + r.anos;
+        J.renovacao = { id: r.id, assinado: J.ano, ate: J.contratoAte };
+        r.todoAno(J.efeito);
+        if (r.naAssinatura) r.naAssinatura(J);
         const texto = r.texto(J);
         J.efeito.textos.push({ titulo: "Renovação", escolha: r.rotulo, texto, ok: null });
-        Historia.registrar(J, { titulo: "Renovação", arco: "A renovação" }, r, { texto, ok: null });
+        Historia.registrar(J, { titulo: "Renovação", arco: null }, r, { texto, ok: null });
         fechar(texto);
       });
       lista.append(b);
@@ -2083,7 +2103,7 @@ function mostrarAposentadoria() {
   const tot = J.historico.reduce((a, h) => ({ j: a.j + h.jogos, g: a.g + h.gols, a: a.a + h.assist }), { j: 0, g: 0, a: 0 });
   const titulosClube = J.titulos.filter((t) => !t.selecao), premiosClube = J.premios.filter((t) => !t.selecao);
   const auge = [...J.historico].sort((a, b) => b.ovr - a.ovr)[0];
-  const melhor = [...J.historico].sort((a, b) => (b.gols + b.assist) - (a.gols + a.assist) || b.nota - a.nota)[0];
+  const melhor = [...J.historico].sort((a, b) => (b.gols + b.assist) - (a.gols + a.assist) || (b.nota ?? 0) - (a.nota ?? 0))[0];
   const clubes = [...new Set(J.historico.map((h) => h.clube))];
 
   const topo = el("header", "bl-topo");
@@ -2242,6 +2262,9 @@ async function iniciarCarreiraPagina() {
     iniciarCarta();
     mostrarTela("carta");
   });
+  // o botao nasce desabilitado: clique antes dos dados chegarem nao fazia nada
+  $("confirmar-jogador").disabled = false;
+  $("confirmar-jogador").textContent = "Montar a carta →";
   $("voltar-criacao").addEventListener("click", () => mostrarTela("criar"));
   $("zerar-pontos").addEventListener("click", iniciarCarta);
   $("confirmar-carta").addEventListener("click", () => { criarJogador(); mostrarPropostasDaBase(); });
