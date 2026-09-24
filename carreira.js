@@ -1069,8 +1069,9 @@ function premiosDoAno(J, t, linha, rng) {
   if (f === "GOL" && regular && linha.semSofrer >= Math.max(5, Math.round(jl * 0.42 + normal(rng, 1.5)))) premios.push(`Luva de Ouro ${da}`);
   const jaGanhou = (nome) => J.premios.filter((x) => x.nome === nome).length;
   const melhor = `Melhor ${NOME_DA_POSICAO(C.pos)} ${da}`;
-  if (regular && linha.nota >= 7.5 + jaGanhou(melhor) * 0.08 + normal(rng, 0.2)) premios.push(melhor);
-  if (regular && linha.nota >= 7.95 + normal(rng, 0.25)) premios.push(`Craque ${da}`);
+  // premio repetido fica mais dificil a cada vez (a concorrencia tambem joga)
+  if (regular && linha.nota >= 7.5 + jaGanhou(melhor) * 0.18 + normal(rng, 0.2)) premios.push(melhor);
+  if (regular && linha.nota >= 7.95 + jaGanhou(`Craque ${da}`) * 0.25 + normal(rng, 0.25)) premios.push(`Craque ${da}`);
   if (J.idade <= 20 && t.p >= 0.45 && (J.clube.divisao === "A" || J.clube.tipo === "ext") && linha.nota >= 7.15 + normal(rng, 0.2)
     && !J.premios.some((x) => x.nome.startsWith("Revelação"))) premios.push(`Revelação ${da}`);
 
@@ -1091,7 +1092,7 @@ function premiosDoAno(J, t, linha, rng) {
     if (lugar === 1) premios.push("Bola de Ouro");
     if (J.clube.continente === "america" && (J.clube.divisao === "A" || J.clube.tipo === "ext")) {
       const america = base + (tem("Libertadores") ? 3 : 0) + (tem("Copa América") ? 1 : 0);
-      if (america >= 83.5 + normal(rng, 1.2)) premios.push("Craque da América");
+      if (america >= 87 + J.premios.filter((x) => x.nome === "Craque da América").length * 1.2 + normal(rng, 1.2)) premios.push("Craque da América");
     }
   }
   return premios;

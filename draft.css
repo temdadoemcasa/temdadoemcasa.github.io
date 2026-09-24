@@ -252,7 +252,9 @@ a.marca { text-decoration: none; }
 
 @media (max-width: 860px) {
   .draft-grade, .resumo, .temporada-grade { grid-template-columns: minmax(0, 1fr); }
-  .draft-grade .gramado { position: static; max-width: 340px; margin: 0 auto; }
+  .draft-grade .gramado { position: relative; top: auto; width: 100%; max-width: 280px; margin: 0 auto; }
+  .draft-grade .draft-lado { order: -1; }
+  .draft-grade .gramado { max-width: 240px; }
   .gramado-resumo { max-width: 320px; }
 }
 @media (max-width: 520px) {

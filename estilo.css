@@ -15,6 +15,9 @@
 
 * { box-sizing: border-box; }
 
+/* hidden vale sempre (botao e grid nao podem reaparecer por causa do display) */
+[hidden] { display: none !important; }
+
 html { scroll-behavior: smooth; }
 
 body {
