@@ -1,0 +1,139 @@
+{
+ "_leia": "Regulamento e calendário das competições do minigame Draft. Formatos seguem os regulamentos 2026 (CBF e Conmebol); as datas são as oficiais ou aproximadas; a força dos clubes estrangeiros e dos convidados da Copa do Brasil é ESTIMADA à mão, na mesma escala da força calculada para a Série A (~50 fraco, ~63 forte). Pode editar à vontade.",
+ "temporada": 2026,
+ "brasileirao": {
+  "nome": "Brasileirão",
+  "inicio": "2026-01-28",
+  "fim": "2026-12-02",
+  "pausa_copa": ["2026-06-01", "2026-07-15"],
+  "rebaixados": 4,
+  "zonas": [
+   { "de": 1, "ate": 6, "nome": "Libertadores", "cor": "#c8ff00" },
+   { "de": 7, "ate": 12, "nome": "Sul-Americana", "cor": "#5cc8ff" },
+   { "de": 17, "ate": 20, "nome": "Rebaixamento", "cor": "#ff4d6d" }
+  ],
+  "_zonas": "Zonas aproximadas: o número exato de vagas depende de quem ganha Copa do Brasil e Libertadores."
+ },
+ "copa_do_brasil": {
+  "nome": "Copa do Brasil",
+  "_formato": "126 clubes. Série A entra na 5ª fase (32 clubes, ida e volta). Oitavas, quartas e semi em ida e volta, sem gol fora; empate no agregado vai pros pênaltis. Final em jogo único em 6/12.",
+  "fases": [
+   { "nome": "5ª fase", "ida": "2026-04-22", "volta": "2026-05-13" },
+   { "nome": "Oitavas", "ida": "2026-08-01", "volta": "2026-08-05" },
+   { "nome": "Quartas", "ida": "2026-08-26", "volta": "2026-09-02" },
+   { "nome": "Semifinal", "ida": "2026-11-01", "volta": "2026-11-08" },
+   { "nome": "Final", "unica": "2026-12-06" }
+  ],
+  "convidados": [
+   { "nome": "Fortaleza", "forca": 52, "uniforme": { "padrao": "horizontal", "faixas": [["#e30613", 6], ["#ffffff", 1.5], ["#1d3f8f", 6], ["#ffffff", 1.5]], "numero": "#ffffff" } },
+   { "nome": "Ceará", "forca": 51, "uniforme": { "padrao": "vertical", "faixas": [["#111111", 7], ["#ffffff", 7]], "numero": "#ffffff" } },
+   { "nome": "Sport Recife", "forca": 50, "uniforme": { "padrao": "horizontal", "faixas": [["#e30613", 7], ["#111111", 7]], "numero": "#ffffff" } },
+   { "nome": "Juventude", "forca": 49, "uniforme": { "padrao": "vertical", "faixas": [["#00843d", 7], ["#ffffff", 7]], "numero": "#ffffff" } },
+   { "nome": "Goiás", "forca": 48, "uniforme": { "padrao": "lisa", "base": "#006b3f", "numero": "#ffffff" } },
+   { "nome": "Criciúma", "forca": 48, "uniforme": { "padrao": "vertical", "faixas": [["#ffd200", 6], ["#111111", 6], ["#ffffff", 2]], "numero": "#111111" } },
+   { "nome": "América-MG", "forca": 48, "uniforme": { "padrao": "vertical", "faixas": [["#00843d", 7], ["#111111", 7]], "numero": "#ffffff" } },
+   { "nome": "Cuiabá", "forca": 47, "uniforme": { "padrao": "lisa", "base": "#f2c500", "numero": "#006b3f" } },
+   { "nome": "Novorizontino", "forca": 47, "uniforme": { "padrao": "lisa", "base": "#ffd200", "numero": "#111111" } },
+   { "nome": "Avaí", "forca": 45, "uniforme": { "padrao": "vertical", "faixas": [["#1b4f9c", 7], ["#ffffff", 7]], "numero": "#ffffff" } },
+   { "nome": "Paysandu", "forca": 45, "uniforme": { "padrao": "vertical", "faixas": [["#5bb4e5", 7], ["#ffffff", 7]], "numero": "#111111" } },
+   { "nome": "CRB", "forca": 45, "uniforme": { "padrao": "horizontal", "faixas": [["#e30613", 7], ["#ffffff", 7]], "numero": "#111111" } }
+  ]
+ },
+ "libertadores": {
+  "nome": "Libertadores",
+  "_formato": "32 clubes em 8 grupos de 4, turno e returno. 1º e 2º vão às oitavas; o 3º cai para os playoffs da Sul-Americana. Mata-mata em ida e volta, sem gol fora. Final em jogo único em 28/11.",
+  "grupos": {
+   "A": ["Flamengo", "Estudiantes", "Cusco", "Independiente Medellín"],
+   "B": ["Nacional", "Universitario", "Coquimbo Unido", "Tolima"],
+   "C": ["Fluminense", "Bolívar", "Deportivo La Guaira", "Independiente Rivadavia"],
+   "D": ["Boca Juniors", "Cruzeiro", "Universidad Católica", "Barcelona"],
+   "E": ["Peñarol", "Corinthians", "Santa Fe", "Platense"],
+   "F": ["Palmeiras", "Cerro Porteño", "Junior", "Sporting Cristal"],
+   "G": ["LDU", "Lanús", "Always Ready", "Mirassol"],
+   "H": ["Independiente del Valle", "Libertad", "Rosario Central", "Universidad Central"]
+  },
+  "rodadas_grupo": ["2026-04-08", "2026-04-15", "2026-04-29", "2026-05-06", "2026-05-20", "2026-05-27"],
+  "fases": [
+   { "nome": "Oitavas", "ida": "2026-08-12", "volta": "2026-08-19" },
+   { "nome": "Quartas", "ida": "2026-09-09", "volta": "2026-09-16" },
+   { "nome": "Semifinal", "ida": "2026-10-14", "volta": "2026-10-21" },
+   { "nome": "Final", "unica": "2026-11-28" }
+  ]
+ },
+ "sulamericana": {
+  "nome": "Sul-Americana",
+  "_formato": "32 clubes em 8 grupos de 4. Só o 1º vai direto às oitavas; o 2º joga playoff (ida e volta) contra um 3º da Libertadores. Mata-mata em ida e volta. Final em jogo único em 21/11.",
+  "grupos": {
+   "A": ["América de Cali", "Tigre", "Macará", "Alianza Atlético"],
+   "B": ["Atlético-MG", "Cienciano", "Puerto Cabello", "Juventud"],
+   "C": ["São Paulo", "Millonarios", "Boston River", "O'Higgins"],
+   "D": ["Santos", "San Lorenzo", "Deportivo Cuenca", "Recoleta"],
+   "E": ["Racing", "Caracas", "Independiente Petrolero", "Botafogo"],
+   "F": ["Grêmio", "Palestino", "Montevideo City Torque", "Deportivo Riestra"],
+   "G": ["Olimpia", "Vasco", "Audax Italiano", "Barracas Central"],
+   "H": ["River Plate", "RB Bragantino", "Blooming", "Carabobo"]
+  },
+  "rodadas_grupo": ["2026-04-09", "2026-04-16", "2026-04-30", "2026-05-07", "2026-05-21", "2026-05-28"],
+  "fases": [
+   { "nome": "Playoffs", "ida": "2026-07-21", "volta": "2026-07-28" },
+   { "nome": "Oitavas", "ida": "2026-08-13", "volta": "2026-08-20" },
+   { "nome": "Quartas", "ida": "2026-09-10", "volta": "2026-09-17" },
+   { "nome": "Semifinal", "ida": "2026-10-15", "volta": "2026-10-22" },
+   { "nome": "Final", "unica": "2026-11-21" }
+  ]
+ },
+ "estrangeiros": {
+  "_leia": "forca estimada; altitude = mandante acima de ~2.500 m (vantagem extra em casa)",
+  "Estudiantes": { "pais": "ARG", "forca": 60, "uniforme": { "padrao": "vertical", "faixas": [["#e30613", 7], ["#ffffff", 7]], "numero": "#111111" } },
+  "Cusco": { "pais": "PER", "forca": 50, "altitude": true, "uniforme": { "padrao": "lisa", "base": "#ffd200", "numero": "#111111" } },
+  "Independiente Medellín": { "pais": "COL", "forca": 55, "uniforme": { "padrao": "lisa", "base": "#d0102a", "numero": "#ffffff" } },
+  "Nacional": { "pais": "URU", "forca": 58, "uniforme": { "padrao": "lisa", "base": "#ffffff", "numero": "#0b2a6b" } },
+  "Universitario": { "pais": "PER", "forca": 55, "uniforme": { "padrao": "lisa", "base": "#f2ead0", "numero": "#7a1a1a" } },
+  "Coquimbo Unido": { "pais": "CHI", "forca": 52, "uniforme": { "padrao": "lisa", "base": "#ffd200", "numero": "#111111" } },
+  "Tolima": { "pais": "COL", "forca": 54, "uniforme": { "padrao": "lisa", "base": "#8a1538", "numero": "#ffd200" } },
+  "Bolívar": { "pais": "BOL", "forca": 55, "altitude": true, "uniforme": { "padrao": "lisa", "base": "#7ac0e8", "numero": "#111111" } },
+  "Deportivo La Guaira": { "pais": "VEN", "forca": 48, "uniforme": { "padrao": "lisa", "base": "#f47b20", "numero": "#1b2a5c" } },
+  "Independiente Rivadavia": { "pais": "ARG", "forca": 54, "uniforme": { "padrao": "lisa", "base": "#1b3a8f", "numero": "#ffffff" } },
+  "Boca Juniors": { "pais": "ARG", "forca": 62, "uniforme": { "padrao": "faixa-peito", "base": "#0a3d91", "faixas": [["#ffd200", 14]], "inicio": 60, "numero": "#ffffff" } },
+  "Universidad Católica": { "pais": "CHI", "forca": 55, "uniforme": { "padrao": "faixa-peito", "base": "#ffffff", "faixas": [["#1b4f9c", 10]], "inicio": 58, "numero": "#1b4f9c" } },
+  "Barcelona": { "pais": "EQU", "forca": 56, "uniforme": { "padrao": "lisa", "base": "#ffd200", "numero": "#111111" } },
+  "Peñarol": { "pais": "URU", "forca": 58, "uniforme": { "padrao": "vertical", "faixas": [["#ffd200", 7], ["#111111", 7]], "numero": "#ffffff" } },
+  "Santa Fe": { "pais": "COL", "forca": 54, "uniforme": { "padrao": "lisa", "base": "#d0102a", "numero": "#ffffff" } },
+  "Platense": { "pais": "ARG", "forca": 53, "uniforme": { "padrao": "faixa-peito", "base": "#ffffff", "faixas": [["#5a3a22", 10]], "inicio": 58, "numero": "#5a3a22" } },
+  "Cerro Porteño": { "pais": "PAR", "forca": 57, "uniforme": { "padrao": "vertical", "faixas": [["#1b3a8f", 7], ["#d0102a", 7]], "numero": "#ffffff" } },
+  "Junior": { "pais": "COL", "forca": 56, "uniforme": { "padrao": "vertical", "faixas": [["#d0102a", 7], ["#ffffff", 7]], "numero": "#1b2a5c" } },
+  "Sporting Cristal": { "pais": "PER", "forca": 53, "uniforme": { "padrao": "lisa", "base": "#6fc3ea", "numero": "#ffffff" } },
+  "LDU": { "pais": "EQU", "forca": 59, "altitude": true, "uniforme": { "padrao": "lisa", "base": "#ffffff", "numero": "#d0102a" } },
+  "Lanús": { "pais": "ARG", "forca": 59, "uniforme": { "padrao": "lisa", "base": "#7a1f36", "numero": "#ffffff" } },
+  "Always Ready": { "pais": "BOL", "forca": 50, "altitude": true, "uniforme": { "padrao": "lisa", "base": "#ffffff", "numero": "#d0102a" } },
+  "Independiente del Valle": { "pais": "EQU", "forca": 60, "altitude": true, "uniforme": { "padrao": "vertical", "faixas": [["#1b3a8f", 7], ["#111111", 7]], "numero": "#ffffff" } },
+  "Libertad": { "pais": "PAR", "forca": 57, "uniforme": { "padrao": "vertical", "faixas": [["#111111", 7], ["#ffffff", 7]], "numero": "#ffffff" } },
+  "Rosario Central": { "pais": "ARG", "forca": 59, "uniforme": { "padrao": "vertical", "faixas": [["#ffd200", 7], ["#0a3d91", 7]], "numero": "#ffffff" } },
+  "Universidad Central": { "pais": "VEN", "forca": 49, "uniforme": { "padrao": "lisa", "base": "#1b3a8f", "numero": "#ffffff" } },
+  "América de Cali": { "pais": "COL", "forca": 54, "uniforme": { "padrao": "lisa", "base": "#d0102a", "numero": "#ffffff" } },
+  "Tigre": { "pais": "ARG", "forca": 55, "uniforme": { "padrao": "faixa-peito", "base": "#1b3a8f", "faixas": [["#d0102a", 12]], "inicio": 58, "numero": "#ffffff" } },
+  "Macará": { "pais": "EQU", "forca": 47, "altitude": true, "uniforme": { "padrao": "lisa", "base": "#6fc3ea", "numero": "#111111" } },
+  "Alianza Atlético": { "pais": "PER", "forca": 47, "uniforme": { "padrao": "lisa", "base": "#ffffff", "numero": "#1b3a8f" } },
+  "Cienciano": { "pais": "PER", "forca": 49, "altitude": true, "uniforme": { "padrao": "lisa", "base": "#d0102a", "numero": "#ffffff" } },
+  "Puerto Cabello": { "pais": "VEN", "forca": 46, "uniforme": { "padrao": "lisa", "base": "#1b3a8f", "numero": "#ffffff" } },
+  "Juventud": { "pais": "URU", "forca": 47, "uniforme": { "padrao": "vertical", "faixas": [["#111111", 7], ["#ffffff", 7]], "numero": "#ffffff" } },
+  "Millonarios": { "pais": "COL", "forca": 55, "uniforme": { "padrao": "lisa", "base": "#1b3a8f", "numero": "#ffffff" } },
+  "Boston River": { "pais": "URU", "forca": 49, "uniforme": { "padrao": "lisa", "base": "#d0102a", "numero": "#ffffff" } },
+  "O'Higgins": { "pais": "CHI", "forca": 52, "uniforme": { "padrao": "lisa", "base": "#6fc3ea", "numero": "#111111" } },
+  "San Lorenzo": { "pais": "ARG", "forca": 56, "uniforme": { "padrao": "vertical", "faixas": [["#1b3a8f", 7], ["#d0102a", 7]], "numero": "#ffffff" } },
+  "Deportivo Cuenca": { "pais": "EQU", "forca": 48, "altitude": true, "uniforme": { "padrao": "lisa", "base": "#d0102a", "numero": "#ffd200" } },
+  "Recoleta": { "pais": "PAR", "forca": 45, "uniforme": { "padrao": "lisa", "base": "#ffffff", "numero": "#111111" } },
+  "Racing": { "pais": "ARG", "forca": 61, "uniforme": { "padrao": "vertical", "faixas": [["#6fc3ea", 7], ["#ffffff", 7]], "numero": "#111111" } },
+  "Caracas": { "pais": "VEN", "forca": 48, "uniforme": { "padrao": "lisa", "base": "#d0102a", "numero": "#ffffff" } },
+  "Independiente Petrolero": { "pais": "BOL", "forca": 46, "altitude": true, "uniforme": { "padrao": "lisa", "base": "#d0102a", "numero": "#ffffff" } },
+  "Palestino": { "pais": "CHI", "forca": 51, "uniforme": { "padrao": "vertical", "faixas": [["#d0102a", 5], ["#ffffff", 3], ["#00843d", 5], ["#ffffff", 3]], "numero": "#111111" } },
+  "Montevideo City Torque": { "pais": "URU", "forca": 50, "uniforme": { "padrao": "lisa", "base": "#6fc3ea", "numero": "#ffffff" } },
+  "Deportivo Riestra": { "pais": "ARG", "forca": 51, "uniforme": { "padrao": "lisa", "base": "#111111", "numero": "#ffffff" } },
+  "Olimpia": { "pais": "PAR", "forca": 56, "uniforme": { "padrao": "faixa-peito", "base": "#ffffff", "faixas": [["#111111", 10]], "inicio": 58, "numero": "#111111" } },
+  "Audax Italiano": { "pais": "CHI", "forca": 49, "uniforme": { "padrao": "lisa", "base": "#00843d", "numero": "#ffffff" } },
+  "Barracas Central": { "pais": "ARG", "forca": 52, "uniforme": { "padrao": "vertical", "faixas": [["#d0102a", 7], ["#ffffff", 7]], "numero": "#111111" } },
+  "River Plate": { "pais": "ARG", "forca": 63, "uniforme": { "padrao": "diagonal", "base": "#ffffff", "faixa": "#d0102a", "largura": 14, "sentido": "inverso", "numero": "#111111" } },
+  "Blooming": { "pais": "BOL", "forca": 47, "uniforme": { "padrao": "lisa", "base": "#6fc3ea", "numero": "#111111" } },
+  "Carabobo": { "pais": "VEN", "forca": 47, "uniforme": { "padrao": "lisa", "base": "#7a1f36", "numero": "#ffffff" } }
+ }
+}

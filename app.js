@@ -91,6 +91,7 @@ function indexar(r) {
     }
   }
   r.indice = { todos, comNota, porPosicao, mediana };
+  r.cortes = cortesDoRetrato(r);
   return r;
 }
 
@@ -140,6 +141,8 @@ let contadorSvg = 0;
 const CAMISA = "M30 42 L43 36 Q50 43 57 36 L70 42 L90 58 L80 72 L72 66 V116 H28 V66 L20 72 L10 58 Z";
 
 function kitDoTime(time) {
+  // kit explicito (estrangeiros do draft, time do usuario) vem primeiro
+  if (time.kit && (time.kit.base || (time.kit.faixas && time.kit.faixas.length))) return time.kit;
   const k = UNIFORMES[time.nome];
   if (k && (k.base || (k.faixas && k.faixas.length))) return k;
   return {
@@ -185,9 +188,44 @@ function pintarTecido(g, kit) {
     }
   } else if (kit.padrao === "diagonal" && HEX.test(kit.faixa || "")) {
     const l = kit.largura || 12;
-    // do ombro direito do jogador (esquerda de quem olha) ate o quadril oposto
-    g.append(svg("path", { d: `M${40 - l / 2} 34 L${40 + l / 2} 34 L${70 + l / 2} 120 L${70 - l / 2} 120 Z`, fill: kit.faixa }));
+    // do ombro direito do jogador (esquerda de quem olha) ate o quadril oposto;
+    // "sentido": "inverso" espelha (River Plate)
+    const [x0, x1] = kit.sentido === "inverso" ? [60, 30] : [40, 70];
+    g.append(svg("path", { d: `M${x0 - l / 2} 34 L${x0 + l / 2} 34 L${x1 + l / 2} 120 L${x1 - l / 2} 120 Z`, fill: kit.faixa }));
   }
+}
+
+// Cores que ficam atras do numero (faixa y 64-92 do peito). O numero tem
+// que contrastar com TODAS: verde em cima de faixa verde (Coritiba) ou
+// branco na listra branca nao passa.
+function coresAtrasDoNumero(kit) {
+  const base = corDoKit(kit);
+  const faixas = (kit.faixas || []).filter(([cor]) => HEX.test(cor));
+  if (kit.padrao === "vertical" || kit.padrao === "horizontal") return faixas.map(([cor]) => cor);
+  if (kit.padrao === "diagonal") return [base, corOu(kit.faixa, base)];
+  if (kit.padrao === "faixa-peito") {
+    const cores = [base];
+    let y = typeof kit.inicio === "number" ? kit.inicio : 58;
+    for (const [cor, altura] of faixas) {
+      if (y < 92 && y + altura > 64) cores.push(cor);
+      y += altura;
+    }
+    return cores;
+  }
+  return [base];
+}
+const contraste = (a, b) => {
+  const [x, y] = [luminancia(a), luminancia(b)].sort((m, n) => n - m);
+  return (x + 0.05) / (y + 0.05);
+};
+// Fica a cor do clube se ela ler bem (contraste >= 3 com tudo atras);
+// senao, branco ou preto, o que tiver o melhor pior caso.
+function corDoNumero(kit) {
+  const atras = coresAtrasDoNumero(kit);
+  const pior = (cor) => Math.min(...atras.map((c) => contraste(cor, c)));
+  const doClube = HEX.test(kit.numero || "") ? kit.numero : null;
+  if (doClube && pior(doClube) >= 3) return doClube;
+  return ["#ffffff", "#111111"].reduce((a, b) => (pior(b) > pior(a) ? b : a));
 }
 
 // A camisa (e, no card, o boneco generico por cima dela). viewBox fixo
@@ -195,12 +233,7 @@ function pintarTecido(g, kit) {
 // ids do clipPath e do degrade sao unicos: varias camisas na mesma pagina.
 function figura(time, camisa, { cabeca = true } = {}) {
   const kit = kitDoTime(time);
-  const base = corDoKit(kit);
-  let numero = corOu(kit.numero, textoSobre(base));
-  // camisa branca com numero branco: o numero precisa aparecer
-  if (kit.padrao !== "vertical" && kit.padrao !== "horizontal" && Math.abs(luminancia(base) - luminancia(numero)) < 0.25) {
-    numero = textoSobre(base);
-  }
+  const numero = corDoNumero(kit);
   const id = `camisa-${++contadorSvg}`;
   const raiz = svg("svg", { viewBox: cabeca ? "0 0 100 120" : "0 30 100 90", "aria-hidden": "true" });
   if (cabeca) {
@@ -231,11 +264,12 @@ function figura(time, camisa, { cabeca = true } = {}) {
   raiz.append(svg("path", { d: "M43 36 Q50 43 57 36", fill: "none", stroke: corOu(kit.gola, numero), "stroke-width": 2.6, "stroke-linecap": "round" }));
   if (camisa !== null && camisa !== undefined) {
     const texto = svg("text", {
-      x: 50, y: 96, "text-anchor": "middle", "font-size": String(camisa).length > 2 ? 22 : 30,
+      // centro do peito: o tronco vai de y 36 a 116
+      x: 50, y: String(camisa).length > 2 ? 86 : 89, "text-anchor": "middle", "font-size": String(camisa).length > 2 ? 22 : 30,
       "font-weight": 800, fill: numero, "font-family": "'Barlow Condensed', Inter, sans-serif",
-      // contorno garante leitura em cima de listra
-      stroke: luminancia(numero) > 0.4 ? "rgba(0,0,0,0.55)" : "rgba(255,255,255,0.7)",
-      "stroke-width": 2.2, "paint-order": "stroke", "stroke-linejoin": "round",
+      // contorno do lado oposto garante leitura em cima de listra
+      stroke: luminancia(numero) > 0.4 ? "rgba(0,0,0,0.6)" : "rgba(255,255,255,0.75)",
+      "stroke-width": 2.6, "paint-order": "stroke", "stroke-linejoin": "round",
     });
     texto.textContent = String(camisa);
     raiz.append(texto);
@@ -258,15 +292,44 @@ function textoSobre(hex) {
 // --- niveis -----------------------------------------------------------------
 
 // O nivel e o material da casa, como nos tres porquinhos: opiniao e o
-// lobo. Faixas da nossa escala (percentil): 75+ e coisa de 1% da liga,
-// 65+ uns 10%. Grafeno e o outlier e leva a cor do canal.
+// lobo. Grafeno e o outlier e leva a cor do canal.
+//
+// Os cortes NAO sao numeros fixos: a escala do overall muda entre versoes
+// do modelo do futdata. Ordem de preferencia:
+//   1. o retrato traz "niveis": {"madeira": n, "tijolo": n, "grafeno": n}
+//      (o futdata decide a regua);
+//   2. senao, sai da posicao na liga: palha = 35% de baixo, madeira ate 85%,
+//      tijolo ate 98%, grafeno = os 2% do topo.
+// Os valores abaixo sao so o ponto de partida; usarCortes(r) troca.
 const NIVEIS = [
-  { id: "grafeno", nome: "Grafeno", min: 75, faixa: "75+" },
-  { id: "tijolo", nome: "Tijolo", min: 65, faixa: "65–74" },
-  { id: "madeira", nome: "Madeira", min: 50, faixa: "50–64" },
-  { id: "palha", nome: "Palha", min: -Infinity, faixa: "até 49" },
+  { id: "grafeno", nome: "Grafeno", min: 82, faixa: "" },
+  { id: "tijolo", nome: "Tijolo", min: 75, faixa: "" },
+  { id: "madeira", nome: "Madeira", min: 65, faixa: "" },
+  { id: "palha", nome: "Palha", min: -Infinity, faixa: "" },
 ];
+const QUANTIL_DO_NIVEL = { madeira: 0.35, tijolo: 0.85, grafeno: 0.98 };
 const nivel = (overall) => NIVEIS.find((t) => overall >= t.min);
+
+function cortesDoRetrato(r) {
+  const dado = r.niveis;
+  if (dado && ["madeira", "tijolo", "grafeno"].every((k) => typeof dado[k] === "number")) {
+    return { madeira: dado.madeira, tijolo: dado.tijolo, grafeno: dado.grafeno, origem: "futdata" };
+  }
+  const v = r.indice.comNota.map((j) => j.overall).sort((a, b) => a - b);
+  const q = (p) => (v.length ? v[Math.min(v.length - 1, Math.floor(v.length * p))] : Infinity);
+  return { madeira: q(QUANTIL_DO_NIVEL.madeira), tijolo: q(QUANTIL_DO_NIVEL.tijolo), grafeno: q(QUANTIL_DO_NIVEL.grafeno), origem: "liga" };
+}
+
+// Passa a valer a regua do retrato que esta na tela (uma temporada por vez).
+function usarCortes(r) {
+  const c = r.cortes;
+  const [nm, nt, ng] = [c.madeira, c.tijolo, c.grafeno];
+  const faixa = { grafeno: `${ng}+`, tijolo: `${nt}–${ng - 1}`, madeira: `${nm}–${nt - 1}`, palha: `até ${nm - 1}` };
+  for (const t of NIVEIS) {
+    t.min = t.id === "palha" ? -Infinity : c[t.id];
+    t.faixa = faixa[t.id];
+  }
+}
 
 // Formatacao condicional de planilha: 0 vermelho, 50 amarelo, 100 verde.
 const ESCALA = [[0, [248, 105, 107]], [50, [255, 235, 132]], [100, [99, 190, 123]]];
@@ -376,7 +439,7 @@ function cartaDoJogador(jogador, time, r, { estatica = false } = {}) {
   selo.title = time.nome;
   nota.append(el("strong", null, String(jogador.overall)), el("span", "carta-pos", SIGLA[jogador.posicao] || ""), selo);
   const boneco = el("div", "carta-figura");
-  boneco.append(figura(time, jogador.camisa));
+  boneco.append(figura(time, jogador.camisa, { cabeca: false }));
   topo.append(nota, boneco);
 
   const nome = el("h4", "carta-nome", jogador.nome);
@@ -388,7 +451,10 @@ function cartaDoJogador(jogador, time, r, { estatica = false } = {}) {
   for (const [sigla, titulo, valor] of atributos) {
     const celula = el("div", valor === null ? "sem-dado" : "");
     celula.title = valor === null ? `${titulo}: sem dado` : `${titulo}: ${valor}`;
-    if (valor !== null) celula.style.background = calor(valor);
+    if (valor !== null) {
+      celula.style.setProperty("--cor", calor(valor));
+      celula.style.setProperty("--v", valor);
+    }
     celula.append(el("dt", null, sigla), el("dd", null, valor === null ? "—" : String(valor)));
     eixos.append(celula);
   }
@@ -520,13 +586,27 @@ function campinho(time) {
   }
   const porId = new Map(time.jogadores.map((j) => [j.player_id, j]));
   const campo = gramado(`Escalação base do ${time.nome} no ${base.formacao}`);
-  const yMax = Math.max(...base.posicoes.map((p) => p.y), 0.01);
+  // Cada linha da formacao (mesmo y) vira uma fileira com espaco igual
+  // entre os jogadores, e as fileiras ficam equidistantes do gol ao ataque.
+  // Assim o meio-campo de 4 ou 5 nao se espreme no centro.
+  const chaveY = (p) => Math.round(p.y * 100);
+  const fileiras = [...new Set(base.posicoes.map(chaveY))].sort((a, b) => a - b);
   const topo = 20, fundo = 132;
+  const cyDe = (p) => {
+    const i = fileiras.indexOf(chaveY(p));
+    return fileiras.length > 1 ? fundo - (i * (fundo - topo)) / (fileiras.length - 1) : fundo;
+  };
+  const cxDe = new Map();
+  for (const nivelY of fileiras) {
+    const linha = base.posicoes.filter((p) => chaveY(p) === nivelY).sort((a, b) => a.x - b.x);
+    const passo = linha.length > 1 ? Math.min(24, 78 / (linha.length - 1)) : 0;
+    linha.forEach((p, i) => cxDe.set(p, 50 + (i - (linha.length - 1) / 2) * passo));
+  }
   for (const pos of base.posicoes) {
-    const cx = 13 + pos.x * 74;
-    const cy = fundo - (pos.y / yMax) * (fundo - topo);
+    const cx = cxDe.get(pos);
+    const cy = cyDe(pos);
     const jogador = pos.player_id ? porId.get(pos.player_id) : null;
-    const g = svg("g", { transform: `translate(${cx.toFixed(2)} ${cy.toFixed(2)})` });
+    const g = svg("g", { transform: `translate(${cx.toFixed(2)} ${cy.toFixed(2)}) scale(1.18)` });
     if (!jogador) {
       // posicao que ninguem ocupou de forma recorrente: tracejado, nao um nome inventado
       g.append(svg("circle", { r: 5.5, fill: "rgba(13,17,23,0.35)", stroke: "rgba(255,255,255,0.7)",
@@ -854,7 +934,8 @@ function abrirFicha(jogador, time) {
   const fatos = el("div", "ficha-fatos");
   fatos.append(
     el("span", "fato fato-destaque", `${pos}º de ${ranking.length} ${PLURAL[jogador.posicao]}`),
-    el("span", "fato", `top ${topo}% da posição`),
+    // "top 94%" de quem e 69 de 74 engana: so mostra quando e elogio de verdade
+    ...(topo <= 50 ? [el("span", "fato", `top ${topo}% da posição`)] : []),
     el("span", "fato", `${jogador.jogos} jogos · ${jogador.minutos} min`),
   );
   cab.append(fatos);
@@ -943,118 +1024,119 @@ function ligarFicha() {
   });
 }
 
-// --- vitrine: a melhor figurinha e o envelope ----------------------------------
+// --- vitrine: o envelope de figurinha ---------------------------------------
 
-// Sorteio com peso: cada 8 pontos de overall multiplica a chance por e.
-// Grafeno sai de vez em quando, palha sai bastante. Igual envelope de banca.
+// Chance fixa por nivel, como envelope de verdade: a maioria sai palha ou
+// madeira, grafeno e quase impossivel. Dentro do nivel, qualquer um.
+// As chances aparecem na pagina: nada de caixa-preta. O Draft usa as mesmas.
+const CHANCES = { palha: 0.55, madeira: 0.38, tijolo: 0.065, grafeno: 0.005 };
+
 function sortear(r) {
-  const pesos = r.indice.comNota.map((j) => Math.exp((j.overall - 50) / 8));
-  let x = Math.random() * pesos.reduce((a, b) => a + b, 0);
-  for (let i = 0; i < pesos.length; i++) {
-    x -= pesos[i];
-    if (x <= 0) return r.indice.comNota[i];
+  const porNivel = {};
+  for (const j of r.indice.comNota) (porNivel[nivel(j.overall).id] ||= []).push(j);
+  // nivel sem ninguem na temporada sai do sorteio e as chances se ajustam
+  const niveis = Object.keys(CHANCES).filter((id) => porNivel[id]);
+  let x = Math.random() * niveis.reduce((s, id) => s + CHANCES[id], 0);
+  let escolhido = niveis[niveis.length - 1];
+  for (const id of niveis) {
+    x -= CHANCES[id];
+    if (x <= 0) { escolhido = id; break; }
   }
-  return r.indice.comNota[0];
+  const grupo = porNivel[escolhido];
+  return grupo[Math.floor(Math.random() * grupo.length)];
+}
+
+function textoDasChances() {
+  const pct = (v) => `${(v * 100).toLocaleString("pt-BR", { maximumFractionDigits: 1 })}%`;
+  return NIVEIS.map((t) => `${t.nome} ${pct(CHANCES[t.id])}`).join(" · ");
 }
 
 function montarEnvelope(temporada) {
-  const envelope = el("div", "envelope");
+  const envelope = el("button", "envelope");
+  envelope.type = "button";
+  envelope.setAttribute("aria-label", "Rasgar o envelope");
   const aba = el("div", "envelope-aba");
-  aba.append(el("span", null, "abra aqui"));
+  aba.append(el("span", null, "rasgue aqui"));
   const logo = el("img");
   logo.src = "img/simbolo.svg";
   logo.alt = "";
+  const marcas = el("div", "envelope-cliques");
+  for (let i = 0; i < 3; i++) marcas.append(el("i"));
   envelope.append(aba, logo,
-    el("span", "envelope-titulo", "Figurinhas"),
+    el("span", "envelope-titulo", "Figurinha"),
     el("span", "envelope-marca", `Tem dado em casa · ${temporada}`),
-    el("span", "envelope-conteudo", "contém 1 figurinha"));
+    marcas);
   return envelope;
 }
 
-// O album fica so no navegador de quem abriu (localStorage). Se o navegador
-// nao deixar guardar, o album vale so enquanto a aba estiver aberta.
-function albumDe(temporada) {
-  const chave = `tdc-album-${temporada}`;
-  let ids = new Set();
-  try { ids = new Set(JSON.parse(localStorage.getItem(chave) || "[]")); } catch (_) { /* sem storage */ }
-  return {
-    tem: (id) => ids.has(id),
-    colar(id) {
-      ids.add(id);
-      try { localStorage.setItem(chave, JSON.stringify([...ids])); } catch (_) { /* sem storage */ }
-    },
-    get tamanho() { return ids.size; },
-  };
-}
+const FALAS = {
+  grafeno: "GRAFENO! Essa quase ninguém tira.",
+  tijolo: "Casa de tijolo! O lobo não derruba essa.",
+  madeira: "Casa de madeira. Aguenta um sopro.",
+  palha: "Casa de palha. O lobo sopra e leva.",
+};
 
-// O envelope mora num dialogo aberto pelo link do topo. Sorteia sempre da
-// temporada escolhida na secao de cartas (a ficha que abre ao clicar na
-// figurinha procura o jogador nela).
+// O envelope mora num dialogo aberto pelo link do topo e sorteia da
+// temporada escolhida na secao de cartas. Tres cliques pra abrir:
+// 1) treme, 2) a aba solta e o brilho entrega a cor do nivel (a pista),
+// 3) rasga e revela.
 function iniciarVitrine() {
   const dialogo = document.getElementById("vitrine-dialogo");
   const palco = document.getElementById("palco");
   const legenda = document.getElementById("vitrine-legenda");
-  const contador = document.getElementById("album");
+  const chances = document.getElementById("chances");
   const botao = document.getElementById("abrir-envelope");
   const link = document.getElementById("abrir-vitrine");
-  const mostrarAlbum = (r) => {
-    const album = albumDe(r.temporada);
-    contador.textContent = album.tamanho
-      ? `Seu álbum ${r.temporada}: ${album.tamanho} de ${r.indice.comNota.length}`
-      : "";
-  };
-  const envelopeFechado = () => {
+
+  const novoEnvelope = () => {
+    const r = estado.r;
+    const jogador = sortear(r);
+    const time = TIME_DE.get(jogador);
+    const t = nivel(jogador.overall);
+    const envelope = montarEnvelope(r.temporada);
     palco.className = "palco";
-    palco.replaceChildren(montarEnvelope(estado.r.temporada));
-    legenda.textContent = "Uma figurinha por envelope. Grafeno é raro.";
-    botao.textContent = "Abrir o envelope";
-    mostrarAlbum(estado.r);
+    palco.replaceChildren(envelope);
+    legenda.textContent = "Clica no envelope pra rasgar.";
+    chances.textContent = `Chances: ${textoDasChances()}`;
+    botao.hidden = true;
+    let cliques = 0;
+    envelope.addEventListener("click", async () => {
+      if (cliques >= 3) return;
+      cliques += 1;
+      envelope.dataset.cliques = String(cliques);
+      envelope.classList.remove("tremendo");
+      void envelope.offsetWidth; // reinicia a animacao a cada clique
+      envelope.classList.add("tremendo");
+      if (cliques === 1) legenda.textContent = "Mais forte…";
+      if (cliques === 2) {
+        palco.className = `palco nivel-${t.id} pista`;
+        legenda.textContent = t.id === "grafeno" || t.id === "tijolo" ? "Opa… esse brilho…" : "Último puxão.";
+      }
+      if (cliques < 3) return;
+      envelope.classList.add("rasgando");
+      palco.classList.add("clarao");
+      await espera(movimentoReduzido ? 0 : 450);
+      const carta = cartaDoJogador(jogador, time, r);
+      carta.classList.add("revelando");
+      palco.replaceChildren(carta);
+      legenda.textContent = `${jogador.nome} (${time.nome}), ${jogador.overall} ${SIGLA[jogador.posicao]}. ${FALAS[t.id]}`;
+      await espera(movimentoReduzido ? 0 : 1400);
+      palco.classList.remove("clarao", "pista");
+      botao.hidden = false;
+      botao.textContent = "Abrir outro envelope";
+    });
+    envelope.focus({ preventScroll: true });
   };
 
   link.hidden = false;
   link.addEventListener("click", () => {
     if (!estado.r || !estado.r.indice.comNota.length) return;
-    envelopeFechado();
     dialogo.showModal();
+    novoEnvelope();
   });
   document.getElementById("vitrine-fechar").addEventListener("click", () => dialogo.close());
   dialogo.addEventListener("click", (e) => { if (e.target === dialogo) dialogo.close(); });
-
-  botao.addEventListener("click", async () => {
-    const r = estado.r;
-    botao.disabled = true;
-    const jogador = sortear(r);
-    const time = TIME_DE.get(jogador);
-    const t = nivel(jogador.overall);
-    const album = albumDe(r.temporada);
-    const repetida = album.tem(jogador.player_id);
-    palco.className = `palco nivel-${t.id}`;
-    if (!movimentoReduzido) {
-      const envelope = montarEnvelope(r.temporada);
-      palco.replaceChildren(envelope);
-      legenda.textContent = "Rasgando…";
-      await espera(30);
-      envelope.classList.add("tremendo");
-      await espera(t.id === "grafeno" || t.id === "tijolo" ? 1400 : 900);
-      envelope.classList.remove("tremendo");
-      envelope.classList.add("rasgando");
-      palco.classList.add("clarao");
-      await espera(420);
-    }
-    const carta = cartaDoJogador(jogador, time, r);
-    carta.classList.add("revelando");
-    palco.replaceChildren(carta);
-    album.colar(jogador.player_id);
-    mostrarAlbum(r);
-    const grito = repetida
-      ? "Repetida. Guarda pro bafo."
-      : { grafeno: "Bati! Casa de grafeno, essa é rara.", tijolo: "Bati! Casa de tijolo, o lobo não derruba.", madeira: "Figurinha nova. Casa de madeira.", palha: "Figurinha nova. Casa de palha: o lobo sopra, mas conta." }[t.id];
-    legenda.textContent = `${jogador.nome} (${time.nome}), ${jogador.overall} ${SIGLA[jogador.posicao]}. ${grito}`;
-    await espera(movimentoReduzido ? 0 : 1400);
-    palco.classList.remove("clarao");
-    botao.disabled = false;
-    botao.textContent = "Abrir outro envelope";
-  });
+  botao.addEventListener("click", novoEnvelope);
 }
 
 // --- controles ------------------------------------------------------------
@@ -1199,6 +1281,7 @@ async function iniciarOveralls() {
   async function trocarTemporada() {
     const r = await retrato(selTemporada.value);
     estado.r = r;
+    usarCortes(r);
     const anterior = Number(selTime.value);
     selTime.replaceChildren(...r.times.map((t) => new Option(t.nome, String(t.team_id))));
     if (r.times.some((t) => t.team_id === anterior)) selTime.value = String(anterior);
@@ -1234,14 +1317,20 @@ function falha(idAlvo, mensagem) {
   alvo.replaceChildren(el("div", "vazio", mensagem));
 }
 
+// Este arquivo tambem e carregado pelo draft.html (que reaproveita carta,
+// camisa, niveis e CHANCES): cada parte so liga se a pagina tiver o pedaco dela.
 ligarInclinacao();
-ligarFicha();
+if (document.getElementById("ficha")) ligarFicha();
 
-json("dados/videos.json")
-  .then(mostrarVideos)
-  .catch(() => falha("lista-videos", "Os vídeos não carregaram agora. Tenta de novo daqui a pouco."));
+if (document.getElementById("lista-videos")) {
+  json("dados/videos.json")
+    .then(mostrarVideos)
+    .catch(() => falha("lista-videos", "Os vídeos não carregaram agora. Tenta de novo daqui a pouco."));
+}
 
-iniciarOveralls().catch((erro) => {
-  console.error(erro);
-  falha("elenco", "As cartas não carregaram agora. Tenta de novo daqui a pouco.");
-});
+if (document.getElementById("elenco")) {
+  iniciarOveralls().catch((erro) => {
+    console.error(erro);
+    falha("elenco", "As cartas não carregaram agora. Tenta de novo daqui a pouco.");
+  });
+}

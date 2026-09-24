@@ -13,8 +13,11 @@ base bruta do Sofascore nem ratings do EA.
 
 | arquivo | o que é |
 |---|---|
-| `index.html` | página única: topo (seleção), vídeos, cartas, "de onde vem" |
-| `app.js` | toda a lógica; texto dos dados entra por `textContent`, nunca `innerHTML` |
+| `index.html` | home: topo (seleção), vídeos, cartas, "de onde vem" |
+| `app.js` | lógica da home e peças comuns (carta, camisa, níveis, envelope); texto dos dados entra por `textContent`, nunca `innerHTML` |
+| `draft.html`, `draft.js`, `draft.css` | minigame Draft: monta o time com figurinhas e joga a temporada 2026 |
+| `motor.js` | simulação de jogos e temporada, sem DOM (roda no navegador e no node) |
+| `dados/competicoes-2026.json` | regulamento e calendário (Brasileirão, Copa do Brasil, Libertadores, Sul-Americana) e força **estimada** dos estrangeiros; editado à mão |
 | `estilo.css` | tokens em `:root`, tema escuro |
 | `dados/overalls-{ano}.json` | retrato da temporada, gerado por `futdata export-site` |
 | `dados/temporadas.json` | anos no seletor, o primeiro é o padrão (`[2026, 2025, 2024]`) |
@@ -33,7 +36,13 @@ eixos {sigla: rótulo}, times[]
         jogadores[]
     jogador: player_id, nome, camisa, posicao (G/D/M/F), jogos, minutos,
              overall | null, eixos {…}, sem_nota_por | null
+niveis {madeira, tijolo, grafeno}      ← opcional
 ```
+
+- **`niveis` (opcional):** overall mínimo de cada casa na temporada. Se vier,
+  o site usa. Se não vier, calcula pela posição na liga (palha = 35% de
+  baixo, madeira até 85%, tijolo até 98%, grafeno = 2% do topo), então a
+  escala do modelo pode mudar sem quebrar nada.
 
 - **Eixos de linha:** `RIT FIN PAS DRI DEF FIS` (modelo v2). Retrato antigo
   com `VEL CHU CRI PAS DRI FOR DEF` é convertido no carregamento
@@ -63,9 +72,10 @@ opcionais:   "numero": "#hex", "gola": "#hex"
   jogador na `escalacao_base` do próprio time (lateral se x ≤ 0,3 ou ≥ 0,7);
   sem posição registrada, pode ocupar qualquer vaga. O melhor do meio e do
   ataque fica no centro. Acompanha a temporada escolhida.
-- **Casas (nível):** palha < 50 ≤ madeira < 65 ≤ tijolo < 75 ≤ grafeno.
-  Faixas pensadas para a escala de percentil; revisar quando o v2 publicar
-  (no v2 o melhor jogador de linha vira 85).
+- **Casas (nível):** cortes vêm de `niveis` no retrato ou da posição na liga
+  (ver o contrato acima); a legenda das cartas mostra os números da temporada.
+- **Envelope:** chance fixa por casa (palha 55%, madeira 38%, tijolo 6,5%,
+  grafeno 0,5%), mostrada na página; `CHANCES` em `app.js`. O Draft usa a mesma.
 - **Link direto para uma carta:** `…/#jogador-{player_id}` (vai na descrição do vídeo).
 
 ## Atualizar os dados
@@ -89,3 +99,21 @@ python -m http.server 8000     # http://127.0.0.1:8000
 Para testar no celular sem aparelho, use um iframe de 390 px: o Edge/Chrome
 headless tem largura mínima de janela (~500 px) e recorta o print, o que
 parece um estouro lateral que não existe.
+
+## Draft (`draft.html`)
+
+Cria o clube (nome, camisa, esquema), escolhe quem sai da Série A e se joga
+Libertadores ou Sul-Americana; abre 5 figurinhas por vaga (GOL, LD, ZAG, LE,
+VOL, MC, MEI, PD, PE, CA, alas) e joga a temporada em duas abas sincronizadas
+(jogo a jogo e calendário).
+
+- **Motor (`motor.js`):** gols ~ Poisson com ataque × defesa, mando, altitude,
+  expulsão (muda a força dali pra frente) e pênalti. Esquema mexe em ataque e
+  defesa (`Motor.TATICA`, calibrado à mão por enquanto).
+- **Régua de força:** a Série A é convertida pela posição relativa na liga
+  (desvios da média) pra mesma régua dos estrangeiros estimados, então o
+  motor não depende da escala do overall.
+- **Função do jogador:** os dados só têm G/D/M/F. Titular ganha a função pelo
+  lugar na `escalacao_base`; reserva, pelo perfil dos eixos. Quando o futdata
+  trouxer posição detalhada, trocar `inferirFuncoes` em `draft.js` pelo dado.
+- **Testar o motor sem navegador:** `node -e "const M=require('./motor.js')…"`.
