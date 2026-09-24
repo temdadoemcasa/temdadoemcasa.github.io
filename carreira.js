@@ -653,7 +653,12 @@ function cartaoDeProposta(c, aoAssinar, { rotulo = "Assinar", extra = null } = {
     el("p", "proposta-liga", `${c.liga}${c.tipo === "ext" && c.pais ? ` · ${c.pais}` : c.uf ? ` · ${c.uf}` : ""}`),
     camisa, el("h3", "proposta-nome", c.nome), est,
     el("p", "proposta-titular", t.texto),
-    chance, el("p", "proposta-minutos", `Chance de ser titular: ${Math.round(t.s * 100)}% · ${c.tipo !== "ext" ? t.minutos : `nível do titular ~${Math.round(c.nivel)}`}`),
+    chance, (() => {
+      const p = el("p", "proposta-minutos");
+      p.append(el("span", "proposta-chance-txt", `Chance de ser titular: ${Math.round(t.s * 100)}%`),
+        el("span", "proposta-jogos", c.tipo !== "ext" ? t.minutos : `nível do titular ~${Math.round(c.nivel)}`));
+      return p;
+    })(),
     botao,
   );
   if (extra) {
