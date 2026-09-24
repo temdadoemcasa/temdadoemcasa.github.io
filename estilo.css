@@ -932,3 +932,51 @@ select, input {
   .abertura .jogos .jogo-visual { height: 250px; }
   .abertura .jogos .leque-carta { width: 140px; }
 }
+
+/* --- botao de tema -------------------------------------------------------- */
+.topo { gap: 1rem; }
+.menu { margin-left: auto; }
+.tema-botao {
+  flex: none; display: grid; place-items: center; width: 2.2rem; height: 2.2rem; padding: 0;
+  border-radius: 50%; border: 1px solid var(--borda); background: var(--fundo-cartao); color: var(--texto-fraco); cursor: pointer;
+}
+.tema-botao:hover { color: var(--texto); border-color: var(--texto-fraco); }
+.tema-botao svg { width: 1.1rem; height: 1.1rem; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+.tema-lua path { fill: currentColor; stroke: none; }
+.tema-sol { display: none; }
+:root[data-tema="claro"] .tema-sol { display: block; }
+:root[data-tema="claro"] .tema-lua { display: none; }
+
+/* --- tema claro ------------------------------------------------------------
+   As cartas, o campo e o envelope continuam escuros: sao objetos, nao pagina. */
+:root[data-tema="claro"] {
+  --fundo: #f5f6f3;
+  --fundo-cartao: #ffffff;
+  --fundo-alto: #eceee8;
+  --borda: #d5d9d0;
+  --texto: #15181c;
+  --texto-fraco: #5a6270;
+  --canal: #4a7d00;
+  --canal-vivo: #c8ff00;
+  --rival: #0a6fa8;
+  color-scheme: light;
+}
+:root[data-tema="claro"] .topo { background: rgba(245, 246, 243, 0.9); }
+/* fundos cheios de verde voltam pro lima da marca, com texto escuro */
+:root[data-tema="claro"] .botao-primario,
+:root[data-tema="claro"] .chip[aria-pressed="true"],
+:root[data-tema="claro"] .fato-destaque,
+:root[data-tema="claro"] .passos li[aria-current="step"],
+:root[data-tema="claro"] .pos-botao.ativo,
+:root[data-tema="claro"] .resultado-selo.r-v { background: var(--canal-vivo); border-color: #9ccc00; color: #111; }
+:root[data-tema="claro"] .combo-opcao:hover,
+:root[data-tema="claro"] .combo-opcao[aria-selected="true"],
+:root[data-tema="claro"] .atributo-trilho,
+:root[data-tema="claro"] .proposta-chance { background: rgba(0, 0, 0, 0.07); }
+:root[data-tema="claro"] .estrelas i { background: rgba(0, 0, 0, 0.14); }
+:root[data-tema="claro"] .estrelas i.meia { background: linear-gradient(90deg, #f2c230 50%, rgba(0, 0, 0, 0.14) 50%); }
+:root[data-tema="claro"] .pen-bola.gol { background: #15181c; }
+:root[data-tema="claro"] .tabela tr.eu td,
+:root[data-tema="claro"] .rodada-jogo.eu { background: rgba(120, 180, 0, 0.12); }
+:root[data-tema="claro"] .barra { background: linear-gradient(90deg, rgba(74, 125, 0, 0.45), var(--canal)); }
+:root[data-tema="claro"] .avatar { content: url("img/simbolo-claro.svg"); }

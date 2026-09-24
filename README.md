@@ -75,7 +75,7 @@ opcionais:   "numero": "#hex", "gola": "#hex"
 - **Casas (nível):** cortes vêm de `niveis` no retrato ou da posição na liga
   (ver o contrato acima); a legenda das cartas mostra os números da temporada.
 - **Envelope:** chance fixa por casa (palha 55%, madeira 38%, tijolo 6,5%,
-  concreto 1%), mostrada na página; `CHANCES` em `app.js`. O Draft usa a mesma.
+  concreto 1%), mostrada na página; `CHANCES` em `app.js`. O Tem Time em Casa usa a mesma.
 - **Link direto para uma carta:** `…/#jogador-{player_id}` (vai na descrição do vídeo).
 
 ## Atualizar os dados
@@ -100,7 +100,7 @@ Para testar no celular sem aparelho, use um iframe de 390 px: o Edge/Chrome
 headless tem largura mínima de janela (~500 px) e recorta o print, o que
 parece um estouro lateral que não existe.
 
-## Draft (`tem-time-em-casa.html`)
+## Tem Time em Casa (`tem-time-em-casa.html`)
 
 Cria o clube (nome, camisa, esquema), escolhe quem sai da Série A e se joga
 Libertadores ou Sul-Americana; abre 5 figurinhas por vaga (GOL, LD, ZAG, LE,

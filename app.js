@@ -89,7 +89,7 @@ function indexar(r) {
   const mediana = {};
   // ranking, seleção e destaques: só quem passou do piso de minutos. Quem
   // tem nota pelo piso de reputação (recém-chegado, pouco minuto) continua
-  // com carta no elenco e no draft, mas não entra na régua da liga.
+  // com carta no elenco e no Tem Time em Casa, mas não entra na régua da liga.
   const ranqueavel = (j) => typeof j.minutos === "number" && j.minutos >= r.piso_minutos;
   for (const pos of Object.keys(POSICAO)) {
     const grupo = comNota.filter((j) => j.posicao === pos && ranqueavel(j));
@@ -152,7 +152,7 @@ let contadorSvg = 0;
 const CAMISA = "M30 42 L43 36 Q50 43 57 36 L70 42 L90 58 L80 72 L72 66 V116 H28 V66 L20 72 L10 58 Z";
 
 function kitDoTime(time) {
-  // kit explicito (estrangeiros do draft, time do usuario) vem primeiro
+  // kit explicito (estrangeiros do Tem Time em Casa, time do usuario) vem primeiro
   if (time.kit && (time.kit.base || (time.kit.faixas && time.kit.faixas.length))) return time.kit;
   const k = UNIFORMES[time.nome];
   if (k && (k.base || (k.faixas && k.faixas.length))) return k;
@@ -528,7 +528,7 @@ function ligarInclinacao() {
   }, { passive: true });
 }
 
-// --- funcao de cada jogador (Draft e Carreira usam) ------------------------
+// --- funcao de cada jogador (Tem Time em Casa e Prata da Casa usam) ------------------------
 
 const NOME_FUNCAO = { GOL: "Goleiro", LAT: "Lateral", ZAG: "Zagueiro", VOL: "Volante", MC: "Meio-campo", MEI: "Meia", PON: "Ponta", CA: "Centroavante" };
 const FAMILIA = { GOL: ["G"], LAT: ["D"], ZAG: ["D"], VOL: ["M"], MC: ["M"], MEI: ["M"], PON: ["F", "M"], CA: ["F"] };
@@ -1159,7 +1159,7 @@ function ligarFicha() {
 
 // Chance fixa por nivel, como envelope de verdade: a maioria sai palha ou
 // madeira, grafeno e quase impossivel. Dentro do nivel, qualquer um.
-// As chances aparecem na pagina: nada de caixa-preta. O Draft usa as mesmas.
+// As chances aparecem na pagina: nada de caixa-preta. O Tem Time em Casa usa as mesmas.
 const CHANCES = { palha: 0.5, madeira: 0.4, tijolo: 0.09, grafeno: 0.01 };
 
 function sortear(r) {
@@ -1392,7 +1392,7 @@ function ligarChips(seletor, chave, aoMudar) {
 
 // --- abertura: os dois minigames ---------------------------------------------
 
-// Draft: um leque com tres cartas reais (as melhores de posicoes diferentes).
+// Tem Time em Casa: um leque com tres cartas reais (as melhores de posicoes diferentes).
 // Carreira: a sua carta crescendo, de casa de palha aos 16 a casa de concreto aos 29.
 function mostrarAbertura(r) {
   const vd = document.getElementById("visual-draft"), vc = document.getElementById("visual-carreira");
