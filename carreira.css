@@ -321,3 +321,101 @@
   .previas { max-width: 220px; margin: 0 auto; }
   .campo-posicao { max-width: 340px; }
 }
+
+/* --- carreira em tres colunas FIXAS (2026-09-25) ----------------------------------
+   Esquerda: a carta e o painel. Meio: o palco, de altura fixa -- decisao,
+   resumo do ano e janela de transferencias se revezam aqui dentro e rolam
+   por dentro, sem empurrar nada. Direita: a tabela das temporadas, sempre
+   no lugar. Pedido do dono: a tela nao pode mexer a cada clique. */
+.carreira-grade {
+  --palco-altura: clamp(480px, calc(100vh - 15rem), 680px);
+  grid-template-columns: minmax(210px, 250px) minmax(0, 1fr) minmax(290px, 350px);
+  gap: 1.1rem;
+}
+.carreira-palco {
+  height: var(--palco-altura);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  display: grid;
+  align-content: start;
+  gap: 0.8rem;
+  padding-right: 0.2rem;
+}
+.carreira-palco .temporada-atual { margin: 0; }
+.carreira-palco .mercado { margin-top: 0; padding: 0.9rem 1rem; }
+.carreira-palco .mercado .mercado-titulo { font-size: 1.05rem; }
+.carreira-palco .propostas { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.6rem; margin: 0.6rem 0 0; }
+.carreira-palco .proposta { padding: 0.7rem 0.6rem; gap: 0.3rem; }
+.carreira-palco .proposta-camisa svg { width: 58px; }
+.carreira-palco .proposta-nome { font-size: 1rem; }
+.carreira-palco .proposta .botao { margin-top: 0.2rem; padding: 0.45rem 0.6rem; font-size: 0.85rem; }
+.carreira-lateral { position: sticky; top: 5rem; min-width: 0; }
+.carreira-lateral .tabela-rolagem {
+  overflow: visible;
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  background: var(--fundo-cartao);
+}
+.carreira-lateral .tabela { font-size: 0.78rem; margin: 0; width: 100%; min-width: 0; table-layout: fixed; }
+.carreira-lateral th:nth-child(1), .carreira-lateral td:nth-child(1) { width: 2.5rem; }
+.carreira-lateral th:nth-child(n+3), .carreira-lateral td:nth-child(n+3) { width: 1.9rem; }
+.carreira-lateral th:nth-child(3), .carreira-lateral td:nth-child(3) { width: 2.6rem; }
+.carreira-lateral td:nth-child(2) { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.carreira-lateral thead th { position: sticky; top: 0; z-index: 1; background: var(--fundo-cartao); }
+.carreira-lateral td, .carreira-lateral th { padding: 0.22rem 0.3rem; line-height: 1.15; }
+/* linha compacta: sem a liga embaixo do clube e escudo menor -- a carreira
+   inteira (~25 anos) cabe sem rolar */
+.carreira-lateral td small { display: none; }
+.carreira-lateral td svg, .carreira-lateral td img { width: 16px; height: 16px; }
+/* os premios individuais ficam no relatorio final: na lateral a coluna cortava */
+.carreira-lateral th:nth-child(8), .carreira-lateral td:nth-child(8) { display: none; }
+
+/* --- a cena da decisao (historia.js) ----------------------------------------------- */
+.evento-cartao { display: grid; gap: 0.35rem; }
+.evento-selos { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.evento-selo {
+  font-family: var(--numeros); font-weight: 800; font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 0.12rem 0.55rem; border-radius: 999px; background: rgba(200, 255, 0, 0.12); color: var(--canal);
+}
+.evento-selo.selo-volta { background: rgba(92, 200, 255, 0.12); color: #5cc8ff; }
+.evento-arco .temporada-titulo { font-size: 1.45rem; }
+.evento-consequencia { border-left: 3px solid #5cc8ff; padding-left: 0.8rem; }
+.evento-opcao { position: relative; overflow: hidden; }
+.evento-chance { display: block; width: 100%; height: 4px; border-radius: 999px; background: rgba(255, 255, 255, 0.1); }
+.evento-chance::before { content: ""; display: block; width: var(--pct); height: 100%; border-radius: inherit; background: var(--canal); }
+.evento-aviso { color: #5cc8ff !important; font-weight: 700; }
+.evento-escolha { margin: 0.4rem 0 0; font-size: 0.8rem; color: var(--texto-fraco); text-transform: uppercase; letter-spacing: 0.06em; }
+.evento-lembra { margin: 0; font-size: 0.82rem; font-style: italic; color: #5cc8ff; }
+
+/* reputacao no painel (historia.js) */
+.painel-rep { display: grid; gap: 0.35rem; padding: 0.6rem 0.75rem; border-radius: 10px; background: var(--fundo-cartao); border: 1px solid var(--borda); }
+.painel-rep-rotulo { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--texto-fraco); }
+.rep-linha { display: grid; grid-template-columns: 5.2rem minmax(0, 1fr); align-items: center; gap: 0.5rem; font-size: 0.78rem; }
+.rep-barra { position: relative; height: 6px; border-radius: 999px; background: rgba(255, 255, 255, 0.08); }
+.rep-barra::after { content: ""; position: absolute; left: 50%; top: -2px; width: 1px; height: 10px; background: var(--texto-fraco); opacity: 0.5; }
+.rep-barra i { position: absolute; top: 0; height: 100%; border-radius: inherit; }
+.rep-barra i.sobe { left: 50%; background: var(--canal); }
+.rep-barra i.desce { right: 50%; background: #ff7d95; }
+
+/* telas menores: empilha e o palco volta a ter altura livre */
+@media (max-width: 1180px) {
+  .carreira-grade { grid-template-columns: minmax(200px, 240px) minmax(0, 1fr); }
+  .carreira-lateral { grid-column: 1 / -1; position: static; }
+  .carreira-lateral .tabela-rolagem { height: auto; }
+}
+@media (max-width: 960px) {
+  .carreira-grade { grid-template-columns: minmax(0, 1fr); }
+  .carreira-palco { height: auto; max-height: none; overflow: visible; padding-right: 0; }
+}
+
+/* "Sua historia" no relatorio (fluxograma dos arcos) */
+.hist-arco { margin: 0.6rem 0 0; }
+.hist-nome { margin: 0 0 0.3rem; font-family: var(--numeros); font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: var(--canal); font-size: 0.85rem; }
+.hist-passos { list-style: none; margin: 0; padding: 0 0 0 0.9rem; border-left: 2px solid var(--borda); display: grid; gap: 0.55rem; }
+.hist-passos li { position: relative; display: grid; gap: 0.1rem; font-size: 0.82rem; }
+.hist-passos li::before { content: ""; position: absolute; left: -1.25rem; top: 0.3rem; width: 0.55rem; height: 0.55rem; border-radius: 50%; background: var(--borda); box-shadow: 0 0 0 3px var(--fundo-cartao); }
+.hist-passos li.sobe::before { background: var(--canal); }
+.hist-passos li.desce::before { background: #ff7d95; }
+.hist-quando { font-size: 0.7rem; color: var(--texto-fraco); text-transform: uppercase; letter-spacing: 0.05em; }
+.hist-texto { color: var(--texto-fraco); }

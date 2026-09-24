@@ -13,10 +13,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <script src="tema.js?v=2026-09-25c"></script>
-  <link rel="stylesheet" href="estilo.css?v=2026-09-25c">
-  <link rel="stylesheet" href="draft.css?v=2026-09-25c">
-  <link rel="stylesheet" href="carreira.css?v=2026-09-25c">
+  <script src="tema.js?v=2026-09-25h"></script>
+  <link rel="stylesheet" href="estilo.css?v=2026-09-25h">
+  <link rel="stylesheet" href="draft.css?v=2026-09-25h">
+  <link rel="stylesheet" href="carreira.css?v=2026-09-25h">
 </head>
 <body>
   <header class="topo">
@@ -132,12 +132,18 @@
       <div class="carreira-grade">
         <aside class="painel-jogador" id="painel-jogador"></aside>
         <div class="carreira-centro">
-          <div class="jogo temporada-atual" id="temporada-atual" aria-live="polite"></div>
-          <section class="mercado" id="mercado" aria-live="polite" hidden></section>
+          <!-- o palco tem tamanho FIXO: decisao, resumo do ano e janela de
+               transferencias se revezam aqui dentro sem mexer no resto -->
+          <div class="carreira-palco">
+            <div class="jogo temporada-atual" id="temporada-atual" aria-live="polite"></div>
+            <section class="mercado" id="mercado" aria-live="polite" hidden></section>
+          </div>
           <div class="controles-jogo">
             <button class="botao botao-primario" id="proxima" type="button">Jogar a temporada</button>
             <button class="botao" id="tudo" type="button">Simular o resto da carreira</button>
           </div>
+        </div>
+        <aside class="carreira-lateral">
           <div class="tabela-rolagem">
             <table class="tabela tabela-carreira">
               <thead>
@@ -146,7 +152,7 @@
               <tbody id="tabela-carreira"></tbody>
             </table>
           </div>
-        </div>
+        </aside>
       </div>
     </section>
 
@@ -169,8 +175,9 @@
     <p class="rodape-autor">Site, dados e minigames feitos por <a href="https://www.linkedin.com/in/breno-sayao/" target="_blank" rel="noopener">Breno Sayão</a>, engenheiro de dados · <a href="https://www.linkedin.com/in/breno-sayao/" target="_blank" rel="noopener">LinkedIn</a></p>
   </footer>
 
-  <script src="app.js?v=2026-09-25c"></script>
-  <script src="motor.js?v=2026-09-25c"></script>
-  <script src="carreira.js?v=2026-09-25c"></script>
+  <script src="app.js?v=2026-09-25h"></script>
+  <script src="motor.js?v=2026-09-25h"></script>
+  <script src="historia.js?v=2026-09-25h"></script>
+  <script src="carreira.js?v=2026-09-25h"></script>
 </body>
 </html>

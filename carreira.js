@@ -1186,6 +1186,10 @@ function decidirTransferencia(J, ofertas, rebaixado) {
 function jogarTemporada({ decidir = true } = {}) {
   const J = C.J;
   const rng = C.rng;
+  // a historia: consequencia que ninguem escolheu (simulacao) resolve sozinha,
+  // e a reputacao com torcida, vestiario e imprensa pesa na temporada
+  Historia.resolverAutomatico(J, rng, resolverOpcao);
+  Historia.aplicarReputacao(J);
   const lesao = sortearLesao(J, rng);
   const t = J.clube.tipo === "ext" ? temporadaNoExterior(J, J.ano, rng)
     : J.clube.divisao === "A" ? temporadaNoBrasil(J, J.ano, rng) : temporadaInferior(J, J.ano, rng);
@@ -1469,15 +1473,21 @@ function sortearEventos(J, rng, n = 2) {
   const pool = EVENTOS.filter((e) => e.quando(J) && !ultimos.includes(e.id));
   const completo = C.modo === "completo";
   const qtd = completo ? 2 : rng() < 0.35 ? 0 : 1;
-  const escolhidos = Motor.embaralhar(rng, pool).slice(0, qtd);
+  // a historia (historia.js) entra primeiro: consequencia vencida sempre
+  // aparece, e os eventos soltos completam ate o limite do modo
+  const arcos = Historia.eventosDoAno(J, rng, { completo });
+  const escolhidos = Motor.embaralhar(rng, pool).slice(0, Math.max(0, qtd - arcos.length));
   J.ultimosEventos = escolhidos.map((e) => e.id);
-  return completo || !qtd ? [eventoDeTreino(J, rng), ...escolhidos] : escolhidos;
+  if (!completo && arcos.length) return [...arcos, ...escolhidos];
+  return completo || !qtd ? [eventoDeTreino(J, rng), ...arcos, ...escolhidos] : escolhidos;
 }
 
 function resolverOpcao(J, op, rng) {
-  if (op.sempre) return { texto: op.sempre(J), ok: null };
+  // a opcao devolve o texto, ou { texto, emSeguida } nos arcos (historia.js)
+  const pacote = (saida, ok) => (typeof saida === "object" && saida ? { ...saida, ok } : { texto: saida, ok });
+  if (op.sempre) return pacote(op.sempre(J), null);
   const ok = rng() < op.chance(J);
-  return { texto: ok ? op.ok(J) : op.falha(J), ok };
+  return pacote(ok ? op.ok(J) : op.falha(J), ok);
 }
 
 // Negociacao: pedir garantia de titular. O clube aceita mais facil se voce
@@ -1515,11 +1525,25 @@ function desenharPainelJogador() {
     ["Idade", J.idade], ["Clube", J.clube ? J.clube.nome : "Sem clube"], ["Valor", dinheiro(J.valor)],
     ["Jogos", tot.j], ["Gols", tot.g], ["Assist.", tot.a],
   ]) { const d = el("div"); d.append(el("dt", null, k), el("dd", null, String(v))); fatos.append(d); }
+  // reputacao (historia.js): de -5 a 5, o centro e neutro
+  const rep = el("div", "painel-rep");
+  rep.append(el("span", "painel-rep-rotulo", "Reputação"));
+  for (const [k, rotulo] of [["torcida", "Torcida"], ["vestiario", "Vestiário"], ["imprensa", "Imprensa"]]) {
+    const v = (J.historia && J.historia.rep[k]) || 0;
+    const linha = el("div", "rep-linha");
+    const barra = el("span", "rep-barra");
+    const i = el("i", v >= 0 ? "sobe" : "desce");
+    i.style.width = `${(Math.abs(v) / 5) * 50}%`;
+    barra.append(i);
+    barra.title = `${rotulo}: ${v > 0 ? "+" : ""}${v}`;
+    linha.append(el("span", null, rotulo), barra);
+    rep.append(linha);
+  }
   const pais = paisDe(C.pais);
   const cab = el("p", "painel-cab");
   const est = estiloDeJogo(J.attrs, C.pos);
   cab.append(bandeira(pais), el("span", null, `${pais.nome} · #${J.numero} · ${POSICOES[C.pos].nome} · pé ${C.pe.toLowerCase()}${est ? ` · ${est.nome.toLowerCase()}` : ""}`));
-  alvo.append(cab, fatos);
+  alvo.append(cab, fatos, rep);
   for (const [rotulo, itens, classe] of [["Títulos", J.titulos, "galeria"], ["Prêmios", J.premios, "galeria galeria-premios"]]) {
     if (!itens.length) continue;
     const gal = el("div", classe);
@@ -1675,23 +1699,42 @@ function mostrarEvento(i) {
   const J = C.J;
   const ev = C.eventos[i];
   const alvo = $("temporada-atual");
-  alvo.replaceChildren(
+  const palco = alvo.closest(".carreira-palco");
+  if (palco) palco.scrollTop = 0;
+  const cartao = el("div", `evento-cartao${ev.arco ? " evento-arco" : ""}${ev.consequencia ? " evento-consequencia" : ""}`);
+  const selos = el("div", "evento-selos");
+  if (ev.arco) selos.append(el("span", "evento-selo", ev.arco));
+  if (ev.consequencia) selos.append(el("span", "evento-selo selo-volta", `↻ consequência de: ${ev.consequencia}`));
+  cartao.append(
     el("p", "jogo-etapa", `Temporada ${J.ano} · ${J.idade} anos · ${J.clube.nome} · decisão ${i + 1} de ${C.eventos.length}`),
+    ...(selos.childElementCount ? [selos] : []),
     el("h3", "temporada-titulo", ev.titulo),
     el("p", "evento-texto", ev.texto(J)),
   );
+  alvo.replaceChildren(cartao);
   const ops = el("div", "evento-opcoes");
   for (const op of ev.opcoes) {
     const b = el("button", "botao evento-opcao");
     b.type = "button";
     b.append(el("span", null, op.rotulo));
-    if (op.chance) b.append(el("small", null, `${Math.round(op.chance(J) * 100)}% de dar certo`));
+    if (op.chance) {
+      const pct = Math.round(op.chance(J) * 100);
+      const barra = el("span", "evento-chance");
+      barra.style.setProperty("--pct", `${pct}%`);
+      b.append(el("small", null, `${pct}% de dar certo`), barra);
+    }
     if (op.dica) b.append(el("small", null, op.dica));
+    if (op.consequencia) b.append(el("small", "evento-aviso", "↻ isso vai ter consequência"));
     b.addEventListener("click", () => {
       const r = resolverOpcao(J, op, C.rng);
       J.efeito.textos.push({ titulo: ev.titulo, escolha: op.rotulo, texto: r.texto, ok: r.ok });
+      Historia.registrar(J, ev, op, r);
+      // a cena seguinte do arco entra logo depois desta decisao
+      if (r.emSeguida) C.eventos.splice(i + 1, 0, r.emSeguida);
       ops.remove();
-      alvo.append(el("p", `evento-resultado ${r.ok === true ? "sobe" : r.ok === false ? "desce" : ""}`, r.texto));
+      cartao.append(el("p", "evento-escolha", `Você escolheu: ${op.rotulo}`));
+      cartao.append(el("p", `evento-resultado ${r.ok === true ? "sobe" : r.ok === false ? "desce" : ""}`, r.texto));
+      if (op.consequencia || r.emSeguida) cartao.append(el("p", "evento-lembra", r.emSeguida ? "A história continua…" : "Isso vai voltar."));
       const seguir = el("button", "botao botao-primario", i + 1 < C.eventos.length ? "Próxima decisão" : "Jogar a temporada");
       seguir.type = "button";
       seguir.addEventListener("click", () => (i + 1 < C.eventos.length ? mostrarEvento(i + 1) : fecharTemporadaCompleta()));
@@ -1700,7 +1743,7 @@ function mostrarEvento(i) {
     });
     ops.append(b);
   }
-  alvo.append(ops);
+  cartao.append(ops);
 }
 
 function fecharTemporadaCompleta() {
@@ -1729,6 +1772,11 @@ function mostrarMercado(linha) {
   const alvo = $("mercado");
   alvo.hidden = false;
   alvo.replaceChildren(el("h3", "mercado-titulo", `Janela de transferências · ${J.idade} anos · OVR ${J.ovr}`));
+  // o palco tem altura fixa: rola ate a janela em vez de a pagina crescer
+  requestAnimationFrame(() => {
+    const palco = alvo.closest(".carreira-palco");
+    if (palco) palco.scrollTo({ top: alvo.offsetTop - palco.offsetTop - 8, behavior: "smooth" });
+  });
   const ofertas = C.ofertasAbertas || [];
   const fechar = (texto) => {
     alvo.replaceChildren(el("p", "temporada-aviso", texto));
@@ -1792,6 +1840,34 @@ function avancarCompleto() {
 // --- 5. aposentadoria --------------------------------------------------------------
 
 // bloco da selecao no relatorio: numeros, Copas disputadas, titulos e premios
+// "Sua historia": cada arco (historia.js) vira uma trilha de escolhas, na
+// ordem em que aconteceram -- estilo fluxograma de Detroit/Until Dawn
+function blocoHistoria(J) {
+  const sec = el("section", "bl-bloco bl-historia");
+  sec.append(el("h4", null, "Sua história"));
+  const trilha = ((J.historia && J.historia.trilha) || []).filter((t) => t.arco);
+  if (!trilha.length) { sec.append(el("p", "nota", "Carreira sem grandes decisões: nenhum arco foi aberto.")); return sec; }
+  const arcos = [];
+  for (const t of trilha) {
+    let a = arcos.find((x) => x.nome === t.arco);
+    if (!a) arcos.push((a = { nome: t.arco, passos: [] }));
+    a.passos.push(t);
+  }
+  for (const a of arcos) {
+    const bloco = el("div", "hist-arco");
+    bloco.append(el("p", "hist-nome", a.nome));
+    const lista = el("ol", "hist-passos");
+    for (const p of a.passos) {
+      const li = el("li", p.ok === true ? "sobe" : p.ok === false ? "desce" : "");
+      li.append(el("span", "hist-quando", `${p.ano} · ${p.idade} anos`), el("b", null, `${p.titulo}: ${p.escolha.toLowerCase()}`), el("span", "hist-texto", p.texto));
+      lista.append(li);
+    }
+    bloco.append(lista);
+    sec.append(bloco);
+  }
+  return sec;
+}
+
 function blocoSelecao(J) {
   const pais = paisDe(C.pais);
   const sel = J.historico.filter((h) => h.selecao);
@@ -1867,7 +1943,7 @@ function mostrarAposentadoria() {
   add("Trajetória", clubes.join(" → "));
   if (J.transferencias.length) add("Maior venda", dinheiro(Math.max(...J.historico.filter((h) => h.transferencia).map((h) => h.transferencia.valor), 0)));
   sDest.append(dl);
-  esquerda.append(sNum, blocoSelecao(J), sDest);
+  esquerda.append(sNum, blocoSelecao(J), sDest, blocoHistoria(J));
   const sGal = el("section", "bl-bloco");
   sGal.append(el("h4", null, `Títulos pelos clubes · ${titulosClube.length}`));
   if (!titulosClube.length) sGal.append(el("p", "nota", "Nenhum título. O lobo soprou forte."));
@@ -1948,6 +2024,7 @@ function criarJogador() {
     clube: null, historico: [], titulos: [], premios: [], transferencias: [], valor: 0, anosNoClube: 0, aposentado: false,
     efeito: efeitoZerado(), ultimosEventos: [],
   };
+  Historia.iniciar(C.J);
   reiniciarMundo();
   C.J.valor = valorDeMercado(C.J);
 }
