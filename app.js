@@ -1396,12 +1396,28 @@ function ligarChips(seletor, chave, aoMudar) {
 function mostrarAbertura(r) {
   const vd = document.getElementById("visual-draft"), vc = document.getElementById("visual-carreira");
   if (!vd || !vc) return;
-  const melhores = ["M", "F", "D"].map((p) => (r.indice.porPosicao[p] || [])[Math.floor(Math.random() * 3)]).filter(Boolean);
-  vd.replaceChildren(...melhores.map((j, i) => {
-    const w = el("div", `leque-carta leque-${i}`);
-    w.append(cartaDoJogador(j, TIME_DE.get(j), r, { estatica: true }));
-    return w;
-  }));
+  // leque do tecnico: sempre os melhores da liga, girando a cada poucos segundos
+  // (um meia, um atacante e um defensor por vez, sem repetir ate dar a volta)
+  const topo = (p, n) => (r.indice.porPosicao[p] || []).slice(0, n);
+  const pools = { M: topo("M", 8), F: topo("F", 8), D: topo("D", 8) };
+  let giro = Math.floor(Math.random() * 8);
+  const trio = () => ["M", "F", "D"].map((p) => pools[p][(giro + (p === "F" ? 3 : p === "D" ? 5 : 0)) % Math.max(1, pools[p].length)]).filter(Boolean);
+  const desenharLeque = () => {
+    vd.replaceChildren(...trio().map((j, i) => {
+      const w = el("div", `leque-carta leque-${i}`);
+      w.append(cartaDoJogador(j, TIME_DE.get(j), r, { estatica: true }));
+      return w;
+    }));
+  };
+  desenharLeque();
+  clearInterval(mostrarAbertura.timer);
+  if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    mostrarAbertura.timer = setInterval(() => {
+      if (document.hidden) return;
+      vd.classList.add("trocando");
+      setTimeout(() => { giro += 1; desenharLeque(); vd.classList.remove("trocando"); }, 350);
+    }, 3800);
+  }
   const c = r.cortes || {};
   const ovrs = [(c.madeira ?? 65) - 4, (c.tijolo ?? 75) + 2, Math.min(97, (c.grafeno ?? 82) + 4)];
   const etapas = [
