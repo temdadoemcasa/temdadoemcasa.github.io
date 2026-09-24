@@ -73,6 +73,11 @@ const CRESCIMENTO = {
   VOL: { RIT: 0.4, FIN: 0.21, PAS: 1.1, DRI: 0.2, DEF: 1.45, FIS: 0.76 }, LAT: { RIT: 1.18, FIN: 0.25, PAS: 1.02, DRI: 0.52, DEF: 1.33, FIS: 0.72 },
   ZAG: { RIT: 0.41, FIN: 0, PAS: 0.66, DRI: 0.21, DEF: 1.37, FIS: 1.03 }, GOL: { REF: 1.34, EVI: 1.1, MAO: 0.88, PES: 0.42, SAI: 0.69 },
 };
+// teto duro por idade: 80 aos 18 e +3 por ano, ate o teto do potencial (95
+// aos 23). Sem ele o centroavante saia de 92 de finalizacao aos 19.
+function tetoDaIdade(J, idade) {
+  return Math.min(J.tetoAtributo ?? 95, 80 + 3 * (idade - 18));
+}
 function perfilEsperado(f, ovr) {
   const base = BASE[f], ob = ovrDe(base, f);
   return Object.fromEntries(Object.keys(base).map((k) => [k, Math.min(99, base[k] + (ovr - ob) * CRESCIMENTO[f][k])]));
@@ -1017,7 +1022,11 @@ function evoluir(J, p, rng) {
   // foco de treino: os primeiros pontos do ano vao pro atributo escolhido
   // (mesmo que ele pese pouco no OVR); na queda, ele e o ultimo a cair
   let pontosDeFoco = J.foco && J.foco in J.attrs ? 3 : 0;
-  if (pontosDeFoco && alvo <= antes) { J.attrs[J.foco] = limitar(J.attrs[J.foco] + 1, 20, J.tetoAtributo ?? 95); mudou[J.foco] = 1; pontosDeFoco = 0; J.ovr = ovrDe(J.attrs, f); }
+  const tetoIdade = tetoDaIdade(J, proxima);
+  if (pontosDeFoco && alvo <= antes) {
+    if (J.attrs[J.foco] < tetoIdade) { J.attrs[J.foco] += 1; mudou[J.foco] = 1; J.ovr = ovrDe(J.attrs, f); }
+    pontosDeFoco = 0;
+  }
   for (let guarda = 0; J.ovr !== alvo && guarda < 1500; guarda++) {
     const sobe = J.ovr < alvo;
     let k;
@@ -1036,6 +1045,7 @@ function evoluir(J, p, rng) {
     // teto suave: acima de 85 cada ponto fica mais dificil; 99 e raridade
     // teto suave: perto do teto cada ponto fica mais dificil (teto 95; lenda 99)
     const teto = J.tetoAtributo ?? 95;
+    if (sobe && J.attrs[k] >= tetoIdade) continue; // garoto nao chega a 90 de nada
     if (sobe && J.attrs[k] >= teto - 12 && rng() > Math.pow((teto - J.attrs[k]) / 12, 1.4)) continue;
     const novo = limitar(J.attrs[k] + (sobe ? 1 : -1), 20, sobe ? teto : 99);
     if (novo === J.attrs[k]) continue;
@@ -1705,8 +1715,19 @@ function mostrarEvento(i) {
   const selos = el("div", "evento-selos");
   if (ev.arco) selos.append(el("span", "evento-selo", ev.arco));
   if (ev.consequencia) selos.append(el("span", "evento-selo selo-volta", `↻ consequência de: ${ev.consequencia}`));
+  // cabecalho numa linha so: quando e onde a esquerda, o progresso a direita
+  const topo = el("header", "evento-topo");
+  const meta = el("p", "evento-meta");
+  meta.append(el("b", null, String(J.ano)), ` · ${J.idade} anos · `, el("span", "evento-clube", J.clube.nome));
+  const progresso = el("div", "evento-progresso");
+  progresso.setAttribute("aria-label", `Decisão ${i + 1} de ${C.eventos.length}`);
+  const pontos = el("span", "evento-pontos");
+  pontos.setAttribute("aria-hidden", "true");
+  for (let k = 0; k < C.eventos.length; k++) pontos.append(el("i", k < i ? "feito" : k === i ? "atual" : null));
+  progresso.append(el("span", "evento-passo", `Decisão ${i + 1}/${C.eventos.length}`), pontos);
+  topo.append(meta, progresso);
   cartao.append(
-    el("p", "jogo-etapa", `Temporada ${J.ano} · ${J.idade} anos · ${J.clube.nome} · decisão ${i + 1} de ${C.eventos.length}`),
+    topo,
     ...(selos.childElementCount ? [selos] : []),
     el("h3", "temporada-titulo", ev.titulo),
     el("p", "evento-texto", ev.texto(J)),
