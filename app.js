@@ -537,43 +537,82 @@ const FAMILIA = { GOL: ["G"], LAT: ["D"], ZAG: ["D"], VOL: ["M"], MC: ["M"], MEI
 // (linha e lado); quem nao e, sai do perfil dos eixos. Chute honesto: os
 // dados nao tem posicao fina, so G/D/M/F.
 const FUNCAO = new Map();
+// funcoes secundarias: onde mais ele foi titular nos jogos recentes (JSON:
+// `recentes`), pela MESMA regra de funcao. O draft deixa escolher e mover.
+const FUNCOES_EXTRAS = new Map();
+// o lado (x medio) em cada funcao secundaria: o ponta direita que jogou de
+// lateral ESQUERDO tem que caber na LE, nao na LD
+const X_DA_FUNCAO = new Map();
+
+// as posicoes de uma formacao "4-2-3-1", como o futdata desenha (viz/pitch.py):
+// goleiro em (0,5; 0); cada linha em y = i/(linhas+1), x da direita p/ esquerda
+function slotsDaFormacao(formacao) {
+  const linhas = String(formacao || "").split("-").map(Number);
+  if (!linhas.length || linhas.some((n) => !Number.isInteger(n) || n <= 0) || linhas.reduce((a, b) => a + b, 0) !== 10) return null;
+  const slots = [{ slot: 0, x: 0.5, y: 0 }];
+  linhas.forEach((q, i) => { for (let k = 0; k < q; k++) slots.push({ slot: slots.length, x: 1 - (k + 1) / (q + 1), y: (i + 1) / (linhas.length + 1) }); });
+  return slots;
+}
+
+// A regra de funcao, UNICA: posicao da fonte (G/D/M/F) + a linha e o lado do
+// slot na formacao. `posicoes` e a lista de slots (x, y) do esquema.
+function funcaoNoSlot(posicao, posicoes, slot) {
+  const linhas = new Map();
+  for (const p of posicoes) {
+    const k = Math.round(p.y * 100);
+    if (!linhas.has(k)) linhas.set(k, []);
+    linhas.get(k).push(p);
+  }
+  const ordem = [...linhas.keys()].sort((a, b) => a - b);
+  const nDefesa = ordem[1] !== undefined ? linhas.get(ordem[1]).length : 4;
+  const alvo = posicoes.find((p) => p.slot === slot);
+  if (!alvo) return null;
+  const idx = ordem.indexOf(Math.round(alvo.y * 100));
+  const fila = linhas.get(ordem[idx]).slice().sort((a, b) => a.x - b.x);
+  const n = fila.length, i = fila.indexOf(alvo);
+  const extremo = n >= 3 && (i === 0 || i === n - 1);
+  if (posicao === "G") return "GOL";
+  if (posicao === "D") return extremo && n >= 4 ? "LAT" : "ZAG";
+  if (posicao === "M") {
+    // meia aberto na linha de 4 de um esquema de 3 zagueiros (3-4-2-1)
+    // e ALA, mas nao lateral: na selecao e no draft lateral e defensor
+    // ("D"). Era assim que o Mendoza, meia do Athletico, virava lateral
+    // esquerdo da selecao (2026-09-24).
+    if (extremo && n >= 4) return idx === 2 && nDefesa === 3 ? "MEI" : "PON";
+    if (alvo.y >= 0.6) return extremo ? "PON" : "MEI";
+    if (idx === 2 && n >= 3) return i === Math.floor(n / 2) ? "VOL" : "MC";
+    if (n <= 2 && alvo.y <= 0.4) return "VOL";
+    return "MC";
+  }
+  return extremo ? "PON" : "CA";
+}
+
 function inferirFuncoes(r) {
   FUNCAO.clear();
+  FUNCOES_EXTRAS.clear();
+  X_DA_FUNCAO.clear();
   for (const t of r.times) {
-    if (!t.escalacao_base) continue;
     const porId = new Map(t.jogadores.map((j) => [j.player_id, j]));
-    const linhas = new Map();
-    for (const p of t.escalacao_base.posicoes) {
-      const k = Math.round(p.y * 100);
-      if (!linhas.has(k)) linhas.set(k, []);
-      linhas.get(k).push(p);
-    }
-    const ordem = [...linhas.keys()].sort((a, b) => a - b);
-    const nDefesa = ordem[1] !== undefined ? linhas.get(ordem[1]).length : 4;
-    ordem.forEach((k, idx) => {
-      const fila = linhas.get(k).sort((a, b) => a.x - b.x);
-      const n = fila.length;
-      fila.forEach((p, i) => {
+    if (t.escalacao_base) {
+      for (const p of t.escalacao_base.posicoes) {
         const j = porId.get(p.player_id);
-        if (!j || FUNCAO.has(j)) return;
-        const extremo = n >= 3 && (i === 0 || i === n - 1);
-        let f;
-        if (j.posicao === "G") f = "GOL";
-        else if (j.posicao === "D") f = extremo && n >= 4 ? "LAT" : "ZAG";
-        else if (j.posicao === "M") {
-          // meia aberto na linha de 4 de um esquema de 3 zagueiros (3-4-2-1)
-          // e ALA, mas nao lateral: na selecao e no draft lateral e defensor
-          // ("D"). Era assim que o Mendoza, meia do Athletico, virava lateral
-          // esquerdo da selecao (2026-09-24).
-          if (extremo && n >= 4) f = idx === 2 && nDefesa === 3 ? "MEI" : "PON";
-          else if (p.y >= 0.6) f = extremo ? "PON" : "MEI";
-          else if (idx === 2 && n >= 3) f = i === Math.floor(n / 2) ? "VOL" : "MC";
-          else if (n <= 2 && p.y <= 0.4) f = "VOL";
-          else f = "MC";
-        } else f = extremo ? "PON" : "CA";
-        FUNCAO.set(j, f);
-      });
-    });
+        if (j && !FUNCAO.has(j)) FUNCAO.set(j, funcaoNoSlot(j.posicao, t.escalacao_base.posicoes, p.slot));
+      }
+    }
+    // secundarias: funcao com 2+ jogos de titular nos recentes
+    for (const j of t.jogadores) {
+      const conta = new Map(), somaX = new Map();
+      for (const [formacao, slot, vezes] of j.recentes || []) {
+        const slots = slotsDaFormacao(formacao);
+        const f = slots && funcaoNoSlot(j.posicao, slots, slot);
+        if (!f) continue;
+        conta.set(f, (conta.get(f) || 0) + vezes);
+        somaX.set(f, (somaX.get(f) || 0) + slots[slot].x * vezes);
+      }
+      const extras = new Set([...conta].filter(([, v]) => v >= 2).map(([f]) => f));
+      if (extras.size) FUNCOES_EXTRAS.set(j, extras);
+      if (conta.size) X_DA_FUNCAO.set(j, Object.fromEntries([...conta].map(([f, v]) => [f, somaX.get(f) / v])));
+    }
   }
   const e = (j, k) => (typeof j.eixos[k] === "number" ? j.eixos[k] : 50);
   for (const j of r.indice.comNota) {
@@ -586,6 +625,15 @@ function inferirFuncoes(r) {
     else f = e(j, "DRI") + e(j, "RIT") >= e(j, "FIN") + e(j, "FIS") + 10 ? "PON" : "CA";
     FUNCAO.set(j, f);
   }
+  for (const [j, extras] of FUNCOES_EXTRAS) extras.delete(FUNCAO.get(j));
+}
+// todas as funcoes do jogador: a principal primeiro
+const funcoesDe = (j) => [FUNCAO.get(j), ...(FUNCOES_EXTRAS.get(j) || [])].filter(Boolean);
+// lado do jogador NA funcao pedida: na principal, o x de sempre; na
+// secundaria, o x dos jogos em que ele fez essa funcao
+function xNaFuncao(j, funcao, xDe) {
+  if (funcao !== FUNCAO.get(j)) { const x = X_DA_FUNCAO.get(j)?.[funcao]; if (typeof x === "number") return x; }
+  return xDe.get(j.player_id);
 }
 
 // Busca por nome: sem acento e sem caixa, palavra por palavra, no nome curto

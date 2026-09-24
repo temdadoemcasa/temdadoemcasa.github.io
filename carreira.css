@@ -420,6 +420,119 @@
 .hist-quando { font-size: 0.7rem; color: var(--texto-fraco); text-transform: uppercase; letter-spacing: 0.05em; }
 .hist-texto { color: var(--texto-fraco); }
 
+/* durante as decisoes o botao do cartao conduz; o fixo sumiria duplicado
+   ("Jogar a temporada" duas vezes). visibility guarda o lugar dele. */
+#tela-carreira #proxima:disabled { visibility: hidden; }
+
+/* --- acabamento da decisao (2026-09-25) --------------------------------------------
+   Cabecalho numa linha (quando/onde a esquerda, progresso a direita), cartao
+   no meio do palco em vez de colado no topo, opcoes com mais corpo. */
+/* safe: cartao maior que o palco (tela baixa) nao perde o topo na rolagem */
+.carreira-palco:has(> .temporada-atual .evento-cartao) { align-content: safe center; }
+.carreira-palco .temporada-atual:has(.evento-cartao) { min-height: 0; padding: 1.3rem 1.5rem 1.4rem; }
+.evento-cartao { gap: 0.55rem; }
+.evento-topo {
+  display: flex; align-items: center; justify-content: space-between; gap: 0.8rem;
+  padding-bottom: 0.75rem; margin-bottom: 0.3rem; border-bottom: 1px solid var(--borda);
+}
+.evento-meta {
+  margin: 0; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font-size: 0.82rem; color: var(--texto-fraco); letter-spacing: 0.02em;
+}
+.evento-meta b { font-family: var(--numeros); font-size: 1rem; font-weight: 800; color: var(--texto); letter-spacing: 0.04em; }
+.evento-clube { color: var(--texto); font-weight: 600; }
+.evento-progresso { display: flex; align-items: center; gap: 0.5rem; flex: none; }
+.evento-passo { font-family: var(--numeros); font-weight: 800; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--texto-fraco); }
+.evento-pontos { display: flex; gap: 0.25rem; }
+.evento-pontos i { width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--borda); }
+.evento-pontos i.feito { background: color-mix(in srgb, var(--canal) 45%, var(--borda)); }
+.evento-pontos i.atual { background: var(--canal); box-shadow: 0 0 0 3px color-mix(in srgb, var(--canal) 22%, transparent); }
+.evento-cartao .temporada-titulo { margin: 0.2rem 0 0; font-size: 1.4rem; line-height: 1.2; text-wrap: balance; }
+.evento-cartao .evento-texto { margin: 0 0 0.6rem; color: var(--texto-fraco); line-height: 1.5; text-wrap: pretty; }
+.evento-opcoes { gap: 0.7rem; }
+.evento-opcao {
+  padding: 0.85rem 1rem; gap: 0.3rem; background: var(--fundo-alto);
+  border: 1px solid var(--borda); transition: border-color 0.15s ease, transform 0.15s ease, background 0.15s ease;
+}
+.evento-opcao:hover { border-color: var(--canal); transform: translateY(-1px); }
+.evento-opcao span { font-size: 1rem; }
+.evento-cartao > .botao-primario, .temporada-atual > .botao-primario { justify-self: start; margin-top: 0.4rem; }
+.evento-escolha { margin-top: 0.2rem; }
+/* os dois botoes de baixo em lugar fixo: o "Simular" nao anda quando o
+   outro some durante as decisoes */
+@media (min-width: 961px) {
+  #tela-carreira .controles-jogo { display: grid; grid-template-columns: repeat(2, max-content); justify-content: center; }
+}
+/* abaixo disso o palco nao tem altura fixa: o botao desabilitado sai de vez */
+@media (max-width: 960px) {
+  #tela-carreira #proxima:disabled { display: none; }
+  #tela-carreira .controles-jogo { display: grid; grid-template-columns: minmax(0, 1fr); }
+  .evento-topo { flex-wrap: wrap; }
+}
+.evento-opcoes { grid-template-columns: minmax(0, 1fr); }
+
+/* --- janela de transferencias em lista (2026-09-25) -------------------------------
+   Cada proposta em duas faixas: camisa, nome e a chance de titular em cima,
+   os botoes lado a lado embaixo. O seu clube vem primeiro. */
+.mercado .propostas { grid-template-columns: minmax(0, 1fr); gap: 0.55rem; }
+.mercado .proposta:not(.proposta-ficar) {
+  grid-template-columns: 54px minmax(0, 1fr) auto;
+  grid-template-areas: "camisa liga pct" "camisa nome pct" "camisa jogos jogos" "barra barra barra" "adapta adapta adapta" "acoes acoes acoes" "resp resp resp";
+  justify-items: stretch; align-items: center; column-gap: 0.75rem; row-gap: 0.2rem;
+  padding: 0.7rem 0.85rem; text-align: left; border-radius: 12px;
+}
+.mercado .proposta:not(.proposta-ficar) .proposta-liga { grid-area: liga; font-size: 0.66rem; }
+.mercado .proposta:not(.proposta-ficar) .proposta-camisa { grid-area: camisa; }
+.mercado .proposta:not(.proposta-ficar) .proposta-camisa svg { width: 50px; }
+.mercado .proposta:not(.proposta-ficar) .proposta-nome { grid-area: nome; font-size: 1.05rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mercado .proposta:not(.proposta-ficar) .estrelas,
+.mercado .proposta:not(.proposta-ficar) .proposta-titular { display: none; }
+.mercado .proposta:not(.proposta-ficar) .proposta-minutos { display: contents; }
+.mercado .proposta-chance-txt { grid-area: pct; display: grid; justify-items: end; line-height: 1; }
+.mercado .proposta-chance-txt b { font-family: var(--numeros); font-size: 1.6rem; font-weight: 800; color: var(--texto); }
+.mercado .proposta-chance-txt::after { content: "de ser titular"; font-size: 0.64rem; color: var(--texto-fraco); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 0.15rem; }
+.mercado .proposta-chance-rotulo { display: none; }
+.mercado .proposta-jogos { grid-area: jogos; font-size: 0.74rem; color: var(--texto-fraco); white-space: normal; }
+.mercado .proposta-chance { grid-area: barra; height: 0.3rem; margin: 0.2rem 0 0.1rem; }
+.mercado .proposta-adapta { grid-area: adapta; }
+.mercado .proposta-acoes { grid-area: acoes; display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 0.4rem; margin-top: 0.25rem; }
+.mercado .proposta-acoes .botao { margin: 0; width: 100%; padding: 0.45rem 0.7rem; font-size: 0.84rem; }
+.mercado .proposta-resposta { grid-area: resp; }
+.mercado-titulo { margin: 0 0 0.2rem; }
+.mercado > .nota { margin: 0 0 0.6rem; font-size: 0.82rem; }
+
+/* o seu clube: renovar ou ficar */
+.mercado .proposta-ficar {
+  display: grid; grid-template-columns: minmax(0, 1fr); justify-items: stretch; align-content: start; gap: 0.3rem;
+  padding: 0.8rem 0.9rem; text-align: left; border-radius: 12px; border-style: solid;
+  border-color: color-mix(in srgb, var(--canal) 35%, var(--borda));
+}
+.mercado .proposta-ficar .proposta-nome { font-size: 1.05rem; }
+.mercado .proposta-ficar .proposta-titular { margin: 0 0 0.1rem; }
+.mercado .proposta-ficar > .botao { margin: 0.15rem 0 0; width: auto; justify-self: start; padding: 0.4rem 0.9rem; font-size: 0.82rem; border-radius: 999px; }
+.renova-lista { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 0.45rem; }
+.renova-opcao { display: grid; gap: 0.1rem; justify-items: start; text-align: left; width: 100%; margin: 0 !important; padding: 0.55rem 0.8rem; border-radius: 10px; background: var(--fundo-alto); }
+.renova-opcao:hover { border-color: var(--canal); }
+.renova-opcao span { font-weight: 800; }
+.renova-opcao small { font-size: 0.74rem; font-family: Inter, sans-serif; letter-spacing: 0; text-transform: none; }
+.renova-bom { color: var(--canal); }
+.renova-ruim { color: #ff7d95; }
+[data-tema="claro"] .renova-bom { color: #4d7a00; }
+.proposta-adapta { margin: 0; font-size: 0.72rem; color: #f2c230; }
+[data-tema="claro"] .proposta-adapta { color: #8a6500; }
+.renova-prazo { color: var(--texto-fraco); font-style: italic; }
+.mercado .proposta:not(.proposta-ficar) { grid-template-columns: 68px minmax(0, 1fr) auto; }
+.mercado .proposta:not(.proposta-ficar) .proposta-camisa { justify-self: start; width: 64px; }
+.mercado .proposta:not(.proposta-ficar) .proposta-camisa svg { width: 44px; }
+.mercado .proposta-liga { text-align: left; justify-self: start; }
+.mercado .proposta-ficar .proposta-nome { margin: 0 0 0.1rem; }
+/* cada bloco do palco do tamanho do proprio conteudo: com altura fixa e
+   min-height 0, o resumo do ano era espremido (37px) e vazava por cima da
+   janela de transferencias -- o selo de premio aparecia em cima das propostas */
+.carreira-palco { grid-auto-rows: max-content; }
+.painel-estilo { display: grid; gap: 0.15rem; padding: 0.55rem 0.75rem; border-radius: 10px; background: var(--fundo-cartao); border: 1px solid var(--borda); }
+.painel-estilo small { font-size: 0.74rem; line-height: 1.3; }
+.estilo-montagem { display: grid; gap: 0.1rem; } .estilo-montagem small { font-size: 0.8rem; }
 /* --- temporada rolando: linha do tempo, projecao e roleta -------------------------- */
 .rolagem { margin: 0.6rem 0 0.9rem; }
 .rolagem-trilho { position: relative; height: 0.55rem; border-radius: 999px; background: var(--fundo-alto); }

@@ -46,6 +46,9 @@ const PESOS = {
   GOL: { REF: 0.3, EVI: 0.25, MAO: 0.2, SAI: 0.15, PES: 0.1 },
 };
 const PONTOS_INICIAIS = 30, PASSO = 5, MAX_POR_ATRIBUTO = 15;
+// teto da montagem aos 16 (o de 18 e 80, ver tetoDaIdade): o zagueiro
+// nascia com 79 de fisico (64 + 15)
+const TETO_NA_CRIACAO = 77;
 
 // Gols e assistencias por jogo (90 min) pelo OVR, com referencias reais pra
 // centroavante: ~0,35 um CA mediano, ~0,5 Pedro/Gabigol, ~0,65 Aguero,
@@ -73,6 +76,11 @@ const CRESCIMENTO = {
   VOL: { RIT: 0.4, FIN: 0.21, PAS: 1.1, DRI: 0.2, DEF: 1.45, FIS: 0.76 }, LAT: { RIT: 1.18, FIN: 0.25, PAS: 1.02, DRI: 0.52, DEF: 1.33, FIS: 0.72 },
   ZAG: { RIT: 0.41, FIN: 0, PAS: 0.66, DRI: 0.21, DEF: 1.37, FIS: 1.03 }, GOL: { REF: 1.34, EVI: 1.1, MAO: 0.88, PES: 0.42, SAI: 0.69 },
 };
+// teto duro por idade: 80 aos 18 e +3 por ano, ate o teto do potencial (95
+// aos 23). Sem ele o centroavante saia de 92 de finalizacao aos 19.
+function tetoDaIdade(J, idade) {
+  return Math.min(J.tetoAtributo ?? 95, 80 + 3 * (idade - 18));
+}
 function perfilEsperado(f, ovr) {
   const base = BASE[f], ob = ovrDe(base, f);
   return Object.fromEntries(Object.keys(base).map((k) => [k, Math.min(99, base[k] + (ovr - ob) * CRESCIMENTO[f][k])]));
@@ -280,13 +288,10 @@ const SIGLAS_FORA = {
   "Olympique de Marseille": "OM", "Athletic Bilbao": "ATH", "América-MG": "AMG", "Atlético-GO": "ACG", "Botafogo-SP": "BFC",
 };
 function escudo(c, tamanho = "") {
-  const kit = kitDoTime(timeParaCamisa(c));
-  const cor1 = corDoKit(kit);
-  const cor2 = corOu(kit.faixas && kit.faixas[1] && kit.faixas[1][0], corOu(kit.faixa, corOu(kit.numero, "#ffffff")));
-  const texto = luminancia(cor1) > 0.45 ? "#111111" : "#ffffff";
-  const sigla = SIGLAS_FORA[c.nome] || siglaClube(c.nome);
+  // desenho generico por clube (escudos.js + dados/escudos.json), nunca o original
+  const time = timeParaCamisa(c);
   const s = el("span", `escudo${tamanho ? ` escudo-${tamanho}` : ""}`);
-  s.innerHTML = `<svg viewBox="0 0 24 28" aria-hidden="true"><path d="M12 1.5 22 4.5v9.5c0 6.3-4.3 10.5-10 12.5C6.3 24.5 2 20.3 2 14V4.5z" fill="${cor1}" stroke="${cor2}" stroke-width="1.8"/><path d="M2.9 17.5h18.2" stroke="${cor2}" stroke-width="1.2" stroke-opacity="0.8"/><text x="12" y="14.6" text-anchor="middle" font-family="'Barlow Condensed', Inter, sans-serif" font-weight="800" font-size="${sigla.length > 3 ? 6 : 7.2}" fill="${texto}">${sigla}</text></svg>`;
+  s.innerHTML = Escudos.svg(c.nome, { kit: kitDoTime(time), sigla: SIGLAS_FORA[c.nome] || siglaClube(c.nome) });
   s.title = c.nome;
   return s;
 }
@@ -316,10 +321,40 @@ function estiloDeJogo(attrs, pos) {
   const f = POSICOES[pos].funcao;
   const esp = perfilEsperado(f, ovrDe(attrs, f));
   const [k, v] = Object.keys(esp).map((c) => [c, attrs[c] - esp[c]]).sort((a, b) => b[1] - a[1])[0];
-  if (v < 4) return { nome: "Equilibrado", dica: "rende como a média da posição" };
+  if (v < 4) return { nome: "Equilibrado", dica: "rende como a média da posição", k: null };
   const [nome, dica] = ESTILOS[f][k];
-  return { nome, dica };
+  return { nome, dica, k };
 }
+
+// O estilo pesa na carreira TODO ANO, com um lado bom e um ruim (pedido do
+// dono, 25/09): quem vive de gol assiste menos, o velocista se machuca mais,
+// o operario joga sempre e aparece pouco. Chave = o atributo que define o
+// estilo; equilibrado nao ganha nem perde nada.
+const EFEITO_DO_ESTILO = {
+  FIN: { bom: "mais gols e mais holofote", ruim: "menos assistências; sem gol, o técnico tira",
+    aplicar: (e) => { e.gol += 0.12; e.vitrine += 1; e.assist -= 0.2; e.minutos -= 0.02; } },
+  RIT: { bom: "mais gols no contra-ataque e valor de mercado", ruim: "mais lesão muscular; cai rápido depois dos 30",
+    aplicar: (e, J) => { e.gol += 0.06; e.vitrine += 1.5; e.lesao += 0.04; if (J.idade >= 30) e.queda -= 0.4; } },
+  FIS: { bom: "se machuca menos e ganha a vaga no corpo", ruim: "menos assistências; a imprensa chama de limitado",
+    aplicar: (e) => { e.lesao = Math.max(0, e.lesao - 0.04); e.minutos += 0.03; e.assist -= 0.1; e.vitrine -= 0.8; } },
+  PAS: { bom: "mais assistências; o vestiário te ouve", ruim: "menos gols; a torcida cobra finalização",
+    aplicar: (e) => { e.assist += 0.15; e.evolucao += 0.2; e.gol -= 0.12; e.vitrine -= 0.5; } },
+  DRI: { bom: "mais assistências e vitrine pro mercado", ruim: "perde bola: nota oscila e o técnico barra às vezes",
+    aplicar: (e) => { e.assist += 0.1; e.vitrine += 1.2; e.nota -= 0.05; e.minutos -= 0.02; } },
+  DEF: { bom: "o técnico confia: titular estável e carreira longa", ruim: "menos gols e pouca vitrine",
+    aplicar: (e) => { e.minutos += 0.04; e.queda += 0.3; e.gol -= 0.15; e.vitrine -= 1; } },
+  REF: { bom: "defesas difíceis sobem a nota", ruim: "reflexo cai cedo com a idade",
+    aplicar: (e, J) => { e.nota += 0.06; if (J.idade >= 31) e.queda -= 0.3; } },
+  EVI: { bom: "sofre menos gol: técnico confia", ruim: "discreto, aparece pouco",
+    aplicar: (e) => { e.minutos += 0.03; e.vitrine -= 0.5; } },
+  MAO: { bom: "segura tudo e se machuca menos", ruim: "sem defesa de TV, pouca vitrine",
+    aplicar: (e) => { e.nota += 0.03; e.lesao = Math.max(0, e.lesao - 0.02); e.vitrine -= 0.5; } },
+  PES: { bom: "joga com os pés: evolui e chama atenção", ruim: "arrisca a saída e às vezes paga caro",
+    aplicar: (e) => { e.evolucao += 0.2; e.vitrine += 0.5; e.nota -= 0.04; } },
+  SAI: { bom: "domina a área e sobe a nota", ruim: "sai muito do gol e se machuca mais",
+    aplicar: (e) => { e.nota += 0.04; e.lesao += 0.03; } },
+};
+const efeitoDoEstilo = (est) => (est && est.k ? EFEITO_DO_ESTILO[est.k] : null);
 
 // --- 1. criacao ------------------------------------------------------------------------
 
@@ -428,7 +463,11 @@ function desenharMontagem() {
   $("pontos-restantes").textContent = String(C.pontos);
   $("ovr-montagem").textContent = String(ovr);
   const est = estiloDeJogo(C.attrs, C.pos);
-  $("estilo-montagem").textContent = est ? `Estilo: ${est.nome} · ${est.dica}` : "";
+  const efe = efeitoDoEstilo(est);
+  $("estilo-montagem").replaceChildren(...(est ? [
+    el("span", null, `Estilo: ${est.nome} · ${est.dica}`),
+    ...(efe ? [el("small", "renova-bom", `+ ${efe.bom}`), el("small", "renova-ruim", `− ${efe.ruim}`)] : []),
+  ] : []));
   const lista = $("atributos");
   lista.replaceChildren();
   const rotulos = f === "GOL" ? Object.fromEntries(EIXOS_GOLEIRO.map(([c, s]) => [c, C.r.eixos[c] || s])) : ROTULOS_LINHA;
@@ -446,7 +485,7 @@ function desenharMontagem() {
     menos.disabled = gasto <= 0;
     menos.setAttribute("aria-label", `Tirar ${PASSO} de ${rotulos[k] || k}`);
     const mais = el("button", "botao atributo-mais", `+${PASSO}`); mais.type = "button";
-    mais.disabled = C.pontos < PASSO || gasto >= MAX_POR_ATRIBUTO;
+    mais.disabled = C.pontos < PASSO || gasto >= MAX_POR_ATRIBUTO || C.attrs[k] + PASSO > TETO_NA_CRIACAO;
     mais.setAttribute("aria-label", `Somar ${PASSO} em ${rotulos[k] || k}`);
     menos.addEventListener("click", () => { C.gastos[k] = gasto - PASSO; C.attrs[k] -= PASSO; C.pontos += PASSO; desenharMontagem(); });
     mais.addEventListener("click", () => { C.gastos[k] = gasto + PASSO; C.attrs[k] += PASSO; C.pontos -= PASSO; desenharMontagem(); });
@@ -633,7 +672,7 @@ function mostrarPropostasDaBase() {
   for (const c of propostasIniciais()) alvo.append(cartaoDeProposta(c, () => assinar(c, "base")));
 }
 
-function cartaoDeProposta(c, aoAssinar, { rotulo = "Assinar", extra = null } = {}) {
+function cartaoDeProposta(c, aoAssinar, { rotulo = "Assinar", extra = null, contexto = null } = {}) {
   const J = C.J;
   const card = el("article", "proposta");
   const camisa = el("span", "proposta-camisa");
@@ -655,23 +694,43 @@ function cartaoDeProposta(c, aoAssinar, { rotulo = "Assinar", extra = null } = {
     el("p", "proposta-titular", t.texto),
     chance, (() => {
       const p = el("p", "proposta-minutos");
-      p.append(el("span", "proposta-chance-txt", `Chance de ser titular: ${Math.round(t.s * 100)}%`),
+      const txt = el("span", "proposta-chance-txt");
+      txt.append(el("span", "proposta-chance-rotulo", "Chance de ser titular: "), el("b", null, `${Math.round(t.s * 100)}%`));
+      p.append(txt,
         el("span", "proposta-jogos", c.tipo !== "ext" ? t.minutos : `nível do titular ~${Math.round(c.nivel)}`));
       return p;
     })(),
-    botao,
   );
+  const adapta = contexto === "mercado" ? custoDeAdaptacao(J.clube, c) : null;
+  if (adapta) card.append(el("p", "proposta-adapta", adapta.texto));
+  const acoes = el("div", "proposta-acoes");
+  acoes.append(botao);
   if (extra) {
     const b2 = el("button", "botao", extra.rotulo);
     b2.type = "button";
     b2.addEventListener("click", () => extra.acao(card, b2));
-    card.append(b2);
+    acoes.append(b2);
   }
+  card.append(acoes);
   return card;
+}
+
+// adaptacao: o 1o ano no clube novo evolui menos (outro continente, bem menos);
+// quem fica no clube ganha entrosamento (ver jogarTemporada)
+// Russia ("leste") e Europa: mesmo continente. Clube sem pais e brasileiro.
+const continenteDe = (c) => ({ leste: "europa" })[c.continente] || c.continente || "america";
+const paisDoClube = (c) => (c.tipo === "ext" ? c.pais || c.liga : "Brasil");
+function custoDeAdaptacao(de, para) {
+  if (!de || de.id === para.id) return null;
+  if (continenteDe(de) !== continenteDe(para)) return { evolucao: -1.2, nota: -0.15, texto: "adaptação difícil: outro continente, outro futebol" };
+  if (paisDoClube(de) !== paisDoClube(para)) return { evolucao: -0.9, nota: -0.1, texto: "adaptação: outro país, outra língua" };
+  return { evolucao: -0.6, nota: -0.08, texto: "1º ano de adaptação: evolui menos" };
 }
 
 function assinar(c, contexto) {
   const J = C.J;
+  const adapta = contexto === "base" ? null : custoDeAdaptacao(J.clube, c);
+  if (adapta) { J.efeito.evolucao += adapta.evolucao; J.efeito.nota += adapta.nota; }
   if (J.clube && J.clube.id !== c.id) J.transferencias.push({ ano: J.ano, de: J.clube.nome, para: c.nome });
   J.clube = c;
   J.anosNoClube = 0;
@@ -1017,7 +1076,11 @@ function evoluir(J, p, rng) {
   // foco de treino: os primeiros pontos do ano vao pro atributo escolhido
   // (mesmo que ele pese pouco no OVR); na queda, ele e o ultimo a cair
   let pontosDeFoco = J.foco && J.foco in J.attrs ? 3 : 0;
-  if (pontosDeFoco && alvo <= antes) { J.attrs[J.foco] = limitar(J.attrs[J.foco] + 1, 20, J.tetoAtributo ?? 95); mudou[J.foco] = 1; pontosDeFoco = 0; J.ovr = ovrDe(J.attrs, f); }
+  const tetoIdade = tetoDaIdade(J, proxima);
+  if (pontosDeFoco && alvo <= antes) {
+    if (J.attrs[J.foco] < tetoIdade) { J.attrs[J.foco] += 1; mudou[J.foco] = 1; J.ovr = ovrDe(J.attrs, f); }
+    pontosDeFoco = 0;
+  }
   for (let guarda = 0; J.ovr !== alvo && guarda < 1500; guarda++) {
     const sobe = J.ovr < alvo;
     let k;
@@ -1036,6 +1099,7 @@ function evoluir(J, p, rng) {
     // teto suave: acima de 85 cada ponto fica mais dificil; 99 e raridade
     // teto suave: perto do teto cada ponto fica mais dificil (teto 95; lenda 99)
     const teto = J.tetoAtributo ?? 95;
+    if (sobe && J.attrs[k] >= tetoIdade) continue; // garoto nao chega a 90 de nada
     if (sobe && J.attrs[k] >= teto - 12 && rng() > Math.pow((teto - J.attrs[k]) / 12, 1.4)) continue;
     const novo = limitar(J.attrs[k] + (sobe ? 1 : -1), 20, sobe ? teto : 99);
     if (novo === J.attrs[k]) continue;
@@ -1087,14 +1151,14 @@ function premiosDoAno(J, t, linha, rng) {
     && !J.premios.some((x) => x.nome.startsWith("Revelação"))) premios.push(`Revelação ${da}`);
 
   // craque da partida: jogo a jogo, puxado pela nota da temporada
-  const pm = limitar(0.03 + (linha.nota - 6.4) * 0.14 + (linha.jogos ? (linha.gols + linha.assist * 0.5) / linha.jogos : 0) * 0.18, 0.01, 0.55);
+  const pm = linha.nota === null ? 0.01 : limitar(0.03 + (linha.nota - 6.4) * 0.14 + (linha.jogos ? (linha.gols + linha.assist * 0.5) / linha.jogos : 0) * 0.18, 0.01, 0.55);
   let motm = 0;
   for (let i = 0; i < linha.jogos; i++) if (rng() < pm) motm++;
   linha.craqueDoJogo = motm;
 
   // Bola de Ouro (o mundo) e Craque da America
   const tem = (nome) => [...linha.titulos, ...(linha.selecao ? linha.selecao.titulos : [])].some((x) => x.startsWith(nome));
-  const base = J.ovr + (linha.nota - 7) * 2.5 + (premios.some((x) => x.startsWith("Artilheiro")) ? 1 : 0) + (t.campeaoLiga ? 0.4 * J.clube.prestigio : 0);
+  const base = linha.nota === null ? -Infinity : J.ovr + (linha.nota - 7) * 2.5 + (premios.some((x) => x.startsWith("Artilheiro")) ? 1 : 0) + (t.campeaoLiga ? 0.4 * J.clube.prestigio : 0);
   if (t.p >= 0.5) {
     const mundo = base + (tem("Champions League") ? 3 : tem("Libertadores") ? 1.5 : 0) + (tem("Copa do Mundo") ? 4 : tem("Copa América") ? 1.2 : 0)
       - (5 - J.clube.prestigio) * 1.3;
@@ -1119,7 +1183,10 @@ const degrau = (c) => (c.tipo === "ext" ? (c.continente === "europa" ? (c.presti
 
 function propostasDoAno(J, t, linha) {
   const atual = J.clube;
-  const vitrine = (linha.nota - 6.9) * 2.2 + linha.premios.length * 1.2 + (J.idade <= 21 ? 1 : 0) + (linha.vitrineExtra || 0);
+  // renovou: contrato em vigor, a janela nem abre pra ele
+  if (sobContrato(J)) { linha.olheiro = false; return []; }
+  // sem nota (nao jogou) a vitrine e so o resto: premio, idade, extras
+  const vitrine = (linha.nota === null ? -4 : (linha.nota - 6.9) * 2.2) + linha.premios.length * 1.2 + (J.idade <= 21 ? 1 : 0) + (linha.vitrineExtra || 0);
   const sorte = C.rng() < 0.08 ? 5 : 0; // o olheiro estava no jogo certo
   linha.olheiro = sorte > 0;
   const interessados = [];
@@ -1190,6 +1257,20 @@ function jogarTemporada({ decidir = true } = {}) {
   // e a reputacao com torcida, vestiario e imprensa pesa na temporada
   Historia.resolverAutomatico(J, rng, resolverOpcao);
   Historia.aplicarReputacao(J);
+  // entrosamento: do 3o ano no mesmo clube em diante, um pouco mais de evolucao
+  if (J.anosNoClube >= 2) J.efeito.evolucao += 0.3;
+  // renovacao: o ano da assinatura ja recebeu o efeito na janela; os
+  // seguintes do contrato recebem aqui (J.efeito foi zerado no fim do ano)
+  if (J.renovacao && J.ano > J.renovacao.assinado && J.ano <= J.renovacao.ate) {
+    const r = RENOVACOES.find((x) => x.id === J.renovacao.id);
+    if (r) r.todoAno(J.efeito);
+  } else if (J.renovacao && J.ano > J.renovacao.ate) J.renovacao = null;
+  const efe = efeitoDoEstilo(estiloDeJogo(J.attrs, C.pos));
+  if (efe) {
+    const perdida = temporadaPerdida(J); // estilo nao desfaz temporada perdida
+    efe.aplicar(J.efeito, J);
+    if (perdida) J.efeito.lesao = Math.max(1, J.efeito.lesao);
+  }
   let lesao;
   if (J.lesaoPre !== undefined) {
     const lp = J.lesaoPre;
@@ -1201,12 +1282,13 @@ function jogarTemporada({ decidir = true } = {}) {
     : J.clube.divisao === "A" ? temporadaNoBrasil(J, J.ano, rng) : temporadaInferior(J, J.ano, rng);
   const f = funcaoDe(C.pos);
   const st = t.st;
-  const jogos = limitar(Math.round(st.jogos * t.p + normal(rng, 1.5)), 0, st.jogos);
+  const jogos = temporadaPerdida(J) ? 0 : limitar(Math.round(st.jogos * t.p + normal(rng, 1.5)), 0, st.jogos);
   // gols e assistencias pelo ritmo do OVR (minutos por jogo contam)
   const ritmo = ritmoDoJogador(J, t.nivelLiga);
   const noventa = jogos * (0.7 + 0.3 * t.s);
-  const gols = poissonC(rng, ritmo.gol * noventa * (J.efeito.golsMul ?? 1));
-  const assist = poissonC(rng, ritmo.assist * noventa * (J.efeito.assistMul ?? 1));
+  // gol/assist: fracao extra do contrato (bonus por gol da renovacao)
+  const gols = poissonC(rng, ritmo.gol * noventa * (1 + J.efeito.gol));
+  const assist = poissonC(rng, ritmo.assist * noventa * (1 + J.efeito.assist));
   // a parte da liga (pra artilharia e premios)
   st.golsLiga = Math.round(gols * st.jogosLiga / Math.max(1, st.jogos));
   // quem defende pontua pelo jogo sem sofrer gol; quem ataca, por gol e assistencia
@@ -1217,7 +1299,8 @@ function jogarTemporada({ decidir = true } = {}) {
   const acima = (k) => (J.attrs[k] ?? 0) - (espPos[k] ?? 0);
   const defesaExtra = fam === "G" ? (acima("REF") + acima("EVI")) / 2 : fam === "D" ? acima("DEF") : 0;
   const contrib = (jogos ? (gols + assist * 0.6) / jogos : 0) + muralha + limitar(defesaExtra, -15, 15) * 0.012;
-  const nota = limitar(6.55 + Math.tanh((J.ovr - t.nivelLiga) / 12) * 1.3 + contrib * 0.9 + J.efeito.nota + normal(rng, 0.18), 5.4, 9.3);
+  // sem jogo nao ha nota (temporada perdida, banco o ano todo): ausencia, nunca um numero
+  const nota = jogos ? limitar(6.55 + Math.tanh((J.ovr - t.nivelLiga) / 12) * 1.3 + contrib * 0.9 + J.efeito.nota + normal(rng, 0.18), 5.4, 9.3) : null;
   const selecao = temporadaNaSelecao(J, J.ano, rng, t.p);
   const titulos = jogos >= 5 ? [...t.tituloNomes] : [];
   // quem ganha o continental joga o Mundial de Clubes
@@ -1284,8 +1367,10 @@ function jogarTemporada({ decidir = true } = {}) {
 // Efeitos que valem por uma temporada: minutos (fracao a mais ou a menos),
 // nota, vitrine pro mercado, lesao (fracao da temporada fora), evolucao
 // (pontos de OVR a mais no fim do ano) e queda (freia o declinio do veterano).
-const efeitoZerado = () => ({ minutos: 0, nota: 0, vitrine: 0, lesao: 0, evolucao: 0, queda: 0, golsMul: 1, assistMul: 1, textos: [] });
-const minutosDe = (J, s) => limitar(fracaoDeMinutos(s) * (1 - J.efeito.lesao) + J.efeito.minutos, 0.02, 0.95);
+const efeitoZerado = () => ({ minutos: 0, nota: 0, vitrine: 0, lesao: 0, evolucao: 0, queda: 0, gol: 0, assist: 0, textos: [] });
+// lesao >= 1 e temporada perdida: zero minuto, nem o bonus de minutos salva
+const temporadaPerdida = (J) => J.efeito.lesao >= 1;
+const minutosDe = (J, s) => (temporadaPerdida(J) ? 0 : limitar(fracaoDeMinutos(s) * (1 - J.efeito.lesao) + J.efeito.minutos, 0.02, 0.95));
 
 // lesao: todo ano tem risco (nos dois modos); corpo fraco e idade pesam
 function sortearLesaoDados(J, rng) {
@@ -1297,7 +1382,8 @@ function sortearLesaoDados(J, rng) {
   return { nome, fora, jogos: Math.round(fora * 38) };
 }
 function aplicarLesao(J, d) {
-  J.efeito.lesao = Math.min(0.7, J.efeito.lesao + d.fora);
+  // soma sem nunca reduzir o que ja estava acumulado (antes o teto de 0,7 cortava)
+  if (!temporadaPerdida(J)) J.efeito.lesao = Math.max(J.efeito.lesao, Math.min(0.9, J.efeito.lesao + d.fora));
   if (d.fora >= 0.45) J.efeito.evolucao -= J.idade >= 28 ? 1.5 : 0.8;
 }
 function sortearLesao(J, rng) {
@@ -1359,6 +1445,29 @@ const EVENTOS = [
       { rotulo: "Escolhe um canto e vai", chance: () => 0.24,
         ok: (J) => { J.efeito.vitrine += 2.5; J.efeito.nota += 0.2; return "Chutou pro lado que você escolheu. Defesa e festa."; },
         falha: () => "Foi pro outro lado. Faz parte." },
+    ],
+  },
+  // --- decisoes do estilo (o lado bom e o ruim de cada um aparecem aqui) ---
+  {
+    id: "protagonista", quando: (J) => !goleiro() && ["FIN", "DRI"].includes(estiloDeJogo(J.attrs, C.pos).k),
+    titulo: "Pênalti no clássico",
+    texto: () => "Aos 44 do segundo tempo, pênalti a favor. O batedor oficial é o capitão, mas a torcida grita o seu nome.",
+    opcoes: [
+      { rotulo: "Pega a bola e bate", chance: (J) => limitar(0.55 + ((J.attrs.FIN ?? 50) - 60) / 80, 0.35, 0.9),
+        ok: (J) => { J.efeito.vitrine += 2; J.efeito.nota += 0.15; Historia.mexerReputacao(J, { torcida: 1, vestiario: -1 }); return "Gol, festa, capa do jornal. O capitão te cumprimentou, mas de cara fechada."; },
+        falha: (J) => { J.efeito.nota -= 0.15; Historia.mexerReputacao(J, { torcida: -1, vestiario: -2 }); return "Perdeu. E pegou a bola do capitão pra isso. O vestiário não perdoou."; } },
+      { rotulo: "Deixa pro capitão", sempre: (J) => { Historia.mexerReputacao(J, { vestiario: 1 }); J.efeito.vitrine -= 0.5; return "Ele converteu e correu pra te abraçar. O grupo viu."; } },
+    ],
+  },
+  {
+    id: "firula", quando: (J) => !goleiro() && ["DRI", "RIT"].includes(estiloDeJogo(J.attrs, C.pos).k),
+    titulo: "Jogo ganho, 3 a 0",
+    texto: () => "Faltam dez minutos. Dá pra partir pra cima do lateral e fazer a jogada do vídeo, ou só tocar a bola.",
+    opcoes: [
+      { rotulo: "Faz a firula", chance: (J) => chanceAttr(J, "DRI", 64, 8),
+        ok: (J) => { J.efeito.vitrine += 2.5; Historia.mexerReputacao(J, { imprensa: 1 }); return "Chapéu, caneta e o vídeo rodou o país. O técnico riu no banco."; },
+        falha: (J) => { J.efeito.minutos -= 0.04; Historia.mexerReputacao(J, { vestiario: -1 }); return "Perdeu a bola, saiu o contra-ataque e o gol deles. Banco no jogo seguinte."; } },
+      { rotulo: "Toca e administra", sempre: (J) => { J.efeito.minutos += 0.02; return "Jogo morto, técnico feliz. Ninguém lembra, mas ninguém reclama."; } },
     ],
   },
   {
@@ -1463,10 +1572,10 @@ const DICA_FOCO = {
 // o foco rende ja no ano (alem dos pontos de atributo no fim da temporada)
 function aplicarFoco(J, k) {
   const e = J.efeito;
-  if (k === "FIN") e.golsMul *= 1.12;
-  else if (k === "RIT") { e.golsMul *= 1.07; e.assistMul *= 1.03; }
-  else if (k === "PAS") e.assistMul *= 1.15;
-  else if (k === "DRI") { e.assistMul *= 1.1; e.golsMul *= 1.03; }
+  if (k === "FIN") e.gol += 0.12;
+  else if (k === "RIT") { e.gol += 0.07; e.assist += 0.03; }
+  else if (k === "PAS") e.assist += 0.15;
+  else if (k === "DRI") { e.assist += 0.1; e.gol += 0.03; }
   else if (k === "FIS") { e.lesao = Math.max(0, e.lesao - 0.03); e.minutos += 0.03; }
   else e.nota += 0.12; // DEF e os de goleiro: aparece na nota
 }
@@ -1566,7 +1675,14 @@ function desenharPainelJogador() {
   const cab = el("p", "painel-cab");
   const est = estiloDeJogo(J.attrs, C.pos);
   cab.append(bandeira(pais), el("span", null, `${pais.nome} · #${J.numero} · ${POSICOES[C.pos].nome} · pé ${C.pe.toLowerCase()}${est ? ` · ${est.nome.toLowerCase()}` : ""}`));
-  alvo.append(cab, fatos, rep);
+  alvo.append(cab);
+  const efe = efeitoDoEstilo(est);
+  if (efe) {
+    const box = el("div", "painel-estilo");
+    box.append(el("span", "painel-rep-rotulo", `Estilo · ${est.nome}`), el("small", "renova-bom", `+ ${efe.bom}`), el("small", "renova-ruim", `− ${efe.ruim}`));
+    alvo.append(box);
+  }
+  alvo.append(fatos, rep);
   for (const [rotulo, itens, classe] of [["Títulos", J.titulos, "galeria"], ["Prêmios", J.premios, "galeria galeria-premios"]]) {
     if (!itens.length) continue;
     const gal = el("div", classe);
@@ -1619,7 +1735,7 @@ function mostrarLinha(linha) {
   alvo.replaceChildren();
   alvo.append(el("p", "jogo-etapa", `Temporada ${linha.ano} · ${linha.idade} anos · ${linha.clube} (${linha.liga})`));
   const numeros = el("dl", "temporada-numeros");
-  const itens = [["Jogos", linha.jogos], ["Gols", linha.gols], ["Assist.", linha.assist], ["Nota", linha.nota.toFixed(1).replace(".", ",")], ["Craque do jogo", linha.craqueDoJogo]];
+  const itens = [["Jogos", linha.jogos], ["Gols", linha.gols], ["Assist.", linha.assist], ["Nota", linha.nota === null ? "—" : linha.nota.toFixed(1).replace(".", ",")], ["Craque do jogo", linha.craqueDoJogo]];
   if (linha.semSofrer !== null) itens.splice(1, 1, ["Sem sofrer gol", linha.semSofrer]);
   for (const [k, v] of itens) { const d = el("div"); d.append(el("dd", null, String(v)), el("dt", null, k)); numeros.append(d); }
   alvo.append(numeros);
@@ -1742,7 +1858,7 @@ function projecao(Jreal) {
   const nivelLiga = (J.clube.nivel ?? 65) - 1;
   const r = ritmoDoJogador(J, nivelLiga);
   const noventa = jogos * (0.7 + 0.3 * s);
-  const gols = r.gol * noventa * (J.efeito.golsMul ?? 1), assist = r.assist * noventa * (J.efeito.assistMul ?? 1);
+  const gols = r.gol * noventa * (1 + (J.efeito.gol || 0)), assist = r.assist * noventa * (1 + (J.efeito.assist || 0));
   const contrib = jogos ? (gols + assist * 0.6) / jogos : 0;
   const nota = limitar(6.55 + Math.tanh((J.ovr - nivelLiga) / 12) * 1.3 + contrib * 0.9 + J.efeito.nota, 5.4, 9.3);
   const prox = J.idade + 1;
@@ -2048,23 +2164,24 @@ function mostrarMercado(linha) {
     desenharTabelaCarreira();
   };
   if (!ofertas.length) {
-    alvo.append(el("p", "nota", "Nenhuma proposta chegou. Segue o jogo no clube."));
-    const ok = el("button", "botao botao-primario", `Seguir no ${J.clube.nome}`);
-    ok.type = "button";
-    ok.addEventListener("click", () => fechar(`Ficou no ${J.clube.nome}.`));
-    alvo.append(ok);
+    alvo.append(el("p", "nota", sobContrato(J) ? "Contrato em vigor: a janela passa sem propostas." : "Nenhuma proposta de fora chegou."));
+    const so = el("div", "propostas");
+    so.append(cartaoDoClube(J, linha, fechar, "Ficou"));
+    alvo.append(so);
     return;
   }
   alvo.append(el("p", "nota", `Chance de titular no ${J.clube.nome} hoje: ${Math.round(chanceDeTitular(J.ovr, J.clube.nivel, J.idade) * 100)}%. Pedir vaga de titular pode render a garantia, ou fazer o clube desistir.`));
   const grade = el("div", "propostas");
+  grade.append(cartaoDoClube(J, linha, fechar, "Recusou as propostas e ficou"));
   for (const c of ofertas) {
     const assinarAqui = (garantia) => {
       linha.transferencia = { para: c.nome, liga: c.liga, valor: J.valor };
       assinar(c, "mercado");
       if (garantia) J.efeito.minutos += 0.15;
-      fechar(`Assinou com o ${c.nome}${garantia ? ", com vaga de titular prometida" : ""}. Valor da transferência: ${dinheiro(J.valor)}.`);
+      fechar(`Assinou com o ${c.nome}${garantia ? ", com vaga de titular prometida" : ""}. Valor da transferência: ${dinheiro(J.valor)}. O primeiro ano é de adaptação.`);
     };
     grade.append(cartaoDeProposta(c, () => assinarAqui(false), {
+      contexto: "mercado",
       extra: {
         rotulo: "Pedir vaga de titular",
         acao: (card, botao) => {
@@ -2080,14 +2197,82 @@ function mostrarMercado(linha) {
       },
     }));
   }
-  const ficar = el("article", "proposta proposta-ficar");
-  ficar.append(el("p", "proposta-liga", "Seu clube"), el("h3", "proposta-nome", J.clube.nome), el("p", "proposta-titular", "Fica, briga pela vaga e tenta de novo na próxima janela."));
-  const b = el("button", "botao", "Ficar");
-  b.type = "button";
-  b.addEventListener("click", () => fechar(`Recusou as propostas e ficou no ${J.clube.nome}.`));
-  ficar.append(b);
-  grade.append(ficar);
   alvo.append(grade);
+}
+
+// --- renovacao: o seu clube tambem faz proposta ------------------------------------
+// Quem jogou bem ou e titular recebe do proprio clube 2 das 3 ofertas abaixo.
+// Toda oferta tem um lado bom e um ruim; nao renovar e sempre possivel.
+const sobContrato = (J) => Boolean(J.contratoAte && J.ano <= J.contratoAte);
+const RENOVACOES = [
+  {
+    id: "aumento", rotulo: "Aumento e mais minutos",
+    anos: 1, bom: "mais minutos em cada ano do contrato", ruim: "o técnico cobra: nota pesa mais em jogo ruim",
+    todoAno: (e) => { e.minutos += 0.12; e.nota -= 0.05; },
+    texto: (J) => `Renovou com o ${J.clube.nome}: aumento e promessa de minutos. Agora é entregar.`,
+  },
+  {
+    id: "gol", rotulo: "Bônus por gol", anos: 1,
+    bom: "+15% de gols em cada ano do contrato", ruim: "vira fominha: vestiário torce o nariz e saem menos assistências",
+    so: (J) => ["CA", "PON", "MEI"].includes(funcaoDe(C.pos)),
+    todoAno: (e) => { e.gol += 0.15; e.assist -= 0.2; },
+    naAssinatura: (J) => Historia.mexerReputacao(J, { vestiario: -1 }),
+    texto: (J) => `Renovou com o ${J.clube.nome} com bônus por gol. Tem companheiro achando que você só pensa no seu.`,
+  },
+  {
+    id: "idolo", rotulo: "Contrato longo de ídolo",
+    anos: 2, bom: "torcida abraça e a cabeça tranquila ajuda a evoluir", ruim: "a imprensa fala em acomodação",
+    so: (J) => J.anosNoClube >= 2,
+    todoAno: (e) => { e.evolucao += 0.5; },
+    naAssinatura: (J) => Historia.mexerReputacao(J, { torcida: 2, imprensa: -1 }),
+    texto: (J) => `Contrato longo com o ${J.clube.nome}. A torcida fez festa; a imprensa perguntou se você não quer mais.`,
+  },
+];
+
+function ofertasDeRenovacao(J, linha) {
+  const bem = (linha.nota ?? 0) >= 6.8 || (linha.titular ?? 0) >= 0.5;
+  if (!bem || J.idade < 17 || sobContrato(J)) return [];
+  const possiveis = RENOVACOES.filter((r) => !r.so || r.so(J));
+  return Motor.embaralhar ? Motor.embaralhar(C.rng, possiveis).slice(0, 2)
+    : possiveis.sort(() => C.rng() - 0.5).slice(0, 2);
+}
+
+function cartaoDoClube(J, linha, fechar, textoFicar) {
+  const card = el("article", "proposta proposta-ficar");
+  const renovar = ofertasDeRenovacao(J, linha);
+  card.append(el("p", "proposta-liga", "Seu clube"), el("h3", "proposta-nome", J.clube.nome));
+  if (sobContrato(J)) card.append(el("p", "proposta-titular", `Contrato renovado até ${J.contratoAte}: fica no clube.`));
+  else if (!renovar.length) card.append(el("p", "proposta-titular", "Fica, briga pela vaga e tenta de novo na próxima janela."));
+  else {
+    card.classList.add("proposta-renova");
+    card.append(el("p", "proposta-titular", "Quer renovar com você:"));
+    const lista = el("div", "renova-lista");
+    card.append(lista);
+    for (const r of renovar) {
+      const b = el("button", "botao renova-opcao");
+      b.type = "button";
+      b.append(el("span", null, r.rotulo), el("small", "renova-bom", `+ ${r.bom}`), el("small", "renova-ruim", `− ${r.ruim}`),
+        el("small", "renova-prazo", `contrato: fica mais ${r.anos === 1 ? "1 temporada" : `${r.anos} temporadas`}, sem propostas`));
+      b.addEventListener("click", () => {
+        // o efeito vale em TODA temporada do contrato (jogarTemporada), a
+        // reputacao mexe uma vez so, na assinatura
+        J.contratoAte = J.ano + r.anos;
+        J.renovacao = { id: r.id, assinado: J.ano, ate: J.contratoAte };
+        r.todoAno(J.efeito);
+        if (r.naAssinatura) r.naAssinatura(J);
+        const texto = r.texto(J);
+        J.efeito.textos.push({ titulo: "Renovação", escolha: r.rotulo, texto, ok: null });
+        Historia.registrar(J, { titulo: "Renovação", arco: null }, r, { texto, ok: null });
+        fechar(texto);
+      });
+      lista.append(b);
+    }
+  }
+  const b = el("button", "botao", sobContrato(J) ? "Seguir" : renovar.length ? "Ficar sem renovar" : "Ficar");
+  b.type = "button";
+  b.addEventListener("click", () => fechar(`${textoFicar} no ${J.clube.nome}.`));
+  card.append(b);
+  return card;
 }
 
 function avancarCompleto() {
@@ -2168,7 +2353,7 @@ function mostrarAposentadoria() {
   const tot = J.historico.reduce((a, h) => ({ j: a.j + h.jogos, g: a.g + h.gols, a: a.a + h.assist }), { j: 0, g: 0, a: 0 });
   const titulosClube = J.titulos.filter((t) => !t.selecao), premiosClube = J.premios.filter((t) => !t.selecao);
   const auge = [...J.historico].sort((a, b) => b.ovr - a.ovr)[0];
-  const melhor = [...J.historico].sort((a, b) => (b.gols + b.assist) - (a.gols + a.assist) || b.nota - a.nota)[0];
+  const melhor = [...J.historico].sort((a, b) => (b.gols + b.assist) - (a.gols + a.assist) || (b.nota ?? 0) - (a.nota ?? 0))[0];
   const clubes = [...new Set(J.historico.map((h) => h.clube))];
 
   const topo = el("header", "bl-topo");
@@ -2292,6 +2477,7 @@ function criarJogador() {
 
 async function iniciarCarreiraPagina() {
   UNIFORMES = await json("dados/uniformes.json").catch(() => ({}));
+  await Escudos.carregar();
   Motor.ELENCOS = (await json("dados/elencos-fora.json").catch(() => ({}))).times || {};
   const [r, regras, exterior, inferiores] = await Promise.all([
     retrato("2026"), json("dados/competicoes-2026.json"), json("dados/clubes-exterior.json"), json("dados/clubes-brasil-inferiores.json"),
@@ -2326,6 +2512,9 @@ async function iniciarCarreiraPagina() {
     iniciarCarta();
     mostrarTela("carta");
   });
+  // o botao nasce desabilitado: clique antes dos dados chegarem nao fazia nada
+  $("confirmar-jogador").disabled = false;
+  $("confirmar-jogador").textContent = "Montar a carta →";
   $("voltar-criacao").addEventListener("click", () => mostrarTela("criar"));
   $("zerar-pontos").addEventListener("click", iniciarCarta);
   $("confirmar-carta").addEventListener("click", () => { criarJogador(); mostrarPropostasDaBase(); });

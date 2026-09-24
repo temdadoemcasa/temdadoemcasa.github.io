@@ -1,0 +1,1576 @@
+{
+ "_leia": "Ficha do escudo GENERICO de cada clube (escudos.js): forma, fundo, cores e simbolo. Inspirado no original, nunca copia o escudo. Formas: classico, redondo, frances, espanhol, pontudo, oval, ingles. Fundos: liso, listras-v, listras-h, listras-d, diagonal, metades-v, metades-h, quartos, faixa-h, faixa-v, cruz, losangos, tricolor. Opcionais: n (listras), chefe (faixa de cima), aro, borda, texto, sigla, simbolo (estrela, estrelas, coroa, cruz-malta, ancora, cruzeiro, bola), estrelas (quantas), corSimbolo, posicao (centro). Clube sem ficha sai do uniforme.",
+ "Athletico": {
+  "forma": "pontudo",
+  "fundo": "listras-d",
+  "cores": [
+   "#c8102e",
+   "#111111"
+  ],
+  "n": 6,
+  "sigla": "CAP"
+ },
+ "Atlético-MG": {
+  "forma": "classico",
+  "fundo": "liso",
+  "cores": [
+   "#ffffff",
+   "#111111"
+  ],
+  "borda": "#111111",
+  "texto": "#111111",
+  "sigla": "CAM",
+  "simbolo": "estrela",
+  "corSimbolo": "#f2c230"
+ },
+ "Bahia": {
+  "forma": "redondo",
+  "fundo": "listras-v",
+  "cores": [
+   "#0033a0",
+   "#ffffff",
+   "#e30613"
+  ],
+  "n": 5,
+  "aro": "#0033a0",
+  "sigla": "ECB",
+  "simbolo": "estrela",
+  "corSimbolo": "#e30613"
+ },
+ "Botafogo": {
+  "forma": "classico",
+  "fundo": "liso",
+  "cores": [
+   "#111111",
+   "#ffffff"
+  ],
+  "sigla": "",
+  "simbolo": "estrela",
+  "posicao": "centro"
+ },
+ "Chapecoense": {
+  "forma": "frances",
+  "fundo": "liso",
+  "cores": [
+   "#00843d",
+   "#ffffff"
+  ],
+  "sigla": "ACF",
+  "simbolo": "estrela"
+ },
+ "Corinthians": {
+  "forma": "redondo",
+  "fundo": "liso",
+  "cores": [
+   "#ffffff",
+   "#111111"
+  ],
+  "aro": "#111111",
+  "texto": "#111111",
+  "sigla": "",
+  "simbolo": "ancora",
+  "corSimbolo": "#111111",
+  "borda": "#c8102e"
+ },
+ "Coritiba": {
+  "forma": "redondo",
+  "fundo": "liso",
+  "cores": [
+   "#ffffff",
+   "#00613a"
+  ],
+  "aro": "#00613a",
+  "texto": "#00613a",
+  "sigla": "CFC",
+  "simbolo": "estrelas",
+  "estrelas": 2,
+  "corSimbolo": "#00613a"
+ },
+ "Cruzeiro": {
+  "forma": "redondo",
+  "fundo": "liso",
+  "cores": [
+   "#1a3f94",
+   "#ffffff"
+  ],
+  "aro": "#ffffff",
+  "borda": "#1a3f94",
+  "sigla": "",
+  "simbolo": "cruzeiro"
+ },
+ "Flamengo": {
+  "forma": "classico",
+  "fundo": "listras-h",
+  "cores": [
+   "#c8102e",
+   "#111111"
+  ],
+  "n": 6,
+  "chefe": "#111111",
+  "sigla": "CRF",
+  "borda": "#c8102e"
+ },
+ "Fluminense": {
+  "forma": "ingles",
+  "fundo": "listras-v",
+  "cores": [
+   "#7a1f3d",
+   "#ffffff",
+   "#00613a"
+  ],
+  "n": 3,
+  "chefe": "#ffffff",
+  "texto": "#7a1f3d",
+  "sigla": "FFC",
+  "borda": "#00613a"
+ },
+ "Grêmio": {
+  "forma": "frances",
+  "fundo": "listras-v",
+  "cores": [
+   "#0d80bf",
+   "#111111",
+   "#ffffff"
+  ],
+  "n": 5,
+  "sigla": "GFB",
+  "simbolo": "estrelas",
+  "estrelas": 3,
+  "corSimbolo": "#f2c230",
+  "borda": "#111111"
+ },
+ "Internacional": {
+  "forma": "redondo",
+  "fundo": "liso",
+  "cores": [
+   "#e30613",
+   "#ffffff"
+  ],
+  "aro": "#ffffff",
+  "borda": "#e30613",
+  "sigla": "SCI"
+ },
+ "Mirassol": {
+  "forma": "classico",
+  "fundo": "faixa-v",
+  "cores": [
+   "#ffd200",
+   "#00843d"
+  ],
+  "texto": "#00843d",
+  "sigla": "MFC",
+  "borda": "#00843d"
+ },
+ "Palmeiras": {
+  "forma": "redondo",
+  "fundo": "liso",
+  "cores": [
+   "#006437",
+   "#ffffff"
+  ],
+  "aro": "#ffffff",
+  "borda": "#006437",
+  "sigla": "P",
+  "simbolo": "estrelas",
+  "estrelas": 3
+ },
+ "RB Bragantino": {
+  "forma": "espanhol",
+  "fundo": "liso",
+  "cores": [
+   "#ffffff",
+   "#e30613"
+  ],
+  "texto": "#e30613",
+  "borda": "#1d1d4a",
+  "sigla": "RBB"
+ },
+ "Remo": {
+  "forma": "classico",
+  "fundo": "liso",
+  "cores": [
+   "#0b1f4d",
+   "#ffffff"
+  ],
+  "sigla": "CR",
+  "simbolo": "estrela"
+ },
+ "Santos": {
+  "forma": "ingles",
+  "fundo": "listras-v",
+  "cores": [
+   "#111111",
+   "#ffffff"
+  ],
+  "n": 5,
+  "chefe": "#ffffff",
+  "texto": "#111111",
+  "borda": "#111111",
+  "sigla": "SFC"
+ },
+ "São Paulo": {
+  "forma": "pontudo",
+  "fundo": "tricolor",
+  "cores": [
+   "#e30613",
+   "#ffffff",
+   "#111111"
+  ],
+  "chefe": "#111111",
+  "texto": "#ffffff",
+  "borda": "#111111",
+  "sigla": "SPFC"
+ },
+ "Vasco": {
+  "forma": "frances",
+  "fundo": "diagonal",
+  "cores": [
+   "#111111",
+   "#ffffff"
+  ],
+  "sigla": "",
+  "simbolo": "cruz-malta",
+  "corSimbolo": "#e30613",
+  "borda": "#ffffff"
+ },
+ "Vitória": {
+  "forma": "classico",
+  "fundo": "listras-h",
+  "cores": [
+   "#e30613",
+   "#111111"
+  ],
+  "n": 6,
+  "sigla": "ECV",
+  "borda": "#111111"
+ },
+ "Fortaleza": {
+  "forma": "classico",
+  "fundo": "listras-h",
+  "cores": [
+   "#e30613",
+   "#ffffff",
+   "#1d3f8f",
+   "#ffffff"
+  ],
+  "n": 7,
+  "sigla": "FEC",
+  "simbolo": "estrela",
+  "corSimbolo": "#1d3f8f",
+  "borda": "#1d3f8f"
+ },
+ "Sport Recife": {
+  "forma": "classico",
+  "fundo": "listras-h",
+  "cores": [
+   "#111111",
+   "#e30613"
+  ],
+  "n": 6,
+  "sigla": "SCR",
+  "borda": "#f2c230"
+ },
+ "Ceará": {
+  "forma": "frances",
+  "fundo": "listras-v",
+  "cores": [
+   "#111111",
+   "#ffffff"
+  ],
+  "n": 5,
+  "sigla": "CSC",
+  "borda": "#111111"
+ },
+ "Juventude": {
+  "forma": "redondo",
+  "fundo": "liso",
+  "cores": [
+   "#ffffff",
+   "#009245"
+  ],
+  "aro": "#009245",
+  "texto": "#009245",
+  "sigla": "ECJ"
+ },
+ "Goiás": {
+  "forma": "classico",
+  "fundo": "liso",
+  "cores": [
+   "#006b3f",
+   "#ffffff"
+  ],
+  "sigla": "GEC",
+  "aro": "#ffffff"
+ },
+ "Criciúma": {
+  "forma": "frances",
+  "fundo": "listras-v",
+  "cores": [
+   "#ffd200",
+   "#111111",
+   "#ffffff"
+  ],
+  "n": 3,
+  "sigla": "CEC",
+  "borda": "#111111"
+ },
+ "América-MG": {
+  "forma": "classico",
+  "fundo": "faixa-h",
+  "cores": [
+   "#006b3f",
+   "#111111"
+  ],
+  "sigla": "AFC",
+  "borda": "#111111"
+ },
+ "Cuiabá": {
+  "forma": "frances",
+  "fundo": "metades-v",
+  "cores": [
+   "#00843d",
+   "#ffd200"
+  ],
+  "sigla": "CEC",
+  "borda": "#00843d"
+ },
+ "Novorizontino": {
+  "forma": "redondo",
+  "fundo": "liso",
+  "cores": [
+   "#ffd200",
+   "#111111"
+  ],
+  "aro": "#111111",
+  "texto": "#111111",
+  "sigla": "GEN"
+ },
+ "Atlético-GO": {
+  "forma": "classico",
+  "fundo": "listras-v",
+  "cores": [
+   "#e30613",
+   "#111111"
+  ],
+  "n": 5,
+  "sigla": "ACG"
+ },
+ "Avaí": {
+  "forma": "frances",
+  "fundo": "listras-v",
+  "cores": [
+   "#0057b8",
+   "#ffffff"
+  ],
+  "n": 5,
+  "sigla": "AFC",
+  "borda": "#0057b8"
+ },
+ "CRB": {
+  "forma": "classico",
+  "fundo": "listras-h",
+  "cores": [
+   "#e30613",
+   "#ffffff"
+  ],
+  "n": 6,
+  "sigla": "CRB",
+  "borda": "#e30613"
+ },
+ "Vila Nova": {
+  "forma": "classico",
+  "fundo": "liso",
+  "cores": [
+   "#c8102e",
+   "#ffffff"
+  ],
+  "aro": "#ffffff",
+  "borda": "#c8102e",
+  "sigla": "VN"
+ },
+ "Operário-PR": {
+  "forma": "frances",
+  "fundo": "listras-v",
+  "cores": [
+   "#111111",
+   "#ffffff"
+  ],
+  "n": 5,
+  "sigla": "OFEC",
+  "borda": "#111111"
+ },
+ "Ponte Preta": {
+  "forma": "classico",
+  "fundo": "diagonal",
+  "cores": [
+   "#ffffff",
+   "#111111"
+  ],
+  "texto": "#111111",
+  "borda": "#111111",
+  "sigla": "PP"
+ },
+ "Náutico": {
+  "forma": "frances",
+  "fundo": "listras-v",
+  "cores": [
+   "#e30613",
+   "#ffffff"
+  ],
+  "n": 5,
+  "sigla": "CNC",
+  "borda": "#e30613"
+ },
+ "Botafogo-SP": {
+  "forma": "classico",
+  "fundo": "listras-v",
+  "cores": [
+   "#e30613",
+   "#ffffff"
+  ],
+  "n": 5,
+  "sigla": "BFC",
+  "simbolo": "estrela",
+  "corSimbolo": "#111111",
+  "borda": "#111111"
+ },
+ "Londrina": {
+  "forma": "redondo",
+  "fundo": "liso",
+  "cores": [
+   "#4fb3e8",
+   "#ffffff"
+  ],
+  "aro": "#ffffff",
+  "borda": "#4fb3e8",
+  "sigla": "LEC"
+ },
+ "Athletic": {
+  "forma": "frances",
+  "fundo": "listras-v",
+  "cores": [
+   "#111111",
+   "#ffffff"
+  ],
+  "n": 5,
+  "sigla": "ATH",
+  "borda": "#111111"
+ },
+ "São Bernardo": {
+  "forma": "classico",
+  "fundo": "metades-v",
+  "cores": [
+   "#ffd200",
+   "#111111"
+  ],
+  "sigla": "SBFC",
+  "borda": "#111111"
+ },
+ "Manchester City": {
+  "forma": "redondo",
+  "fundo": "liso",
+  "cores": [
+   "#6cabdd",
+   "#1c2c5b"
+  ],
+  "aro": "#1c2c5b",
+  "borda": "#f2c230",
+  "sigla": "MCI"
+ },
+ "Arsenal": {
+  "forma": "classico",
+  "fundo": "liso",
+  "cores": [
+   "#ef0107",
+   "#ffffff"
+  ],
+  "borda": "#9c824a",
+  "sigla": "AFC",
+  "aro": "#063672"
+ },
+ "Liverpool": {
+  "forma": "ingles",
+  "fundo": "liso",
+  "cores": [
+   "#c8102e",
+   "#f6eb61"
+  ],
+  "sigla": "LFC",
+  "borda": "#00b2a9"
+ },
+ "Chelsea": {
+  "forma": "redondo",
+  "fundo": "liso",
+  "cores": [
+   "#034694",
+   "#dba111"
+  ],
+  "aro": "#dba111",
+  "borda": "#034694",
+  "sigla": "CFC"
+ },
+ "Manchester United": {
+  "forma": "classico",
+  "fundo": "liso",
+  "cores": [
+   "#da291c",
+   "#fbe122"
+  ],
+  "borda": "#111111",
+  "sigla": "MUN",
+  "aro": "#fbe122"
+ },
+ "Tottenham": {
+  "forma": "espanhol",
+  "fundo": "liso",
+  "cores": [
+   "#ffffff",
+   "#132257"
+  ],
+  "texto": "#132257",
+  "borda": "#132257",
+  "sigla": "THFC"
+ },
+ "Newcastle": {
+  "forma": "redondo",
+  "fundo": "listras-v",
+  "cores": [
+   "#111111",
+   "#ffffff"
+  ],
+  "n": 5,
+  "aro": "#111111",
+  "borda": "#41b6e6",
+  "sigla": "NUFC"
+ },
+ "Aston Villa": {
+  "forma": "classico",
+  "fundo": "liso",
+  "cores": [
+   "#670e36",
+   "#95bfe5"
+  ],
+  "sigla": "AVFC",
+  "simbolo": "estrela",
+  "corSimbolo": "#fee505",
+  "borda": "#95bfe5"
+ },
+ "Brighton": {
+  "forma": "redondo",
+  "fundo": "liso",
+  "cores": [
+   "#ffffff",
+   "#0057b8"
+  ],
+  "aro": "#0057b8",
+  "texto": "#0057b8",
+  "sigla": "BHA"
+ },
+ "West Ham": {
+  "forma": "classico",
+  "fundo": "liso",
+  "cores": [
+   "#7a263a",
+   "#1bb1e7"
+  ],
+  "sigla": "WHU",
+  "borda": "#f3d459"
+ },
+ "Real Madrid": {
+  "forma": "redondo",
+  "fundo": "diagonal",
+  "cores": [
+   "#ffffff",
+   "#3d195b"
+  ],
+  "texto": "#d4af37",
+  "borda": "#d4af37",
+  "sigla": "RM",
+  "simbolo": "coroa",
+  "corSimbolo": "#d4af37"
+ },
+ "Barcelona": {
+  "forma": "ingles",
+  "fundo": "listras-v",
+  "cores": [
+   "#a50044",
+   "#004d98"
+  ],
+  "n": 5,
+  "chefe": "#ffffff",
+  "texto": "#a50044",
+  "borda": "#edbb00",
+  "sigla": "FCB",
+  "simbolo": "bola"
+ },
+ "Atlético de Madrid": {
+  "forma": "classico",
+  "fundo": "listras-v",
+  "cores": [
+   "#cb3524",
+   "#ffffff"
+  ],
+  "n": 5,
+  "chefe": "#262f61",
+  "texto": "#ffffff",
+  "sigla": "ATM"
+ },
+ "Athletic Bilbao": {
+  "forma": "frances",
+  "fundo": "listras-v",
+  "cores": [
+   "#ee2523",
+   "#ffffff"
+  ],
+  "n": 5,
+  "sigla": "AC",
+  "borda": "#111111"
+ },
+ "Real Sociedad": {
+  "forma": "redondo",
+  "fundo": "liso",
+  "cores": [
+   "#ffffff",
+   "#0067b1"
+  ],
+  "aro": "#0067b1",
+  "texto": "#0067b1",
+  "sigla": "RS",
+  "simbolo": "coroa",
+  "corSimbolo": "#f2c230"
+ },
+ "Villarreal": {
+  "forma": "espanhol",
+  "fundo": "liso",
+  "cores": [
+   "#ffe667",
+   "#005187"
+  ],
+  "texto": "#005187",
+  "borda": "#005187",
+  "sigla": "VCF"
+ },
+ "Betis": {
+  "forma": "frances",
+  "fundo": "listras-v",
+  "cores": [
+   "#00954c",
+   "#ffffff"
+  ],
+  "n": 5,
+  "sigla": "RB",
+  "simbolo": "coroa",
+  "corSimbolo": "#f2c230",
+  "borda": "#00954c"
+ },
+ "Girona": {
+  "forma": "classico",
+  "fundo": "listras-v",
+  "cores": [
+   "#cd2534",
+   "#ffffff"
+  ],
+  "n": 5,
+  "sigla": "GFC",
+  "borda": "#cd2534"
+ },
+ "Sevilla": {
+  "forma": "classico",
+  "fundo": "metades-h",
+  "cores": [
+   "#ffffff",
+   "#d81e05"
+  ],
+  "sigla": "SFC",
+  "simbolo": "coroa",
+  "corSimbolo": "#f2c230",
+  "borda": "#d81e05"
+ },
+ "Valencia": {
+  "forma": "redondo",
+  "fundo": "liso",
+  "cores": [
+   "#ffffff",
+   "#111111"
+  ],
+  "texto": "#111111",
+  "borda": "#ee3524",
+  "aro": "#f2a900",
+  "sigla": "VCF"
+ },
+ "Inter": {
+  "forma": "redondo",
+  "fundo": "liso",
+  "cores": [
+   "#ffffff",
+   "#0068a8"
+  ],
+  "aro": "#0068a8",
+  "texto": "#0068a8",
+  "borda": "#111111",
+  "sigla": "IM"
+ },
+ "Napoli": {
+  "forma": "redondo",
+  "fundo": "liso",
+  "cores": [
+   "#12a0d7",
+   "#ffffff"
+  ],
+  "aro": "#ffffff",
+  "borda": "#12a0d7",
+  "sigla": "N"
+ },
+ "Milan": {
+  "forma": "oval",
+  "fundo": "listras-v",
+  "cores": [
+   "#fb090b",
+   "#111111"
+  ],
+  "n": 5,
+  "chefe": "#ffffff",
+  "texto": "#fb090b",
+  "borda": "#f2c230",
+  "sigla": "ACM"
+ },
+ "Juventus": {
+  "forma": "oval",
+  "fundo": "metades-v",
+  "cores": [
+   "#111111",
+   "#ffffff"
+  ],
+  "borda": "#111111",
+  "sigla": "J",
+  "texto": "#f2c230"
+ },
+ "Atalanta": {
+  "forma": "redondo",
+  "fundo": "listras-v",
+  "cores": [
+   "#1e71b8",
+   "#111111"
+  ],
+  "n": 4,
+  "aro": "#111111",
+  "sigla": "ATA",
+  "borda": "#f2c230"
+ },
+ "Roma": {
+  "forma": "pontudo",
+  "fundo": "liso",
+  "cores": [
+   "#8e1f2f",
+   "#f0bc42"
+  ],
+  "sigla": "ASR",
+  "borda": "#f0bc42"
+ },
+ "Lazio": {
+  "forma": "classico",
+  "fundo": "liso",
+  "cores": [
+   "#87d8f7",
+   "#ffffff"
+  ],
+  "texto": "#0b1f4d",
+  "sigla": "SSL",
+  "simbolo": "estrela",
+  "corSimbolo": "#ffffff",
+  "borda": "#ffffff"
+ },
+ "Fiorentina": {
+  "forma": "oval",
+  "fundo": "liso",
+  "cores": [
+   "#482e92",
+   "#ffffff"
+  ],
+  "sigla": "ACF",
+  "borda": "#ffffff"
+ },
+ "Bologna": {
+  "forma": "classico",
+  "fundo": "listras-v",
+  "cores": [
+   "#1a2f48",
+   "#a21c26"
+  ],
+  "n": 4,
+  "chefe": "#ffffff",
+  "texto": "#a21c26",
+  "sigla": "BFC"
+ },
+ "Torino": {
+  "forma": "classico",
+  "fundo": "liso",
+  "cores": [
+   "#8a1e03",
+   "#ffffff"
+  ],
+  "sigla": "TFC",
+  "borda": "#f2c230"
+ },
+ "Bayern de Munique": {
+  "forma": "redondo",
+  "fundo": "losangos",
+  "cores": [
+   "#0066b2",
+   "#ffffff"
+  ],
+  "aro": "#dc052d",
+  "borda": "#dc052d",
+  "sigla": "FCB",
+  "texto": "#ffffff"
+ },
+ "Bayer Leverkusen": {
+  "forma": "classico",
+  "fundo": "liso",
+  "cores": [
+   "#e32221",
+   "#111111"
+  ],
+  "borda": "#111111",
+  "sigla": "B04",
+  "aro": "#111111"
+ },
+ "Borussia Dortmund": {
+  "forma": "redondo",
+  "fundo": "liso",
+  "cores": [
+   "#fde100",
+   "#111111"
+  ],
+  "aro": "#111111",
+  "texto": "#111111",
+  "sigla": "BVB"
+ },
+ "RB Leipzig": {
+  "forma": "espanhol",
+  "fundo": "liso",
+  "cores": [
+   "#ffffff",
+   "#dd0741"
+  ],
+  "texto": "#0c2043",
+  "borda": "#dd0741",
+  "sigla": "RBL"
+ },
+ "Stuttgart": {
+  "forma": "frances",
+  "fundo": "faixa-h",
+  "cores": [
+   "#ffffff",
+   "#e32219"
+  ],
+  "texto": "#ffffff",
+  "borda": "#e32219",
+  "sigla": "VfB"
+ },
+ "Eintracht Frankfurt": {
+  "forma": "redondo",
+  "fundo": "liso",
+  "cores": [
+   "#e1000f",
+   "#111111"
+  ],
+  "aro": "#111111",
+  "sigla": "SGE"
+ },
+ "Wolfsburg": {
+  "forma": "redondo",
+  "fundo": "liso",
+  "cores": [
+   "#ffffff",
+   "#65b32e"
+  ],
+  "aro": "#65b32e",
+  "texto": "#65b32e",
+  "sigla": "W"
+ },
+ "Freiburg": {
+  "forma": "classico",
+  "fundo": "liso",
+  "cores": [
+   "#111111",
+   "#e2001a"
+  ],
+  "sigla": "SCF",
+  "aro": "#e2001a"
+ },
+ "Hoffenheim": {
+  "forma": "classico",
+  "fundo": "liso",
+  "cores": [
+   "#1961b5",
+   "#ffffff"
+  ],
+  "sigla": "TSG",
+  "borda": "#ffffff"
+ },
+ "Borussia Mönchengladbach": {
+  "forma": "redondo",
+  "fundo": "liso",
+  "cores": [
+   "#ffffff",
+   "#00b140"
+  ],
+  "aro": "#111111",
+  "texto": "#00b140",
+  "sigla": "BMG",
+  "borda": "#00b140"
+ },
+ "Paris Saint-Germain": {
+  "forma": "redondo",
+  "fundo": "faixa-v",
+  "cores": [
+   "#004170",
+   "#da291c"
+  ],
+  "aro": "#004170",
+  "borda": "#ffffff",
+  "sigla": "PSG"
+ },
+ "Monaco": {
+  "forma": "classico",
+  "fundo": "metades-h",
+  "cores": [
+   "#e51b22",
+   "#ffffff"
+  ],
+  "sigla": "ASM",
+  "simbolo": "coroa",
+  "corSimbolo": "#f2c230",
+  "borda": "#e51b22"
+ },
+ "Olympique de Marseille": {
+  "forma": "classico",
+  "fundo": "liso",
+  "cores": [
+   "#ffffff",
+   "#2faee0"
+  ],
+  "texto": "#2faee0",
+  "sigla": "OM",
+  "simbolo": "estrela",
+  "corSimbolo": "#f2c230",
+  "borda": "#2faee0"
+ },
+ "Lille": {
+  "forma": "classico",
+  "fundo": "liso",
+  "cores": [
+   "#e01e13",
+   "#20325f"
+  ],
+  "sigla": "LOSC",
+  "borda": "#20325f"
+ },
+ "Lyon": {
+  "forma": "redondo",
+  "fundo": "liso",
+  "cores": [
+   "#ffffff",
+   "#da0812"
+  ],
+  "aro": "#1d1d6e",
+  "texto": "#da0812",
+  "sigla": "OL"
+ },
+ "Nice": {
+  "forma": "classico",
+  "fundo": "listras-v",
+  "cores": [
+   "#c8102e",
+   "#111111"
+  ],
+  "n": 5,
+  "sigla": "OGCN",
+  "borda": "#111111"
+ },
+ "Lens": {
+  "forma": "classico",
+  "fundo": "metades-v",
+  "cores": [
+   "#ffe600",
+   "#e30613"
+  ],
+  "texto": "#111111",
+  "sigla": "RCL",
+  "borda": "#e30613"
+ },
+ "Rennes": {
+  "forma": "classico",
+  "fundo": "metades-h",
+  "cores": [
+   "#e13327",
+   "#111111"
+  ],
+  "sigla": "SRFC",
+  "borda": "#111111"
+ },
+ "Strasbourg": {
+  "forma": "redondo",
+  "fundo": "liso",
+  "cores": [
+   "#009fe3",
+   "#ffffff"
+  ],
+  "aro": "#ffffff",
+  "borda": "#009fe3",
+  "sigla": "RCSA"
+ },
+ "Nantes": {
+  "forma": "classico",
+  "fundo": "liso",
+  "cores": [
+   "#fcd405",
+   "#00845c"
+  ],
+  "texto": "#00845c",
+  "sigla": "FCN",
+  "borda": "#00845c"
+ },
+ "Benfica": {
+  "forma": "redondo",
+  "fundo": "liso",
+  "cores": [
+   "#ffffff",
+   "#e20e0e"
+  ],
+  "aro": "#e20e0e",
+  "texto": "#e20e0e",
+  "sigla": "SLB",
+  "simbolo": "bola"
+ },
+ "Porto": {
+  "forma": "classico",
+  "fundo": "liso",
+  "cores": [
+   "#003893",
+   "#ffffff"
+  ],
+  "sigla": "FCP",
+  "simbolo": "coroa",
+  "corSimbolo": "#f2c230",
+  "borda": "#f2c230"
+ },
+ "Sporting": {
+  "forma": "frances",
+  "fundo": "listras-h",
+  "cores": [
+   "#00804b",
+   "#ffffff"
+  ],
+  "n": 6,
+  "sigla": "SCP",
+  "borda": "#f2c230"
+ },
+ "Braga": {
+  "forma": "classico",
+  "fundo": "liso",
+  "cores": [
+   "#e30613",
+   "#ffffff"
+  ],
+  "sigla": "SCB",
+  "simbolo": "coroa",
+  "corSimbolo": "#f2c230"
+ },
+ "Vitória de Guimarães": {
+  "forma": "classico",
+  "fundo": "liso",
+  "cores": [
+   "#ffffff",
+   "#111111"
+  ],
+  "texto": "#111111",
+  "borda": "#111111",
+  "sigla": "VSC",
+  "simbolo": "estrela",
+  "corSimbolo": "#111111"
+ },
+ "Famalicão": {
+  "forma": "redondo",
+  "fundo": "liso",
+  "cores": [
+   "#1d3b8c",
+   "#ffffff"
+  ],
+  "aro": "#ffffff",
+  "borda": "#1d3b8c",
+  "sigla": "FCF"
+ },
+ "Gil Vicente": {
+  "forma": "classico",
+  "fundo": "metades-v",
+  "cores": [
+   "#d71921",
+   "#0033a0"
+  ],
+  "sigla": "GV",
+  "borda": "#ffffff"
+ },
+ "Rio Ave": {
+  "forma": "classico",
+  "fundo": "listras-v",
+  "cores": [
+   "#00843d",
+   "#ffffff"
+  ],
+  "n": 5,
+  "sigla": "RAFC",
+  "borda": "#00843d"
+ },
+ "Casa Pia": {
+  "forma": "redondo",
+  "fundo": "liso",
+  "cores": [
+   "#111111",
+   "#ffffff"
+  ],
+  "aro": "#ffffff",
+  "borda": "#111111",
+  "sigla": "CP"
+ },
+ "Estoril": {
+  "forma": "classico",
+  "fundo": "metades-v",
+  "cores": [
+   "#ffd200",
+   "#1d3b8c"
+  ],
+  "sigla": "GDE",
+  "borda": "#1d3b8c"
+ },
+ "PSV": {
+  "forma": "redondo",
+  "fundo": "listras-v",
+  "cores": [
+   "#ed1c24",
+   "#ffffff"
+  ],
+  "n": 5,
+  "aro": "#ed1c24",
+  "borda": "#111111",
+  "sigla": "PSV"
+ },
+ "Feyenoord": {
+  "forma": "classico",
+  "fundo": "metades-v",
+  "cores": [
+   "#e30613",
+   "#ffffff"
+  ],
+  "sigla": "FEY",
+  "borda": "#111111"
+ },
+ "Ajax": {
+  "forma": "redondo",
+  "fundo": "liso",
+  "cores": [
+   "#d2122e",
+   "#ffffff"
+  ],
+  "aro": "#ffffff",
+  "borda": "#d2122e",
+  "sigla": "AFC"
+ },
+ "AZ Alkmaar": {
+  "forma": "redondo",
+  "fundo": "liso",
+  "cores": [
+   "#db0021",
+   "#ffffff"
+  ],
+  "sigla": "AZ",
+  "borda": "#ffffff"
+ },
+ "Twente": {
+  "forma": "classico",
+  "fundo": "liso",
+  "cores": [
+   "#e30613",
+   "#ffffff"
+  ],
+  "sigla": "FCT",
+  "aro": "#ffffff"
+ },
+ "Utrecht": {
+  "forma": "frances",
+  "fundo": "metades-v",
+  "cores": [
+   "#ffffff",
+   "#e30613"
+  ],
+  "texto": "#111111",
+  "sigla": "FCU",
+  "borda": "#e30613"
+ },
+ "NEC": {
+  "forma": "classico",
+  "fundo": "tricolor",
+  "cores": [
+   "#e30613",
+   "#00843d",
+   "#111111"
+  ],
+  "sigla": "NEC"
+ },
+ "Go Ahead Eagles": {
+  "forma": "classico",
+  "fundo": "metades-h",
+  "cores": [
+   "#e30613",
+   "#ffd200"
+  ],
+  "sigla": "GAE",
+  "borda": "#e30613"
+ },
+ "Heerenveen": {
+  "forma": "frances",
+  "fundo": "listras-v",
+  "cores": [
+   "#004b9b",
+   "#ffffff"
+  ],
+  "n": 5,
+  "sigla": "SCH",
+  "borda": "#004b9b"
+ },
+ "Sparta Rotterdam": {
+  "forma": "classico",
+  "fundo": "listras-v",
+  "cores": [
+   "#e30613",
+   "#ffffff"
+  ],
+  "n": 5,
+  "sigla": "SPR",
+  "borda": "#111111"
+ },
+ "River Plate": {
+  "forma": "classico",
+  "fundo": "diagonal",
+  "cores": [
+   "#ffffff",
+   "#e30613"
+  ],
+  "texto": "#111111",
+  "borda": "#111111",
+  "sigla": "CARP"
+ },
+ "Boca Juniors": {
+  "forma": "oval",
+  "fundo": "faixa-h",
+  "cores": [
+   "#103f79",
+   "#fcb514"
+  ],
+  "sigla": "CABJ",
+  "simbolo": "estrelas",
+  "estrelas": 3,
+  "corSimbolo": "#fcb514",
+  "borda": "#fcb514"
+ },
+ "Racing": {
+  "forma": "redondo",
+  "fundo": "listras-v",
+  "cores": [
+   "#6cace4",
+   "#ffffff"
+  ],
+  "n": 5,
+  "aro": "#6cace4",
+  "sigla": "RC",
+  "texto": "#111111"
+ },
+ "Estudiantes": {
+  "forma": "classico",
+  "fundo": "listras-v",
+  "cores": [
+   "#e30613",
+   "#ffffff"
+  ],
+  "n": 5,
+  "sigla": "EDLP",
+  "borda": "#e30613"
+ },
+ "Lanús": {
+  "forma": "classico",
+  "fundo": "liso",
+  "cores": [
+   "#7a1f3d",
+   "#ffffff"
+  ],
+  "sigla": "CAL",
+  "aro": "#ffffff"
+ },
+ "Rosario Central": {
+  "forma": "classico",
+  "fundo": "listras-v",
+  "cores": [
+   "#003f87",
+   "#ffd200"
+  ],
+  "n": 5,
+  "sigla": "CARC",
+  "borda": "#003f87"
+ },
+ "Vélez Sarsfield": {
+  "forma": "classico",
+  "fundo": "liso",
+  "cores": [
+   "#ffffff",
+   "#1d3b8c"
+  ],
+  "texto": "#1d3b8c",
+  "sigla": "V",
+  "borda": "#1d3b8c"
+ },
+ "Talleres": {
+  "forma": "classico",
+  "fundo": "listras-v",
+  "cores": [
+   "#0b1f4d",
+   "#ffffff"
+  ],
+  "n": 5,
+  "sigla": "CAT",
+  "borda": "#0b1f4d"
+ },
+ "Independiente": {
+  "forma": "classico",
+  "fundo": "liso",
+  "cores": [
+   "#e30613",
+   "#ffffff"
+  ],
+  "sigla": "CAI",
+  "aro": "#ffffff",
+  "borda": "#e30613"
+ },
+ "San Lorenzo": {
+  "forma": "classico",
+  "fundo": "listras-v",
+  "cores": [
+   "#003f87",
+   "#e30613"
+  ],
+  "n": 5,
+  "sigla": "CASLA",
+  "borda": "#003f87"
+ },
+ "Al-Hilal": {
+  "forma": "redondo",
+  "fundo": "liso",
+  "cores": [
+   "#0033a0",
+   "#ffffff"
+  ],
+  "aro": "#ffffff",
+  "borda": "#0033a0",
+  "sigla": "HIL"
+ },
+ "Al-Nassr": {
+  "forma": "redondo",
+  "fundo": "liso",
+  "cores": [
+   "#fcd116",
+   "#1d3b8c"
+  ],
+  "aro": "#1d3b8c",
+  "texto": "#1d3b8c",
+  "sigla": "NAS"
+ },
+ "Al-Ittihad": {
+  "forma": "classico",
+  "fundo": "listras-v",
+  "cores": [
+   "#ffd200",
+   "#111111"
+  ],
+  "n": 5,
+  "sigla": "ITT",
+  "borda": "#111111"
+ },
+ "Al-Ahli": {
+  "forma": "redondo",
+  "fundo": "liso",
+  "cores": [
+   "#00843d",
+   "#ffffff"
+  ],
+  "aro": "#ffffff",
+  "borda": "#00843d",
+  "sigla": "AHL"
+ },
+ "Al-Qadsiah": {
+  "forma": "classico",
+  "fundo": "liso",
+  "cores": [
+   "#e30613",
+   "#ffd200"
+  ],
+  "sigla": "QAD",
+  "aro": "#ffd200"
+ },
+ "Al-Ettifaq": {
+  "forma": "classico",
+  "fundo": "metades-v",
+  "cores": [
+   "#00843d",
+   "#e30613"
+  ],
+  "sigla": "ETT",
+  "borda": "#ffffff"
+ },
+ "Al-Shabab": {
+  "forma": "redondo",
+  "fundo": "liso",
+  "cores": [
+   "#ffffff",
+   "#111111"
+  ],
+  "aro": "#111111",
+  "texto": "#111111",
+  "sigla": "SHA"
+ },
+ "Al-Taawoun": {
+  "forma": "classico",
+  "fundo": "liso",
+  "cores": [
+   "#ffd200",
+   "#1d3b8c"
+  ],
+  "texto": "#1d3b8c",
+  "sigla": "TAA",
+  "borda": "#1d3b8c"
+ },
+ "Al-Fateh": {
+  "forma": "classico",
+  "fundo": "liso",
+  "cores": [
+   "#0057b8",
+   "#ffffff"
+  ],
+  "sigla": "FAT",
+  "borda": "#ffffff"
+ },
+ "Al-Khaleej": {
+  "forma": "redondo",
+  "fundo": "liso",
+  "cores": [
+   "#ffd200",
+   "#00843d"
+  ],
+  "aro": "#00843d",
+  "texto": "#00843d",
+  "sigla": "KHA"
+ },
+ "Zenit": {
+  "forma": "redondo",
+  "fundo": "liso",
+  "cores": [
+   "#0092d0",
+   "#ffffff"
+  ],
+  "aro": "#ffffff",
+  "borda": "#0092d0",
+  "sigla": "ZEN"
+ },
+ "Krasnodar": {
+  "forma": "redondo",
+  "fundo": "metades-v",
+  "cores": [
+   "#111111",
+   "#00843d"
+  ],
+  "aro": "#ffffff",
+  "sigla": "KRA"
+ },
+ "Spartak Moscou": {
+  "forma": "classico",
+  "fundo": "faixa-h",
+  "cores": [
+   "#e30613",
+   "#ffffff"
+  ],
+  "texto": "#e30613",
+  "sigla": "SPA",
+  "borda": "#ffffff"
+ },
+ "CSKA Moscou": {
+  "forma": "classico",
+  "fundo": "metades-v",
+  "cores": [
+   "#e30613",
+   "#003f87"
+  ],
+  "sigla": "CSKA",
+  "borda": "#ffffff"
+ },
+ "Lokomotiv Moscou": {
+  "forma": "redondo",
+  "fundo": "metades-h",
+  "cores": [
+   "#e30613",
+   "#00843d"
+  ],
+  "sigla": "LOK",
+  "borda": "#ffffff"
+ },
+ "Dínamo Moscou": {
+  "forma": "classico",
+  "fundo": "liso",
+  "cores": [
+   "#003f87",
+   "#ffffff"
+  ],
+  "sigla": "D",
+  "borda": "#ffffff"
+ },
+ "Rostov": {
+  "forma": "classico",
+  "fundo": "metades-h",
+  "cores": [
+   "#ffd200",
+   "#003f87"
+  ],
+  "sigla": "ROS",
+  "borda": "#003f87"
+ },
+ "Rubin Kazan": {
+  "forma": "classico",
+  "fundo": "metades-v",
+  "cores": [
+   "#7a1f3d",
+   "#00843d"
+  ],
+  "sigla": "RUB",
+  "borda": "#ffffff"
+ },
+ "Akhmat": {
+  "forma": "redondo",
+  "fundo": "liso",
+  "cores": [
+   "#00843d",
+   "#ffffff"
+  ],
+  "aro": "#ffffff",
+  "borda": "#00843d",
+  "sigla": "AKH"
+ },
+ "Krylya Sovetov": {
+  "forma": "classico",
+  "fundo": "listras-v",
+  "cores": [
+   "#003f87",
+   "#ffffff"
+  ],
+  "n": 5,
+  "sigla": "KS",
+  "borda": "#003f87"
+ }
+}
