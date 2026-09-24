@@ -318,10 +318,40 @@ function estiloDeJogo(attrs, pos) {
   const f = POSICOES[pos].funcao;
   const esp = perfilEsperado(f, ovrDe(attrs, f));
   const [k, v] = Object.keys(esp).map((c) => [c, attrs[c] - esp[c]]).sort((a, b) => b[1] - a[1])[0];
-  if (v < 4) return { nome: "Equilibrado", dica: "rende como a média da posição" };
+  if (v < 4) return { nome: "Equilibrado", dica: "rende como a média da posição", k: null };
   const [nome, dica] = ESTILOS[f][k];
-  return { nome, dica };
+  return { nome, dica, k };
 }
+
+// O estilo pesa na carreira TODO ANO, com um lado bom e um ruim (pedido do
+// dono, 25/09): quem vive de gol assiste menos, o velocista se machuca mais,
+// o operario joga sempre e aparece pouco. Chave = o atributo que define o
+// estilo; equilibrado nao ganha nem perde nada.
+const EFEITO_DO_ESTILO = {
+  FIN: { bom: "mais gols e mais holofote", ruim: "menos assistências; sem gol, o técnico tira",
+    aplicar: (e) => { e.gol += 0.12; e.vitrine += 1; e.assist -= 0.2; e.minutos -= 0.02; } },
+  RIT: { bom: "mais gols no contra-ataque e valor de mercado", ruim: "mais lesão muscular; cai rápido depois dos 30",
+    aplicar: (e, J) => { e.gol += 0.06; e.vitrine += 1.5; e.lesao += 0.04; if (J.idade >= 30) e.queda -= 0.4; } },
+  FIS: { bom: "se machuca menos e ganha a vaga no corpo", ruim: "menos assistências; a imprensa chama de limitado",
+    aplicar: (e) => { e.lesao = Math.max(0, e.lesao - 0.04); e.minutos += 0.03; e.assist -= 0.1; e.vitrine -= 0.8; } },
+  PAS: { bom: "mais assistências; o vestiário te ouve", ruim: "menos gols; a torcida cobra finalização",
+    aplicar: (e) => { e.assist += 0.15; e.evolucao += 0.2; e.gol -= 0.12; e.vitrine -= 0.5; } },
+  DRI: { bom: "mais assistências e vitrine pro mercado", ruim: "perde bola: nota oscila e o técnico barra às vezes",
+    aplicar: (e) => { e.assist += 0.1; e.vitrine += 1.2; e.nota -= 0.05; e.minutos -= 0.02; } },
+  DEF: { bom: "o técnico confia: titular estável e carreira longa", ruim: "menos gols e pouca vitrine",
+    aplicar: (e) => { e.minutos += 0.04; e.queda += 0.3; e.gol -= 0.15; e.vitrine -= 1; } },
+  REF: { bom: "defesas difíceis sobem a nota", ruim: "reflexo cai cedo com a idade",
+    aplicar: (e, J) => { e.nota += 0.06; if (J.idade >= 31) e.queda -= 0.3; } },
+  EVI: { bom: "sofre menos gol: técnico confia", ruim: "discreto, aparece pouco",
+    aplicar: (e) => { e.minutos += 0.03; e.vitrine -= 0.5; } },
+  MAO: { bom: "segura tudo e se machuca menos", ruim: "sem defesa de TV, pouca vitrine",
+    aplicar: (e) => { e.nota += 0.03; e.lesao = Math.max(0, e.lesao - 0.02); e.vitrine -= 0.5; } },
+  PES: { bom: "joga com os pés: evolui e chama atenção", ruim: "arrisca a saída e às vezes paga caro",
+    aplicar: (e) => { e.evolucao += 0.2; e.vitrine += 0.5; e.nota -= 0.04; } },
+  SAI: { bom: "domina a área e sobe a nota", ruim: "sai muito do gol e se machuca mais",
+    aplicar: (e) => { e.nota += 0.04; e.lesao += 0.03; } },
+};
+const efeitoDoEstilo = (est) => (est && est.k ? EFEITO_DO_ESTILO[est.k] : null);
 
 // --- 1. criacao ------------------------------------------------------------------------
 
@@ -430,7 +460,11 @@ function desenharMontagem() {
   $("pontos-restantes").textContent = String(C.pontos);
   $("ovr-montagem").textContent = String(ovr);
   const est = estiloDeJogo(C.attrs, C.pos);
-  $("estilo-montagem").textContent = est ? `Estilo: ${est.nome} · ${est.dica}` : "";
+  const efe = efeitoDoEstilo(est);
+  $("estilo-montagem").replaceChildren(...(est ? [
+    el("span", null, `Estilo: ${est.nome} · ${est.dica}`),
+    ...(efe ? [el("small", "renova-bom", `+ ${efe.bom}`), el("small", "renova-ruim", `− ${efe.ruim}`)] : []),
+  ] : []));
   const lista = $("atributos");
   lista.replaceChildren();
   const rotulos = f === "GOL" ? Object.fromEntries(EIXOS_GOLEIRO.map(([c, s]) => [c, C.r.eixos[c] || s])) : ROTULOS_LINHA;
@@ -1219,6 +1253,12 @@ function jogarTemporada({ decidir = true } = {}) {
   Historia.aplicarReputacao(J);
   // entrosamento: do 3o ano no mesmo clube em diante, um pouco mais de evolucao
   if (J.anosNoClube >= 2) J.efeito.evolucao += 0.3;
+  const efe = efeitoDoEstilo(estiloDeJogo(J.attrs, C.pos));
+  if (efe) {
+    const perdida = temporadaPerdida(J); // estilo nao desfaz temporada perdida
+    efe.aplicar(J.efeito, J);
+    if (perdida) J.efeito.lesao = Math.max(1, J.efeito.lesao);
+  }
   const lesao = sortearLesao(J, rng);
   const t = J.clube.tipo === "ext" ? temporadaNoExterior(J, J.ano, rng)
     : J.clube.divisao === "A" ? temporadaNoBrasil(J, J.ano, rng) : temporadaInferior(J, J.ano, rng);
@@ -1378,6 +1418,29 @@ const EVENTOS = [
       { rotulo: "Escolhe um canto e vai", chance: () => 0.24,
         ok: (J) => { J.efeito.vitrine += 2.5; J.efeito.nota += 0.2; return "Chutou pro lado que você escolheu. Defesa e festa."; },
         falha: () => "Foi pro outro lado. Faz parte." },
+    ],
+  },
+  // --- decisoes do estilo (o lado bom e o ruim de cada um aparecem aqui) ---
+  {
+    id: "protagonista", quando: (J) => !goleiro() && ["FIN", "DRI"].includes(estiloDeJogo(J.attrs, C.pos).k),
+    titulo: "Pênalti no clássico",
+    texto: () => "Aos 44 do segundo tempo, pênalti a favor. O batedor oficial é o capitão, mas a torcida grita o seu nome.",
+    opcoes: [
+      { rotulo: "Pega a bola e bate", chance: (J) => limitar(0.55 + ((J.attrs.FIN ?? 50) - 60) / 80, 0.35, 0.9),
+        ok: (J) => { J.efeito.vitrine += 2; J.efeito.nota += 0.15; Historia.mexerReputacao(J, { torcida: 1, vestiario: -1 }); return "Gol, festa, capa do jornal. O capitão te cumprimentou, mas de cara fechada."; },
+        falha: (J) => { J.efeito.nota -= 0.15; Historia.mexerReputacao(J, { torcida: -1, vestiario: -2 }); return "Perdeu. E pegou a bola do capitão pra isso. O vestiário não perdoou."; } },
+      { rotulo: "Deixa pro capitão", sempre: (J) => { Historia.mexerReputacao(J, { vestiario: 1 }); J.efeito.vitrine -= 0.5; return "Ele converteu e correu pra te abraçar. O grupo viu."; } },
+    ],
+  },
+  {
+    id: "firula", quando: (J) => !goleiro() && ["DRI", "RIT"].includes(estiloDeJogo(J.attrs, C.pos).k),
+    titulo: "Jogo ganho, 3 a 0",
+    texto: () => "Faltam dez minutos. Dá pra partir pra cima do lateral e fazer a jogada do vídeo, ou só tocar a bola.",
+    opcoes: [
+      { rotulo: "Faz a firula", chance: (J) => chanceAttr(J, "DRI", 64, 8),
+        ok: (J) => { J.efeito.vitrine += 2.5; Historia.mexerReputacao(J, { imprensa: 1 }); return "Chapéu, caneta e o vídeo rodou o país. O técnico riu no banco."; },
+        falha: (J) => { J.efeito.minutos -= 0.04; Historia.mexerReputacao(J, { vestiario: -1 }); return "Perdeu a bola, saiu o contra-ataque e o gol deles. Banco no jogo seguinte."; } },
+      { rotulo: "Toca e administra", sempre: (J) => { J.efeito.minutos += 0.02; return "Jogo morto, técnico feliz. Ninguém lembra, mas ninguém reclama."; } },
     ],
   },
   {
@@ -1575,7 +1638,14 @@ function desenharPainelJogador() {
   const cab = el("p", "painel-cab");
   const est = estiloDeJogo(J.attrs, C.pos);
   cab.append(bandeira(pais), el("span", null, `${pais.nome} · #${J.numero} · ${POSICOES[C.pos].nome} · pé ${C.pe.toLowerCase()}${est ? ` · ${est.nome.toLowerCase()}` : ""}`));
-  alvo.append(cab, fatos, rep);
+  alvo.append(cab);
+  const efe = efeitoDoEstilo(est);
+  if (efe) {
+    const box = el("div", "painel-estilo");
+    box.append(el("span", "painel-rep-rotulo", `Estilo · ${est.nome}`), el("small", "renova-bom", `+ ${efe.bom}`), el("small", "renova-ruim", `− ${efe.ruim}`));
+    alvo.append(box);
+  }
+  alvo.append(fatos, rep);
   for (const [rotulo, itens, classe] of [["Títulos", J.titulos, "galeria"], ["Prêmios", J.premios, "galeria galeria-premios"]]) {
     if (!itens.length) continue;
     const gal = el("div", classe);
