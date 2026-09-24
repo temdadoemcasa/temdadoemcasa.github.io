@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tem Time em Casa · Tem dado em casa</title>
+  <meta name="description" content="Monte seu time com figurinhas do Brasileirão 2026 e jogue a temporada inteira: Brasileirão, Copa do Brasil e Libertadores ou Sul-Americana.">
+  <meta property="og:title" content="Tem Time em Casa · Tem dado em casa">
+  <meta property="og:description" content="Cinco figurinhas por posição. Escolhe, monta o time e vê onde ele termina.">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#0b0b0c">
+  <link rel="icon" type="image/svg+xml" href="img/simbolo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="estilo.css?v=2026-09-24k">
+  <link rel="stylesheet" href="draft.css?v=2026-09-24k">
+</head>
+<body>
+  <header class="topo">
+    <a class="marca" href="index.html">
+      <img class="avatar" src="img/simbolo.svg" alt="" width="36" height="36">
+      <span class="marca-nome">Tem dado em casa</span>
+    </a>
+    <nav class="menu" aria-label="Seções">
+      <a href="index.html#overalls">Cartas</a>
+      <a href="tem-time-em-casa.html" aria-current="page">Tem Time em Casa</a>
+      <a href="prata-da-casa.html">Prata da Casa</a>
+    </nav>
+  </header>
+
+  <main class="draft">
+    <section class="draft-cabecalho">
+      <p class="hero-sobretitulo">Minigame · temporada 2026</p>
+      <h1>Tem Time em Casa</h1>
+      <p class="hero-texto">Funda o teu clube, abre cinco figurinhas por posição e escala o onze. Depois é a temporada inteira no calendário: Brasileirão, Copa do Brasil e Libertadores ou Sul-Americana. Se der ruim, a culpa é do técnico.</p>
+      <ol class="passos" id="passos" aria-label="Etapas">
+        <li data-passo="clube" aria-current="step">Seu clube</li>
+        <li data-passo="draft">Figurinhas</li>
+        <li data-passo="temporada">Temporada</li>
+      </ol>
+    </section>
+
+    <!-- 1. seu clube -->
+    <section class="tela" id="tela-clube" aria-labelledby="t-clube">
+      <h2 id="t-clube">Funda o teu clube</h2>
+      <div class="criar">
+        <div class="criar-camisa" id="preview-camisa" aria-hidden="true"></div>
+        <div class="criar-campos">
+          <label>Nome do time
+            <input id="nome-time" type="text" maxlength="24" autocomplete="off" value="Tem Dado FC">
+          </label>
+          <div class="campo">
+            <span class="rotulo">Camisa</span>
+            <div class="chips" role="radiogroup" aria-label="Padrão da camisa" id="padroes"></div>
+          </div>
+          <div class="cores">
+            <label>Cor principal <input id="cor1" type="color" value="#c8ff00"></label>
+            <label>Segunda cor <input id="cor2" type="color" value="#111111"></label>
+            <label>Esquema
+              <select id="esquema">
+                <option value="4-3-3">4-3-3</option>
+                <option value="4-2-3-1">4-2-3-1</option>
+                <option value="4-4-2">4-4-2</option>
+                <option value="4-1-4-1">4-1-4-1</option>
+                <option value="3-5-2">3-5-2</option>
+                <option value="3-4-3">3-4-3</option>
+                <option value="5-3-2">5-3-2</option>
+              </select>
+            </label>
+          </div>
+          <p class="nota esquema-efeito" id="esquema-efeito"></p>
+        </div>
+      </div>
+
+      <h3>Quem sai da Série A pra você entrar?</h3>
+      <p class="nota">Você fica com a vaga dele no Brasileirão e na Copa do Brasil.</p>
+      <div class="clubes" id="clubes" role="radiogroup" aria-label="Clube que sai da Série A"></div>
+
+      <h3>Qual copa continental?</h3>
+      <div class="chips" role="radiogroup" aria-label="Copa continental" id="continental">
+        <button class="chip" type="button" role="radio" data-valor="lib" aria-pressed="true" aria-checked="true">Libertadores</button>
+        <button class="chip" type="button" role="radio" data-valor="sul" aria-pressed="false" aria-checked="false">Sul-Americana</button>
+      </div>
+      <p class="nota">Seu time cai num grupo sorteado, no lugar de um dos estrangeiros mais fracos. A Copa do Brasil você joga de qualquer jeito.</p>
+      <button class="botao botao-primario" id="comecar-draft" type="button" disabled>Escolha quem sai da Série A</button>
+    </section>
+
+    <!-- 2. draft -->
+    <section class="tela" id="tela-draft" aria-labelledby="t-draft" hidden>
+      <div class="draft-grade">
+        <div class="gramado" id="gramado" aria-label="Seu time"></div>
+        <div class="draft-lado">
+          <h2 id="t-draft">Escolha o <span id="vaga-nome">goleiro</span></h2>
+          <p class="nota" id="vaga-progresso"></p>
+          <div class="leque" id="leque"></div>
+          <div class="draft-acoes">
+            <button class="botao" id="trocar-leque" type="button">Trocar o leque (1 vez)</button>
+            <p class="chances" id="draft-chances"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. resumo do time -->
+    <section class="tela" id="tela-resumo" aria-labelledby="t-resumo" hidden>
+      <h2 id="t-resumo">Time escalado</h2>
+      <div class="resumo" id="resumo"></div>
+      <button class="botao botao-primario" id="comecar-temporada" type="button">Começar a temporada</button>
+    </section>
+
+    <!-- 4. temporada -->
+    <section class="tela" id="tela-temporada" aria-labelledby="t-temporada" hidden>
+      <h2 id="t-temporada" class="sr">Temporada</h2>
+      <div class="painel-status" id="status"></div>
+      <div class="chips abas-temporada" role="tablist" aria-label="Modo de simulação">
+        <button class="chip" type="button" role="tab" id="aba-jogo" data-visao="jogo" aria-selected="true" aria-pressed="true">Jogo a jogo</button>
+        <button class="chip" type="button" role="tab" id="aba-cal" data-visao="cal" aria-selected="false" aria-pressed="false">Calendário</button>
+      </div>
+      <div class="visao" id="visao-cal" role="tabpanel" aria-labelledby="aba-cal" hidden>
+      <div class="calendario" id="calendario">
+        <div class="cal-topo">
+          <button class="botao cal-seta" id="cal-antes" type="button" aria-label="Mês anterior">‹</button>
+          <h3 class="cal-mes" id="cal-mes"></h3>
+          <button class="botao cal-seta" id="cal-depois" type="button" aria-label="Próximo mês">›</button>
+          <div class="cal-legenda" aria-hidden="true">
+            <span class="comp-bra">Brasileirão</span><span class="comp-cdb">Copa do Brasil</span><span class="comp-lib">Libertadores</span><span class="comp-sul">Sul-Americana</span>
+          </div>
+        </div>
+        <div class="cal-grade" id="cal-grade" role="grid" aria-label="Calendário da temporada"></div>
+        <div class="cal-acao" id="cal-acao" aria-live="polite"></div>
+      </div>
+      </div>
+      <div class="temporada-grade visao" id="visao-jogo" role="tabpanel" aria-labelledby="aba-jogo">
+        <div class="coluna-jogo">
+          <div class="jogo" id="jogo" aria-live="polite"></div>
+          <div class="controles-jogo">
+            <button class="botao botao-primario" id="proximo" type="button">Próximo jogo</button>
+            <button class="botao" id="ate-decisivo" type="button">Até o próximo jogo decisivo</button>
+            <button class="botao" id="simular-tudo" type="button">Simular tudo</button>
+          </div>
+          <div class="controles-jogo controles-longos">
+            <label>Simular até o fim de
+              <select id="sim-alvo"></select>
+            </label>
+            <button class="botao" id="sim-ir" type="button">Simular</button>
+            <p class="nota controles-nota">"Até o fim de" para antes de jogo decisivo seu (mata-mata ou reta final do Brasileirão); "Simular tudo" não para. Na aba Calendário dá pra escolher o dia.</p>
+          </div>
+          <details class="rodada" open>
+            <summary id="rodada-titulo">Resultados da rodada</summary>
+            <ol class="rodada-lista" id="rodada-lista"></ol>
+          </details>
+          <h3 class="feed-titulo">Seus jogos</h3>
+          <ol class="feed" id="feed" aria-label="Seus jogos"></ol>
+        </div>
+        <aside class="coluna-tabelas">
+          <div class="chips" role="tablist" aria-label="Competições" id="abas"></div>
+          <div id="painel-tabela"></div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- 5. fim -->
+    <section class="tela" id="tela-fim" aria-labelledby="t-fim" hidden>
+      <h2 id="t-fim">Fim de temporada</h2>
+      <div class="balanco" id="balanco"></div>
+      <button class="botao botao-primario" id="de-novo" type="button" hidden>Jogar de novo</button>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <span>Tem dado em casa · resenha futebolística com dados</span>
+    <a href="index.html">Cartas</a>
+    <a href="https://www.youtube.com/@temdadoemcasafc" target="_blank" rel="noopener">YouTube</a>
+  </footer>
+
+  <script src="app.js?v=2026-09-24k"></script>
+  <script src="motor.js?v=2026-09-24k"></script>
+  <script src="draft.js?v=2026-09-24k"></script>
+</body>
+</html>

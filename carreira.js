@@ -1896,7 +1896,7 @@ function mostrarAposentadoria() {
     `${J.historico.length} temporadas · ${tot.j} jogos · ${tot.g} gols · ${tot.a} assistências`,
     `Auge: ${auge.ovr} de OVR aos ${auge.idade} · Títulos: ${J.titulos.length} · Prêmios: ${J.premios.length}`,
     `Clubes: ${clubes.join(" → ")}`,
-    "temdadoemcasa.github.io/carreira.html",
+    "temdadoemcasa.github.io/prata-da-casa.html",
   ].join("\n");
   const rod = el("footer", "bl-rodape");
   const copiar = el("button", "botao", "Copiar resumo");

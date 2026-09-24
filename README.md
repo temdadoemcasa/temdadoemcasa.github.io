@@ -15,7 +15,7 @@ base bruta do Sofascore nem ratings do EA.
 |---|---|
 | `index.html` | home: topo (seleção), vídeos, cartas, "de onde vem" |
 | `app.js` | lógica da home e peças comuns (carta, camisa, níveis, envelope); texto dos dados entra por `textContent`, nunca `innerHTML` |
-| `draft.html`, `draft.js`, `draft.css` | minigame Draft: monta o time com figurinhas e joga a temporada 2026 |
+| `tem-time-em-casa.html`, `draft.js`, `draft.css` | minigame Draft: monta o time com figurinhas e joga a temporada 2026 |
 | `motor.js` | simulação de jogos e temporada, sem DOM (roda no navegador e no node) |
 | `dados/competicoes-2026.json` | regulamento e calendário (Brasileirão, Copa do Brasil, Libertadores, Sul-Americana) e força **estimada** dos estrangeiros; editado à mão |
 | `estilo.css` | tokens em `:root`, tema escuro |
@@ -100,7 +100,7 @@ Para testar no celular sem aparelho, use um iframe de 390 px: o Edge/Chrome
 headless tem largura mínima de janela (~500 px) e recorta o print, o que
 parece um estouro lateral que não existe.
 
-## Draft (`draft.html`)
+## Draft (`tem-time-em-casa.html`)
 
 Cria o clube (nome, camisa, esquema), escolhe quem sai da Série A e se joga
 Libertadores ou Sul-Americana; abre 5 figurinhas por vaga (GOL, LD, ZAG, LE,
