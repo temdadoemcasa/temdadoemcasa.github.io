@@ -5,7 +5,7 @@
   "tijolo": 82,
   "grafeno": 86
  },
- "gerado_em": "2026-09-24T22:24:03+00:00",
+ "gerado_em": "2026-09-24T23:29:14+00:00",
  "populacao": "Brasileirão",
  "piso_minutos": 450,
  "jogos_com_placar": 277,
@@ -8236,6 +8236,38 @@
      ]
     },
     {
+     "player_id": 839981,
+     "nome": "L. Paquetá",
+     "nome_completo": "Lucas Paquetá",
+     "posicao": "M",
+     "camisa": 20,
+     "jogos": 19,
+     "minutos": 1283,
+     "overall": 86,
+     "eixos": {
+      "RIT": 75,
+      "FIN": 72,
+      "PAS": 74,
+      "DRI": 70,
+      "DEF": 55,
+      "FIS": 79
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.5,
+     "recentes": [
+      [
+       "4-2-3-1",
+       6,
+       4
+      ],
+      [
+       "4-2-3-1",
+       8,
+       1
+      ]
+     ]
+    },
+    {
      "player_id": 840219,
      "nome": "Pedro",
      "nome_completo": "Pedro Guilherme",
@@ -8435,38 +8467,6 @@
       [
        "4-2-3-1",
        2,
-       1
-      ]
-     ]
-    },
-    {
-     "player_id": 839981,
-     "nome": "L. Paquetá",
-     "nome_completo": "Lucas Paquetá",
-     "posicao": "M",
-     "camisa": 20,
-     "jogos": 19,
-     "minutos": 1283,
-     "overall": 82,
-     "eixos": {
-      "RIT": 75,
-      "FIN": 72,
-      "PAS": 74,
-      "DRI": 70,
-      "DEF": 55,
-      "FIS": 79
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.5,
-     "recentes": [
-      [
-       "4-2-3-1",
-       6,
-       4
-      ],
-      [
-       "4-2-3-1",
-       8,
        1
       ]
      ]
