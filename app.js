@@ -914,10 +914,18 @@ function selecaoDaTemporada(r) {
   zags.forEach((j, i) => escalados.push(vaga(j, i === 0 ? 0.33 : 0.67, 0.2)));
 
   // meio: volante na frente da zaga, dois meias abertos um pouco a frente
-  const [vol] = pegar(["VOL"], 1).concat(pegar(["MC"], 1));
+  // o meio-campo reserva so e puxado se faltar volante: o `concat` antigo
+  // chamava os dois `pegar` sempre, e o melhor MC (Everton Ribeiro, 84) ia
+  // para `usados` e era descartado sem entrar em campo
+  let [vol] = pegar(["VOL"], 1);
+  if (!vol) [vol] = pegar(["MC"], 1);
   if (vol) escalados.push(vaga(vol, 0.5, 0.44));
-  const meias = pegar(["MC", "MEI"], 2);
-  if (meias.length < 2) meias.push(...pegar(["VOL"], 2 - meias.length));
+  // um meia e sempre armador (meia ou meio-campo); o outro e o melhor que
+  // sobrar, volante incluido: o segundo volante de um duplo volante (Andreas
+  // Pereira, 86) e meio-campista de verdade e nao pode ficar fora por um
+  // rotulo, mas tres volantes no meio nao e selecao
+  const meias = [...pegar(["MEI", "MC"], 1), ...pegar(["MC", "MEI", "VOL"], 1)];
+  if (meias.length < 2) meias.push(...pegar(["MC", "MEI", "VOL"], 2 - meias.length));
   meias.forEach((j, i) => escalados.push(vaga(j, i === 0 ? 0.24 : 0.76, 0.6)));
 
   // ataque: centroavante no meio, pontas pelos lados de onde jogam
