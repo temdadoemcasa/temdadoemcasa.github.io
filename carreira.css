@@ -128,6 +128,9 @@
 .estrelas i.cheia { background: #f2c230; }
 .estrelas i.meia { background: linear-gradient(90deg, #f2c230 50%, rgba(255, 255, 255, 0.15) 50%); }
 .proposta-titular, .proposta-minutos { margin: 0; font-size: 0.8rem; color: var(--texto-fraco); }
+.proposta-minutos { display: grid; gap: 0.1rem; }
+.proposta-chance-txt { color: var(--texto); font-weight: 600; }
+.proposta-jogos { white-space: nowrap; }
 .proposta-chance { width: 100%; height: 0.4rem; border-radius: 999px; background: rgba(255, 255, 255, 0.08); overflow: hidden; }
 .proposta-chance i { display: block; height: 100%; background: var(--canal); }
 .proposta .botao { margin-top: 0.4rem; width: 100%; }
