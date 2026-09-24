@@ -1076,7 +1076,9 @@ function encerrar() {
 
 async function iniciarDraft() {
   UNIFORMES = await json("dados/uniformes.json").catch(() => ({}));
-  const [r, regras] = await Promise.all([retrato("2026"), json("dados/competicoes-2026.json")]);
+  const [r, regras, elencos] = await Promise.all([retrato("2026"), json("dados/competicoes-2026.json"),
+    json("dados/elencos-fora.json").catch(() => ({}))]);
+  Motor.ELENCOS = elencos.times || {};
   D.r = r;
   D.regras = regras;
   estado.r = r;

@@ -537,15 +537,29 @@
     return times;
   };
 
+  // Elencos dos times sem carta (estrangeiros, Serie B/C/D), so nome e
+  // posicao: dados/elencos-fora.json, do futdata. Serve para o gol do time
+  // de fora ter um autor de verdade em vez de "jogador do Estudiantes".
+  Motor.ELENCOS = {};
+  Motor.artilheirosDoElenco = function (nome, total = null) {
+    const elenco = Motor.ELENCOS[nome] || [];
+    const lista = elenco.map((j) => ({ nome: j.nome, pos: j.posicao, peso: PESO_GOL[j.posicao] || 0.5 }));
+    if (total !== null && lista.length) {
+      const soma = lista.reduce((s, a) => s + a.peso, 0);
+      for (const a of lista) a.peso = (a.peso / soma) * total;
+    }
+    return lista;
+  };
+
   // Estrangeiros e convidados da Copa do Brasil: forca unica estimada
   Motor.timesDeFora = function (regras) {
     const times = {};
     for (const [nome, t] of Object.entries(regras.estrangeiros)) {
       if (nome.startsWith("_")) continue;
-      times[nome] = { id: nome, nome, pais: t.pais, altitude: Boolean(t.altitude), atq: t.forca, def: t.forca, artilheiros: [], kit: t.uniforme };
+      times[nome] = { id: nome, nome, pais: t.pais, altitude: Boolean(t.altitude), atq: t.forca, def: t.forca, artilheiros: Motor.artilheirosDoElenco(nome), kit: t.uniforme };
     }
     for (const c of regras.copa_do_brasil.convidados) {
-      times[c.nome] = { id: c.nome, nome: c.nome, pais: "BRA", atq: c.forca, def: c.forca, artilheiros: [], kit: c.uniforme };
+      times[c.nome] = { id: c.nome, nome: c.nome, pais: "BRA", atq: c.forca, def: c.forca, artilheiros: Motor.artilheirosDoElenco(c.nome), kit: c.uniforme };
     }
     return times;
   };

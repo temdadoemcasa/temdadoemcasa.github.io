@@ -710,7 +710,7 @@ function contarJogo(st, j, lado, J, liga) {
 
 function timeAbstrato(nome, forca, rng, ano) {
   const d = ano > ANO_INICIAL ? normal(rng, 0.9) : 0;
-  return { id: nome, nome, atq: forca + d, def: forca + d, artilheiros: [] };
+  return { id: nome, nome, atq: forca + d, def: forca + d, artilheiros: Motor.artilheirosDoElenco(nome) };
 }
 
 // o clube do jogador: reforco dele e ele na lista de quem faz gol
@@ -718,7 +718,10 @@ function prepararClube(clube, J, rng) {
   const s = chanceDeTitular(J.ovr, J.clube.nivel, J.idade);
   const p = minutosDe(J, s);
   reforcoDoJogador(clube, J, p, J.clube.nivel);
-  clube.artilheiros = [{ nome: J.nome, peso: pesoDeGol(J) * p }, { nome: "__outro", peso: 5 }];
+  // os companheiros saem do elenco de verdade quando o futdata tem (peso
+  // total 5, o mesmo do "__outro" de antes)
+  const companheiros = Motor.artilheirosDoElenco(clube.nome, 5);
+  clube.artilheiros = [{ nome: J.nome, peso: pesoDeGol(J) * p }, ...(companheiros.length ? companheiros : [{ nome: "__outro", peso: 5 }])];
   return { s, p };
 }
 
@@ -796,7 +799,10 @@ function temporadaNoBrasil(J, ano, rng) {
   const p = minutosDe(J, s);
   reforcoDoJogador(clube, J, p, J.clube.nivel);
   clube.artilheiros = [...(clube.artilheiros || []), { nome: J.nome, pos: POSICOES[C.pos].fam, peso: pesoDeGol(J) * p }];
-  if (clube.artilheiros.length === 1) clube.artilheiros.push({ nome: "__outro", peso: 5 });
+  if (clube.artilheiros.length === 1) {
+    const companheiros = Motor.artilheirosDoElenco(clube.nome, 5);
+    clube.artilheiros.push(...(companheiros.length ? companheiros : [{ nome: "__outro", peso: 5 }]));
+  }
   const temp = Motor.criarTemporada({ regras, times, serieA: ids, usuario: clube.id, semente: Math.floor(rng() * 1e9) });
   while (Motor.avancar(temp)) { /* roda tudo */ }
 
@@ -1943,6 +1949,7 @@ function criarJogador() {
 
 async function iniciarCarreiraPagina() {
   UNIFORMES = await json("dados/uniformes.json").catch(() => ({}));
+  Motor.ELENCOS = (await json("dados/elencos-fora.json").catch(() => ({}))).times || {};
   const [r, regras, exterior, inferiores] = await Promise.all([
     retrato("2026"), json("dados/competicoes-2026.json"), json("dados/clubes-exterior.json"), json("dados/clubes-brasil-inferiores.json"),
   ]);
