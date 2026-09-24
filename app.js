@@ -77,11 +77,22 @@ function indexar(r) {
       todos.push(j);
     }
   }
+  // quem saiu da Serie A no meio do ano: fora do elenco, mas a busca acha
+  for (const time of r.times) {
+    for (const j of time.sairam || []) {
+      normalizarEixos(j);
+      TIME_DE.set(j, time);
+    }
+  }
   const comNota = todos.filter((j) => j.overall !== null).sort((a, b) => b.overall - a.overall);
   const porPosicao = {};
   const mediana = {};
+  // ranking, seleção e destaques: só quem passou do piso de minutos. Quem
+  // tem nota pelo piso de reputação (recém-chegado, pouco minuto) continua
+  // com carta no elenco e no draft, mas não entra na régua da liga.
+  const ranqueavel = (j) => typeof j.minutos === "number" && j.minutos >= r.piso_minutos;
   for (const pos of Object.keys(POSICAO)) {
-    const grupo = comNota.filter((j) => j.posicao === pos);
+    const grupo = comNota.filter((j) => j.posicao === pos && ranqueavel(j));
     porPosicao[pos] = grupo;
     mediana[pos] = {};
     const chaves = new Set(grupo.flatMap((j) => Object.keys(j.eixos)));
@@ -90,7 +101,7 @@ function indexar(r) {
       if (v.length) mediana[pos][chave] = v[Math.floor(v.length / 2)];
     }
   }
-  r.indice = { todos, comNota, porPosicao, mediana };
+  r.indice = { todos, comNota, porPosicao, mediana, ranqueavel };
   r.cortes = cortesDoRetrato(r);
   return r;
 }
@@ -480,7 +491,7 @@ function cartaDoJogador(jogador, time, r, { estatica = false } = {}) {
 
   const info = el("div", "carta-info");
   info.append(
-    el("span", null, `${pos}º de ${total} ${SIGLA[jogador.posicao] || ""}`),
+    el("span", null, pos > 0 ? `${pos}º de ${total} ${SIGLA[jogador.posicao] || ""}` : `menos de ${r.piso_minutos} min`),
     el("span", null, (() => {
       const f = typeof FUNCAO !== "undefined" ? FUNCAO.get(jogador) : null;
       const nums = numerosDoJogador(jogador, (f && NUMEROS_DA_FUNCAO[f]) || NUMEROS_DA_CARTA[jogador.posicao] || []);
@@ -786,6 +797,9 @@ function mostrarElenco() {
     bloco.style.setProperty("--cor-time", corOu(time.cor, "#30363d"));
     const titulo = el("h3", "elenco-titulo");
     titulo.append(el("span", "faixa"), el("span", null, time.nome));
+    // momento na tabela: G4 ganha +2 e seta pra cima, Z4 perde 2 e seta pra baixo
+    if (time.momento > 0) titulo.append(el("span", "elenco-momento momento-alta", "▲ G4"));
+    else if (time.momento < 0) titulo.append(el("span", "elenco-momento momento-baixa", "▼ Z4"));
     const comNota = filtrarOrdenar(jogadores.filter((j) => j.overall !== null));
     if (comNota.length) {
       const media = Math.round(comNota.reduce((s, j) => s + j.overall, 0) / comNota.length);
@@ -800,6 +814,22 @@ function mostrarElenco() {
 
     const semNota = jogadores.filter((j) => j.overall === null);
     if (semNota.length) bloco.append(blocoSemNota(semNota, r, Boolean(termo)));
+    alvo.append(bloco);
+  }
+  // na busca, quem saiu da Serie A no meio do ano aparece a parte, com o
+  // clube por onde jogou
+  for (const time of termo ? r.times : []) {
+    const sairam = (time.sairam || []).filter((j) => j.overall !== null && j.nome.toLocaleLowerCase("pt-BR").includes(termo));
+    if (!sairam.length) continue;
+    achados += sairam.length;
+    const bloco = el("div", "time");
+    bloco.style.setProperty("--cor-time", corOu(time.cor, "#30363d"));
+    const titulo = el("h3", "elenco-titulo");
+    titulo.append(el("span", "faixa"), el("span", null, `${time.nome} · saiu do clube`));
+    bloco.append(titulo);
+    const corpo = el("div", "time-corpo so-cards");
+    corpo.append(gradeDeCartas(sairam, r));
+    bloco.append(corpo);
     alvo.append(bloco);
   }
   if (!achados) alvo.append(el("div", "vazio", termo ? "Ninguém com esse nome nesta temporada. Confere a grafia?" : "Ninguém nesse filtro."));
@@ -847,7 +877,7 @@ function selecaoDaTemporada(r) {
   const ordem = (a, b) => b.overall - a.overall || b.minutos - a.minutos;
   const usados = new Set();
   const pegar = (funcoes, n, filtro = () => true) => {
-    const lista = r.indice.comNota.filter((j) => !usados.has(j) && funcoes.includes(FUNCAO.get(j)) && filtro(j)).sort(ordem).slice(0, n);
+    const lista = r.indice.comNota.filter((j) => !usados.has(j) && r.indice.ranqueavel(j) && funcoes.includes(FUNCAO.get(j)) && filtro(j)).sort(ordem).slice(0, n);
     lista.forEach((j) => usados.add(j));
     return lista;
   };
@@ -860,7 +890,7 @@ function selecaoDaTemporada(r) {
   if (goleiro) escalados.push(vaga(goleiro, 0.5, 0));
 
   // laterais: o melhor de cada lado (sem lado registrado, completa onde faltar)
-  const lats = r.indice.comNota.filter((j) => FUNCAO.get(j) === "LAT").sort(ordem);
+  const lats = r.indice.comNota.filter((j) => FUNCAO.get(j) === "LAT" && r.indice.ranqueavel(j)).sort(ordem);
   let le = lats.find((j) => (lado(j) ?? 0.5) < 0.5), ld = lats.find((j) => j !== le && (lado(j) ?? 0.5) >= 0.5);
   if (!le) le = lats.find((j) => j !== ld);
   if (!ld) ld = lats.find((j) => j !== le);
@@ -1029,9 +1059,11 @@ function abrirFicha(jogador, time) {
   cab.append(h);
   const fatos = el("div", "ficha-fatos");
   fatos.append(
-    el("span", "fato fato-destaque", `${pos}º de ${ranking.length} ${PLURAL[jogador.posicao]}`),
+    pos > 0
+      ? el("span", "fato fato-destaque", `${pos}º de ${ranking.length} ${PLURAL[jogador.posicao]}`)
+      : el("span", "fato fato-destaque", `fora do ranking: menos de ${r.piso_minutos} min`),
     // "top 94%" de quem e 69 de 74 engana: so mostra quando e elogio de verdade
-    ...(topo <= 50 ? [el("span", "fato", `top ${topo}% da posição`)] : []),
+    ...(pos > 0 && topo <= 50 ? [el("span", "fato", `top ${topo}% da posição`)] : []),
     el("span", "fato", `${jogador.jogos} jogos · ${jogador.minutos} min`),
     ...numerosDoJogador(jogador).map(([k, v]) => el("span", "fato", k === "passes_certos_pct" ? `${v}% de passes certos` : `${v} ${NUMEROS[k][1]}`)),
   );

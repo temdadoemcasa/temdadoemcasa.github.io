@@ -456,6 +456,9 @@ select, input {
 /* --- elenco -------------------------------------------------------------- */
 
 .elenco-titulo { display: flex; align-items: center; gap: 0.7rem; margin: 0 0 1rem; font-size: 1.25rem; }
+.elenco-momento { font-family: var(--numeros); font-size: 0.85rem; font-weight: 700; letter-spacing: 0.06em; padding: 0 0.4em; border-radius: 4px; }
+.momento-alta { color: #c8ff00; }
+.momento-baixa { color: #ff6b6b; }
 .elenco-media { margin-left: auto; font-family: var(--numeros); font-size: 1rem; font-weight: 700; color: var(--texto-fraco); text-transform: uppercase; letter-spacing: 0.06em; }
 .faixa { width: 0.9rem; height: 0.9rem; border-radius: 3px; background: var(--cor-time); box-shadow: 0 0 0 1px rgba(255,255,255,0.2); }
 
