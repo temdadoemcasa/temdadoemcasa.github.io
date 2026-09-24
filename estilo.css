@@ -892,3 +892,7 @@ select, input {
   .faixa-sub { display: none; }
   .centro-selecao .selecao > svg { max-height: none; width: 100%; }
 }
+
+/* abertura enxuta: so o titulo, os minigames chamam atencao logo de cara */
+.abertura-topo { display: block; }
+.abertura-topo .hero-sobretitulo { margin-bottom: 0.5rem; }
