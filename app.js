@@ -913,20 +913,16 @@ function selecaoDaTemporada(r) {
   if (zags.length < 2) zags.push(...pegar(["LAT"], 2 - zags.length));
   zags.forEach((j, i) => escalados.push(vaga(j, i === 0 ? 0.33 : 0.67, 0.2)));
 
-  // meio: volante na frente da zaga, dois meias abertos um pouco a frente
-  // o meio-campo reserva so e puxado se faltar volante: o `concat` antigo
-  // chamava os dois `pegar` sempre, e o melhor MC (Everton Ribeiro, 84) ia
-  // para `usados` e era descartado sem entrar em campo
-  let [vol] = pegar(["VOL"], 1);
-  if (!vol) [vol] = pegar(["MC"], 1);
-  if (vol) escalados.push(vaga(vol, 0.5, 0.44));
-  // um meia e sempre armador (meia ou meio-campo); o outro e o melhor que
-  // sobrar, volante incluido: o segundo volante de um duplo volante (Andreas
-  // Pereira, 86) e meio-campista de verdade e nao pode ficar fora por um
-  // rotulo, mas tres volantes no meio nao e selecao
-  const meias = [...pegar(["MEI", "MC"], 1), ...pegar(["MC", "MEI", "VOL"], 1)];
-  if (meias.length < 2) meias.push(...pegar(["MC", "MEI", "VOL"], 2 - meias.length));
-  meias.forEach((j, i) => escalados.push(vaga(j, i === 0 ? 0.24 : 0.76, 0.6)));
+  // meio (dono, 2026-09-24): dois volantes lado a lado na frente da zaga e
+  // um meia armador a frente deles -- o 4-3-3 com Jorginho e Andreas de
+  // volantes e Arrascaeta de meia. Falta volante: completa com meio-campo.
+  const vols = pegar(["VOL"], 2);
+  if (vols.length < 2) vols.push(...pegar(["MC"], 2 - vols.length));
+  vols.sort((a, b) => (lado(a) ?? 0.5) - (lado(b) ?? 0.5));
+  vols.forEach((j, i) => escalados.push(vaga(j, i === 0 ? 0.33 : 0.67, 0.44)));
+  let [meia] = pegar(["MEI", "MC"], 1);
+  if (!meia) [meia] = pegar(["VOL"], 1);
+  if (meia) escalados.push(vaga(meia, 0.5, 0.64));
 
   // ataque: centroavante no meio, pontas pelos lados de onde jogam
   const [ca] = pegar(["CA"], 1);

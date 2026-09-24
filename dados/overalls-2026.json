@@ -5,7 +5,7 @@
   "tijolo": 82,
   "grafeno": 86
  },
- "gerado_em": "2026-09-24T19:48:03+00:00",
+ "gerado_em": "2026-09-24T20:01:20+00:00",
  "populacao": "Brasileirão",
  "piso_minutos": 450,
  "jogos_com_placar": 277,
@@ -5690,6 +5690,26 @@
      "x_medio": 0.284
     },
     {
+     "player_id": 333587,
+     "nome": "G. de Arrascaeta",
+     "nome_completo": "Giorgian de Arrascaeta",
+     "posicao": "M",
+     "camisa": 10,
+     "jogos": 21,
+     "minutos": 1398,
+     "overall": 86,
+     "eixos": {
+      "RIT": 69,
+      "FIN": 80,
+      "PAS": 82,
+      "DRI": 76,
+      "DEF": 42,
+      "FIS": 64
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.5
+    },
+    {
      "player_id": 840219,
      "nome": "Pedro",
      "nome_completo": "Pedro Guilherme",
@@ -5705,26 +5725,6 @@
       "DRI": 81,
       "DEF": 34,
       "FIS": 61
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.5
-    },
-    {
-     "player_id": 333587,
-     "nome": "G. de Arrascaeta",
-     "nome_completo": "Giorgian de Arrascaeta",
-     "posicao": "M",
-     "camisa": 10,
-     "jogos": 21,
-     "minutos": 1398,
-     "overall": 85,
-     "eixos": {
-      "RIT": 69,
-      "FIN": 80,
-      "PAS": 82,
-      "DRI": 76,
-      "DEF": 42,
-      "FIS": 64
      },
      "sem_nota_por": null,
      "x_medio": 0.5
@@ -6264,6 +6264,25 @@
      "x_medio": 0.533
     },
     {
+     "player_id": 17785,
+     "nome": "Fábio",
+     "nome_completo": "Fábio",
+     "posicao": "G",
+     "camisa": 1,
+     "jogos": 28,
+     "minutos": 2520,
+     "overall": 85,
+     "eixos": {
+      "REF": 93,
+      "EVI": 79,
+      "MAO": 74,
+      "PES": 81,
+      "SAI": 45
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.5
+    },
+    {
      "player_id": 1067671,
      "nome": "Martinelli",
      "nome_completo": "Martinelli",
@@ -6302,25 +6321,6 @@
      },
      "sem_nota_por": null,
      "x_medio": 0.553
-    },
-    {
-     "player_id": 17785,
-     "nome": "Fábio",
-     "nome_completo": "Fábio",
-     "posicao": "G",
-     "camisa": 1,
-     "jogos": 28,
-     "minutos": 2520,
-     "overall": 84,
-     "eixos": {
-      "REF": 93,
-      "EVI": 79,
-      "MAO": 74,
-      "PES": 81,
-      "SAI": 45
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.5
     },
     {
      "player_id": 243113,
