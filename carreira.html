@@ -13,9 +13,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="estilo.css?v=2026-09-24i">
-  <link rel="stylesheet" href="draft.css?v=2026-09-24i">
-  <link rel="stylesheet" href="carreira.css?v=2026-09-24i">
+  <link rel="stylesheet" href="estilo.css?v=2026-09-24j">
+  <link rel="stylesheet" href="draft.css?v=2026-09-24j">
+  <link rel="stylesheet" href="carreira.css?v=2026-09-24j">
 </head>
 <body>
   <header class="topo">
@@ -78,14 +78,22 @@
           <div class="gramado campo-posicoes" id="campo-posicoes" aria-label="Escolha a posição"></div>
         </div>
       </div>
-      <div class="campo">
-        <span class="rotulo">Modo</span>
-        <div class="chips" role="group" aria-label="Modo">
-          <button class="chip" type="button" data-modo="rapido" aria-pressed="true">Rápido · 1 decisão por temporada</button>
-          <button class="chip" type="button" data-modo="completo" aria-pressed="false">Completo · 3 decisões e mercado</button>
+      <div class="criar-fim">
+        <div class="campo campo-modo">
+          <span class="rotulo">Modo de jogo</span>
+          <div class="modos" role="group" aria-label="Modo de jogo">
+            <button class="modo" type="button" data-modo="rapido" aria-pressed="true">
+              <strong>Rápido</strong>
+              <span>1 decisão por temporada. As transferências acontecem sozinhas.</span>
+            </button>
+            <button class="modo" type="button" data-modo="completo" aria-pressed="false">
+              <strong>Completo</strong>
+              <span>Foco de treino e mais 2 decisões por temporada. Você escolhe as propostas.</span>
+            </button>
+          </div>
         </div>
+        <button class="botao botao-primario botao-grande" id="confirmar-jogador" type="button">Montar a carta →</button>
       </div>
-      <button class="botao botao-primario" id="confirmar-jogador" type="button">Montar a carta</button>
     </section>
 
     <!-- 2. carta -->
@@ -154,8 +162,8 @@
     <a href="https://www.youtube.com/@temdadoemcasafc" target="_blank" rel="noopener">YouTube</a>
   </footer>
 
-  <script src="app.js?v=2026-09-24i"></script>
-  <script src="motor.js?v=2026-09-24i"></script>
-  <script src="carreira.js?v=2026-09-24i"></script>
+  <script src="app.js?v=2026-09-24j"></script>
+  <script src="motor.js?v=2026-09-24j"></script>
+  <script src="carreira.js?v=2026-09-24j"></script>
 </body>
 </html>
