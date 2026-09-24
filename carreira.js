@@ -1832,7 +1832,7 @@ function mostrarAposentadoria() {
   const topo = el("header", "bl-topo");
   const cartaAuge = el("div", "rel-carta");
   const attrsAuge = { ...J.attrs };
-  cartaAuge.append(cartaDoCriado(auge.attrs || attrsAuge, auge.ovr, { time: auge.time, nome: auge.clube, kit: auge.kit }, { jogos: tot.j, minutos: 0 }));
+  cartaAuge.append(cartaDoCriado(auge.attrs || attrsAuge, auge.ovr, { time: auge.time, nome: auge.clube, kit: auge.kit }, { jogos: tot.j, minutos: J.historico.reduce((m, h) => m + (h.minutos || 0), 0) }));
   const textos = el("div", "bl-textos");
   const pais = paisDe(C.pais);
   textos.append(

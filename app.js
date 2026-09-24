@@ -584,6 +584,15 @@ function inferirFuncoes(r) {
   }
 }
 
+// Busca por nome: sem acento e sem caixa, palavra por palavra, no nome curto
+// da carta ("B. Bidon") e no completo ("Breno Bidon"). "breno bidon",
+// "bidon" e "gomez" (Gómez) acham; antes so o trecho exato do nome curto.
+const normalizarBusca = (t) => String(t || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+function casaComBusca(jogador, termo) {
+  const alvo = normalizarBusca(`${jogador.nome} ${jogador.nome_completo || ""}`);
+  return normalizarBusca(termo).split(/\s+/).filter(Boolean).every((p) => alvo.includes(p));
+}
+
 // --- lista sem nota e campinho -------------------------------------------
 
 function linhaSemNota(jogador) {
@@ -788,7 +797,7 @@ function mostrarElenco() {
   let achados = 0;
   for (const time of times) {
     let jogadores = termo
-      ? time.jogadores.filter((j) => j.nome.toLocaleLowerCase("pt-BR").includes(termo))
+      ? time.jogadores.filter((j) => casaComBusca(j, termo))
       : time.jogadores;
     if (estado.posicao !== "todas") jogadores = jogadores.filter((j) => j.posicao === estado.posicao);
     if (!jogadores.length) continue;
@@ -820,7 +829,7 @@ function mostrarElenco() {
   // na busca, quem saiu da Serie A no meio do ano aparece a parte, com o
   // clube por onde jogou
   for (const time of termo ? r.times : []) {
-    const sairam = (time.sairam || []).filter((j) => j.overall !== null && j.nome.toLocaleLowerCase("pt-BR").includes(termo));
+    const sairam = (time.sairam || []).filter((j) => j.overall !== null && casaComBusca(j, termo));
     if (!sairam.length) continue;
     achados += sairam.length;
     const bloco = el("div", "time");

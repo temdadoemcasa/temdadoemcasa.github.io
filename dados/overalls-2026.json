@@ -1,6 +1,11 @@
 {
  "temporada": 2026,
- "gerado_em": "2026-09-24T18:06:08+00:00",
+ "niveis": {
+  "madeira": 74,
+  "tijolo": 82,
+  "grafeno": 86
+ },
+ "gerado_em": "2026-09-24T19:48:03+00:00",
  "populacao": "Brasileirão",
  "piso_minutos": 450,
  "jogos_com_placar": 277,
@@ -115,6 +120,7 @@
     {
      "player_id": 925124,
      "nome": "K. Viveros",
+     "nome_completo": "Kevin Viveros",
      "posicao": "F",
      "camisa": 9,
      "jogos": 26,
@@ -134,6 +140,7 @@
     {
      "player_id": 354510,
      "nome": "S. Mendoza",
+     "nome_completo": "Steven Mendoza",
      "posicao": "M",
      "camisa": 7,
      "jogos": 28,
@@ -153,6 +160,7 @@
     {
      "player_id": 2063956,
      "nome": "A. Dias",
+     "nome_completo": "Arthur Dias",
      "posicao": "D",
      "camisa": 4,
      "jogos": 26,
@@ -172,6 +180,7 @@
     {
      "player_id": 981452,
      "nome": "G. Benavídez",
+     "nome_completo": "Gastón Benavídez",
      "posicao": "M",
      "camisa": 29,
      "jogos": 22,
@@ -191,6 +200,7 @@
     {
      "player_id": 925173,
      "nome": "J. F. Aguirre",
+     "nome_completo": "Juan Felipe Aguirre",
      "posicao": "D",
      "camisa": 33,
      "jogos": 24,
@@ -210,6 +220,7 @@
     {
      "player_id": 29735,
      "nome": "L. Gustavo",
+     "nome_completo": "Luiz Gustavo",
      "posicao": "M",
      "camisa": 14,
      "jogos": 22,
@@ -229,6 +240,7 @@
     {
      "player_id": 1087079,
      "nome": "L. Esquivel",
+     "nome_completo": "Lucas Esquivel",
      "posicao": "D",
      "camisa": 37,
      "jogos": 19,
@@ -248,6 +260,7 @@
     {
      "player_id": 243651,
      "nome": "Jádson",
+     "nome_completo": "Jádson",
      "posicao": "M",
      "camisa": 16,
      "jogos": 22,
@@ -267,6 +280,7 @@
     {
      "player_id": 261687,
      "nome": "Gilberto",
+     "nome_completo": "Gilberto",
      "posicao": "D",
      "camisa": 12,
      "jogos": 15,
@@ -286,6 +300,7 @@
     {
      "player_id": 1485226,
      "nome": "J. Cruz",
+     "nome_completo": "João Cruz",
      "posicao": "M",
      "camisa": 8,
      "jogos": 21,
@@ -305,6 +320,7 @@
     {
      "player_id": 166491,
      "nome": "Santos",
+     "nome_completo": "Santos",
      "posicao": "G",
      "camisa": 23,
      "jogos": 24,
@@ -323,6 +339,7 @@
     {
      "player_id": 974512,
      "nome": "C. Terán",
+     "nome_completo": "Carlos Terán",
      "posicao": "D",
      "camisa": 22,
      "jogos": 16,
@@ -342,6 +359,7 @@
     {
      "player_id": 980580,
      "nome": "J. Portilla",
+     "nome_completo": "Juan Portilla",
      "posicao": "M",
      "camisa": 27,
      "jogos": 20,
@@ -361,6 +379,7 @@
     {
      "player_id": 1546647,
      "nome": "Leozinho",
+     "nome_completo": "Leozinho",
      "posicao": "F",
      "camisa": 21,
      "jogos": 14,
@@ -380,6 +399,7 @@
     {
      "player_id": 1482354,
      "nome": "Dudu",
+     "nome_completo": "Dudu",
      "posicao": "M",
      "camisa": 53,
      "jogos": 19,
@@ -399,6 +419,7 @@
     {
      "player_id": 1092354,
      "nome": "Bruno Zapelli",
+     "nome_completo": "Bruno Zapelli",
      "posicao": "M",
      "camisa": 10,
      "jogos": 19,
@@ -418,6 +439,7 @@
     {
      "player_id": 1199277,
      "nome": "Leonardo Derik",
+     "nome_completo": "Leonardo Derik",
      "posicao": "D",
      "camisa": 6,
      "jogos": 11,
@@ -437,6 +459,7 @@
     {
      "player_id": 1107060,
      "nome": "Felipinho",
+     "nome_completo": "Felipinho",
      "posicao": "D",
      "camisa": 5,
      "jogos": 9,
@@ -456,6 +479,7 @@
     {
      "player_id": 1476558,
      "nome": "Dantas",
+     "nome_completo": "Dantas",
      "posicao": "D",
      "camisa": 25,
      "jogos": 6,
@@ -468,6 +492,7 @@
     {
      "player_id": 1633871,
      "nome": "Claudinho",
+     "nome_completo": "Claudinho",
      "posicao": "M",
      "camisa": 26,
      "jogos": 6,
@@ -480,6 +505,7 @@
     {
      "player_id": 1128850,
      "nome": "Mycael",
+     "nome_completo": "Mycael",
      "posicao": "G",
      "camisa": 1,
      "jogos": 4,
@@ -492,6 +518,7 @@
     {
      "player_id": 1941312,
      "nome": "G. Junior",
+     "nome_completo": "Gilberto Junior",
      "posicao": "D",
      "camisa": 2,
      "jogos": 7,
@@ -504,6 +531,7 @@
     {
      "player_id": 1131136,
      "nome": "K. C. Vargas",
+     "nome_completo": "Kerwin Vargas",
      "posicao": "F",
      "camisa": 18,
      "jogos": 6,
@@ -516,6 +544,7 @@
     {
      "player_id": 1459788,
      "nome": "F. Chiqueti",
+     "nome_completo": "Chiqueti",
      "posicao": "M",
      "camisa": 47,
      "jogos": 8,
@@ -528,6 +557,7 @@
     {
      "player_id": 2436885,
      "nome": "R. P. Nepomuceno",
+     "nome_completo": "Renan Peixoto Nepomuceno",
      "posicao": "F",
      "camisa": 70,
      "jogos": 11,
@@ -540,6 +570,7 @@
     {
      "player_id": 360940,
      "nome": "Léo",
+     "nome_completo": "Léo",
      "posicao": "D",
      "camisa": 3,
      "jogos": 2,
@@ -552,6 +583,7 @@
     {
      "player_id": 1635772,
      "nome": "D. Riquelme",
+     "nome_completo": "Diogo Riquelme",
      "posicao": "M",
      "camisa": 63,
      "jogos": 5,
@@ -564,6 +596,7 @@
     {
      "player_id": 1628441,
      "nome": "J. Rivaldo",
+     "nome_completo": "Jorge Rivaldo",
      "posicao": "F",
      "camisa": 19,
      "jogos": 4,
@@ -578,6 +611,7 @@
     {
      "player_id": 1167536,
      "nome": "Julimar",
+     "nome_completo": "Julimar",
      "posicao": "F",
      "camisa": 20,
      "jogos": 13,
@@ -597,6 +631,7 @@
     {
      "player_id": 2436878,
      "nome": "Bruninho",
+     "nome_completo": "Bruno Braga Ramos",
      "posicao": "M",
      "camisa": 48,
      "jogos": 9,
@@ -609,6 +644,7 @@
     {
      "player_id": 1464519,
      "nome": "Isaac",
+     "nome_completo": "Isaac",
      "posicao": "F",
      "camisa": 11,
      "jogos": 3,
@@ -621,6 +657,7 @@
     {
      "player_id": 874143,
      "nome": "Luiz Fernando",
+     "nome_completo": "Luiz Fernando",
      "posicao": "F",
      "camisa": 19,
      "jogos": 1,
@@ -728,6 +765,7 @@
     {
      "player_id": 243623,
      "nome": "Fred",
+     "nome_completo": "Fred",
      "posicao": "M",
      "camisa": 7,
      "jogos": 4,
@@ -747,6 +785,7 @@
     {
      "player_id": 241488,
      "nome": "Bernard",
+     "nome_completo": "Bernard",
      "posicao": "M",
      "camisa": 11,
      "jogos": 23,
@@ -766,6 +805,7 @@
     {
      "player_id": 978562,
      "nome": "Reinier",
+     "nome_completo": "Reinier",
      "posicao": "F",
      "camisa": 19,
      "jogos": 19,
@@ -785,6 +825,7 @@
     {
      "player_id": 851150,
      "nome": "R. Lodi",
+     "nome_completo": "Renan Lodi",
      "posicao": "D",
      "camisa": 16,
      "jogos": 23,
@@ -804,6 +845,7 @@
     {
      "player_id": 871273,
      "nome": "T. Cuello",
+     "nome_completo": "Tomás Cuello",
      "posicao": "M",
      "camisa": 28,
      "jogos": 23,
@@ -823,6 +865,7 @@
     {
      "player_id": 914487,
      "nome": "Ruan",
+     "nome_completo": "Ruan",
      "posicao": "D",
      "camisa": 4,
      "jogos": 20,
@@ -842,6 +885,7 @@
     {
      "player_id": 822729,
      "nome": "A. Franco",
+     "nome_completo": "Alan Franco",
      "posicao": "M",
      "camisa": 21,
      "jogos": 20,
@@ -861,6 +905,7 @@
     {
      "player_id": 1170954,
      "nome": "V. Hugo",
+     "nome_completo": "Victor Hugo",
      "posicao": "M",
      "camisa": 30,
      "jogos": 20,
@@ -880,6 +925,7 @@
     {
      "player_id": 1046805,
      "nome": "Natanael",
+     "nome_completo": "Natanael",
      "posicao": "D",
      "camisa": 2,
      "jogos": 18,
@@ -899,6 +945,7 @@
     {
      "player_id": 881844,
      "nome": "Á. Preciado",
+     "nome_completo": "Ángelo Preciado",
      "posicao": "D",
      "camisa": 23,
      "jogos": 11,
@@ -918,6 +965,7 @@
     {
      "player_id": 870748,
      "nome": "Everson",
+     "nome_completo": "Everson",
      "posicao": "G",
      "camisa": 22,
      "jogos": 23,
@@ -936,6 +984,7 @@
     {
      "player_id": 832708,
      "nome": "M. Cassierra",
+     "nome_completo": "Mateo Cassierra",
      "posicao": "F",
      "camisa": 9,
      "jogos": 21,
@@ -955,6 +1004,7 @@
     {
      "player_id": 1485090,
      "nome": "T. Pérez",
+     "nome_completo": "Tomás Pérez",
      "posicao": "M",
      "camisa": 25,
      "jogos": 14,
@@ -974,6 +1024,7 @@
     {
      "player_id": 1122552,
      "nome": "A. Minda",
+     "nome_completo": "Alan Minda",
      "posicao": "F",
      "camisa": 27,
      "jogos": 16,
@@ -993,6 +1044,7 @@
     {
      "player_id": 831778,
      "nome": "Maycon",
+     "nome_completo": "Maycon",
      "posicao": "M",
      "camisa": 8,
      "jogos": 16,
@@ -1012,6 +1064,7 @@
     {
      "player_id": 794838,
      "nome": "V. Hugo",
+     "nome_completo": "Vitor Hugo",
      "posicao": "D",
      "camisa": 14,
      "jogos": 14,
@@ -1031,6 +1084,7 @@
     {
      "player_id": 1066915,
      "nome": "K. Castaño",
+     "nome_completo": "Kevin Castaño",
      "posicao": "M",
      "camisa": 15,
      "jogos": 5,
@@ -1050,6 +1104,7 @@
     {
      "player_id": 797893,
      "nome": "Lyanco",
+     "nome_completo": "Lyanco",
      "posicao": "D",
      "camisa": 13,
      "jogos": 9,
@@ -1069,6 +1124,7 @@
     {
      "player_id": 1829022,
      "nome": "K. P. Resende",
+     "nome_completo": "Kauã Pascini",
      "posicao": "D",
      "camisa": 36,
      "jogos": 9,
@@ -1088,6 +1144,7 @@
     {
      "player_id": 2155474,
      "nome": "M. Cissé",
+     "nome_completo": "Mamady Cissé",
      "posicao": "M",
      "camisa": 39,
      "jogos": 15,
@@ -1107,6 +1164,7 @@
     {
      "player_id": 2569547,
      "nome": "V. F. C. Teixeira",
+     "nome_completo": "Vitão",
      "posicao": "D",
      "camisa": 40,
      "jogos": 5,
@@ -1126,6 +1184,7 @@
     {
      "player_id": 147464,
      "nome": "Dudu",
+     "nome_completo": "Dudu",
      "posicao": "F",
      "camisa": 92,
      "jogos": 17,
@@ -1138,6 +1197,7 @@
     {
      "player_id": 559036,
      "nome": "G. Scarpa",
+     "nome_completo": "Gustavo Scarpa",
      "posicao": "M",
      "camisa": 10,
      "jogos": 13,
@@ -1150,6 +1210,7 @@
     {
      "player_id": 1117032,
      "nome": "G. Delfim",
+     "nome_completo": "Gabriel Delfim",
      "posicao": "G",
      "camisa": 1,
      "jogos": 4,
@@ -1162,6 +1223,7 @@
     {
      "player_id": 913598,
      "nome": "I. Gomes",
+     "nome_completo": "Igor Gomes",
      "posicao": "M",
      "camisa": 17,
      "jogos": 9,
@@ -1174,6 +1236,7 @@
     {
      "player_id": 1185617,
      "nome": "Alexsander",
+     "nome_completo": "Alexsander",
      "posicao": "M",
      "camisa": 5,
      "jogos": 8,
@@ -1186,6 +1249,7 @@
     {
      "player_id": 1018547,
      "nome": "T. Borbas",
+     "nome_completo": "Thiago Borbas",
      "posicao": "F",
      "camisa": 18,
      "jogos": 3,
@@ -1198,6 +1262,7 @@
     {
      "player_id": 1829036,
      "nome": "C. C. Soares",
+     "nome_completo": "Cauã Campos Soares",
      "posicao": "F",
      "camisa": 29,
      "jogos": 6,
@@ -1212,6 +1277,7 @@
     {
      "player_id": 333275,
      "nome": "J. Alonso",
+     "nome_completo": "Junior Alonso",
      "posicao": "D",
      "camisa": 6,
      "jogos": 10,
@@ -1231,6 +1297,7 @@
     {
      "player_id": 1464929,
      "nome": "I. Román",
+     "nome_completo": "Iván Román",
      "posicao": "D",
      "camisa": 3,
      "jogos": 6,
@@ -1338,6 +1405,7 @@
     {
      "player_id": 145063,
      "nome": "E. Ribeiro",
+     "nome_completo": "Everton Ribeiro",
      "posicao": "M",
      "camisa": 10,
      "jogos": 19,
@@ -1357,6 +1425,7 @@
     {
      "player_id": 959620,
      "nome": "N. Acevedo",
+     "nome_completo": "Nicolás Acevedo",
      "posicao": "M",
      "camisa": 5,
      "jogos": 26,
@@ -1376,6 +1445,7 @@
     {
      "player_id": 989843,
      "nome": "S. R. Mingo",
+     "nome_completo": "Santiago Ramos Mingo",
      "posicao": "D",
      "camisa": 21,
      "jogos": 24,
@@ -1395,6 +1465,7 @@
     {
      "player_id": 1104070,
      "nome": "E. Pulga",
+     "nome_completo": "Erick Pulga",
      "posicao": "F",
      "camisa": 16,
      "jogos": 27,
@@ -1414,6 +1485,7 @@
     {
      "player_id": 1017264,
      "nome": "L. Juba",
+     "nome_completo": "Luciano Juba",
      "posicao": "D",
      "camisa": 46,
      "jogos": 24,
@@ -1433,6 +1505,7 @@
     {
      "player_id": 810715,
      "nome": "D. Duarte",
+     "nome_completo": "David Duarte",
      "posicao": "D",
      "camisa": 33,
      "jogos": 21,
@@ -1452,6 +1525,7 @@
     {
      "player_id": 927975,
      "nome": "J. Lucas",
+     "nome_completo": "Jean Lucas",
      "posicao": "M",
      "camisa": 6,
      "jogos": 24,
@@ -1471,6 +1545,7 @@
     {
      "player_id": 905461,
      "nome": "R. Nestor",
+     "nome_completo": "Rodrigo Nestor",
      "posicao": "M",
      "camisa": 11,
      "jogos": 21,
@@ -1490,6 +1565,7 @@
     {
      "player_id": 1068987,
      "nome": "C. Olivera",
+     "nome_completo": "Cristian Olivera",
      "posicao": "F",
      "camisa": 99,
      "jogos": 20,
@@ -1509,6 +1585,7 @@
     {
      "player_id": 840106,
      "nome": "Ronaldo",
+     "nome_completo": "Ronaldo",
      "posicao": "G",
      "camisa": 1,
      "jogos": 19,
@@ -1527,6 +1604,7 @@
     {
      "player_id": 874063,
      "nome": "Erick",
+     "nome_completo": "Erick",
      "posicao": "M",
      "camisa": 14,
      "jogos": 21,
@@ -1546,6 +1624,7 @@
     {
      "player_id": 123223,
      "nome": "W. José",
+     "nome_completo": "Willian José",
      "posicao": "F",
      "camisa": 12,
      "jogos": 22,
@@ -1565,6 +1644,7 @@
     {
      "player_id": 922546,
      "nome": "Ademir",
+     "nome_completo": "Ademir",
      "posicao": "F",
      "camisa": 7,
      "jogos": 26,
@@ -1584,6 +1664,7 @@
     {
      "player_id": 166279,
      "nome": "L. Vieira",
+     "nome_completo": "Léo Vieira",
      "posicao": "G",
      "camisa": 22,
      "jogos": 16,
@@ -1602,6 +1683,7 @@
     {
      "player_id": 1807816,
      "nome": "R. Gómez",
+     "nome_completo": "Román Gómez",
      "posicao": "D",
      "camisa": 31,
      "jogos": 13,
@@ -1621,6 +1703,7 @@
     {
      "player_id": 1116987,
      "nome": "A. Véliz",
+     "nome_completo": "Alejo Véliz",
      "posicao": "F",
      "camisa": 9,
      "jogos": 9,
@@ -1640,6 +1723,7 @@
     {
      "player_id": 386212,
      "nome": "Everaldo",
+     "nome_completo": "Everaldo",
      "posicao": "F",
      "camisa": 27,
      "jogos": 19,
@@ -1659,6 +1743,7 @@
     {
      "player_id": 1008832,
      "nome": "C. Alexandre",
+     "nome_completo": "Caio Alexandre",
      "posicao": "M",
      "camisa": 8,
      "jogos": 17,
@@ -1678,6 +1763,7 @@
     {
      "player_id": 871705,
      "nome": "Kanu",
+     "nome_completo": "Kanu",
      "posicao": "D",
      "camisa": 4,
      "jogos": 5,
@@ -1690,6 +1776,7 @@
     {
      "player_id": 1476894,
      "nome": "J. Guilherme",
+     "nome_completo": "José Guilherme",
      "posicao": "D",
      "camisa": 66,
      "jogos": 6,
@@ -1702,6 +1789,7 @@
     {
      "player_id": 1182233,
      "nome": "M. Sanabria",
+     "nome_completo": "Mateo Sanabria",
      "posicao": "F",
      "camisa": 23,
      "jogos": 14,
@@ -1714,6 +1802,7 @@
     {
      "player_id": 924857,
      "nome": "M. Araújo",
+     "nome_completo": "Michel Araújo",
      "posicao": "M",
      "camisa": 15,
      "jogos": 18,
@@ -1726,6 +1815,7 @@
     {
      "player_id": 1174196,
      "nome": "M. Victor",
+     "nome_completo": "Marcos Victor",
      "posicao": "D",
      "camisa": 44,
      "jogos": 7,
@@ -1738,6 +1828,7 @@
     {
      "player_id": 2063705,
      "nome": "K. Furquim",
+     "nome_completo": "Kauê Furquim",
      "posicao": "M",
      "camisa": 57,
      "jogos": 7,
@@ -1750,6 +1841,7 @@
     {
      "player_id": 2050427,
      "nome": "Dell",
+     "nome_completo": "Dell",
      "posicao": "F",
      "camisa": 89,
      "jogos": 4,
@@ -1762,6 +1854,7 @@
     {
      "player_id": 1633616,
      "nome": "R. Pablo",
+     "nome_completo": "Ruan Pablo",
      "posicao": "F",
      "camisa": 77,
      "jogos": 3,
@@ -1774,6 +1867,7 @@
     {
      "player_id": 1863185,
      "nome": "D. Martins",
+     "nome_completo": "David Martins",
      "posicao": "M",
      "camisa": 63,
      "jogos": 3,
@@ -1788,6 +1882,7 @@
     {
      "player_id": 1117710,
      "nome": "G. Xavier",
+     "nome_completo": "Gabriel Xavier",
      "posicao": "D",
      "camisa": 3,
      "jogos": 6,
@@ -1800,6 +1895,7 @@
     {
      "player_id": 1831095,
      "nome": "C. Suassuna",
+     "nome_completo": "Caio Suassuna",
      "posicao": "F",
      "camisa": 90,
      "jogos": 1,
@@ -1907,6 +2003,7 @@
     {
      "player_id": 249437,
      "nome": "H. Ziyech",
+     "nome_completo": "Hakim Ziyech",
      "posicao": "M",
      "camisa": 22,
      "jogos": 1,
@@ -1926,6 +2023,7 @@
     {
      "player_id": 312110,
      "nome": "A. Telles",
+     "nome_completo": "Alex Telles",
      "posicao": "D",
      "camisa": 13,
      "jogos": 25,
@@ -1945,6 +2043,7 @@
     {
      "player_id": 158277,
      "nome": "Allan",
+     "nome_completo": "Allan",
      "posicao": "M",
      "camisa": 25,
      "jogos": 12,
@@ -1964,6 +2063,7 @@
     {
      "player_id": 1650770,
      "nome": "Á. Montoro",
+     "nome_completo": "Álvaro Montoro",
      "posicao": "M",
      "camisa": 10,
      "jogos": 25,
@@ -1983,6 +2083,7 @@
     {
      "player_id": 914477,
      "nome": "Vitinho",
+     "nome_completo": "Vitinho",
      "posicao": "D",
      "camisa": 2,
      "jogos": 26,
@@ -2002,6 +2103,7 @@
     {
      "player_id": 870762,
      "nome": "A. Cabral",
+     "nome_completo": "Arthur Cabral",
      "posicao": "F",
      "camisa": 19,
      "jogos": 23,
@@ -2021,6 +2123,7 @@
     {
      "player_id": 1064039,
      "nome": "D. Santos",
+     "nome_completo": "Danilo Santos",
      "posicao": "M",
      "camisa": 8,
      "jogos": 21,
@@ -2040,6 +2143,7 @@
     {
      "player_id": 881215,
      "nome": "N. Ferraresi",
+     "nome_completo": "Nahuel Ferraresi",
      "posicao": "D",
      "camisa": 5,
      "jogos": 23,
@@ -2059,6 +2163,7 @@
     {
      "player_id": 1003010,
      "nome": "C. Medina",
+     "nome_completo": "Cristian Medina",
      "posicao": "M",
      "camisa": 6,
      "jogos": 20,
@@ -2078,6 +2183,7 @@
     {
      "player_id": 1106779,
      "nome": "M. Martins",
+     "nome_completo": "Matheus Martins",
      "posicao": "F",
      "camisa": 11,
      "jogos": 21,
@@ -2097,6 +2203,7 @@
     {
      "player_id": 221636,
      "nome": "Edenilson",
+     "nome_completo": "Edenilson",
      "posicao": "M",
      "camisa": 88,
      "jogos": 21,
@@ -2116,6 +2223,7 @@
     {
      "player_id": 2030103,
      "nome": "Huguinho",
+     "nome_completo": "Huguinho",
      "posicao": "M",
      "camisa": 75,
      "jogos": 13,
@@ -2135,6 +2243,7 @@
     {
      "player_id": 1109864,
      "nome": "L. Villalba",
+     "nome_completo": "Lucas Villalba",
      "posicao": "F",
      "camisa": 77,
      "jogos": 17,
@@ -2154,6 +2263,7 @@
     {
      "player_id": 922559,
      "nome": "J. Santos",
+     "nome_completo": "Júnior Santos",
      "posicao": "F",
      "camisa": 7,
      "jogos": 16,
@@ -2173,6 +2283,7 @@
     {
      "player_id": 1099163,
      "nome": "M. Ponte",
+     "nome_completo": "Mateo Ponte",
      "posicao": "D",
      "camisa": 4,
      "jogos": 12,
@@ -2192,6 +2303,7 @@
     {
      "player_id": 1631268,
      "nome": "G. Justino",
+     "nome_completo": "Gabriel Justino",
      "posicao": "D",
      "camisa": 34,
      "jogos": 13,
@@ -2211,6 +2323,7 @@
     {
      "player_id": 1048247,
      "nome": "L. Monzón",
+     "nome_completo": "Lucas Monzón",
      "posicao": "D",
      "camisa": 33,
      "jogos": 6,
@@ -2230,6 +2343,7 @@
     {
      "player_id": 822526,
      "nome": "G. Batista",
+     "nome_completo": "Gabriel Batista",
      "posicao": "G",
      "camisa": 12,
      "jogos": 6,
@@ -2248,6 +2362,7 @@
     {
      "player_id": 143593,
      "nome": "Marçal",
+     "nome_completo": "Marçal",
      "posicao": "D",
      "camisa": 21,
      "jogos": 10,
@@ -2260,6 +2375,7 @@
     {
      "player_id": 940647,
      "nome": "D. Pereira",
+     "nome_completo": "Danilo Pereira",
      "posicao": "F",
      "camisa": 90,
      "jogos": 8,
@@ -2272,6 +2388,7 @@
     {
      "player_id": 1587971,
      "nome": "K. Toledo",
+     "nome_completo": "Kauan Toledo",
      "posicao": "M",
      "camisa": 59,
      "jogos": 9,
@@ -2284,6 +2401,7 @@
     {
      "player_id": 789100,
      "nome": "T. Soares",
+     "nome_completo": "Tiquinho Soares",
      "posicao": "F",
      "camisa": 9,
      "jogos": 9,
@@ -2296,6 +2414,7 @@
     {
      "player_id": 1899902,
      "nome": "J. Barrera",
+     "nome_completo": "Jordan Barrera",
      "posicao": "M",
      "camisa": 14,
      "jogos": 12,
@@ -2308,6 +2427,7 @@
     {
      "player_id": 2282985,
      "nome": "K. Barría",
+     "nome_completo": "Kadir Barría",
      "posicao": "F",
      "camisa": 37,
      "jogos": 14,
@@ -2320,6 +2440,7 @@
     {
      "player_id": 861071,
      "nome": "Warleson",
+     "nome_completo": "Warleson",
      "posicao": "G",
      "camisa": 17,
      "jogos": 4,
@@ -2332,6 +2453,7 @@
     {
      "player_id": 2083516,
      "nome": "L. Emanuel",
+     "nome_completo": "Lucas Emanuel",
      "posicao": "F",
      "camisa": 79,
      "jogos": 3,
@@ -2344,6 +2466,7 @@
     {
      "player_id": 1122806,
      "nome": "A. Chaves",
+     "nome_completo": "Arthur Chaves",
      "posicao": "D",
      "camisa": 3,
      "jogos": 1,
@@ -2356,6 +2479,7 @@
     {
      "player_id": 1482359,
      "nome": "J. Hernández",
+     "nome_completo": "Jhoan Hernandez",
      "posicao": "D",
      "camisa": 67,
      "jogos": 1,
@@ -2368,6 +2492,7 @@
     {
      "player_id": 944458,
      "nome": "Paulinho",
+     "nome_completo": "Paulinho",
      "posicao": "D",
      "camisa": 29,
      "jogos": 2,
@@ -2380,6 +2505,7 @@
     {
      "player_id": 1002147,
      "nome": "D. Andrade",
+     "nome_completo": "Domingos Andrade",
      "posicao": "M",
      "camisa": 91,
      "jogos": 1,
@@ -2392,6 +2518,7 @@
     {
      "player_id": 2185481,
      "nome": "Marquinhos",
+     "nome_completo": "Marquinhos",
      "posicao": "D",
      "camisa": 64,
      "jogos": 1,
@@ -2406,6 +2533,7 @@
     {
      "player_id": 249929,
      "nome": "J. Correa",
+     "nome_completo": "Joaquín Correa",
      "posicao": "F",
      "camisa": 30,
      "jogos": 6,
@@ -2425,6 +2553,7 @@
     {
      "player_id": 215956,
      "nome": "Bastos",
+     "nome_completo": "Bastos",
      "posicao": "D",
      "camisa": 15,
      "jogos": 6,
@@ -2444,6 +2573,7 @@
     {
      "player_id": 975216,
      "nome": "S. Rodríguez",
+     "nome_completo": "Santiago Rodríguez",
      "posicao": "M",
      "camisa": 23,
      "jogos": 15,
@@ -2463,6 +2593,7 @@
     {
      "player_id": 866736,
      "nome": "Raúl",
+     "nome_completo": "Raul",
      "posicao": "G",
      "camisa": 1,
      "jogos": 8,
@@ -2481,6 +2612,7 @@
     {
      "player_id": 84844,
      "nome": "Neto",
+     "nome_completo": "Neto",
      "posicao": "G",
      "camisa": 22,
      "jogos": 10,
@@ -2499,6 +2631,7 @@
     {
      "player_id": 1069328,
      "nome": "C. Roque",
+     "nome_completo": "Caio Roque",
      "posicao": "D",
      "camisa": 27,
      "jogos": 3,
@@ -2511,6 +2644,7 @@
     {
      "player_id": 1119887,
      "nome": "L. Linck",
+     "nome_completo": "Léo Linck",
      "posicao": "G",
      "camisa": 24,
      "jogos": 1,
@@ -2523,6 +2657,7 @@
     {
      "player_id": 1494695,
      "nome": "N. Fernandes",
+     "nome_completo": "Nathan Fernandes",
      "posicao": "F",
      "camisa": 16,
      "jogos": 4,
@@ -2535,6 +2670,7 @@
     {
      "player_id": 1512551,
      "nome": "Ythallo",
+     "nome_completo": "Ythallo",
      "posicao": "D",
      "camisa": 3,
      "jogos": 1,
@@ -2547,6 +2683,7 @@
     {
      "player_id": 914819,
      "nome": "C. Ramos",
+     "nome_completo": "Chris Ramos",
      "posicao": "F",
      "camisa": 9,
      "jogos": 3,
@@ -2654,6 +2791,7 @@
     {
      "player_id": 46620,
      "nome": "Y. Bolasie",
+     "nome_completo": "Yannick Bolasie",
      "posicao": "F",
      "camisa": 11,
      "jogos": 20,
@@ -2673,6 +2811,7 @@
     {
      "player_id": 1122967,
      "nome": "E. Doma",
+     "nome_completo": "Eduardo Doma",
      "posicao": "D",
      "camisa": 3,
      "jogos": 25,
@@ -2692,6 +2831,7 @@
     {
      "player_id": 975319,
      "nome": "Camilo",
+     "nome_completo": "Camilo",
      "posicao": "M",
      "camisa": 27,
      "jogos": 23,
@@ -2711,6 +2851,7 @@
     {
      "player_id": 870329,
      "nome": "Marcinho",
+     "nome_completo": "Marcinho",
      "posicao": "F",
      "camisa": 7,
      "jogos": 26,
@@ -2730,6 +2871,7 @@
     {
      "player_id": 870691,
      "nome": "B. Pacheco",
+     "nome_completo": "Bruno Pacheco",
      "posicao": "D",
      "camisa": 91,
      "jogos": 18,
@@ -2749,6 +2891,7 @@
     {
      "player_id": 1105232,
      "nome": "Everton",
+     "nome_completo": "Everton",
      "posicao": "D",
      "camisa": 26,
      "jogos": 21,
@@ -2768,6 +2911,7 @@
     {
      "player_id": 82680,
      "nome": "G. Augusto",
+     "nome_completo": "Giovanni Augusto",
      "posicao": "M",
      "camisa": 10,
      "jogos": 19,
@@ -2787,6 +2931,7 @@
     {
      "player_id": 1050353,
      "nome": "Maurício Garcez",
+     "nome_completo": "Maurício Garcez",
      "posicao": "F",
      "camisa": 31,
      "jogos": 13,
@@ -2806,6 +2951,7 @@
     {
      "player_id": 1015935,
      "nome": "Ênio",
+     "nome_completo": "Ênio",
      "posicao": "M",
      "camisa": 97,
      "jogos": 14,
@@ -2825,6 +2971,7 @@
     {
      "player_id": 1609859,
      "nome": "T. E. S. d. Oliveira",
+     "nome_completo": "Tulio Eduardo",
      "posicao": "F",
      "camisa": 9,
      "jogos": 7,
@@ -2844,6 +2991,7 @@
     {
      "player_id": 942061,
      "nome": "Anderson",
+     "nome_completo": "Anderson",
      "posicao": "G",
      "camisa": 98,
      "jogos": 13,
@@ -2862,6 +3010,7 @@
     {
      "player_id": 1120738,
      "nome": "R. Carvalheira",
+     "nome_completo": "Rafael Carvalheira",
      "posicao": "M",
      "camisa": 99,
      "jogos": 14,
@@ -2881,6 +3030,7 @@
     {
      "player_id": 1198003,
      "nome": "Kauan",
+     "nome_completo": "Kauan",
      "posicao": "D",
      "camisa": 21,
      "jogos": 7,
@@ -2900,6 +3050,7 @@
     {
      "player_id": 1019157,
      "nome": "J. Paulo",
+     "nome_completo": "João Paulo",
      "posicao": "D",
      "camisa": 4,
      "jogos": 6,
@@ -2919,6 +3070,7 @@
     {
      "player_id": 863292,
      "nome": "V. Caetano",
+     "nome_completo": "Victor Caetano",
      "posicao": "D",
      "camisa": 25,
      "jogos": 8,
@@ -2938,6 +3090,7 @@
     {
      "player_id": 552164,
      "nome": "Y. Felipe",
+     "nome_completo": "Yago Felipe",
      "posicao": "M",
      "camisa": 88,
      "jogos": 6,
@@ -2957,6 +3110,7 @@
     {
      "player_id": 924131,
      "nome": "B. Matias",
+     "nome_completo": "Bruno Matias",
      "posicao": "M",
      "camisa": 16,
      "jogos": 10,
@@ -2969,6 +3123,7 @@
     {
      "player_id": 1017746,
      "nome": "Fernando",
+     "nome_completo": "Fernando",
      "posicao": "D",
      "camisa": 12,
      "jogos": 8,
@@ -2981,6 +3136,7 @@
     {
      "player_id": 108480,
      "nome": "R. Santos",
+     "nome_completo": "Rafael Santos",
      "posicao": "G",
      "camisa": 1,
      "jogos": 4,
@@ -2993,6 +3149,7 @@
     {
      "player_id": 354894,
      "nome": "R. Thyere",
+     "nome_completo": "Rafael Thyere",
      "posicao": "D",
      "camisa": 15,
      "jogos": 4,
@@ -3005,6 +3162,7 @@
     {
      "player_id": 974503,
      "nome": "Heitor",
+     "nome_completo": "Heitor",
      "posicao": "D",
      "camisa": 5,
      "jogos": 4,
@@ -3017,6 +3175,7 @@
     {
      "player_id": 922592,
      "nome": "Matheus",
+     "nome_completo": "Matheus",
      "posicao": "G",
      "camisa": 30,
      "jogos": 3,
@@ -3029,6 +3188,7 @@
     {
      "player_id": 1470928,
      "nome": "R. Tadeu",
+     "nome_completo": "Rubens Tadeu",
      "posicao": "M",
      "camisa": 70,
      "jogos": 11,
@@ -3041,6 +3201,7 @@
     {
      "player_id": 1065976,
      "nome": "V. Balieiro",
+     "nome_completo": "Vinicius Balieiro",
      "posicao": "M",
      "camisa": 17,
      "jogos": 6,
@@ -3053,6 +3214,7 @@
     {
      "player_id": 2083032,
      "nome": "D. Antunes",
+     "nome_completo": "David Antunes",
      "posicao": "M",
      "camisa": 19,
      "jogos": 10,
@@ -3065,6 +3227,7 @@
     {
      "player_id": 789931,
      "nome": "K. Ramírez",
+     "nome_completo": "Kevin Ramírez",
      "posicao": "F",
      "camisa": 94,
      "jogos": 5,
@@ -3077,6 +3240,7 @@
     {
      "player_id": 1184312,
      "nome": "M. Carvalho",
+     "nome_completo": "Miguel Carvalho",
      "posicao": "M",
      "camisa": 80,
      "jogos": 4,
@@ -3089,6 +3253,7 @@
     {
      "player_id": 1105838,
      "nome": "Max",
+     "nome_completo": "Max",
      "posicao": "M",
      "camisa": 22,
      "jogos": 2,
@@ -3101,6 +3266,7 @@
     {
      "player_id": 1112889,
      "nome": "F. Rossi",
+     "nome_completo": "Franco Rossi",
      "posicao": "F",
      "camisa": 29,
      "jogos": 4,
@@ -3113,6 +3279,7 @@
     {
      "player_id": 931588,
      "nome": "B. Tubarão",
+     "nome_completo": "Bruno Tubarão",
      "posicao": "D",
      "camisa": 20,
      "jogos": 1,
@@ -3125,6 +3292,7 @@
     {
      "player_id": 859083,
      "nome": "Dudu",
+     "nome_completo": "Dudu",
      "posicao": "D",
      "camisa": 23,
      "jogos": 1,
@@ -3137,6 +3305,7 @@
     {
      "player_id": 980933,
      "nome": "D. Borrero",
+     "nome_completo": "Dylan Borrero",
      "posicao": "M",
      "camisa": 77,
      "jogos": 3,
@@ -3149,6 +3318,7 @@
     {
      "player_id": 2083027,
      "nome": "V. Eduardo",
+     "nome_completo": "Vinícius Eduardo de Almeida",
      "posicao": "D",
      "camisa": 35,
      "jogos": 2,
@@ -3161,6 +3331,7 @@
     {
      "player_id": 2660881,
      "nome": "Kássio",
+     "nome_completo": "Kassio",
      "posicao": "F",
      "camisa": 50,
      "jogos": 1,
@@ -3173,6 +3344,7 @@
     {
      "player_id": 1650085,
      "nome": "R. Santos",
+     "nome_completo": "Robert Santos",
      "posicao": "F",
      "camisa": 8,
      "jogos": 1,
@@ -3187,6 +3359,7 @@
     {
      "player_id": 840280,
      "nome": "B. Leonardo",
+     "nome_completo": "Bruno Leonardo",
      "posicao": "D",
      "camisa": 33,
      "jogos": 15,
@@ -3206,6 +3379,7 @@
     {
      "player_id": 850475,
      "nome": "J. Carlos",
+     "nome_completo": "Jean Carlos",
      "posicao": "M",
      "camisa": 20,
      "jogos": 17,
@@ -3225,6 +3399,7 @@
     {
      "player_id": 846362,
      "nome": "W. Clar",
+     "nome_completo": "Walter Clar",
      "posicao": "D",
      "camisa": 37,
      "jogos": 10,
@@ -3244,6 +3419,7 @@
     {
      "player_id": 1546812,
      "nome": "Italo",
+     "nome_completo": "Italo",
      "posicao": "F",
      "camisa": 77,
      "jogos": 15,
@@ -3263,6 +3439,7 @@
     {
      "player_id": 973845,
      "nome": "H. Meritão",
+     "nome_completo": "Higor Meritão",
      "posicao": "M",
      "camisa": 22,
      "jogos": 11,
@@ -3282,6 +3459,7 @@
     {
      "player_id": 1465222,
      "nome": "J. Vitor",
+     "nome_completo": "João Vitor",
      "posicao": "M",
      "camisa": 5,
      "jogos": 11,
@@ -3301,6 +3479,7 @@
     {
      "player_id": 942054,
      "nome": "M. Vinícius",
+     "nome_completo": "Marcos Vinícius",
      "posicao": "D",
      "camisa": 2,
      "jogos": 10,
@@ -3320,6 +3499,7 @@
     {
      "player_id": 992025,
      "nome": "N. Pessoa",
+     "nome_completo": "Neto Pessoa",
      "posicao": "F",
      "camisa": 18,
      "jogos": 10,
@@ -3332,6 +3512,7 @@
     {
      "player_id": 840076,
      "nome": "Perotti",
+     "nome_completo": "Perotti",
      "posicao": "F",
      "camisa": 9,
      "jogos": 2,
@@ -3439,6 +3620,7 @@
     {
      "player_id": 994454,
      "nome": "R. Garro",
+     "nome_completo": "Rodrigo Garro",
      "posicao": "M",
      "camisa": 8,
      "jogos": 26,
@@ -3458,6 +3640,7 @@
     {
      "player_id": 138833,
      "nome": "M. Depay",
+     "nome_completo": "Memphis Depay",
      "posicao": "F",
      "camisa": 10,
      "jogos": 12,
@@ -3477,6 +3660,7 @@
     {
      "player_id": 905463,
      "nome": "Y. Alberto",
+     "nome_completo": "Yuri Alberto",
      "posicao": "F",
      "camisa": 9,
      "jogos": 17,
@@ -3496,6 +3680,7 @@
     {
      "player_id": 950454,
      "nome": "H. Souza",
+     "nome_completo": "Hugo Souza",
      "posicao": "G",
      "camisa": 1,
      "jogos": 24,
@@ -3514,6 +3699,7 @@
     {
      "player_id": 931540,
      "nome": "Matheuzinho",
+     "nome_completo": "Matheuzinho",
      "posicao": "D",
      "camisa": 2,
      "jogos": 23,
@@ -3533,6 +3719,7 @@
     {
      "player_id": 1199261,
      "nome": "B. Bidon",
+     "nome_completo": "Breno Bidon",
      "posicao": "M",
      "camisa": 7,
      "jogos": 25,
@@ -3552,6 +3739,7 @@
     {
      "player_id": 115182,
      "nome": "A. Carrillo",
+     "nome_completo": "André Carrillo",
      "posicao": "M",
      "camisa": 19,
      "jogos": 21,
@@ -3571,6 +3759,7 @@
     {
      "player_id": 981703,
      "nome": "M. Bidu",
+     "nome_completo": "Matheus Bidu",
      "posicao": "D",
      "camisa": 21,
      "jogos": 22,
@@ -3590,6 +3779,7 @@
     {
      "player_id": 866392,
      "nome": "Raniele",
+     "nome_completo": "Raniele",
      "posicao": "M",
      "camisa": 14,
      "jogos": 23,
@@ -3609,6 +3799,7 @@
     {
      "player_id": 205508,
      "nome": "J. Lingard",
+     "nome_completo": "Jesse Lingard",
      "posicao": "M",
      "camisa": 77,
      "jogos": 17,
@@ -3628,6 +3819,7 @@
     {
      "player_id": 243181,
      "nome": "G. Henrique",
+     "nome_completo": "Gustavo Henrique",
      "posicao": "D",
      "camisa": 13,
      "jogos": 23,
@@ -3647,6 +3839,7 @@
     {
      "player_id": 124737,
      "nome": "G. Paulista",
+     "nome_completo": "Gabriel Paulista",
      "posicao": "D",
      "camisa": 3,
      "jogos": 20,
@@ -3666,6 +3859,7 @@
     {
      "player_id": 828839,
      "nome": "Allan",
+     "nome_completo": "Allan",
      "posicao": "M",
      "camisa": 29,
      "jogos": 21,
@@ -3685,6 +3879,7 @@
     {
      "player_id": 1396009,
      "nome": "Kaio César",
+     "nome_completo": "Kaio César",
      "posicao": "M",
      "camisa": 37,
      "jogos": 16,
@@ -3704,6 +3899,7 @@
     {
      "player_id": 1647612,
      "nome": "A. Luiz",
+     "nome_completo": "André Luiz",
      "posicao": "M",
      "camisa": 49,
      "jogos": 18,
@@ -3723,6 +3919,7 @@
     {
      "player_id": 148155,
      "nome": "A. Ramalho",
+     "nome_completo": "André Ramalho",
      "posicao": "D",
      "camisa": 5,
      "jogos": 7,
@@ -3742,6 +3939,7 @@
     {
      "player_id": 795268,
      "nome": "M. Pereira",
+     "nome_completo": "Matheus Pereira",
      "posicao": "M",
      "camisa": 23,
      "jogos": 20,
@@ -3761,6 +3959,7 @@
     {
      "player_id": 311462,
      "nome": "F. Angileri",
+     "nome_completo": "Fabrizio Angileri",
      "posicao": "D",
      "camisa": 26,
      "jogos": 10,
@@ -3780,6 +3979,7 @@
     {
      "player_id": 985809,
      "nome": "P. Milans",
+     "nome_completo": "Pedro Milans",
      "posicao": "D",
      "camisa": 20,
      "jogos": 7,
@@ -3799,6 +3999,7 @@
     {
      "player_id": 866911,
      "nome": "P. Raul",
+     "nome_completo": "Pedro Raul",
      "posicao": "F",
      "camisa": 18,
      "jogos": 14,
@@ -3811,6 +4012,7 @@
     {
      "player_id": 1411150,
      "nome": "J. Pedro",
+     "nome_completo": "João Pedro Tchoca",
      "posicao": "D",
      "camisa": 4,
      "jogos": 5,
@@ -3823,6 +4025,7 @@
     {
      "player_id": 1916131,
      "nome": "Dieguinho",
+     "nome_completo": "Dieguinho",
      "posicao": "M",
      "camisa": 61,
      "jogos": 15,
@@ -3835,6 +4038,7 @@
     {
      "player_id": 1382923,
      "nome": "Kauê",
+     "nome_completo": "Kauê",
      "posicao": "G",
      "camisa": 51,
      "jogos": 4,
@@ -3847,6 +4051,7 @@
     {
      "player_id": 242054,
      "nome": "Vitinho",
+     "nome_completo": "Vitinho",
      "posicao": "F",
      "camisa": 11,
      "jogos": 8,
@@ -3859,6 +4064,7 @@
     {
      "player_id": 1922597,
      "nome": "G. Negão",
+     "nome_completo": "Gui Negão",
      "posicao": "F",
      "camisa": 56,
      "jogos": 11,
@@ -3871,6 +4077,7 @@
     {
      "player_id": 845178,
      "nome": "Charles",
+     "nome_completo": "Charles",
      "posicao": "M",
      "camisa": 35,
      "jogos": 5,
@@ -3883,6 +4090,7 @@
     {
      "player_id": 1411152,
      "nome": "Kayke",
+     "nome_completo": "Kayke Ferrari",
      "posicao": "F",
      "camisa": 31,
      "jogos": 6,
@@ -3895,6 +4103,7 @@
     {
      "player_id": 106142,
      "nome": "Z. Labyad",
+     "nome_completo": "Zakaria Labyad",
      "posicao": "F",
      "camisa": 52,
      "jogos": 11,
@@ -3907,6 +4116,7 @@
     {
      "player_id": 2063667,
      "nome": "I. Machado",
+     "nome_completo": "Iago Machado",
      "posicao": "D",
      "camisa": 55,
      "jogos": 2,
@@ -3919,6 +4129,7 @@
     {
      "player_id": 358166,
      "nome": "A. Santana",
+     "nome_completo": "Alex Santana",
      "posicao": "M",
      "camisa": 80,
      "jogos": 1,
@@ -4027,6 +4238,7 @@
     {
      "player_id": 794930,
      "nome": "P. Rocha",
+     "nome_completo": "Pedro Rocha",
      "posicao": "F",
      "camisa": 32,
      "jogos": 27,
@@ -4046,6 +4258,7 @@
     {
      "player_id": 870851,
      "nome": "Bruno Melo",
+     "nome_completo": "Bruno Melo",
      "posicao": "D",
      "camisa": 26,
      "jogos": 26,
@@ -4065,6 +4278,7 @@
     {
      "player_id": 925142,
      "nome": "S. Gomez",
+     "nome_completo": "Sebastián Gómez",
      "posicao": "M",
      "camisa": 19,
      "jogos": 24,
@@ -4084,6 +4298,7 @@
     {
      "player_id": 77726,
      "nome": "Josué",
+     "nome_completo": "Josué",
      "posicao": "M",
      "camisa": 10,
      "jogos": 25,
@@ -4103,6 +4318,7 @@
     {
      "player_id": 880204,
      "nome": "J. Maranhão",
+     "nome_completo": "Jacy Maranhão",
      "posicao": "D",
      "camisa": 55,
      "jogos": 24,
@@ -4122,6 +4338,7 @@
     {
      "player_id": 937552,
      "nome": "B. Lopes",
+     "nome_completo": "Breno Lopes",
      "posicao": "M",
      "camisa": 77,
      "jogos": 24,
@@ -4141,6 +4358,7 @@
     {
      "player_id": 1124329,
      "nome": "T. Cóser",
+     "nome_completo": "Tiago Cóser",
      "posicao": "D",
      "camisa": 23,
      "jogos": 24,
@@ -4160,6 +4378,7 @@
     {
      "player_id": 330057,
      "nome": "Tinga",
+     "nome_completo": "Tinga",
      "posicao": "D",
      "camisa": 2,
      "jogos": 16,
@@ -4179,6 +4398,7 @@
     {
      "player_id": 1172056,
      "nome": "L. Ronier",
+     "nome_completo": "Lucas Ronier",
      "posicao": "M",
      "camisa": 11,
      "jogos": 18,
@@ -4198,6 +4418,7 @@
     {
      "player_id": 1122737,
      "nome": "J. Lavega",
+     "nome_completo": "Joaquín Lavega",
      "posicao": "M",
      "camisa": 7,
      "jogos": 26,
@@ -4217,6 +4438,7 @@
     {
      "player_id": 1507616,
      "nome": "Pedro Morisco",
+     "nome_completo": "Pedro Morisco",
      "posicao": "G",
      "camisa": 1,
      "jogos": 12,
@@ -4235,6 +4457,7 @@
     {
      "player_id": 1111139,
      "nome": "V. Paulista",
+     "nome_completo": "Vini Paulista",
      "posicao": "F",
      "camisa": 36,
      "jogos": 24,
@@ -4254,6 +4477,7 @@
     {
      "player_id": 1092614,
      "nome": "P. Rangel",
+     "nome_completo": "Pedro Rangel",
      "posicao": "G",
      "camisa": 22,
      "jogos": 17,
@@ -4272,6 +4496,7 @@
     {
      "player_id": 378590,
      "nome": "T. Santos",
+     "nome_completo": "Thiago Santos",
      "posicao": "M",
      "camisa": 21,
      "jogos": 20,
@@ -4291,6 +4516,7 @@
     {
      "player_id": 44691,
      "nome": "Maicon",
+     "nome_completo": "Maicon",
      "posicao": "D",
      "camisa": 3,
      "jogos": 15,
@@ -4310,6 +4536,7 @@
     {
      "player_id": 1482361,
      "nome": "J.P. Chermont",
+     "nome_completo": "João Pedro Chermont",
      "posicao": "D",
      "camisa": 44,
      "jogos": 17,
@@ -4329,6 +4556,7 @@
     {
      "player_id": 931574,
      "nome": "F. Jonatan",
+     "nome_completo": "Felipe Jonatan",
      "posicao": "D",
      "camisa": 6,
      "jogos": 17,
@@ -4348,6 +4576,7 @@
     {
      "player_id": 72080,
      "nome": "R. Moledo",
+     "nome_completo": "Rodrigo Moledo",
      "posicao": "D",
      "camisa": 4,
      "jogos": 7,
@@ -4360,6 +4589,7 @@
     {
      "player_id": 995294,
      "nome": "Fabinho",
+     "nome_completo": "Fabinho",
      "posicao": "F",
      "camisa": 28,
      "jogos": 11,
@@ -4372,6 +4602,7 @@
     {
      "player_id": 1864296,
      "nome": "V. G. Tissi",
+     "nome_completo": "Vitor Gonçalves Tissi",
      "posicao": "M",
      "camisa": 50,
      "jogos": 7,
@@ -4384,6 +4615,7 @@
     {
      "player_id": 2429936,
      "nome": "P. Roberto",
+     "nome_completo": "Paulo Roberto",
      "posicao": "M",
      "camisa": 18,
      "jogos": 8,
@@ -4396,6 +4628,7 @@
     {
      "player_id": 1194689,
      "nome": "Renato Marques",
+     "nome_completo": "Renato Marques",
      "posicao": "F",
      "camisa": 78,
      "jogos": 7,
@@ -4408,6 +4641,7 @@
     {
      "player_id": 931479,
      "nome": "F. Sobral",
+     "nome_completo": "Fernando Sobral",
      "posicao": "M",
      "camisa": 88,
      "jogos": 6,
@@ -4420,6 +4654,7 @@
     {
      "player_id": 787607,
      "nome": "Keno",
+     "nome_completo": "Keno",
      "posicao": "F",
      "camisa": 20,
      "jogos": 7,
@@ -4432,6 +4667,7 @@
     {
      "player_id": 1864297,
      "nome": "L. Taverna",
+     "nome_completo": "Lucas Taverna",
      "posicao": "D",
      "camisa": 86,
      "jogos": 4,
@@ -4444,6 +4680,7 @@
     {
      "player_id": 989091,
      "nome": "R. Rodrigues",
+     "nome_completo": "Rodrigo Rodrigues",
      "posicao": "F",
      "camisa": 99,
      "jogos": 2,
@@ -4456,6 +4693,7 @@
     {
      "player_id": 1099747,
      "nome": "Gustavo",
+     "nome_completo": "Gustavo",
      "posicao": "M",
      "camisa": 39,
      "jogos": 4,
@@ -4468,6 +4706,7 @@
     {
      "player_id": 850023,
      "nome": "F. Bustos",
+     "nome_completo": "Fabricio Bustos",
      "posicao": "D",
      "camisa": 14,
      "jogos": 1,
@@ -4480,6 +4719,7 @@
     {
      "player_id": 897617,
      "nome": "Richard",
+     "nome_completo": "Richard",
      "posicao": "M",
      "camisa": 25,
      "jogos": 1,
@@ -4492,6 +4732,7 @@
     {
      "player_id": 944629,
      "nome": "N. Fonseca",
+     "nome_completo": "Nicolas Fonseca",
      "posicao": "M",
      "camisa": 5,
      "jogos": 1,
@@ -4504,6 +4745,7 @@
     {
      "player_id": 1465499,
      "nome": "R. Gelado",
+     "nome_completo": "Rodrigo Gelado",
      "posicao": "D",
      "camisa": 66,
      "jogos": 2,
@@ -4516,6 +4758,7 @@
     {
      "player_id": 941405,
      "nome": "B. Ocampo",
+     "nome_completo": "Brian Ocampo",
      "posicao": "F",
      "camisa": 17,
      "jogos": 3,
@@ -4528,6 +4771,7 @@
     {
      "player_id": 2433392,
      "nome": "D. Alves",
+     "nome_completo": "David Alves França",
      "posicao": "F",
      "camisa": 33,
      "jogos": 1,
@@ -4542,6 +4786,7 @@
     {
      "player_id": 295167,
      "nome": "W. Oliveira",
+     "nome_completo": "Willian Oliveira",
      "posicao": "M",
      "camisa": 29,
      "jogos": 10,
@@ -4561,6 +4806,7 @@
     {
      "player_id": 2444672,
      "nome": "Enzo",
+     "nome_completo": "Enzo",
      "posicao": "F",
      "camisa": 14,
      "jogos": 1,
@@ -4573,6 +4819,7 @@
     {
      "player_id": 1588318,
      "nome": "J. Almeida",
+     "nome_completo": "João Almeida",
      "posicao": "D",
      "camisa": 16,
      "jogos": 1,
@@ -4680,6 +4927,7 @@
     {
      "player_id": 377238,
      "nome": "M. Pereira",
+     "nome_completo": "Matheus Pereira",
      "posicao": "M",
      "camisa": 10,
      "jogos": 25,
@@ -4699,6 +4947,7 @@
     {
      "player_id": 611876,
      "nome": "Gerson",
+     "nome_completo": "Gerson",
      "posicao": "M",
      "camisa": 11,
      "jogos": 24,
@@ -4718,6 +4967,7 @@
     {
      "player_id": 1589358,
      "nome": "Otávio",
+     "nome_completo": "Otávio Costa",
      "posicao": "G",
      "camisa": 81,
      "jogos": 15,
@@ -4736,6 +4986,7 @@
     {
      "player_id": 840220,
      "nome": "F. Bruno",
+     "nome_completo": "Fabrício Bruno",
      "posicao": "D",
      "camisa": 15,
      "jogos": 24,
@@ -4755,6 +5006,7 @@
     {
      "player_id": 25554,
      "nome": "Fagner",
+     "nome_completo": "Fagner",
      "posicao": "D",
      "camisa": 23,
      "jogos": 20,
@@ -4774,6 +5026,7 @@
     {
      "player_id": 954888,
      "nome": "K. Jorge",
+     "nome_completo": "Kaio Jorge",
      "posicao": "F",
      "camisa": 19,
      "jogos": 21,
@@ -4793,6 +5046,7 @@
     {
      "player_id": 1482431,
      "nome": "K. Arroyo",
+     "nome_completo": "Keny Arroyo",
      "posicao": "M",
      "camisa": 99,
      "jogos": 23,
@@ -4812,6 +5066,7 @@
     {
      "player_id": 1498670,
      "nome": "J. Jesus",
+     "nome_completo": "Jonathan Jesus",
      "posicao": "D",
      "camisa": 34,
      "jogos": 17,
@@ -4831,6 +5086,7 @@
     {
      "player_id": 836070,
      "nome": "L. Sinisterra",
+     "nome_completo": "Luis Sinisterra",
      "posicao": "F",
      "camisa": 17,
      "jogos": 8,
@@ -4850,6 +5106,7 @@
     {
      "player_id": 263477,
      "nome": "L. Romero",
+     "nome_completo": "Lucas Romero",
      "posicao": "M",
      "camisa": 29,
      "jogos": 19,
@@ -4869,6 +5126,7 @@
     {
      "player_id": 912786,
      "nome": "M. Henrique",
+     "nome_completo": "Matheus Henrique",
      "posicao": "M",
      "camisa": 8,
      "jogos": 25,
@@ -4888,6 +5146,7 @@
     {
      "player_id": 260077,
      "nome": "L. Villalba",
+     "nome_completo": "Lucas Villalba",
      "posicao": "D",
      "camisa": 25,
      "jogos": 15,
@@ -4907,6 +5166,7 @@
     {
      "player_id": 1387300,
      "nome": "G. Rojas",
+     "nome_completo": "Gabriel Rojas",
      "posicao": "D",
      "camisa": 27,
      "jogos": 8,
@@ -4926,6 +5186,7 @@
     {
      "player_id": 978638,
      "nome": "J. Marcelo",
+     "nome_completo": "João Marcelo",
      "posicao": "D",
      "camisa": 43,
      "jogos": 13,
@@ -4945,6 +5206,7 @@
     {
      "player_id": 604274,
      "nome": "W. Furtado",
+     "nome_completo": "William Furtado",
      "posicao": "D",
      "camisa": 12,
      "jogos": 13,
@@ -4964,6 +5226,7 @@
     {
      "player_id": 817650,
      "nome": "B. Rodrigues",
+     "nome_completo": "Bruno Rodrigues",
      "posicao": "F",
      "camisa": 9,
      "jogos": 15,
@@ -4983,6 +5246,7 @@
     {
      "player_id": 1539599,
      "nome": "N. Villarreal",
+     "nome_completo": "Néiser Villarreal",
      "posicao": "F",
      "camisa": 22,
      "jogos": 14,
@@ -5002,6 +5266,7 @@
     {
      "player_id": 247483,
      "nome": "Wanderson",
+     "nome_completo": "Wanderson",
      "posicao": "F",
      "camisa": 94,
      "jogos": 18,
@@ -5021,6 +5286,7 @@
     {
      "player_id": 245159,
      "nome": "L. Silva",
+     "nome_completo": "Lucas Silva",
      "posicao": "M",
      "camisa": 16,
      "jogos": 17,
@@ -5040,6 +5306,7 @@
     {
      "player_id": 2057367,
      "nome": "K. Moraes",
+     "nome_completo": "Kauã Moraes",
      "posicao": "D",
      "camisa": 2,
      "jogos": 10,
@@ -5059,6 +5326,7 @@
     {
      "player_id": 27756,
      "nome": "Cássio",
+     "nome_completo": "Cássio",
      "posicao": "G",
      "camisa": 1,
      "jogos": 5,
@@ -5071,6 +5339,7 @@
     {
      "player_id": 1647579,
      "nome": "K. Kenji",
+     "nome_completo": "Kaique Kenji",
      "posicao": "F",
      "camisa": 70,
      "jogos": 11,
@@ -5083,6 +5352,7 @@
     {
      "player_id": 2040561,
      "nome": "Zé Lucas",
+     "nome_completo": "Zé Lucas",
      "posicao": "M",
      "camisa": 5,
      "jogos": 7,
@@ -5095,6 +5365,7 @@
     {
      "player_id": 1397478,
      "nome": "J. Costa",
+     "nome_completo": "João Costa",
      "posicao": "F",
      "camisa": 67,
      "jogos": 6,
@@ -5107,6 +5378,7 @@
     {
      "player_id": 1211632,
      "nome": "Wesley",
+     "nome_completo": "Wesley",
      "posicao": "F",
      "camisa": 20,
      "jogos": 6,
@@ -5119,6 +5391,7 @@
     {
      "player_id": 2028294,
      "nome": "F. Morais",
+     "nome_completo": "Felipe Morais",
      "posicao": "M",
      "camisa": 38,
      "jogos": 4,
@@ -5131,6 +5404,7 @@
     {
      "player_id": 1099361,
      "nome": "L. Rodríguez",
+     "nome_completo": "Luciano Rodríguez",
      "posicao": "F",
      "camisa": 97,
      "jogos": 4,
@@ -5143,6 +5417,7 @@
     {
      "player_id": 1116954,
      "nome": "Marquinhos",
+     "nome_completo": "Marquinhos",
      "posicao": "F",
      "camisa": 11,
      "jogos": 2,
@@ -5155,6 +5430,7 @@
     {
      "player_id": 995072,
      "nome": "G. Pec",
+     "nome_completo": "Gabriel Pec",
      "posicao": "M",
      "camisa": 77,
      "jogos": 1,
@@ -5167,6 +5443,7 @@
     {
      "player_id": 1459631,
      "nome": "Rhuan",
+     "nome_completo": "Rhuan Gabriel",
      "posicao": "M",
      "camisa": 40,
      "jogos": 1,
@@ -5181,6 +5458,7 @@
     {
      "player_id": 1112484,
      "nome": "Kaiki",
+     "nome_completo": "Kaiki",
      "posicao": "D",
      "camisa": 6,
      "jogos": 16,
@@ -5200,6 +5478,7 @@
     {
      "player_id": 981733,
      "nome": "Christian",
+     "nome_completo": "Christian",
      "posicao": "M",
      "camisa": 88,
      "jogos": 17,
@@ -5219,6 +5498,7 @@
     {
      "player_id": 866847,
      "nome": "Chico da Costa",
+     "nome_completo": "Chico da Costa",
      "posicao": "F",
      "camisa": 91,
      "jogos": 7,
@@ -5231,6 +5511,7 @@
     {
      "player_id": 1887796,
      "nome": "K. Prates",
+     "nome_completo": "Kauã Prates",
      "posicao": "D",
      "camisa": 36,
      "jogos": 1,
@@ -5243,6 +5524,7 @@
     {
      "player_id": 1589354,
      "nome": "M. Rhikman",
+     "nome_completo": "Murilo Rhikman",
      "posicao": "M",
      "camisa": 35,
      "jogos": 1,
@@ -5350,6 +5632,7 @@
     {
      "player_id": 132874,
      "nome": "Jorginho",
+     "nome_completo": "Jorginho",
      "posicao": "M",
      "camisa": 21,
      "jogos": 22,
@@ -5369,6 +5652,7 @@
     {
      "player_id": 358548,
      "nome": "L. Pereira",
+     "nome_completo": "Léo Pereira",
      "posicao": "D",
      "camisa": 4,
      "jogos": 23,
@@ -5388,6 +5672,7 @@
     {
      "player_id": 874705,
      "nome": "S. Lino",
+     "nome_completo": "Samuel Lino",
      "posicao": "M",
      "camisa": 16,
      "jogos": 27,
@@ -5407,6 +5692,7 @@
     {
      "player_id": 840219,
      "nome": "Pedro",
+     "nome_completo": "Pedro Guilherme",
      "posicao": "F",
      "camisa": 9,
      "jogos": 28,
@@ -5426,6 +5712,7 @@
     {
      "player_id": 333587,
      "nome": "G. de Arrascaeta",
+     "nome_completo": "Giorgian de Arrascaeta",
      "posicao": "M",
      "camisa": 10,
      "jogos": 21,
@@ -5445,6 +5732,7 @@
     {
      "player_id": 869643,
      "nome": "L. Ortiz",
+     "nome_completo": "Léo Ortiz",
      "posicao": "D",
      "camisa": 3,
      "jogos": 24,
@@ -5464,6 +5752,7 @@
     {
      "player_id": 311456,
      "nome": "G. Varela",
+     "nome_completo": "Guillermo Varela",
      "posicao": "D",
      "camisa": 2,
      "jogos": 21,
@@ -5483,6 +5772,7 @@
     {
      "player_id": 116955,
      "nome": "S. Ñíguez",
+     "nome_completo": "Saúl Ñíguez",
      "posicao": "M",
      "camisa": 8,
      "jogos": 9,
@@ -5502,6 +5792,7 @@
     {
      "player_id": 590262,
      "nome": "E. Pulgar",
+     "nome_completo": "Erick Pulgar",
      "posicao": "M",
      "camisa": 5,
      "jogos": 18,
@@ -5521,6 +5812,7 @@
     {
      "player_id": 590392,
      "nome": "J. Carrascal",
+     "nome_completo": "Jorge Carrascal",
      "posicao": "M",
      "camisa": 15,
      "jogos": 22,
@@ -5540,6 +5832,7 @@
     {
      "player_id": 124992,
      "nome": "Danilo",
+     "nome_completo": "Danilo",
      "posicao": "D",
      "camisa": 13,
      "jogos": 9,
@@ -5559,6 +5852,7 @@
     {
      "player_id": 839981,
      "nome": "L. Paquetá",
+     "nome_completo": "Lucas Paquetá",
      "posicao": "M",
      "camisa": 20,
      "jogos": 19,
@@ -5578,6 +5872,7 @@
     {
      "player_id": 818473,
      "nome": "A. Lucas",
+     "nome_completo": "Ayrton Lucas",
      "posicao": "D",
      "camisa": 6,
      "jogos": 18,
@@ -5597,6 +5892,7 @@
     {
      "player_id": 937937,
      "nome": "G. Plata",
+     "nome_completo": "Gonzalo Plata",
      "posicao": "M",
      "camisa": 19,
      "jogos": 16,
@@ -5616,6 +5912,7 @@
     {
      "player_id": 795291,
      "nome": "B. Henrique",
+     "nome_completo": "Bruno Henrique",
      "posicao": "F",
      "camisa": 27,
      "jogos": 21,
@@ -5635,6 +5932,7 @@
     {
      "player_id": 877513,
      "nome": "N. De la Cruz",
+     "nome_completo": "Nicolás de la Cruz",
      "posicao": "M",
      "camisa": 18,
      "jogos": 12,
@@ -5654,6 +5952,7 @@
     {
      "player_id": 1140986,
      "nome": "A. Rossi",
+     "nome_completo": "Agustín Rossi",
      "posicao": "G",
      "camisa": 1,
      "jogos": 28,
@@ -5672,6 +5971,7 @@
     {
      "player_id": 84854,
      "nome": "A. Sandro",
+     "nome_completo": "Alex Sandro",
      "posicao": "D",
      "camisa": 26,
      "jogos": 18,
@@ -5691,6 +5991,7 @@
     {
      "player_id": 1145106,
      "nome": "E. Araujo",
+     "nome_completo": "Evertton Araujo",
      "posicao": "M",
      "camisa": 52,
      "jogos": 20,
@@ -5710,6 +6011,7 @@
     {
      "player_id": 856123,
      "nome": "E. Royal",
+     "nome_completo": "Emerson Royal",
      "posicao": "D",
      "camisa": 22,
      "jogos": 13,
@@ -5729,6 +6031,7 @@
     {
      "player_id": 840451,
      "nome": "L. Araújo",
+     "nome_completo": "Luiz Araújo",
      "posicao": "F",
      "camisa": 7,
      "jogos": 15,
@@ -5748,6 +6051,7 @@
     {
      "player_id": 876625,
      "nome": "Vitão",
+     "nome_completo": "Vitão",
      "posicao": "D",
      "camisa": 44,
      "jogos": 9,
@@ -5767,6 +6071,7 @@
     {
      "player_id": 1602833,
      "nome": "J. Victor",
+     "nome_completo": "João Victor",
      "posicao": "D",
      "camisa": 61,
      "jogos": 1,
@@ -5779,6 +6084,7 @@
     {
      "player_id": 2173803,
      "nome": "J. Freitas",
+     "nome_completo": "Joaquín Freitas",
      "posicao": "F",
      "camisa": 30,
      "jogos": 3,
@@ -5791,6 +6097,7 @@
     {
      "player_id": 2063998,
      "nome": "J. Góes",
+     "nome_completo": "Johnny Goes",
      "posicao": "D",
      "camisa": 77,
      "jogos": 1,
@@ -5803,6 +6110,7 @@
     {
      "player_id": 1020197,
      "nome": "A. Valencia",
+     "nome_completo": "Anthony Valencia",
      "posicao": "F",
      "camisa": 14,
      "jogos": 1,
@@ -5815,6 +6123,7 @@
     {
      "player_id": 1883287,
      "nome": "C. Joshua",
+     "nome_completo": "Caio Joshua",
      "posicao": "M",
      "camisa": 79,
      "jogos": 1,
@@ -5829,6 +6138,7 @@
     {
      "player_id": 1459764,
      "nome": "Lorran",
+     "nome_completo": "Lorran",
      "posicao": "M",
      "camisa": 99,
      "jogos": 3,
@@ -5936,6 +6246,7 @@
     {
      "player_id": 33541,
      "nome": "T. Silva",
+     "nome_completo": "Thiago Silva",
      "posicao": "D",
      "camisa": 3,
      "jogos": 4,
@@ -5955,6 +6266,7 @@
     {
      "player_id": 1067671,
      "nome": "Martinelli",
+     "nome_completo": "Martinelli",
      "posicao": "M",
      "camisa": 8,
      "jogos": 20,
@@ -5974,6 +6286,7 @@
     {
      "player_id": 34705,
      "nome": "Hulk",
+     "nome_completo": "Hulk",
      "posicao": "F",
      "camisa": 7,
      "jogos": 21,
@@ -5993,6 +6306,7 @@
     {
      "player_id": 17785,
      "nome": "Fábio",
+     "nome_completo": "Fábio",
      "posicao": "G",
      "camisa": 1,
      "jogos": 28,
@@ -6011,6 +6325,7 @@
     {
      "player_id": 243113,
      "nome": "Renê",
+     "nome_completo": "Renê",
      "posicao": "D",
      "camisa": 6,
      "jogos": 20,
@@ -6030,6 +6345,7 @@
     {
      "player_id": 846413,
      "nome": "A. Canobbio",
+     "nome_completo": "Agustín Canobbio",
      "posicao": "M",
      "camisa": 17,
      "jogos": 21,
@@ -6049,6 +6365,7 @@
     {
      "player_id": 548030,
      "nome": "L. Acosta",
+     "nome_completo": "Luciano Acosta",
      "posicao": "M",
      "camisa": 32,
      "jogos": 23,
@@ -6068,6 +6385,7 @@
     {
      "player_id": 962187,
      "nome": "J. Freytes",
+     "nome_completo": "Juan Pablo Freytes",
      "posicao": "D",
      "camisa": 22,
      "jogos": 19,
@@ -6087,6 +6405,7 @@
     {
      "player_id": 981374,
      "nome": "K. Serna",
+     "nome_completo": "Kevin Serna",
      "posicao": "M",
      "camisa": 90,
      "jogos": 27,
@@ -6106,6 +6425,7 @@
     {
      "player_id": 789960,
      "nome": "Y. Soteldo",
+     "nome_completo": "Yeferson Soteldo",
      "posicao": "M",
      "camisa": 7,
      "jogos": 19,
@@ -6125,6 +6445,7 @@
     {
      "player_id": 1127439,
      "nome": "G. Arana",
+     "nome_completo": "Guilherme Arana",
      "posicao": "D",
      "camisa": 13,
      "jogos": 16,
@@ -6144,6 +6465,7 @@
     {
      "player_id": 1527129,
      "nome": "Jemmes",
+     "nome_completo": "Jemmes",
      "posicao": "D",
      "camisa": 3,
      "jogos": 19,
@@ -6163,6 +6485,7 @@
     {
      "player_id": 874739,
      "nome": "J. Savarino",
+     "nome_completo": "Jefferson Savarino",
      "posicao": "M",
      "camisa": 11,
      "jogos": 20,
@@ -6182,6 +6505,7 @@
     {
      "player_id": 1087399,
      "nome": "John Kennedy",
+     "nome_completo": "John Kennedy",
      "posicao": "F",
      "camisa": 9,
      "jogos": 18,
@@ -6201,6 +6525,7 @@
     {
      "player_id": 1104068,
      "nome": "Hércules",
+     "nome_completo": "Hércules",
      "posicao": "M",
      "camisa": 35,
      "jogos": 24,
@@ -6220,6 +6545,7 @@
     {
      "player_id": 928134,
      "nome": "Guga",
+     "nome_completo": "Guga",
      "posicao": "D",
      "camisa": 23,
      "jogos": 16,
@@ -6239,6 +6565,7 @@
     {
      "player_id": 922566,
      "nome": "Nonato",
+     "nome_completo": "Nonato",
      "posicao": "M",
      "camisa": 16,
      "jogos": 15,
@@ -6258,6 +6585,7 @@
     {
      "player_id": 795773,
      "nome": "S. Xavier",
+     "nome_completo": "Samuel Xavier",
      "posicao": "D",
      "camisa": 2,
      "jogos": 16,
@@ -6277,6 +6605,7 @@
     {
      "player_id": 958382,
      "nome": "Ignácio",
+     "nome_completo": "Ignácio",
      "posicao": "D",
      "camisa": 4,
      "jogos": 14,
@@ -6296,6 +6625,7 @@
     {
      "player_id": 1182504,
      "nome": "R. Castillo",
+     "nome_completo": "Rodrigo Castillo",
      "posicao": "F",
      "camisa": 19,
      "jogos": 15,
@@ -6315,6 +6645,7 @@
     {
      "player_id": 116853,
      "nome": "Ganso",
+     "nome_completo": "Ganso",
      "posicao": "M",
      "camisa": 10,
      "jogos": 19,
@@ -6334,6 +6665,7 @@
     {
      "player_id": 839085,
      "nome": "J. Millán",
+     "nome_completo": "Julián Millán",
      "posicao": "D",
      "camisa": 29,
      "jogos": 8,
@@ -6353,6 +6685,7 @@
     {
      "player_id": 552686,
      "nome": "Otávio",
+     "nome_completo": "Otávio",
      "posicao": "M",
      "camisa": 94,
      "jogos": 7,
@@ -6365,6 +6698,7 @@
     {
      "player_id": 291723,
      "nome": "Alisson",
+     "nome_completo": "Alisson",
      "posicao": "M",
      "camisa": 25,
      "jogos": 8,
@@ -6377,6 +6711,7 @@
     {
      "player_id": 1561524,
      "nome": "J. Fidelis",
+     "nome_completo": "Júlio Fidelis",
      "posicao": "D",
      "camisa": 46,
      "jogos": 4,
@@ -6389,6 +6724,7 @@
     {
      "player_id": 753662,
      "nome": "I. Rabello",
+     "nome_completo": "Igor Rabello",
      "posicao": "D",
      "camisa": 21,
      "jogos": 3,
@@ -6401,6 +6737,7 @@
     {
      "player_id": 33238,
      "nome": "G. Cano",
+     "nome_completo": "Germán Cano",
      "posicao": "F",
      "camisa": 14,
      "jogos": 9,
@@ -6413,6 +6750,7 @@
     {
      "player_id": 1884803,
      "nome": "R. Felipe",
+     "nome_completo": "Riquelme Felipe",
      "posicao": "F",
      "camisa": 28,
      "jogos": 6,
@@ -6425,6 +6763,7 @@
     {
      "player_id": 2082072,
      "nome": "W. Natã",
+     "nome_completo": "Wesley Natã",
      "posicao": "F",
      "camisa": 34,
      "jogos": 1,
@@ -6439,6 +6778,7 @@
     {
      "player_id": 1177404,
      "nome": "F. Bernal",
+     "nome_completo": "Facundo Bernal",
      "posicao": "M",
      "camisa": 5,
      "jogos": 10,
@@ -6458,6 +6798,7 @@
     {
      "player_id": 100203,
      "nome": "S. Moreno",
+     "nome_completo": "Santiago Moreno",
      "posicao": "F",
      "camisa": 30,
      "jogos": 3,
@@ -6565,6 +6906,7 @@
     {
      "player_id": 243529,
      "nome": "Weverton",
+     "nome_completo": "Weverton",
      "posicao": "G",
      "camisa": 1,
      "jogos": 26,
@@ -6583,6 +6925,7 @@
     {
      "player_id": 891920,
      "nome": "C. Vinícius",
+     "nome_completo": "Carlos Vinícius",
      "posicao": "F",
      "camisa": 95,
      "jogos": 27,
@@ -6602,6 +6945,7 @@
     {
      "player_id": 358956,
      "nome": "C. Pavón",
+     "nome_completo": "Cristian Pavón",
      "posicao": "D",
      "camisa": 7,
      "jogos": 25,
@@ -6621,6 +6965,7 @@
     {
      "player_id": 322417,
      "nome": "F. Krovinović",
+     "nome_completo": "Filip Krovinović",
      "posicao": "M",
      "camisa": 10,
      "jogos": 6,
@@ -6640,6 +6985,7 @@
     {
      "player_id": 1020375,
      "nome": "E. Noriega",
+     "nome_completo": "Erick Noriega",
      "posicao": "M",
      "camisa": 19,
      "jogos": 21,
@@ -6659,6 +7005,7 @@
     {
      "player_id": 1139775,
      "nome": "M. Villasanti",
+     "nome_completo": "Mathias Villasanti",
      "posicao": "M",
      "camisa": 20,
      "jogos": 9,
@@ -6678,6 +7025,7 @@
     {
      "player_id": 845802,
      "nome": "J. Cabral",
+     "nome_completo": "Jovane Cabral",
      "posicao": "F",
      "camisa": 77,
      "jogos": 6,
@@ -6697,6 +7045,7 @@
     {
      "player_id": 66471,
      "nome": "M. Braithwaite",
+     "nome_completo": "Martin Braithwaite",
      "posicao": "F",
      "camisa": 22,
      "jogos": 19,
@@ -6716,6 +7065,7 @@
     {
      "player_id": 1105796,
      "nome": "G. Martins",
+     "nome_completo": "Gustavo Martins",
      "posicao": "D",
      "camisa": 6,
      "jogos": 19,
@@ -6735,6 +7085,7 @@
     {
      "player_id": 901889,
      "nome": "F. Amuzu",
+     "nome_completo": "Francis Amuzu",
      "posicao": "F",
      "camisa": 9,
      "jogos": 23,
@@ -6754,6 +7105,7 @@
     {
      "player_id": 339447,
      "nome": "F. Balbuena",
+     "nome_completo": "Fabián Balbuena",
      "posicao": "D",
      "camisa": 2,
      "jogos": 8,
@@ -6773,6 +7125,7 @@
     {
      "player_id": 980327,
      "nome": "Tetê",
+     "nome_completo": "Tetê",
      "posicao": "F",
      "camisa": 21,
      "jogos": 22,
@@ -6792,6 +7145,7 @@
     {
      "player_id": 974558,
      "nome": "J. Enamorado",
+     "nome_completo": "José Enamorado",
      "posicao": "F",
      "camisa": 99,
      "jogos": 23,
@@ -6811,6 +7165,7 @@
     {
      "player_id": 1907755,
      "nome": "P. Gabriel",
+     "nome_completo": "Pedro Gabriel",
      "posicao": "D",
      "camisa": 54,
      "jogos": 16,
@@ -6830,6 +7185,7 @@
     {
      "player_id": 989862,
      "nome": "J. Nardoni",
+     "nome_completo": "Juan Nardoni",
      "posicao": "M",
      "camisa": 5,
      "jogos": 17,
@@ -6849,6 +7205,7 @@
     {
      "player_id": 870787,
      "nome": "Marlon",
+     "nome_completo": "Marlon",
      "posicao": "D",
      "camisa": 23,
      "jogos": 10,
@@ -6868,6 +7225,7 @@
     {
      "player_id": 976235,
      "nome": "W. Leonardo",
+     "nome_completo": "Wagner Leonardo",
      "posicao": "D",
      "camisa": 3,
      "jogos": 10,
@@ -6887,6 +7245,7 @@
     {
      "player_id": 1843731,
      "nome": "Wallace",
+     "nome_completo": "Wallace",
      "posicao": "D",
      "camisa": 82,
      "jogos": 8,
@@ -6906,6 +7265,7 @@
     {
      "player_id": 931591,
      "nome": "C. Paulista",
+     "nome_completo": "Caio Paulista",
      "posicao": "D",
      "camisa": 38,
      "jogos": 11,
@@ -6925,6 +7285,7 @@
     {
      "player_id": 1468270,
      "nome": "Diego Caito",
+     "nome_completo": "Diego Caito",
      "posicao": "D",
      "camisa": 27,
      "jogos": 7,
@@ -6944,6 +7305,7 @@
     {
      "player_id": 605528,
      "nome": "J. Pedro",
+     "nome_completo": "João Pedro",
      "posicao": "D",
      "camisa": 18,
      "jogos": 7,
@@ -6956,6 +7318,7 @@
     {
      "player_id": 249647,
      "nome": "W. Kannemann",
+     "nome_completo": "Walter Kannemann",
      "posicao": "D",
      "camisa": 4,
      "jogos": 5,
@@ -6968,6 +7331,7 @@
     {
      "player_id": 870804,
      "nome": "Dodi",
+     "nome_completo": "Dodi",
      "posicao": "M",
      "camisa": 17,
      "jogos": 8,
@@ -6980,6 +7344,7 @@
     {
      "player_id": 1895389,
      "nome": "L. Guedes",
+     "nome_completo": "Luis Guedes",
      "posicao": "D",
      "camisa": 43,
      "jogos": 2,
@@ -6992,6 +7357,7 @@
     {
      "player_id": 82576,
      "nome": "M. Rocha",
+     "nome_completo": "Marcos Rocha",
      "posicao": "D",
      "camisa": 14,
      "jogos": 6,
@@ -7004,6 +7370,7 @@
     {
      "player_id": 330063,
      "nome": "D. Barbosa",
+     "nome_completo": "Danilo Barbosa",
      "posicao": "M",
      "camisa": 15,
      "jogos": 4,
@@ -7016,6 +7383,7 @@
     {
      "player_id": 1907762,
      "nome": "Zortéa",
+     "nome_completo": "Zortéa",
      "posicao": "M",
      "camisa": 50,
      "jogos": 4,
@@ -7028,6 +7396,7 @@
     {
      "player_id": 1111770,
      "nome": "G. Grando",
+     "nome_completo": "Gabriel Grando",
      "posicao": "G",
      "camisa": 12,
      "jogos": 1,
@@ -7040,6 +7409,7 @@
     {
      "player_id": 1607287,
      "nome": "T. Beltrame",
+     "nome_completo": "Thiago Beltrame",
      "posicao": "G",
      "camisa": 24,
      "jogos": 1,
@@ -7052,6 +7422,7 @@
     {
      "player_id": 1634619,
      "nome": "Riquelme",
+     "nome_completo": "Riquelme Freitas",
      "posicao": "M",
      "camisa": 65,
      "jogos": 3,
@@ -7064,6 +7435,7 @@
     {
      "player_id": 1907757,
      "nome": "Roger",
+     "nome_completo": "Roger",
      "posicao": "M",
      "camisa": 47,
      "jogos": 2,
@@ -7076,6 +7448,7 @@
     {
      "player_id": 2110827,
      "nome": "V. Ramon",
+     "nome_completo": "Vitor Ramon",
      "posicao": "D",
      "camisa": 32,
      "jogos": 1,
@@ -7088,6 +7461,7 @@
     {
      "player_id": 2010540,
      "nome": "Tiaguinho",
+     "nome_completo": "Tiaguinho",
      "posicao": "M",
      "camisa": 39,
      "jogos": 1,
@@ -7100,6 +7474,7 @@
     {
      "player_id": 1047683,
      "nome": "M. Nascimento",
+     "nome_completo": "Matheus Nascimento",
      "posicao": "F",
      "camisa": 30,
      "jogos": 2,
@@ -7112,6 +7487,7 @@
     {
      "player_id": 1588363,
      "nome": "J. Forneck",
+     "nome_completo": "Jefinho",
      "posicao": "M",
      "camisa": 40,
      "jogos": 1,
@@ -7124,6 +7500,7 @@
     {
      "player_id": 2152875,
      "nome": "G. Menegon",
+     "nome_completo": "Gabriel Menegon",
      "posicao": "G",
      "camisa": 31,
      "jogos": 1,
@@ -7138,6 +7515,7 @@
     {
      "player_id": 31417,
      "nome": "Willian",
+     "nome_completo": "Willian",
      "posicao": "M",
      "camisa": 10,
      "jogos": 9,
@@ -7157,6 +7535,7 @@
     {
      "player_id": 1907760,
      "nome": "Viery",
+     "nome_completo": "Viery",
      "posicao": "D",
      "camisa": 44,
      "jogos": 13,
@@ -7176,6 +7555,7 @@
     {
      "player_id": 1895377,
      "nome": "G. Mec",
+     "nome_completo": "Gabriel Mec",
      "posicao": "F",
      "camisa": 37,
      "jogos": 16,
@@ -7195,6 +7575,7 @@
     {
      "player_id": 1471214,
      "nome": "L. Pérez",
+     "nome_completo": "Leonel Pérez",
      "posicao": "M",
      "camisa": 33,
      "jogos": 12,
@@ -7214,6 +7595,7 @@
     {
      "player_id": 1066620,
      "nome": "M. Monsalve",
+     "nome_completo": "Miguel Monsalve",
      "posicao": "M",
      "camisa": 11,
      "jogos": 7,
@@ -7226,6 +7608,7 @@
     {
      "player_id": 1463912,
      "nome": "A. Henrique",
+     "nome_completo": "André Henrique",
      "posicao": "F",
      "camisa": 77,
      "jogos": 5,
@@ -7333,6 +7716,7 @@
     {
      "player_id": 124997,
      "nome": "A. Patrick",
+     "nome_completo": "Alan Patrick",
      "posicao": "M",
      "camisa": 10,
      "jogos": 23,
@@ -7352,6 +7736,7 @@
     {
      "player_id": 989200,
      "nome": "A. Bernabei",
+     "nome_completo": "Alexandro Bernabei",
      "posicao": "M",
      "camisa": 26,
      "jogos": 24,
@@ -7371,6 +7756,7 @@
     {
      "player_id": 128376,
      "nome": "G. Mercado",
+     "nome_completo": "Gabriel Mercado",
      "posicao": "D",
      "camisa": 25,
      "jogos": 18,
@@ -7390,6 +7776,7 @@
     {
      "player_id": 925125,
      "nome": "J. Carbonero",
+     "nome_completo": "Johan Carbonero",
      "posicao": "F",
      "camisa": 7,
      "jogos": 27,
@@ -7409,6 +7796,7 @@
     {
      "player_id": 995071,
      "nome": "B. Gomes",
+     "nome_completo": "Bruno Gomes",
      "posicao": "D",
      "camisa": 15,
      "jogos": 27,
@@ -7428,6 +7816,7 @@
     {
      "player_id": 982405,
      "nome": "Vitinho",
+     "nome_completo": "Vitinho",
      "posicao": "M",
      "camisa": 28,
      "jogos": 27,
@@ -7447,6 +7836,7 @@
     {
      "player_id": 581060,
      "nome": "S. Rochet",
+     "nome_completo": "Sergio Rochet",
      "posicao": "G",
      "camisa": 1,
      "jogos": 11,
@@ -7465,6 +7855,7 @@
     {
      "player_id": 339909,
      "nome": "G. Maripán",
+     "nome_completo": "Guillermo Maripán",
      "posicao": "D",
      "camisa": 3,
      "jogos": 9,
@@ -7484,6 +7875,7 @@
     {
      "player_id": 333261,
      "nome": "A. Sanabria",
+     "nome_completo": "Antonio Sanabria",
      "posicao": "F",
      "camisa": 19,
      "jogos": 4,
@@ -7503,6 +7895,7 @@
     {
      "player_id": 881848,
      "nome": "F. Torres",
+     "nome_completo": "Félix Torres",
      "posicao": "D",
      "camisa": 4,
      "jogos": 19,
@@ -7522,6 +7915,7 @@
     {
      "player_id": 978563,
      "nome": "R. Villagra",
+     "nome_completo": "Rodrigo Villagra",
      "posicao": "M",
      "camisa": 5,
      "jogos": 20,
@@ -7541,6 +7935,7 @@
     {
      "player_id": 345113,
      "nome": "B. Henrique",
+     "nome_completo": "Bruno Henrique",
      "posicao": "M",
      "camisa": 8,
      "jogos": 25,
@@ -7560,6 +7955,7 @@
     {
      "player_id": 1047204,
      "nome": "M. Bahia",
+     "nome_completo": "Matheus Bahia",
      "posicao": "D",
      "camisa": 6,
      "jogos": 18,
@@ -7579,6 +7975,7 @@
     {
      "player_id": 1106487,
      "nome": "V. Gabriel",
+     "nome_completo": "Victor Gabriel",
      "posicao": "D",
      "camisa": 41,
      "jogos": 16,
@@ -7598,6 +7995,7 @@
     {
      "player_id": 879902,
      "nome": "P. Paula",
+     "nome_completo": "Paulinho Paula",
      "posicao": "M",
      "camisa": 27,
      "jogos": 21,
@@ -7617,6 +8015,7 @@
     {
      "player_id": 923948,
      "nome": "Alerrandro",
+     "nome_completo": "Alerrandro",
      "posicao": "F",
      "camisa": 9,
      "jogos": 21,
@@ -7636,6 +8035,7 @@
     {
      "player_id": 1084963,
      "nome": "B. Aguirre",
+     "nome_completo": "Braian Aguirre",
      "posicao": "D",
      "camisa": 35,
      "jogos": 19,
@@ -7655,6 +8055,7 @@
     {
      "player_id": 1105835,
      "nome": "M. Cunha",
+     "nome_completo": "Matheus Cunha",
      "posicao": "G",
      "camisa": 23,
      "jogos": 16,
@@ -7673,6 +8074,7 @@
     {
      "player_id": 1106134,
      "nome": "Anthoni",
+     "nome_completo": "Anthoni",
      "posicao": "G",
      "camisa": 12,
      "jogos": 11,
@@ -7691,6 +8093,7 @@
     {
      "player_id": 824152,
      "nome": "Ronaldo",
+     "nome_completo": "Ronaldo",
      "posicao": "M",
      "camisa": 16,
      "jogos": 12,
@@ -7710,6 +8113,7 @@
     {
      "player_id": 1485191,
      "nome": "Allex",
+     "nome_completo": "Allex",
      "posicao": "M",
      "camisa": 31,
      "jogos": 11,
@@ -7722,6 +8126,7 @@
     {
      "player_id": 799947,
      "nome": "J. Juninho",
+     "nome_completo": "Jose Juninho",
      "posicao": "D",
      "camisa": 18,
      "jogos": 9,
@@ -7734,6 +8139,7 @@
     {
      "player_id": 358550,
      "nome": "T. Maia",
+     "nome_completo": "Thiago Maia",
      "posicao": "M",
      "camisa": 29,
      "jogos": 13,
@@ -7746,6 +8152,7 @@
     {
      "player_id": 1106151,
      "nome": "Kayky",
+     "nome_completo": "Kayky",
      "posicao": "F",
      "camisa": 11,
      "jogos": 6,
@@ -7758,6 +8165,7 @@
     {
      "player_id": 1046796,
      "nome": "Calebe",
+     "nome_completo": "Calebe Gonçalves",
      "posicao": "M",
      "camisa": 30,
      "jogos": 3,
@@ -7770,6 +8178,7 @@
     {
      "player_id": 2198867,
      "nome": "L. Felipe",
+     "nome_completo": "Luiz Felipe",
      "posicao": "D",
      "camisa": 53,
      "jogos": 2,
@@ -7782,6 +8191,7 @@
     {
      "player_id": 316196,
      "nome": "N. Eliasson",
+     "nome_completo": "Niclas Eliasson",
      "posicao": "M",
      "camisa": 17,
      "jogos": 5,
@@ -7794,6 +8204,7 @@
     {
      "player_id": 1922592,
      "nome": "J. V. Francisco",
+     "nome_completo": "João Victor Alves de Morais Francisco",
      "posicao": "F",
      "camisa": 44,
      "jogos": 1,
@@ -7806,6 +8217,7 @@
     {
      "player_id": 2083564,
      "nome": "J. P. B. d. O. Lo",
+     "nome_completo": "João Pedro Bezerra de Oliveira Lo",
      "posicao": "F",
      "camisa": 49,
      "jogos": 2,
@@ -7818,6 +8230,7 @@
     {
      "player_id": 1888163,
      "nome": "Raykkonen",
+     "nome_completo": "Raykkonen Pereira Soares",
      "posicao": "F",
      "camisa": 48,
      "jogos": 1,
@@ -7830,6 +8243,7 @@
     {
      "player_id": 2027868,
      "nome": "B. Arhin",
+     "nome_completo": "Benjamin Arhin",
      "posicao": "M",
      "camisa": 33,
      "jogos": 1,
@@ -7844,6 +8258,7 @@
     {
      "player_id": 560116,
      "nome": "R. Borré",
+     "nome_completo": "Rafael Borré",
      "posicao": "F",
      "camisa": 19,
      "jogos": 18,
@@ -7863,6 +8278,7 @@
     {
      "player_id": 874576,
      "nome": "Á. Rodríguez",
+     "nome_completo": "Alan Rodríguez",
      "posicao": "M",
      "camisa": 14,
      "jogos": 7,
@@ -7875,6 +8291,7 @@
     {
      "player_id": 845433,
      "nome": "B. Tabata",
+     "nome_completo": "Bruno Tabata",
      "posicao": "F",
      "camisa": 17,
      "jogos": 8,
@@ -7982,6 +8399,7 @@
     {
      "player_id": 243109,
      "nome": "Reinaldo",
+     "nome_completo": "Reinaldo",
      "posicao": "D",
      "camisa": 6,
      "jogos": 25,
@@ -8001,6 +8419,7 @@
     {
      "player_id": 1009030,
      "nome": "Igor Formiga",
+     "nome_completo": "Igor Formiga",
      "posicao": "D",
      "camisa": 32,
      "jogos": 25,
@@ -8020,6 +8439,7 @@
     {
      "player_id": 863297,
      "nome": "J. Victor",
+     "nome_completo": "João Victor",
      "posicao": "D",
      "camisa": 34,
      "jogos": 27,
@@ -8039,6 +8459,7 @@
     {
      "player_id": 925871,
      "nome": "W. Machado",
+     "nome_completo": "Willian Machado",
      "posicao": "D",
      "camisa": 3,
      "jogos": 23,
@@ -8058,6 +8479,7 @@
     {
      "player_id": 871015,
      "nome": "Alesson",
+     "nome_completo": "Alesson",
      "posicao": "M",
      "camisa": 77,
      "jogos": 24,
@@ -8077,6 +8499,7 @@
     {
      "player_id": 988851,
      "nome": "J. Aldo",
+     "nome_completo": "José Aldo",
      "posicao": "M",
      "camisa": 21,
      "jogos": 17,
@@ -8096,6 +8519,7 @@
     {
      "player_id": 329055,
      "nome": "Walter",
+     "nome_completo": "Walter",
      "posicao": "G",
      "camisa": 22,
      "jogos": 24,
@@ -8114,6 +8538,7 @@
     {
      "player_id": 1175760,
      "nome": "Denilson",
+     "nome_completo": "Denilson",
      "posicao": "M",
      "camisa": 8,
      "jogos": 19,
@@ -8133,6 +8558,7 @@
     {
      "player_id": 76507,
      "nome": "Eduardo",
+     "nome_completo": "Eduardo",
      "posicao": "M",
      "camisa": 33,
      "jogos": 20,
@@ -8152,6 +8578,7 @@
     {
      "player_id": 874723,
      "nome": "Shaylon",
+     "nome_completo": "Shaylon",
      "posicao": "M",
      "camisa": 7,
      "jogos": 21,
@@ -8171,6 +8598,7 @@
     {
      "player_id": 559034,
      "nome": "N. Moura",
+     "nome_completo": "Neto Moura",
      "posicao": "M",
      "camisa": 25,
      "jogos": 16,
@@ -8190,6 +8618,7 @@
     {
      "player_id": 1048612,
      "nome": "E. Carioca",
+     "nome_completo": "Edson Carioca",
      "posicao": "F",
      "camisa": 95,
      "jogos": 18,
@@ -8209,6 +8638,7 @@
     {
      "player_id": 1105781,
      "nome": "B. Santos",
+     "nome_completo": "Bruno Santos",
      "posicao": "F",
      "camisa": 30,
      "jogos": 11,
@@ -8228,6 +8658,7 @@
     {
      "player_id": 922601,
      "nome": "Wallisson Luiz",
+     "nome_completo": "Wallisson Luiz",
      "posicao": "M",
      "camisa": 80,
      "jogos": 18,
@@ -8247,6 +8678,7 @@
     {
      "player_id": 795295,
      "nome": "C. Eduardo",
+     "nome_completo": "Carlos Eduardo",
      "posicao": "F",
      "camisa": 96,
      "jogos": 17,
@@ -8266,6 +8698,7 @@
     {
      "player_id": 872007,
      "nome": "Negueba",
+     "nome_completo": "Negueba",
      "posicao": "M",
      "camisa": 11,
      "jogos": 9,
@@ -8285,6 +8718,7 @@
     {
      "player_id": 904297,
      "nome": "A. Luis",
+     "nome_completo": "André Luis",
      "posicao": "F",
      "camisa": 99,
      "jogos": 16,
@@ -8304,6 +8738,7 @@
     {
      "player_id": 1465498,
      "nome": "Gabriel",
+     "nome_completo": "Gabriel Knesowitsch",
      "posicao": "D",
      "camisa": 44,
      "jogos": 8,
@@ -8323,6 +8758,7 @@
     {
      "player_id": 867907,
      "nome": "L. Oliveira",
+     "nome_completo": "Lucas Oliveira",
      "posicao": "D",
      "camisa": 2,
      "jogos": 10,
@@ -8342,6 +8778,7 @@
     {
      "player_id": 1459623,
      "nome": "Japa",
+     "nome_completo": "Japa",
      "posicao": "M",
      "camisa": 5,
      "jogos": 9,
@@ -8354,6 +8791,7 @@
     {
      "player_id": 794874,
      "nome": "D. Borges",
+     "nome_completo": "Daniel Borges",
      "posicao": "D",
      "camisa": 20,
      "jogos": 6,
@@ -8366,6 +8804,7 @@
     {
      "player_id": 871219,
      "nome": "Fernandinho",
+     "nome_completo": "Fernandinho",
      "posicao": "F",
      "camisa": 17,
      "jogos": 9,
@@ -8378,6 +8817,7 @@
     {
      "player_id": 252781,
      "nome": "V. Luis",
+     "nome_completo": "Victor Luis",
      "posicao": "D",
      "camisa": 12,
      "jogos": 7,
@@ -8390,6 +8830,7 @@
     {
      "player_id": 892073,
      "nome": "G. Cazonatti",
+     "nome_completo": "Gustavo Cazonatti",
      "posicao": "M",
      "camisa": 55,
      "jogos": 7,
@@ -8402,6 +8843,7 @@
     {
      "player_id": 863283,
      "nome": "G. Silva",
+     "nome_completo": "Gustavo Silva",
      "posicao": "M",
      "camisa": 19,
      "jogos": 6,
@@ -8414,6 +8856,7 @@
     {
      "player_id": 880132,
      "nome": "Chico",
+     "nome_completo": "Chico",
      "posicao": "M",
      "camisa": 10,
      "jogos": 9,
@@ -8426,6 +8869,7 @@
     {
      "player_id": 340113,
      "nome": "A. Muralha",
+     "nome_completo": "Alex Muralha",
      "posicao": "G",
      "camisa": 23,
      "jogos": 3,
@@ -8438,6 +8882,7 @@
     {
      "player_id": 870929,
      "nome": "Thomazella",
+     "nome_completo": "Thomazella",
      "posicao": "G",
      "camisa": 90,
      "jogos": 2,
@@ -8450,6 +8895,7 @@
     {
      "player_id": 981812,
      "nome": "Elias",
+     "nome_completo": "Elias",
      "posicao": "D",
      "camisa": 18,
      "jogos": 2,
@@ -8462,6 +8908,7 @@
     {
      "player_id": 842076,
      "nome": "Z. Roberto",
+     "nome_completo": "Zé Roberto",
      "posicao": "F",
      "camisa": 99,
      "jogos": 1,
@@ -8476,6 +8923,7 @@
     {
      "player_id": 934638,
      "nome": "Nathan Fogaça",
+     "nome_completo": "Nathan Fogaça",
      "posicao": "F",
      "camisa": 9,
      "jogos": 10,
@@ -8488,6 +8936,7 @@
     {
      "player_id": 809536,
      "nome": "Yuri",
+     "nome_completo": "Yuri",
      "posicao": "M",
      "camisa": 5,
      "jogos": 6,
@@ -8500,6 +8949,7 @@
     {
      "player_id": 178407,
      "nome": "G. Pires",
+     "nome_completo": "Gabriel Pires",
      "posicao": "M",
      "camisa": 18,
      "jogos": 7,
@@ -8512,6 +8962,7 @@
     {
      "player_id": 871162,
      "nome": "Everton Galdino",
+     "nome_completo": "Everton Galdino",
      "posicao": "F",
      "camisa": 17,
      "jogos": 8,
@@ -8524,6 +8975,7 @@
     {
      "player_id": 976188,
      "nome": "Rodrigues",
+     "nome_completo": "Rodrigues",
      "posicao": "D",
      "camisa": 97,
      "jogos": 2,
@@ -8536,6 +8988,7 @@
     {
      "player_id": 874195,
      "nome": "I. Cariús",
+     "nome_completo": "Igor Cariús",
      "posicao": "D",
      "camisa": 14,
      "jogos": 1,
@@ -8548,6 +9001,7 @@
     {
      "player_id": 874778,
      "nome": "L. Otávio",
+     "nome_completo": "Luiz Otávio",
      "posicao": "D",
      "camisa": 4,
      "jogos": 1,
@@ -8655,6 +9109,7 @@
     {
      "player_id": 285949,
      "nome": "A. Pereira",
+     "nome_completo": "Andreas Pereira",
      "posicao": "M",
      "camisa": 8,
      "jogos": 27,
@@ -8674,6 +9129,7 @@
     {
      "player_id": 220833,
      "nome": "G. Gómez",
+     "nome_completo": "Gustavo Gómez",
      "posicao": "D",
      "camisa": 15,
      "jogos": 25,
@@ -8693,6 +9149,7 @@
     {
      "player_id": 844096,
      "nome": "J. Arias",
+     "nome_completo": "Jhon Arias",
      "posicao": "M",
      "camisa": 11,
      "jogos": 22,
@@ -8712,6 +9169,7 @@
     {
      "player_id": 1094179,
      "nome": "J. López",
+     "nome_completo": "José Manuel López",
      "posicao": "F",
      "camisa": 42,
      "jogos": 25,
@@ -8731,6 +9189,7 @@
     {
      "player_id": 973738,
      "nome": "C. Miguel",
+     "nome_completo": "Carlos Miguel",
      "posicao": "G",
      "camisa": 1,
      "jogos": 27,
@@ -8749,6 +9208,7 @@
     {
      "player_id": 1150391,
      "nome": "V. Roque",
+     "nome_completo": "Vitor Roque",
      "posicao": "F",
      "camisa": 9,
      "jogos": 16,
@@ -8768,6 +9228,7 @@
     {
      "player_id": 840202,
      "nome": "M. Freitas",
+     "nome_completo": "Marlon Freitas",
      "posicao": "M",
      "camisa": 17,
      "jogos": 26,
@@ -8787,6 +9248,7 @@
     {
      "player_id": 874729,
      "nome": "Murilo",
+     "nome_completo": "Murilo",
      "posicao": "D",
      "camisa": 26,
      "jogos": 23,
@@ -8806,6 +9268,7 @@
     {
      "player_id": 801044,
      "nome": "A. Barboza",
+     "nome_completo": "Alexander Barboza",
      "posicao": "D",
      "camisa": 2,
      "jogos": 18,
@@ -8825,6 +9288,7 @@
     {
      "player_id": 881110,
      "nome": "J. Piquerez",
+     "nome_completo": "Joaquín Piquerez",
      "posicao": "D",
      "camisa": 22,
      "jogos": 14,
@@ -8844,6 +9308,7 @@
     {
      "player_id": 986233,
      "nome": "Mauricio",
+     "nome_completo": "Mauricio",
      "posicao": "M",
      "camisa": 18,
      "jogos": 24,
@@ -8863,6 +9328,7 @@
     {
      "player_id": 1106603,
      "nome": "A. Giay",
+     "nome_completo": "Agustín Giay",
      "posicao": "D",
      "camisa": 4,
      "jogos": 23,
@@ -8882,6 +9348,7 @@
     {
      "player_id": 1015733,
      "nome": "R. Sosa",
+     "nome_completo": "Ramón Sosa",
      "posicao": "F",
      "camisa": 19,
      "jogos": 20,
@@ -8901,6 +9368,7 @@
     {
      "player_id": 1633501,
      "nome": "A. Gabriel",
+     "nome_completo": "Arthur Gabriel",
      "posicao": "D",
      "camisa": 56,
      "jogos": 19,
@@ -8920,6 +9388,7 @@
     {
      "player_id": 984896,
      "nome": "Khellven",
+     "nome_completo": "Khellven",
      "posicao": "D",
      "camisa": 12,
      "jogos": 20,
@@ -8939,6 +9408,7 @@
     {
      "player_id": 331397,
      "nome": "L. Evangelista",
+     "nome_completo": "Lucas Evangelista",
      "posicao": "M",
      "camisa": 30,
      "jogos": 23,
@@ -8958,6 +9428,7 @@
     {
      "player_id": 152276,
      "nome": "F. Anderson",
+     "nome_completo": "Felipe Anderson",
      "posicao": "M",
      "camisa": 7,
      "jogos": 21,
@@ -8977,6 +9448,7 @@
     {
      "player_id": 973533,
      "nome": "E. Martínez",
+     "nome_completo": "Emiliano Martínez",
      "posicao": "M",
      "camisa": 32,
      "jogos": 13,
@@ -8996,6 +9468,7 @@
     {
      "player_id": 973737,
      "nome": "B. Fuchs",
+     "nome_completo": "Bruno Fuchs",
      "posicao": "D",
      "camisa": 3,
      "jogos": 8,
@@ -9015,6 +9488,7 @@
     {
      "player_id": 1116665,
      "nome": "Jefté",
+     "nome_completo": "Jefté",
      "posicao": "D",
      "camisa": 6,
      "jogos": 7,
@@ -9027,6 +9501,7 @@
     {
      "player_id": 885179,
      "nome": "Paulinho",
+     "nome_completo": "Paulinho",
      "posicao": "F",
      "camisa": 10,
      "jogos": 6,
@@ -9039,6 +9514,7 @@
     {
      "player_id": 34141,
      "nome": "M. Lomba",
+     "nome_completo": "Marcelo Lomba",
      "posicao": "G",
      "camisa": 14,
      "jogos": 1,
@@ -9051,6 +9527,7 @@
     {
      "player_id": 1884646,
      "nome": "L. F. Pacheco",
+     "nome_completo": "Luis Pacheco",
      "posicao": "M",
      "camisa": 50,
      "jogos": 4,
@@ -9063,6 +9540,7 @@
     {
      "player_id": 2057364,
      "nome": "Larson",
+     "nome_completo": "Larson",
      "posicao": "M",
      "camisa": 48,
      "jogos": 6,
@@ -9075,6 +9553,7 @@
     {
      "player_id": 1884619,
      "nome": "Heittor",
+     "nome_completo": "Heittor",
      "posicao": "F",
      "camisa": 39,
      "jogos": 3,
@@ -9087,6 +9566,7 @@
     {
      "player_id": 1485284,
      "nome": "L. Benedetti",
+     "nome_completo": "Luis Benedetti",
      "posicao": "D",
      "camisa": 43,
      "jogos": 2,
@@ -9101,6 +9581,7 @@
     {
      "player_id": 1835889,
      "nome": "Allan",
+     "nome_completo": "Allan",
      "posicao": "M",
      "camisa": 40,
      "jogos": 21,
@@ -9120,6 +9601,7 @@
     {
      "player_id": 1597267,
      "nome": "Luighi",
+     "nome_completo": "Luighi Hanri",
      "posicao": "F",
      "camisa": 31,
      "jogos": 7,
@@ -9132,6 +9614,7 @@
     {
      "player_id": 1485294,
      "nome": "Riquelme",
+     "nome_completo": "Riquelme Fillipi",
      "posicao": "F",
      "camisa": 37,
      "jogos": 3,
@@ -9239,6 +9722,7 @@
     {
      "player_id": 1067641,
      "nome": "L. Barbosa",
+     "nome_completo": "Lucas Barbosa",
      "posicao": "M",
      "camisa": 21,
      "jogos": 25,
@@ -9258,6 +9742,7 @@
     {
      "player_id": 870556,
      "nome": "J. Capixaba",
+     "nome_completo": "Juninho Capixaba",
      "posicao": "D",
      "camisa": 29,
      "jogos": 23,
@@ -9277,6 +9762,7 @@
     {
      "player_id": 1174764,
      "nome": "G. Marques",
+     "nome_completo": "Gustavo Marques",
      "posicao": "D",
      "camisa": 16,
      "jogos": 24,
@@ -9296,6 +9782,7 @@
     {
      "player_id": 979861,
      "nome": "I. Pitta",
+     "nome_completo": "Isidro Pitta",
      "posicao": "F",
      "camisa": 9,
      "jogos": 24,
@@ -9315,6 +9802,7 @@
     {
      "player_id": 987589,
      "nome": "J. A. Hurtado",
+     "nome_completo": "José Andrés Hurtado",
      "posicao": "D",
      "camisa": 34,
      "jogos": 17,
@@ -9334,6 +9822,7 @@
     {
      "player_id": 1117597,
      "nome": "A. Vinicius",
+     "nome_completo": "Alix Vinicius",
      "posicao": "D",
      "camisa": 4,
      "jogos": 20,
@@ -9353,6 +9842,7 @@
     {
      "player_id": 243509,
      "nome": "T. Volpi",
+     "nome_completo": "Tiago Volpi",
      "posicao": "G",
      "camisa": 18,
      "jogos": 20,
@@ -9371,6 +9861,7 @@
     {
      "player_id": 1170680,
      "nome": "H. Mosquera",
+     "nome_completo": "Henry Mosquera",
      "posicao": "M",
      "camisa": 30,
      "jogos": 21,
@@ -9390,6 +9881,7 @@
     {
      "player_id": 551774,
      "nome": "P. Henrique",
+     "nome_completo": "Pedro Henrique",
      "posicao": "D",
      "camisa": 14,
      "jogos": 17,
@@ -9409,6 +9901,7 @@
     {
      "player_id": 242052,
      "nome": "G. Girotto",
+     "nome_completo": "Gabriel Girotto",
      "posicao": "M",
      "camisa": 6,
      "jogos": 18,
@@ -9428,6 +9921,7 @@
     {
      "player_id": 1179171,
      "nome": "J. Herrera",
+     "nome_completo": "José Herrera",
      "posicao": "M",
      "camisa": 32,
      "jogos": 22,
@@ -9447,6 +9941,7 @@
     {
      "player_id": 143846,
      "nome": "E. Sasha",
+     "nome_completo": "Eduardo Sasha",
      "posicao": "F",
      "camisa": 8,
      "jogos": 19,
@@ -9466,6 +9961,7 @@
     {
      "player_id": 869726,
      "nome": "A. Sant Anna",
+     "nome_completo": "Agustin Sant Anna",
      "posicao": "D",
      "camisa": 23,
      "jogos": 13,
@@ -9485,6 +9981,7 @@
     {
      "player_id": 911195,
      "nome": "Fernando",
+     "nome_completo": "Fernando",
      "posicao": "F",
      "camisa": 11,
      "jogos": 14,
@@ -9504,6 +10001,7 @@
     {
      "player_id": 1200730,
      "nome": "Rodriguinho",
+     "nome_completo": "Rodriguinho",
      "posicao": "M",
      "camisa": 20,
      "jogos": 16,
@@ -9523,6 +10021,7 @@
     {
      "player_id": 840150,
      "nome": "M. Fernandes",
+     "nome_completo": "Matheus Fernandes",
      "posicao": "M",
      "camisa": 35,
      "jogos": 15,
@@ -9542,6 +10041,7 @@
     {
      "player_id": 1463904,
      "nome": "G. Neves",
+     "nome_completo": "Gustavo Neves",
      "posicao": "M",
      "camisa": 22,
      "jogos": 18,
@@ -9561,6 +10061,7 @@
     {
      "player_id": 1587965,
      "nome": "Vinicinho",
+     "nome_completo": "Vinicinho",
      "posicao": "F",
      "camisa": 17,
      "jogos": 14,
@@ -9580,6 +10081,7 @@
     {
      "player_id": 950545,
      "nome": "E. Ramires",
+     "nome_completo": "Eric Ramires",
      "posicao": "M",
      "camisa": 7,
      "jogos": 19,
@@ -9599,6 +10101,7 @@
     {
      "player_id": 844576,
      "nome": "Cleiton",
+     "nome_completo": "Cleiton",
      "posicao": "G",
      "camisa": 1,
      "jogos": 8,
@@ -9617,6 +10120,7 @@
     {
      "player_id": 1112896,
      "nome": "I. Sosa",
+     "nome_completo": "Ignacio Sosa",
      "posicao": "M",
      "camisa": 15,
      "jogos": 16,
@@ -9636,6 +10140,7 @@
     {
      "player_id": 1117513,
      "nome": "Fabinho",
+     "nome_completo": "Fabinho",
      "posicao": "M",
      "camisa": 5,
      "jogos": 12,
@@ -9655,6 +10160,7 @@
     {
      "player_id": 1632360,
      "nome": "C. N. Santos",
+     "nome_completo": "Cauê Nascimento",
      "posicao": "D",
      "camisa": 51,
      "jogos": 4,
@@ -9667,6 +10173,7 @@
     {
      "player_id": 2026380,
      "nome": "R. Augusto",
+     "nome_completo": "Ryan Augusto",
      "posicao": "D",
      "camisa": 52,
      "jogos": 6,
@@ -9679,6 +10186,7 @@
     {
      "player_id": 1466084,
      "nome": "Wallace",
+     "nome_completo": "Wallace Yan",
      "posicao": "F",
      "camisa": 47,
      "jogos": 9,
@@ -9691,6 +10199,7 @@
     {
      "player_id": 1485603,
      "nome": "M. Braz",
+     "nome_completo": "Marcelinho Braz",
      "posicao": "M",
      "camisa": 57,
      "jogos": 5,
@@ -9703,6 +10212,7 @@
     {
      "player_id": 997239,
      "nome": "G. Rodríguez",
+     "nome_completo": "Guzmán Rodríguez",
      "posicao": "D",
      "camisa": 2,
      "jogos": 2,
@@ -9715,6 +10225,7 @@
     {
      "player_id": 925189,
      "nome": "E. Santos",
+     "nome_completo": "Eduardo Santos",
      "posicao": "D",
      "camisa": 3,
      "jogos": 4,
@@ -9727,6 +10238,7 @@
     {
      "player_id": 1067640,
      "nome": "Vanderlan",
+     "nome_completo": "Vanderlan",
      "posicao": "D",
      "camisa": 12,
      "jogos": 2,
@@ -9739,6 +10251,7 @@
     {
      "player_id": 1631403,
      "nome": "Y. A. d. Aquino",
+     "nome_completo": "Yuri Alves de Aquino",
      "posicao": "M",
      "camisa": 41,
      "jogos": 4,
@@ -9751,6 +10264,7 @@
     {
      "player_id": 2032806,
      "nome": "D. Gomes",
+     "nome_completo": "Davi Gomes",
      "posicao": "M",
      "camisa": 27,
      "jogos": 2,
@@ -9763,6 +10277,7 @@
     {
      "player_id": 1828980,
      "nome": "J. N. Coelho",
+     "nome_completo": "Jhuan Nunes Coelho",
      "posicao": "F",
      "camisa": 67,
      "jogos": 2,
@@ -9775,6 +10290,7 @@
     {
      "player_id": 2076825,
      "nome": "Breno",
+     "nome_completo": "Breno",
      "posicao": "D",
      "camisa": 46,
      "jogos": 2,
@@ -9883,6 +10399,7 @@
     {
      "player_id": 954719,
      "nome": "A. Manga",
+     "nome_completo": "Alef Manga",
      "posicao": "F",
      "camisa": 11,
      "jogos": 28,
@@ -9902,6 +10419,7 @@
     {
      "player_id": 221206,
      "nome": "Marllon",
+     "nome_completo": "Marllon",
      "posicao": "D",
      "camisa": 13,
      "jogos": 25,
@@ -9921,6 +10439,7 @@
     {
      "player_id": 986868,
      "nome": "Marcelinho",
+     "nome_completo": "Marcelinho",
      "posicao": "D",
      "camisa": 79,
      "jogos": 23,
@@ -9940,6 +10459,7 @@
     {
      "player_id": 891792,
      "nome": "D. Tchamba",
+     "nome_completo": "Duplexe Tchamba",
      "posicao": "D",
      "camisa": 18,
      "jogos": 20,
@@ -9959,6 +10479,7 @@
     {
      "player_id": 943044,
      "nome": "Zé Ricardo",
+     "nome_completo": "Zé Ricardo",
      "posicao": "M",
      "camisa": 55,
      "jogos": 26,
@@ -9978,6 +10499,7 @@
     {
      "player_id": 870902,
      "nome": "M. Rangel",
+     "nome_completo": "Marcelo Rangel",
      "posicao": "G",
      "camisa": 88,
      "jogos": 27,
@@ -9996,6 +10518,7 @@
     {
      "player_id": 551422,
      "nome": "Zé Welison",
+     "nome_completo": "Zé Welison",
      "posicao": "M",
      "camisa": 28,
      "jogos": 23,
@@ -10015,6 +10538,7 @@
     {
      "player_id": 363688,
      "nome": "Y. Pikachu",
+     "nome_completo": "Yago Pikachu",
      "posicao": "M",
      "camisa": 22,
      "jogos": 27,
@@ -10034,6 +10558,7 @@
     {
      "player_id": 594428,
      "nome": "Patrick",
+     "nome_completo": "Patrick",
      "posicao": "M",
      "camisa": 8,
      "jogos": 23,
@@ -10053,6 +10578,7 @@
     {
      "player_id": 981350,
      "nome": "L. Picco",
+     "nome_completo": "Leonel Picco",
      "posicao": "M",
      "camisa": 14,
      "jogos": 25,
@@ -10072,6 +10598,7 @@
     {
      "player_id": 808785,
      "nome": "V. Bueno",
+     "nome_completo": "Vitor Bueno",
      "posicao": "F",
      "camisa": 15,
      "jogos": 21,
@@ -10091,6 +10618,7 @@
     {
      "player_id": 1018779,
      "nome": "Jajá",
+     "nome_completo": "Jajá",
      "posicao": "M",
      "camisa": 37,
      "jogos": 22,
@@ -10110,6 +10638,7 @@
     {
      "player_id": 944459,
      "nome": "Mayk",
+     "nome_completo": "Mayk",
      "posicao": "D",
      "camisa": 98,
      "jogos": 14,
@@ -10129,6 +10658,7 @@
     {
      "player_id": 933955,
      "nome": "G. Taliari",
+     "nome_completo": "Gabriel Taliari",
      "posicao": "F",
      "camisa": 19,
      "jogos": 16,
@@ -10148,6 +10678,7 @@
     {
      "player_id": 883207,
      "nome": "A. Galeano",
+     "nome_completo": "Antonio Galeano",
      "posicao": "F",
      "camisa": 21,
      "jogos": 17,
@@ -10167,6 +10698,7 @@
     {
      "player_id": 844602,
      "nome": "Z. Ivaldo",
+     "nome_completo": "Zé Ivaldo",
      "posicao": "D",
      "camisa": 27,
      "jogos": 10,
@@ -10186,6 +10718,7 @@
     {
      "player_id": 870933,
      "nome": "Marlon",
+     "nome_completo": "Marlon Lopes",
      "posicao": "D",
      "camisa": 6,
      "jogos": 6,
@@ -10205,6 +10738,7 @@
     {
      "player_id": 981019,
      "nome": "J. Lucas",
+     "nome_completo": "João Lucas",
      "posicao": "D",
      "camisa": 2,
      "jogos": 6,
@@ -10224,6 +10758,7 @@
     {
      "player_id": 1470709,
      "nome": "D. Braga",
+     "nome_completo": "David Braga",
      "posicao": "M",
      "camisa": 26,
      "jogos": 11,
@@ -10236,6 +10771,7 @@
     {
      "player_id": 903027,
      "nome": "Léo",
+     "nome_completo": "Léo",
      "posicao": "D",
      "camisa": 5,
      "jogos": 4,
@@ -10248,6 +10784,7 @@
     {
      "player_id": 1110173,
      "nome": "M. Felipe",
+     "nome_completo": "Matheus Felipe",
      "posicao": "D",
      "camisa": 4,
      "jogos": 3,
@@ -10260,6 +10797,7 @@
     {
      "player_id": 869639,
      "nome": "Jaderson",
+     "nome_completo": "Jáderson",
      "posicao": "F",
      "camisa": 10,
      "jogos": 12,
@@ -10272,6 +10810,7 @@
     {
      "player_id": 953736,
      "nome": "M. Alexandre",
+     "nome_completo": "Matheus Alexandre",
      "posicao": "D",
      "camisa": 2,
      "jogos": 11,
@@ -10284,6 +10823,7 @@
     {
      "player_id": 937806,
      "nome": "G. Poveda",
+     "nome_completo": "Gabriel Poveda",
      "posicao": "F",
      "camisa": 99,
      "jogos": 15,
@@ -10296,6 +10836,7 @@
     {
      "player_id": 795029,
      "nome": "Ivan",
+     "nome_completo": "Ivan",
      "posicao": "G",
      "camisa": 97,
      "jogos": 1,
@@ -10308,6 +10849,7 @@
     {
      "player_id": 1018777,
      "nome": "E. Melo",
+     "nome_completo": "Eduardo Melo",
      "posicao": "F",
      "camisa": 39,
      "jogos": 1,
@@ -10320,6 +10862,7 @@
     {
      "player_id": 988779,
      "nome": "Edson Fernando",
+     "nome_completo": "Edson Fernando",
      "posicao": "M",
      "camisa": 35,
      "jogos": 2,
@@ -10332,6 +10875,7 @@
     {
      "player_id": 1089140,
      "nome": "F. Catarozzi",
+     "nome_completo": "Franco Catarozzi",
      "posicao": "M",
      "camisa": 23,
      "jogos": 1,
@@ -10344,6 +10888,7 @@
     {
      "player_id": 2055917,
      "nome": "Tico",
+     "nome_completo": "Tico",
      "posicao": "M",
      "camisa": 61,
      "jogos": 2,
@@ -10358,6 +10903,7 @@
     {
      "player_id": 1464528,
      "nome": "K. Almeida",
+     "nome_completo": "Kayky Almeida",
      "posicao": "D",
      "camisa": 27,
      "jogos": 7,
@@ -10377,6 +10923,7 @@
     {
      "player_id": 1015291,
      "nome": "P. de Paula",
+     "nome_completo": "Patrick de Paula",
      "posicao": "M",
      "camisa": 12,
      "jogos": 6,
@@ -10396,6 +10943,7 @@
     {
      "player_id": 362966,
      "nome": "J. P. Silva",
+     "nome_completo": "João Pedro Silva",
      "posicao": "F",
      "camisa": 45,
      "jogos": 6,
@@ -10408,6 +10956,7 @@
     {
      "player_id": 866369,
      "nome": "Sávio",
+     "nome_completo": "Sávio",
      "posicao": "D",
      "camisa": 16,
      "jogos": 3,
@@ -10420,6 +10969,7 @@
     {
      "player_id": 1086482,
      "nome": "Diego Hernández",
+     "nome_completo": "Diego Hernández",
      "posicao": "F",
      "camisa": 33,
      "jogos": 9,
@@ -10432,6 +10982,7 @@
     {
      "player_id": 1176815,
      "nome": "G. Pavani",
+     "nome_completo": "Giovanni Pavani",
      "posicao": "M",
      "camisa": 7,
      "jogos": 2,
@@ -10444,6 +10995,7 @@
     {
      "player_id": 818441,
      "nome": "B. Cufré",
+     "nome_completo": "Braian Cufré",
      "posicao": "D",
      "camisa": 24,
      "jogos": 1,
@@ -10456,6 +11008,7 @@
     {
      "player_id": 338839,
      "nome": "Dodô",
+     "nome_completo": "Dodô",
      "posicao": "M",
      "camisa": 31,
      "jogos": 1,
@@ -10468,6 +11021,7 @@
     {
      "player_id": 1190330,
      "nome": "N. Ferreira",
+     "nome_completo": "Nicolás Ferreira",
      "posicao": "F",
      "camisa": 25,
      "jogos": 1,
@@ -10480,6 +11034,7 @@
     {
      "player_id": 2024892,
      "nome": "R. Monti",
+     "nome_completo": "Rafael Monti",
      "posicao": "F",
      "camisa": 71,
      "jogos": 1,
@@ -10587,6 +11142,7 @@
     {
      "player_id": 124712,
      "nome": "Neymar",
+     "nome_completo": "Neymar",
      "posicao": "F",
      "camisa": 10,
      "jogos": 12,
@@ -10606,6 +11162,7 @@
     {
      "player_id": 119159,
      "nome": "P. Coutinho",
+     "nome_completo": "Philippe Coutinho",
      "posicao": "M",
      "camisa": null,
      "jogos": 3,
@@ -10625,6 +11182,7 @@
     {
      "player_id": 358554,
      "nome": "G. Barbosa",
+     "nome_completo": "Gabriel Barbosa",
      "posicao": "F",
      "camisa": 9,
      "jogos": 19,
@@ -10644,6 +11202,7 @@
     {
      "player_id": 244039,
      "nome": "Rodinei",
+     "nome_completo": "Rodinei",
      "posicao": "D",
      "camisa": 23,
      "jogos": 2,
@@ -10663,6 +11222,7 @@
     {
      "player_id": 905448,
      "nome": "G. Brazão",
+     "nome_completo": "Gabriel Brazão",
      "posicao": "G",
      "camisa": 77,
      "jogos": 24,
@@ -10681,6 +11241,7 @@
     {
      "player_id": 794927,
      "nome": "Arthur",
+     "nome_completo": "Arthur",
      "posicao": "M",
      "camisa": 6,
      "jogos": 13,
@@ -10700,6 +11261,7 @@
     {
      "player_id": 386198,
      "nome": "Everton",
+     "nome_completo": "Everton",
      "posicao": "F",
      "camisa": 7,
      "jogos": 13,
@@ -10719,6 +11281,7 @@
     {
      "player_id": 840500,
      "nome": "G. Escobar",
+     "nome_completo": "Gonzalo Escobar",
      "posicao": "D",
      "camisa": 31,
      "jogos": 20,
@@ -10738,6 +11301,7 @@
     {
      "player_id": 1656036,
      "nome": "G. Bontempo",
+     "nome_completo": "Gabriel Bontempo",
      "posicao": "M",
      "camisa": 49,
      "jogos": 24,
@@ -10757,6 +11321,7 @@
     {
      "player_id": 242213,
      "nome": "Willian Arão",
+     "nome_completo": "Willian Arão",
      "posicao": "M",
      "camisa": 15,
      "jogos": 21,
@@ -10776,6 +11341,7 @@
     {
      "player_id": 840119,
      "nome": "I. Vinícius",
+     "nome_completo": "Igor Vinícius",
      "posicao": "D",
      "camisa": 18,
      "jogos": 20,
@@ -10795,6 +11361,7 @@
     {
      "player_id": 826343,
      "nome": "L. Veríssimo",
+     "nome_completo": "Lucas Veríssimo",
      "posicao": "D",
      "camisa": 4,
      "jogos": 15,
@@ -10814,6 +11381,7 @@
     {
      "player_id": 842098,
      "nome": "L. Peres",
+     "nome_completo": "Luan Peres",
      "posicao": "D",
      "camisa": 14,
      "jogos": 22,
@@ -10833,6 +11401,7 @@
     {
      "player_id": 949687,
      "nome": "Á. Barreal",
+     "nome_completo": "Álvaro Barreal",
      "posicao": "M",
      "camisa": 22,
      "jogos": 21,
@@ -10852,6 +11421,7 @@
     {
      "player_id": 835260,
      "nome": "Rony",
+     "nome_completo": "Rony",
      "posicao": "F",
      "camisa": 11,
      "jogos": 22,
@@ -10871,6 +11441,7 @@
     {
      "player_id": 974556,
      "nome": "G. Menino",
+     "nome_completo": "Gabriel Menino",
      "posicao": "M",
      "camisa": 25,
      "jogos": 12,
@@ -10890,6 +11461,7 @@
     {
      "player_id": 923803,
      "nome": "C. Oliva",
+     "nome_completo": "Christian Oliva",
      "posicao": "M",
      "camisa": 28,
      "jogos": 20,
@@ -10909,6 +11481,7 @@
     {
      "player_id": 922454,
      "nome": "B. Rollheiser",
+     "nome_completo": "Benjamín Rollheiser",
      "posicao": "F",
      "camisa": 32,
      "jogos": 22,
@@ -10928,6 +11501,7 @@
     {
      "player_id": 244591,
      "nome": "J. Schmidt",
+     "nome_completo": "João Schmidt",
      "posicao": "M",
      "camisa": 5,
      "jogos": 15,
@@ -10947,6 +11521,7 @@
     {
      "player_id": 1587827,
      "nome": "Gustavinho",
+     "nome_completo": "Gustavinho",
      "posicao": "M",
      "camisa": 48,
      "jogos": 15,
@@ -10966,6 +11541,7 @@
     {
      "player_id": 872039,
      "nome": "Thaciano",
+     "nome_completo": "Thaciano",
      "posicao": "M",
      "camisa": 16,
      "jogos": 19,
@@ -10985,6 +11561,7 @@
     {
      "player_id": 1159656,
      "nome": "Miguelito",
+     "nome_completo": "Miguelito",
      "posicao": "M",
      "camisa": 30,
      "jogos": 11,
@@ -11004,6 +11581,7 @@
     {
      "player_id": 1046501,
      "nome": "Moisés",
+     "nome_completo": "Moisés",
      "posicao": "F",
      "camisa": 21,
      "jogos": 13,
@@ -11016,6 +11594,7 @@
     {
      "player_id": 2039241,
      "nome": "V. Lira",
+     "nome_completo": "Vinicius Rodrigues Lira",
      "posicao": "D",
      "camisa": 3,
      "jogos": 5,
@@ -11028,6 +11607,7 @@
     {
      "player_id": 1888624,
      "nome": "J. P. Ananias",
+     "nome_completo": "João Paulo Ananias",
      "posicao": "D",
      "camisa": 26,
      "jogos": 6,
@@ -11040,6 +11620,7 @@
     {
      "player_id": 1128754,
      "nome": "Diogenes",
+     "nome_completo": "Diogenes",
      "posicao": "G",
      "camisa": 1,
      "jogos": 3,
@@ -11052,6 +11633,7 @@
     {
      "player_id": 988656,
      "nome": "G. Caballero",
+     "nome_completo": "Gustavo Caballero",
      "posicao": "F",
      "camisa": 17,
      "jogos": 7,
@@ -11064,6 +11646,7 @@
     {
      "player_id": 795177,
      "nome": "J. Paulo",
+     "nome_completo": "João Paulo",
      "posicao": "G",
      "camisa": null,
      "jogos": 2,
@@ -11076,6 +11659,7 @@
     {
      "player_id": 807850,
      "nome": "Lima",
+     "nome_completo": "Lima",
      "posicao": "M",
      "camisa": 45,
      "jogos": 4,
@@ -11088,6 +11672,7 @@
     {
      "player_id": 2550839,
      "nome": "S. Mendes",
+     "nome_completo": "Samuel Mendes",
      "posicao": "M",
      "camisa": 81,
      "jogos": 2,
@@ -11100,6 +11685,7 @@
     {
      "player_id": 2082091,
      "nome": "R. Gonzaga",
+     "nome_completo": "Rafael Gonzaga",
      "posicao": "D",
      "camisa": 38,
      "jogos": 1,
@@ -11112,6 +11698,7 @@
     {
      "player_id": 1856347,
      "nome": "Davizinho",
+     "nome_completo": "Davizinho",
      "posicao": "F",
      "camisa": 27,
      "jogos": 4,
@@ -11124,6 +11711,7 @@
     {
      "player_id": 1884605,
      "nome": "M. Xavier",
+     "nome_completo": "Mateus Xavier",
      "posicao": "F",
      "camisa": 47,
      "jogos": 1,
@@ -11136,6 +11724,7 @@
     {
      "player_id": 2405585,
      "nome": "F. Pradella",
+     "nome_completo": "Fernando Pradella",
      "posicao": "F",
      "camisa": 55,
      "jogos": 1,
@@ -11150,6 +11739,7 @@
     {
      "player_id": 46798,
      "nome": "T. Rincón",
+     "nome_completo": "Tomás Rincón",
      "posicao": "M",
      "camisa": 8,
      "jogos": 2,
@@ -11169,6 +11759,7 @@
     {
      "player_id": 940699,
      "nome": "A. Frías",
+     "nome_completo": "Adonis Frías",
      "posicao": "D",
      "camisa": 98,
      "jogos": 9,
@@ -11188,6 +11779,7 @@
     {
      "player_id": 992093,
      "nome": "L. Díaz",
+     "nome_completo": "Lautaro Díaz",
      "posicao": "F",
      "camisa": 19,
      "jogos": 8,
@@ -11200,6 +11792,7 @@
     {
      "player_id": 273329,
      "nome": "Mayke",
+     "nome_completo": "Mayke",
      "posicao": "D",
      "camisa": 12,
      "jogos": 3,
@@ -11212,6 +11805,7 @@
     {
      "player_id": 329069,
      "nome": "Z. Rafael",
+     "nome_completo": "Zé Rafael",
      "posicao": "M",
      "camisa": 6,
      "jogos": 5,
@@ -11224,6 +11818,7 @@
     {
      "player_id": 883205,
      "nome": "A. Duarte",
+     "nome_completo": "Alexis Duarte",
      "posicao": "D",
      "camisa": 4,
      "jogos": 1,
@@ -11236,6 +11831,7 @@
     {
      "player_id": 850955,
      "nome": "J. Basso",
+     "nome_completo": "João Basso",
      "posicao": "D",
      "camisa": 13,
      "jogos": 2,
@@ -11248,6 +11844,7 @@
     {
      "player_id": 2191860,
      "nome": "Robinho Jr",
+     "nome_completo": "Robinho Júnior",
      "posicao": "F",
      "camisa": 7,
      "jogos": 4,
@@ -11260,6 +11857,7 @@
     {
      "player_id": 1888788,
      "nome": "Nadson",
+     "nome_completo": "Nadson",
      "posicao": "F",
      "camisa": 57,
      "jogos": 1,
@@ -11367,6 +11965,7 @@
     {
      "player_id": 149710,
      "nome": "L. Moura",
+     "nome_completo": "Lucas Moura",
      "posicao": "F",
      "camisa": 7,
      "jogos": 8,
@@ -11386,6 +11985,7 @@
     {
      "player_id": 340519,
      "nome": "J. Calleri",
+     "nome_completo": "Jonathan Calleri",
      "posicao": "F",
      "camisa": 9,
      "jogos": 23,
@@ -11405,6 +12005,7 @@
     {
      "player_id": 905453,
      "nome": "M. Antônio",
+     "nome_completo": "Marcos Antônio",
      "posicao": "M",
      "camisa": 8,
      "jogos": 20,
@@ -11424,6 +12025,7 @@
     {
      "player_id": 82943,
      "nome": "R. Tolói",
+     "nome_completo": "Rafael Tolói",
      "posicao": "D",
      "camisa": 2,
      "jogos": 8,
@@ -11443,6 +12045,7 @@
     {
      "player_id": 282557,
      "nome": "Luciano",
+     "nome_completo": "Luciano",
      "posicao": "F",
      "camisa": 10,
      "jogos": 22,
@@ -11462,6 +12065,7 @@
     {
      "player_id": 841128,
      "nome": "Artur",
+     "nome_completo": "Artur",
      "posicao": "M",
      "camisa": 37,
      "jogos": 22,
@@ -11481,6 +12085,7 @@
     {
      "player_id": 338937,
      "nome": "R. Arboleda",
+     "nome_completo": "Robert Arboleda",
      "posicao": "D",
      "camisa": 5,
      "jogos": 14,
@@ -11500,6 +12105,7 @@
     {
      "player_id": 998499,
      "nome": "Ferreira",
+     "nome_completo": "Ferreirinha",
      "posicao": "F",
      "camisa": 11,
      "jogos": 22,
@@ -11519,6 +12125,7 @@
     {
      "player_id": 356514,
      "nome": "Danielzinho",
+     "nome_completo": "Danielzinho",
      "posicao": "M",
      "camisa": 94,
      "jogos": 24,
@@ -11538,6 +12145,7 @@
     {
      "player_id": 975118,
      "nome": "Sabino",
+     "nome_completo": "Sabino",
      "posicao": "D",
      "camisa": 35,
      "jogos": 20,
@@ -11557,6 +12165,7 @@
     {
      "player_id": 797225,
      "nome": "L. Ramon",
+     "nome_completo": "Lucas Ramon",
      "posicao": "D",
      "camisa": 19,
      "jogos": 20,
@@ -11576,6 +12185,7 @@
     {
      "player_id": 1015261,
      "nome": "D. Bobadilla",
+     "nome_completo": "Damián Bobadilla",
      "posicao": "M",
      "camisa": 16,
      "jogos": 16,
@@ -11595,6 +12205,7 @@
     {
      "player_id": 44760,
      "nome": "C. Soares",
+     "nome_completo": "Cédric Soares",
      "posicao": "D",
      "camisa": 21,
      "jogos": 8,
@@ -11614,6 +12225,7 @@
     {
      "player_id": 335033,
      "nome": "Wendell",
+     "nome_completo": "Wendell",
      "posicao": "D",
      "camisa": 18,
      "jogos": 18,
@@ -11633,6 +12245,7 @@
     {
      "player_id": 33132,
      "nome": "Rafael",
+     "nome_completo": "Rafael",
      "posicao": "G",
      "camisa": 23,
      "jogos": 26,
@@ -11651,6 +12264,7 @@
     {
      "player_id": 1120721,
      "nome": "P. Maia",
+     "nome_completo": "Pablo Maia",
      "posicao": "M",
      "camisa": 29,
      "jogos": 18,
@@ -11670,6 +12284,7 @@
     {
      "player_id": 932937,
      "nome": "E. Díaz",
+     "nome_completo": "Enzo Díaz",
      "posicao": "D",
      "camisa": 13,
      "jogos": 13,
@@ -11689,6 +12304,7 @@
     {
      "player_id": 255873,
      "nome": "Cauly",
+     "nome_completo": "Cauly",
      "posicao": "M",
      "camisa": 80,
      "jogos": 15,
@@ -11708,6 +12324,7 @@
     {
      "player_id": 869644,
      "nome": "I. Borduchi",
+     "nome_completo": "Iago Borduchi",
      "posicao": "D",
      "camisa": 12,
      "jogos": 10,
@@ -11727,6 +12344,7 @@
     {
      "player_id": 1463909,
      "nome": "Newton",
+     "nome_completo": "Newton",
      "posicao": "D",
      "camisa": 28,
      "jogos": 10,
@@ -11746,6 +12364,7 @@
     {
      "player_id": 925072,
      "nome": "A. Silva",
+     "nome_completo": "André Silva",
      "posicao": "F",
      "camisa": 17,
      "jogos": 16,
@@ -11765,6 +12384,7 @@
     {
      "player_id": 1836799,
      "nome": "L. Osorio",
+     "nome_completo": "Luis Osorio",
      "posicao": "D",
      "camisa": 54,
      "jogos": 6,
@@ -11777,6 +12397,7 @@
     {
      "player_id": 576276,
      "nome": "D. Duarte",
+     "nome_completo": "Domingos Duarte",
      "posicao": "D",
      "camisa": 22,
      "jogos": 5,
@@ -11789,6 +12410,7 @@
     {
      "player_id": 1884601,
      "nome": "D. Ferreira",
+     "nome_completo": "Djhordney Ferreira",
      "posicao": "M",
      "camisa": 48,
      "jogos": 6,
@@ -11801,6 +12423,7 @@
     {
      "player_id": 799634,
      "nome": "Victor Sá",
+     "nome_completo": "Victor Sá",
      "posicao": "F",
      "camisa": 27,
      "jogos": 5,
@@ -11813,6 +12436,7 @@
     {
      "player_id": 1589758,
      "nome": "G. Santana",
+     "nome_completo": "Gustavo Santana",
      "posicao": "F",
      "camisa": 43,
      "jogos": 4,
@@ -11825,6 +12449,7 @@
     {
      "player_id": 2162243,
      "nome": "Lucca",
+     "nome_completo": "Lucca",
      "posicao": "F",
      "camisa": 45,
      "jogos": 4,
@@ -11837,6 +12462,7 @@
     {
      "player_id": 1900321,
      "nome": "Tetê",
+     "nome_completo": "Tetê",
      "posicao": "F",
      "camisa": 34,
      "jogos": 5,
@@ -11849,6 +12475,7 @@
     {
      "player_id": 800150,
      "nome": "C. Coronel",
+     "nome_completo": "Carlos Coronel",
      "posicao": "G",
      "camisa": 31,
      "jogos": 1,
@@ -11861,6 +12488,7 @@
     {
      "player_id": 1597270,
      "nome": "P. Lima",
+     "nome_completo": "Pedro Lima",
      "posicao": "M",
      "camisa": 32,
      "jogos": 1,
@@ -11873,6 +12501,7 @@
     {
      "player_id": 357752,
      "nome": "A. Buta",
+     "nome_completo": "Aurélio Buta",
      "posicao": "M",
      "camisa": 20,
      "jogos": 1,
@@ -11885,6 +12514,7 @@
     {
      "player_id": 2026233,
      "nome": "P. Ferreira",
+     "nome_completo": "Pedro Ferreira",
      "posicao": "M",
      "camisa": 46,
      "jogos": 3,
@@ -11897,6 +12527,7 @@
     {
      "player_id": 1631904,
      "nome": "R. Francisco",
+     "nome_completo": "Ryan Francisco",
      "posicao": "F",
      "camisa": 49,
      "jogos": 1,
@@ -11909,6 +12540,7 @@
     {
      "player_id": 1892395,
      "nome": "Nicolas",
+     "nome_completo": "Nicolas Bosshardt",
      "posicao": "D",
      "camisa": 56,
      "jogos": 1,
@@ -11923,6 +12555,7 @@
     {
      "player_id": 1002947,
      "nome": "G. Tapia",
+     "nome_completo": "Gonzalo Tapia",
      "posicao": "F",
      "camisa": 14,
      "jogos": 11,
@@ -11942,6 +12575,7 @@
     {
      "player_id": 875402,
      "nome": "A. Franco",
+     "nome_completo": "Alan Javier Franco",
      "posicao": "D",
      "camisa": 28,
      "jogos": 13,
@@ -11961,6 +12595,7 @@
     {
      "player_id": 2035326,
      "nome": "Maik",
+     "nome_completo": "Maik",
      "posicao": "D",
      "camisa": 42,
      "jogos": 5,
@@ -11973,6 +12608,7 @@
     {
      "player_id": 243155,
      "nome": "Dória",
+     "nome_completo": "Dória",
      "posicao": "D",
      "camisa": 4,
      "jogos": 4,
@@ -11985,6 +12621,7 @@
     {
      "player_id": 942426,
      "nome": "Luan",
+     "nome_completo": "Luan Santos",
      "posicao": "M",
      "camisa": 33,
      "jogos": 7,
@@ -11997,6 +12634,7 @@
     {
      "player_id": 1587927,
      "nome": "H. Leonardo",
+     "nome_completo": "Hugo Leonardo",
      "posicao": "D",
      "camisa": 38,
      "jogos": 1,
@@ -12009,6 +12647,7 @@
     {
      "player_id": 1485598,
      "nome": "F. Negrucci",
+     "nome_completo": "Felipe Negrucci",
      "posicao": "M",
      "camisa": 30,
      "jogos": 1,
@@ -12116,6 +12755,7 @@
     {
      "player_id": 1160386,
      "nome": "A. Gómez",
+     "nome_completo": "Andrés Gómez",
      "posicao": "M",
      "camisa": 11,
      "jogos": 24,
@@ -12135,6 +12775,7 @@
     {
      "player_id": 329303,
      "nome": "T. Mendes",
+     "nome_completo": "Thiago Mendes",
      "posicao": "M",
      "camisa": 23,
      "jogos": 24,
@@ -12154,6 +12795,7 @@
     {
      "player_id": 839095,
      "nome": "C. Cuesta",
+     "nome_completo": "Carlos Cuesta",
      "posicao": "D",
      "camisa": 46,
      "jogos": 16,
@@ -12173,6 +12815,7 @@
     {
      "player_id": 1021721,
      "nome": "P. Henrique",
+     "nome_completo": "Paulo Henrique",
      "posicao": "D",
      "camisa": 96,
      "jogos": 19,
@@ -12192,6 +12835,7 @@
     {
      "player_id": 1191278,
      "nome": "R. Renan",
+     "nome_completo": "Robert Renan",
      "posicao": "D",
      "camisa": 30,
      "jogos": 26,
@@ -12211,6 +12855,7 @@
     {
      "player_id": 1160554,
      "nome": "Cuiabano",
+     "nome_completo": "Cuiabano",
      "posicao": "D",
      "camisa": 66,
      "jogos": 17,
@@ -12230,6 +12875,7 @@
     {
      "player_id": 877591,
      "nome": "P. Rodríguez",
+     "nome_completo": "Puma Rodríguez",
      "posicao": "D",
      "camisa": 2,
      "jogos": 18,
@@ -12249,6 +12895,7 @@
     {
      "player_id": 982174,
      "nome": "L. Piton",
+     "nome_completo": "Lucas Piton",
      "posicao": "D",
      "camisa": 6,
      "jogos": 18,
@@ -12268,6 +12915,7 @@
     {
      "player_id": 1444694,
      "nome": "C. Barros",
+     "nome_completo": "Cauan Barros",
      "posicao": "M",
      "camisa": 88,
      "jogos": 19,
@@ -12287,6 +12935,7 @@
     {
      "player_id": 595598,
      "nome": "L. Jardim",
+     "nome_completo": "Léo Jardim",
      "posicao": "G",
      "camisa": 1,
      "jogos": 27,
@@ -12305,6 +12954,7 @@
     {
      "player_id": 1112908,
      "nome": "A. Saldivia",
+     "nome_completo": "Alan Saldivia",
      "posicao": "D",
      "camisa": 4,
      "jogos": 12,
@@ -12324,6 +12974,7 @@
     {
      "player_id": 840291,
      "nome": "David",
+     "nome_completo": "David",
      "posicao": "F",
      "camisa": 7,
      "jogos": 22,
@@ -12343,6 +12994,7 @@
     {
      "player_id": 1173373,
      "nome": "J. Rojas",
+     "nome_completo": "Johan Rojas",
      "posicao": "F",
      "camisa": 10,
      "jogos": 18,
@@ -12362,6 +13014,7 @@
     {
      "player_id": 840398,
      "nome": "Tchê Tchê",
+     "nome_completo": "Tchê Tchê",
      "posicao": "M",
      "camisa": 3,
      "jogos": 20,
@@ -12381,6 +13034,7 @@
     {
      "player_id": 851285,
      "nome": "N. Moreira",
+     "nome_completo": "Nuno Moreira",
      "posicao": "M",
      "camisa": 17,
      "jogos": 19,
@@ -12400,6 +13054,7 @@
     {
      "player_id": 1105970,
      "nome": "Adson",
+     "nome_completo": "Adson",
      "posicao": "M",
      "camisa": 28,
      "jogos": 15,
@@ -12419,6 +13074,7 @@
     {
      "player_id": 861297,
      "nome": "C. Spinelli",
+     "nome_completo": "Claudio Spinelli",
      "posicao": "F",
      "camisa": 77,
      "jogos": 17,
@@ -12438,6 +13094,7 @@
     {
      "player_id": 884980,
      "nome": "Brenner",
+     "nome_completo": "Brenner",
      "posicao": "F",
      "camisa": 20,
      "jogos": 15,
@@ -12457,6 +13114,7 @@
     {
      "player_id": 928237,
      "nome": "S. Sosa",
+     "nome_completo": "Santiago Sosa",
      "posicao": "M",
      "camisa": 5,
      "jogos": 6,
@@ -12476,6 +13134,7 @@
     {
      "player_id": 927308,
      "nome": "F. Colidio",
+     "nome_completo": "Facundo Colidio",
      "posicao": "F",
      "camisa": 9,
      "jogos": 6,
@@ -12488,6 +13147,7 @@
     {
      "player_id": 972587,
      "nome": "M. Hinestroza",
+     "nome_completo": "Marino Hinestroza",
      "posicao": "F",
      "camisa": 18,
      "jogos": 15,
@@ -12500,6 +13160,7 @@
     {
      "player_id": 878830,
      "nome": "B. Duarte",
+     "nome_completo": "Bruno Duarte",
      "posicao": "F",
      "camisa": 19,
      "jogos": 3,
@@ -12512,6 +13173,7 @@
     {
      "player_id": 1635831,
      "nome": "R. Rique",
+     "nome_completo": "Ramon Rique",
      "posicao": "M",
      "camisa": 83,
      "jogos": 8,
@@ -12524,6 +13186,7 @@
     {
      "player_id": 268419,
      "nome": "Jair",
+     "nome_completo": "Jair",
      "posicao": "M",
      "camisa": 8,
      "jogos": 5,
@@ -12536,6 +13199,7 @@
     {
      "player_id": 2075165,
      "nome": "J. Silva",
+     "nome_completo": "João Vitor Silva",
      "posicao": "D",
      "camisa": 60,
      "jogos": 4,
@@ -12548,6 +13212,7 @@
     {
      "player_id": 1069729,
      "nome": "L. Freitas",
+     "nome_completo": "Lucas Freitas",
      "posicao": "D",
      "camisa": 43,
      "jogos": 3,
@@ -12560,6 +13225,7 @@
     {
      "player_id": 1186068,
      "nome": "A. Lescano",
+     "nome_completo": "Alan Lescano",
      "posicao": "M",
      "camisa": 22,
      "jogos": 2,
@@ -12572,6 +13238,7 @@
     {
      "player_id": 2026623,
      "nome": "R. A. d. S. Fortes",
+     "nome_completo": "Riquelme Avellar",
      "posicao": "D",
      "camisa": 82,
      "jogos": 2,
@@ -12584,6 +13251,7 @@
     {
      "player_id": 2039991,
      "nome": "A. Fernandes",
+     "nome_completo": "Andrey Fernandes",
      "posicao": "F",
      "camisa": 74,
      "jogos": 1,
@@ -12596,6 +13264,7 @@
     {
      "player_id": 1652392,
      "nome": "B. Lopes",
+     "nome_completo": "Bruno Lopes",
      "posicao": "F",
      "camisa": 72,
      "jogos": 1,
@@ -12608,6 +13277,7 @@
     {
      "player_id": 1641136,
      "nome": "L. Zuccarello",
+     "nome_completo": "Lukas Zuccarello",
      "posicao": "M",
      "camisa": 86,
      "jogos": 1,
@@ -12622,6 +13292,7 @@
     {
      "player_id": 973293,
      "nome": "H. Moura",
+     "nome_completo": "Hugo Moura",
      "posicao": "M",
      "camisa": 25,
      "jogos": 11,
@@ -12641,6 +13312,7 @@
     {
      "player_id": 1116593,
      "nome": "Matheus França",
+     "nome_completo": "Matheus França",
      "posicao": "F",
      "camisa": 9,
      "jogos": 3,
@@ -12653,6 +13325,7 @@
     {
      "player_id": 1641124,
      "nome": "JP",
+     "nome_completo": "JP",
      "posicao": "M",
      "camisa": 98,
      "jogos": 2,
@@ -12665,6 +13338,7 @@
     {
      "player_id": 1444693,
      "nome": "G. Souza",
+     "nome_completo": "Gabriel Souza",
      "posicao": "F",
      "camisa": 19,
      "jogos": 2,
@@ -12772,6 +13446,7 @@
     {
      "player_id": 922575,
      "nome": "G. Baralhas",
+     "nome_completo": "Gabriel Baralhas",
      "posicao": "M",
      "camisa": 44,
      "jogos": 18,
@@ -12791,6 +13466,7 @@
     {
      "player_id": 895650,
      "nome": "Erick",
+     "nome_completo": "Erick",
      "posicao": "M",
      "camisa": 33,
      "jogos": 26,
@@ -12810,6 +13486,7 @@
     {
      "player_id": 871032,
      "nome": "Caique",
+     "nome_completo": "Caique Gonçalves",
      "posicao": "M",
      "camisa": 95,
      "jogos": 23,
@@ -12829,6 +13506,7 @@
     {
      "player_id": 795266,
      "nome": "Matheuzinho",
+     "nome_completo": "Matheuzinho",
      "posicao": "M",
      "camisa": 10,
      "jogos": 25,
@@ -12848,6 +13526,7 @@
     {
      "player_id": 1644830,
      "nome": "Renê",
+     "nome_completo": "Renê Sousa",
      "posicao": "F",
      "camisa": 91,
      "jogos": 21,
@@ -12867,6 +13546,7 @@
     {
      "player_id": 982558,
      "nome": "L. Arcanjo",
+     "nome_completo": "Lucas Arcanjo",
      "posicao": "G",
      "camisa": 1,
      "jogos": 24,
@@ -12885,6 +13565,7 @@
     {
      "player_id": 980761,
      "nome": "Ramon",
+     "nome_completo": "Ramon",
      "posicao": "D",
      "camisa": 13,
      "jogos": 20,
@@ -12904,6 +13585,7 @@
     {
      "player_id": 794312,
      "nome": "E. Martinez",
+     "nome_completo": "Emmanuel Martínez",
      "posicao": "M",
      "camisa": 6,
      "jogos": 22,
@@ -12923,6 +13605,7 @@
     {
      "player_id": 1188028,
      "nome": "Z. Vitor",
+     "nome_completo": "Zé Vitor",
      "posicao": "M",
      "camisa": 88,
      "jogos": 19,
@@ -12942,6 +13625,7 @@
     {
      "player_id": 929200,
      "nome": "Cacá",
+     "nome_completo": "Cacá",
      "posicao": "D",
      "camisa": 25,
      "jogos": 21,
@@ -12961,6 +13645,7 @@
     {
      "player_id": 905459,
      "nome": "L. Cândido",
+     "nome_completo": "Luan Cândido",
      "posicao": "D",
      "camisa": 36,
      "jogos": 20,
@@ -12980,6 +13665,7 @@
     {
      "player_id": 1116955,
      "nome": "N. Mendes",
+     "nome_completo": "Nathan Mendes",
      "posicao": "D",
      "camisa": 45,
      "jogos": 13,
@@ -12999,6 +13685,7 @@
     {
      "player_id": 972373,
      "nome": "Jamerson",
+     "nome_completo": "Jamerson",
      "posicao": "D",
      "camisa": 83,
      "jogos": 16,
@@ -13018,6 +13705,7 @@
     {
      "player_id": 1650040,
      "nome": "D. Tarzia",
+     "nome_completo": "Diego Tarzia",
      "posicao": "D",
      "camisa": 12,
      "jogos": 23,
@@ -13037,6 +13725,7 @@
     {
      "player_id": 814723,
      "nome": "R. Kayzer",
+     "nome_completo": "Renato Kayzer",
      "posicao": "F",
      "camisa": 79,
      "jogos": 20,
@@ -13056,6 +13745,7 @@
     {
      "player_id": 931759,
      "nome": "Camutanga",
+     "nome_completo": "Camutanga",
      "posicao": "D",
      "camisa": 4,
      "jogos": 8,
@@ -13075,6 +13765,7 @@
     {
      "player_id": 789395,
      "nome": "E. Brítez",
+     "nome_completo": "Emanuel Brítez",
      "posicao": "D",
      "camisa": 2,
      "jogos": 9,
@@ -13094,6 +13785,7 @@
     {
      "player_id": 1107069,
      "nome": "Mateusinho",
+     "nome_completo": "Mateusinho",
      "posicao": "D",
      "camisa": 98,
      "jogos": 8,
@@ -13106,6 +13798,7 @@
     {
      "player_id": 1652651,
      "nome": "Edenílson",
+     "nome_completo": "Edenilson",
      "posicao": "M",
      "camisa": 26,
      "jogos": 11,
@@ -13118,6 +13811,7 @@
     {
      "player_id": 798127,
      "nome": "Marinho",
+     "nome_completo": "Marinho",
      "posicao": "F",
      "camisa": 7,
      "jogos": 14,
@@ -13130,6 +13824,7 @@
     {
      "player_id": 824626,
      "nome": "T. Pochettino",
+     "nome_completo": "Tomás Pochettino",
      "posicao": "M",
      "camisa": 8,
      "jogos": 10,
@@ -13142,6 +13837,7 @@
     {
      "player_id": 975351,
      "nome": "F. Santos",
+     "nome_completo": "Fabrício Santos",
      "posicao": "F",
      "camisa": 23,
      "jogos": 11,
@@ -13154,6 +13850,7 @@
     {
      "player_id": 1130513,
      "nome": "F. Souza",
+     "nome_completo": "Fabiano Souza",
      "posicao": "D",
      "camisa": 70,
      "jogos": 3,
@@ -13166,6 +13863,7 @@
     {
      "player_id": 553686,
      "nome": "Walace",
+     "nome_completo": "Walace",
      "posicao": "D",
      "camisa": 15,
      "jogos": 6,
@@ -13178,6 +13876,7 @@
     {
      "player_id": 1124220,
      "nome": "D. Rodrigues",
+     "nome_completo": "Dudu",
      "posicao": "M",
      "camisa": 21,
      "jogos": 3,
@@ -13190,6 +13889,7 @@
     {
      "player_id": 927166,
      "nome": "Riccieli",
+     "nome_completo": "Riccieli",
      "posicao": "D",
      "camisa": 5,
      "jogos": 2,
@@ -13202,6 +13902,7 @@
     {
      "player_id": 1468444,
      "nome": "A. Bruno",
+     "nome_completo": "Alex Bruno",
      "posicao": "F",
      "camisa": 9,
      "jogos": 2,
@@ -13214,6 +13915,7 @@
     {
      "player_id": 2441013,
      "nome": "A. Pato",
+     "nome_completo": "Anderson Pato",
      "posicao": "M",
      "camisa": 28,
      "jogos": 4,
@@ -13226,6 +13928,7 @@
     {
      "player_id": 989715,
      "nome": "Edu",
+     "nome_completo": "Edu",
      "posicao": "D",
      "camisa": 43,
      "jogos": 1,
@@ -13238,6 +13941,7 @@
     {
      "player_id": 980421,
      "nome": "L. Silva",
+     "nome_completo": "Lucas Silva",
      "posicao": "F",
      "camisa": 20,
      "jogos": 5,
@@ -13250,6 +13954,7 @@
     {
      "player_id": 90468,
      "nome": "Osvaldo",
+     "nome_completo": "Osvaldo",
      "posicao": "F",
      "camisa": 11,
      "jogos": 2,
@@ -13264,6 +13969,7 @@
     {
      "player_id": 147467,
      "nome": "Gabriel",
+     "nome_completo": "Gabriel",
      "posicao": "G",
      "camisa": 22,
      "jogos": 4,
@@ -13276,6 +13982,7 @@
     {
      "player_id": 823831,
      "nome": "A. Cantalapiedra",
+     "nome_completo": "Aitor Cantalapiedra",
      "posicao": "F",
      "camisa": 17,
      "jogos": 8,
@@ -13288,6 +13995,7 @@
     {
      "player_id": 840247,
      "nome": "Neris",
+     "nome_completo": "Neris",
      "posicao": "D",
      "camisa": 77,
      "jogos": 4,
@@ -13300,6 +14008,7 @@
     {
      "player_id": 901700,
      "nome": "Z. Marcos",
+     "nome_completo": "Zé Marcos",
      "posicao": "D",
      "camisa": 3,
      "jogos": 2,
@@ -13312,6 +14021,7 @@
     {
      "player_id": 931521,
      "nome": "Ronald",
+     "nome_completo": "Ronald",
      "posicao": "M",
      "camisa": 8,
      "jogos": 7,
@@ -13324,6 +14034,7 @@
     {
      "player_id": 926513,
      "nome": "R. López",
+     "nome_completo": "Renzo López",
      "posicao": "F",
      "camisa": 31,
      "jogos": 6,
@@ -13336,6 +14047,7 @@
     {
      "player_id": 992791,
      "nome": "Claudinho",
+     "nome_completo": "Claudinho",
      "posicao": "D",
      "camisa": 2,
      "jogos": 2,
@@ -13348,6 +14060,7 @@
     {
      "player_id": 1896090,
      "nome": "J. Breno",
+     "nome_completo": "José Breno",
      "posicao": "M",
      "camisa": 55,
      "jogos": 2,
@@ -13360,6 +14073,7 @@
     {
      "player_id": 1587979,
      "nome": "Lawan",
+     "nome_completo": "Lawan",
      "posicao": "F",
      "camisa": 63,
      "jogos": 1,
