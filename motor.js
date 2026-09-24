@@ -44,10 +44,13 @@
   Motor.sortearPeso = sortearPeso;
 
   // --- um jogo ---------------------------------------------------------------
-  const K = 20;              // 20 pontos de diferenca ~ 2,7x mais gols esperados
-  const MEDIA_CASA = 1.30;   // gols esperados do mandante entre times iguais
-  const MEDIA_FORA = 1.05;
-  const MEDIA_NEUTRO = 1.17;
+  // Calibrado pelo Brasileirao recente: ~2,3 gols por jogo, 0x0 em ~8% dos
+  // jogos e 6 gols ou mais so em ~2%. Mata-mata e mais travado.
+  const K = 27;              // 27 pontos de diferenca ~ 2,7x mais gols esperados
+  const MEDIA_CASA = 1.24;   // gols esperados do mandante entre times iguais
+  const MEDIA_FORA = 0.96;
+  const MEDIA_NEUTRO = 1.1;
+  const FATOR_MATA = 0.86;   // jogo eliminatorio: ninguem quer tomar gol
 
   function medias(casa, fora, neutro) {
     let mc = (neutro ? MEDIA_NEUTRO : MEDIA_CASA) * Math.exp((casa.atq - fora.def) / K);
@@ -69,8 +72,9 @@
 
   // Um jogo em trechos: cada expulsao abre um trecho novo em que quem ficou
   // com um a menos ataca 30% menos e o outro lado 20% mais.
-  function jogar(rng, casa, fora, { neutro = false } = {}) {
-    const [mc, mf] = medias(casa, fora, neutro);
+  function jogar(rng, casa, fora, { neutro = false, mata = false } = {}) {
+    let [mc, mf] = medias(casa, fora, neutro);
+    if (mata) { mc *= FATOR_MATA; mf *= FATOR_MATA; }
     const eventos = [];
     for (const [lado, time] of [["casa", casa], ["fora", fora]]) {
       if (rng() < CHANCE_VERMELHO) {
@@ -108,20 +112,31 @@
     return { gc: placar.casa, gf: placar.fora, eventos };
   }
   Motor.jogar = jogar;
+  Motor.penaltis = (rng, a, b) => penaltis(rng, a, b);
 
-  // Penaltis: 5 cobrancas, depois alternadas. Time mais forte tem leve vantagem.
+  // Disputa de penaltis com a regra de verdade: 5 cobrancas alternadas (a
+  // comeca), para quando um lado nao alcanca mais o outro, depois alternadas
+  // ate um converter e o outro errar. Devolve [gols a, gols b] e, em
+  // .cobrancas, a sequencia (lado "a"/"b" e se foi gol) pra animar uma a uma.
   function penaltis(rng, a, b) {
-    const pa = 0.75 + (a.atq - b.def) / 400, pb = 0.75 + (b.atq - a.def) / 400;
-    let ga = 0, gb = 0;
+    const pa = 0.76 + (a.atq - b.def) / 400, pb = 0.76 + (b.atq - a.def) / 400;
+    let ga = 0, gb = 0, ca = 0, cb = 0;
+    const cobrancas = [];
+    const chuta = (lado) => {
+      const gol = rng() < (lado === "a" ? pa : pb);
+      cobrancas.push({ lado, gol });
+      if (lado === "a") { ca++; if (gol) ga++; } else { cb++; if (gol) gb++; }
+    };
     for (let i = 0; i < 5; i++) {
-      if (rng() < pa) ga += 1;
-      if (rng() < pb) gb += 1;
+      chuta("a");
+      if (ga > gb + (5 - cb) || gb > ga + (5 - ca)) break;
+      chuta("b");
+      if (ga > gb + (5 - cb) || gb > ga + (5 - ca)) break;
     }
-    while (ga === gb) {
-      if (rng() < pa) ga += 1;
-      if (rng() < pb) gb += 1;
-    }
-    return [ga, gb];
+    while (ga === gb) { chuta("a"); chuta("b"); }
+    const r = [ga, gb];
+    r.cobrancas = cobrancas;
+    return r;
   }
 
   // --- tabela de pontos corridos ------------------------------------------------
@@ -370,7 +385,7 @@
     const pares = etapa.montar();
     const jogos = pares.map((p) => ({
       ...p,
-      ...jogar(temp.rng, temp.times[p.casa], temp.times[p.fora], { neutro: Boolean(p.neutro) }),
+      ...jogar(temp.rng, temp.times[p.casa], temp.times[p.fora], { neutro: Boolean(p.neutro), mata: Boolean(etapa.mata) }),
     }));
     if (etapa.depois) etapa.depois(jogos);
     for (const j of jogos) {

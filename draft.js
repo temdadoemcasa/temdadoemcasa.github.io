@@ -259,6 +259,14 @@ function regrasComUsuario(id) {
   return regras;
 }
 
+// cor principal da camisa (pro fundo do placar)
+function corDe(id) {
+  const t = D.times ? D.times[id] : null;
+  if (!t) return "#30363d";
+  if (t.usuario) return corDoKit(kitUsuario());
+  return corDoKit(t.serieA ? kitDoTime(t.time) : kitDoTime({ nome: t.nome, kit: t.kit }));
+}
+
 function camisaDe(id, numero = null) {
   const t = D.times ? D.times[id] : null;
   if (!t) return figura({ nome: id }, numero, { cabeca: false });
@@ -272,7 +280,10 @@ function comecarTemporada() {
   const serieA = serieAComUsuario();
   const eu = Object.values(serieA).find((t) => t.usuario);
   D.regrasTemp = regrasComUsuario(eu.id);
-  D.times = { ...serieA, ...Motor.timesDeFora(D.regrasTemp) };
+  // quem saiu da Serie A continua existindo: segue na Libertadores/Sul-Americana
+  // (sem isso, o grupo dele ficava sem time e a copa travava)
+  const saiu = Motor.timesDaSerieA(D.r)[D.sai];
+  D.times = { ...(saiu ? { [D.sai]: saiu } : {}), ...serieA, ...Motor.timesDeFora(D.regrasTemp) };
   D.temp = Motor.criarTemporada({
     regras: D.regrasTemp, times: D.times, serieA: Object.keys(serieA), usuario: eu.id,
     semente: Math.floor(Math.random() * 1e9),
@@ -332,10 +343,13 @@ function montarPlacar(x) {
   const relogio = el("span", "relogio", "0'");
   meio.append(numeros, relogio);
   placar.append(time(j.casa), meio, time(j.fora));
+  placar.style.setProperty("--cor-casa", corDe(j.casa));
+  placar.style.setProperty("--cor-fora", corDe(j.fora));
   const lances = el("ol", "gols");
+  const penaltis = el("div", "penaltis-area");
   const rodape = el("p", "jogo-rodape");
-  alvo.append(topo, placar, lances, rodape);
-  return { gc, gf, relogio, lances, rodape };
+  alvo.append(topo, placar, lances, penaltis, rodape);
+  return { gc, gf, relogio, lances, penaltis, rodape };
 }
 
 function linhaDeLance(ev, j) {
@@ -346,7 +360,10 @@ function linhaDeLance(ev, j) {
   const texto = ev.tipo === "gol" ? `${quem}${ev.penalti ? " (pênalti)" : ""}`
     : ev.tipo === "vermelho" ? `${quem} expulso`
     : `${quem} perde pênalti`;
-  li.append(el("b", null, min), el("i", "icone"), el("span", null, texto));
+  const lance = el("span", "lance-texto");
+  lance.append(el("i", "icone"), el("span", null, texto));
+  const vazio = el("span", "lance-vazio");
+  li.append(ev.lado === "casa" ? lance : vazio, el("b", "lance-min", min), ev.lado === "casa" ? vazio : lance);
   return li;
 }
 
@@ -377,11 +394,14 @@ function animarJogo(x) {
       ui.relogio.textContent = p < 1 ? `${Math.min(minuto, 90)}'${minuto > 90 ? "+" : ""}` : "Fim";
       while (mostrados < j.eventos.length && j.eventos[mostrados].min <= minuto) mostrarLance(j.eventos[mostrados++]);
       if (p < 1) { requestAnimationFrame(passo); return; }
-      ui.rodape.textContent = rodapeDoJogo(x);
-      $("jogo").dataset.resultado = resultado(j);
-      D.animando = false;
-      D.pularAnimacao = false;
-      pronto();
+      (async () => {
+        if (j.penaltis) { ui.relogio.textContent = "Pênaltis"; await mostrarPenaltis(ui.penaltis, j, true); ui.relogio.textContent = "Fim"; }
+        preencherRodape(ui.rodape, x);
+        $("jogo").dataset.resultado = resultado(j);
+        D.animando = false;
+        D.pularAnimacao = false;
+        pronto();
+      })();
     };
     requestAnimationFrame(passo);
   });
@@ -396,6 +416,68 @@ function rodapeDoJogo(x) {
   return extras.join(" · ");
 }
 
+// --- penaltis cobranca a cobranca ------------------------------------------------
+
+// quem bate: os 5 melhores finalizadores do onze (goleiro so no fim da fila)
+function cobradores(id) {
+  const t = D.times ? D.times[id] : null;
+  const fin = (j) => (j.eixos && (j.eixos.FIN ?? j.eixos.CHU)) ?? 0;
+  const lista = t && t.onze ? t.onze.filter(Boolean).sort((a, b) => (a.posicao === "G") - (b.posicao === "G") || fin(b) - fin(a)).map((j) => j.nome) : [];
+  return lista.length ? lista : Array.from({ length: 11 }, (_, i) => `cobrador ${i + 1}`);
+}
+
+function blocoPenaltis(j) {
+  const bloco = el("div", "penaltis");
+  bloco.append(el("p", "penaltis-titulo", "Disputa de pênaltis"));
+  const linhas = {};
+  for (const [lado, id] of [["a", j.casa], ["b", j.fora]]) {
+    const linha = el("div", `pen-linha${id === D.temp.usuario ? " eu" : ""}`);
+    const bolas = el("span", "pen-bolas");
+    const placar = el("b", "pen-placar", "0");
+    linha.append(el("span", "pen-time", nomeDe(id)), bolas, placar);
+    linhas[lado] = { bolas, placar, gols: 0, id, cobs: cobradores(id), n: 0 };
+    bloco.append(linha);
+  }
+  const narracao = el("p", "pen-narracao", "");
+  bloco.append(narracao);
+  return { bloco, linhas, narracao };
+}
+
+function baterPenalti(ui, c) {
+  const l = ui.linhas[c.lado];
+  const quem = l.cobs[l.n % l.cobs.length];
+  l.n += 1;
+  const bola = el("i", `pen-bola ${c.gol ? "gol" : "erro"}`);
+  bola.title = `${quem}: ${c.gol ? "gol" : "perdeu"}`;
+  l.bolas.append(bola);
+  if (c.gol) { l.gols += 1; l.placar.textContent = String(l.gols); }
+  const meu = l.id === D.temp.usuario;
+  ui.narracao.className = `pen-narracao ${c.gol === meu ? "boa" : "ruim"}`;
+  ui.narracao.textContent = c.gol ? `${quem} bate e converte.` : `${quem} bate... e perde!`;
+}
+
+// anima a disputa (ou mostra pronta); devolve quando acabar
+async function mostrarPenaltis(alvo, j, animar) {
+  const cobs = j.penaltis && j.penaltis.cobrancas;
+  if (!cobs) return;
+  const ui = blocoPenaltis(j);
+  alvo.append(ui.bloco);
+  if (animar) ui.bloco.scrollIntoView({ block: "nearest", behavior: movimentoReduzido ? "auto" : "smooth" });
+  for (const c of cobs) {
+    if (animar && !D.pularAnimacao && !movimentoReduzido) {
+      ui.narracao.className = "pen-narracao";
+      const l = ui.linhas[c.lado];
+      ui.narracao.textContent = `${l.cobs[l.n % l.cobs.length]} ajeita a bola...`;
+      await new Promise((ok) => setTimeout(ok, 650));
+    }
+    baterPenalti(ui, c);
+    if (animar && !D.pularAnimacao && !movimentoReduzido) await new Promise((ok) => setTimeout(ok, 700));
+  }
+  const venc = j.penaltis[0] > j.penaltis[1] ? j.casa : j.fora;
+  ui.narracao.className = `pen-narracao final ${venc === D.temp.usuario ? "boa" : "ruim"}`;
+  ui.narracao.textContent = `${nomeDe(venc)} vence nos pênaltis, ${Math.max(...j.penaltis)} a ${Math.min(...j.penaltis)}.`;
+}
+
 // placar estatico (usado quando a simulacao corre sem animar)
 function mostrarPlacarPronto(x) {
   const ui = montarPlacar(x);
@@ -404,8 +486,17 @@ function mostrarPlacarPronto(x) {
   ui.gf.textContent = String(j.gf);
   ui.relogio.textContent = "Fim";
   for (const ev of j.eventos) ui.lances.append(linhaDeLance(ev, j));
-  ui.rodape.textContent = rodapeDoJogo(x);
+  mostrarPenaltis(ui.penaltis, j, false);
+  preencherRodape(ui.rodape, x);
   $("jogo").dataset.resultado = resultado(j);
+}
+
+// faixa do resultado: Vitoria / Empate / Derrota (+ agregado, penaltis, classificacao)
+function preencherRodape(alvo, x) {
+  const r = resultado(x.doUsuario);
+  const extra = rodapeDoJogo(x);
+  alvo.replaceChildren(el("span", `resultado-selo r-${r}`, { v: "Vitória", e: "Empate", d: "Derrota" }[r]));
+  if (extra) alvo.append(el("span", "resultado-extra", extra));
 }
 
 function adicionarFeed(x) {
@@ -453,6 +544,7 @@ function travar(sim) {
 
 // joga ate o proximo jogo do usuario e anima
 async function proximoJogo() {
+  if (D.simulando) return;
   if (D.animando) { D.pularAnimacao = true; return; }
   let x;
   while ((x = Motor.avancar(D.temp))) if (x.doUsuario) break;
@@ -467,41 +559,88 @@ async function proximoJogo() {
   if (Motor.terminou(D.temp)) $("proximo").textContent = "Ver o balanço";
 }
 
+// Enquanto simula: todos os botoes travados, o botao clicado vira "Simulando..."
+// com a rodada que esta passando, e a conta roda em pedacos pra tela nao congelar.
+const BOTOES_SIM = ["proximo", "ate-decisivo", "simular-tudo", "sim-ir"];
+function carregando(ligado, botao) {
+  D.simulando = ligado;
+  for (const b of BOTOES_SIM) $(b).disabled = ligado;
+  document.getElementById("calendario").classList.toggle("travado", ligado);
+  document.body.classList.toggle("simulando", ligado);
+  if (botao) {
+    if (ligado) { botao.dataset.texto = botao.textContent; botao.classList.add("carregando"); botao.setAttribute("aria-busy", "true"); }
+    else { botao.textContent = botao.dataset.texto || botao.textContent; botao.classList.remove("carregando"); botao.removeAttribute("aria-busy"); }
+  }
+}
+const respirar = () => new Promise((ok) => requestAnimationFrame(() => setTimeout(ok, 0)));
+
 // corre sem animar ate "parar" dizer que chegou; para ANTES de jogo decisivo
 // do usuario, pra ele assistir esse com calma
-function simular(parar, { respeitarDecisivo = true } = {}) {
-  if (D.animando) return;
+async function simular(parar, { respeitarDecisivo = true, botao = null } = {}) {
+  if (D.animando || D.simulando) return;
   let ultimo = null, motivo = null, andou = 0;
+  carregando(true, botao);
+  if (botao) botao.textContent = "Simulando…";
+  await respirar();
+  try {
   while (!Motor.terminou(D.temp)) {
     const prox = Motor.agenda(D.temp, 1)[0];
     const e = D.temp.etapas[D.temp.i];
     if (parar(e)) { motivo = "fim"; break; }
     if (respeitarDecisivo && prox && prox.indice === D.temp.i && Motor.decisiva(e)) {
       // se o decisivo e logo o proximo, assiste ele em vez de pular
-      if (!andou) { proximoJogo(); return; }
+      if (!andou) { carregando(false, botao); proximoJogo(); return; }
       motivo = e;
       break;
     }
     const x = Motor.avancar(D.temp);
     andou += 1;
     if (x.doUsuario) { adicionarFeed(x); ultimo = x; }
+    // a cada 6 etapas devolve a tela pro navegador (e mostra onde esta)
+    if (andou % 6 === 0) {
+      if (botao) botao.textContent = `Simulando… ${dataJogo(x.etapa.data)}`;
+      await respirar();
+    }
+  }
+  } finally {
+    carregando(false, botao);
   }
   if (ultimo) { mostrarPlacarPronto(ultimo); mostrarRodada(ultimo); }
   seguirCalendario();
   atualizarPaineis();
   if (motivo && motivo !== "fim") {
-    const aviso = el("p", "aviso-decisivo", `Parou antes de um jogo decisivo: ${motivo.rotulo} (${dataJogo(motivo.data)}). Aperta Próximo jogo pra assistir.`);
-    $("jogo").append(aviso);
+    $("jogo").append(cartaoDecisivo(motivo));
   }
   if (Motor.terminou(D.temp)) encerrar();
 }
 
-const simularAteDecisivo = () => simular(() => false);
+// Cartao grande do proximo jogo decisivo: competicao, fase, data, o rival
+// (quando ja se sabe) e o botao pra assistir.
+function cartaoDecisivo(etapa) {
+  const prox = Motor.agenda(D.temp, 1)[0];
+  const card = el("div", `proximo-decisivo comp-${etapa.comp}`);
+  const esq = el("div", "pd-textos");
+  esq.append(el("span", "pd-tag", "Próximo jogo é decisivo"), el("strong", "pd-titulo", etapa.rotulo), el("span", "pd-data", dataJogo(etapa.data)));
+  const vs = el("div", "pd-vs");
+  const eu = el("span", "pd-camisa"); eu.append(camisaDe(D.temp.usuario));
+  vs.append(eu, el("b", null, "×"));
+  const rival = prox && prox.jogo ? (prox.jogo.casa === D.temp.usuario ? prox.jogo.fora : prox.jogo.casa) : null;
+  const ele = el("span", "pd-camisa");
+  if (rival) { ele.append(camisaDe(rival)); ele.title = nomeDe(rival); } else ele.append(el("span", "pd-rival-ind", "?"));
+  vs.append(ele);
+  const b = el("button", "botao botao-primario", "Assistir agora");
+  b.type = "button";
+  b.addEventListener("click", () => { card.remove(); proximoJogo(); });
+  card.append(esq, vs, b);
+  return card;
+}
+
+const simularAteDecisivo = () => simular(() => false, { botao: $("ate-decisivo") });
 
 function simularAlvo() {
   const alvo = $("sim-alvo").value;
   // termina quando a competicao nao tem mais etapa pela frente
-  simular(() => !D.temp.etapas.slice(D.temp.i).some((e) => e.comp === alvo));
+  simular(() => !D.temp.etapas.slice(D.temp.i).some((e) => e.comp === alvo), { botao: $("sim-ir") });
 }
 
 // --- paineis ---------------------------------------------------------------------
@@ -666,10 +805,10 @@ function desenharAcao(meus, hoje) {
 }
 
 // corre tudo antes do dia escolhido; se voce joga nesse dia, assiste o jogo
-function simularAteDia(iso) {
-  if (D.animando) return;
+async function simularAteDia(iso) {
+  if (D.animando || D.simulando) return;
   const tinhaJogo = Motor.agenda(D.temp, 400).find((a) => a.etapa.data === iso);
-  simular((e) => e.data >= iso, { respeitarDecisivo: false });
+  await simular((e) => e.data >= iso, { respeitarDecisivo: false, botao: document.querySelector("#cal-acao .botao-primario") });
   const e = D.temp.etapas[D.temp.i];
   if (e && e.data === iso && Motor.agenda(D.temp, 1).some((a) => a.indice === D.temp.i)) { mudarVisao("jogo"); proximoJogo(); return; }
   // o jogo do dia sumiu: o time caiu antes naquela copa
@@ -966,7 +1105,7 @@ async function iniciarDraft() {
     else proximoJogo();
   });
   $("ate-decisivo").addEventListener("click", simularAteDecisivo);
-  $("simular-tudo").addEventListener("click", () => simular(() => false, { respeitarDecisivo: false }));
+  $("simular-tudo").addEventListener("click", () => simular(() => false, { respeitarDecisivo: false, botao: $("simular-tudo") }));
   for (const b of document.querySelectorAll(".abas-temporada .chip")) b.addEventListener("click", () => mudarVisao(b.dataset.visao));
   $("cal-antes").addEventListener("click", () => mudarMes(-1));
   $("cal-depois").addEventListener("click", () => mudarMes(1));
