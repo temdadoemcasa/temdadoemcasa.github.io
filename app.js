@@ -1121,7 +1121,7 @@ function ligarFicha() {
 // Chance fixa por nivel, como envelope de verdade: a maioria sai palha ou
 // madeira, grafeno e quase impossivel. Dentro do nivel, qualquer um.
 // As chances aparecem na pagina: nada de caixa-preta. O Draft usa as mesmas.
-const CHANCES = { palha: 0.55, madeira: 0.38, tijolo: 0.065, grafeno: 0.005 };
+const CHANCES = { palha: 0.5, madeira: 0.4, tijolo: 0.09, grafeno: 0.01 };
 
 function sortear(r) {
   const porNivel = {};
