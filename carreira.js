@@ -81,7 +81,7 @@ const PAISES = [
 ].map(([id, nome, cores, kit, corte, copa]) => ({ id, nome, cores, kit, corte, copa }));
 const SUL_AMERICANOS = ["BRA", "ARG", "URU", "COL", "CHI", "PAR", "EQU", "PER", "VEN", "BOL"];
 
-const COPA_NACIONAL = { eng: "FA Cup", esp: "Copa do Rei", ita: "Coppa Italia", ale: "DFB-Pokal", fra: "Copa da França", por: "Taça de Portugal", hol: "Copa da Holanda", arg: "Copa Argentina", ara: "Copa do Rei Saudita" };
+const COPA_NACIONAL = { eng: "FA Cup", esp: "Copa do Rei", ita: "Coppa Italia", ale: "DFB-Pokal", fra: "Copa da França", por: "Taça de Portugal", hol: "Copa da Holanda", arg: "Copa Argentina", ara: "Copa do Rei Saudita", rus: "Copa da Rússia" };
 const ANO_INICIAL = 2026, IDADE_INICIAL = 16;
 const DIVISOES = ["A", "B", "C", "D"];
 const PRESTIGIO_DIV = { A: 3, B: 1.5, C: 0.7, D: 0.2 };
@@ -695,7 +695,7 @@ function temporadaNoExterior(J, ano, rng) {
   // continental: top 4 (Europa) ou top 3 (resto) disputa; mata-mata abstrato
   const vagas = liga.continente === "europa" ? 4 : 3;
   const forcaCopa = { europa: 65, america: 60, asia: 56 }[liga.continente];
-  if (pos <= vagas) {
+  if (liga.copa && pos <= vagas) {
     const fases = ["Fase de liga", "Oitavas", "Quartas", "Semifinal", "Final"];
     let k = 0;
     const pPassar = logistica((clube.atq - forcaCopa) / 2.4);
@@ -711,7 +711,7 @@ function temporadaNoExterior(J, ano, rng) {
   const media = liga.clubes.reduce((a, c) => a + c.forca, 0) / liga.clubes.length;
   return {
     p, s, st, campanha, ligaNome: liga.nome, nivelLiga: C.nivelDeForca(media),
-    rebaixado: pos >= 9 && liga.continente !== "asia", campeaoLiga: pos === 1,
+    rebaixado: pos >= 9 && !["asia", "leste"].includes(liga.continente), campeaoLiga: pos === 1,
     tituloNomes: campanha.filter((c) => c.campeao).map((c) => c.comp),
   };
 }
@@ -741,22 +741,37 @@ function temporadaNaSelecao(J, ano, rng, p) {
 
 // --- evolucao ----------------------------------------------------------------------
 
+// Curva de carreira: cresce ate o pico (29/30; goleiro 32 a 34) puxado pelo
+// potencial escondido, mais rapido jogando; depois do pico cai aos poucos,
+// acelerando a partir dos 33 (goleiro, quatro anos depois).
+function trajetoria(J, idade) {
+  if (idade >= J.idadePico) return J.potencial;
+  const f = (J.idadePico - idade) / (J.idadePico - IDADE_INICIAL);
+  return J.ovrInicial + (J.potencial - J.ovrInicial) * (1 - Math.pow(f, 1.5));
+}
+
 function evoluir(J, p, rng) {
   const f = funcaoDe(C.pos);
   const antes = J.ovr;
-  const m = 0.6 + 0.6 * p;
-  if (J.idade <= 23) {
+  // o potencial mexe um pouco com a carreira: temporada muito boa cedo sobe,
+  // banco na idade de crescer desce (no maximo +2 / -3 do sorteado)
+  if (J.idade <= 22) {
     const ultima = J.historico[J.historico.length - 1];
-    if (ultima && ultima.nota >= 7.4 && rng() < 0.6) J.potencial = Math.min(95, J.potencial + 1);
-    if (p < 0.3 && rng() < 0.5) J.potencial = Math.max(60, J.potencial - 1);
+    if (ultima && ultima.nota >= 7.4 && rng() < 0.4) J.potencial = Math.min(J.potencialSorteado + 1, 97, J.potencial + 1);
+    if (p < 0.3 && rng() < 0.5) J.potencial = Math.max(J.potencialSorteado - 3, J.potencial - 1);
   }
+  const proxima = J.idade + 1;
   let delta;
-  if (J.idade <= 22) delta = Math.max(0, J.potencial - J.ovr) * 0.24 * m + normal(rng, 1.1);
-  else if (J.idade <= 27) delta = Math.max(0, J.potencial - J.ovr) * 0.14 * m + normal(rng, 0.9);
-  else if (J.idade <= 30) delta = normal(rng, 0.9) - 0.4;
-  else if (J.idade <= 33) delta = -1.6 + normal(rng, 0.9);
-  else delta = -3 + normal(rng, 1.1);
-  const alvo = limitar(Math.round(antes + limitar(delta, -6, 8)), 40, 94);
+  if (proxima <= J.idadePico) {
+    const m = limitar(0.5 + 0.6 * p, 0.5, 1); // quem nao joga cresce menos (e recupera depois, em parte)
+    delta = (trajetoria(J, proxima) - J.ovr) * 0.8 * m + normal(rng, 0.8);
+  } else {
+    const k = proxima - J.idadePico; // anos depois do pico
+    const queda = [0, -0.4, -0.9, -1.5, -2.1, -2.8][k] ?? -3.4;
+    delta = queda + normal(rng, 0.7);
+  }
+  let alvo = limitar(Math.round(antes + limitar(delta, -6, 8)), 40, 97);
+  if (proxima <= J.idadePico) alvo = Math.min(alvo, Math.max(antes, J.potencial)); // nao passa do teto
   const pesos = Object.entries(PESOS[f]).filter(([, w]) => w > 0);
   const mudou = {};
   // sobe (ou desce) atributo a atributo, puxado pelo peso da funcao, ate o OVR bater
@@ -825,7 +840,7 @@ function premiosDoAno(J, t, linha, rng) {
   if (t.p >= 0.5) {
     const mundo = base + (tem("Champions League") ? 3 : tem("Libertadores") ? 1.5 : 0) + (tem("Copa do Mundo") ? 4 : tem("Copa América") ? 1.2 : 0)
       - (5 - J.clube.prestigio) * 1.3;
-    const lugar = Math.max(1, Math.round((95 - mundo) * 2.4 + normal(rng, 1.3)));
+    const lugar = Math.max(1, Math.round((97 - mundo) * 2 + normal(rng, 1.5)));
     if (lugar <= 30) linha.bolaDeOuro = lugar;
     if (lugar === 1) premios.push("Bola de Ouro");
     if (J.clube.continente === "america" && (J.clube.divisao === "A" || J.clube.tipo === "ext")) {
@@ -842,7 +857,7 @@ function premiosDoAno(J, t, linha, rng) {
 // temporada (nota e premios) e um tanto de sorte. Clube grande olha pouco
 // pra Serie D; da Europa, so com carta alta ou muito novo.
 // degrau de cada clube na escada: D, C, B, Serie A (e America do Sul/Arabia), Europa media, elite
-const degrau = (c) => (c.tipo === "ext" ? (c.continente === "europa" ? (c.prestigio >= 4 ? 5 : 4) : 3) : 3 - DIVISOES.indexOf(c.divisao));
+const degrau = (c) => (c.tipo === "ext" ? (c.continente === "europa" ? (c.prestigio >= 4 ? 5 : 4) : c.continente === "leste" ? 4 : 3) : 3 - DIVISOES.indexOf(c.divisao));
 
 function propostasDoAno(J, t, linha) {
   const atual = J.clube;
@@ -852,9 +867,17 @@ function propostasDoAno(J, t, linha) {
   const interessados = [];
   for (const c of clubesDoMundo(J)) {
     if (c.id === atual.id) continue;
+    // Europa: a porta abre entre 20 e 24 anos, com carta boa (18-19 so fenomeno).
+    // Passou da janela, so quem ja esta la continua circulando por la.
     const vitrineGrande = atual.tipo === "ext" || atual.divisao === "A";
-    if (c.continente === "europa" && !(vitrineGrande && (J.ovr >= 74 || (J.idade <= 21 && J.ovr >= 71)))) continue;
-    if (c.continente === "asia" && !(J.idade >= 27 && J.ovr >= 70)) continue;
+    if (c.continente === "europa") {
+      const janela = vitrineGrande && ((J.idade >= 20 && J.idade <= 24 && J.ovr >= 76) || (J.idade >= 18 && J.idade <= 19 && J.ovr >= 80));
+      const jaEsta = atual.continente === "europa" && J.idade <= 32;
+      if (!janela && !jaEsta) continue;
+    }
+    // Arabia e Russia: o destino de quem e bom e nao foi pra Europa (ou esta voltando)
+    if (c.continente === "asia" && !(J.idade >= 24 && J.ovr >= 74)) continue;
+    if (c.continente === "leste" && !(J.idade >= 21 && J.idade <= 31 && J.ovr >= 72)) continue;
     if (c.tipo === "ext" && c.continente === "america" && J.ovr < 64) continue;
     const mesmoOuAcima = c.forca >= atual.forca - 3 || t.rebaixado || linha.titular < 0.3;
     if (!mesmoOuAcima) continue;
@@ -881,7 +904,9 @@ function decidirTransferencia(J, ofertas, rebaixado) {
   const pesoJogar = J.idade <= 23 ? 10 : 7;
   const nota = (c) => {
     const s = chanceDeTitular(J.ovr, c.nivel, J.idade);
-    return c.forca + c.prestigio * 0.8 + s * pesoJogar - (s < 0.2 ? 5 : 0);
+    // Arabia e Russia pagam o que o Brasil nao paga: pesa pra quem ja passou dos 26
+    const salario = J.idade >= 26 && J.clube.continente !== "europa" ? ({ asia: 2.5, leste: 1.5 }[c.continente] || 0) : 0;
+    return c.forca + c.prestigio * 0.8 + s * pesoJogar - (s < 0.2 ? 5 : 0) + salario;
   };
   const atual = nota(J.clube) - (rebaixado ? 3 : 0);
   const melhor = [...ofertas].sort((a, b) => nota(b) - nota(a))[0];
@@ -936,7 +961,9 @@ function jogarTemporada() {
   J.anosNoClube += 1;
   J.valor = valorDeMercado(J);
   // aposentadoria
-  const chanceParar = J.idade >= 40 ? 1 : J.idade >= 34 ? (J.idade - 33) * 0.17 + (J.ovr < 70 ? 0.25 : 0) : 0;
+  const folga = J.idade - (J.idadePico + 4); // uns quatro anos depois do pico ja da pra pensar em parar
+  const chanceParar = J.idade >= (f === "GOL" ? 42 : 40) ? 1
+    : (folga >= 0 ? 0.12 + folga * 0.15 : 0) + (J.idade >= 30 && J.ovr < 64 ? 0.3 : 0) + (J.idade >= 33 && J.ovr < 70 ? 0.15 : 0);
   if (rng() < chanceParar) { J.aposentado = true; linha.fim = "Pendurou as chuteiras"; return linha; }
   // clube atual com a divisao e o titular de agora
   J.clube = clubesDoMundo(J).find((c) => c.id === J.clube.id) || J.clube;
@@ -1189,14 +1216,25 @@ function mostrarAposentadoria() {
 
 // --- liga tudo ------------------------------------------------------------------------
 
+// Potencial escondido, por faixa: a maioria para entre 76 e 87; 10% chegam
+// a 88-91, 7% a 92-94 e 5% viram o proximo Pele (95+). A carta montada so
+// empurra um pouco.
+const FAIXAS_POTENCIAL = [[0.05, 95, 97], [0.12, 92, 94], [0.22, 88, 91], [0.52, 83, 87], [0.82, 76, 82], [1, 68, 75]];
+function sortearPotencial(ovr, f) {
+  const rng = C.rng;
+  const u = rng();
+  const [, a, b] = FAIXAS_POTENCIAL.find(([ate]) => u < ate);
+  const potencial = limitar(a + Math.floor(rng() * (b - a + 1)) + Math.round((ovr - 60) * 0.1), 64, 97);
+  const pico = f === "GOL" ? 33 + Math.floor(rng() * 3) : Motor.sortearPeso(rng, [[28, 0.05], [29, 0.35], [30, 0.4], [31, 0.2]], ([, w]) => w)[0];
+  return { potencial, potencialSorteado: potencial, idadePico: pico, ovrInicial: ovr };
+}
+
 function criarJogador() {
   const f = funcaoDe(C.pos);
   const ovr = ovrDe(C.attrs, f);
   C.J = {
     nome: C.nome || "Sem Nome", numero: C.numero, attrs: { ...C.attrs }, ovr, idade: IDADE_INICIAL, ano: ANO_INICIAL,
-    // potencial escondido (64 a 93), um pouco puxado pela carta que voce montou;
-    // muda com a carreira: temporada boa sobe, banco na idade errada desce
-    potencial: limitar(Math.round(74 + normal(C.rng, 5.5) + (ovr - 60) * 0.3), 64, 93),
+    ...sortearPotencial(ovr, f),
     clube: null, historico: [], titulos: [], premios: [], transferencias: [], valor: 0, anosNoClube: 0, aposentado: false,
   };
   reiniciarMundo();

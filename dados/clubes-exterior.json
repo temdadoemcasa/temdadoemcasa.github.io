@@ -1196,6 +1196,115 @@
      }
     }
    ]
+  },
+  {
+   "id": "rus",
+   "nome": "Premier League Russa",
+   "pais": "Rússia",
+   "continente": "leste",
+   "prestigio": 2,
+   "copa": null,
+   "clubes": [
+    {
+     "nome": "Zenit",
+     "forca": 59,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#1e73be",
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Krasnodar",
+     "forca": 57,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#111111",
+      "numero": "#1a9e4a"
+     }
+    },
+    {
+     "nome": "Spartak Moscou",
+     "forca": 57,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#c8102e",
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "CSKA Moscou",
+     "forca": 56,
+     "uniforme": {
+      "padrao": "horizontal",
+      "faixas": [
+       [
+        "#c8102e",
+        7
+       ],
+       [
+        "#1b3a8f",
+        7
+       ]
+      ],
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Lokomotiv Moscou",
+     "forca": 55,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#c8102e",
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Dínamo Moscou",
+     "forca": 55,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#1b4f9c",
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Rostov",
+     "forca": 52,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#f5c400",
+      "numero": "#1b4f9c"
+     }
+    },
+    {
+     "nome": "Rubin Kazan",
+     "forca": 51,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#8b1a2b",
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Akhmat",
+     "forca": 50,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#00843d",
+      "numero": "#ffffff"
+     }
+    },
+    {
+     "nome": "Krylya Sovetov",
+     "forca": 49,
+     "uniforme": {
+      "padrao": "lisa",
+      "base": "#1b4f9c",
+      "numero": "#ffffff"
+     }
+    }
+   ]
   }
  ]
 }
