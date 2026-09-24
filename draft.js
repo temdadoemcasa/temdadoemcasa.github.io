@@ -958,9 +958,10 @@ function encerrar() {
   const textos = el("div", "bl-textos");
   const manchete = titulos.length ? `Campeão ${titulos.map((c) => (c === "bra" ? "brasileiro" : `da ${COMP[c]}`)).join(" e ")}!`
     : pos >= 17 ? "Rebaixado. O lobo soprou."
-    : zona && zona.nome === "Libertadores" ? "Vaga na Libertadores"
-    : zona && zona.nome === "Sul-Americana" ? "Vaga na Sul-Americana"
-    : `Terminou em ${pos}º no Brasileirão`;
+    : zona && zona.nome === "Libertadores" ? "Vaga na Libertadores. Prepara o passaporte."
+    : zona && zona.nome === "Sul-Americana" ? "Vaga na Sul-Americana. Dá pra sonhar."
+    : pos >= 14 ? `Escapou do Z4 no sufoco: ${pos}º no Brasileirão.`
+    : `${pos}º no Brasileirão. Nem fede, nem cheira.`;
   textos.append(
     el("p", "bl-sobre", `${D.esquema} · no lugar do ${D.sai} · temporada 2026`),
     el("h3", "bl-nome", D.nome),
@@ -1049,7 +1050,7 @@ function encerrar() {
 
   // rodape: copiar texto pronto
   const texto = [
-    `${D.nome} (${D.esquema}) no Draft do Tem dado em casa`,
+    `${D.nome} (${D.esquema}) no Tem Time em Casa`,
     manchete,
     ...compsDoUsuario().map((c) => `${COMP[c]}: ${campanha(c)}`),
     `${tudo.v}V ${tudo.e}E ${tudo.d}D · ${tudo.gp} gols · ${aproveitamento}%`,

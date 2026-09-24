@@ -170,7 +170,7 @@ const logistica = (x) => 1 / (1 + Math.exp(-x));
 function mostrarTela(tela) {
   for (const t of ["criar", "carta", "base", "carreira", "fim"]) $(`tela-${t}`).hidden = t !== tela;
   for (const li of $("passos").children) {
-    const alvo = { criar: "criar", carta: "carta", base: "carta", carreira: "carreira", fim: "carreira" }[tela];
+    const alvo = { criar: "criar", carta: "carta", base: "peneira", carreira: "carreira", fim: "carreira" }[tela];
     if (li.dataset.passo === alvo) li.setAttribute("aria-current", "step");
     else li.removeAttribute("aria-current");
   }
@@ -1483,8 +1483,8 @@ function iniciarTelaCarreira() {
   mostrarTela("carreira");
   $("temporada-atual").replaceChildren(
     el("p", "jogo-etapa", `Temporada ${C.J.ano}`),
-    el("h3", "temporada-titulo", `Primeiro contrato: ${C.J.clube.nome}, ${C.J.clube.liga}`),
-    el("p", "nota", "Cada temporada roda a liga inteira com o motor do site. Seus minutos dependem de passar o titular da sua posição; jogando bem, as propostas de clube maior aparecem. Um olheiro no jogo certo também ajuda."),
+    el("h3", "temporada-titulo", `Aprovado na peneira: ${C.J.clube.nome}, ${C.J.clube.liga}`),
+    el("p", "nota", "Agora é com você. Os minutos dependem de passar o titular da posição; jogando bem, clube maior aparece com proposta. Um olheiro na arquibancada certa também ajuda."),
   );
   $("proxima").disabled = false;
   $("tudo").disabled = false;
@@ -1565,7 +1565,7 @@ function mostrarLinha(linha) {
   if (linha.semSofrer !== null) itens.splice(1, 1, ["Sem sofrer gol", linha.semSofrer]);
   for (const [k, v] of itens) { const d = el("div"); d.append(el("dd", null, String(v)), el("dt", null, k)); numeros.append(d); }
   alvo.append(numeros);
-  const papel = linha.titular >= 0.7 ? "Titular absoluto" : linha.titular >= 0.45 ? "Briga pela vaga" : linha.titular >= 0.2 ? "Opção no banco" : "Pouco utilizado";
+  const papel = linha.titular >= 0.7 ? "Dono da posição" : linha.titular >= 0.45 ? "Briga pela vaga" : linha.titular >= 0.2 ? "Primeiro do banco" : "Esquentou banco";
   alvo.append(el("p", "temporada-papel", papel));
   const camp = el("ul", "temporada-campanha");
   for (const c of linha.campanha) {
@@ -1892,7 +1892,7 @@ function mostrarAposentadoria() {
   corpo.append(esquerda, direita);
 
   const texto = [
-    `${J.nome} (${POSICOES[C.pos].nome}, ${pais.nome}) no modo Carreira do Tem dado em casa`,
+    `${J.nome} (${POSICOES[C.pos].nome}, ${pais.nome}) na Prata da Casa, do Tem dado em casa`,
     `${J.historico.length} temporadas · ${tot.j} jogos · ${tot.g} gols · ${tot.a} assistências`,
     `Auge: ${auge.ovr} de OVR aos ${auge.idade} · Títulos: ${J.titulos.length} · Prêmios: ${J.premios.length}`,
     `Clubes: ${clubes.join(" → ")}`,
