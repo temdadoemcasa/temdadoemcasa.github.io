@@ -950,6 +950,7 @@ function ligarBuscaDoTopo() {
   const form = document.getElementById("hero-busca");
   const campo = document.getElementById("hero-busca-campo");
   const busca = document.getElementById("busca");
+  if (!form || !campo || !busca) return; // a busca do topo saiu; a das cartas segue
   form.addEventListener("submit", (e) => {
     e.preventDefault();
     busca.value = campo.value.trim();
