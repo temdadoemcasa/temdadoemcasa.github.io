@@ -1,5 +1,5 @@
-// Minigame Draft. Reaproveita do app.js: carta, camisa, niveis, retrato e
-// CHANCES; e do motor.js a simulacao. Todo texto de dado via textContent.
+// Minigame Draft. Reaproveita do app.js: carta, camisa, niveis e
+// retrato; e do motor.js a simulacao. Todo texto de dado via textContent.
 "use strict";
 
 // Vagas por funcao. [vaga, x%, y%] no gramado (ataque pra cima; x alto = direita).
@@ -120,6 +120,12 @@ function montarClubes() {
 
 const LADO_DA_VAGA = { LD: "D", ALD: "D", LE: "E", ALE: "E" };
 
+// chances do leque: mais generosas que as do envelope (CHANCES, app.js). Com as
+// do envelope, escolher ao acaso caia em 42% das temporadas; com estas (~350
+// temporadas simuladas em 25/09), ao acaso fica no meio (mediana 10o-11o, Z4 13-18%) e
+// pegar sempre a maior nota vai ao G4 em 64%.
+const CHANCES_DO_LEQUE = { palha: 0.2, madeira: 0.45, tijolo: 0.28, grafeno: 0.07 };
+
 function sortearLeque(vaga) {
   const funcao = VAGAS[vaga][0];
   const usados = new Set(D.onze.map((s) => s.jogador).filter(Boolean));
@@ -140,11 +146,11 @@ function sortearLeque(vaga) {
   for (const j of pool) (porNivel[nivel(j.overall).id] ||= []).push(j);
   const opcoes = [];
   for (let tentativa = 0; opcoes.length < 5 && tentativa < 200; tentativa++) {
-    const niveis = Object.keys(CHANCES).filter((id) => porNivel[id] && porNivel[id].some((j) => !opcoes.includes(j)));
+    const niveis = Object.keys(CHANCES_DO_LEQUE).filter((id) => porNivel[id] && porNivel[id].some((j) => !opcoes.includes(j)));
     if (!niveis.length) break;
-    let x = Math.random() * niveis.reduce((s, id) => s + CHANCES[id], 0);
+    let x = Math.random() * niveis.reduce((s, id) => s + CHANCES_DO_LEQUE[id], 0);
     let escolhido = niveis[niveis.length - 1];
-    for (const id of niveis) { x -= CHANCES[id]; if (x <= 0) { escolhido = id; break; } }
+    for (const id of niveis) { x -= CHANCES_DO_LEQUE[id]; if (x <= 0) { escolhido = id; break; } }
     const livres = porNivel[escolhido].filter((j) => !opcoes.includes(j));
     opcoes.push(livres[Math.floor(Math.random() * livres.length)]);
   }
@@ -1084,7 +1090,7 @@ async function iniciarDraft() {
   estado.r = r;
   usarCortes(r);
   const pct = (v) => `${(v * 100).toLocaleString("pt-BR", { maximumFractionDigits: 1 })}%`;
-  $("draft-chances").textContent = `Chances por carta: ${NIVEIS.map((t) => `${t.nome} ${pct(CHANCES[t.id])}`).join(" · ")}`;
+  $("draft-chances").textContent = `Chances por carta: ${NIVEIS.map((t) => `${t.nome} ${pct(CHANCES_DO_LEQUE[t.id])}`).join(" · ")}`;
   inferirFuncoes(r);
   montarCriacao();
   montarClubes();
