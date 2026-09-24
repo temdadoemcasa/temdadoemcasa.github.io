@@ -803,7 +803,11 @@ select, input {
 
 /* --- metodo e rodape ----------------------------------------------------- */
 
-.metodo .cartoes { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; }
+.metodo .cartoes { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; }
+@media (max-width: 1000px) { .metodo .cartoes { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .metodo .cartoes { grid-template-columns: minmax(0, 1fr); } }
+.metodo .metodo-autor { margin: 1.4rem 0 0; color: var(--texto-fraco); font-size: 0.92rem; }
+.metodo-autor a { color: var(--texto); }
 .metodo article { background: var(--fundo-cartao); border: 1px solid var(--borda); border-radius: var(--raio); padding: 1.3rem; }
 .metodo h3 { margin: 0 0 0.5rem; font-size: 1.05rem; }
 .metodo p { margin: 0; color: var(--texto-fraco); }
@@ -921,7 +925,7 @@ select, input {
 .rodape-autor { margin: 0; font-size: 0.82rem; }
 .rodape-autor a { color: var(--texto); }
 .rodape-autor a:hover { color: var(--canal); }
-.metodo article a { color: var(--canal); }
+.metodo-autor a:hover { color: var(--canal); }
 /* cartas maiores na abertura */
 .abertura .jogos .jogo-visual { height: clamp(250px, 27vw, 340px); }
 .abertura .jogos .leque-carta { width: clamp(150px, 15vw, 205px); bottom: -9%; }
