@@ -406,6 +406,19 @@ function posicaoNoRanking(r, jogador) {
 // A carta e a casa do logo: o telhado em chevron com o nivel escrito
 // embaixo, e o corpo e uma folha de planilha. Cada eixo e uma celula com
 // formatacao condicional; no rodape, a posicao no ranking da liga.
+// Numeros da temporada (opcionais no JSON, campo "numeros" do jogador).
+// Cada familia mostra o que diz mais sobre ela; campo ausente nao aparece.
+const NUMEROS = {
+  gols: ["G", "gols"], assistencias: ["A", "assistências"], desarmes: ["DES", "desarmes"],
+  interceptacoes: ["INT", "interceptações"], duelos_ganhos: ["DUE", "duelos ganhos"], dribles_certos: ["DRB", "dribles certos"],
+  grandes_chances_criadas: ["GCC", "grandes chances criadas"], defesas: ["DEF", "defesas"], jogos_sem_sofrer: ["SG", "jogos sem sofrer gol"],
+};
+const NUMEROS_DA_CARTA = { G: ["jogos_sem_sofrer", "defesas"], D: ["desarmes", "interceptacoes"], M: ["gols", "assistencias"], F: ["gols", "assistencias"] };
+function numerosDoJogador(jogador, chaves = Object.keys(NUMEROS)) {
+  const n = jogador.numeros || {};
+  return chaves.filter((k) => typeof n[k] === "number").map((k) => [k, n[k]]);
+}
+
 function cartaDoJogador(jogador, time, r, { estatica = false } = {}) {
   const t = nivel(jogador.overall);
   const carta = el("article", `carta nivel-${t.id}`);
@@ -462,7 +475,10 @@ function cartaDoJogador(jogador, time, r, { estatica = false } = {}) {
   const info = el("div", "carta-info");
   info.append(
     el("span", null, `${pos}º de ${total} ${SIGLA[jogador.posicao] || ""}`),
-    el("span", null, `${jogador.jogos} J · ${jogador.minutos}'`),
+    el("span", null, (() => {
+      const nums = numerosDoJogador(jogador, NUMEROS_DA_CARTA[jogador.posicao] || []);
+      return nums.length ? `${jogador.jogos} J · ${nums.map(([k, v]) => `${v} ${NUMEROS[k][0]}`).join(" · ")}` : `${jogador.jogos} J · ${jogador.minutos}'`;
+    })()),
   );
   corpo.append(topo, nome, eixos, info);
   return carta;
@@ -1004,6 +1020,7 @@ function abrirFicha(jogador, time) {
     // "top 94%" de quem e 69 de 74 engana: so mostra quando e elogio de verdade
     ...(topo <= 50 ? [el("span", "fato", `top ${topo}% da posição`)] : []),
     el("span", "fato", `${jogador.jogos} jogos · ${jogador.minutos} min`),
+    ...numerosDoJogador(jogador).map(([k, v]) => el("span", "fato", `${v} ${NUMEROS[k][1]}`)),
   );
   cab.append(fatos);
   info.append(cab);
