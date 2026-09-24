@@ -110,7 +110,7 @@ function montarClubes() {
       for (const o of alvo.children) o.setAttribute("aria-checked", String(o === b));
       D.sai = time.nome;
       $("comecar-draft").disabled = false;
-      $("comecar-draft").textContent = `Tirar o ${time.nome} e abrir as figurinhas`;
+      $("comecar-draft").textContent = `Tirar o ${time.nome} e montar seu time`;
     });
     alvo.append(b);
   }
@@ -1084,7 +1084,7 @@ async function iniciarDraft() {
   estado.r = r;
   usarCortes(r);
   const pct = (v) => `${(v * 100).toLocaleString("pt-BR", { maximumFractionDigits: 1 })}%`;
-  $("draft-chances").textContent = `Chances por figurinha: ${NIVEIS.map((t) => `${t.nome} ${pct(CHANCES[t.id])}`).join(" · ")}`;
+  $("draft-chances").textContent = `Chances por carta: ${NIVEIS.map((t) => `${t.nome} ${pct(CHANCES[t.id])}`).join(" · ")}`;
   inferirFuncoes(r);
   montarCriacao();
   montarClubes();
