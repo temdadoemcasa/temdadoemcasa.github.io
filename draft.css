@@ -5,13 +5,14 @@ a.marca { text-decoration: none; }
 .menu a[aria-current="page"] { color: var(--canal); }
 
 .draft { padding-bottom: 3rem; }
-.draft-cabecalho { padding: clamp(2rem, 5vw, 3.5rem) 0 1.5rem; }
-.draft-cabecalho h1 { max-width: none; }
-.draft-cabecalho .hero-texto { max-width: 62ch; }
-.draft-cabecalho.compacto { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.2rem; padding: 1.2rem 0 1rem; }
+.draft-cabecalho { padding: clamp(1.2rem, 3vw, 2rem) 0 1.2rem; text-align: center; }
+.draft-cabecalho h1 { max-width: none; margin: 0; font-size: clamp(2rem, 5vw, 3rem); }
+.draft-cabecalho .hero-texto { max-width: none; margin: 0.4rem auto 0; font-size: 1.05rem; }
+.draft-cabecalho .passos { justify-content: center; margin-top: 1rem; }
+.draft-cabecalho.compacto { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.2rem; padding: 1.2rem 0 1rem; text-align: left; }
 .draft-cabecalho.compacto .hero-sobretitulo, .draft-cabecalho.compacto .hero-texto { display: none; }
 .draft-cabecalho.compacto h1 { font-size: 2rem; }
-.draft-cabecalho.compacto .passos { margin: 0; }
+.draft-cabecalho.compacto .passos { margin: 0; justify-content: flex-start; }
 
 /* cores por competicao */
 .comp-bra { --comp: var(--canal); }
