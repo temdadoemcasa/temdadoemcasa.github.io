@@ -291,20 +291,34 @@ function escudo(c, tamanho = "") {
   return s;
 }
 
-// estilo de jogo pelos atributos (o que a carta diz sobre o jeito de jogar)
+// Estilo de jogo: o atributo que mais foge do normal da posicao (no mesmo
+// OVR) da o nome. Cada posicao tem os seus; o efeito em campo sai dos
+// atributos (gol, assistencia, jogos sem sofrer, lesao).
+const ESTILOS = {
+  CA: { FIN: ["Matador", "vive de gol"], RIT: ["Atacante de velocidade", "ataca o espaço: mais gol, menos passe"], PAS: ["Falso 9", "troca gol por assistência"],
+    DRI: ["Segundo atacante", "cria e finaliza"], FIS: ["Pivô", "segura a bola e ganha no corpo"], DEF: ["Atacante operário", "ajuda sem a bola, marca menos"] },
+  PON: { RIT: ["Ponta veloz", "ganha na corrida"], DRI: ["Driblador", "cria jogadas e assistências"], FIN: ["Ponta goleador", "entra em diagonal pra finalizar"],
+    PAS: ["Ponta garçom", "vive de assistência"], FIS: ["Ponta de força", "aguenta o tranco"], DEF: ["Ponta operário", "volta pra marcar"] },
+  MEI: { PAS: ["Armador clássico", "o camisa 10 que dá o passe"], DRI: ["Meia driblador", "quebra linhas no drible"], FIN: ["Meia chegador", "aparece na área pra fazer gol"],
+    RIT: ["Meia de transição", "puxa o contra-ataque"], FIS: ["Meia de força", "ganha as divididas"], DEF: ["Meia marcador", "pressiona a saída"] },
+  MC: { PAS: ["Construtor", "dita o ritmo do jogo"], DEF: ["Box-to-box", "defende e ataca"], FIN: ["Meia que chega", "chuta de fora e aparece na área"],
+    DRI: ["Condutor", "carrega a bola"], FIS: ["Motorzinho", "corre o jogo inteiro"], RIT: ["Carrilero", "ocupa o corredor"] },
+  VOL: { DEF: ["Cão de guarda", "protege a zaga"], PAS: ["Volante construtor", "sai jogando lá de trás"], FIS: ["Volante de contenção", "ganha no corpo"],
+    RIT: ["Volante de transição", "recupera e acelera"], DRI: ["Volante que conduz", "escapa da pressão no drible"], FIN: ["Volante artilheiro", "chute de fora da área"] },
+  LAT: { RIT: ["Lateral ala", "vive no ataque"], PAS: ["Lateral construtor", "cruza e dá assistência"], DEF: ["Lateral marcador", "fecha o lado"],
+    DRI: ["Lateral driblador", "passa pelo marcador"], FIS: ["Lateral de força", "aguenta o jogo todo"], FIN: ["Lateral artilheiro", "aparece pra finalizar"] },
+  ZAG: { DEF: ["Xerife", "ninguém passa"], PAS: ["Zagueiro construtor", "inicia a jogada"], RIT: ["Zagueiro veloz", "cobre as costas da defesa"],
+    FIS: ["Zagueiro de força", "ganha tudo pelo alto"], DRI: ["Zagueiro que sai jogando", "conduz até o meio"], FIN: ["Zagueiro artilheiro", "perigo na bola parada"] },
+  GOL: { REF: ["Paredão", "defesas difíceis"], EVI: ["Fechador de gol", "sofre menos do que devia"], MAO: ["Mão firme", "segura tudo"],
+    PES: ["Goleiro líbero", "joga com os pés"], SAI: ["Dono da área", "sai bem do gol"] },
+};
 function estiloDeJogo(attrs, pos) {
   const f = POSICOES[pos].funcao;
-  if (f === "GOL") return null;
   const esp = perfilEsperado(f, ovrDe(attrs, f));
-  const d = Object.fromEntries(Object.keys(esp).map((k) => [k, attrs[k] - esp[k]]));
-  const [k, v] = Object.entries(d).sort((a, b) => b[1] - a[1])[0];
+  const [k, v] = Object.keys(esp).map((c) => [c, attrs[c] - esp[c]]).sort((a, b) => b[1] - a[1])[0];
   if (v < 4) return { nome: "Equilibrado", dica: "rende como a média da posição" };
-  const NOMES = {
-    FIN: ["Finalizador", "mais gols"], RIT: ["Velocista", "ataca o espaço: mais gol, menos passe"],
-    PAS: [f === "CA" ? "Falso 9" : "Armador", "troca gol por assistência"], DRI: ["Driblador", "cria jogadas e assistências"],
-    DEF: [f === "CA" || f === "PON" ? "Operário" : "Marcador", "ajuda sem a bola, marca menos"], FIS: ["Físico", "aguenta mais jogos, se machuca menos"],
-  };
-  return { nome: NOMES[k][0], dica: NOMES[k][1] };
+  const [nome, dica] = ESTILOS[f][k];
+  return { nome, dica };
 }
 
 // --- 1. criacao ------------------------------------------------------------------------
@@ -971,7 +985,7 @@ function evoluir(J, p, rng) {
   // banco na idade de crescer desce (no maximo +2 / -3 do sorteado)
   if (J.idade <= 22) {
     const ultima = J.historico[J.historico.length - 1];
-    if (ultima && ultima.nota >= 7.4 && rng() < 0.4) J.potencial = Math.min(J.potencialSorteado + 1, 97, J.potencial + 1);
+    if (ultima && ultima.nota >= 7.4 && rng() < 0.4) J.potencial = Math.min(J.potencialSorteado + 1, J.tetoOvr ?? 95, J.potencial + 1);
     if (p < 0.3 && rng() < 0.5) J.potencial = Math.max(J.potencialSorteado - 3, 76, J.potencial - 1);
   }
   const proxima = J.idade + 1;
@@ -985,14 +999,14 @@ function evoluir(J, p, rng) {
     delta = Math.min(0.5, queda + J.efeito.queda + J.efeito.evolucao * 0.5) + normal(rng, 0.7);
   }
   const mudou = {};
-  let alvo = limitar(Math.round(antes + limitar(delta, -6, 8)), 40, 97);
+  let alvo = limitar(Math.round(antes + limitar(delta, -6, 8)), 40, J.tetoOvr ?? 95);
   if (proxima <= J.idadePico) alvo = Math.min(alvo, Math.max(antes, J.potencial + Math.max(0, Math.round(J.efeito.evolucao)))); // nao passa do teto
   const pesos = Object.entries(PESOS[f]).filter(([, w]) => w > 0);
   // sobe (ou desce) atributo a atributo, puxado pelo peso da funcao, ate o OVR bater
   // foco de treino: os primeiros pontos do ano vao pro atributo escolhido
   // (mesmo que ele pese pouco no OVR); na queda, ele e o ultimo a cair
   let pontosDeFoco = J.foco && J.foco in J.attrs ? 3 : 0;
-  if (pontosDeFoco && alvo <= antes) { J.attrs[J.foco] = limitar(J.attrs[J.foco] + 1, 20, 99); mudou[J.foco] = 1; pontosDeFoco = 0; J.ovr = ovrDe(J.attrs, f); }
+  if (pontosDeFoco && alvo <= antes) { J.attrs[J.foco] = limitar(J.attrs[J.foco] + 1, 20, J.tetoAtributo ?? 95); mudou[J.foco] = 1; pontosDeFoco = 0; J.ovr = ovrDe(J.attrs, f); }
   for (let guarda = 0; J.ovr !== alvo && guarda < 1500; guarda++) {
     const sobe = J.ovr < alvo;
     let k;
@@ -1009,8 +1023,10 @@ function evoluir(J, p, rng) {
       k = Motor.sortearPeso(rng, queda, ([, w]) => w)[0];
     }
     // teto suave: acima de 85 cada ponto fica mais dificil; 99 e raridade
-    if (sobe && J.attrs[k] >= 85 && rng() > Math.pow((99 - J.attrs[k]) / 14, 1.6)) continue;
-    const novo = limitar(J.attrs[k] + (sobe ? 1 : -1), 20, 99);
+    // teto suave: perto do teto cada ponto fica mais dificil (teto 95; lenda 99)
+    const teto = J.tetoAtributo ?? 95;
+    if (sobe && J.attrs[k] >= teto - 12 && rng() > Math.pow((teto - J.attrs[k]) / 12, 1.4)) continue;
+    const novo = limitar(J.attrs[k] + (sobe ? 1 : -1), 20, sobe ? teto : 99);
     if (novo === J.attrs[k]) continue;
     J.attrs[k] = novo;
     mudou[k] = (mudou[k] || 0) + (sobe ? 1 : -1);
@@ -1174,7 +1190,11 @@ function jogarTemporada({ decidir = true } = {}) {
   // quem defende pontua pelo jogo sem sofrer gol; quem ataca, por gol e assistencia
   const fam = POSICOES[C.pos].fam;
   const muralha = fam === "G" || fam === "D" ? (st.semSofrerLiga / Math.max(1, st.jogosLiga) - 0.3) * (fam === "G" ? 0.9 : 0.8) : 0;
-  const contrib = (jogos ? (gols + assist * 0.6) / jogos : 0) + muralha;
+  // defensor e goleiro: o atributo de defesa acima do normal pesa na nota
+  const espPos = perfilEsperado(f, J.ovr);
+  const acima = (k) => (J.attrs[k] ?? 0) - (espPos[k] ?? 0);
+  const defesaExtra = fam === "G" ? (acima("REF") + acima("EVI")) / 2 : fam === "D" ? acima("DEF") : 0;
+  const contrib = (jogos ? (gols + assist * 0.6) / jogos : 0) + muralha + limitar(defesaExtra, -15, 15) * 0.012;
   const nota = limitar(6.55 + Math.tanh((J.ovr - t.nivelLiga) / 12) * 1.3 + contrib * 0.9 + J.efeito.nota + normal(rng, 0.18), 5.4, 9.3);
   const selecao = temporadaNaSelecao(J, J.ano, rng, t.p);
   const titulos = jogos >= 5 ? [...t.tituloNomes] : [];
@@ -1894,17 +1914,17 @@ function mostrarAposentadoria() {
 
 // --- liga tudo ------------------------------------------------------------------------
 
-// Potencial escondido, por faixa (piso 76): a maioria para entre 76 e 87; 10% chegam
-// a 88-91, 7% a 92-94 e 5% viram o proximo Pele (95+). A carta montada so
-// empurra um pouco.
-const FAIXAS_POTENCIAL = [[0.06, 95, 97], [0.12, 92, 94], [0.22, 88, 91], [0.52, 83, 87], [1, 76, 82]];
+// Potencial escondido, por faixa (piso 76): a maioria para entre 76 e 88;
+// 10% chegam a 89-92, 6% a 93-95 e so 1% vira lenda (97-99). Atributo trava
+// em 95; so a lenda passa disso, ate 99. A carta montada so empurra um pouco.
+const FAIXAS_POTENCIAL = [[0.01, 97, 99, 99], [0.07, 93, 95, 95], [0.17, 89, 92, 95], [0.47, 83, 88, 95], [1, 76, 82, 95]];
 function sortearPotencial(ovr, f) {
   const rng = C.rng;
   const u = rng();
-  const [, a, b] = FAIXAS_POTENCIAL.find(([ate]) => u < ate);
-  const potencial = limitar(a + Math.floor(rng() * (b - a + 1)) + Math.round((ovr - 60) * 0.1), 76, 97);
+  const [, a, b, teto] = FAIXAS_POTENCIAL.find(([ate]) => u < ate);
+  const potencial = limitar(a + Math.floor(rng() * (b - a + 1)) + Math.round((ovr - 60) * 0.1), 76, b);
   const pico = f === "GOL" ? 33 + Math.floor(rng() * 3) : Motor.sortearPeso(rng, [[28, 0.05], [29, 0.35], [30, 0.4], [31, 0.2]], ([, w]) => w)[0];
-  return { potencial, potencialSorteado: potencial, idadePico: pico, ovrInicial: ovr };
+  return { potencial, potencialSorteado: potencial, idadePico: pico, ovrInicial: ovr, tetoAtributo: teto, tetoOvr: b };
 }
 
 function criarJogador() {
