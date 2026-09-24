@@ -5,10 +5,10 @@ a.marca { text-decoration: none; }
 .menu a[aria-current="page"] { color: var(--canal); }
 
 .draft { padding-bottom: 3rem; }
-.draft-cabecalho { padding: clamp(1.2rem, 3vw, 2rem) 0 1.2rem; text-align: center; }
-.draft-cabecalho h1 { max-width: none; margin: 0; font-size: clamp(2rem, 5vw, 3rem); }
+.draft-cabecalho { padding: 0.9rem 0 1rem; text-align: center; }
+.draft-cabecalho h1 { max-width: none; margin: 0; font-size: clamp(1.8rem, 4vw, 2.5rem); line-height: 1.1; }
 .draft-cabecalho .hero-texto { max-width: none; margin: 0.4rem auto 0; font-size: 1.05rem; }
-.draft-cabecalho .passos { justify-content: center; margin-top: 1rem; }
+.draft-cabecalho .passos { justify-content: center; margin-top: 0.8rem; }
 .draft-cabecalho.compacto { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.2rem; padding: 1.2rem 0 1rem; text-align: left; }
 .draft-cabecalho.compacto .hero-sobretitulo, .draft-cabecalho.compacto .hero-texto { display: none; }
 .draft-cabecalho.compacto h1 { font-size: 2rem; }
@@ -36,7 +36,7 @@ a.marca { text-decoration: none; }
 .passos li::before { content: counter(passo) " · "; }
 .passos li[aria-current="step"] { color: #111; background: var(--canal); border-color: var(--canal); }
 
-.tela { padding: 1.5rem 0 0; border-top: 1px solid var(--borda); }
+.tela { padding: 1.1rem 0 0; border-top: 1px solid var(--borda); }
 .tela h2 { margin: 0 0 0.4rem; font-size: 1.5rem; text-wrap: balance; }
 
 /* --- 1. clubes ---------------------------------------------------------------- */

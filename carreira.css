@@ -10,7 +10,7 @@
   grid-template-columns: minmax(180px, 230px) minmax(0, 1fr) minmax(220px, 280px);
   gap: 1.5rem;
   align-items: start;
-  margin: 1rem 0 1.2rem;
+  margin: 0.6rem 0 0.8rem;
 }
 .previas { display: grid; gap: 0.6rem; }
 .previa {
@@ -30,7 +30,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(132px, 1fr));
   gap: 0.35rem;
-  max-height: 212px;
+  max-height: 176px;
   overflow-y: auto;
   padding: 0.2rem;
   margin-top: 0.3rem;
@@ -283,7 +283,7 @@
 .criar-campos { gap: 1.1rem; }
 .criar-campos .campo, .campo-posicao { gap: 0.45rem; }
 .rotulo { font-size: 0.78rem; font-weight: 600; letter-spacing: 0.04em; color: var(--texto-fraco); }
-.criar-fim { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1.2rem 2rem; margin-top: 1.6rem; padding-top: 1.4rem; border-top: 1px solid var(--borda); }
+.criar-fim { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1.2rem 2rem; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--borda); }
 .campo-modo { flex: 1 1 32rem; }
 .modos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.7rem; }
 .modo {
