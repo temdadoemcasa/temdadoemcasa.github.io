@@ -731,7 +731,7 @@ function assinar(c, contexto) {
   const J = C.J;
   const adapta = contexto === "base" ? null : custoDeAdaptacao(J.clube, c);
   if (adapta) { J.efeito.evolucao += adapta.evolucao; J.efeito.nota += adapta.nota; }
-  if (J.clube && J.clube.id !== c.id) J.transferencias.push({ ano: J.ano, de: J.clube.nome, para: c.nome });
+  if (J.clube && J.clube.id !== c.id) { J.transferencias.push({ ano: J.ano, de: J.clube.nome, para: c.nome }); Historia.novoClube(J); }
   J.clube = c;
   J.anosNoClube = 0;
   if (contexto === "base") iniciarTelaCarreira();
@@ -1402,6 +1402,49 @@ const rotuloAttr = (k) => ({ ...ROTULOS_LINHA, ...Object.fromEntries(EIXOS_GOLEI
 // Cada evento: quando pode aparecer, o texto e as opcoes. Opcao com "chance"
 // mostra a porcentagem no botao e resolve pelo dado; sem chance e certeza.
 const EVENTOS = [
+  // --- base: treino, rotina e cabeca fora de campo ---
+  {
+    id: "sub20-ou-profissional", fases: ["base"], quando: () => true,
+    titulo: "Treinar com o profissional",
+    texto: () => "O técnico do profissional chamou três garotos pra completar o treino da semana. No sub-20 você é titular; lá, só completa.",
+    opcoes: [
+      { rotulo: "Vai pro profissional", chance: (J) => chanceAttr(J, atributoChave(), 56, 9),
+        ok: (J) => { Historia.mexerReputacao(J, { tecnico: 2 }); J.efeito.evolucao += 0.5; return "Não se escondeu. O técnico perguntou seu nome no fim do treino."; },
+        falha: (J) => { J.efeito.nota -= 0.05; return "O ritmo assustou. Voltou pro sub-20 sabendo o tamanho da distância."; } },
+      { rotulo: "Fica sendo titular no sub-20", sempre: (J) => { J.efeito.nota += 0.05; return "Jogou, fez o seu, e seguiu na fila."; } },
+    ],
+  },
+  {
+    id: "escola-noite", fases: ["base"], quando: (J) => J.idade <= 18,
+    titulo: "O ensino médio à noite",
+    texto: () => "Falta um ano pra terminar a escola. O clube paga, mas é depois do treino, de segunda a quinta.",
+    opcoes: [
+      { rotulo: "Termina a escola", sempre: (J) => { Historia.mexerReputacao(J, { disciplina: 1 }); J.efeito.evolucao -= 0.2; return "Cansativo, mas terminou. A sua mãe foi na formatura com a camisa do clube."; } },
+      { rotulo: "Larga pra focar no futebol", sempre: (J) => { J.efeito.evolucao += 0.2; return "Mais descanso, mais treino. A escola ficou pra depois."; } },
+    ],
+  },
+  {
+    id: "celular", fases: ["base"], quando: () => true,
+    titulo: "Celular até as duas da manhã",
+    texto: () => "No alojamento, todo mundo fica no celular até tarde. O treino é às oito.",
+    opcoes: [
+      { rotulo: "Deixa o celular fora do quarto", sempre: (J) => { Historia.mexerReputacao(J, { disciplina: 1 }); J.efeito.nota += 0.03; return "Primeira semana difícil. Depois, o melhor sono da vida."; } },
+      { rotulo: "Segue como está", chance: () => 0.5,
+        ok: () => "O corpo de 17 anos aguenta. Por enquanto.",
+        falha: (J) => { Historia.mexerReputacao(J, { disciplina: -1, tecnico: -1 }); return "Chegou atrasado duas vezes no mês. Levou advertência."; } },
+    ],
+  },
+  {
+    id: "empresario-base", fases: ["base"], quando: (J) => J.idade >= 17,
+    titulo: "Um empresário na porta do CT",
+    texto: () => "Ele oferece chuteira, mesada e promete te levar pra Europa. Quer que você assine com ele hoje.",
+    opcoes: [
+      { rotulo: "Assina na hora", chance: () => 0.4,
+        ok: (J) => { J.efeito.vitrine += 1.5; return "Ele cumpriu: seu nome começou a circular nos clubes."; },
+        falha: (J) => { J.efeito.vitrine -= 0.5; Historia.mexerReputacao(J, { disciplina: -1 }); return "A mesada parou no terceiro mês. E o contrato te prende por dois anos."; } },
+      { rotulo: "Leva o contrato pra família ler", sempre: (J) => { Historia.mexerReputacao(J, { disciplina: 1 }); return "Um tio advogado achou três cláusulas ruins. Você não assinou."; } },
+    ],
+  },
   {
     id: "treino", quando: () => true,
     titulo: "Treino acabou, campo vazio",
@@ -1414,7 +1457,7 @@ const EVENTOS = [
     ],
   },
   {
-    id: "dor", quando: () => true,
+    id: "dor", fases: ["afirmacao", "auge", "veterano"], quando: () => true,
     titulo: "Jogo grande e uma dor na coxa",
     texto: () => "O departamento médico libera se você quiser. O técnico deixa a decisão com você.",
     opcoes: [
@@ -1425,7 +1468,7 @@ const EVENTOS = [
     ],
   },
   {
-    id: "penalti", quando: () => !goleiro(),
+    id: "penalti", fases: ["afirmacao", "auge", "veterano"], quando: () => !goleiro(),
     titulo: "Pênalti aos 47 do segundo tempo",
     texto: () => "Empate no placar, estádio cheio. O batedor oficial olha pra você.",
     opcoes: [
@@ -1436,7 +1479,7 @@ const EVENTOS = [
     ],
   },
   {
-    id: "penalti-gol", quando: () => goleiro(),
+    id: "penalti-gol", fases: ["afirmacao", "auge", "veterano"], quando: () => goleiro(),
     titulo: "Pênalti contra no último lance",
     texto: () => "Um gol decide o jogo. O batedor deles ajeita a bola.",
     opcoes: [
@@ -1450,7 +1493,7 @@ const EVENTOS = [
   },
   // --- decisoes do estilo (o lado bom e o ruim de cada um aparecem aqui) ---
   {
-    id: "protagonista", quando: (J) => !goleiro() && ["FIN", "DRI"].includes(estiloDeJogo(J.attrs, C.pos).k),
+    id: "protagonista", fases: ["afirmacao", "auge"], quando: (J) => !goleiro() && ["FIN", "DRI"].includes(estiloDeJogo(J.attrs, C.pos).k),
     titulo: "Pênalti no clássico",
     texto: () => "Aos 44 do segundo tempo, pênalti a favor. O batedor oficial é o capitão, mas a torcida grita o seu nome.",
     opcoes: [
@@ -1461,7 +1504,7 @@ const EVENTOS = [
     ],
   },
   {
-    id: "firula", quando: (J) => !goleiro() && ["DRI", "RIT"].includes(estiloDeJogo(J.attrs, C.pos).k),
+    id: "firula", fases: ["afirmacao", "auge"], quando: (J) => !goleiro() && ["DRI", "RIT"].includes(estiloDeJogo(J.attrs, C.pos).k),
     titulo: "Jogo ganho, 3 a 0",
     texto: () => "Faltam dez minutos. Dá pra partir pra cima do lateral e fazer a jogada do vídeo, ou só tocar a bola.",
     opcoes: [
@@ -1472,7 +1515,7 @@ const EVENTOS = [
     ],
   },
   {
-    id: "festa", quando: (J) => J.idade <= 30,
+    id: "festa", fases: ["afirmacao", "auge"], quando: (J) => J.idade <= 30,
     titulo: "Aniversário de um companheiro, véspera de jogo",
     texto: () => "O elenco inteiro vai. Folga só depois de amanhã.",
     opcoes: [
@@ -1497,7 +1540,7 @@ const EVENTOS = [
     ],
   },
   {
-    id: "empresario", quando: (J) => J.idade >= 19 && J.idade <= 30,
+    id: "empresario", fases: ["afirmacao", "auge"], quando: (J) => J.idade >= 19 && J.idade <= 30,
     titulo: "O empresário ligou",
     texto: () => "Tem clube de olho em você. Ele pergunta se pode fazer barulho na imprensa.",
     opcoes: [
@@ -1506,7 +1549,7 @@ const EVENTOS = [
     ],
   },
   {
-    id: "entrevista", quando: () => true,
+    id: "entrevista", fases: ["afirmacao", "auge", "veterano"], quando: () => true,
     titulo: "Derrota feia e o microfone na sua frente",
     texto: () => "A torcida está na bronca. O repórter quer saber o que aconteceu.",
     opcoes: [
@@ -1517,7 +1560,7 @@ const EVENTOS = [
     ],
   },
   {
-    id: "base", quando: (J) => J.idade <= 19,
+    id: "base", fases: ["base"], quando: (J) => J.idade <= 19,
     titulo: "Convocação pra seleção sub-20",
     texto: () => "Vale vitrine e experiência, mas você perde umas rodadas no clube.",
     opcoes: [
@@ -1528,7 +1571,7 @@ const EVENTOS = [
     ],
   },
   {
-    id: "veterano", quando: (J) => J.idade >= 30,
+    id: "veterano", fases: ["veterano"], quando: (J) => J.idade >= 30,
     titulo: "O preparador físico tem um plano",
     texto: () => "Rotina de recuperação pesada: gelo, sono regrado, academia todo dia.",
     opcoes: [
@@ -1539,7 +1582,7 @@ const EVENTOS = [
     ],
   },
   {
-    id: "classico", quando: () => !goleiro(),
+    id: "classico", fases: ["afirmacao", "auge", "veterano"], quando: () => !goleiro(),
     titulo: "Clássico e provocação do rival",
     texto: () => "O camisa 10 deles falou de você na coletiva.",
     opcoes: [
@@ -1562,7 +1605,7 @@ const EVENTOS = [
   },
   // --- mais situacoes (cada uma aparece no maximo uma vez por carreira) ---
   {
-    id: "estreia", quando: (J) => J.idade <= 17,
+    id: "estreia", fases: ["base"], quando: (J) => J.idade <= 17,
     titulo: "Estreia no profissional",
     texto: () => "Faltam 15 minutos e o técnico te chama pro aquecimento. Estádio cheio.",
     opcoes: [
@@ -1573,7 +1616,7 @@ const EVENTOS = [
     ],
   },
   {
-    id: "banco", quando: () => true,
+    id: "banco", fases: ["base", "afirmacao"], quando: () => true,
     titulo: "Três jogos seguidos no banco",
     texto: () => "Você não entende o motivo. O técnico não falou nada.",
     opcoes: [
@@ -1595,7 +1638,7 @@ const EVENTOS = [
     ],
   },
   {
-    id: "viral", quando: (J) => J.idade <= 27,
+    id: "viral", fases: ["base", "afirmacao"], quando: (J) => J.idade <= 27,
     titulo: "Um vídeo seu viralizou",
     texto: () => "Você fazendo embaixadinha no treino passou de um milhão de visualizações.",
     opcoes: [
@@ -1604,7 +1647,7 @@ const EVENTOS = [
     ],
   },
   {
-    id: "chuteira", quando: (J) => J.idade >= 18,
+    id: "chuteira", fases: ["afirmacao", "auge"], quando: (J) => J.idade >= 18,
     titulo: "Marca de chuteira quer te patrocinar",
     texto: () => "O contrato é bom, mas a chuteira nova chega na semana de jogo.",
     opcoes: [
@@ -1615,7 +1658,7 @@ const EVENTOS = [
     ],
   },
   {
-    id: "bracadeira", quando: (J) => J.idade >= 25,
+    id: "bracadeira", fases: ["auge", "veterano"], quando: (J) => J.idade >= 25,
     titulo: "O técnico oferece a braçadeira",
     texto: () => "O capitão foi vendido. Ele quer você no lugar.",
     opcoes: [
@@ -1648,7 +1691,7 @@ const EVENTOS = [
     ],
   },
   {
-    id: "coringa", quando: () => !goleiro(),
+    id: "coringa", fases: ["afirmacao", "auge", "veterano"], quando: () => !goleiro(),
     titulo: "Papel de coringa",
     texto: () => "O técnico quer você entrando no segundo tempo, pra mudar o jogo.",
     opcoes: [
@@ -1668,7 +1711,7 @@ const EVENTOS = [
     ],
   },
   {
-    id: "idolo", quando: () => true,
+    id: "idolo", fases: ["base", "afirmacao"], quando: () => true,
     titulo: "Um ídolo do clube virou auxiliar",
     texto: () => "Ele quer ficar depois do treino te passando uns macetes da posição.",
     opcoes: [
@@ -1679,7 +1722,7 @@ const EVENTOS = [
     ],
   },
   {
-    id: "invasao", quando: () => true,
+    id: "invasao", fases: ["afirmacao", "auge", "veterano"], quando: () => true,
     titulo: "Torcedor mirim invade o campo",
     texto: () => "Depois do apito final, um menino passa pelos seguranças e corre pra te abraçar.",
     opcoes: [
@@ -1688,7 +1731,7 @@ const EVENTOS = [
     ],
   },
   {
-    id: "pendurado", quando: () => ["D", "M"].includes(POSICOES[C.pos].fam),
+    id: "pendurado", fases: ["afirmacao", "auge", "veterano"], quando: () => ["D", "M"].includes(POSICOES[C.pos].fam),
     titulo: "Pendurado antes do clássico",
     texto: () => "Dois amarelos. Mais um e você fica fora do clássico.",
     opcoes: [
@@ -1699,7 +1742,7 @@ const EVENTOS = [
     ],
   },
   {
-    id: "sondagem", quando: (J) => J.idade >= 20 && J.idade <= 29 && J.clube.tipo !== "ext",
+    id: "sondagem", fases: ["afirmacao", "auge"], quando: (J) => J.idade >= 20 && J.idade <= 29 && J.clube.tipo !== "ext",
     titulo: "Sondagem do exterior",
     texto: () => "Um clube de fora quer saber se você toparia sair no fim do ano. Salário muito maior.",
     opcoes: [
@@ -1708,7 +1751,7 @@ const EVENTOS = [
     ],
   },
   {
-    id: "filho", quando: (J) => J.idade >= 23,
+    id: "filho", fases: ["afirmacao", "auge", "veterano"], quando: (J) => J.idade >= 23,
     titulo: "Seu primeiro filho vai nascer",
     texto: () => "A previsão é justo no dia de um jogo importante.",
     opcoes: [
@@ -1772,7 +1815,7 @@ const EVENTOS = [
     ],
   },
   {
-    id: "reserva-voando", quando: () => true,
+    id: "reserva-voando", fases: ["auge", "veterano"], quando: () => true,
     titulo: "O reserva da sua posição está voando",
     texto: () => "Nos treinos ele tem sido melhor que você. O técnico já comentou.",
     opcoes: [
@@ -1783,7 +1826,7 @@ const EVENTOS = [
     ],
   },
   {
-    id: "reuniao", quando: () => true,
+    id: "reuniao", fases: ["auge", "veterano"], quando: () => true,
     titulo: "Reunião do elenco",
     texto: () => "Quatro derrotas seguidas. Os jogadores se reúnem sem a comissão.",
     opcoes: [
@@ -1794,7 +1837,7 @@ const EVENTOS = [
     ],
   },
   {
-    id: "altitude", quando: (J) => J.clube.tipo !== "ext" && J.clube.divisao === "A",
+    id: "altitude", fases: ["afirmacao", "auge", "veterano"], quando: (J) => J.clube.tipo !== "ext" && J.clube.divisao === "A",
     titulo: "Jogo na altitude pela copa",
     texto: () => "3.600 metros. O clube oferece viajar dois dias antes pra adaptar.",
     opcoes: [
@@ -1805,7 +1848,7 @@ const EVENTOS = [
     ],
   },
   {
-    id: "escola", quando: () => true,
+    id: "escola", fases: ["afirmacao", "auge"], quando: () => true,
     titulo: "Convite da escola onde você estudou",
     texto: () => "Querem que você vá conversar com os alunos na sua folga.",
     opcoes: [
@@ -1814,7 +1857,7 @@ const EVENTOS = [
     ],
   },
   {
-    id: "promessa", quando: () => POSICOES[C.pos].fam === "F",
+    id: "promessa", fases: ["afirmacao", "auge"], quando: () => POSICOES[C.pos].fam === "F",
     titulo: "Promessa de gol no clássico",
     texto: () => "Um torcedor pede nas redes: 'promete gol no domingo?'.",
     opcoes: [
@@ -1836,7 +1879,7 @@ const EVENTOS = [
     ],
   },
   {
-    id: "massa", quando: (J) => J.idade <= 26 && !goleiro(),
+    id: "massa", fases: ["base", "afirmacao"], quando: (J) => J.idade <= 26 && !goleiro(),
     titulo: "Ganhar massa muscular",
     texto: () => "O fisiologista sugere cinco quilos de massa pra aguentar o contato.",
     opcoes: [
@@ -1869,7 +1912,7 @@ const EVENTOS = [
     ],
   },
   {
-    id: "arbitro", quando: () => true,
+    id: "arbitro", fases: ["afirmacao", "auge", "veterano"], quando: () => true,
     titulo: "Pênalti inexistente contra seu time",
     texto: () => "O juiz marcou e nem foi ao vídeo. O time inteiro partiu pra cima dele.",
     opcoes: [
@@ -1904,7 +1947,7 @@ const EVENTOS = [
     ],
   },
   {
-    id: "padrinho", quando: (J) => J.idade >= 30,
+    id: "padrinho", fases: ["veterano"], quando: (J) => J.idade >= 30,
     titulo: "Um garoto da base pede conselho",
     texto: () => "Ele joga na sua posição e quer ficar perto de você nos treinos.",
     opcoes: [
@@ -1913,7 +1956,7 @@ const EVENTOS = [
     ],
   },
   {
-    id: "ultimo-ano", quando: (J) => J.idade >= 33,
+    id: "ultimo-ano", fases: ["veterano"], quando: (J) => J.idade >= 33,
     titulo: "\"É o último ano?\"",
     texto: () => "A pergunta aparece em toda entrevista.",
     opcoes: [
@@ -1924,7 +1967,7 @@ const EVENTOS = [
     ],
   },
   {
-    id: "videogame", quando: (J) => J.idade <= 24,
+    id: "videogame", fases: ["base", "afirmacao"], quando: (J) => J.idade <= 24,
     titulo: "Concentração e videogame",
     texto: () => "O campeonato de videogame do elenco vai até tarde na véspera.",
     opcoes: [
@@ -1935,7 +1978,7 @@ const EVENTOS = [
     ],
   },
   {
-    id: "torcida-organizada", quando: () => true,
+    id: "torcida-organizada", fases: ["afirmacao", "auge", "veterano"], quando: () => true,
     titulo: "A organizada quer uma conversa",
     texto: () => "Eles apareceram no CT depois de uma sequência ruim.",
     opcoes: [
@@ -1989,7 +2032,8 @@ function eventoDeTreino(J, rng) {
 function sortearEventos(J, rng, n = 2) {
   // cada situacao aparece no maximo uma vez por carreira
   const vistos = new Set(J.eventosVistos || []);
-  const pool = EVENTOS.filter((e) => !vistos.has(e.id) && e.quando(J));
+  const f = Historia.fase(J);
+  const pool = EVENTOS.filter((e) => !vistos.has(e.id) && (!e.fases || e.fases.includes(f)) && e.quando(J));
   const completo = C.modo === "completo";
   const qtd = completo ? 2 : rng() < 0.35 ? 0 : 1;
   // a historia (historia.js) entra primeiro: consequencia vencida sempre
@@ -2046,8 +2090,8 @@ function desenharPainelJogador() {
   ]) { const d = el("div"); d.append(el("dt", null, k), el("dd", null, String(v))); fatos.append(d); }
   // reputacao (historia.js): de -5 a 5, o centro e neutro
   const rep = el("div", "painel-rep");
-  rep.append(el("span", "painel-rep-rotulo", "Reputação"));
-  for (const [k, rotulo] of [["torcida", "Torcida"], ["vestiario", "Vestiário"], ["imprensa", "Imprensa"]]) {
+  rep.append(el("span", "painel-rep-rotulo", `Fase: ${Historia.NOMES_FASE[Historia.fase(J)]} · confiança e reputação`));
+  for (const [k, rotulo] of [["tecnico", "Técnico"], ["disciplina", "Cabeça"], ["torcida", "Torcida"], ["vestiario", "Vestiário"], ["imprensa", "Imprensa"]]) {
     const v = (J.historia && J.historia.rep[k]) || 0;
     const linha = el("div", "rep-linha");
     const barra = el("span", "rep-barra");
@@ -2291,6 +2335,14 @@ function iniciarRolagem() {
   const alvo = $("temporada-atual");
   alvo.replaceChildren();
   alvo.append(el("p", "jogo-etapa", `Temporada ${J.ano} · ${J.idade} anos · ${J.clube.nome} (${J.clube.liga})`));
+  const DESC_FASE = {
+    base: "Base: pouco minuto e pouco dinheiro. Treino e cabeça fora de campo decidem quem sobe.",
+    afirmacao: "Afirmação: o primeiro dinheiro, as redes e as tentações. Polêmica pode render ou afundar.",
+    auge: "Auge: liderança, vestiário e decisões grandes.",
+    veterano: "Veterano: o corpo cobra. Hora de pensar no legado.",
+  };
+  const fAtual = Historia.fase(J);
+  if (!J.historico.length || Historia.fase({ idade: J.idade - 1 }) !== fAtual) alvo.append(el("p", "fase-aviso", DESC_FASE[fAtual]));
   // se o clube mudou de divisao no ano passado (e voce ficou), avisa aqui tambem
   const anterior = J.historico[J.historico.length - 1];
   if (anterior && anterior.mudouDivisao && anterior.clube === J.clube.nome) {
