@@ -808,41 +808,52 @@ function ladoDoDefensor(r) {
   return x;
 }
 
-// 4-3-3 pelo maior overall de cada posicao (desempate: mais minutos). So
-// entra quem tem nota, entao o piso de minutos ja vale aqui.
+// 4-3-3 pelo maior overall de cada FUNCAO (desempate: mais minutos): um
+// volante, dois meias, dois pontas (cada um no seu lado), um centroavante.
+// A funcao sai de onde o jogador atua na escalacao base (ou do perfil dos
+// eixos). So entra quem tem nota, entao o piso de minutos ja vale aqui.
 // Devolve [{ jogador, time, x, y }] com x e y de 0 a 1 (ataque em y = 1).
 function selecaoDaTemporada(r) {
+  inferirFuncoes(r); // refaz a cada temporada escolhida
   const ordem = (a, b) => b.overall - a.overall || b.minutos - a.minutos;
-  const da = (pos) => r.indice.comNota.filter((j) => j.posicao === pos).sort(ordem);
+  const usados = new Set();
+  const pegar = (funcoes, n, filtro = () => true) => {
+    const lista = r.indice.comNota.filter((j) => !usados.has(j) && funcoes.includes(FUNCAO.get(j)) && filtro(j)).sort(ordem).slice(0, n);
+    lista.forEach((j) => usados.add(j));
+    return lista;
+  };
   const vaga = (jogador, x, y) => ({ jogador, time: TIME_DE.get(jogador), x, y });
+  const xDe = ladoDoDefensor(r);
+  const lado = (j) => xDe.get(j.player_id);
   const escalados = [];
 
-  const [goleiro] = da("G");
+  const [goleiro] = pegar(["GOL"], 1);
   if (goleiro) escalados.push(vaga(goleiro, 0.5, 0));
 
-  const xDe = ladoDoDefensor(r);
-  const laterais = [], zagueiros = [];
-  for (const j of da("D")) {
-    if (laterais.length === 2 && zagueiros.length === 2) break;
-    const x = xDe.get(j.player_id);
-    const lateral = typeof x === "number" && (x <= 0.3 || x >= 0.7);
-    const central = typeof x === "number" && !lateral;
-    if (lateral && laterais.length < 2) laterais.push([j, x]);
-    else if (central && zagueiros.length < 2) zagueiros.push(j);
-    else if (typeof x !== "number") {
-      if (zagueiros.length < 2) zagueiros.push(j);
-      else if (laterais.length < 2) laterais.push([j, null]);
-    }
-  }
-  // um lateral de cada lado: o de x menor vai para a esquerda
-  laterais.sort((a, b) => (a[1] ?? 0.5) - (b[1] ?? 0.5));
-  if (laterais.length === 2 && laterais[0][1] !== null && laterais[0][1] >= 0.7) laterais.reverse();
-  laterais.forEach(([j], i) => escalados.push(vaga(j, i === 0 ? 0.04 : 0.96, 0.3)));
-  zagueiros.forEach((j, i) => escalados.push(vaga(j, i === 0 ? 0.33 : 0.67, 0.2)));
+  // laterais: o melhor de cada lado (sem lado registrado, completa onde faltar)
+  const lats = r.indice.comNota.filter((j) => FUNCAO.get(j) === "LAT").sort(ordem);
+  let le = lats.find((j) => (lado(j) ?? 0.5) < 0.5), ld = lats.find((j) => j !== le && (lado(j) ?? 0.5) >= 0.5);
+  if (!le) le = lats.find((j) => j !== ld);
+  if (!ld) ld = lats.find((j) => j !== le);
+  for (const [j, x] of [[le, 0.04], [ld, 0.96]]) if (j) { usados.add(j); escalados.push(vaga(j, x, 0.3)); }
+  const zags = pegar(["ZAG"], 2);
+  if (zags.length < 2) zags.push(...pegar(["LAT"], 2 - zags.length));
+  zags.forEach((j, i) => escalados.push(vaga(j, i === 0 ? 0.33 : 0.67, 0.2)));
 
-  // o melhor do setor fica no centro; o 2o e o 3o abrem pelos lados
-  da("M").slice(0, 3).forEach((j, i) => escalados.push(vaga(j, [0.5, 0.18, 0.82][i], i === 0 ? 0.5 : 0.56)));
-  da("F").slice(0, 3).forEach((j, i) => escalados.push(vaga(j, [0.5, 0.12, 0.88][i], i === 0 ? 0.97 : 0.86)));
+  // meio: volante na frente da zaga, dois meias abertos um pouco a frente
+  const [vol] = pegar(["VOL"], 1).concat(pegar(["MC"], 1));
+  if (vol) escalados.push(vaga(vol, 0.5, 0.44));
+  const meias = pegar(["MC", "MEI"], 2);
+  if (meias.length < 2) meias.push(...pegar(["VOL"], 2 - meias.length));
+  meias.forEach((j, i) => escalados.push(vaga(j, i === 0 ? 0.24 : 0.76, 0.6)));
+
+  // ataque: centroavante no meio, pontas pelos lados de onde jogam
+  const [ca] = pegar(["CA"], 1);
+  if (ca) escalados.push(vaga(ca, 0.5, 0.97));
+  const pontas = pegar(["PON"], 2);
+  if (pontas.length < 2) pontas.push(...pegar(["CA"], 2 - pontas.length));
+  pontas.sort((a, b) => (lado(a) ?? 0.5) - (lado(b) ?? 0.5));
+  pontas.forEach((j, i) => escalados.push(vaga(j, i === 0 ? 0.12 : 0.88, 0.86)));
   return escalados;
 }
 
