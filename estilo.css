@@ -840,3 +840,55 @@ select, input {
   *, *::before, *::after { animation: none !important; transition: none !important; }
   html { scroll-behavior: auto; }
 }
+
+/* --- home: faixa do canal + tres colunas (minigame | selecao | minigame) ------------- */
+.faixa-canal {
+  display: flex; align-items: center; gap: 0.7rem; margin-top: 1.2rem; padding: 0.65rem 0.9rem;
+  border-radius: 12px; border: 1px solid var(--borda); background: linear-gradient(90deg, rgba(255, 0, 51, 0.12), transparent 60%), var(--fundo-cartao);
+  color: var(--texto); text-decoration: none; font-size: 0.9rem;
+}
+.faixa-canal:hover { border-color: #ff0033; }
+.faixa-play { flex: none; width: 1.9rem; height: 1.3rem; border-radius: 6px; background: #ff0033; position: relative; }
+.faixa-play::after { content: ""; position: absolute; left: 50%; top: 50%; transform: translate(-35%, -50%); border-left: 0.5rem solid #fff; border-top: 0.32rem solid transparent; border-bottom: 0.32rem solid transparent; }
+.faixa-texto { flex: 1; min-width: 0; color: var(--texto-fraco); }
+.faixa-texto b { color: var(--texto); }
+.faixa-acao { flex: none; font-weight: 700; color: #ff5470; }
+
+.abertura { padding-top: clamp(1.4rem, 3vw, 2.2rem); }
+.abertura-topo { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1rem 2rem; }
+.abertura-topo h1 { max-width: none; }
+.abertura-topo .hero-busca { flex: 0 1 26rem; margin: 0; }
+.vitrine-tres { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr) minmax(0, 1fr); gap: clamp(0.9rem, 2vw, 1.4rem); align-items: stretch; margin-top: clamp(1.4rem, 3vw, 2rem); }
+.vitrine-tres .jogo-visual { height: clamp(180px, 17vw, 235px); }
+.vitrine-tres .jogo-textos { padding: 1rem 1.1rem 1.2rem; }
+.vitrine-tres .jogo-textos h2 { font-size: clamp(1.5rem, 2.2vw, 1.9rem); }
+.vitrine-tres .jogo-textos p { font-size: 0.9rem; }
+.vitrine-tres .leque-carta { width: clamp(104px, 9.5vw, 134px); bottom: -14%; }
+.vitrine-tres .evolucao-0 { width: clamp(62px, 5.6vw, 76px); }
+.vitrine-tres .evolucao-1 { width: clamp(72px, 6.6vw, 90px); }
+.vitrine-tres .evolucao-2 { width: clamp(84px, 7.6vw, 104px); }
+.vitrine-tres .evolucao-rotulo { font-size: 0.6rem; }
+.centro-selecao { display: grid; align-content: start; gap: 0.6rem; }
+.selecao-cabeca { display: flex; align-items: baseline; justify-content: space-between; gap: 0.6rem; flex-wrap: wrap; }
+.selecao-cabeca h2 { margin: 0; font-size: 1.05rem; }
+.selecao-link { font-size: 0.85rem; color: var(--canal); }
+.centro-selecao .selecao { max-width: none; }
+.selecao-regra { margin: 0; font-size: 0.78rem; text-align: center; }
+.abertura-extra { margin: 1rem 0 0; text-align: center; }
+@media (max-width: 1000px) {
+  .vitrine-tres { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .centro-selecao { grid-column: 1 / -1; order: -1; max-width: 460px; width: 100%; justify-self: center; }
+}
+@media (max-width: 600px) {
+  .vitrine-tres { grid-template-columns: 1fr; }
+  .faixa-texto { font-size: 0.82rem; }
+  .abertura-topo .hero-busca { flex: 1 1 100%; }
+}
+
+.vitrine-tres .jogo-textos { display: flex; flex-direction: column; gap: 0.5rem; }
+.vitrine-tres .jogo-textos .botao { margin-top: auto; align-self: flex-start; }
+.centro-selecao .selecao > svg { max-height: 470px; width: auto; max-width: 100%; margin: 0 auto; }
+@media (max-width: 600px) {
+  .faixa-sub { display: none; }
+  .centro-selecao .selecao > svg { max-height: none; width: 100%; }
+}

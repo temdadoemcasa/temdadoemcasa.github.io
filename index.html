@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="estilo.css?v=2026-09-24k">
+  <link rel="stylesheet" href="estilo.css?v=2026-09-24l">
 </head>
 <body>
   <header class="topo">
@@ -35,52 +35,57 @@
   </header>
 
   <main>
+    <a class="faixa-canal" href="https://www.youtube.com/@temdadoemcasafc?sub_confirmation=1" target="_blank" rel="noopener">
+      <span class="faixa-play" aria-hidden="true"></span>
+      <span class="faixa-texto"><b>Tem dado em casa no YouTube</b><span class="faixa-sub"> · a resenha do Brasileirão com dados, rodada a rodada</span></span>
+      <span class="faixa-acao">Inscreva-se</span>
+    </a>
+
     <section class="abertura" aria-labelledby="abertura-titulo">
       <div class="abertura-topo">
-        <p class="hero-sobretitulo">Resenha futebolística com dados</p>
-        <h1 id="abertura-titulo">Nosso futebol em <span class="destaque">números</span>.</h1>
-        <p class="hero-texto">Cada carta sai do Brasileirão de verdade. Agora dá pra jogar com elas.</p>
-      </div>
-      <div class="jogos">
-        <a class="jogo-card jogo-draft" href="tem-time-em-casa.html">
-          <div class="jogo-visual" id="visual-draft" aria-hidden="true"></div>
-          <div class="jogo-textos">
-            <p class="jogo-papel">Você é o técnico</p>
-            <h2>Tem Time em Casa</h2>
-            <p>Cinco figurinhas por posição, onze escolhas e a temporada inteira no calendário: Brasileirão, Copa do Brasil e Libertadores. Se der ruim, a culpa é do técnico.</p>
-            <span class="botao botao-primario">Montar meu time</span>
-          </div>
-        </a>
-        <a class="jogo-card jogo-carreira" href="prata-da-casa.html">
-          <div class="jogo-visual" id="visual-carreira" aria-hidden="true"></div>
-          <div class="jogo-textos">
-            <p class="jogo-papel">Você é o jogador</p>
-            <h2>Prata da Casa</h2>
-            <p>Passa na peneira aos 16, estreia na Série D e sobe de clube. Pendura a chuteira com Bola de Ouro ou rodando a Série B.</p>
-            <span class="botao botao-primario">Criar meu jogador</span>
-          </div>
-        </a>
-      </div>
-      <div class="abertura-rodape">
+        <div>
+          <p class="hero-sobretitulo">Resenha futebolística com dados</p>
+          <h1 id="abertura-titulo">Nosso futebol em <span class="destaque">números</span>.</h1>
+          <p class="hero-texto">Cada carta sai do Brasileirão de verdade. Veja quem está voando na temporada ou jogue com eles.</p>
+        </div>
         <form class="hero-busca" id="hero-busca" role="search">
           <label class="visualmente-oculto" for="hero-busca-campo">Procurar jogador</label>
           <input id="hero-busca-campo" type="search" placeholder="Procura um jogador" autocomplete="off">
           <button class="botao" type="submit">Procurar</button>
         </form>
-        <div class="abertura-links">
-          <a href="https://www.youtube.com/@temdadoemcasafc?sub_confirmation=1" target="_blank" rel="noopener">Inscreva-se no canal</a>
-          <button class="link-envelope" id="abrir-vitrine" type="button" hidden>Abrir um envelope (só pela resenha)</button>
-        </div>
       </div>
-    </section>
 
-    <section class="secao secao-selecao" aria-labelledby="selecao-titulo">
-      <div class="selecao-textos">
-        <h2 id="selecao-titulo">A seleção do Brasileirão</h2>
-        <p class="nota" id="selecao-regra">Sem opinião, só planilha: o maior overall de cada posição.</p>
-        <a class="botao" href="#overalls">Ver todas as cartas</a>
+      <div class="vitrine-tres">
+        <a class="jogo-card jogo-draft" href="tem-time-em-casa.html">
+          <div class="jogo-visual" id="visual-draft" aria-hidden="true"></div>
+          <div class="jogo-textos">
+            <p class="jogo-papel">Minigame · você é o técnico</p>
+            <h2>Tem Time em Casa</h2>
+            <p>Cinco figurinhas por posição, onze escolhas e a temporada inteira: Brasileirão, Copa do Brasil e Libertadores.</p>
+            <span class="botao botao-primario">Montar meu time</span>
+          </div>
+        </a>
+
+        <section class="centro-selecao" aria-labelledby="selecao-titulo">
+          <div class="selecao-cabeca">
+            <h2 id="selecao-titulo">A seleção do Brasileirão</h2>
+            <a class="selecao-link" href="#overalls">Ver todas as cartas</a>
+          </div>
+          <figure class="selecao" id="selecao" aria-live="polite"></figure>
+          <p class="nota selecao-regra" id="selecao-regra">Sem opinião, só planilha: o maior overall de cada posição.</p>
+        </section>
+
+        <a class="jogo-card jogo-carreira" href="prata-da-casa.html">
+          <div class="jogo-visual" id="visual-carreira" aria-hidden="true"></div>
+          <div class="jogo-textos">
+            <p class="jogo-papel">Minigame · você é o jogador</p>
+            <h2>Prata da Casa</h2>
+            <p>Passa na peneira aos 16, estreia na Série D e sobe de clube até pendurar a chuteira.</p>
+            <span class="botao botao-primario">Criar meu jogador</span>
+          </div>
+        </a>
       </div>
-      <figure class="selecao" id="selecao" aria-live="polite"></figure>
+      <p class="abertura-extra"><button class="link-envelope" id="abrir-vitrine" type="button" hidden>Abrir um envelope de figurinha (só pela resenha)</button></p>
     </section>
 
     <dialog class="vitrine-dialogo" id="vitrine-dialogo" aria-label="Envelope de figurinha">
@@ -187,6 +192,6 @@
     <a href="https://github.com/temdadoemcasa" target="_blank" rel="noopener">GitHub</a>
   </footer>
 
-  <script src="app.js?v=2026-09-24k"></script>
+  <script src="app.js?v=2026-09-24l"></script>
 </body>
 </html>
