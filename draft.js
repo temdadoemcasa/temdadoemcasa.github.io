@@ -110,7 +110,7 @@ function montarClubes() {
       for (const o of alvo.children) o.setAttribute("aria-checked", String(o === b));
       D.sai = time.nome;
       $("comecar-draft").disabled = false;
-      $("comecar-draft").textContent = `Tirar o ${time.nome} e começar o draft`;
+      $("comecar-draft").textContent = `Tirar o ${time.nome} e abrir as figurinhas`;
     });
     alvo.append(b);
   }
@@ -1136,5 +1136,5 @@ async function iniciarDraft() {
 
 iniciarDraft().catch((erro) => {
   console.error(erro);
-  $("clubes").replaceChildren(el("div", "vazio", "O draft não carregou agora. Tenta de novo daqui a pouco."));
+  $("clubes").replaceChildren(el("div", "vazio", "O jogo não carregou agora. Tenta de novo daqui a pouco."));
 });
