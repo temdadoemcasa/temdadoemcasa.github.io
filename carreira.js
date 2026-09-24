@@ -47,7 +47,34 @@ const PESOS = {
 };
 const PONTOS_INICIAIS = 30, PASSO = 5, MAX_POR_ATRIBUTO = 15;
 
-// gol e assistencia por jogo de um titular medio em cada funcao
+// Gols e assistencias por jogo (90 min) pelo OVR, com referencias reais pra
+// centroavante: ~0,35 um CA mediano, ~0,5 Pedro/Gabigol, ~0,65 Aguero,
+// ~0,8 Mbappe, ~1,0 Haaland. Assistencia pra meia: ~0,35-0,4 De Bruyne.
+// Liga mais fraca rende um pouco mais; as outras posicoes, uma fracao.
+const interpolar = (pts, x) => {
+  if (x <= pts[0][0]) return pts[0][1];
+  for (let i = 1; i < pts.length; i++) if (x <= pts[i][0]) { const [x0, y0] = pts[i - 1], [x1, y1] = pts[i]; return y0 + (y1 - y0) * (x - x0) / (x1 - x0); }
+  return pts[pts.length - 1][1];
+};
+const CURVA_GOL = [[60, 0.1], [70, 0.18], [76, 0.25], [80, 0.31], [84, 0.4], [88, 0.53], [92, 0.72], [95, 0.9], [97, 0.98]];
+const CURVA_ASSIST = [[60, 0.05], [70, 0.1], [80, 0.17], [88, 0.25], [95, 0.34], [97, 0.37]];
+const FRACAO_GOL = { CA: 1, PON: 0.55, MEI: 0.42, MC: 0.2, VOL: 0.1, LAT: 0.07, ZAG: 0.09, GOL: 0 };
+const FRACAO_ASSIST = { MEI: 1, PON: 0.85, MC: 0.6, CA: 0.45, LAT: 0.5, VOL: 0.35, ZAG: 0.12, GOL: 0.02 };
+function ritmoDoJogador(J, nivelLiga) {
+  const f = funcaoDe(C.pos);
+  const efetivo = J.ovr + (72 - nivelLiga) * 0.2; // Serie D facilita, Premier League aperta
+  const fin = f === "GOL" ? 1 : limitar(1 + ((J.attrs.FIN ?? J.ovr) - J.ovr) / 60, 0.7, 1.3);
+  const pas = f === "GOL" ? 1 : limitar(1 + ((J.attrs.PAS ?? J.ovr) - J.ovr) / 60, 0.7, 1.3);
+  return { gol: interpolar(CURVA_GOL, efetivo) * FRACAO_GOL[f] * fin, assist: interpolar(CURVA_ASSIST, efetivo) * FRACAO_ASSIST[f] * pas };
+}
+function poissonC(rng, media) {
+  if (media > 30) return Math.max(0, Math.round(media + normal(rng, Math.sqrt(media))));
+  const L = Math.exp(-media); let k = 0, p = 1;
+  do { k++; p *= rng(); } while (p > L);
+  return k - 1;
+}
+
+// gol e assistencia por jogo de um titular medio em cada funcao (motor/selecao antiga)
 const TAXA_GOL = { CA: 0.42, PON: 0.26, MEI: 0.2, MC: 0.09, VOL: 0.05, LAT: 0.04, ZAG: 0.05, GOL: 0 };
 const TAXA_ASSIST = { MEI: 0.24, PON: 0.2, MC: 0.14, CA: 0.11, LAT: 0.12, VOL: 0.07, ZAG: 0.03, GOL: 0.005 };
 
@@ -828,8 +855,9 @@ function temporadaNaSelecao(J, ano, rng, p) {
   const pais = paisDe(C.pais);
   if (J.ovr < pais.corte || p < 0.45) return null;
   const f = funcaoDe(C.pos);
-  const golPorJogo = TAXA_GOL[f] * 0.8 * ((J.attrs.FIN ?? 30) / 70);
-  const assistPorJogo = TAXA_ASSIST[f] * 0.7 * ((J.attrs.PAS ?? 30) / 70);
+  const ritmo = ritmoDoJogador(J, 76); // selecao: nivel de jogo internacional
+  const golPorJogo = Math.min(0.9, ritmo.gol * 0.85);
+  const assistPorJogo = Math.min(0.6, ritmo.assist * 0.85);
   const r = { jogos: 4 + Math.floor(rng() * 6), gols: 0, assist: 0, titulos: [], premios: [] };
   for (let i = 0; i < r.jogos; i++) { if (rng() < golPorJogo) r.gols++; if (rng() < assistPorJogo) r.assist++; }
   if (!J.estreouSelecao) { r.estreia = true; J.estreouSelecao = ano; }
@@ -997,6 +1025,10 @@ function propostasDoAno(J, t, linha) {
     if (c.continente === "asia" && !(J.idade >= 24 && J.ovr >= 74)) continue;
     if (c.continente === "leste" && !(J.idade >= 21 && J.idade <= 31 && J.ovr >= 72)) continue;
     if (c.tipo === "ext" && c.continente === "america" && J.ovr < 64) continue;
+    // clube so olha quem chega perto do titular dele; elite quer carta de elite
+    if (J.ovr < c.nivel - 3) continue;
+    if (c.forca >= 65 && J.ovr < 86) continue;
+    if (c.forca >= 62 && c.continente === "europa" && J.ovr < 82) continue;
     const mesmoOuAcima = c.forca >= atual.forca - 3 || t.rebaixado || linha.titular < 0.3;
     if (!mesmoOuAcima) continue;
     // sobe no maximo um degrau por vez; dois so com o olheiro certo
@@ -1047,10 +1079,13 @@ function jogarTemporada({ decidir = true } = {}) {
   const f = funcaoDe(C.pos);
   const st = t.st;
   const jogos = limitar(Math.round(st.jogos * t.p + normal(rng, 1.5)), 0, st.jogos);
-  let assist = 0;
-  const outrosGols = Math.max(0, st.golsDoTime - st.gols);
-  for (let i = 0; i < outrosGols; i++) if (rng() < TAXA_ASSIST[f] * t.p * 0.9 * ((J.attrs.PAS ?? 30) / 70)) assist++;
-  const gols = Math.min(st.gols, jogos * 3);
+  // gols e assistencias pelo ritmo do OVR (minutos por jogo contam)
+  const ritmo = ritmoDoJogador(J, t.nivelLiga);
+  const noventa = jogos * (0.7 + 0.3 * t.s);
+  const gols = poissonC(rng, ritmo.gol * noventa);
+  const assist = poissonC(rng, ritmo.assist * noventa);
+  // a parte da liga (pra artilharia e premios)
+  st.golsLiga = Math.round(gols * st.jogosLiga / Math.max(1, st.jogos));
   // quem defende pontua pelo jogo sem sofrer gol; quem ataca, por gol e assistencia
   const fam = POSICOES[C.pos].fam;
   const muralha = fam === "G" || fam === "D" ? (st.semSofrerLiga / Math.max(1, st.jogosLiga) - 0.3) * (fam === "G" ? 1.6 : 1.1) : 0;
