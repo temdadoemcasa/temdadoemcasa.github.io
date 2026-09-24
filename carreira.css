@@ -469,3 +469,63 @@
   .evento-topo { flex-wrap: wrap; }
 }
 .evento-opcoes { grid-template-columns: minmax(0, 1fr); }
+
+/* --- janela de transferencias em lista (2026-09-25) -------------------------------
+   Cada proposta em duas faixas: camisa, nome e a chance de titular em cima,
+   os botoes lado a lado embaixo. O seu clube vem primeiro. */
+.mercado .propostas { grid-template-columns: minmax(0, 1fr); gap: 0.55rem; }
+.mercado .proposta:not(.proposta-ficar) {
+  grid-template-columns: 54px minmax(0, 1fr) auto;
+  grid-template-areas: "camisa liga pct" "camisa nome pct" "camisa jogos jogos" "barra barra barra" "adapta adapta adapta" "acoes acoes acoes" "resp resp resp";
+  justify-items: stretch; align-items: center; column-gap: 0.75rem; row-gap: 0.2rem;
+  padding: 0.7rem 0.85rem; text-align: left; border-radius: 12px;
+}
+.mercado .proposta:not(.proposta-ficar) .proposta-liga { grid-area: liga; font-size: 0.66rem; }
+.mercado .proposta:not(.proposta-ficar) .proposta-camisa { grid-area: camisa; }
+.mercado .proposta:not(.proposta-ficar) .proposta-camisa svg { width: 50px; }
+.mercado .proposta:not(.proposta-ficar) .proposta-nome { grid-area: nome; font-size: 1.05rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mercado .proposta:not(.proposta-ficar) .estrelas,
+.mercado .proposta:not(.proposta-ficar) .proposta-titular { display: none; }
+.mercado .proposta:not(.proposta-ficar) .proposta-minutos { display: contents; }
+.mercado .proposta-chance-txt { grid-area: pct; display: grid; justify-items: end; line-height: 1; }
+.mercado .proposta-chance-txt b { font-family: var(--numeros); font-size: 1.6rem; font-weight: 800; color: var(--texto); }
+.mercado .proposta-chance-txt::after { content: "de ser titular"; font-size: 0.64rem; color: var(--texto-fraco); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 0.15rem; }
+.mercado .proposta-chance-rotulo { display: none; }
+.mercado .proposta-jogos { grid-area: jogos; font-size: 0.74rem; color: var(--texto-fraco); white-space: normal; }
+.mercado .proposta-chance { grid-area: barra; height: 0.3rem; margin: 0.2rem 0 0.1rem; }
+.mercado .proposta-adapta { grid-area: adapta; }
+.mercado .proposta-acoes { grid-area: acoes; display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 0.4rem; margin-top: 0.25rem; }
+.mercado .proposta-acoes .botao { margin: 0; width: 100%; padding: 0.45rem 0.7rem; font-size: 0.84rem; }
+.mercado .proposta-resposta { grid-area: resp; }
+.mercado-titulo { margin: 0 0 0.2rem; }
+.mercado > .nota { margin: 0 0 0.6rem; font-size: 0.82rem; }
+
+/* o seu clube: renovar ou ficar */
+.mercado .proposta-ficar {
+  display: grid; grid-template-columns: minmax(0, 1fr); justify-items: stretch; align-content: start; gap: 0.3rem;
+  padding: 0.8rem 0.9rem; text-align: left; border-radius: 12px; border-style: solid;
+  border-color: color-mix(in srgb, var(--canal) 35%, var(--borda));
+}
+.mercado .proposta-ficar .proposta-nome { font-size: 1.05rem; }
+.mercado .proposta-ficar .proposta-titular { margin: 0 0 0.1rem; }
+.mercado .proposta-ficar > .botao { margin: 0.15rem 0 0; width: auto; justify-self: start; padding: 0.4rem 0.9rem; font-size: 0.82rem; border-radius: 999px; }
+.renova-lista { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 0.45rem; }
+.renova-opcao { display: grid; gap: 0.1rem; justify-items: start; text-align: left; width: 100%; margin: 0 !important; padding: 0.55rem 0.8rem; border-radius: 10px; background: var(--fundo-alto); }
+.renova-opcao:hover { border-color: var(--canal); }
+.renova-opcao span { font-weight: 800; }
+.renova-opcao small { font-size: 0.74rem; font-family: Inter, sans-serif; letter-spacing: 0; text-transform: none; }
+.renova-bom { color: var(--canal); }
+.renova-ruim { color: #ff7d95; }
+[data-tema="claro"] .renova-bom { color: #4d7a00; }
+.proposta-adapta { margin: 0; font-size: 0.72rem; color: #f2c230; }
+[data-tema="claro"] .proposta-adapta { color: #8a6500; }
+.renova-prazo { color: var(--texto-fraco); font-style: italic; }
+.mercado .proposta:not(.proposta-ficar) { grid-template-columns: 68px minmax(0, 1fr) auto; }
+.mercado .proposta:not(.proposta-ficar) .proposta-camisa { justify-self: start; width: 64px; }
+.mercado .proposta:not(.proposta-ficar) .proposta-camisa svg { width: 44px; }
+.mercado .proposta-liga { text-align: left; justify-self: start; }
+.mercado .proposta-ficar .proposta-nome { margin: 0 0 0.1rem; }
+/* cada bloco do palco do tamanho do proprio conteudo: com altura fixa e
+   min-height 0, o resumo do ano era espremido (37px) e vazava por cima da
+   janela de transferencias -- o selo de premio aparecia em cima das propostas */
+.carreira-palco { grid-auto-rows: max-content; }

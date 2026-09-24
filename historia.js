@@ -50,6 +50,9 @@
     J.efeito.nota += clamp(r.torcida * 0.03, -0.15, 0.15);
     J.efeito.vitrine += r.torcida * 0.3 + r.imprensa * 0.5;
     J.efeito.minutos += clamp(r.vestiario * 0.015, -0.08, 0.08);
+    // e na evolucao: ambiente bom faz crescer, ambiente ruim trava. O
+    // vestiario (o dia a dia do treino) pesa mais que torcida e imprensa.
+    J.efeito.evolucao += clamp(r.vestiario * 0.1 + r.torcida * 0.05 + r.imprensa * 0.04, -0.8, 0.8);
   };
 
   // o rival: um jogador de verdade da Serie A, de outro clube, que vira o
@@ -262,7 +265,7 @@
         { rotulo: "Faz a cirurgia", sempre: (JJ) => { JJ.efeito.lesao += 0.35; JJ.efeito.queda += 0.6; return "Quatro meses fora, mas o joelho ficou novo. Coisa que só a cirurgia resolve."; } },
         { rotulo: "Infiltração e segue", chance: () => 0.5,
           ok: () => "Aguentou o ano inteiro na base do remédio.",
-          falha: (JJ) => { JJ.efeito.lesao += 0.5; JJ.efeito.evolucao -= 1; return "Rompeu de vez em outubro. Temporada perdida e um passo pra trás."; } },
+          falha: (JJ) => { JJ.efeito.lesao = 1; JJ.efeito.evolucao -= 1; return "Rompeu de vez na pré-temporada. Temporada perdida e um passo pra trás."; } },
       ],
     }),
     aprendiz: (J) => ({
@@ -320,6 +323,9 @@
       Historia.registrar(J, ev, { rotulo: `${op.rotulo} (no automático)` }, r);
     }
   };
+
+  // reputacao mexida de fora dos arcos (a renovacao da janela, carreira.js)
+  Historia.mexerReputacao = function (J, mudancas) { rep(J, mudancas); };
 
   Historia.registrar = function (J, ev, op, r) {
     h(J).trilha.push({
