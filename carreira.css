@@ -52,7 +52,8 @@
 }
 .pais:hover { border-color: var(--texto-fraco); }
 .pais.ativo { border-color: var(--canal); box-shadow: 0 0 0 1px var(--canal); }
-.bandeira { flex: none; width: 1.3rem; height: 0.9rem; border-radius: 2px; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.15); }
+.bandeira { flex: none; display: block; width: 1.5rem; height: 1rem; border-radius: 2px; overflow: hidden; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.18); }
+.bandeira svg { display: block; width: 100%; height: 100%; }
 
 .campo-posicoes { aspect-ratio: 0.72; margin-top: 0.3rem; }
 .pos-botao {

@@ -166,9 +166,53 @@ function camisaDeCostas(kit, nome, numero) {
 
 // --- 1. criacao ------------------------------------------------------------------------
 
+// Bandeiras desenhadas em SVG (30x20), simplificadas mas fieis nas cores e no desenho
+function estrela(cx, cy, r, cor, giro = -90) {
+  const pts = [];
+  for (let i = 0; i < 10; i++) {
+    const a = (giro + i * 36) * Math.PI / 180, rr = i % 2 ? r * 0.4 : r;
+    pts.push(`${(cx + rr * Math.cos(a)).toFixed(2)},${(cy + rr * Math.sin(a)).toFixed(2)}`);
+  }
+  return `<polygon points="${pts.join(" ")}" fill="${cor}"/>`;
+}
+const faixasH = (...cores) => cores.map((c, i) => `<rect y="${(20 / cores.length) * i}" width="30" height="${20 / cores.length + 0.05}" fill="${c}"/>`).join("");
+const faixasV = (...cores) => cores.map((c, i) => `<rect x="${(30 / cores.length) * i}" width="${30 / cores.length + 0.05}" height="20" fill="${c}"/>`).join("");
+const BANDEIRAS = {
+  BRA: `<rect width="30" height="20" fill="#009c3b"/><polygon points="15,2.2 27.4,10 15,17.8 2.6,10" fill="#ffdf00"/><circle cx="15" cy="10" r="4.4" fill="#002776"/><path d="M10.7 9.1 Q15 7.6 19.3 11" stroke="#fff" stroke-width="0.8" fill="none"/>`,
+  ARG: faixasH("#74acdf", "#fff", "#74acdf") + `<circle cx="15" cy="10" r="1.9" fill="#f6b40e"/>`,
+  URU: Array.from({ length: 9 }, (_, i) => `<rect y="${i * 20 / 9}" width="30" height="${20 / 9 + 0.05}" fill="${i % 2 ? "#0038a8" : "#fff"}"/>`).join("")
+    + `<rect width="11" height="${20 / 9 * 5}" fill="#fff"/><circle cx="5.5" cy="5.5" r="2.8" fill="#fcd116"/><circle cx="5.5" cy="5.5" r="1.7" fill="#fcd116" stroke="#7b3f00" stroke-width="0.3"/>`,
+  COL: `<rect width="30" height="10" fill="#fcd116"/><rect y="10" width="30" height="5" fill="#003893"/><rect y="15" width="30" height="5" fill="#ce1126"/>`,
+  CHI: `<rect width="30" height="20" fill="#fff"/><rect y="10" width="30" height="10" fill="#d52b1e"/><rect width="10" height="10" fill="#0039a6"/>${estrela(5, 5, 2.8, "#fff")}`,
+  PAR: faixasH("#d52b1e", "#fff", "#0038a8") + `<circle cx="15" cy="10" r="2.2" fill="none" stroke="#1b5e20" stroke-width="0.5"/>${estrela(15, 10, 1, "#fcd116")}`,
+  EQU: `<rect width="30" height="10" fill="#ffdd00"/><rect y="10" width="30" height="5" fill="#034ea2"/><rect y="15" width="30" height="5" fill="#ed1c24"/><ellipse cx="15" cy="10" rx="2.4" ry="3" fill="#5ba3d9" stroke="#7b5a2f" stroke-width="0.4"/>`,
+  PER: faixasV("#d91023", "#fff", "#d91023"),
+  VEN: faixasH("#ffcc00", "#00247d", "#cf142b") + Array.from({ length: 8 }, (_, i) => { const a = (200 + i * 20) * Math.PI / 180; return estrela(15 + 5.2 * Math.cos(a), 12.3 + 5.2 * Math.sin(a), 0.75, "#fff"); }).join(""),
+  BOL: faixasH("#d52b1e", "#f9e300", "#007934"),
+  MEX: faixasV("#006847", "#fff", "#ce1126") + `<ellipse cx="15" cy="10" rx="2" ry="2.3" fill="#8c5a2b"/><path d="M12.8 11.6 Q15 13.4 17.2 11.6" stroke="#1b5e20" stroke-width="0.6" fill="none"/>`,
+  EUA: Array.from({ length: 13 }, (_, i) => `<rect y="${i * 20 / 13}" width="30" height="${20 / 13 + 0.05}" fill="${i % 2 ? "#fff" : "#b22234"}"/>`).join("")
+    + `<rect width="12" height="${20 / 13 * 7}" fill="#3c3b6e"/>` + Array.from({ length: 20 }, (_, i) => `<circle cx="${1.3 + (i % 5) * 2.35 + (Math.floor(i / 5) % 2) * 1.1}" cy="${1.3 + Math.floor(i / 5) * 2.6}" r="0.45" fill="#fff"/>`).join(""),
+  POR: `<rect width="30" height="20" fill="#ff0000"/><rect width="12" height="20" fill="#006600"/><circle cx="12" cy="10" r="3.6" fill="none" stroke="#ffe000" stroke-width="1"/><path d="M10.3 8.2h3.4v2.6a1.7 1.7 0 0 1-3.4 0z" fill="#fff" stroke="#ff0000" stroke-width="0.6"/>`,
+  ESP: `<rect width="30" height="20" fill="#aa151b"/><rect y="5" width="30" height="10" fill="#f1bf00"/><rect x="7" y="7.6" width="3.2" height="4.4" rx="0.6" fill="#aa151b"/><rect x="7.6" y="8.2" width="2" height="1.6" fill="#f1bf00"/>`,
+  FRA: faixasV("#002395", "#fff", "#ed2939"),
+  ING: `<rect width="30" height="20" fill="#fff"/><rect x="13" width="4" height="20" fill="#ce1124"/><rect y="8" width="30" height="4" fill="#ce1124"/>`,
+  ALE: faixasH("#000", "#dd0000", "#ffce00"),
+  ITA: faixasV("#009246", "#fff", "#ce2b37"),
+  HOL: faixasH("#ae1c28", "#fff", "#21468b"),
+  BEL: faixasV("#000", "#fdda24", "#ef3340"),
+  MAR: `<rect width="30" height="20" fill="#c1272d"/><polygon points="${Array.from({ length: 5 }, (_, i) => { const a = (-90 + i * 144) * Math.PI / 180; return `${(15 + 4.2 * Math.cos(a)).toFixed(2)},${(10.4 + 4.2 * Math.sin(a)).toFixed(2)}`; }).join(" ")}" fill="none" stroke="#006233" stroke-width="0.9" stroke-linejoin="round"/>`,
+  JAP: `<rect width="30" height="20" fill="#fff"/><circle cx="15" cy="10" r="6" fill="#bc002d"/>`,
+  COR: `<rect width="30" height="20" fill="#fff"/><g transform="rotate(33.7 15 10)"><path d="M10 10a5 5 0 0 1 10 0z" fill="#cd2e3a"/><path d="M10 10a5 5 0 0 0 10 0z" fill="#0047a0"/><circle cx="12.5" cy="10" r="2.5" fill="#cd2e3a"/><circle cx="17.5" cy="10" r="2.5" fill="#0047a0"/></g>`
+    + [[4.5, 3.5, -33.7], [25.5, 16.5, -33.7], [25.5, 3.5, 33.7], [4.5, 16.5, 33.7]].map(([x, y, r]) => `<g transform="rotate(${r} ${x} ${y})" fill="#000"><rect x="${x - 2.2}" y="${y - 1.9}" width="4.4" height="0.8"/><rect x="${x - 2.2}" y="${y - 0.4}" width="4.4" height="0.8"/><rect x="${x - 2.2}" y="${y + 1.1}" width="4.4" height="0.8"/></g>`).join(""),
+};
+// Croacia: o xadrez do escudo
+BANDEIRAS.CRO = faixasH("#ff0000", "#fff", "#171796") + `<rect x="12.2" y="5.2" width="5.6" height="7.2" rx="0.4" fill="#fff" stroke="#171796" stroke-width="0.3"/>`
+  + Array.from({ length: 20 }, (_, i) => { const c = i % 4, l = Math.floor(i / 4); return (c + l) % 2 ? "" : `<rect x="${12.2 + c * 1.4}" y="${5.2 + l * 1.44}" width="1.4" height="1.44" fill="#ff0000"/>`; }).join("");
+
 function bandeira(p) {
   const b = el("span", "bandeira");
-  b.style.background = `linear-gradient(180deg, ${p.cores[0]} 0 33%, ${p.cores[1]} 33% 67%, ${p.cores[2]} 67%)`;
+  b.innerHTML = `<svg viewBox="0 0 30 20" preserveAspectRatio="none" aria-hidden="true">${BANDEIRAS[p.id] || faixasH(...p.cores)}</svg>`;
+  b.title = p.nome;
   return b;
 }
 
