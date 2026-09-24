@@ -758,7 +758,7 @@ function evoluir(J, p, rng) {
   if (J.idade <= 22) {
     const ultima = J.historico[J.historico.length - 1];
     if (ultima && ultima.nota >= 7.4 && rng() < 0.4) J.potencial = Math.min(J.potencialSorteado + 1, 97, J.potencial + 1);
-    if (p < 0.3 && rng() < 0.5) J.potencial = Math.max(J.potencialSorteado - 3, J.potencial - 1);
+    if (p < 0.3 && rng() < 0.5) J.potencial = Math.max(J.potencialSorteado - 3, 76, J.potencial - 1);
   }
   const proxima = J.idade + 1;
   let delta;
@@ -1216,15 +1216,15 @@ function mostrarAposentadoria() {
 
 // --- liga tudo ------------------------------------------------------------------------
 
-// Potencial escondido, por faixa: a maioria para entre 76 e 87; 10% chegam
+// Potencial escondido, por faixa (piso 76): a maioria para entre 76 e 87; 10% chegam
 // a 88-91, 7% a 92-94 e 5% viram o proximo Pele (95+). A carta montada so
 // empurra um pouco.
-const FAIXAS_POTENCIAL = [[0.05, 95, 97], [0.12, 92, 94], [0.22, 88, 91], [0.52, 83, 87], [0.82, 76, 82], [1, 68, 75]];
+const FAIXAS_POTENCIAL = [[0.05, 95, 97], [0.12, 92, 94], [0.22, 88, 91], [0.52, 83, 87], [1, 76, 82]];
 function sortearPotencial(ovr, f) {
   const rng = C.rng;
   const u = rng();
   const [, a, b] = FAIXAS_POTENCIAL.find(([ate]) => u < ate);
-  const potencial = limitar(a + Math.floor(rng() * (b - a + 1)) + Math.round((ovr - 60) * 0.1), 64, 97);
+  const potencial = limitar(a + Math.floor(rng() * (b - a + 1)) + Math.round((ovr - 60) * 0.1), 76, 97);
   const pico = f === "GOL" ? 33 + Math.floor(rng() * 3) : Motor.sortearPeso(rng, [[28, 0.05], [29, 0.35], [30, 0.4], [31, 0.2]], ([, w]) => w)[0];
   return { potencial, potencialSorteado: potencial, idadePico: pico, ovrInicial: ovr };
 }
