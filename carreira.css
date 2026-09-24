@@ -419,3 +419,7 @@
 .hist-passos li.desce::before { background: #ff7d95; }
 .hist-quando { font-size: 0.7rem; color: var(--texto-fraco); text-transform: uppercase; letter-spacing: 0.05em; }
 .hist-texto { color: var(--texto-fraco); }
+
+/* durante as decisoes o botao do cartao conduz; o fixo sumiria duplicado
+   ("Jogar a temporada" duas vezes). visibility guarda o lugar dele. */
+#tela-carreira #proxima:disabled { visibility: hidden; }
