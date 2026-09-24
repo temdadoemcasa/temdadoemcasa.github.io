@@ -911,3 +911,24 @@ select, input {
 #visual-draft.trocando .leque-carta { opacity: 0; }
 @keyframes leque-entra { from { opacity: 0; translate: 0 18px; } to { opacity: 1; translate: 0 0; } }
 @media (prefers-reduced-motion: reduce) { #visual-draft .leque-carta { animation: none; } }
+
+/* rodape: marca e redes numa linha, autoria embaixo */
+.rodape { flex-direction: column; align-items: center; gap: 0.8rem; text-align: center; }
+.rodape-linha { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.6rem 1.4rem; }
+.rodape-redes { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; }
+.rodape-redes a { padding: 0.25rem 0.8rem; border-radius: 999px; border: 1px solid var(--borda); color: var(--texto); text-decoration: none; font-size: 0.85rem; }
+.rodape-redes a:hover { border-color: var(--canal); color: var(--canal); }
+.rodape-autor { margin: 0; font-size: 0.82rem; }
+.rodape-autor a { color: var(--texto); }
+.rodape-autor a:hover { color: var(--canal); }
+.metodo article a { color: var(--canal); }
+/* cartas maiores na abertura */
+.abertura .jogos .jogo-visual { height: clamp(250px, 27vw, 340px); }
+.abertura .jogos .leque-carta { width: clamp(150px, 15vw, 205px); bottom: -9%; }
+.abertura .jogos .evolucao-0 { width: clamp(84px, 8.5vw, 112px); }
+.abertura .jogos .evolucao-1 { width: clamp(100px, 10vw, 134px); }
+.abertura .jogos .evolucao-2 { width: clamp(118px, 12vw, 160px); }
+@media (max-width: 600px) {
+  .abertura .jogos .jogo-visual { height: 250px; }
+  .abertura .jogos .leque-carta { width: 140px; }
+}
