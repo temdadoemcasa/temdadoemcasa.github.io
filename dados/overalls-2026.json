@@ -5,7 +5,7 @@
   "tijolo": 82,
   "grafeno": 86
  },
- "gerado_em": "2026-09-24T20:01:20+00:00",
+ "gerado_em": "2026-09-24T21:21:16+00:00",
  "populacao": "Brasileirão",
  "piso_minutos": 450,
  "jogos_com_placar": 277,
@@ -34,63 +34,63 @@
    },
    "escalacao_base": {
     "formacao": "3-4-2-1",
-    "jogos": 24,
+    "jogos": 10,
     "posicoes": [
      {
       "slot": 0,
       "x": 0.5,
       "y": 0.0,
       "player_id": 166491,
-      "vezes": 20
+      "vezes": 6
      },
      {
       "slot": 1,
       "x": 0.75,
       "y": 0.2,
-      "player_id": 974512,
-      "vezes": 8
+      "player_id": 1476558,
+      "vezes": 5
      },
      {
       "slot": 2,
       "x": 0.5,
       "y": 0.2,
       "player_id": 925173,
-      "vezes": 20
+      "vezes": 9
      },
      {
       "slot": 3,
       "x": 0.25,
       "y": 0.2,
       "player_id": 2063956,
-      "vezes": 12
+      "vezes": 9
      },
      {
       "slot": 4,
       "x": 0.8,
       "y": 0.4,
-      "player_id": 981452,
-      "vezes": 13
+      "player_id": 261687,
+      "vezes": 7
      },
      {
       "slot": 5,
       "x": 0.6,
       "y": 0.4,
       "player_id": 243651,
-      "vezes": 16
+      "vezes": 10
      },
      {
       "slot": 6,
       "x": 0.4,
       "y": 0.4,
       "player_id": 29735,
-      "vezes": 20
+      "vezes": 9
      },
      {
       "slot": 7,
       "x": 0.19999999999999996,
       "y": 0.4,
       "player_id": 354510,
-      "vezes": 15
+      "vezes": 10
      },
      {
       "slot": 8,
@@ -104,14 +104,14 @@
       "x": 0.33333333333333337,
       "y": 0.6,
       "player_id": 1485226,
-      "vezes": 9
+      "vezes": 7
      },
      {
       "slot": 10,
       "x": 0.5,
       "y": 0.8,
       "player_id": 925124,
-      "vezes": 22
+      "vezes": 9
      }
     ]
    },
@@ -679,7 +679,7 @@
    },
    "escalacao_base": {
     "formacao": "4-2-3-1",
-    "jogos": 8,
+    "jogos": 4,
     "posicoes": [
      {
       "slot": 0,
@@ -693,7 +693,7 @@
       "x": 0.8,
       "y": 0.2,
       "player_id": 1046805,
-      "vezes": 4
+      "vezes": 8
      },
      {
       "slot": 2,
@@ -707,7 +707,7 @@
       "x": 0.4,
       "y": 0.2,
       "player_id": 794838,
-      "vezes": 4
+      "vezes": 5
      },
      {
       "slot": 4,
@@ -721,42 +721,42 @@
       "x": 0.6666666666666667,
       "y": 0.4,
       "player_id": 1485090,
-      "vezes": 2
+      "vezes": 5
      },
      {
       "slot": 6,
       "x": 0.33333333333333337,
       "y": 0.4,
-      "player_id": 831778,
-      "vezes": 3
+      "player_id": 822729,
+      "vezes": 4
      },
      {
       "slot": 7,
       "x": 0.75,
       "y": 0.6,
       "player_id": 871273,
-      "vezes": 5
+      "vezes": 6
      },
      {
       "slot": 8,
       "x": 0.5,
       "y": 0.6,
       "player_id": 1170954,
-      "vezes": 3
+      "vezes": 5
      },
      {
       "slot": 9,
       "x": 0.25,
       "y": 0.6,
       "player_id": 241488,
-      "vezes": 3
+      "vezes": 8
      },
      {
       "slot": 10,
       "x": 0.5,
       "y": 0.8,
-      "player_id": 832708,
-      "vezes": 4
+      "player_id": 978562,
+      "vezes": 5
      }
     ]
    },
@@ -1319,76 +1319,76 @@
    },
    "escalacao_base": {
     "formacao": "4-3-3",
-    "jogos": 17,
+    "jogos": 5,
     "posicoes": [
      {
       "slot": 0,
       "x": 0.5,
       "y": 0.0,
       "player_id": 840106,
-      "vezes": 12
+      "vezes": 10
      },
      {
       "slot": 1,
       "x": 0.8,
       "y": 0.25,
       "player_id": 1807816,
-      "vezes": 6
+      "vezes": 8
      },
      {
       "slot": 2,
       "x": 0.6,
       "y": 0.25,
       "player_id": 810715,
-      "vezes": 13
+      "vezes": 9
      },
      {
       "slot": 3,
       "x": 0.4,
       "y": 0.25,
       "player_id": 989843,
-      "vezes": 14
+      "vezes": 8
      },
      {
       "slot": 4,
       "x": 0.19999999999999996,
       "y": 0.25,
       "player_id": 1017264,
-      "vezes": 15
+      "vezes": 8
      },
      {
       "slot": 5,
       "x": 0.75,
       "y": 0.5,
-      "player_id": 145063,
-      "vezes": 7
+      "player_id": 874063,
+      "vezes": 5
      },
      {
       "slot": 6,
       "x": 0.5,
       "y": 0.5,
       "player_id": 959620,
-      "vezes": 11
+      "vezes": 10
      },
      {
       "slot": 7,
       "x": 0.25,
       "y": 0.5,
-      "player_id": 927975,
-      "vezes": 9
+      "player_id": 905461,
+      "vezes": 10
      },
      {
       "slot": 8,
       "x": 0.75,
       "y": 0.75,
       "player_id": 1068987,
-      "vezes": 10
+      "vezes": 4
      },
      {
       "slot": 9,
       "x": 0.5,
       "y": 0.75,
-      "player_id": 123223,
+      "player_id": 1116987,
       "vezes": 9
      },
      {
@@ -1396,7 +1396,7 @@
       "x": 0.25,
       "y": 0.75,
       "player_id": 1104070,
-      "vezes": 15
+      "vezes": 9
      }
     ]
    },
@@ -1917,84 +1917,84 @@
    },
    "escalacao_base": {
     "formacao": "4-2-3-1",
-    "jogos": 13,
+    "jogos": 7,
     "posicoes": [
      {
       "slot": 0,
       "x": 0.5,
       "y": 0.0,
-      "player_id": 861071,
-      "vezes": 4
+      "player_id": 822526,
+      "vezes": 6
      },
      {
       "slot": 1,
       "x": 0.8,
       "y": 0.2,
       "player_id": 914477,
-      "vezes": 11
+      "vezes": 10
      },
      {
       "slot": 2,
       "x": 0.6,
       "y": 0.2,
       "player_id": 881215,
-      "vezes": 6
+      "vezes": 8
      },
      {
       "slot": 3,
       "x": 0.4,
       "y": 0.2,
       "player_id": 1048247,
-      "vezes": 3
+      "vezes": 5
      },
      {
       "slot": 4,
       "x": 0.19999999999999996,
       "y": 0.2,
       "player_id": 312110,
-      "vezes": 12
+      "vezes": 9
      },
      {
       "slot": 5,
       "x": 0.6666666666666667,
       "y": 0.4,
       "player_id": 2030103,
-      "vezes": 7
+      "vezes": 8
      },
      {
       "slot": 6,
       "x": 0.33333333333333337,
       "y": 0.4,
-      "player_id": 1003010,
-      "vezes": 6
+      "player_id": 1064039,
+      "vezes": 8
      },
      {
       "slot": 7,
       "x": 0.75,
       "y": 0.6,
       "player_id": 1109864,
-      "vezes": 5
+      "vezes": 4
      },
      {
       "slot": 8,
       "x": 0.5,
       "y": 0.6,
-      "player_id": 1650770,
-      "vezes": 7
+      "player_id": 1003010,
+      "vezes": 6
      },
      {
       "slot": 9,
       "x": 0.25,
       "y": 0.6,
-      "player_id": 1106779,
-      "vezes": 5
+      "player_id": 1650770,
+      "vezes": 10
      },
      {
       "slot": 10,
       "x": 0.5,
       "y": 0.8,
       "player_id": 870762,
-      "vezes": 11
+      "vezes": 8
      }
     ]
    },
@@ -2705,20 +2705,20 @@
    },
    "escalacao_base": {
     "formacao": "4-2-3-1",
-    "jogos": 9,
+    "jogos": 6,
     "posicoes": [
      {
       "slot": 0,
       "x": 0.5,
       "y": 0.0,
       "player_id": 942061,
-      "vezes": 5
+      "vezes": 7
      },
      {
       "slot": 1,
       "x": 0.8,
       "y": 0.2,
-      "player_id": 1105232,
+      "player_id": 974503,
       "vezes": 4
      },
      {
@@ -2726,14 +2726,14 @@
       "x": 0.6,
       "y": 0.2,
       "player_id": 1198003,
-      "vezes": 4
+      "vezes": 7
      },
      {
       "slot": 3,
       "x": 0.4,
       "y": 0.2,
       "player_id": 1122967,
-      "vezes": 8
+      "vezes": 10
      },
      {
       "slot": 4,
@@ -2747,28 +2747,28 @@
       "x": 0.6666666666666667,
       "y": 0.4,
       "player_id": 975319,
-      "vezes": 5
+      "vezes": 9
      },
      {
       "slot": 6,
       "x": 0.33333333333333337,
       "y": 0.4,
       "player_id": 552164,
-      "vezes": 2
+      "vezes": 6
      },
      {
       "slot": 7,
       "x": 0.75,
       "y": 0.6,
-      "player_id": 870329,
-      "vezes": 4
+      "player_id": 1609859,
+      "vezes": 5
      },
      {
       "slot": 8,
       "x": 0.5,
       "y": 0.6,
-      "player_id": 82680,
-      "vezes": 5
+      "player_id": 870329,
+      "vezes": 9
      },
      {
       "slot": 9,
@@ -2781,8 +2781,8 @@
       "slot": 10,
       "x": 0.5,
       "y": 0.8,
-      "player_id": 46620,
-      "vezes": 4
+      "player_id": 82680,
+      "vezes": 8
      }
     ]
    },
@@ -3534,56 +3534,56 @@
    },
    "escalacao_base": {
     "formacao": "4-2-3-1",
-    "jogos": 19,
+    "jogos": 8,
     "posicoes": [
      {
       "slot": 0,
       "x": 0.5,
       "y": 0.0,
       "player_id": 950454,
-      "vezes": 15
+      "vezes": 8
      },
      {
       "slot": 1,
       "x": 0.8,
       "y": 0.2,
       "player_id": 931540,
-      "vezes": 12
+      "vezes": 8
      },
      {
       "slot": 2,
       "x": 0.6,
       "y": 0.2,
       "player_id": 124737,
-      "vezes": 12
+      "vezes": 6
      },
      {
       "slot": 3,
       "x": 0.4,
       "y": 0.2,
       "player_id": 243181,
-      "vezes": 15
+      "vezes": 8
      },
      {
       "slot": 4,
       "x": 0.19999999999999996,
       "y": 0.2,
       "player_id": 981703,
-      "vezes": 15
+      "vezes": 6
      },
      {
       "slot": 5,
       "x": 0.6666666666666667,
       "y": 0.4,
       "player_id": 115182,
-      "vezes": 6
+      "vezes": 4
      },
      {
       "slot": 6,
       "x": 0.33333333333333337,
       "y": 0.4,
-      "player_id": 828839,
-      "vezes": 8
+      "player_id": 866392,
+      "vezes": 7
      },
      {
       "slot": 7,
@@ -3596,22 +3596,22 @@
       "slot": 8,
       "x": 0.5,
       "y": 0.6,
-      "player_id": 994454,
-      "vezes": 15
+      "player_id": 828839,
+      "vezes": 7
      },
      {
       "slot": 9,
       "x": 0.25,
       "y": 0.6,
       "player_id": 1199261,
-      "vezes": 5
+      "vezes": 7
      },
      {
       "slot": 10,
       "x": 0.5,
       "y": 0.8,
-      "player_id": 905463,
-      "vezes": 10
+      "player_id": 994454,
+      "vezes": 6
      }
     ]
    },
@@ -4152,84 +4152,84 @@
    },
    "escalacao_base": {
     "formacao": "4-2-3-1",
-    "jogos": 23,
+    "jogos": 10,
     "posicoes": [
      {
       "slot": 0,
       "x": 0.5,
       "y": 0.0,
-      "player_id": 1092614,
-      "vezes": 13
+      "player_id": 1507616,
+      "vezes": 8
      },
      {
       "slot": 1,
       "x": 0.8,
       "y": 0.2,
       "player_id": 330057,
-      "vezes": 12
+      "vezes": 5
      },
      {
       "slot": 2,
       "x": 0.6,
       "y": 0.2,
       "player_id": 1124329,
-      "vezes": 11
+      "vezes": 9
      },
      {
       "slot": 3,
       "x": 0.4,
       "y": 0.2,
       "player_id": 880204,
-      "vezes": 14
+      "vezes": 9
      },
      {
       "slot": 4,
       "x": 0.19999999999999996,
       "y": 0.2,
       "player_id": 870851,
-      "vezes": 20
+      "vezes": 10
      },
      {
       "slot": 5,
       "x": 0.6666666666666667,
       "y": 0.4,
       "player_id": 378590,
-      "vezes": 11
+      "vezes": 9
      },
      {
       "slot": 6,
       "x": 0.33333333333333337,
       "y": 0.4,
       "player_id": 925142,
-      "vezes": 16
+      "vezes": 9
      },
      {
       "slot": 7,
       "x": 0.75,
       "y": 0.6,
       "player_id": 1122737,
-      "vezes": 10
+      "vezes": 8
      },
      {
       "slot": 8,
       "x": 0.5,
       "y": 0.6,
       "player_id": 77726,
-      "vezes": 19
+      "vezes": 7
      },
      {
       "slot": 9,
       "x": 0.25,
       "y": 0.6,
       "player_id": 937552,
-      "vezes": 19
+      "vezes": 9
      },
      {
       "slot": 10,
       "x": 0.5,
       "y": 0.8,
       "player_id": 794930,
-      "vezes": 21
+      "vezes": 9
      }
     ]
    },
@@ -4841,84 +4841,84 @@
    },
    "escalacao_base": {
     "formacao": "4-2-3-1",
-    "jogos": 25,
+    "jogos": 8,
     "posicoes": [
      {
       "slot": 0,
       "x": 0.5,
       "y": 0.0,
       "player_id": 1589358,
-      "vezes": 13
+      "vezes": 10
      },
      {
       "slot": 1,
       "x": 0.8,
       "y": 0.2,
       "player_id": 25554,
-      "vezes": 13
+      "vezes": 8
      },
      {
       "slot": 2,
       "x": 0.6,
       "y": 0.2,
       "player_id": 840220,
-      "vezes": 21
+      "vezes": 6
      },
      {
       "slot": 3,
       "x": 0.4,
       "y": 0.2,
       "player_id": 1498670,
-      "vezes": 14
+      "vezes": 7
      },
      {
       "slot": 4,
       "x": 0.19999999999999996,
       "y": 0.2,
       "player_id": 1387300,
-      "vezes": 6
+      "vezes": 7
      },
      {
       "slot": 5,
       "x": 0.6666666666666667,
       "y": 0.4,
       "player_id": 263477,
-      "vezes": 10
+      "vezes": 7
      },
      {
       "slot": 6,
       "x": 0.33333333333333337,
       "y": 0.4,
-      "player_id": 611876,
-      "vezes": 9
+      "player_id": 912786,
+      "vezes": 6
      },
      {
       "slot": 7,
       "x": 0.75,
       "y": 0.6,
       "player_id": 1482431,
-      "vezes": 15
+      "vezes": 6
      },
      {
       "slot": 8,
       "x": 0.5,
       "y": 0.6,
       "player_id": 377238,
-      "vezes": 22
+      "vezes": 7
      },
      {
       "slot": 9,
       "x": 0.25,
       "y": 0.6,
-      "player_id": 836070,
-      "vezes": 3
+      "player_id": 611876,
+      "vezes": 5
      },
      {
       "slot": 10,
       "x": 0.5,
       "y": 0.8,
       "player_id": 954888,
-      "vezes": 16
+      "vezes": 8
      }
     ]
    },
@@ -5546,84 +5546,84 @@
    },
    "escalacao_base": {
     "formacao": "4-2-3-1",
-    "jogos": 28,
+    "jogos": 10,
     "posicoes": [
      {
       "slot": 0,
       "x": 0.5,
       "y": 0.0,
       "player_id": 1140986,
-      "vezes": 28
+      "vezes": 10
      },
      {
       "slot": 1,
       "x": 0.8,
       "y": 0.2,
       "player_id": 311456,
-      "vezes": 18
+      "vezes": 7
      },
      {
       "slot": 2,
       "x": 0.6,
       "y": 0.2,
       "player_id": 869643,
-      "vezes": 22
+      "vezes": 7
      },
      {
       "slot": 3,
       "x": 0.4,
       "y": 0.2,
       "player_id": 358548,
-      "vezes": 23
+      "vezes": 8
      },
      {
       "slot": 4,
       "x": 0.19999999999999996,
       "y": 0.2,
-      "player_id": 84854,
-      "vezes": 15
+      "player_id": 818473,
+      "vezes": 8
      },
      {
       "slot": 5,
       "x": 0.6666666666666667,
       "y": 0.4,
       "player_id": 590262,
-      "vezes": 14
+      "vezes": 7
      },
      {
       "slot": 6,
       "x": 0.33333333333333337,
       "y": 0.4,
       "player_id": 132874,
-      "vezes": 15
+      "vezes": 7
      },
      {
       "slot": 7,
       "x": 0.75,
       "y": 0.6,
       "player_id": 590392,
-      "vezes": 9
+      "vezes": 7
      },
      {
       "slot": 8,
       "x": 0.5,
       "y": 0.6,
       "player_id": 333587,
-      "vezes": 16
+      "vezes": 7
      },
      {
       "slot": 9,
       "x": 0.25,
       "y": 0.6,
       "player_id": 874705,
-      "vezes": 19
+      "vezes": 8
      },
      {
       "slot": 10,
       "x": 0.5,
       "y": 0.8,
       "player_id": 840219,
-      "vezes": 27
+      "vezes": 10
      }
     ]
    },
@@ -6160,84 +6160,84 @@
    },
    "escalacao_base": {
     "formacao": "4-2-3-1",
-    "jogos": 25,
+    "jogos": 9,
     "posicoes": [
      {
       "slot": 0,
       "x": 0.5,
       "y": 0.0,
       "player_id": 17785,
-      "vezes": 25
+      "vezes": 10
      },
      {
       "slot": 1,
       "x": 0.8,
       "y": 0.2,
-      "player_id": 795773,
-      "vezes": 14
+      "player_id": 928134,
+      "vezes": 5
      },
      {
       "slot": 2,
       "x": 0.6,
       "y": 0.2,
       "player_id": 958382,
-      "vezes": 11
+      "vezes": 5
      },
      {
       "slot": 3,
       "x": 0.4,
       "y": 0.2,
-      "player_id": 962187,
-      "vezes": 15
+      "player_id": 839085,
+      "vezes": 4
      },
      {
       "slot": 4,
       "x": 0.19999999999999996,
       "y": 0.2,
       "player_id": 243113,
-      "vezes": 17
+      "vezes": 8
      },
      {
       "slot": 5,
       "x": 0.6666666666666667,
       "y": 0.4,
-      "player_id": 1104068,
-      "vezes": 11
+      "player_id": 922566,
+      "vezes": 6
      },
      {
       "slot": 6,
       "x": 0.33333333333333337,
       "y": 0.4,
       "player_id": 1067671,
-      "vezes": 19
+      "vezes": 8
      },
      {
       "slot": 7,
       "x": 0.75,
       "y": 0.6,
       "player_id": 846413,
-      "vezes": 17
+      "vezes": 8
      },
      {
       "slot": 8,
       "x": 0.5,
       "y": 0.6,
-      "player_id": 548030,
-      "vezes": 16
+      "player_id": 116853,
+      "vezes": 5
      },
      {
       "slot": 9,
       "x": 0.25,
       "y": 0.6,
-      "player_id": 981374,
-      "vezes": 11
+      "player_id": 789960,
+      "vezes": 6
      },
      {
       "slot": 10,
       "x": 0.5,
       "y": 0.8,
-      "player_id": 1087399,
-      "vezes": 12
+      "player_id": 34705,
+      "vezes": 8
      }
     ]
    },
@@ -6820,84 +6820,84 @@
    },
    "escalacao_base": {
     "formacao": "4-1-4-1",
-    "jogos": 12,
+    "jogos": 7,
     "posicoes": [
      {
       "slot": 0,
       "x": 0.5,
       "y": 0.0,
       "player_id": 243529,
-      "vezes": 11
+      "vezes": 9
      },
      {
       "slot": 1,
       "x": 0.8,
       "y": 0.2,
-      "player_id": 358956,
-      "vezes": 7
+      "player_id": 1468270,
+      "vezes": 6
      },
      {
       "slot": 2,
       "x": 0.6,
       "y": 0.2,
       "player_id": 1105796,
-      "vezes": 10
+      "vezes": 8
      },
      {
       "slot": 3,
       "x": 0.4,
       "y": 0.2,
       "player_id": 1843731,
-      "vezes": 4
+      "vezes": 8
      },
      {
       "slot": 4,
       "x": 0.19999999999999996,
       "y": 0.2,
       "player_id": 870787,
-      "vezes": 6
+      "vezes": 4
      },
      {
       "slot": 5,
       "x": 0.5,
       "y": 0.4,
       "player_id": 1020375,
-      "vezes": 10
+      "vezes": 8
      },
      {
       "slot": 6,
       "x": 0.8,
       "y": 0.6,
-      "player_id": 980327,
-      "vezes": 6
+      "player_id": 358956,
+      "vezes": 8
      },
      {
       "slot": 7,
       "x": 0.6,
       "y": 0.6,
       "player_id": 1139775,
-      "vezes": 6
+      "vezes": 9
      },
      {
       "slot": 8,
       "x": 0.4,
       "y": 0.6,
       "player_id": 322417,
-      "vezes": 4
+      "vezes": 5
      },
      {
       "slot": 9,
       "x": 0.19999999999999996,
       "y": 0.6,
       "player_id": 901889,
-      "vezes": 7
+      "vezes": 6
      },
      {
       "slot": 10,
       "x": 0.5,
       "y": 0.8,
       "player_id": 891920,
-      "vezes": 10
+      "vezes": 8
      }
     ]
    },
@@ -7630,84 +7630,84 @@
    },
    "escalacao_base": {
     "formacao": "3-4-2-1",
-    "jogos": 7,
+    "jogos": 4,
     "posicoes": [
      {
       "slot": 0,
       "x": 0.5,
       "y": 0.0,
-      "player_id": 1106134,
-      "vezes": 3
+      "player_id": 1105835,
+      "vezes": 7
      },
      {
       "slot": 1,
       "x": 0.75,
       "y": 0.2,
-      "player_id": 995071,
-      "vezes": 6
+      "player_id": 881848,
+      "vezes": 5
      },
      {
       "slot": 2,
       "x": 0.5,
       "y": 0.2,
       "player_id": 339909,
-      "vezes": 3
+      "vezes": 9
      },
      {
       "slot": 3,
       "x": 0.25,
       "y": 0.2,
-      "player_id": 1106487,
-      "vezes": 3
+      "player_id": 128376,
+      "vezes": 7
      },
      {
       "slot": 4,
       "x": 0.8,
       "y": 0.4,
       "player_id": 982405,
-      "vezes": 6
+      "vezes": 10
      },
      {
       "slot": 5,
       "x": 0.6,
       "y": 0.4,
-      "player_id": 879902,
-      "vezes": 3
+      "player_id": 995071,
+      "vezes": 9
      },
      {
       "slot": 6,
       "x": 0.4,
       "y": 0.4,
       "player_id": 345113,
-      "vezes": 3
+      "vezes": 7
      },
      {
       "slot": 7,
       "x": 0.19999999999999996,
       "y": 0.4,
       "player_id": 1047204,
-      "vezes": 5
+      "vezes": 7
      },
      {
       "slot": 8,
       "x": 0.6666666666666667,
       "y": 0.6,
       "player_id": 925125,
-      "vezes": 4
+      "vezes": 9
      },
      {
       "slot": 9,
       "x": 0.33333333333333337,
       "y": 0.6,
       "player_id": 989200,
-      "vezes": 3
+      "vezes": 9
      },
      {
       "slot": 10,
       "x": 0.5,
       "y": 0.8,
       "player_id": 124997,
-      "vezes": 3
+      "vezes": 8
      }
     ]
    },
@@ -8313,84 +8313,84 @@
    },
    "escalacao_base": {
     "formacao": "4-2-3-1",
-    "jogos": 17,
+    "jogos": 5,
     "posicoes": [
      {
       "slot": 0,
       "x": 0.5,
       "y": 0.0,
       "player_id": 329055,
-      "vezes": 14
+      "vezes": 6
      },
      {
       "slot": 1,
       "x": 0.8,
       "y": 0.2,
       "player_id": 1009030,
-      "vezes": 13
+      "vezes": 9
      },
      {
       "slot": 2,
       "x": 0.6,
       "y": 0.2,
       "player_id": 863297,
-      "vezes": 16
+      "vezes": 9
      },
      {
       "slot": 3,
       "x": 0.4,
       "y": 0.2,
       "player_id": 925871,
-      "vezes": 13
+      "vezes": 7
      },
      {
       "slot": 4,
       "x": 0.19999999999999996,
       "y": 0.2,
       "player_id": 243109,
-      "vezes": 15
+      "vezes": 10
      },
      {
       "slot": 5,
       "x": 0.6666666666666667,
       "y": 0.4,
-      "player_id": 559034,
-      "vezes": 6
+      "player_id": 1175760,
+      "vezes": 8
      },
      {
       "slot": 6,
       "x": 0.33333333333333337,
       "y": 0.4,
-      "player_id": 1175760,
+      "player_id": 1465498,
       "vezes": 6
      },
      {
       "slot": 7,
       "x": 0.75,
       "y": 0.6,
-      "player_id": 872007,
-      "vezes": 6
+      "player_id": 863283,
+      "vezes": 5
      },
      {
       "slot": 8,
       "x": 0.5,
       "y": 0.6,
       "player_id": 76507,
-      "vezes": 8
+      "vezes": 7
      },
      {
       "slot": 9,
       "x": 0.25,
       "y": 0.6,
       "player_id": 871015,
-      "vezes": 11
+      "vezes": 4
      },
      {
       "slot": 10,
       "x": 0.5,
       "y": 0.8,
       "player_id": 1105781,
-      "vezes": 5
+      "vezes": 9
      }
     ]
    },
@@ -9022,75 +9022,75 @@
     "numero": "#ffffff"
    },
    "escalacao_base": {
-    "formacao": "4-2-3-1",
-    "jogos": 11,
+    "formacao": "3-4-2-1",
+    "jogos": 3,
     "posicoes": [
      {
       "slot": 0,
       "x": 0.5,
       "y": 0.0,
       "player_id": 973738,
-      "vezes": 11
+      "vezes": 10
      },
      {
       "slot": 1,
-      "x": 0.8,
+      "x": 0.75,
       "y": 0.2,
-      "player_id": 1106603,
-      "vezes": 9
+      "player_id": 874729,
+      "vezes": 7
      },
      {
       "slot": 2,
-      "x": 0.6,
+      "x": 0.5,
       "y": 0.2,
       "player_id": 220833,
       "vezes": 9
      },
      {
       "slot": 3,
-      "x": 0.4,
+      "x": 0.25,
       "y": 0.2,
-      "player_id": 874729,
-      "vezes": 8
-     },
-     {
-      "slot": 4,
-      "x": 0.19999999999999996,
-      "y": 0.2,
-      "player_id": 1633501,
+      "player_id": 801044,
       "vezes": 6
      },
      {
-      "slot": 5,
-      "x": 0.6666666666666667,
+      "slot": 4,
+      "x": 0.8,
       "y": 0.4,
-      "player_id": 285949,
+      "player_id": 1106603,
       "vezes": 7
      },
      {
+      "slot": 5,
+      "x": 0.6,
+      "y": 0.4,
+      "player_id": 285949,
+      "vezes": 10
+     },
+     {
       "slot": 6,
-      "x": 0.33333333333333337,
+      "x": 0.4,
       "y": 0.4,
       "player_id": 840202,
       "vezes": 9
      },
      {
       "slot": 7,
-      "x": 0.75,
-      "y": 0.6,
-      "player_id": 152276,
-      "vezes": 2
+      "x": 0.19999999999999996,
+      "y": 0.4,
+      "player_id": 881110,
+      "vezes": 8
      },
      {
       "slot": 8,
-      "x": 0.5,
+      "x": 0.6666666666666667,
       "y": 0.6,
       "player_id": 986233,
       "vezes": 7
      },
      {
       "slot": 9,
-      "x": 0.25,
+      "x": 0.33333333333333337,
       "y": 0.6,
       "player_id": 844096,
       "vezes": 7
@@ -9100,7 +9100,7 @@
       "x": 0.5,
       "y": 0.8,
       "player_id": 1094179,
-      "vezes": 10
+      "vezes": 6
      }
     ]
    },
@@ -9636,84 +9636,84 @@
    },
    "escalacao_base": {
     "formacao": "4-2-3-1",
-    "jogos": 20,
+    "jogos": 9,
     "posicoes": [
      {
       "slot": 0,
       "x": 0.5,
       "y": 0.0,
       "player_id": 243509,
-      "vezes": 18
+      "vezes": 10
      },
      {
       "slot": 1,
       "x": 0.8,
       "y": 0.2,
       "player_id": 869726,
-      "vezes": 9
+      "vezes": 7
      },
      {
       "slot": 2,
       "x": 0.6,
       "y": 0.2,
       "player_id": 1117597,
-      "vezes": 12
+      "vezes": 5
      },
      {
       "slot": 3,
       "x": 0.4,
       "y": 0.2,
       "player_id": 1174764,
-      "vezes": 16
+      "vezes": 9
      },
      {
       "slot": 4,
       "x": 0.19999999999999996,
       "y": 0.2,
       "player_id": 870556,
-      "vezes": 18
+      "vezes": 8
      },
      {
       "slot": 5,
       "x": 0.6666666666666667,
       "y": 0.4,
-      "player_id": 840150,
-      "vezes": 6
+      "player_id": 950545,
+      "vezes": 8
      },
      {
       "slot": 6,
       "x": 0.33333333333333337,
       "y": 0.4,
-      "player_id": 242052,
-      "vezes": 9
+      "player_id": 1200730,
+      "vezes": 7
      },
      {
       "slot": 7,
       "x": 0.75,
       "y": 0.6,
       "player_id": 1179171,
-      "vezes": 12
+      "vezes": 7
      },
      {
       "slot": 8,
       "x": 0.5,
       "y": 0.6,
       "player_id": 1067641,
-      "vezes": 13
+      "vezes": 10
      },
      {
       "slot": 9,
       "x": 0.25,
       "y": 0.6,
-      "player_id": 1170680,
-      "vezes": 9
+      "player_id": 911195,
+      "vezes": 6
      },
      {
       "slot": 10,
       "x": 0.5,
       "y": 0.8,
       "player_id": 979861,
-      "vezes": 17
+      "vezes": 7
      }
     ]
    },
@@ -10313,84 +10313,84 @@
    },
    "escalacao_base": {
     "formacao": "4-2-3-1",
-    "jogos": 22,
+    "jogos": 7,
     "posicoes": [
      {
       "slot": 0,
       "x": 0.5,
       "y": 0.0,
       "player_id": 870902,
-      "vezes": 21
+      "vezes": 10
      },
      {
       "slot": 1,
       "x": 0.8,
       "y": 0.2,
       "player_id": 986868,
-      "vezes": 15
+      "vezes": 8
      },
      {
       "slot": 2,
       "x": 0.6,
       "y": 0.2,
       "player_id": 221206,
-      "vezes": 20
+      "vezes": 7
      },
      {
       "slot": 3,
       "x": 0.4,
       "y": 0.2,
       "player_id": 891792,
-      "vezes": 15
+      "vezes": 6
      },
      {
       "slot": 4,
       "x": 0.19999999999999996,
       "y": 0.2,
-      "player_id": 944459,
-      "vezes": 13
+      "player_id": 870933,
+      "vezes": 6
      },
      {
       "slot": 5,
       "x": 0.6666666666666667,
       "y": 0.4,
       "player_id": 551422,
-      "vezes": 13
+      "vezes": 7
      },
      {
       "slot": 6,
       "x": 0.33333333333333337,
       "y": 0.4,
-      "player_id": 594428,
-      "vezes": 10
+      "player_id": 981350,
+      "vezes": 8
      },
      {
       "slot": 7,
       "x": 0.75,
       "y": 0.6,
       "player_id": 363688,
-      "vezes": 15
+      "vezes": 9
      },
      {
       "slot": 8,
       "x": 0.5,
       "y": 0.6,
       "player_id": 943044,
-      "vezes": 11
+      "vezes": 9
      },
      {
       "slot": 9,
       "x": 0.25,
       "y": 0.6,
       "player_id": 1018779,
-      "vezes": 10
+      "vezes": 6
      },
      {
       "slot": 10,
       "x": 0.5,
       "y": 0.8,
       "player_id": 933955,
-      "vezes": 11
+      "vezes": 7
      }
     ]
    },
@@ -11056,42 +11056,42 @@
    },
    "escalacao_base": {
     "formacao": "4-2-3-1",
-    "jogos": 14,
+    "jogos": 6,
     "posicoes": [
      {
       "slot": 0,
       "x": 0.5,
       "y": 0.0,
       "player_id": 905448,
-      "vezes": 12
+      "vezes": 9
      },
      {
       "slot": 1,
       "x": 0.8,
       "y": 0.2,
       "player_id": 840119,
-      "vezes": 12
+      "vezes": 8
      },
      {
       "slot": 2,
       "x": 0.6,
       "y": 0.2,
       "player_id": 826343,
-      "vezes": 7
+      "vezes": 5
      },
      {
       "slot": 3,
       "x": 0.4,
       "y": 0.2,
       "player_id": 842098,
-      "vezes": 10
+      "vezes": 8
      },
      {
       "slot": 4,
       "x": 0.19999999999999996,
       "y": 0.2,
       "player_id": 840500,
-      "vezes": 12
+      "vezes": 9
      },
      {
       "slot": 5,
@@ -11105,21 +11105,21 @@
       "x": 0.33333333333333337,
       "y": 0.4,
       "player_id": 244591,
-      "vezes": 5
+      "vezes": 4
      },
      {
       "slot": 7,
       "x": 0.75,
       "y": 0.6,
       "player_id": 1656036,
-      "vezes": 10
+      "vezes": 7
      },
      {
       "slot": 8,
       "x": 0.5,
       "y": 0.6,
-      "player_id": 922454,
-      "vezes": 6
+      "player_id": 242213,
+      "vezes": 8
      },
      {
       "slot": 9,
@@ -11133,7 +11133,7 @@
       "x": 0.5,
       "y": 0.8,
       "player_id": 358554,
-      "vezes": 10
+      "vezes": 8
      }
     ]
    },
@@ -11878,85 +11878,85 @@
     "numero": "#000000"
    },
    "escalacao_base": {
-    "formacao": "4-2-3-1",
-    "jogos": 11,
+    "formacao": "3-4-2-1",
+    "jogos": 4,
     "posicoes": [
      {
       "slot": 0,
       "x": 0.5,
       "y": 0.0,
       "player_id": 33132,
-      "vezes": 11
-     },
-     {
-      "slot": 1,
-      "x": 0.8,
-      "y": 0.2,
-      "player_id": 797225,
       "vezes": 9
      },
      {
-      "slot": 2,
-      "x": 0.6,
+      "slot": 1,
+      "x": 0.75,
       "y": 0.2,
-      "player_id": 82943,
-      "vezes": 2
+      "player_id": 576276,
+      "vezes": 5
+     },
+     {
+      "slot": 2,
+      "x": 0.5,
+      "y": 0.2,
+      "player_id": 338937,
+      "vezes": 7
      },
      {
       "slot": 3,
-      "x": 0.4,
+      "x": 0.25,
       "y": 0.2,
-      "player_id": 975118,
-      "vezes": 8
+      "player_id": 1836799,
+      "vezes": 4
      },
      {
       "slot": 4,
+      "x": 0.8,
+      "y": 0.4,
+      "player_id": 797225,
+      "vezes": 7
+     },
+     {
+      "slot": 5,
+      "x": 0.6,
+      "y": 0.4,
+      "player_id": 356514,
+      "vezes": 6
+     },
+     {
+      "slot": 6,
+      "x": 0.4,
+      "y": 0.4,
+      "player_id": 1120721,
+      "vezes": 7
+     },
+     {
+      "slot": 7,
       "x": 0.19999999999999996,
-      "y": 0.2,
+      "y": 0.4,
       "player_id": 335033,
       "vezes": 6
      },
      {
-      "slot": 5,
+      "slot": 8,
       "x": 0.6666666666666667,
-      "y": 0.4,
-      "player_id": 356514,
-      "vezes": 5
-     },
-     {
-      "slot": 6,
-      "x": 0.33333333333333337,
-      "y": 0.4,
-      "player_id": 1120721,
-      "vezes": 4
-     },
-     {
-      "slot": 7,
-      "x": 0.75,
       "y": 0.6,
       "player_id": 841128,
-      "vezes": 9
-     },
-     {
-      "slot": 8,
-      "x": 0.5,
-      "y": 0.6,
-      "player_id": 282557,
-      "vezes": 9
+      "vezes": 7
      },
      {
       "slot": 9,
-      "x": 0.25,
+      "x": 0.33333333333333337,
       "y": 0.6,
-      "player_id": 998499,
-      "vezes": 5
+      "player_id": 905453,
+      "vezes": 7
      },
      {
       "slot": 10,
       "x": 0.5,
       "y": 0.8,
-      "player_id": 340519,
-      "vezes": 9
+      "player_id": 282557,
+      "vezes": 8
      }
     ]
    },
@@ -12668,85 +12668,85 @@
     "numero": "#ffffff"
    },
    "escalacao_base": {
-    "formacao": "4-2-3-1",
-    "jogos": 15,
+    "formacao": "4-1-4-1",
+    "jogos": 5,
     "posicoes": [
      {
       "slot": 0,
       "x": 0.5,
       "y": 0.0,
       "player_id": 595598,
-      "vezes": 15
+      "vezes": 10
      },
      {
       "slot": 1,
       "x": 0.8,
       "y": 0.2,
-      "player_id": 877591,
-      "vezes": 8
+      "player_id": 1021721,
+      "vezes": 7
      },
      {
       "slot": 2,
       "x": 0.6,
       "y": 0.2,
       "player_id": 839095,
-      "vezes": 10
+      "vezes": 9
      },
      {
       "slot": 3,
       "x": 0.4,
       "y": 0.2,
       "player_id": 1191278,
-      "vezes": 15
+      "vezes": 9
      },
      {
       "slot": 4,
       "x": 0.19999999999999996,
       "y": 0.2,
-      "player_id": 982174,
-      "vezes": 9
-     },
-     {
-      "slot": 5,
-      "x": 0.6666666666666667,
-      "y": 0.4,
-      "player_id": 1444694,
-      "vezes": 11
-     },
-     {
-      "slot": 6,
-      "x": 0.33333333333333337,
-      "y": 0.4,
-      "player_id": 329303,
-      "vezes": 11
-     },
-     {
-      "slot": 7,
-      "x": 0.75,
-      "y": 0.6,
-      "player_id": 1105970,
-      "vezes": 5
-     },
-     {
-      "slot": 8,
-      "x": 0.5,
-      "y": 0.6,
-      "player_id": 1173373,
+      "player_id": 1160554,
       "vezes": 7
      },
      {
-      "slot": 9,
-      "x": 0.25,
+      "slot": 5,
+      "x": 0.5,
+      "y": 0.4,
+      "player_id": 928237,
+      "vezes": 5
+     },
+     {
+      "slot": 6,
+      "x": 0.8,
       "y": 0.6,
-      "player_id": 1160386,
-      "vezes": 11
+      "player_id": 1105970,
+      "vezes": 7
+     },
+     {
+      "slot": 7,
+      "x": 0.6,
+      "y": 0.6,
+      "player_id": 840398,
+      "vezes": 7
+     },
+     {
+      "slot": 8,
+      "x": 0.4,
+      "y": 0.6,
+      "player_id": 329303,
+      "vezes": 9
+     },
+     {
+      "slot": 9,
+      "x": 0.19999999999999996,
+      "y": 0.6,
+      "player_id": 927308,
+      "vezes": 5
      },
      {
       "slot": 10,
       "x": 0.5,
       "y": 0.8,
-      "player_id": 861297,
-      "vezes": 6
+      "player_id": 1160386,
+      "vezes": 7
      }
     ]
    },
@@ -13360,7 +13360,7 @@
    },
    "escalacao_base": {
     "formacao": "4-2-3-1",
-    "jogos": 10,
+    "jogos": 6,
     "posicoes": [
      {
       "slot": 0,
@@ -13373,71 +13373,71 @@
       "slot": 1,
       "x": 0.8,
       "y": 0.2,
-      "player_id": 1116955,
-      "vezes": 3
+      "player_id": 789395,
+      "vezes": 7
      },
      {
       "slot": 2,
       "x": 0.6,
       "y": 0.2,
       "player_id": 929200,
-      "vezes": 6
+      "vezes": 8
      },
      {
       "slot": 3,
       "x": 0.4,
       "y": 0.2,
       "player_id": 905459,
-      "vezes": 7
+      "vezes": 9
      },
      {
       "slot": 4,
       "x": 0.19999999999999996,
       "y": 0.2,
       "player_id": 980761,
-      "vezes": 7
+      "vezes": 5
      },
      {
       "slot": 5,
       "x": 0.6666666666666667,
       "y": 0.4,
-      "player_id": 794312,
-      "vezes": 4
+      "player_id": 871032,
+      "vezes": 7
      },
      {
       "slot": 6,
       "x": 0.33333333333333337,
       "y": 0.4,
-      "player_id": 871032,
-      "vezes": 3
+      "player_id": 972373,
+      "vezes": 7
      },
      {
       "slot": 7,
       "x": 0.75,
       "y": 0.6,
       "player_id": 895650,
-      "vezes": 10
+      "vezes": 8
      },
      {
       "slot": 8,
       "x": 0.5,
       "y": 0.6,
       "player_id": 795266,
-      "vezes": 6
+      "vezes": 7
      },
      {
       "slot": 9,
       "x": 0.25,
       "y": 0.6,
       "player_id": 1650040,
-      "vezes": 5
+      "vezes": 7
      },
      {
       "slot": 10,
       "x": 0.5,
       "y": 0.8,
       "player_id": 1644830,
-      "vezes": 7
+      "vezes": 9
      }
     ]
    },
