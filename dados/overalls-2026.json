@@ -5,7 +5,7 @@
   "tijolo": 82,
   "grafeno": 86
  },
- "gerado_em": "2026-09-24T23:29:14+00:00",
+ "gerado_em": "2026-09-24T23:42:02+00:00",
  "populacao": "Brasileirão",
  "piso_minutos": 450,
  "jogos_com_placar": 277,
@@ -127,12 +127,12 @@
      "minutos": 2285,
      "overall": 86,
      "eixos": {
-      "RIT": 83,
-      "FIN": 83,
-      "PAS": 63,
-      "DRI": 78,
-      "DEF": 31,
-      "FIS": 57
+      "RIT": 89,
+      "FIN": 89,
+      "PAS": 67,
+      "DRI": 84,
+      "DEF": 32,
+      "FIS": 60
      },
      "sem_nota_por": null,
      "x_medio": 0.494,
@@ -154,12 +154,12 @@
      "minutos": 2315,
      "overall": 83,
      "eixos": {
-      "RIT": 80,
-      "FIN": 62,
-      "PAS": 68,
-      "DRI": 70,
-      "DEF": 47,
-      "FIS": 57
+      "RIT": 91,
+      "FIN": 70,
+      "PAS": 79,
+      "DRI": 81,
+      "DEF": 50,
+      "FIS": 63
      },
      "sem_nota_por": null,
      "x_medio": 0.356,
@@ -186,12 +186,12 @@
      "minutos": 2214,
      "overall": 83,
      "eixos": {
-      "RIT": 72,
-      "FIN": 39,
-      "PAS": 63,
-      "DRI": 62,
-      "DEF": 87,
-      "FIS": 63
+      "RIT": 82,
+      "FIN": 42,
+      "PAS": 70,
+      "DRI": 67,
+      "DEF": 95,
+      "FIS": 73
      },
      "sem_nota_por": null,
      "x_medio": 0.451,
@@ -218,12 +218,12 @@
      "minutos": 1854,
      "overall": 82,
      "eixos": {
-      "RIT": 76,
-      "FIN": 51,
-      "PAS": 76,
-      "DRI": 73,
-      "DEF": 64,
-      "FIS": 65
+      "RIT": 84,
+      "FIN": 53,
+      "PAS": 84,
+      "DRI": 81,
+      "DEF": 68,
+      "FIS": 71
      },
      "sem_nota_por": null,
      "x_medio": 0.794,
@@ -250,12 +250,12 @@
      "minutos": 1920,
      "overall": 81,
      "eixos": {
-      "RIT": 63,
-      "FIN": 48,
-      "PAS": 57,
-      "DRI": 52,
-      "DEF": 89,
-      "FIS": 78
+      "RIT": 68,
+      "FIN": 49,
+      "PAS": 61,
+      "DRI": 55,
+      "DEF": 94,
+      "FIS": 83
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -277,12 +277,12 @@
      "minutos": 1735,
      "overall": 81,
      "eixos": {
-      "RIT": 66,
-      "FIN": 68,
-      "PAS": 69,
-      "DRI": 69,
-      "DEF": 77,
-      "FIS": 70
+      "RIT": 68,
+      "FIN": 73,
+      "PAS": 76,
+      "DRI": 79,
+      "DEF": 87,
+      "FIS": 80
      },
      "sem_nota_por": null,
      "x_medio": 0.397,
@@ -304,12 +304,12 @@
      "minutos": 1525,
      "overall": 81,
      "eixos": {
-      "RIT": 76,
-      "FIN": 47,
-      "PAS": 76,
-      "DRI": 71,
-      "DEF": 71,
-      "FIS": 69
+      "RIT": 84,
+      "FIN": 49,
+      "PAS": 84,
+      "DRI": 77,
+      "DEF": 79,
+      "FIS": 73
      },
      "sem_nota_por": null,
      "x_medio": 0.236,
@@ -336,12 +336,12 @@
      "minutos": 1536,
      "overall": 80,
      "eixos": {
-      "RIT": 73,
-      "FIN": 49,
-      "PAS": 71,
-      "DRI": 68,
-      "DEF": 64,
-      "FIS": 68
+      "RIT": 83,
+      "FIN": 52,
+      "PAS": 81,
+      "DRI": 78,
+      "DEF": 69,
+      "FIS": 76
      },
      "sem_nota_por": null,
      "x_medio": 0.615,
@@ -363,12 +363,12 @@
      "minutos": 1108,
      "overall": 78,
      "eixos": {
-      "RIT": 77,
-      "FIN": 50,
-      "PAS": 74,
-      "DRI": 66,
-      "DEF": 75,
-      "FIS": 71
+      "RIT": 81,
+      "FIN": 51,
+      "PAS": 78,
+      "DRI": 68,
+      "DEF": 79,
+      "FIS": 74
      },
      "sem_nota_por": null,
      "x_medio": 0.8,
@@ -390,11 +390,11 @@
      "minutos": 898,
      "overall": 78,
      "eixos": {
-      "RIT": 75,
-      "FIN": 72,
-      "PAS": 77,
-      "DRI": 79,
-      "DEF": 66,
+      "RIT": 77,
+      "FIN": 74,
+      "PAS": 79,
+      "DRI": 81,
+      "DEF": 67,
       "FIS": 64
      },
      "sem_nota_por": null,
@@ -422,11 +422,11 @@
      "minutos": 2160,
      "overall": 77,
      "eixos": {
-      "REF": 78,
-      "EVI": 80,
-      "MAO": 60,
-      "PES": 67,
-      "SAI": 47
+      "REF": 81,
+      "EVI": 83,
+      "MAO": 62,
+      "PES": 70,
+      "SAI": 48
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -448,12 +448,12 @@
      "minutos": 1033,
      "overall": 77,
      "eixos": {
-      "RIT": 77,
+      "RIT": 78,
       "FIN": 48,
-      "PAS": 61,
-      "DRI": 59,
-      "DEF": 84,
-      "FIS": 69
+      "PAS": 62,
+      "DRI": 60,
+      "DEF": 85,
+      "FIS": 70
      },
      "sem_nota_por": null,
      "x_medio": 0.71,
@@ -480,12 +480,12 @@
      "minutos": 995,
      "overall": 77,
      "eixos": {
-      "RIT": 74,
-      "FIN": 56,
-      "PAS": 68,
-      "DRI": 67,
-      "DEF": 63,
-      "FIS": 81
+      "RIT": 78,
+      "FIN": 57,
+      "PAS": 72,
+      "DRI": 70,
+      "DEF": 65,
+      "FIS": 85
      },
      "sem_nota_por": null,
      "x_medio": 0.572,
@@ -507,12 +507,12 @@
      "minutos": 652,
      "overall": 77,
      "eixos": {
-      "RIT": 79,
-      "FIN": 81,
+      "RIT": 78,
+      "FIN": 80,
       "PAS": 69,
-      "DRI": 76,
+      "DRI": 75,
       "DEF": 36,
-      "FIS": 75
+      "FIS": 74
      },
      "sem_nota_por": null,
      "x_medio": 0.667,
@@ -534,12 +534,12 @@
      "minutos": 772,
      "overall": 75,
      "eixos": {
-      "RIT": 77,
-      "FIN": 65,
-      "PAS": 69,
-      "DRI": 78,
+      "RIT": 78,
+      "FIN": 66,
+      "PAS": 70,
+      "DRI": 79,
       "DEF": 53,
-      "FIS": 65
+      "FIS": 66
      },
      "sem_nota_por": null,
      "x_medio": 0.524,
@@ -555,12 +555,12 @@
      "minutos": 744,
      "overall": 75,
      "eixos": {
-      "RIT": 69,
-      "FIN": 63,
-      "PAS": 78,
-      "DRI": 71,
-      "DEF": 56,
-      "FIS": 68
+      "RIT": 72,
+      "FIN": 65,
+      "PAS": 81,
+      "DRI": 74,
+      "DEF": 57,
+      "FIS": 70
      },
      "sem_nota_por": null,
      "x_medio": 0.406,
@@ -576,12 +576,12 @@
      "minutos": 550,
      "overall": 75,
      "eixos": {
-      "RIT": 81,
-      "FIN": 42,
-      "PAS": 61,
-      "DRI": 64,
-      "DEF": 83,
-      "FIS": 72
+      "RIT": 78,
+      "FIN": 41,
+      "PAS": 60,
+      "DRI": 62,
+      "DEF": 80,
+      "FIS": 69
      },
      "sem_nota_por": null,
      "x_medio": 0.183,
@@ -597,12 +597,12 @@
      "minutos": 450,
      "overall": 72,
      "eixos": {
-      "RIT": 72,
+      "RIT": 70,
       "FIN": 50,
-      "PAS": 60,
-      "DRI": 58,
-      "DEF": 79,
-      "FIS": 73
+      "PAS": 59,
+      "DRI": 57,
+      "DEF": 77,
+      "FIS": 71
      },
      "sem_nota_por": null,
      "x_medio": 0.425,
@@ -784,12 +784,12 @@
      "minutos": 727,
      "overall": 77,
      "eixos": {
-      "RIT": 82,
-      "FIN": 77,
+      "RIT": 81,
+      "FIN": 76,
       "PAS": 66,
       "DRI": 76,
       "DEF": 42,
-      "FIS": 77
+      "FIS": 76
      },
      "sem_nota_por": null,
      "x_medio": 0.439
@@ -938,12 +938,12 @@
      "minutos": 270,
      "overall": 85,
      "eixos": {
-      "RIT": 75,
-      "FIN": 68,
-      "PAS": 75,
-      "DRI": 78,
-      "DEF": 64,
-      "FIS": 79
+      "RIT": 82,
+      "FIN": 72,
+      "PAS": 84,
+      "DRI": 87,
+      "DEF": 66,
+      "FIS": 88
      },
      "sem_nota_por": null,
      "x_medio": 0.625,
@@ -970,12 +970,12 @@
      "minutos": 1269,
      "overall": 82,
      "eixos": {
-      "RIT": 80,
-      "FIN": 67,
-      "PAS": 79,
-      "DRI": 81,
-      "DEF": 49,
-      "FIS": 60
+      "RIT": 83,
+      "FIN": 69,
+      "PAS": 82,
+      "DRI": 84,
+      "DEF": 50,
+      "FIS": 62
      },
      "sem_nota_por": null,
      "x_medio": 0.425,
@@ -1007,12 +1007,12 @@
      "minutos": 918,
      "overall": 82,
      "eixos": {
-      "RIT": 80,
-      "FIN": 79,
-      "PAS": 78,
-      "DRI": 79,
-      "DEF": 35,
-      "FIS": 71
+      "RIT": 84,
+      "FIN": 83,
+      "PAS": 81,
+      "DRI": 83,
+      "DEF": 36,
+      "FIS": 73
      },
      "sem_nota_por": null,
      "x_medio": 0.439,
@@ -1044,12 +1044,12 @@
      "minutos": 1972,
      "overall": 81,
      "eixos": {
-      "RIT": 82,
-      "FIN": 58,
-      "PAS": 73,
-      "DRI": 68,
-      "DEF": 68,
-      "FIS": 70
+      "RIT": 89,
+      "FIN": 60,
+      "PAS": 80,
+      "DRI": 72,
+      "DEF": 73,
+      "FIS": 77
      },
      "sem_nota_por": null,
      "x_medio": 0.202,
@@ -1081,11 +1081,11 @@
      "minutos": 1665,
      "overall": 81,
      "eixos": {
-      "RIT": 82,
-      "FIN": 77,
-      "PAS": 73,
-      "DRI": 82,
-      "DEF": 63,
+      "RIT": 84,
+      "FIN": 79,
+      "PAS": 74,
+      "DRI": 84,
+      "DEF": 64,
       "FIS": 60
      },
      "sem_nota_por": null,
@@ -1123,12 +1123,12 @@
      "minutos": 1756,
      "overall": 79,
      "eixos": {
-      "RIT": 75,
-      "FIN": 50,
-      "PAS": 61,
-      "DRI": 54,
-      "DEF": 80,
-      "FIS": 75
+      "RIT": 78,
+      "FIN": 51,
+      "PAS": 64,
+      "DRI": 56,
+      "DEF": 83,
+      "FIS": 78
      },
      "sem_nota_por": null,
      "x_medio": 0.57,
@@ -1160,12 +1160,12 @@
      "minutos": 1619,
      "overall": 79,
      "eixos": {
-      "RIT": 70,
-      "FIN": 51,
-      "PAS": 69,
-      "DRI": 64,
-      "DEF": 72,
-      "FIS": 73
+      "RIT": 78,
+      "FIN": 53,
+      "PAS": 75,
+      "DRI": 68,
+      "DEF": 80,
+      "FIS": 81
      },
      "sem_nota_por": null,
      "x_medio": 0.486,
@@ -1197,12 +1197,12 @@
      "minutos": 1546,
      "overall": 79,
      "eixos": {
-      "RIT": 71,
-      "FIN": 67,
-      "PAS": 72,
-      "DRI": 81,
-      "DEF": 47,
-      "FIS": 71
+      "RIT": 75,
+      "FIN": 70,
+      "PAS": 77,
+      "DRI": 86,
+      "DEF": 48,
+      "FIS": 76
      },
      "sem_nota_por": null,
      "x_medio": 0.549,
@@ -1234,12 +1234,12 @@
      "minutos": 1504,
      "overall": 78,
      "eixos": {
-      "RIT": 82,
-      "FIN": 46,
-      "PAS": 67,
-      "DRI": 63,
-      "DEF": 78,
-      "FIS": 64
+      "RIT": 85,
+      "FIN": 47,
+      "PAS": 70,
+      "DRI": 65,
+      "DEF": 81,
+      "FIS": 66
      },
      "sem_nota_por": null,
      "x_medio": 0.781,
@@ -1281,12 +1281,12 @@
      "minutos": 736,
      "overall": 78,
      "eixos": {
-      "RIT": 78,
+      "RIT": 77,
       "FIN": 51,
-      "PAS": 69,
+      "PAS": 68,
       "DRI": 62,
-      "DEF": 88,
-      "FIS": 73
+      "DEF": 87,
+      "FIS": 72
      },
      "sem_nota_por": null,
      "x_medio": 0.8,
@@ -1318,11 +1318,11 @@
      "minutos": 2070,
      "overall": 77,
      "eixos": {
-      "REF": 76,
-      "EVI": 68,
-      "MAO": 84,
-      "PES": 69,
-      "SAI": 84
+      "REF": 73,
+      "EVI": 66,
+      "MAO": 81,
+      "PES": 66,
+      "SAI": 81
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -1354,12 +1354,12 @@
      "minutos": 1075,
      "overall": 77,
      "eixos": {
-      "RIT": 76,
-      "FIN": 80,
+      "RIT": 77,
+      "FIN": 81,
       "PAS": 65,
-      "DRI": 76,
+      "DRI": 77,
       "DEF": 34,
-      "FIS": 75
+      "FIS": 76
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -1386,12 +1386,12 @@
      "minutos": 932,
      "overall": 75,
      "eixos": {
-      "RIT": 71,
+      "RIT": 69,
       "FIN": 53,
-      "PAS": 69,
-      "DRI": 65,
-      "DEF": 82,
-      "FIS": 80
+      "PAS": 68,
+      "DRI": 64,
+      "DEF": 80,
+      "FIS": 78
      },
      "sem_nota_por": null,
      "x_medio": 0.57,
@@ -1418,12 +1418,12 @@
      "minutos": 689,
      "overall": 75,
      "eixos": {
-      "RIT": 80,
-      "FIN": 79,
-      "PAS": 70,
-      "DRI": 81,
-      "DEF": 34,
-      "FIS": 67
+      "RIT": 76,
+      "FIN": 75,
+      "PAS": 67,
+      "DRI": 77,
+      "DEF": 33,
+      "FIS": 65
      },
      "sem_nota_por": null,
      "x_medio": 0.571,
@@ -1460,12 +1460,12 @@
      "minutos": 1171,
      "overall": 74,
      "eixos": {
-      "RIT": 64,
-      "FIN": 66,
-      "PAS": 73,
-      "DRI": 69,
-      "DEF": 61,
-      "FIS": 63
+      "RIT": 68,
+      "FIN": 72,
+      "PAS": 79,
+      "DRI": 75,
+      "DEF": 62,
+      "FIS": 66
      },
      "sem_nota_por": null,
      "x_medio": 0.481,
@@ -1502,12 +1502,12 @@
      "minutos": 912,
      "overall": 74,
      "eixos": {
-      "RIT": 68,
-      "FIN": 55,
-      "PAS": 60,
-      "DRI": 55,
-      "DEF": 85,
-      "FIS": 80
+      "RIT": 65,
+      "FIN": 54,
+      "PAS": 58,
+      "DRI": 54,
+      "DEF": 82,
+      "FIS": 77
      },
      "sem_nota_por": null,
      "x_medio": 0.383,
@@ -1539,12 +1539,12 @@
      "minutos": 192,
      "overall": 74,
      "eixos": {
-      "RIT": 65,
-      "FIN": 63,
-      "PAS": 75,
-      "DRI": 73,
-      "DEF": 74,
-      "FIS": 83
+      "RIT": 64,
+      "FIN": 62,
+      "PAS": 73,
+      "DRI": 71,
+      "DEF": 72,
+      "FIS": 81
      },
      "sem_nota_por": null,
      "x_medio": 0.55,
@@ -1571,12 +1571,12 @@
      "minutos": 641,
      "overall": 72,
      "eixos": {
-      "RIT": 69,
-      "FIN": 45,
-      "PAS": 64,
-      "DRI": 58,
-      "DEF": 89,
-      "FIS": 73
+      "RIT": 65,
+      "FIN": 44,
+      "PAS": 61,
+      "DRI": 56,
+      "DEF": 85,
+      "FIS": 69
      },
      "sem_nota_por": null,
      "x_medio": 0.443,
@@ -1608,12 +1608,12 @@
      "minutos": 543,
      "overall": 72,
      "eixos": {
-      "RIT": 71,
-      "FIN": 43,
-      "PAS": 65,
-      "DRI": 66,
-      "DEF": 82,
-      "FIS": 76
+      "RIT": 68,
+      "FIN": 42,
+      "PAS": 63,
+      "DRI": 64,
+      "DEF": 79,
+      "FIS": 73
      },
      "sem_nota_por": null,
      "x_medio": 0.2,
@@ -1687,12 +1687,12 @@
      "minutos": 450,
      "overall": 70,
      "eixos": {
-      "RIT": 63,
-      "FIN": 56,
-      "PAS": 60,
-      "DRI": 58,
-      "DEF": 84,
-      "FIS": 80
+      "RIT": 58,
+      "FIN": 55,
+      "PAS": 56,
+      "DRI": 56,
+      "DEF": 79,
+      "FIS": 75
      },
      "sem_nota_por": null,
      "x_medio": 0.57,
@@ -1878,12 +1878,12 @@
      "minutos": 900,
      "overall": 78,
      "eixos": {
-      "RIT": 65,
-      "FIN": 44,
-      "PAS": 62,
-      "DRI": 56,
-      "DEF": 80,
-      "FIS": 74
+      "RIT": 71,
+      "FIN": 46,
+      "PAS": 66,
+      "DRI": 59,
+      "DEF": 86,
+      "FIS": 80
      },
      "sem_nota_por": null,
      "x_medio": 0.34
@@ -2006,12 +2006,12 @@
      "minutos": 1061,
      "overall": 84,
      "eixos": {
-      "RIT": 71,
-      "FIN": 67,
-      "PAS": 82,
-      "DRI": 73,
-      "DEF": 64,
-      "FIS": 66
+      "RIT": 81,
+      "FIN": 74,
+      "PAS": 92,
+      "DRI": 83,
+      "DEF": 66,
+      "FIS": 71
      },
      "sem_nota_por": null,
      "x_medio": 0.692,
@@ -2027,12 +2027,12 @@
      "minutos": 2252,
      "overall": 83,
      "eixos": {
-      "RIT": 64,
-      "FIN": 57,
-      "PAS": 77,
-      "DRI": 69,
-      "DEF": 80,
-      "FIS": 75
+      "RIT": 67,
+      "FIN": 59,
+      "PAS": 84,
+      "DRI": 74,
+      "DEF": 87,
+      "FIS": 82
      },
      "sem_nota_por": null,
      "x_medio": 0.601,
@@ -2069,12 +2069,12 @@
      "minutos": 2115,
      "overall": 82,
      "eixos": {
-      "RIT": 69,
-      "FIN": 42,
-      "PAS": 65,
-      "DRI": 57,
-      "DEF": 86,
-      "FIS": 75
+      "RIT": 75,
+      "FIN": 44,
+      "PAS": 70,
+      "DRI": 60,
+      "DEF": 92,
+      "FIS": 81
      },
      "sem_nota_por": null,
      "x_medio": 0.381,
@@ -2111,12 +2111,12 @@
      "minutos": 1996,
      "overall": 81,
      "eixos": {
-      "RIT": 83,
-      "FIN": 71,
-      "PAS": 66,
-      "DRI": 79,
-      "DEF": 32,
-      "FIS": 58
+      "RIT": 87,
+      "FIN": 75,
+      "PAS": 69,
+      "DRI": 83,
+      "DEF": 33,
+      "FIS": 60
      },
      "sem_nota_por": null,
      "x_medio": 0.308,
@@ -2153,12 +2153,12 @@
      "minutos": 1968,
      "overall": 81,
      "eixos": {
-      "RIT": 77,
-      "FIN": 70,
-      "PAS": 74,
-      "DRI": 63,
-      "DEF": 70,
-      "FIS": 64
+      "RIT": 85,
+      "FIN": 76,
+      "PAS": 82,
+      "DRI": 65,
+      "DEF": 78,
+      "FIS": 68
      },
      "sem_nota_por": null,
      "x_medio": 0.209,
@@ -2195,12 +2195,12 @@
      "minutos": 1887,
      "overall": 81,
      "eixos": {
-      "RIT": 66,
-      "FIN": 56,
-      "PAS": 70,
-      "DRI": 63,
-      "DEF": 85,
-      "FIS": 81
+      "RIT": 68,
+      "FIN": 57,
+      "PAS": 73,
+      "DRI": 65,
+      "DEF": 88,
+      "FIS": 84
      },
      "sem_nota_por": null,
      "x_medio": 0.586,
@@ -2232,12 +2232,12 @@
      "minutos": 1638,
      "overall": 79,
      "eixos": {
-      "RIT": 77,
-      "FIN": 68,
-      "PAS": 71,
-      "DRI": 73,
-      "DEF": 66,
-      "FIS": 61
+      "RIT": 83,
+      "FIN": 73,
+      "PAS": 77,
+      "DRI": 79,
+      "DEF": 69,
+      "FIS": 63
      },
      "sem_nota_por": null,
      "x_medio": 0.357,
@@ -2279,11 +2279,11 @@
      "minutos": 1309,
      "overall": 79,
      "eixos": {
-      "RIT": 76,
-      "FIN": 71,
-      "PAS": 78,
-      "DRI": 81,
-      "DEF": 71,
+      "RIT": 78,
+      "FIN": 72,
+      "PAS": 80,
+      "DRI": 83,
+      "DEF": 72,
       "FIS": 63
      },
      "sem_nota_por": null,
@@ -2326,10 +2326,10 @@
      "minutos": 1287,
      "overall": 79,
      "eixos": {
-      "RIT": 84,
-      "FIN": 74,
+      "RIT": 85,
+      "FIN": 75,
       "PAS": 74,
-      "DRI": 80,
+      "DRI": 81,
       "DEF": 36,
       "FIS": 62
      },
@@ -2353,11 +2353,11 @@
      "minutos": 1664,
      "overall": 78,
      "eixos": {
-      "REF": 74,
-      "EVI": 86,
-      "MAO": 71,
-      "PES": 90,
-      "SAI": 99
+      "REF": 64,
+      "EVI": 73,
+      "MAO": 65,
+      "PES": 77,
+      "SAI": 86
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -2394,12 +2394,12 @@
      "minutos": 1304,
      "overall": 78,
      "eixos": {
-      "RIT": 75,
-      "FIN": 73,
-      "PAS": 63,
-      "DRI": 71,
-      "DEF": 70,
-      "FIS": 76
+      "RIT": 79,
+      "FIN": 77,
+      "PAS": 64,
+      "DRI": 74,
+      "DEF": 72,
+      "FIS": 80
      },
      "sem_nota_por": null,
      "x_medio": 0.644,
@@ -2426,12 +2426,12 @@
      "minutos": 1147,
      "overall": 77,
      "eixos": {
-      "RIT": 65,
-      "FIN": 79,
-      "PAS": 64,
-      "DRI": 77,
+      "RIT": 66,
+      "FIN": 80,
+      "PAS": 65,
+      "DRI": 78,
       "DEF": 35,
-      "FIS": 74
+      "FIS": 75
      },
      "sem_nota_por": null,
      "x_medio": 0.521,
@@ -2453,12 +2453,12 @@
      "minutos": 1018,
      "overall": 77,
      "eixos": {
-      "RIT": 84,
-      "FIN": 74,
-      "PAS": 68,
-      "DRI": 80,
+      "RIT": 83,
+      "FIN": 73,
+      "PAS": 67,
+      "DRI": 79,
       "DEF": 41,
-      "FIS": 67
+      "FIS": 66
      },
      "sem_nota_por": null,
      "x_medio": 0.765,
@@ -2495,11 +2495,11 @@
      "minutos": 1394,
      "overall": 76,
      "eixos": {
-      "REF": 80,
-      "EVI": 83,
-      "MAO": 76,
-      "PES": 90,
-      "SAI": 91
+      "REF": 72,
+      "EVI": 72,
+      "MAO": 70,
+      "PES": 79,
+      "SAI": 80
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -2557,12 +2557,12 @@
      "minutos": 772,
      "overall": 75,
      "eixos": {
-      "RIT": 69,
-      "FIN": 82,
-      "PAS": 63,
-      "DRI": 77,
-      "DEF": 33,
-      "FIS": 80
+      "RIT": 66,
+      "FIN": 78,
+      "PAS": 61,
+      "DRI": 73,
+      "DEF": 32,
+      "FIS": 76
      },
      "sem_nota_por": null,
      "x_medio": 0.519,
@@ -2599,12 +2599,12 @@
      "minutos": 659,
      "overall": 74,
      "eixos": {
-      "RIT": 76,
-      "FIN": 80,
-      "PAS": 57,
-      "DRI": 72,
-      "DEF": 46,
-      "FIS": 80
+      "RIT": 72,
+      "FIN": 76,
+      "PAS": 55,
+      "DRI": 69,
+      "DEF": 45,
+      "FIS": 76
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -2924,12 +2924,12 @@
      "minutos": 45,
      "overall": 85,
      "eixos": {
-      "RIT": 67,
-      "FIN": 68,
-      "PAS": 73,
-      "DRI": 76,
-      "DEF": 60,
-      "FIS": 70
+      "RIT": 74,
+      "FIN": 78,
+      "PAS": 86,
+      "DRI": 89,
+      "DEF": 63,
+      "FIS": 83
      },
      "sem_nota_por": null,
      "x_medio": null,
@@ -2945,12 +2945,12 @@
      "minutos": 1943,
      "overall": 82,
      "eixos": {
-      "RIT": 75,
-      "FIN": 60,
-      "PAS": 68,
-      "DRI": 68,
-      "DEF": 68,
-      "FIS": 71
+      "RIT": 87,
+      "FIN": 63,
+      "PAS": 74,
+      "DRI": 77,
+      "DEF": 80,
+      "FIS": 83
      },
      "sem_nota_por": null,
      "x_medio": 0.2,
@@ -2982,12 +2982,12 @@
      "minutos": 537,
      "overall": 82,
      "eixos": {
-      "RIT": 68,
-      "FIN": 57,
-      "PAS": 68,
-      "DRI": 70,
-      "DEF": 79,
-      "FIS": 69
+      "RIT": 73,
+      "FIN": 60,
+      "PAS": 76,
+      "DRI": 80,
+      "DEF": 89,
+      "FIS": 79
      },
      "sem_nota_por": null,
      "x_medio": 0.514,
@@ -3009,12 +3009,12 @@
      "minutos": 1688,
      "overall": 81,
      "eixos": {
-      "RIT": 70,
-      "FIN": 65,
-      "PAS": 78,
-      "DRI": 79,
-      "DEF": 52,
-      "FIS": 59
+      "RIT": 76,
+      "FIN": 70,
+      "PAS": 84,
+      "DRI": 85,
+      "DEF": 54,
+      "FIS": 62
      },
      "sem_nota_por": null,
      "x_medio": 0.402,
@@ -3056,12 +3056,12 @@
      "minutos": 2091,
      "overall": 80,
      "eixos": {
-      "RIT": 81,
-      "FIN": 49,
-      "PAS": 66,
-      "DRI": 65,
-      "DEF": 79,
-      "FIS": 71
+      "RIT": 85,
+      "FIN": 50,
+      "PAS": 69,
+      "DRI": 67,
+      "DEF": 83,
+      "FIS": 75
      },
      "sem_nota_por": null,
      "x_medio": 0.8,
@@ -3093,12 +3093,12 @@
      "minutos": 1857,
      "overall": 80,
      "eixos": {
-      "RIT": 79,
-      "FIN": 77,
-      "PAS": 61,
-      "DRI": 73,
-      "DEF": 38,
-      "FIS": 79
+      "RIT": 82,
+      "FIN": 80,
+      "PAS": 62,
+      "DRI": 75,
+      "DEF": 39,
+      "FIS": 82
      },
      "sem_nota_por": null,
      "x_medio": 0.514,
@@ -3135,12 +3135,12 @@
      "minutos": 1764,
      "overall": 78,
      "eixos": {
-      "RIT": 70,
-      "FIN": 67,
-      "PAS": 76,
-      "DRI": 76,
-      "DEF": 64,
-      "FIS": 71
+      "RIT": 74,
+      "FIN": 69,
+      "PAS": 81,
+      "DRI": 81,
+      "DEF": 65,
+      "FIS": 76
      },
      "sem_nota_por": null,
      "x_medio": 0.443,
@@ -3182,12 +3182,12 @@
      "minutos": 1757,
      "overall": 78,
      "eixos": {
-      "RIT": 70,
+      "RIT": 69,
       "FIN": 51,
-      "PAS": 63,
-      "DRI": 57,
-      "DEF": 90,
-      "FIS": 80
+      "PAS": 62,
+      "DRI": 56,
+      "DEF": 89,
+      "FIS": 79
      },
      "sem_nota_por": null,
      "x_medio": 0.574,
@@ -3224,12 +3224,12 @@
      "minutos": 1467,
      "overall": 77,
      "eixos": {
-      "RIT": 82,
-      "FIN": 71,
-      "PAS": 66,
-      "DRI": 74,
-      "DEF": 69,
-      "FIS": 69
+      "RIT": 84,
+      "FIN": 73,
+      "PAS": 67,
+      "DRI": 76,
+      "DEF": 71,
+      "FIS": 70
      },
      "sem_nota_por": null,
      "x_medio": 0.488,
@@ -3261,12 +3261,12 @@
      "minutos": 1132,
      "overall": 74,
      "eixos": {
-      "RIT": 80,
-      "FIN": 76,
-      "PAS": 65,
-      "DRI": 74,
+      "RIT": 78,
+      "FIN": 74,
+      "PAS": 64,
+      "DRI": 72,
       "DEF": 45,
-      "FIS": 62
+      "FIS": 61
      },
      "sem_nota_por": null,
      "x_medio": 0.317,
@@ -3288,10 +3288,10 @@
      "minutos": 981,
      "overall": 72,
      "eixos": {
-      "RIT": 75,
-      "FIN": 70,
-      "PAS": 71,
-      "DRI": 76,
+      "RIT": 74,
+      "FIN": 69,
+      "PAS": 70,
+      "DRI": 75,
       "DEF": 58,
       "FIS": 68
      },
@@ -3362,12 +3362,12 @@
      "minutos": 727,
      "overall": 72,
      "eixos": {
-      "RIT": 84,
-      "FIN": 72,
-      "PAS": 65,
-      "DRI": 79,
-      "DEF": 40,
-      "FIS": 70
+      "RIT": 79,
+      "FIN": 67,
+      "PAS": 62,
+      "DRI": 74,
+      "DEF": 39,
+      "FIS": 66
      },
      "sem_nota_por": null,
      "x_medio": 0.769,
@@ -3394,12 +3394,12 @@
      "minutos": 742,
      "overall": 71,
      "eixos": {
-      "RIT": 79,
-      "FIN": 77,
-      "PAS": 58,
-      "DRI": 78,
-      "DEF": 32,
-      "FIS": 70
+      "RIT": 73,
+      "FIN": 71,
+      "PAS": 55,
+      "DRI": 72,
+      "DEF": 30,
+      "FIS": 66
      },
      "sem_nota_por": null,
      "x_medio": 0.662,
@@ -3426,12 +3426,12 @@
      "minutos": 633,
      "overall": 71,
      "eixos": {
-      "RIT": 81,
-      "FIN": 52,
-      "PAS": 64,
-      "DRI": 64,
-      "DEF": 79,
-      "FIS": 72
+      "RIT": 76,
+      "FIN": 51,
+      "PAS": 61,
+      "DRI": 60,
+      "DEF": 74,
+      "FIS": 67
      },
      "sem_nota_por": null,
      "x_medio": 0.783,
@@ -3447,12 +3447,12 @@
      "minutos": 900,
      "overall": 69,
      "eixos": {
-      "RIT": 66,
+      "RIT": 65,
       "FIN": 44,
-      "PAS": 57,
-      "DRI": 56,
-      "DEF": 74,
-      "FIS": 74
+      "PAS": 56,
+      "DRI": 55,
+      "DEF": 73,
+      "FIS": 73
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -3484,12 +3484,12 @@
      "minutos": 474,
      "overall": 68,
      "eixos": {
-      "RIT": 72,
-      "FIN": 53,
-      "PAS": 59,
-      "DRI": 58,
-      "DEF": 83,
-      "FIS": 78
+      "RIT": 63,
+      "FIN": 51,
+      "PAS": 52,
+      "DRI": 54,
+      "DEF": 74,
+      "FIS": 69
      },
      "sem_nota_por": null,
      "x_medio": 0.4,
@@ -3516,11 +3516,11 @@
      "minutos": 540,
      "overall": 67,
      "eixos": {
-      "REF": 84,
-      "EVI": 76,
-      "MAO": 56,
-      "PES": 72,
-      "SAI": 87
+      "REF": 70,
+      "EVI": 62,
+      "MAO": 49,
+      "PES": 61,
+      "SAI": 73
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -3786,12 +3786,12 @@
      "minutos": 178,
      "overall": 82,
      "eixos": {
-      "RIT": 77,
-      "FIN": 77,
-      "PAS": 73,
-      "DRI": 80,
-      "DEF": 33,
-      "FIS": 80
+      "RIT": 80,
+      "FIN": 81,
+      "PAS": 75,
+      "DRI": 84,
+      "DEF": 34,
+      "FIS": 84
      },
      "sem_nota_por": null,
      "x_medio": 0.333
@@ -3806,12 +3806,12 @@
      "minutos": 521,
      "overall": 76,
      "eixos": {
-      "RIT": 69,
-      "FIN": 40,
-      "PAS": 64,
-      "DRI": 57,
-      "DEF": 80,
-      "FIS": 69
+      "RIT": 73,
+      "FIN": 41,
+      "PAS": 67,
+      "DRI": 59,
+      "DEF": 84,
+      "FIS": 73
      },
      "sem_nota_por": null,
      "x_medio": 0.567
@@ -3826,12 +3826,12 @@
      "minutos": 574,
      "overall": 70,
      "eixos": {
-      "RIT": 73,
-      "FIN": 60,
-      "PAS": 69,
-      "DRI": 76,
-      "DEF": 52,
-      "FIS": 81
+      "RIT": 67,
+      "FIN": 57,
+      "PAS": 65,
+      "DRI": 70,
+      "DEF": 51,
+      "FIS": 75
      },
      "sem_nota_por": null,
      "x_medio": 0.586
@@ -3846,11 +3846,11 @@
      "minutos": 676,
      "overall": 65,
      "eixos": {
-      "REF": 64,
-      "EVI": 72,
-      "MAO": 80,
-      "PES": 71,
-      "SAI": 78
+      "REF": 59,
+      "EVI": 61,
+      "MAO": 69,
+      "PES": 63,
+      "SAI": 67
      },
      "sem_nota_por": null,
      "x_medio": 0.5
@@ -3865,11 +3865,11 @@
      "minutos": 857,
      "overall": 64,
      "eixos": {
-      "REF": 51,
-      "EVI": 53,
-      "MAO": 56,
-      "PES": 65,
-      "SAI": 89
+      "REF": 48,
+      "EVI": 49,
+      "MAO": 51,
+      "PES": 60,
+      "SAI": 84
      },
      "sem_nota_por": null,
      "x_medio": 0.5
@@ -4044,12 +4044,12 @@
      "minutos": 1261,
      "overall": 79,
      "eixos": {
-      "RIT": 76,
-      "FIN": 77,
-      "PAS": 63,
-      "DRI": 72,
-      "DEF": 31,
-      "FIS": 74
+      "RIT": 80,
+      "FIN": 81,
+      "PAS": 65,
+      "DRI": 75,
+      "DEF": 32,
+      "FIS": 78
      },
      "sem_nota_por": null,
      "x_medio": 0.528,
@@ -4081,12 +4081,12 @@
      "minutos": 2183,
      "overall": 75,
      "eixos": {
-      "RIT": 63,
-      "FIN": 47,
-      "PAS": 62,
-      "DRI": 65,
-      "DEF": 81,
-      "FIS": 75
+      "RIT": 65,
+      "FIN": 48,
+      "PAS": 63,
+      "DRI": 67,
+      "DEF": 83,
+      "FIS": 77
      },
      "sem_nota_por": null,
      "x_medio": 0.417,
@@ -4185,12 +4185,12 @@
      "minutos": 1582,
      "overall": 73,
      "eixos": {
-      "RIT": 79,
-      "FIN": 72,
-      "PAS": 67,
-      "DRI": 79,
-      "DEF": 35,
-      "FIS": 70
+      "RIT": 76,
+      "FIN": 69,
+      "PAS": 66,
+      "DRI": 76,
+      "DEF": 34,
+      "FIS": 68
      },
      "sem_nota_por": null,
      "x_medio": 0.405,
@@ -4232,12 +4232,12 @@
      "minutos": 1271,
      "overall": 71,
      "eixos": {
-      "RIT": 74,
-      "FIN": 40,
-      "PAS": 68,
-      "DRI": 70,
-      "DEF": 79,
-      "FIS": 77
+      "RIT": 69,
+      "FIN": 39,
+      "PAS": 66,
+      "DRI": 66,
+      "DEF": 74,
+      "FIS": 72
      },
      "sem_nota_por": null,
      "x_medio": 0.2,
@@ -4269,12 +4269,12 @@
      "minutos": 1327,
      "overall": 70,
      "eixos": {
-      "RIT": 80,
-      "FIN": 53,
-      "PAS": 62,
-      "DRI": 62,
-      "DEF": 65,
-      "FIS": 81
+      "RIT": 76,
+      "FIN": 52,
+      "PAS": 60,
+      "DRI": 59,
+      "DEF": 61,
+      "FIS": 77
      },
      "sem_nota_por": null,
      "x_medio": 0.8,
@@ -4301,12 +4301,12 @@
      "minutos": 1086,
      "overall": 69,
      "eixos": {
-      "RIT": 66,
-      "FIN": 60,
-      "PAS": 82,
-      "DRI": 81,
-      "DEF": 45,
-      "FIS": 70
+      "RIT": 60,
+      "FIN": 56,
+      "PAS": 74,
+      "DRI": 73,
+      "DEF": 43,
+      "FIS": 62
      },
      "sem_nota_por": null,
      "x_medio": 0.461,
@@ -4348,12 +4348,12 @@
      "minutos": 796,
      "overall": 68,
      "eixos": {
-      "RIT": 78,
-      "FIN": 78,
-      "PAS": 58,
-      "DRI": 74,
-      "DEF": 34,
-      "FIS": 84
+      "RIT": 67,
+      "FIN": 67,
+      "PAS": 52,
+      "DRI": 66,
+      "DEF": 31,
+      "FIS": 73
      },
      "sem_nota_por": null,
      "x_medio": 0.405,
@@ -4375,12 +4375,12 @@
      "minutos": 782,
      "overall": 66,
      "eixos": {
-      "RIT": 75,
-      "FIN": 65,
-      "PAS": 71,
-      "DRI": 81,
-      "DEF": 48,
-      "FIS": 60
+      "RIT": 66,
+      "FIN": 58,
+      "PAS": 62,
+      "DRI": 72,
+      "DEF": 46,
+      "FIS": 56
      },
      "sem_nota_por": null,
      "x_medio": 0.756,
@@ -4407,12 +4407,12 @@
      "minutos": 483,
      "overall": 66,
      "eixos": {
-      "RIT": 76,
-      "FIN": 81,
-      "PAS": 58,
-      "DRI": 77,
-      "DEF": 39,
-      "FIS": 79
+      "RIT": 67,
+      "FIN": 69,
+      "PAS": 52,
+      "DRI": 65,
+      "DEF": 36,
+      "FIS": 67
      },
      "sem_nota_por": null,
      "x_medio": 0.533,
@@ -4439,11 +4439,11 @@
      "minutos": 1170,
      "overall": 65,
      "eixos": {
-      "REF": 68,
-      "EVI": 57,
-      "MAO": 86,
-      "PES": 89,
-      "SAI": 64
+      "REF": 53,
+      "EVI": 50,
+      "MAO": 71,
+      "PES": 74,
+      "SAI": 53
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -4475,12 +4475,12 @@
      "minutos": 895,
      "overall": 65,
      "eixos": {
-      "RIT": 70,
+      "RIT": 68,
       "FIN": 62,
-      "PAS": 63,
-      "DRI": 66,
-      "DEF": 64,
-      "FIS": 68
+      "PAS": 62,
+      "DRI": 64,
+      "DEF": 62,
+      "FIS": 66
      },
      "sem_nota_por": null,
      "x_medio": 0.65,
@@ -4496,12 +4496,12 @@
      "minutos": 630,
      "overall": 65,
      "eixos": {
-      "RIT": 69,
-      "FIN": 42,
-      "PAS": 62,
-      "DRI": 56,
-      "DEF": 86,
-      "FIS": 79
+      "RIT": 57,
+      "FIN": 39,
+      "PAS": 53,
+      "DRI": 50,
+      "DEF": 74,
+      "FIS": 67
      },
      "sem_nota_por": null,
      "x_medio": 0.571,
@@ -4538,12 +4538,12 @@
      "minutos": 506,
      "overall": 65,
      "eixos": {
-      "RIT": 67,
-      "FIN": 47,
-      "PAS": 64,
-      "DRI": 58,
-      "DEF": 89,
-      "FIS": 81
+      "RIT": 54,
+      "FIN": 44,
+      "PAS": 54,
+      "DRI": 52,
+      "DEF": 76,
+      "FIS": 68
      },
      "sem_nota_por": null,
      "x_medio": 0.297,
@@ -4559,12 +4559,12 @@
      "minutos": 649,
      "overall": 64,
      "eixos": {
-      "RIT": 69,
-      "FIN": 44,
-      "PAS": 61,
-      "DRI": 56,
-      "DEF": 82,
-      "FIS": 76
+      "RIT": 58,
+      "FIN": 41,
+      "PAS": 53,
+      "DRI": 51,
+      "DEF": 71,
+      "FIS": 65
      },
      "sem_nota_por": null,
      "x_medio": 0.667,
@@ -4580,12 +4580,12 @@
      "minutos": 480,
      "overall": 63,
      "eixos": {
-      "RIT": 64,
-      "FIN": 61,
-      "PAS": 74,
-      "DRI": 70,
-      "DEF": 64,
-      "FIS": 69
+      "RIT": 60,
+      "FIN": 59,
+      "PAS": 67,
+      "DRI": 63,
+      "DEF": 59,
+      "FIS": 62
      },
      "sem_nota_por": null,
      "x_medio": 0.525,
@@ -5034,12 +5034,12 @@
      "minutos": 1311,
      "overall": 69,
      "eixos": {
-      "RIT": 65,
-      "FIN": 39,
-      "PAS": 60,
-      "DRI": 58,
-      "DEF": 86,
-      "FIS": 78
+      "RIT": 59,
+      "FIN": 37,
+      "PAS": 55,
+      "DRI": 55,
+      "DEF": 80,
+      "FIS": 72
      },
      "sem_nota_por": null,
      "x_medio": 0.553
@@ -5054,12 +5054,12 @@
      "minutos": 662,
      "overall": 67,
      "eixos": {
-      "RIT": 75,
-      "FIN": 71,
-      "PAS": 75,
-      "DRI": 76,
-      "DEF": 59,
-      "FIS": 71
+      "RIT": 68,
+      "FIN": 66,
+      "PAS": 68,
+      "DRI": 69,
+      "DEF": 57,
+      "FIS": 67
      },
      "sem_nota_por": null,
      "x_medio": 0.583
@@ -5074,12 +5074,12 @@
      "minutos": 765,
      "overall": 66,
      "eixos": {
-      "RIT": 74,
-      "FIN": 70,
-      "PAS": 66,
-      "DRI": 57,
-      "DEF": 72,
-      "FIS": 74
+      "RIT": 68,
+      "FIN": 65,
+      "PAS": 63,
+      "DRI": 55,
+      "DEF": 66,
+      "FIS": 68
      },
      "sem_nota_por": null,
      "x_medio": 0.193
@@ -5094,12 +5094,12 @@
      "minutos": 716,
      "overall": 66,
      "eixos": {
-      "RIT": 83,
-      "FIN": 75,
-      "PAS": 60,
-      "DRI": 79,
-      "DEF": 41,
-      "FIS": 66
+      "RIT": 71,
+      "FIN": 63,
+      "PAS": 54,
+      "DRI": 67,
+      "DEF": 38,
+      "FIS": 57
      },
      "sem_nota_por": null,
      "x_medio": 0.34
@@ -5114,12 +5114,12 @@
      "minutos": 617,
      "overall": 65,
      "eixos": {
-      "RIT": 71,
-      "FIN": 69,
-      "PAS": 64,
-      "DRI": 72,
-      "DEF": 53,
-      "FIS": 77
+      "RIT": 64,
+      "FIN": 64,
+      "PAS": 60,
+      "DRI": 65,
+      "DEF": 51,
+      "FIS": 70
      },
      "sem_nota_por": null,
      "x_medio": 0.413
@@ -5134,12 +5134,12 @@
      "minutos": 605,
      "overall": 65,
      "eixos": {
-      "RIT": 71,
-      "FIN": 67,
-      "PAS": 71,
-      "DRI": 74,
-      "DEF": 60,
-      "FIS": 70
+      "RIT": 65,
+      "FIN": 64,
+      "PAS": 65,
+      "DRI": 68,
+      "DEF": 58,
+      "FIS": 66
      },
      "sem_nota_por": null,
      "x_medio": 0.467
@@ -5154,12 +5154,12 @@
      "minutos": 578,
      "overall": 64,
      "eixos": {
-      "RIT": 81,
-      "FIN": 50,
-      "PAS": 67,
-      "DRI": 63,
-      "DEF": 73,
-      "FIS": 68
+      "RIT": 72,
+      "FIN": 48,
+      "PAS": 60,
+      "DRI": 58,
+      "DEF": 64,
+      "FIS": 59
      },
      "sem_nota_por": null,
      "x_medio": 0.811
@@ -5295,12 +5295,12 @@
      "minutos": 1793,
      "overall": 83,
      "eixos": {
-      "RIT": 70,
-      "FIN": 70,
-      "PAS": 83,
-      "DRI": 80,
-      "DEF": 41,
-      "FIS": 63
+      "RIT": 75,
+      "FIN": 76,
+      "PAS": 89,
+      "DRI": 86,
+      "DEF": 43,
+      "FIS": 66
      },
      "sem_nota_por": null,
      "x_medio": 0.483,
@@ -5327,12 +5327,12 @@
      "minutos": 747,
      "overall": 83,
      "eixos": {
-      "RIT": 67,
-      "FIN": 76,
-      "PAS": 67,
-      "DRI": 79,
-      "DEF": 29,
-      "FIS": 59
+      "RIT": 74,
+      "FIN": 86,
+      "PAS": 77,
+      "DRI": 89,
+      "DEF": 32,
+      "FIS": 64
      },
      "sem_nota_por": null,
      "x_medio": 0.426,
@@ -5354,12 +5354,12 @@
      "minutos": 1423,
      "overall": 82,
      "eixos": {
-      "RIT": 83,
-      "FIN": 78,
-      "PAS": 64,
-      "DRI": 79,
-      "DEF": 33,
-      "FIS": 71
+      "RIT": 86,
+      "FIN": 81,
+      "PAS": 66,
+      "DRI": 82,
+      "DEF": 34,
+      "FIS": 73
      },
      "sem_nota_por": null,
      "x_medio": 0.562,
@@ -5386,11 +5386,11 @@
      "minutos": 2160,
      "overall": 80,
      "eixos": {
-      "REF": 82,
-      "EVI": 65,
-      "MAO": 47,
-      "PES": 60,
-      "SAI": 74
+      "REF": 89,
+      "EVI": 72,
+      "MAO": 51,
+      "PES": 66,
+      "SAI": 81
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -5417,12 +5417,12 @@
      "minutos": 1905,
      "overall": 80,
      "eixos": {
-      "RIT": 81,
-      "FIN": 50,
-      "PAS": 76,
-      "DRI": 64,
-      "DEF": 77,
-      "FIS": 65
+      "RIT": 84,
+      "FIN": 51,
+      "PAS": 79,
+      "DRI": 66,
+      "DEF": 80,
+      "FIS": 67
      },
      "sem_nota_por": null,
      "x_medio": 0.771,
@@ -5454,12 +5454,12 @@
      "minutos": 1715,
      "overall": 80,
      "eixos": {
-      "RIT": 71,
-      "FIN": 61,
-      "PAS": 75,
-      "DRI": 73,
-      "DEF": 52,
-      "FIS": 65
+      "RIT": 79,
+      "FIN": 65,
+      "PAS": 83,
+      "DRI": 81,
+      "DEF": 54,
+      "FIS": 71
      },
      "sem_nota_por": null,
      "x_medio": 0.551,
@@ -5491,12 +5491,12 @@
      "minutos": 1074,
      "overall": 80,
      "eixos": {
-      "RIT": 73,
-      "FIN": 59,
-      "PAS": 78,
-      "DRI": 71,
-      "DEF": 56,
-      "FIS": 72
+      "RIT": 80,
+      "FIN": 62,
+      "PAS": 85,
+      "DRI": 76,
+      "DEF": 58,
+      "FIS": 79
      },
      "sem_nota_por": null,
      "x_medio": 0.633,
@@ -5523,12 +5523,12 @@
      "minutos": 1846,
      "overall": 79,
      "eixos": {
-      "RIT": 82,
+      "RIT": 84,
       "FIN": 51,
-      "PAS": 72,
-      "DRI": 68,
-      "DEF": 80,
-      "FIS": 73
+      "PAS": 73,
+      "DRI": 69,
+      "DEF": 82,
+      "FIS": 75
      },
      "sem_nota_por": null,
      "x_medio": 0.2,
@@ -5550,12 +5550,12 @@
      "minutos": 1816,
      "overall": 78,
      "eixos": {
-      "RIT": 71,
+      "RIT": 72,
       "FIN": 58,
-      "PAS": 65,
-      "DRI": 68,
-      "DEF": 84,
-      "FIS": 78
+      "PAS": 66,
+      "DRI": 69,
+      "DEF": 85,
+      "FIS": 79
      },
      "sem_nota_por": null,
      "x_medio": 0.453,
@@ -5592,12 +5592,12 @@
      "minutos": 712,
      "overall": 78,
      "eixos": {
-      "RIT": 76,
-      "FIN": 61,
-      "PAS": 72,
-      "DRI": 71,
-      "DEF": 57,
-      "FIS": 66
+      "RIT": 82,
+      "FIN": 64,
+      "PAS": 78,
+      "DRI": 77,
+      "DEF": 58,
+      "FIS": 70
      },
      "sem_nota_por": null,
      "x_medio": 0.29,
@@ -5624,12 +5624,12 @@
      "minutos": 2070,
      "overall": 77,
      "eixos": {
-      "RIT": 61,
-      "FIN": 62,
-      "PAS": 67,
-      "DRI": 54,
-      "DEF": 73,
-      "FIS": 79
+      "RIT": 64,
+      "FIN": 66,
+      "PAS": 72,
+      "DRI": 55,
+      "DEF": 78,
+      "FIS": 84
      },
      "sem_nota_por": null,
      "x_medio": 0.404,
@@ -5656,12 +5656,12 @@
      "minutos": 1764,
      "overall": 75,
      "eixos": {
-      "RIT": 73,
+      "RIT": 74,
       "FIN": 49,
-      "PAS": 64,
-      "DRI": 54,
-      "DEF": 74,
-      "FIS": 77
+      "PAS": 65,
+      "DRI": 55,
+      "DEF": 75,
+      "FIS": 78
      },
      "sem_nota_por": null,
      "x_medio": 0.597,
@@ -5688,12 +5688,12 @@
      "minutos": 1137,
      "overall": 73,
      "eixos": {
-      "RIT": 78,
-      "FIN": 59,
-      "PAS": 80,
-      "DRI": 71,
-      "DEF": 68,
-      "FIS": 73
+      "RIT": 75,
+      "FIN": 58,
+      "PAS": 77,
+      "DRI": 69,
+      "DEF": 66,
+      "FIS": 70
      },
      "sem_nota_por": null,
      "x_medio": 0.431,
@@ -5720,12 +5720,12 @@
      "minutos": 1024,
      "overall": 72,
      "eixos": {
-      "RIT": 73,
-      "FIN": 71,
-      "PAS": 75,
-      "DRI": 78,
-      "DEF": 53,
-      "FIS": 71
+      "RIT": 71,
+      "FIN": 69,
+      "PAS": 73,
+      "DRI": 76,
+      "DEF": 52,
+      "FIS": 70
      },
      "sem_nota_por": null,
      "x_medio": 0.747,
@@ -5784,12 +5784,12 @@
      "minutos": 555,
      "overall": 69,
      "eixos": {
-      "RIT": 70,
-      "FIN": 42,
-      "PAS": 71,
-      "DRI": 59,
-      "DEF": 83,
-      "FIS": 82
+      "RIT": 64,
+      "FIN": 40,
+      "PAS": 62,
+      "DRI": 55,
+      "DEF": 74,
+      "FIS": 73
      },
      "sem_nota_por": null,
      "x_medio": 0.6,
@@ -5811,12 +5811,12 @@
      "minutos": 725,
      "overall": 68,
      "eixos": {
-      "RIT": 70,
-      "FIN": 60,
-      "PAS": 74,
-      "DRI": 72,
-      "DEF": 60,
-      "FIS": 71
+      "RIT": 68,
+      "FIN": 59,
+      "PAS": 71,
+      "DRI": 69,
+      "DEF": 58,
+      "FIS": 68
      },
      "sem_nota_por": null,
      "x_medio": 0.498,
@@ -5843,12 +5843,12 @@
      "minutos": 572,
      "overall": 68,
      "eixos": {
-      "RIT": 80,
-      "FIN": 44,
-      "PAS": 68,
-      "DRI": 58,
-      "DEF": 74,
-      "FIS": 79
+      "RIT": 71,
+      "FIN": 42,
+      "PAS": 62,
+      "DRI": 54,
+      "DEF": 65,
+      "FIS": 70
      },
      "sem_nota_por": null,
      "x_medio": 0.2,
@@ -5875,12 +5875,12 @@
      "minutos": 454,
      "overall": 66,
      "eixos": {
-      "RIT": 71,
-      "FIN": 44,
-      "PAS": 61,
-      "DRI": 58,
-      "DEF": 84,
-      "FIS": 72
+      "RIT": 62,
+      "FIN": 42,
+      "PAS": 54,
+      "DRI": 54,
+      "DEF": 75,
+      "FIS": 63
      },
      "sem_nota_por": null,
      "x_medio": 0.8,
@@ -6225,12 +6225,12 @@
      "minutos": 2083,
      "overall": 80,
      "eixos": {
-      "RIT": 70,
-      "FIN": 79,
-      "PAS": 60,
-      "DRI": 72,
-      "DEF": 38,
-      "FIS": 67
+      "RIT": 77,
+      "FIN": 86,
+      "PAS": 64,
+      "DRI": 79,
+      "DEF": 40,
+      "FIS": 72
      },
      "sem_nota_por": null,
      "x_medio": 0.503,
@@ -6257,12 +6257,12 @@
      "minutos": 2041,
      "overall": 79,
      "eixos": {
-      "RIT": 66,
-      "FIN": 45,
-      "PAS": 64,
-      "DRI": 63,
-      "DEF": 65,
-      "FIS": 76
+      "RIT": 77,
+      "FIN": 48,
+      "PAS": 72,
+      "DRI": 68,
+      "DEF": 76,
+      "FIS": 87
      },
      "sem_nota_por": null,
      "x_medio": 0.215,
@@ -6284,12 +6284,12 @@
      "minutos": 1937,
      "overall": 79,
      "eixos": {
-      "RIT": 71,
-      "FIN": 52,
-      "PAS": 64,
-      "DRI": 62,
-      "DEF": 76,
-      "FIS": 70
+      "RIT": 79,
+      "FIN": 54,
+      "PAS": 70,
+      "DRI": 66,
+      "DEF": 84,
+      "FIS": 78
      },
      "sem_nota_por": null,
      "x_medio": 0.4,
@@ -6316,12 +6316,12 @@
      "minutos": 1853,
      "overall": 79,
      "eixos": {
-      "RIT": 67,
-      "FIN": 63,
-      "PAS": 83,
-      "DRI": 76,
-      "DEF": 46,
-      "FIS": 57
+      "RIT": 72,
+      "FIN": 66,
+      "PAS": 88,
+      "DRI": 81,
+      "DEF": 47,
+      "FIS": 59
      },
      "sem_nota_por": null,
      "x_medio": 0.53,
@@ -6375,12 +6375,12 @@
      "minutos": 1665,
      "overall": 79,
      "eixos": {
-      "RIT": 81,
-      "FIN": 73,
-      "PAS": 67,
-      "DRI": 75,
-      "DEF": 47,
-      "FIS": 61
+      "RIT": 85,
+      "FIN": 77,
+      "PAS": 70,
+      "DRI": 79,
+      "DEF": 48,
+      "FIS": 63
      },
      "sem_nota_por": null,
      "x_medio": 0.274,
@@ -6407,12 +6407,12 @@
      "minutos": 1725,
      "overall": 78,
      "eixos": {
-      "RIT": 73,
-      "FIN": 56,
-      "PAS": 57,
-      "DRI": 53,
-      "DEF": 80,
-      "FIS": 78
+      "RIT": 75,
+      "FIN": 57,
+      "PAS": 58,
+      "DRI": 54,
+      "DEF": 82,
+      "FIS": 80
      },
      "sem_nota_por": null,
      "x_medio": 0.542,
@@ -6439,12 +6439,12 @@
      "minutos": 1230,
      "overall": 78,
      "eixos": {
-      "RIT": 76,
-      "FIN": 40,
-      "PAS": 66,
-      "DRI": 63,
-      "DEF": 93,
-      "FIS": 81
+      "RIT": 72,
+      "FIN": 39,
+      "PAS": 63,
+      "DRI": 61,
+      "DEF": 89,
+      "FIS": 77
      },
      "sem_nota_por": null,
      "x_medio": 0.8,
@@ -6466,12 +6466,12 @@
      "minutos": 1411,
      "overall": 77,
      "eixos": {
-      "RIT": 79,
-      "FIN": 69,
-      "PAS": 69,
-      "DRI": 76,
-      "DEF": 56,
-      "FIS": 68
+      "RIT": 82,
+      "FIN": 72,
+      "PAS": 72,
+      "DRI": 79,
+      "DEF": 57,
+      "FIS": 70
      },
      "sem_nota_por": null,
      "x_medio": 0.705,
@@ -6498,12 +6498,12 @@
      "minutos": 1449,
      "overall": 76,
      "eixos": {
-      "RIT": 79,
-      "FIN": 68,
-      "PAS": 65,
-      "DRI": 71,
-      "DEF": 44,
-      "FIS": 66
+      "RIT": 83,
+      "FIN": 72,
+      "PAS": 67,
+      "DRI": 75,
+      "DEF": 45,
+      "FIS": 69
      },
      "sem_nota_por": null,
      "x_medio": 0.519,
@@ -6530,11 +6530,11 @@
      "minutos": 1046,
      "overall": 74,
      "eixos": {
-      "REF": 62,
-      "EVI": 97,
-      "MAO": 81,
-      "PES": 55,
-      "SAI": 97
+      "REF": 50,
+      "EVI": 80,
+      "MAO": 64,
+      "PES": 47,
+      "SAI": 80
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -6556,12 +6556,12 @@
      "minutos": 927,
      "overall": 74,
      "eixos": {
-      "RIT": 82,
-      "FIN": 71,
-      "PAS": 59,
-      "DRI": 76,
-      "DEF": 63,
-      "FIS": 74
+      "RIT": 80,
+      "FIN": 69,
+      "PAS": 58,
+      "DRI": 74,
+      "DEF": 62,
+      "FIS": 72
      },
      "sem_nota_por": null,
      "x_medio": 0.514,
@@ -6583,11 +6583,11 @@
      "minutos": 1474,
      "overall": 73,
      "eixos": {
-      "REF": 70,
-      "EVI": 74,
-      "MAO": 90,
-      "PES": 47,
-      "SAI": 82
+      "REF": 64,
+      "EVI": 66,
+      "MAO": 82,
+      "PES": 43,
+      "SAI": 74
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -6641,12 +6641,12 @@
      "minutos": 1067,
      "overall": 71,
      "eixos": {
-      "RIT": 65,
+      "RIT": 66,
       "FIN": 39,
       "PAS": 58,
       "DRI": 54,
-      "DEF": 77,
-      "FIS": 72
+      "DEF": 78,
+      "FIS": 73
      },
      "sem_nota_por": null,
      "x_medio": 0.542,
@@ -6662,12 +6662,12 @@
      "minutos": 1043,
      "overall": 71,
      "eixos": {
-      "RIT": 69,
-      "FIN": 44,
-      "PAS": 64,
-      "DRI": 60,
-      "DEF": 65,
-      "FIS": 62
+      "RIT": 75,
+      "FIN": 46,
+      "PAS": 70,
+      "DRI": 63,
+      "DEF": 71,
+      "FIS": 66
      },
      "sem_nota_por": null,
      "x_medio": 0.803,
@@ -6689,12 +6689,12 @@
      "minutos": 705,
      "overall": 70,
      "eixos": {
-      "RIT": 67,
+      "RIT": 69,
       "FIN": 55,
-      "PAS": 64,
-      "DRI": 64,
-      "DEF": 66,
-      "FIS": 75
+      "PAS": 65,
+      "DRI": 65,
+      "DEF": 68,
+      "FIS": 77
      },
      "sem_nota_por": null,
      "x_medio": 0.193,
@@ -6981,12 +6981,12 @@
      "minutos": 473,
      "overall": 69,
      "eixos": {
-      "RIT": 68,
+      "RIT": 66,
       "FIN": 62,
-      "PAS": 64,
-      "DRI": 68,
-      "DEF": 77,
-      "FIS": 71
+      "PAS": 63,
+      "DRI": 66,
+      "DEF": 75,
+      "FIS": 69
      },
      "sem_nota_por": null,
      "x_medio": 0.573
@@ -7122,12 +7122,12 @@
      "minutos": 2072,
      "overall": 83,
      "eixos": {
-      "RIT": 76,
-      "FIN": 78,
-      "PAS": 80,
-      "DRI": 79,
-      "DEF": 41,
-      "FIS": 64
+      "RIT": 80,
+      "FIN": 83,
+      "PAS": 85,
+      "DRI": 84,
+      "DEF": 42,
+      "FIS": 66
      },
      "sem_nota_por": null,
      "x_medio": 0.507,
@@ -7149,12 +7149,12 @@
      "minutos": 1801,
      "overall": 83,
      "eixos": {
-      "RIT": 77,
-      "FIN": 60,
-      "PAS": 81,
-      "DRI": 76,
-      "DEF": 63,
-      "FIS": 73
+      "RIT": 83,
+      "FIN": 62,
+      "PAS": 87,
+      "DRI": 82,
+      "DEF": 66,
+      "FIS": 78
      },
      "sem_nota_por": null,
      "x_medio": 0.431,
@@ -7186,11 +7186,11 @@
      "minutos": 1350,
      "overall": 82,
      "eixos": {
-      "REF": 91,
-      "EVI": 96,
-      "MAO": 63,
-      "PES": 56,
-      "SAI": 66
+      "REF": 90,
+      "EVI": 95,
+      "MAO": 62,
+      "PES": 55,
+      "SAI": 65
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -7217,12 +7217,12 @@
      "minutos": 2042,
      "overall": 81,
      "eixos": {
-      "RIT": 72,
-      "FIN": 41,
-      "PAS": 70,
-      "DRI": 60,
-      "DEF": 73,
-      "FIS": 80
+      "RIT": 79,
+      "FIN": 43,
+      "PAS": 75,
+      "DRI": 64,
+      "DEF": 80,
+      "FIS": 87
      },
      "sem_nota_por": null,
      "x_medio": 0.6,
@@ -7249,12 +7249,12 @@
      "minutos": 1356,
      "overall": 81,
      "eixos": {
-      "RIT": 73,
-      "FIN": 41,
-      "PAS": 73,
-      "DRI": 65,
-      "DEF": 65,
-      "FIS": 68
+      "RIT": 84,
+      "FIN": 44,
+      "PAS": 84,
+      "DRI": 70,
+      "DEF": 73,
+      "FIS": 79
      },
      "sem_nota_por": null,
      "x_medio": 0.8,
@@ -7281,10 +7281,10 @@
      "minutos": 1603,
      "overall": 80,
      "eixos": {
-      "RIT": 84,
-      "FIN": 80,
+      "RIT": 85,
+      "FIN": 81,
       "PAS": 64,
-      "DRI": 77,
+      "DRI": 78,
       "DEF": 30,
       "FIS": 64
      },
@@ -7318,12 +7318,12 @@
      "minutos": 1396,
      "overall": 80,
      "eixos": {
-      "RIT": 82,
-      "FIN": 70,
-      "PAS": 76,
-      "DRI": 81,
+      "RIT": 83,
+      "FIN": 71,
+      "PAS": 77,
+      "DRI": 82,
       "DEF": 48,
-      "FIS": 69
+      "FIS": 70
      },
      "sem_nota_por": null,
      "x_medio": 0.691,
@@ -7377,12 +7377,12 @@
      "minutos": 362,
      "overall": 79,
      "eixos": {
-      "RIT": 80,
-      "FIN": 81,
-      "PAS": 62,
-      "DRI": 75,
+      "RIT": 81,
+      "FIN": 82,
+      "PAS": 63,
+      "DRI": 76,
       "DEF": 39,
-      "FIS": 68
+      "FIS": 69
      },
      "sem_nota_por": null,
      "x_medio": 0.237,
@@ -7409,12 +7409,12 @@
      "minutos": 1398,
      "overall": 78,
      "eixos": {
-      "RIT": 75,
-      "FIN": 59,
-      "PAS": 80,
-      "DRI": 67,
-      "DEF": 73,
-      "FIS": 66
+      "RIT": 78,
+      "FIN": 60,
+      "PAS": 83,
+      "DRI": 69,
+      "DEF": 76,
+      "FIS": 68
      },
      "sem_nota_por": null,
      "x_medio": 0.552,
@@ -7446,12 +7446,12 @@
      "minutos": 1334,
      "overall": 78,
      "eixos": {
-      "RIT": 74,
-      "FIN": 56,
-      "PAS": 77,
-      "DRI": 68,
-      "DEF": 76,
-      "FIS": 68
+      "RIT": 77,
+      "FIN": 57,
+      "PAS": 80,
+      "DRI": 70,
+      "DEF": 79,
+      "FIS": 70
      },
      "sem_nota_por": null,
      "x_medio": 0.518,
@@ -7483,12 +7483,12 @@
      "minutos": 1019,
      "overall": 76,
      "eixos": {
-      "RIT": 72,
+      "RIT": 73,
       "FIN": 46,
-      "PAS": 76,
-      "DRI": 64,
-      "DEF": 78,
-      "FIS": 73
+      "PAS": 77,
+      "DRI": 65,
+      "DEF": 79,
+      "FIS": 74
      },
      "sem_nota_por": null,
      "x_medio": 0.34,
@@ -7515,12 +7515,12 @@
      "minutos": 535,
      "overall": 76,
      "eixos": {
-      "RIT": 69,
-      "FIN": 52,
-      "PAS": 67,
-      "DRI": 65,
-      "DEF": 75,
-      "FIS": 71
+      "RIT": 74,
+      "FIN": 53,
+      "PAS": 71,
+      "DRI": 68,
+      "DEF": 80,
+      "FIS": 76
      },
      "sem_nota_por": null,
      "x_medio": 0.2,
@@ -7584,12 +7584,12 @@
      "minutos": 787,
      "overall": 75,
      "eixos": {
-      "RIT": 78,
-      "FIN": 44,
-      "PAS": 68,
-      "DRI": 66,
-      "DEF": 86,
-      "FIS": 72
+      "RIT": 75,
+      "FIN": 43,
+      "PAS": 66,
+      "DRI": 65,
+      "DEF": 83,
+      "FIS": 69
      },
      "sem_nota_por": null,
      "x_medio": 0.8,
@@ -7611,12 +7611,12 @@
      "minutos": 519,
      "overall": 75,
      "eixos": {
-      "RIT": 81,
-      "FIN": 75,
-      "PAS": 71,
-      "DRI": 77,
-      "DEF": 34,
-      "FIS": 81
+      "RIT": 77,
+      "FIN": 72,
+      "PAS": 69,
+      "DRI": 73,
+      "DEF": 33,
+      "FIS": 77
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -7648,12 +7648,12 @@
      "minutos": 662,
      "overall": 74,
      "eixos": {
-      "RIT": 83,
-      "FIN": 81,
-      "PAS": 64,
-      "DRI": 78,
-      "DEF": 31,
-      "FIS": 63
+      "RIT": 77,
+      "FIN": 75,
+      "PAS": 60,
+      "DRI": 72,
+      "DEF": 30,
+      "FIS": 60
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -7675,12 +7675,12 @@
      "minutos": 467,
      "overall": 73,
      "eixos": {
-      "RIT": 81,
-      "FIN": 78,
-      "PAS": 64,
-      "DRI": 77,
-      "DEF": 42,
-      "FIS": 71
+      "RIT": 76,
+      "FIN": 73,
+      "PAS": 62,
+      "DRI": 72,
+      "DEF": 41,
+      "FIS": 68
      },
      "sem_nota_por": null,
      "x_medio": 0.225,
@@ -7698,9 +7698,9 @@
      "eixos": {
       "RIT": 68,
       "FIN": 57,
-      "PAS": 72,
-      "DRI": 74,
-      "DEF": 71,
+      "PAS": 73,
+      "DRI": 75,
+      "DEF": 72,
       "FIS": 68
      },
      "sem_nota_por": null,
@@ -7717,12 +7717,12 @@
      "minutos": 473,
      "overall": 71,
      "eixos": {
-      "RIT": 76,
-      "FIN": 65,
-      "PAS": 69,
-      "DRI": 63,
-      "DEF": 77,
-      "FIS": 63
+      "RIT": 74,
+      "FIN": 64,
+      "PAS": 67,
+      "DRI": 62,
+      "DEF": 75,
+      "FIS": 62
      },
      "sem_nota_por": null,
      "x_medio": 0.56,
@@ -7953,12 +7953,12 @@
      "minutos": 1418,
      "overall": 78,
      "eixos": {
-      "RIT": 78,
-      "FIN": 53,
-      "PAS": 68,
-      "DRI": 66,
-      "DEF": 72,
-      "FIS": 70
+      "RIT": 84,
+      "FIN": 54,
+      "PAS": 72,
+      "DRI": 69,
+      "DEF": 78,
+      "FIS": 76
      },
      "sem_nota_por": null,
      "x_medio": 0.2
@@ -7973,12 +7973,12 @@
      "minutos": 1257,
      "overall": 77,
      "eixos": {
-      "RIT": 81,
-      "FIN": 68,
-      "PAS": 71,
-      "DRI": 67,
-      "DEF": 57,
-      "FIS": 73
+      "RIT": 84,
+      "FIN": 70,
+      "PAS": 74,
+      "DRI": 68,
+      "DEF": 58,
+      "FIS": 76
      },
      "sem_nota_por": null,
      "x_medio": 0.453
@@ -8127,12 +8127,12 @@
      "minutos": 1640,
      "overall": 87,
      "eixos": {
-      "RIT": 68,
-      "FIN": 62,
-      "PAS": 82,
-      "DRI": 77,
-      "DEF": 67,
-      "FIS": 66
+      "RIT": 80,
+      "FIN": 65,
+      "PAS": 94,
+      "DRI": 89,
+      "DEF": 76,
+      "FIS": 72
      },
      "sem_nota_por": null,
      "x_medio": 0.389,
@@ -8159,12 +8159,12 @@
      "minutos": 1986,
      "overall": 86,
      "eixos": {
-      "RIT": 68,
-      "FIN": 55,
-      "PAS": 76,
-      "DRI": 58,
-      "DEF": 87,
-      "FIS": 74
+      "RIT": 74,
+      "FIN": 57,
+      "PAS": 84,
+      "DRI": 62,
+      "DEF": 95,
+      "FIS": 82
      },
      "sem_nota_por": null,
      "x_medio": 0.4,
@@ -8186,12 +8186,12 @@
      "minutos": 1792,
      "overall": 86,
      "eixos": {
-      "RIT": 83,
-      "FIN": 75,
-      "PAS": 81,
-      "DRI": 81,
-      "DEF": 44,
-      "FIS": 64
+      "RIT": 88,
+      "FIN": 79,
+      "PAS": 86,
+      "DRI": 86,
+      "DEF": 45,
+      "FIS": 67
      },
      "sem_nota_por": null,
      "x_medio": 0.284,
@@ -8218,12 +8218,12 @@
      "minutos": 1398,
      "overall": 86,
      "eixos": {
-      "RIT": 69,
-      "FIN": 80,
-      "PAS": 82,
-      "DRI": 76,
-      "DEF": 42,
-      "FIS": 64
+      "RIT": 75,
+      "FIN": 88,
+      "PAS": 90,
+      "DRI": 84,
+      "DEF": 44,
+      "FIS": 68
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -8245,12 +8245,12 @@
      "minutos": 1283,
      "overall": 86,
      "eixos": {
-      "RIT": 75,
-      "FIN": 72,
-      "PAS": 74,
-      "DRI": 70,
-      "DEF": 55,
-      "FIS": 79
+      "RIT": 86,
+      "FIN": 80,
+      "PAS": 85,
+      "DRI": 76,
+      "DEF": 58,
+      "FIS": 90
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -8277,12 +8277,12 @@
      "minutos": 2244,
      "overall": 85,
      "eixos": {
-      "RIT": 63,
-      "FIN": 82,
-      "PAS": 66,
-      "DRI": 81,
-      "DEF": 34,
-      "FIS": 61
+      "RIT": 70,
+      "FIN": 92,
+      "PAS": 76,
+      "DRI": 91,
+      "DEF": 36,
+      "FIS": 66
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -8304,12 +8304,12 @@
      "minutos": 1992,
      "overall": 84,
      "eixos": {
-      "RIT": 69,
-      "FIN": 43,
-      "PAS": 76,
-      "DRI": 59,
-      "DEF": 77,
-      "FIS": 73
+      "RIT": 76,
+      "FIN": 45,
+      "PAS": 86,
+      "DRI": 64,
+      "DEF": 87,
+      "FIS": 83
      },
      "sem_nota_por": null,
      "x_medio": 0.603,
@@ -8331,12 +8331,12 @@
      "minutos": 1699,
      "overall": 84,
      "eixos": {
-      "RIT": 83,
-      "FIN": 50,
-      "PAS": 75,
-      "DRI": 69,
-      "DEF": 71,
-      "FIS": 75
+      "RIT": 90,
+      "FIN": 52,
+      "PAS": 82,
+      "DRI": 73,
+      "DEF": 76,
+      "FIS": 82
      },
      "sem_nota_por": null,
      "x_medio": 0.8,
@@ -8358,12 +8358,12 @@
      "minutos": 241,
      "overall": 84,
      "eixos": {
-      "RIT": 71,
-      "FIN": 62,
-      "PAS": 79,
-      "DRI": 73,
-      "DEF": 76,
-      "FIS": 74
+      "RIT": 75,
+      "FIN": 64,
+      "PAS": 88,
+      "DRI": 80,
+      "DEF": 85,
+      "FIS": 83
      },
      "sem_nota_por": null,
      "x_medio": 0.333,
@@ -8385,12 +8385,12 @@
      "minutos": 1318,
      "overall": 83,
      "eixos": {
-      "RIT": 69,
-      "FIN": 55,
-      "PAS": 73,
-      "DRI": 67,
-      "DEF": 74,
-      "FIS": 78
+      "RIT": 76,
+      "FIN": 57,
+      "PAS": 82,
+      "DRI": 72,
+      "DEF": 83,
+      "FIS": 87
      },
      "sem_nota_por": null,
      "x_medio": 0.625,
@@ -8412,12 +8412,12 @@
      "minutos": 1185,
      "overall": 83,
      "eixos": {
-      "RIT": 74,
-      "FIN": 78,
-      "PAS": 81,
-      "DRI": 84,
-      "DEF": 57,
-      "FIS": 69
+      "RIT": 76,
+      "FIN": 81,
+      "PAS": 84,
+      "DRI": 87,
+      "DEF": 58,
+      "FIS": 70
      },
      "sem_nota_por": null,
      "x_medio": 0.654,
@@ -8449,12 +8449,12 @@
      "minutos": 529,
      "overall": 83,
      "eixos": {
-      "RIT": 71,
-      "FIN": 44,
-      "PAS": 71,
-      "DRI": 61,
-      "DEF": 81,
-      "FIS": 65
+      "RIT": 81,
+      "FIN": 46,
+      "PAS": 81,
+      "DRI": 66,
+      "DEF": 91,
+      "FIS": 72
      },
      "sem_nota_por": null,
      "x_medio": 0.52,
@@ -8481,12 +8481,12 @@
      "minutos": 1089,
      "overall": 81,
      "eixos": {
-      "RIT": 78,
-      "FIN": 53,
-      "PAS": 76,
-      "DRI": 70,
-      "DEF": 66,
-      "FIS": 76
+      "RIT": 83,
+      "FIN": 54,
+      "PAS": 81,
+      "DRI": 74,
+      "DEF": 69,
+      "FIS": 81
      },
      "sem_nota_por": null,
      "x_medio": 0.2,
@@ -8508,12 +8508,12 @@
      "minutos": 875,
      "overall": 81,
      "eixos": {
-      "RIT": 81,
-      "FIN": 76,
-      "PAS": 79,
-      "DRI": 81,
+      "RIT": 83,
+      "FIN": 77,
+      "PAS": 81,
+      "DRI": 83,
       "DEF": 60,
-      "FIS": 67
+      "FIS": 68
      },
      "sem_nota_por": null,
      "x_medio": 0.7,
@@ -8567,12 +8567,12 @@
      "minutos": 258,
      "overall": 81,
      "eixos": {
-      "RIT": 71,
-      "FIN": 65,
-      "PAS": 73,
-      "DRI": 72,
-      "DEF": 72,
-      "FIS": 67
+      "RIT": 78,
+      "FIN": 67,
+      "PAS": 83,
+      "DRI": 82,
+      "DEF": 82,
+      "FIS": 72
      },
      "sem_nota_por": null,
      "x_medio": 0.333,
@@ -8588,11 +8588,11 @@
      "minutos": 2520,
      "overall": 80,
      "eixos": {
-      "REF": 97,
-      "EVI": 68,
-      "MAO": 63,
-      "PES": 96,
-      "SAI": 51
+      "REF": 91,
+      "EVI": 62,
+      "MAO": 58,
+      "PES": 90,
+      "SAI": 48
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -8614,12 +8614,12 @@
      "minutos": 1345,
      "overall": 80,
      "eixos": {
-      "RIT": 73,
-      "FIN": 38,
-      "PAS": 71,
-      "DRI": 66,
-      "DEF": 65,
-      "FIS": 74
+      "RIT": 81,
+      "FIN": 40,
+      "PAS": 79,
+      "DRI": 72,
+      "DEF": 69,
+      "FIS": 82
      },
      "sem_nota_por": null,
      "x_medio": 0.2,
@@ -8641,12 +8641,12 @@
      "minutos": 1006,
      "overall": 80,
      "eixos": {
-      "RIT": 71,
-      "FIN": 63,
-      "PAS": 79,
-      "DRI": 70,
-      "DEF": 75,
-      "FIS": 72
+      "RIT": 75,
+      "FIN": 64,
+      "PAS": 85,
+      "DRI": 73,
+      "DEF": 81,
+      "FIS": 78
      },
      "sem_nota_por": null,
      "x_medio": 0.611,
@@ -8668,12 +8668,12 @@
      "minutos": 880,
      "overall": 79,
      "eixos": {
-      "RIT": 79,
-      "FIN": 41,
-      "PAS": 74,
-      "DRI": 63,
-      "DEF": 70,
-      "FIS": 79
+      "RIT": 82,
+      "FIN": 42,
+      "PAS": 77,
+      "DRI": 64,
+      "DEF": 72,
+      "FIS": 82
      },
      "sem_nota_por": null,
      "x_medio": 0.8,
@@ -8695,10 +8695,10 @@
      "minutos": 531,
      "overall": 79,
      "eixos": {
-      "RIT": 79,
-      "FIN": 77,
-      "PAS": 81,
-      "DRI": 82,
+      "RIT": 78,
+      "FIN": 76,
+      "PAS": 80,
+      "DRI": 81,
       "DEF": 38,
       "FIS": 71
      },
@@ -8722,12 +8722,12 @@
      "minutos": 573,
      "overall": 75,
      "eixos": {
-      "RIT": 67,
-      "FIN": 47,
-      "PAS": 69,
-      "DRI": 61,
-      "DEF": 75,
-      "FIS": 74
+      "RIT": 70,
+      "FIN": 48,
+      "PAS": 72,
+      "DRI": 63,
+      "DEF": 78,
+      "FIS": 77
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -8929,12 +8929,12 @@
      "minutos": 290,
      "overall": 86,
      "eixos": {
-      "RIT": 61,
-      "FIN": 50,
-      "PAS": 70,
-      "DRI": 59,
-      "DEF": 77,
-      "FIS": 78
+      "RIT": 70,
+      "FIN": 53,
+      "PAS": 82,
+      "DRI": 65,
+      "DEF": 89,
+      "FIS": 90
      },
      "sem_nota_por": null,
      "x_medio": 0.533,
@@ -8961,11 +8961,11 @@
      "minutos": 2520,
      "overall": 85,
      "eixos": {
-      "REF": 93,
-      "EVI": 79,
-      "MAO": 74,
-      "PES": 81,
-      "SAI": 45
+      "REF": 95,
+      "EVI": 81,
+      "MAO": 75,
+      "PES": 83,
+      "SAI": 46
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -8992,12 +8992,12 @@
      "minutos": 1640,
      "overall": 85,
      "eixos": {
-      "RIT": 70,
-      "FIN": 54,
-      "PAS": 81,
-      "DRI": 75,
-      "DEF": 75,
-      "FIS": 68
+      "RIT": 77,
+      "FIN": 56,
+      "PAS": 90,
+      "DRI": 84,
+      "DEF": 84,
+      "FIS": 72
      },
      "sem_nota_por": null,
      "x_medio": 0.35,
@@ -9024,12 +9024,12 @@
      "minutos": 1572,
      "overall": 85,
      "eixos": {
-      "RIT": 79,
-      "FIN": 80,
-      "PAS": 68,
-      "DRI": 79,
-      "DEF": 32,
-      "FIS": 64
+      "RIT": 86,
+      "FIN": 87,
+      "PAS": 73,
+      "DRI": 86,
+      "DEF": 34,
+      "FIS": 67
      },
      "sem_nota_por": null,
      "x_medio": 0.553,
@@ -9051,12 +9051,12 @@
      "minutos": 1635,
      "overall": 83,
      "eixos": {
-      "RIT": 72,
-      "FIN": 49,
-      "PAS": 75,
-      "DRI": 65,
-      "DEF": 85,
-      "FIS": 75
+      "RIT": 76,
+      "FIN": 50,
+      "PAS": 81,
+      "DRI": 68,
+      "DEF": 91,
+      "FIS": 81
      },
      "sem_nota_por": null,
      "x_medio": 0.2,
@@ -9078,12 +9078,12 @@
      "minutos": 1548,
      "overall": 83,
      "eixos": {
-      "RIT": 81,
-      "FIN": 72,
-      "PAS": 76,
-      "DRI": 78,
-      "DEF": 49,
-      "FIS": 65
+      "RIT": 87,
+      "FIN": 76,
+      "PAS": 82,
+      "DRI": 84,
+      "DEF": 50,
+      "FIS": 68
      },
      "sem_nota_por": null,
      "x_medio": 0.755,
@@ -9110,12 +9110,12 @@
      "minutos": 1352,
      "overall": 83,
      "eixos": {
-      "RIT": 71,
-      "FIN": 74,
-      "PAS": 83,
-      "DRI": 84,
-      "DEF": 43,
-      "FIS": 56
+      "RIT": 74,
+      "FIN": 78,
+      "PAS": 87,
+      "DRI": 88,
+      "DEF": 44,
+      "FIS": 58
      },
      "sem_nota_por": null,
      "x_medio": 0.491,
@@ -9142,12 +9142,12 @@
      "minutos": 1629,
      "overall": 81,
      "eixos": {
-      "RIT": 73,
-      "FIN": 49,
-      "PAS": 70,
-      "DRI": 55,
-      "DEF": 73,
-      "FIS": 71
+      "RIT": 83,
+      "FIN": 51,
+      "PAS": 77,
+      "DRI": 60,
+      "DEF": 83,
+      "FIS": 81
      },
      "sem_nota_por": null,
      "x_medio": 0.396,
@@ -9174,12 +9174,12 @@
      "minutos": 1430,
      "overall": 81,
      "eixos": {
-      "RIT": 84,
-      "FIN": 77,
-      "PAS": 71,
-      "DRI": 77,
-      "DEF": 60,
-      "FIS": 78
+      "RIT": 86,
+      "FIN": 79,
+      "PAS": 72,
+      "DRI": 79,
+      "DEF": 61,
+      "FIS": 80
      },
      "sem_nota_por": null,
      "x_medio": 0.35,
@@ -9201,12 +9201,12 @@
      "minutos": 1008,
      "overall": 81,
      "eixos": {
-      "RIT": 76,
-      "FIN": 62,
-      "PAS": 74,
-      "DRI": 79,
-      "DEF": 44,
-      "FIS": 57
+      "RIT": 82,
+      "FIN": 66,
+      "PAS": 80,
+      "DRI": 85,
+      "DEF": 45,
+      "FIS": 60
      },
      "sem_nota_por": null,
      "x_medio": 0.291,
@@ -9233,12 +9233,12 @@
      "minutos": 940,
      "overall": 81,
      "eixos": {
-      "RIT": 75,
-      "FIN": 55,
-      "PAS": 77,
-      "DRI": 62,
-      "DEF": 65,
-      "FIS": 71
+      "RIT": 83,
+      "FIN": 57,
+      "PAS": 85,
+      "DRI": 66,
+      "DEF": 71,
+      "FIS": 79
      },
      "sem_nota_por": null,
      "x_medio": 0.197,
@@ -9265,12 +9265,12 @@
      "minutos": 1361,
      "overall": 80,
      "eixos": {
-      "RIT": 72,
-      "FIN": 40,
-      "PAS": 60,
-      "DRI": 58,
-      "DEF": 86,
-      "FIS": 77
+      "RIT": 75,
+      "FIN": 41,
+      "PAS": 62,
+      "DRI": 59,
+      "DEF": 89,
+      "FIS": 80
      },
      "sem_nota_por": null,
      "x_medio": 0.567,
@@ -9297,12 +9297,12 @@
      "minutos": 1205,
      "overall": 80,
      "eixos": {
-      "RIT": 71,
-      "FIN": 74,
-      "PAS": 80,
-      "DRI": 80,
-      "DEF": 43,
-      "FIS": 60
+      "RIT": 73,
+      "FIN": 77,
+      "PAS": 83,
+      "DRI": 83,
+      "DEF": 44,
+      "FIS": 62
      },
      "sem_nota_por": null,
      "x_medio": 0.477,
@@ -9329,10 +9329,10 @@
      "minutos": 1132,
      "overall": 80,
      "eixos": {
-      "RIT": 79,
-      "FIN": 82,
+      "RIT": 80,
+      "FIN": 83,
       "PAS": 64,
-      "DRI": 80,
+      "DRI": 81,
       "DEF": 30,
       "FIS": 66
      },
@@ -9350,12 +9350,12 @@
      "minutos": 1326,
      "overall": 79,
      "eixos": {
-      "RIT": 73,
-      "FIN": 67,
-      "PAS": 73,
-      "DRI": 69,
-      "DEF": 48,
-      "FIS": 67
+      "RIT": 81,
+      "FIN": 73,
+      "PAS": 81,
+      "DRI": 77,
+      "DEF": 50,
+      "FIS": 71
      },
      "sem_nota_por": null,
      "x_medio": 0.625,
@@ -9382,12 +9382,12 @@
      "minutos": 1128,
      "overall": 79,
      "eixos": {
-      "RIT": 72,
-      "FIN": 41,
-      "PAS": 77,
-      "DRI": 69,
-      "DEF": 65,
-      "FIS": 74
+      "RIT": 78,
+      "FIN": 42,
+      "PAS": 83,
+      "DRI": 73,
+      "DEF": 68,
+      "FIS": 80
      },
      "sem_nota_por": null,
      "x_medio": 0.8,
@@ -9409,12 +9409,12 @@
      "minutos": 968,
      "overall": 79,
      "eixos": {
-      "RIT": 64,
-      "FIN": 61,
-      "PAS": 77,
-      "DRI": 73,
-      "DEF": 79,
-      "FIS": 76
+      "RIT": 65,
+      "FIN": 62,
+      "PAS": 80,
+      "DRI": 75,
+      "DEF": 82,
+      "FIS": 79
      },
      "sem_nota_por": null,
      "x_medio": 0.582,
@@ -9446,12 +9446,12 @@
      "minutos": 1251,
      "overall": 78,
      "eixos": {
-      "RIT": 70,
-      "FIN": 40,
-      "PAS": 70,
-      "DRI": 65,
-      "DEF": 67,
-      "FIS": 70
+      "RIT": 79,
+      "FIN": 42,
+      "PAS": 79,
+      "DRI": 70,
+      "DEF": 74,
+      "FIS": 79
      },
      "sem_nota_por": null,
      "x_medio": 0.802,
@@ -9473,12 +9473,12 @@
      "minutos": 1048,
      "overall": 78,
      "eixos": {
-      "RIT": 67,
-      "FIN": 55,
-      "PAS": 69,
-      "DRI": 59,
-      "DEF": 84,
-      "FIS": 78
+      "RIT": 68,
+      "FIN": 56,
+      "PAS": 71,
+      "DRI": 60,
+      "DEF": 86,
+      "FIS": 80
      },
      "sem_nota_por": null,
      "x_medio": 0.6,
@@ -9500,12 +9500,12 @@
      "minutos": 688,
      "overall": 78,
      "eixos": {
-      "RIT": 74,
-      "FIN": 79,
+      "RIT": 75,
+      "FIN": 80,
       "PAS": 68,
-      "DRI": 73,
+      "DRI": 74,
       "DEF": 45,
-      "FIS": 82
+      "FIS": 83
      },
      "sem_nota_por": null,
      "x_medio": 0.528,
@@ -9532,12 +9532,12 @@
      "minutos": 749,
      "overall": 74,
      "eixos": {
-      "RIT": 67,
-      "FIN": 62,
-      "PAS": 79,
-      "DRI": 70,
-      "DEF": 47,
-      "FIS": 60
+      "RIT": 70,
+      "FIN": 64,
+      "PAS": 82,
+      "DRI": 73,
+      "DEF": 48,
+      "FIS": 62
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -9559,12 +9559,12 @@
      "minutos": 609,
      "overall": 73,
      "eixos": {
-      "RIT": 62,
-      "FIN": 44,
-      "PAS": 61,
-      "DRI": 59,
-      "DEF": 77,
-      "FIS": 73
+      "RIT": 65,
+      "FIN": 45,
+      "PAS": 64,
+      "DRI": 61,
+      "DEF": 80,
+      "FIS": 76
      },
      "sem_nota_por": null,
      "x_medio": 0.414,
@@ -9714,12 +9714,12 @@
      "minutos": 559,
      "overall": 73,
      "eixos": {
-      "RIT": 62,
-      "FIN": 62,
-      "PAS": 72,
-      "DRI": 67,
-      "DEF": 60,
-      "FIS": 73
+      "RIT": 64,
+      "FIN": 64,
+      "PAS": 75,
+      "DRI": 70,
+      "DEF": 61,
+      "FIS": 76
      },
      "sem_nota_por": null,
      "x_medio": 0.557
@@ -9842,11 +9842,11 @@
      "minutos": 2340,
      "overall": 84,
      "eixos": {
-      "REF": 87,
-      "EVI": 97,
-      "MAO": 93,
-      "PES": 56,
-      "SAI": 57
+      "REF": 80,
+      "EVI": 90,
+      "MAO": 86,
+      "PES": 52,
+      "SAI": 52
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -9883,12 +9883,12 @@
      "minutos": 2116,
      "overall": 83,
      "eixos": {
-      "RIT": 68,
-      "FIN": 78,
-      "PAS": 60,
-      "DRI": 66,
-      "DEF": 31,
-      "FIS": 72
+      "RIT": 79,
+      "FIN": 89,
+      "PAS": 66,
+      "DRI": 74,
+      "DEF": 34,
+      "FIS": 83
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -9925,12 +9925,12 @@
      "minutos": 1885,
      "overall": 80,
      "eixos": {
-      "RIT": 78,
-      "FIN": 48,
-      "PAS": 77,
-      "DRI": 72,
-      "DEF": 75,
-      "FIS": 67
+      "RIT": 82,
+      "FIN": 49,
+      "PAS": 81,
+      "DRI": 75,
+      "DEF": 79,
+      "FIS": 69
      },
      "sem_nota_por": null,
      "x_medio": 0.743,
@@ -9977,12 +9977,12 @@
      "minutos": 469,
      "overall": 78,
      "eixos": {
-      "RIT": 63,
-      "FIN": 65,
-      "PAS": 73,
-      "DRI": 70,
-      "DEF": 61,
-      "FIS": 75
+      "RIT": 66,
+      "FIN": 70,
+      "PAS": 79,
+      "DRI": 76,
+      "DEF": 63,
+      "FIS": 81
      },
      "sem_nota_por": null,
      "x_medio": 0.42,
@@ -10009,12 +10009,12 @@
      "minutos": 1568,
      "overall": 77,
      "eixos": {
-      "RIT": 62,
+      "RIT": 63,
       "FIN": 55,
-      "PAS": 75,
-      "DRI": 69,
-      "DEF": 79,
-      "FIS": 76
+      "PAS": 76,
+      "DRI": 70,
+      "DEF": 80,
+      "FIS": 77
      },
      "sem_nota_por": null,
      "x_medio": 0.517,
@@ -10046,12 +10046,12 @@
      "minutos": 743,
      "overall": 77,
      "eixos": {
-      "RIT": 65,
-      "FIN": 61,
-      "PAS": 68,
-      "DRI": 68,
-      "DEF": 72,
-      "FIS": 72
+      "RIT": 69,
+      "FIN": 63,
+      "PAS": 74,
+      "DRI": 75,
+      "DEF": 79,
+      "FIS": 79
      },
      "sem_nota_por": null,
      "x_medio": 0.559,
@@ -10120,12 +10120,12 @@
      "minutos": 612,
      "overall": 76,
      "eixos": {
-      "RIT": 66,
-      "FIN": 71,
-      "PAS": 59,
-      "DRI": 70,
-      "DEF": 36,
-      "FIS": 80
+      "RIT": 68,
+      "FIN": 74,
+      "PAS": 61,
+      "DRI": 73,
+      "DEF": 37,
+      "FIS": 83
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -10147,12 +10147,12 @@
      "minutos": 1568,
      "overall": 73,
      "eixos": {
-      "RIT": 67,
-      "FIN": 59,
-      "PAS": 67,
-      "DRI": 56,
-      "DEF": 87,
-      "FIS": 81
+      "RIT": 64,
+      "FIN": 57,
+      "PAS": 63,
+      "DRI": 55,
+      "DEF": 83,
+      "FIS": 77
      },
      "sem_nota_por": null,
      "x_medio": 0.597,
@@ -10189,12 +10189,12 @@
      "minutos": 1513,
      "overall": 73,
      "eixos": {
-      "RIT": 77,
-      "FIN": 71,
-      "PAS": 71,
-      "DRI": 80,
-      "DEF": 31,
-      "FIS": 61
+      "RIT": 75,
+      "FIN": 69,
+      "PAS": 70,
+      "DRI": 78,
+      "DEF": 30,
+      "FIS": 60
      },
      "sem_nota_por": null,
      "x_medio": 0.231,
@@ -10253,12 +10253,12 @@
      "minutos": 1084,
      "overall": 72,
      "eixos": {
-      "RIT": 77,
-      "FIN": 76,
-      "PAS": 76,
-      "DRI": 79,
-      "DEF": 41,
-      "FIS": 76
+      "RIT": 73,
+      "FIN": 72,
+      "PAS": 74,
+      "DRI": 75,
+      "DEF": 40,
+      "FIS": 73
      },
      "sem_nota_por": null,
      "x_medio": 0.773,
@@ -10285,12 +10285,12 @@
      "minutos": 1010,
      "overall": 69,
      "eixos": {
-      "RIT": 83,
-      "FIN": 71,
-      "PAS": 68,
-      "DRI": 77,
-      "DEF": 43,
-      "FIS": 58
+      "RIT": 76,
+      "FIN": 64,
+      "PAS": 63,
+      "DRI": 70,
+      "DEF": 41,
+      "FIS": 54
      },
      "sem_nota_por": null,
      "x_medio": 0.711,
@@ -10381,12 +10381,12 @@
      "minutos": 831,
      "overall": 68,
      "eixos": {
-      "RIT": 77,
-      "FIN": 42,
-      "PAS": 73,
-      "DRI": 63,
-      "DEF": 80,
-      "FIS": 64
+      "RIT": 69,
+      "FIN": 40,
+      "PAS": 65,
+      "DRI": 59,
+      "DEF": 72,
+      "FIS": 58
      },
      "sem_nota_por": null,
      "x_medio": 0.2,
@@ -10408,12 +10408,12 @@
      "minutos": 780,
      "overall": 68,
      "eixos": {
-      "RIT": 68,
-      "FIN": 48,
-      "PAS": 62,
-      "DRI": 56,
-      "DEF": 81,
-      "FIS": 69
+      "RIT": 64,
+      "FIN": 47,
+      "PAS": 59,
+      "DRI": 54,
+      "DEF": 77,
+      "FIS": 65
      },
      "sem_nota_por": null,
      "x_medio": 0.439,
@@ -10435,12 +10435,12 @@
      "minutos": 720,
      "overall": 68,
      "eixos": {
-      "RIT": 70,
-      "FIN": 51,
-      "PAS": 59,
-      "DRI": 57,
-      "DEF": 89,
-      "FIS": 80
+      "RIT": 59,
+      "FIN": 48,
+      "PAS": 51,
+      "DRI": 52,
+      "DEF": 78,
+      "FIS": 69
      },
      "sem_nota_por": null,
      "x_medio": 0.431,
@@ -10477,12 +10477,12 @@
      "minutos": 598,
      "overall": 68,
      "eixos": {
-      "RIT": 80,
-      "FIN": 47,
-      "PAS": 67,
-      "DRI": 66,
-      "DEF": 83,
-      "FIS": 75
+      "RIT": 70,
+      "FIN": 44,
+      "PAS": 59,
+      "DRI": 61,
+      "DEF": 73,
+      "FIS": 65
      },
      "sem_nota_por": null,
      "x_medio": 0.2,
@@ -10509,12 +10509,12 @@
      "minutos": 561,
      "overall": 68,
      "eixos": {
-      "RIT": 69,
+      "RIT": 67,
       "FIN": 52,
-      "PAS": 68,
-      "DRI": 68,
-      "DEF": 75,
-      "FIS": 64
+      "PAS": 67,
+      "DRI": 66,
+      "DEF": 73,
+      "FIS": 63
      },
      "sem_nota_por": null,
      "x_medio": 0.8,
@@ -10802,12 +10802,12 @@
      "minutos": 373,
      "overall": 84,
      "eixos": {
-      "RIT": 75,
-      "FIN": 68,
-      "PAS": 73,
-      "DRI": 75,
-      "DEF": 51,
-      "FIS": 64
+      "RIT": 86,
+      "FIN": 76,
+      "PAS": 84,
+      "DRI": 86,
+      "DEF": 54,
+      "FIS": 69
      },
      "sem_nota_por": null,
      "x_medio": 0.375
@@ -10822,12 +10822,12 @@
      "minutos": 1169,
      "overall": 69,
      "eixos": {
-      "RIT": 78,
-      "FIN": 41,
-      "PAS": 67,
-      "DRI": 56,
-      "DEF": 75,
-      "FIS": 74
+      "RIT": 72,
+      "FIN": 40,
+      "PAS": 63,
+      "DRI": 53,
+      "DEF": 69,
+      "FIS": 68
      },
      "sem_nota_por": null,
      "x_medio": 0.377
@@ -10842,12 +10842,12 @@
      "minutos": 726,
      "overall": 68,
      "eixos": {
-      "RIT": 75,
-      "FIN": 76,
-      "PAS": 59,
-      "DRI": 76,
-      "DEF": 41,
-      "FIS": 61
+      "RIT": 68,
+      "FIN": 69,
+      "PAS": 56,
+      "DRI": 69,
+      "DEF": 39,
+      "FIS": 56
      },
      "sem_nota_por": null,
      "x_medio": 0.412
@@ -10862,12 +10862,12 @@
      "minutos": 716,
      "overall": 68,
      "eixos": {
-      "RIT": 64,
-      "FIN": 59,
-      "PAS": 62,
-      "DRI": 67,
-      "DEF": 75,
-      "FIS": 81
+      "RIT": 60,
+      "FIN": 58,
+      "PAS": 59,
+      "DRI": 62,
+      "DEF": 70,
+      "FIS": 76
      },
      "sem_nota_por": null,
      "x_medio": 0.529
@@ -11003,12 +11003,12 @@
      "minutos": 1628,
      "overall": 83,
      "eixos": {
-      "RIT": 69,
-      "FIN": 70,
-      "PAS": 76,
-      "DRI": 79,
-      "DEF": 44,
-      "FIS": 65
+      "RIT": 76,
+      "FIN": 79,
+      "PAS": 85,
+      "DRI": 88,
+      "DEF": 46,
+      "FIS": 70
      },
      "sem_nota_por": null,
      "x_medio": 0.439,
@@ -11050,12 +11050,12 @@
      "minutos": 2066,
      "overall": 81,
      "eixos": {
-      "RIT": 81,
-      "FIN": 67,
-      "PAS": 69,
-      "DRI": 77,
-      "DEF": 62,
-      "FIS": 71
+      "RIT": 87,
+      "FIN": 70,
+      "PAS": 73,
+      "DRI": 83,
+      "DEF": 63,
+      "FIS": 77
      },
      "sem_nota_por": null,
      "x_medio": 0.238,
@@ -11107,12 +11107,12 @@
      "minutos": 1566,
      "overall": 80,
      "eixos": {
-      "RIT": 63,
-      "FIN": 54,
-      "PAS": 61,
-      "DRI": 53,
-      "DEF": 79,
-      "FIS": 73
+      "RIT": 72,
+      "FIN": 59,
+      "PAS": 68,
+      "DRI": 55,
+      "DEF": 88,
+      "FIS": 82
      },
      "sem_nota_por": null,
      "x_medio": 0.494,
@@ -11159,12 +11159,12 @@
      "minutos": 1918,
      "overall": 79,
      "eixos": {
-      "RIT": 74,
-      "FIN": 79,
-      "PAS": 73,
-      "DRI": 81,
-      "DEF": 31,
-      "FIS": 59
+      "RIT": 76,
+      "FIN": 81,
+      "PAS": 74,
+      "DRI": 83,
+      "DEF": 32,
+      "FIS": 60
      },
      "sem_nota_por": null,
      "x_medio": 0.51,
@@ -11216,12 +11216,12 @@
      "minutos": 2240,
      "overall": 78,
      "eixos": {
-      "RIT": 75,
-      "FIN": 49,
-      "PAS": 71,
-      "DRI": 66,
-      "DEF": 70,
-      "FIS": 79
+      "RIT": 79,
+      "FIN": 50,
+      "PAS": 75,
+      "DRI": 68,
+      "DEF": 73,
+      "FIS": 83
      },
      "sem_nota_por": null,
      "x_medio": 0.725,
@@ -11268,12 +11268,12 @@
      "minutos": 2073,
      "overall": 78,
      "eixos": {
-      "RIT": 78,
-      "FIN": 70,
-      "PAS": 70,
-      "DRI": 71,
-      "DEF": 58,
-      "FIS": 77
+      "RIT": 82,
+      "FIN": 73,
+      "PAS": 72,
+      "DRI": 75,
+      "DEF": 59,
+      "FIS": 81
      },
      "sem_nota_por": null,
      "x_medio": 0.788,
@@ -11315,11 +11315,11 @@
      "minutos": 990,
      "overall": 77,
      "eixos": {
-      "REF": 57,
-      "EVI": 46,
-      "MAO": 61,
-      "PES": 73,
-      "SAI": 80
+      "REF": 62,
+      "EVI": 49,
+      "MAO": 68,
+      "PES": 80,
+      "SAI": 87
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -11392,12 +11392,12 @@
      "minutos": 83,
      "overall": 74,
      "eixos": {
-      "RIT": 73,
-      "FIN": 77,
-      "PAS": 62,
-      "DRI": 80,
-      "DEF": 35,
-      "FIS": 83
+      "RIT": 69,
+      "FIN": 72,
+      "PAS": 60,
+      "DRI": 75,
+      "DEF": 34,
+      "FIS": 78
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -11419,12 +11419,12 @@
      "minutos": 1395,
      "overall": 73,
      "eixos": {
-      "RIT": 70,
-      "FIN": 65,
-      "PAS": 63,
-      "DRI": 55,
-      "DEF": 87,
-      "FIS": 78
+      "RIT": 66,
+      "FIN": 62,
+      "PAS": 61,
+      "DRI": 54,
+      "DEF": 83,
+      "FIS": 74
      },
      "sem_nota_por": null,
      "x_medio": 0.528,
@@ -11466,12 +11466,12 @@
      "minutos": 1592,
      "overall": 72,
      "eixos": {
-      "RIT": 69,
+      "RIT": 70,
       "FIN": 48,
-      "PAS": 71,
-      "DRI": 68,
-      "DEF": 59,
-      "FIS": 75
+      "PAS": 72,
+      "DRI": 69,
+      "DEF": 60,
+      "FIS": 76
      },
      "sem_nota_por": null,
      "x_medio": 0.43,
@@ -11513,12 +11513,12 @@
      "minutos": 1468,
      "overall": 72,
      "eixos": {
-      "RIT": 73,
-      "FIN": 68,
-      "PAS": 71,
-      "DRI": 66,
-      "DEF": 60,
-      "FIS": 68
+      "RIT": 75,
+      "FIN": 70,
+      "PAS": 73,
+      "DRI": 67,
+      "DEF": 61,
+      "FIS": 70
      },
      "sem_nota_por": null,
      "x_medio": 0.571,
@@ -11560,12 +11560,12 @@
      "minutos": 1196,
      "overall": 71,
      "eixos": {
-      "RIT": 78,
-      "FIN": 46,
-      "PAS": 66,
-      "DRI": 66,
-      "DEF": 79,
-      "FIS": 68
+      "RIT": 75,
+      "FIN": 45,
+      "PAS": 64,
+      "DRI": 64,
+      "DEF": 76,
+      "FIS": 65
      },
      "sem_nota_por": null,
      "x_medio": 0.202,
@@ -11602,12 +11602,12 @@
      "minutos": 1189,
      "overall": 71,
      "eixos": {
-      "RIT": 72,
-      "FIN": 41,
-      "PAS": 67,
-      "DRI": 56,
-      "DEF": 79,
-      "FIS": 81
+      "RIT": 67,
+      "FIN": 40,
+      "PAS": 63,
+      "DRI": 53,
+      "DEF": 74,
+      "FIS": 76
      },
      "sem_nota_por": null,
      "x_medio": 0.321,
@@ -11623,12 +11623,12 @@
      "minutos": 1062,
      "overall": 70,
      "eixos": {
-      "RIT": 79,
-      "FIN": 59,
-      "PAS": 71,
-      "DRI": 69,
-      "DEF": 63,
-      "FIS": 75
+      "RIT": 75,
+      "FIN": 58,
+      "PAS": 67,
+      "DRI": 66,
+      "DEF": 61,
+      "FIS": 71
      },
      "sem_nota_por": null,
      "x_medio": 0.582,
@@ -11655,12 +11655,12 @@
      "minutos": 977,
      "overall": 70,
      "eixos": {
-      "RIT": 74,
-      "FIN": 81,
-      "PAS": 66,
-      "DRI": 75,
-      "DEF": 37,
-      "FIS": 71
+      "RIT": 68,
+      "FIN": 75,
+      "PAS": 63,
+      "DRI": 69,
+      "DEF": 36,
+      "FIS": 67
      },
      "sem_nota_por": null,
      "x_medio": 0.439,
@@ -11687,12 +11687,12 @@
      "minutos": 795,
      "overall": 69,
      "eixos": {
-      "RIT": 82,
-      "FIN": 62,
-      "PAS": 74,
-      "DRI": 65,
-      "DEF": 71,
-      "FIS": 75
+      "RIT": 75,
+      "FIN": 60,
+      "PAS": 67,
+      "DRI": 62,
+      "DEF": 66,
+      "FIS": 68
      },
      "sem_nota_por": null,
      "x_medio": 0.724,
@@ -11719,11 +11719,11 @@
      "minutos": 1365,
      "overall": 68,
      "eixos": {
-      "REF": 47,
-      "EVI": 46,
-      "MAO": 64,
-      "PES": 51,
-      "SAI": 62
+      "REF": 54,
+      "EVI": 51,
+      "MAO": 74,
+      "PES": 61,
+      "SAI": 72
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -11796,12 +11796,12 @@
      "minutos": 520,
      "overall": 68,
      "eixos": {
-      "RIT": 66,
-      "FIN": 60,
-      "PAS": 73,
-      "DRI": 69,
-      "DEF": 63,
-      "FIS": 74
+      "RIT": 64,
+      "FIN": 59,
+      "PAS": 70,
+      "DRI": 66,
+      "DEF": 62,
+      "FIS": 71
      },
      "sem_nota_por": null,
      "x_medio": 0.483,
@@ -12007,12 +12007,12 @@
      "minutos": 1058,
      "overall": 71,
      "eixos": {
-      "RIT": 75,
-      "FIN": 81,
-      "PAS": 64,
-      "DRI": 76,
-      "DEF": 33,
-      "FIS": 75
+      "RIT": 71,
+      "FIN": 76,
+      "PAS": 61,
+      "DRI": 71,
+      "DEF": 32,
+      "FIS": 70
      },
      "sem_nota_por": null,
      "x_medio": 0.591
@@ -12148,12 +12148,12 @@
      "minutos": 2140,
      "overall": 82,
      "eixos": {
-      "RIT": 71,
-      "FIN": 60,
-      "PAS": 73,
-      "DRI": 69,
-      "DEF": 65,
-      "FIS": 65
+      "RIT": 83,
+      "FIN": 63,
+      "PAS": 85,
+      "DRI": 81,
+      "DEF": 74,
+      "FIS": 71
      },
      "sem_nota_por": null,
      "x_medio": 0.196,
@@ -12195,12 +12195,12 @@
      "minutos": 1997,
      "overall": 82,
      "eixos": {
-      "RIT": 81,
+      "RIT": 80,
       "FIN": 65,
-      "PAS": 71,
+      "PAS": 70,
       "DRI": 70,
-      "DEF": 89,
-      "FIS": 82
+      "DEF": 88,
+      "FIS": 81
      },
      "sem_nota_por": null,
      "x_medio": 0.804,
@@ -12242,12 +12242,12 @@
      "minutos": 2430,
      "overall": 81,
      "eixos": {
-      "RIT": 70,
-      "FIN": 51,
-      "PAS": 64,
-      "DRI": 54,
-      "DEF": 82,
-      "FIS": 81
+      "RIT": 74,
+      "FIN": 52,
+      "PAS": 67,
+      "DRI": 56,
+      "DEF": 86,
+      "FIS": 85
      },
      "sem_nota_por": null,
      "x_medio": 0.604,
@@ -12289,12 +12289,12 @@
      "minutos": 2004,
      "overall": 80,
      "eixos": {
-      "RIT": 69,
+      "RIT": 70,
       "FIN": 41,
-      "PAS": 72,
-      "DRI": 63,
-      "DEF": 86,
-      "FIS": 81
+      "PAS": 73,
+      "DRI": 64,
+      "DEF": 87,
+      "FIS": 82
      },
      "sem_nota_por": null,
      "x_medio": 0.377,
@@ -12336,12 +12336,12 @@
      "minutos": 1604,
      "overall": 77,
      "eixos": {
-      "RIT": 77,
-      "FIN": 70,
-      "PAS": 71,
-      "DRI": 77,
-      "DEF": 44,
-      "FIS": 69
+      "RIT": 80,
+      "FIN": 72,
+      "PAS": 74,
+      "DRI": 80,
+      "DEF": 45,
+      "FIS": 70
      },
      "sem_nota_por": null,
      "x_medio": 0.297,
@@ -12373,12 +12373,12 @@
      "minutos": 1208,
      "overall": 76,
      "eixos": {
-      "RIT": 72,
+      "RIT": 71,
       "FIN": 57,
-      "PAS": 79,
-      "DRI": 70,
-      "DEF": 73,
-      "FIS": 83
+      "PAS": 78,
+      "DRI": 69,
+      "DEF": 72,
+      "FIS": 82
      },
      "sem_nota_por": null,
      "x_medio": 0.452,
@@ -12400,11 +12400,11 @@
      "minutos": 2115,
      "overall": 75,
      "eixos": {
-      "REF": 60,
-      "EVI": 87,
-      "MAO": 73,
-      "PES": 84,
-      "SAI": 55
+      "REF": 56,
+      "EVI": 82,
+      "MAO": 68,
+      "PES": 79,
+      "SAI": 52
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -12488,12 +12488,12 @@
      "minutos": 1127,
      "overall": 73,
      "eixos": {
-      "RIT": 70,
-      "FIN": 73,
-      "PAS": 65,
-      "DRI": 67,
+      "RIT": 71,
+      "FIN": 74,
+      "PAS": 66,
+      "DRI": 68,
       "DEF": 49,
-      "FIS": 76
+      "FIS": 77
      },
      "sem_nota_por": null,
      "x_medio": 0.465,
@@ -12525,12 +12525,12 @@
      "minutos": 1025,
      "overall": 72,
      "eixos": {
-      "RIT": 78,
-      "FIN": 59,
-      "PAS": 78,
-      "DRI": 72,
-      "DEF": 51,
-      "FIS": 69
+      "RIT": 75,
+      "FIN": 58,
+      "PAS": 75,
+      "DRI": 69,
+      "DEF": 50,
+      "FIS": 67
      },
      "sem_nota_por": null,
      "x_medio": 0.55,
@@ -12578,12 +12578,12 @@
      "minutos": 870,
      "overall": 72,
      "eixos": {
-      "RIT": 79,
-      "FIN": 75,
-      "PAS": 62,
-      "DRI": 79,
-      "DEF": 36,
-      "FIS": 72
+      "RIT": 74,
+      "FIN": 70,
+      "PAS": 60,
+      "DRI": 74,
+      "DEF": 35,
+      "FIS": 68
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -12620,12 +12620,12 @@
      "minutos": 851,
      "overall": 72,
      "eixos": {
-      "RIT": 81,
-      "FIN": 78,
-      "PAS": 58,
-      "DRI": 76,
-      "DEF": 32,
-      "FIS": 71
+      "RIT": 76,
+      "FIN": 73,
+      "PAS": 55,
+      "DRI": 71,
+      "DEF": 31,
+      "FIS": 67
      },
      "sem_nota_por": null,
      "x_medio": 0.517,
@@ -12662,12 +12662,12 @@
      "minutos": 733,
      "overall": 71,
      "eixos": {
-      "RIT": 76,
-      "FIN": 58,
-      "PAS": 63,
-      "DRI": 67,
-      "DEF": 82,
-      "FIS": 75
+      "RIT": 70,
+      "FIN": 57,
+      "PAS": 60,
+      "DRI": 63,
+      "DEF": 76,
+      "FIS": 69
      },
      "sem_nota_por": null,
      "x_medio": 0.606,
@@ -12704,12 +12704,12 @@
      "minutos": 667,
      "overall": 71,
      "eixos": {
-      "RIT": 83,
-      "FIN": 76,
-      "PAS": 65,
-      "DRI": 79,
-      "DEF": 39,
-      "FIS": 67
+      "RIT": 76,
+      "FIN": 69,
+      "PAS": 61,
+      "DRI": 72,
+      "DEF": 37,
+      "FIS": 62
      },
      "sem_nota_por": null,
      "x_medio": 0.731,
@@ -12731,12 +12731,12 @@
      "minutos": 782,
      "overall": 70,
      "eixos": {
-      "RIT": 78,
-      "FIN": 65,
-      "PAS": 68,
-      "DRI": 77,
-      "DEF": 62,
-      "FIS": 65
+      "RIT": 75,
+      "FIN": 62,
+      "PAS": 65,
+      "DRI": 74,
+      "DEF": 61,
+      "FIS": 63
      },
      "sem_nota_por": null,
      "x_medio": 0.648,
@@ -12752,12 +12752,12 @@
      "minutos": 594,
      "overall": 70,
      "eixos": {
-      "RIT": 71,
-      "FIN": 73,
-      "PAS": 58,
-      "DRI": 75,
-      "DEF": 37,
-      "FIS": 82
+      "RIT": 67,
+      "FIN": 67,
+      "PAS": 55,
+      "DRI": 69,
+      "DEF": 36,
+      "FIS": 76
      },
      "sem_nota_por": null,
      "x_medio": 0.444,
@@ -12779,12 +12779,12 @@
      "minutos": 536,
      "overall": 69,
      "eixos": {
-      "RIT": 67,
-      "FIN": 41,
-      "PAS": 63,
-      "DRI": 57,
-      "DEF": 90,
-      "FIS": 80
+      "RIT": 58,
+      "FIN": 39,
+      "PAS": 56,
+      "DRI": 52,
+      "DEF": 81,
+      "FIS": 71
      },
      "sem_nota_por": null,
      "x_medio": 0.517,
@@ -12826,12 +12826,12 @@
      "minutos": 562,
      "overall": 68,
      "eixos": {
-      "RIT": 68,
-      "FIN": 54,
-      "PAS": 64,
-      "DRI": 58,
-      "DEF": 83,
-      "FIS": 67
+      "RIT": 64,
+      "FIN": 53,
+      "PAS": 61,
+      "DRI": 56,
+      "DEF": 79,
+      "FIS": 63
      },
      "sem_nota_por": null,
      "x_medio": 0.46,
@@ -13287,12 +13287,12 @@
      "minutos": 2201,
      "overall": 86,
      "eixos": {
-      "RIT": 77,
-      "FIN": 64,
-      "PAS": 83,
-      "DRI": 76,
-      "DEF": 51,
-      "FIS": 67
+      "RIT": 85,
+      "FIN": 68,
+      "PAS": 91,
+      "DRI": 84,
+      "DEF": 53,
+      "FIS": 73
      },
      "sem_nota_por": null,
      "x_medio": 0.559,
@@ -13334,12 +13334,12 @@
      "minutos": 2195,
      "overall": 86,
      "eixos": {
-      "RIT": 65,
-      "FIN": 57,
-      "PAS": 63,
-      "DRI": 60,
-      "DEF": 77,
-      "FIS": 78
+      "RIT": 79,
+      "FIN": 60,
+      "PAS": 73,
+      "DRI": 67,
+      "DEF": 91,
+      "FIS": 92
      },
      "sem_nota_por": null,
      "x_medio": 0.556,
@@ -13386,12 +13386,12 @@
      "minutos": 1609,
      "overall": 86,
      "eixos": {
-      "RIT": 82,
-      "FIN": 69,
-      "PAS": 77,
-      "DRI": 75,
-      "DEF": 58,
-      "FIS": 64
+      "RIT": 91,
+      "FIN": 76,
+      "PAS": 86,
+      "DRI": 84,
+      "DEF": 60,
+      "FIS": 68
      },
      "sem_nota_por": null,
      "x_medio": 0.383,
@@ -13433,12 +13433,12 @@
      "minutos": 1916,
      "overall": 85,
      "eixos": {
-      "RIT": 75,
-      "FIN": 75,
-      "PAS": 67,
-      "DRI": 80,
-      "DEF": 41,
-      "FIS": 81
+      "RIT": 80,
+      "FIN": 82,
+      "PAS": 71,
+      "DRI": 87,
+      "DEF": 43,
+      "FIS": 88
      },
      "sem_nota_por": null,
      "x_medio": 0.514,
@@ -13485,11 +13485,11 @@
      "minutos": 2430,
      "overall": 84,
      "eixos": {
-      "REF": 99,
-      "EVI": 88,
-      "MAO": 95,
-      "PES": 74,
-      "SAI": 60
+      "REF": 90,
+      "EVI": 79,
+      "MAO": 86,
+      "PES": 67,
+      "SAI": 56
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -13531,12 +13531,12 @@
      "minutos": 737,
      "overall": 84,
      "eixos": {
-      "RIT": 80,
-      "FIN": 82,
-      "PAS": 58,
-      "DRI": 75,
-      "DEF": 37,
-      "FIS": 65
+      "RIT": 86,
+      "FIN": 88,
+      "PAS": 61,
+      "DRI": 81,
+      "DEF": 38,
+      "FIS": 70
      },
      "sem_nota_por": null,
      "x_medio": 0.417,
@@ -13578,12 +13578,12 @@
      "minutos": 2233,
      "overall": 83,
      "eixos": {
-      "RIT": 69,
-      "FIN": 55,
-      "PAS": 79,
-      "DRI": 74,
-      "DEF": 69,
-      "FIS": 67
+      "RIT": 76,
+      "FIN": 58,
+      "PAS": 89,
+      "DRI": 84,
+      "DEF": 79,
+      "FIS": 72
      },
      "sem_nota_por": null,
      "x_medio": 0.426,
@@ -13625,12 +13625,12 @@
      "minutos": 1982,
      "overall": 83,
      "eixos": {
-      "RIT": 64,
-      "FIN": 57,
-      "PAS": 72,
-      "DRI": 60,
-      "DEF": 78,
-      "FIS": 77
+      "RIT": 70,
+      "FIN": 59,
+      "PAS": 80,
+      "DRI": 64,
+      "DEF": 86,
+      "FIS": 85
      },
      "sem_nota_por": null,
      "x_medio": 0.486,
@@ -13672,12 +13672,12 @@
      "minutos": 1514,
      "overall": 83,
      "eixos": {
-      "RIT": 70,
-      "FIN": 50,
-      "PAS": 72,
-      "DRI": 59,
-      "DEF": 87,
-      "FIS": 81
+      "RIT": 73,
+      "FIN": 51,
+      "PAS": 76,
+      "DRI": 61,
+      "DEF": 91,
+      "FIS": 85
      },
      "sem_nota_por": null,
      "x_medio": 0.333,
@@ -13714,12 +13714,12 @@
      "minutos": 1069,
      "overall": 83,
      "eixos": {
-      "RIT": 76,
-      "FIN": 48,
-      "PAS": 76,
-      "DRI": 62,
-      "DEF": 65,
-      "FIS": 62
+      "RIT": 88,
+      "FIN": 51,
+      "PAS": 88,
+      "DRI": 71,
+      "DEF": 77,
+      "FIS": 68
      },
      "sem_nota_por": null,
      "x_medio": 0.2,
@@ -13761,12 +13761,12 @@
      "minutos": 1471,
      "overall": 82,
      "eixos": {
-      "RIT": 74,
-      "FIN": 77,
-      "PAS": 70,
-      "DRI": 69,
-      "DEF": 49,
-      "FIS": 69
+      "RIT": 83,
+      "FIN": 86,
+      "PAS": 79,
+      "DRI": 76,
+      "DEF": 51,
+      "FIS": 74
      },
      "sem_nota_por": null,
      "x_medio": 0.476,
@@ -13808,12 +13808,12 @@
      "minutos": 1563,
      "overall": 81,
      "eixos": {
-      "RIT": 80,
-      "FIN": 41,
-      "PAS": 66,
-      "DRI": 63,
-      "DEF": 73,
-      "FIS": 66
+      "RIT": 89,
+      "FIN": 43,
+      "PAS": 73,
+      "DRI": 68,
+      "DEF": 82,
+      "FIS": 75
      },
      "sem_nota_por": null,
      "x_medio": 0.797,
@@ -13855,12 +13855,12 @@
      "minutos": 976,
      "overall": 81,
      "eixos": {
-      "RIT": 83,
-      "FIN": 75,
+      "RIT": 84,
+      "FIN": 76,
       "PAS": 68,
-      "DRI": 80,
+      "DRI": 81,
       "DEF": 42,
-      "FIS": 81
+      "FIS": 82
      },
      "sem_nota_por": null,
      "x_medio": 0.458,
@@ -13887,12 +13887,12 @@
      "minutos": 1103,
      "overall": 78,
      "eixos": {
-      "RIT": 69,
-      "FIN": 48,
-      "PAS": 61,
-      "DRI": 61,
-      "DEF": 79,
-      "FIS": 68
+      "RIT": 76,
+      "FIN": 50,
+      "PAS": 64,
+      "DRI": 66,
+      "DEF": 86,
+      "FIS": 75
      },
      "sem_nota_por": null,
      "x_medio": 0.2,
@@ -13919,12 +13919,12 @@
      "minutos": 915,
      "overall": 78,
      "eixos": {
-      "RIT": 78,
-      "FIN": 44,
-      "PAS": 70,
-      "DRI": 63,
-      "DEF": 73,
-      "FIS": 71
+      "RIT": 83,
+      "FIN": 45,
+      "PAS": 74,
+      "DRI": 66,
+      "DEF": 78,
+      "FIS": 76
      },
      "sem_nota_por": null,
      "x_medio": 0.733,
@@ -13946,12 +13946,12 @@
      "minutos": 684,
      "overall": 78,
      "eixos": {
-      "RIT": 78,
-      "FIN": 66,
-      "PAS": 80,
-      "DRI": 75,
+      "RIT": 79,
+      "FIN": 67,
+      "PAS": 81,
+      "DRI": 76,
       "DEF": 61,
-      "FIS": 75
+      "FIS": 76
      },
      "sem_nota_por": null,
      "x_medio": 0.38,
@@ -13983,12 +13983,12 @@
      "minutos": 655,
      "overall": 77,
      "eixos": {
-      "RIT": 75,
-      "FIN": 64,
-      "PAS": 77,
-      "DRI": 77,
+      "RIT": 77,
+      "FIN": 65,
+      "PAS": 79,
+      "DRI": 79,
       "DEF": 59,
-      "FIS": 74
+      "FIS": 75
      },
      "sem_nota_por": null,
      "x_medio": 0.43,
@@ -14010,12 +14010,12 @@
      "minutos": 479,
      "overall": 77,
      "eixos": {
-      "RIT": 66,
+      "RIT": 65,
       "FIN": 58,
-      "PAS": 72,
-      "DRI": 70,
-      "DEF": 80,
-      "FIS": 86
+      "PAS": 71,
+      "DRI": 69,
+      "DEF": 79,
+      "FIS": 85
      },
      "sem_nota_por": null,
      "x_medio": 0.567,
@@ -14042,12 +14042,12 @@
      "minutos": 595,
      "overall": 75,
      "eixos": {
-      "RIT": 65,
-      "FIN": 39,
-      "PAS": 65,
-      "DRI": 61,
-      "DEF": 86,
-      "FIS": 71
+      "RIT": 66,
+      "FIN": 40,
+      "PAS": 67,
+      "DRI": 62,
+      "DEF": 88,
+      "FIS": 73
      },
      "sem_nota_por": null,
      "x_medio": 0.475,
@@ -14175,12 +14175,12 @@
      "minutos": 1553,
      "overall": 82,
      "eixos": {
-      "RIT": 80,
-      "FIN": 68,
-      "PAS": 69,
-      "DRI": 76,
-      "DEF": 43,
-      "FIS": 67
+      "RIT": 88,
+      "FIN": 74,
+      "PAS": 77,
+      "DRI": 84,
+      "DEF": 45,
+      "FIS": 71
      },
      "sem_nota_por": null,
      "x_medio": 0.767
@@ -14316,12 +14316,12 @@
      "minutos": 2165,
      "overall": 83,
      "eixos": {
-      "RIT": 79,
-      "FIN": 75,
-      "PAS": 68,
-      "DRI": 78,
-      "DEF": 55,
-      "FIS": 84
+      "RIT": 83,
+      "FIN": 78,
+      "PAS": 70,
+      "DRI": 82,
+      "DEF": 56,
+      "FIS": 88
      },
      "sem_nota_por": null,
      "x_medio": 0.62,
@@ -14353,12 +14353,12 @@
      "minutos": 2059,
      "overall": 82,
      "eixos": {
-      "RIT": 82,
+      "RIT": 84,
       "FIN": 54,
-      "PAS": 74,
-      "DRI": 67,
-      "DEF": 80,
-      "FIS": 82
+      "PAS": 75,
+      "DRI": 68,
+      "DEF": 82,
+      "FIS": 84
      },
      "sem_nota_por": null,
      "x_medio": 0.2,
@@ -14380,12 +14380,12 @@
      "minutos": 2018,
      "overall": 80,
      "eixos": {
-      "RIT": 75,
-      "FIN": 53,
-      "PAS": 65,
-      "DRI": 53,
-      "DEF": 79,
-      "FIS": 77
+      "RIT": 79,
+      "FIN": 54,
+      "PAS": 68,
+      "DRI": 55,
+      "DEF": 83,
+      "FIS": 81
      },
      "sem_nota_por": null,
      "x_medio": 0.417,
@@ -14417,12 +14417,12 @@
      "minutos": 1622,
      "overall": 79,
      "eixos": {
-      "RIT": 77,
-      "FIN": 80,
-      "PAS": 63,
-      "DRI": 71,
-      "DEF": 30,
-      "FIS": 73
+      "RIT": 80,
+      "FIN": 83,
+      "PAS": 65,
+      "DRI": 74,
+      "DEF": 31,
+      "FIS": 76
      },
      "sem_nota_por": null,
      "x_medio": 0.509,
@@ -14444,12 +14444,12 @@
      "minutos": 1245,
      "overall": 79,
      "eixos": {
-      "RIT": 80,
-      "FIN": 53,
-      "PAS": 66,
-      "DRI": 65,
-      "DEF": 75,
-      "FIS": 73
+      "RIT": 84,
+      "FIN": 54,
+      "PAS": 69,
+      "DRI": 67,
+      "DEF": 79,
+      "FIS": 77
      },
      "sem_nota_por": null,
      "x_medio": 0.8,
@@ -14471,12 +14471,12 @@
      "minutos": 1561,
      "overall": 78,
      "eixos": {
-      "RIT": 77,
-      "FIN": 45,
-      "PAS": 61,
-      "DRI": 59,
-      "DEF": 90,
-      "FIS": 79
+      "RIT": 74,
+      "FIN": 44,
+      "PAS": 59,
+      "DRI": 58,
+      "DEF": 87,
+      "FIS": 76
      },
      "sem_nota_por": null,
      "x_medio": 0.6,
@@ -14503,11 +14503,11 @@
      "minutos": 1787,
      "overall": 77,
      "eixos": {
-      "REF": 89,
-      "EVI": 80,
-      "MAO": 63,
-      "PES": 87,
-      "SAI": 93
+      "REF": 77,
+      "EVI": 71,
+      "MAO": 57,
+      "PES": 75,
+      "SAI": 81
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -14534,12 +14534,12 @@
      "minutos": 1279,
      "overall": 77,
      "eixos": {
-      "RIT": 82,
-      "FIN": 72,
-      "PAS": 73,
-      "DRI": 84,
+      "RIT": 80,
+      "FIN": 71,
+      "PAS": 71,
+      "DRI": 82,
       "DEF": 49,
-      "FIS": 59
+      "FIS": 58
      },
      "sem_nota_por": null,
      "x_medio": 0.239,
@@ -14561,12 +14561,12 @@
      "minutos": 1246,
      "overall": 76,
      "eixos": {
-      "RIT": 78,
-      "FIN": 51,
-      "PAS": 66,
-      "DRI": 58,
-      "DEF": 84,
-      "FIS": 83
+      "RIT": 73,
+      "FIN": 50,
+      "PAS": 62,
+      "DRI": 56,
+      "DEF": 79,
+      "FIS": 78
      },
      "sem_nota_por": null,
      "x_medio": 0.567,
@@ -14593,12 +14593,12 @@
      "minutos": 1284,
      "overall": 74,
      "eixos": {
-      "RIT": 71,
-      "FIN": 57,
-      "PAS": 70,
-      "DRI": 67,
-      "DEF": 52,
-      "FIS": 74
+      "RIT": 74,
+      "FIN": 59,
+      "PAS": 73,
+      "DRI": 70,
+      "DEF": 53,
+      "FIS": 77
      },
      "sem_nota_por": null,
      "x_medio": 0.451,
@@ -14625,12 +14625,12 @@
      "minutos": 1176,
      "overall": 74,
      "eixos": {
-      "RIT": 76,
-      "FIN": 68,
-      "PAS": 67,
-      "DRI": 76,
+      "RIT": 78,
+      "FIN": 70,
+      "PAS": 68,
+      "DRI": 78,
       "DEF": 54,
-      "FIS": 61
+      "FIS": 62
      },
      "sem_nota_por": null,
      "x_medio": 0.743,
@@ -14657,12 +14657,12 @@
      "minutos": 1004,
      "overall": 74,
      "eixos": {
-      "RIT": 76,
-      "FIN": 79,
-      "PAS": 61,
-      "DRI": 73,
+      "RIT": 74,
+      "FIN": 77,
+      "PAS": 60,
+      "DRI": 72,
       "DEF": 36,
-      "FIS": 75
+      "FIS": 73
      },
      "sem_nota_por": null,
      "x_medio": 0.432,
@@ -14694,12 +14694,12 @@
      "minutos": 880,
      "overall": 74,
      "eixos": {
-      "RIT": 77,
-      "FIN": 50,
-      "PAS": 71,
-      "DRI": 64,
-      "DEF": 74,
-      "FIS": 81
+      "RIT": 75,
+      "FIN": 49,
+      "PAS": 69,
+      "DRI": 63,
+      "DEF": 72,
+      "FIS": 79
      },
      "sem_nota_por": null,
      "x_medio": 0.8,
@@ -14726,12 +14726,12 @@
      "minutos": 673,
      "overall": 74,
      "eixos": {
-      "RIT": 84,
-      "FIN": 81,
-      "PAS": 68,
-      "DRI": 82,
-      "DEF": 39,
-      "FIS": 73
+      "RIT": 77,
+      "FIN": 74,
+      "PAS": 64,
+      "DRI": 75,
+      "DEF": 37,
+      "FIS": 68
      },
      "sem_nota_por": null,
      "x_medio": 0.283,
@@ -14763,12 +14763,12 @@
      "minutos": 883,
      "overall": 72,
      "eixos": {
-      "RIT": 72,
-      "FIN": 73,
-      "PAS": 68,
-      "DRI": 70,
+      "RIT": 73,
+      "FIN": 74,
+      "PAS": 69,
+      "DRI": 71,
       "DEF": 51,
-      "FIS": 68
+      "FIS": 69
      },
      "sem_nota_por": null,
      "x_medio": 0.415,
@@ -14805,12 +14805,12 @@
      "minutos": 791,
      "overall": 72,
      "eixos": {
-      "RIT": 74,
+      "RIT": 73,
       "FIN": 61,
-      "PAS": 73,
-      "DRI": 67,
-      "DEF": 66,
-      "FIS": 76
+      "PAS": 72,
+      "DRI": 66,
+      "DEF": 65,
+      "FIS": 75
      },
      "sem_nota_por": null,
      "x_medio": 0.648,
@@ -14832,12 +14832,12 @@
      "minutos": 707,
      "overall": 72,
      "eixos": {
-      "RIT": 78,
-      "FIN": 62,
-      "PAS": 74,
-      "DRI": 80,
-      "DEF": 48,
-      "FIS": 68
+      "RIT": 74,
+      "FIN": 60,
+      "PAS": 70,
+      "DRI": 76,
+      "DEF": 47,
+      "FIS": 65
      },
      "sem_nota_por": null,
      "x_medio": 0.438,
@@ -14853,12 +14853,12 @@
      "minutos": 597,
      "overall": 71,
      "eixos": {
-      "RIT": 71,
-      "FIN": 73,
-      "PAS": 62,
-      "DRI": 80,
-      "DEF": 36,
-      "FIS": 71
+      "RIT": 69,
+      "FIN": 70,
+      "PAS": 61,
+      "DRI": 77,
+      "DEF": 35,
+      "FIS": 68
      },
      "sem_nota_por": null,
      "x_medio": 0.25,
@@ -14880,12 +14880,12 @@
      "minutos": 884,
      "overall": 70,
      "eixos": {
-      "RIT": 65,
-      "FIN": 58,
-      "PAS": 67,
-      "DRI": 70,
-      "DEF": 60,
-      "FIS": 69
+      "RIT": 67,
+      "FIN": 59,
+      "PAS": 69,
+      "DRI": 72,
+      "DEF": 61,
+      "FIS": 71
      },
      "sem_nota_por": null,
      "x_medio": 0.574,
@@ -14917,11 +14917,11 @@
      "minutos": 643,
      "overall": 70,
      "eixos": {
-      "REF": 45,
-      "EVI": 53,
-      "MAO": 71,
-      "PES": 98,
-      "SAI": 95
+      "REF": 36,
+      "EVI": 40,
+      "MAO": 54,
+      "PES": 81,
+      "SAI": 78
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -14937,12 +14937,12 @@
      "minutos": 458,
      "overall": 70,
      "eixos": {
-      "RIT": 77,
-      "FIN": 62,
-      "PAS": 70,
-      "DRI": 79,
-      "DEF": 54,
-      "FIS": 69
+      "RIT": 73,
+      "FIN": 60,
+      "PAS": 66,
+      "DRI": 75,
+      "DEF": 53,
+      "FIS": 66
      },
      "sem_nota_por": null,
      "x_medio": 0.542,
@@ -14958,12 +14958,12 @@
      "minutos": 564,
      "overall": 69,
      "eixos": {
-      "RIT": 63,
+      "RIT": 62,
       "FIN": 56,
-      "PAS": 71,
-      "DRI": 70,
-      "DEF": 68,
-      "FIS": 74
+      "PAS": 69,
+      "DRI": 68,
+      "DEF": 67,
+      "FIS": 72
      },
      "sem_nota_por": null,
      "x_medio": 0.517,
@@ -15269,12 +15269,12 @@
      "minutos": 1774,
      "overall": 75,
      "eixos": {
-      "RIT": 83,
-      "FIN": 76,
-      "PAS": 68,
-      "DRI": 80,
-      "DEF": 39,
-      "FIS": 70
+      "RIT": 79,
+      "FIN": 72,
+      "PAS": 66,
+      "DRI": 76,
+      "DEF": 38,
+      "FIS": 67
      },
      "sem_nota_por": null,
      "x_medio": 0.341,
@@ -15306,12 +15306,12 @@
      "minutos": 2249,
      "overall": 74,
      "eixos": {
-      "RIT": 74,
+      "RIT": 76,
       "FIN": 44,
-      "PAS": 61,
-      "DRI": 52,
-      "DEF": 77,
-      "FIS": 68
+      "PAS": 62,
+      "DRI": 53,
+      "DEF": 79,
+      "FIS": 70
      },
      "sem_nota_por": null,
      "x_medio": 0.596,
@@ -15343,12 +15343,12 @@
      "minutos": 1825,
      "overall": 73,
      "eixos": {
-      "RIT": 78,
+      "RIT": 80,
       "FIN": 54,
-      "PAS": 66,
-      "DRI": 66,
-      "DEF": 66,
-      "FIS": 73
+      "PAS": 67,
+      "DRI": 67,
+      "DEF": 68,
+      "FIS": 75
      },
      "sem_nota_por": null,
      "x_medio": 0.793,
@@ -15385,12 +15385,12 @@
      "minutos": 1751,
      "overall": 73,
      "eixos": {
-      "RIT": 68,
-      "FIN": 44,
-      "PAS": 67,
-      "DRI": 53,
-      "DEF": 87,
-      "FIS": 78
+      "RIT": 64,
+      "FIN": 43,
+      "PAS": 64,
+      "DRI": 51,
+      "DEF": 83,
+      "FIS": 74
      },
      "sem_nota_por": null,
      "x_medio": 0.372,
@@ -15422,12 +15422,12 @@
      "minutos": 1657,
      "overall": 73,
      "eixos": {
-      "RIT": 67,
+      "RIT": 66,
       "FIN": 57,
-      "PAS": 75,
-      "DRI": 77,
-      "DEF": 64,
-      "FIS": 74
+      "PAS": 74,
+      "DRI": 76,
+      "DEF": 63,
+      "FIS": 73
      },
      "sem_nota_por": null,
      "x_medio": 0.487,
@@ -15464,11 +15464,11 @@
      "minutos": 2430,
      "overall": 72,
      "eixos": {
-      "REF": 72,
-      "EVI": 68,
-      "MAO": 91,
-      "PES": 74,
-      "SAI": 53
+      "REF": 66,
+      "EVI": 64,
+      "MAO": 85,
+      "PES": 68,
+      "SAI": 50
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -15505,12 +15505,12 @@
      "minutos": 1516,
      "overall": 72,
      "eixos": {
-      "RIT": 65,
-      "FIN": 51,
-      "PAS": 71,
-      "DRI": 66,
-      "DEF": 80,
-      "FIS": 78
+      "RIT": 63,
+      "FIN": 50,
+      "PAS": 68,
+      "DRI": 64,
+      "DEF": 77,
+      "FIS": 75
      },
      "sem_nota_por": null,
      "x_medio": 0.619,
@@ -15542,12 +15542,12 @@
      "minutos": 1650,
      "overall": 70,
      "eixos": {
-      "RIT": 73,
-      "FIN": 66,
-      "PAS": 69,
-      "DRI": 68,
+      "RIT": 74,
+      "FIN": 67,
+      "PAS": 70,
+      "DRI": 69,
       "DEF": 46,
-      "FIS": 59
+      "FIS": 60
      },
      "sem_nota_por": null,
      "x_medio": 0.745,
@@ -15584,12 +15584,12 @@
      "minutos": 1432,
      "overall": 70,
      "eixos": {
-      "RIT": 71,
+      "RIT": 70,
       "FIN": 58,
-      "PAS": 68,
-      "DRI": 71,
+      "PAS": 67,
+      "DRI": 70,
       "DEF": 62,
-      "FIS": 74
+      "FIS": 73
      },
      "sem_nota_por": null,
      "x_medio": 0.394,
@@ -15626,12 +15626,12 @@
      "minutos": 1258,
      "overall": 70,
      "eixos": {
-      "RIT": 65,
-      "FIN": 64,
-      "PAS": 68,
-      "DRI": 67,
-      "DEF": 86,
-      "FIS": 77
+      "RIT": 62,
+      "FIN": 62,
+      "PAS": 62,
+      "DRI": 62,
+      "DEF": 80,
+      "FIS": 71
      },
      "sem_nota_por": null,
      "x_medio": 0.488,
@@ -15668,12 +15668,12 @@
      "minutos": 1082,
      "overall": 70,
      "eixos": {
-      "RIT": 76,
-      "FIN": 77,
-      "PAS": 74,
-      "DRI": 79,
-      "DEF": 34,
-      "FIS": 65
+      "RIT": 70,
+      "FIN": 71,
+      "PAS": 69,
+      "DRI": 73,
+      "DEF": 32,
+      "FIS": 62
      },
      "sem_nota_por": null,
      "x_medio": 0.494,
@@ -15705,12 +15705,12 @@
      "minutos": 1376,
      "overall": 69,
      "eixos": {
-      "RIT": 81,
-      "FIN": 74,
-      "PAS": 62,
-      "DRI": 69,
-      "DEF": 44,
-      "FIS": 54
+      "RIT": 76,
+      "FIN": 69,
+      "PAS": 58,
+      "DRI": 64,
+      "DEF": 43,
+      "FIS": 52
      },
      "sem_nota_por": null,
      "x_medio": 0.375,
@@ -15742,12 +15742,12 @@
      "minutos": 1246,
      "overall": 69,
      "eixos": {
-      "RIT": 73,
-      "FIN": 39,
-      "PAS": 67,
-      "DRI": 55,
-      "DEF": 79,
-      "FIS": 71
+      "RIT": 69,
+      "FIN": 38,
+      "PAS": 64,
+      "DRI": 53,
+      "DEF": 75,
+      "FIS": 67
      },
      "sem_nota_por": null,
      "x_medio": 0.2,
@@ -15774,12 +15774,12 @@
      "minutos": 1112,
      "overall": 69,
      "eixos": {
-      "RIT": 72,
-      "FIN": 78,
-      "PAS": 57,
-      "DRI": 71,
-      "DEF": 32,
-      "FIS": 76
+      "RIT": 67,
+      "FIN": 73,
+      "PAS": 54,
+      "DRI": 67,
+      "DEF": 31,
+      "FIS": 71
      },
      "sem_nota_por": null,
      "x_medio": 0.475,
@@ -15806,12 +15806,12 @@
      "minutos": 690,
      "overall": 68,
      "eixos": {
-      "RIT": 84,
-      "FIN": 76,
-      "PAS": 61,
-      "DRI": 76,
-      "DEF": 38,
-      "FIS": 79
+      "RIT": 73,
+      "FIN": 68,
+      "PAS": 56,
+      "DRI": 65,
+      "DEF": 35,
+      "FIS": 68
      },
      "sem_nota_por": null,
      "x_medio": 0.508,
@@ -15843,12 +15843,12 @@
      "minutos": 808,
      "overall": 66,
      "eixos": {
-      "RIT": 68,
-      "FIN": 51,
-      "PAS": 61,
-      "DRI": 56,
-      "DEF": 86,
-      "FIS": 76
+      "RIT": 58,
+      "FIN": 49,
+      "PAS": 54,
+      "DRI": 51,
+      "DEF": 76,
+      "FIS": 66
      },
      "sem_nota_por": null,
      "x_medio": 0.539,
@@ -15885,12 +15885,12 @@
      "minutos": 533,
      "overall": 65,
      "eixos": {
-      "RIT": 75,
-      "FIN": 50,
-      "PAS": 65,
-      "DRI": 65,
-      "DEF": 77,
-      "FIS": 75
+      "RIT": 65,
+      "FIN": 48,
+      "PAS": 60,
+      "DRI": 58,
+      "DEF": 67,
+      "FIS": 65
      },
      "sem_nota_por": null,
      "x_medio": 0.2,
@@ -15922,12 +15922,12 @@
      "minutos": 483,
      "overall": 65,
      "eixos": {
-      "RIT": 79,
-      "FIN": 52,
-      "PAS": 61,
-      "DRI": 65,
-      "DEF": 81,
-      "FIS": 74
+      "RIT": 67,
+      "FIN": 49,
+      "PAS": 55,
+      "DRI": 56,
+      "DEF": 69,
+      "FIS": 62
      },
      "sem_nota_por": null,
      "x_medio": 0.792,
@@ -16121,12 +16121,12 @@
      "minutos": 486,
      "overall": 65,
      "eixos": {
-      "RIT": 71,
-      "FIN": 47,
-      "PAS": 63,
-      "DRI": 61,
-      "DEF": 86,
-      "FIS": 77
+      "RIT": 59,
+      "FIN": 44,
+      "PAS": 54,
+      "DRI": 55,
+      "DEF": 74,
+      "FIS": 65
      },
      "sem_nota_por": null,
      "x_medio": 0.32
@@ -16141,12 +16141,12 @@
      "minutos": 472,
      "overall": 64,
      "eixos": {
-      "RIT": 67,
-      "FIN": 72,
-      "PAS": 77,
-      "DRI": 77,
-      "DEF": 63,
-      "FIS": 65
+      "RIT": 59,
+      "FIN": 62,
+      "PAS": 67,
+      "DRI": 67,
+      "DEF": 60,
+      "FIS": 60
      },
      "sem_nota_por": null,
      "x_medio": 0.494
@@ -16360,12 +16360,12 @@
      "minutos": 1046,
      "overall": 86,
      "eixos": {
-      "RIT": 70,
-      "FIN": 81,
-      "PAS": 79,
-      "DRI": 78,
-      "DEF": 31,
-      "FIS": 68
+      "RIT": 76,
+      "FIN": 89,
+      "PAS": 87,
+      "DRI": 86,
+      "DEF": 33,
+      "FIS": 72
      },
      "sem_nota_por": null,
      "x_medio": 0.492,
@@ -16392,12 +16392,12 @@
      "minutos": 259,
      "overall": 86,
      "eixos": {
-      "RIT": 69,
-      "FIN": 76,
-      "PAS": 70,
-      "DRI": 75,
-      "DEF": 50,
-      "FIS": 66
+      "RIT": 79,
+      "FIN": 89,
+      "PAS": 83,
+      "DRI": 88,
+      "DEF": 53,
+      "FIS": 73
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -16413,12 +16413,12 @@
      "minutos": 1378,
      "overall": 83,
      "eixos": {
-      "RIT": 70,
-      "FIN": 82,
-      "PAS": 72,
-      "DRI": 74,
-      "DEF": 28,
-      "FIS": 57
+      "RIT": 76,
+      "FIN": 90,
+      "PAS": 80,
+      "DRI": 82,
+      "DEF": 30,
+      "FIS": 61
      },
      "sem_nota_por": null,
      "x_medio": 0.51,
@@ -16450,12 +16450,12 @@
      "minutos": 180,
      "overall": 83,
      "eixos": {
-      "RIT": 69,
-      "FIN": 45,
-      "PAS": 66,
-      "DRI": 65,
-      "DEF": 81,
-      "FIS": 71
+      "RIT": 79,
+      "FIN": 48,
+      "PAS": 74,
+      "DRI": 70,
+      "DEF": 91,
+      "FIS": 81
      },
      "sem_nota_por": null,
      "x_medio": 0.8,
@@ -16482,11 +16482,11 @@
      "minutos": 2160,
      "overall": 82,
      "eixos": {
-      "REF": 53,
-      "EVI": 68,
-      "MAO": 74,
-      "PES": 69,
-      "SAI": 74
+      "REF": 58,
+      "EVI": 76,
+      "MAO": 85,
+      "PES": 80,
+      "SAI": 85
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -16523,12 +16523,12 @@
      "minutos": 949,
      "overall": 82,
      "eixos": {
-      "RIT": 68,
-      "FIN": 50,
-      "PAS": 75,
-      "DRI": 73,
-      "DEF": 61,
-      "FIS": 71
+      "RIT": 76,
+      "FIN": 52,
+      "PAS": 85,
+      "DRI": 83,
+      "DEF": 66,
+      "FIS": 81
      },
      "sem_nota_por": null,
      "x_medio": 0.348,
@@ -16550,12 +16550,12 @@
      "minutos": 465,
      "overall": 82,
      "eixos": {
-      "RIT": 78,
-      "FIN": 77,
-      "PAS": 77,
-      "DRI": 79,
-      "DEF": 37,
-      "FIS": 74
+      "RIT": 83,
+      "FIN": 82,
+      "PAS": 81,
+      "DRI": 84,
+      "DEF": 38,
+      "FIS": 76
      },
      "sem_nota_por": null,
      "x_medio": 0.24,
@@ -16577,12 +16577,12 @@
      "minutos": 1768,
      "overall": 81,
      "eixos": {
-      "RIT": 74,
-      "FIN": 40,
-      "PAS": 69,
-      "DRI": 64,
-      "DEF": 88,
-      "FIS": 74
+      "RIT": 77,
+      "FIN": 41,
+      "PAS": 72,
+      "DRI": 66,
+      "DEF": 91,
+      "FIS": 77
      },
      "sem_nota_por": null,
      "x_medio": 0.2,
@@ -16614,12 +16614,12 @@
      "minutos": 1633,
      "overall": 80,
      "eixos": {
-      "RIT": 72,
-      "FIN": 65,
-      "PAS": 76,
-      "DRI": 76,
-      "DEF": 53,
-      "FIS": 69
+      "RIT": 78,
+      "FIN": 68,
+      "PAS": 82,
+      "DRI": 82,
+      "DEF": 55,
+      "FIS": 74
      },
      "sem_nota_por": null,
      "x_medio": 0.683,
@@ -16656,12 +16656,12 @@
      "minutos": 1317,
      "overall": 80,
      "eixos": {
-      "RIT": 62,
-      "FIN": 53,
-      "PAS": 71,
-      "DRI": 65,
-      "DEF": 79,
-      "FIS": 77
+      "RIT": 65,
+      "FIN": 54,
+      "PAS": 76,
+      "DRI": 69,
+      "DEF": 84,
+      "FIS": 82
      },
      "sem_nota_por": null,
      "x_medio": 0.52,
@@ -16703,12 +16703,12 @@
      "minutos": 1745,
      "overall": 79,
      "eixos": {
-      "RIT": 79,
-      "FIN": 38,
-      "PAS": 69,
-      "DRI": 58,
-      "DEF": 73,
-      "FIS": 63
+      "RIT": 85,
+      "FIN": 40,
+      "PAS": 75,
+      "DRI": 61,
+      "DEF": 79,
+      "FIS": 68
      },
      "sem_nota_por": null,
      "x_medio": 0.798,
@@ -16740,12 +16740,12 @@
      "minutos": 1350,
      "overall": 79,
      "eixos": {
-      "RIT": 67,
-      "FIN": 59,
-      "PAS": 62,
-      "DRI": 58,
-      "DEF": 83,
-      "FIS": 79
+      "RIT": 71,
+      "FIN": 61,
+      "PAS": 65,
+      "DRI": 59,
+      "DEF": 87,
+      "FIS": 83
      },
      "sem_nota_por": null,
      "x_medio": 0.56,
@@ -16772,12 +16772,12 @@
      "minutos": 1772,
      "overall": 78,
      "eixos": {
-      "RIT": 69,
-      "FIN": 42,
-      "PAS": 59,
-      "DRI": 53,
-      "DEF": 78,
-      "FIS": 76
+      "RIT": 74,
+      "FIN": 43,
+      "PAS": 62,
+      "DRI": 55,
+      "DEF": 83,
+      "FIS": 81
      },
      "sem_nota_por": null,
      "x_medio": 0.385,
@@ -16809,12 +16809,12 @@
      "minutos": 1411,
      "overall": 78,
      "eixos": {
-      "RIT": 75,
-      "FIN": 71,
-      "PAS": 74,
-      "DRI": 78,
-      "DEF": 63,
-      "FIS": 62
+      "RIT": 78,
+      "FIN": 74,
+      "PAS": 77,
+      "DRI": 81,
+      "DEF": 65,
+      "FIS": 63
      },
      "sem_nota_por": null,
      "x_medio": 0.261,
@@ -16846,12 +16846,12 @@
      "minutos": 1210,
      "overall": 78,
      "eixos": {
-      "RIT": 78,
-      "FIN": 73,
-      "PAS": 61,
-      "DRI": 75,
-      "DEF": 50,
-      "FIS": 72
+      "RIT": 82,
+      "FIN": 77,
+      "PAS": 63,
+      "DRI": 79,
+      "DEF": 51,
+      "FIS": 75
      },
      "sem_nota_por": null,
      "x_medio": 0.476,
@@ -16883,12 +16883,12 @@
      "minutos": 560,
      "overall": 78,
      "eixos": {
-      "RIT": 70,
-      "FIN": 68,
-      "PAS": 72,
-      "DRI": 72,
-      "DEF": 69,
-      "FIS": 81
+      "RIT": 73,
+      "FIN": 69,
+      "PAS": 76,
+      "DRI": 76,
+      "DEF": 71,
+      "FIS": 85
      },
      "sem_nota_por": null,
      "x_medio": 0.78,
@@ -16910,12 +16910,12 @@
      "minutos": 1252,
      "overall": 76,
      "eixos": {
-      "RIT": 72,
-      "FIN": 65,
-      "PAS": 75,
-      "DRI": 69,
-      "DEF": 70,
-      "FIS": 68
+      "RIT": 77,
+      "FIN": 66,
+      "PAS": 80,
+      "DRI": 72,
+      "DEF": 75,
+      "FIS": 70
      },
      "sem_nota_por": null,
      "x_medio": 0.544,
@@ -16952,12 +16952,12 @@
      "minutos": 863,
      "overall": 76,
      "eixos": {
-      "RIT": 77,
-      "FIN": 79,
-      "PAS": 82,
-      "DRI": 80,
-      "DEF": 46,
-      "FIS": 67
+      "RIT": 74,
+      "FIN": 76,
+      "PAS": 79,
+      "DRI": 77,
+      "DEF": 45,
+      "FIS": 65
      },
      "sem_nota_por": null,
      "x_medio": 0.492,
@@ -16989,12 +16989,12 @@
      "minutos": 965,
      "overall": 75,
      "eixos": {
-      "RIT": 66,
+      "RIT": 65,
       "FIN": 59,
-      "PAS": 71,
-      "DRI": 66,
-      "DEF": 79,
-      "FIS": 83
+      "PAS": 69,
+      "DRI": 65,
+      "DEF": 77,
+      "FIS": 81
      },
      "sem_nota_por": null,
      "x_medio": 0.424,
@@ -17026,12 +17026,12 @@
      "minutos": 1001,
      "overall": 73,
      "eixos": {
-      "RIT": 69,
-      "FIN": 59,
-      "PAS": 67,
-      "DRI": 68,
-      "DEF": 76,
-      "FIS": 63
+      "RIT": 72,
+      "FIN": 60,
+      "PAS": 69,
+      "DRI": 71,
+      "DEF": 79,
+      "FIS": 64
      },
      "sem_nota_por": null,
      "x_medio": 0.54,
@@ -17063,12 +17063,12 @@
      "minutos": 694,
      "overall": 73,
      "eixos": {
-      "RIT": 77,
-      "FIN": 74,
-      "PAS": 59,
-      "DRI": 73,
-      "DEF": 53,
-      "FIS": 79
+      "RIT": 74,
+      "FIN": 71,
+      "PAS": 58,
+      "DRI": 71,
+      "DEF": 52,
+      "FIS": 76
      },
      "sem_nota_por": null,
      "x_medio": 0.481,
@@ -17090,12 +17090,12 @@
      "minutos": 497,
      "overall": 73,
      "eixos": {
-      "RIT": 79,
-      "FIN": 68,
-      "PAS": 77,
-      "DRI": 77,
-      "DEF": 57,
-      "FIS": 65
+      "RIT": 75,
+      "FIN": 65,
+      "PAS": 73,
+      "DRI": 73,
+      "DEF": 56,
+      "FIS": 63
      },
      "sem_nota_por": null,
      "x_medio": 0.592,
@@ -17325,12 +17325,12 @@
      "minutos": 18,
      "overall": 75,
      "eixos": {
-      "RIT": 71,
-      "FIN": 65,
-      "PAS": 71,
-      "DRI": 74,
+      "RIT": 72,
+      "FIN": 66,
+      "PAS": 73,
+      "DRI": 76,
       "DEF": 61,
-      "FIS": 78
+      "FIS": 80
      },
      "sem_nota_por": null,
      "x_medio": null
@@ -17345,12 +17345,12 @@
      "minutos": 765,
      "overall": 72,
      "eixos": {
-      "RIT": 75,
-      "FIN": 47,
-      "PAS": 60,
-      "DRI": 56,
-      "DEF": 80,
-      "FIS": 78
+      "RIT": 70,
+      "FIN": 46,
+      "PAS": 56,
+      "DRI": 54,
+      "DEF": 75,
+      "FIS": 73
      },
      "sem_nota_por": null,
      "x_medio": 0.617
@@ -17551,12 +17551,12 @@
      "minutos": 322,
      "overall": 86,
      "eixos": {
-      "RIT": 74,
-      "FIN": 77,
-      "PAS": 71,
-      "DRI": 83,
-      "DEF": 37,
-      "FIS": 76
+      "RIT": 80,
+      "FIN": 85,
+      "PAS": 75,
+      "DRI": 91,
+      "DEF": 39,
+      "FIS": 84
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -17572,12 +17572,12 @@
      "minutos": 1803,
      "overall": 83,
      "eixos": {
-      "RIT": 77,
-      "FIN": 80,
-      "PAS": 62,
-      "DRI": 73,
-      "DEF": 38,
-      "FIS": 81
+      "RIT": 82,
+      "FIN": 85,
+      "PAS": 64,
+      "DRI": 76,
+      "DEF": 39,
+      "FIS": 86
      },
      "sem_nota_por": null,
      "x_medio": 0.464,
@@ -17619,12 +17619,12 @@
      "minutos": 1563,
      "overall": 81,
      "eixos": {
-      "RIT": 76,
-      "FIN": 65,
-      "PAS": 82,
-      "DRI": 77,
-      "DEF": 50,
-      "FIS": 65
+      "RIT": 80,
+      "FIN": 68,
+      "PAS": 86,
+      "DRI": 81,
+      "DEF": 51,
+      "FIS": 67
      },
      "sem_nota_por": null,
      "x_medio": 0.36,
@@ -17666,12 +17666,12 @@
      "minutos": 653,
      "overall": 81,
      "eixos": {
-      "RIT": 64,
-      "FIN": 61,
-      "PAS": 63,
-      "DRI": 57,
-      "DEF": 90,
-      "FIS": 78
+      "RIT": 69,
+      "FIN": 63,
+      "PAS": 66,
+      "DRI": 58,
+      "DEF": 95,
+      "FIS": 83
      },
      "sem_nota_por": null,
      "x_medio": 0.45,
@@ -17703,12 +17703,12 @@
      "minutos": 1639,
      "overall": 80,
      "eixos": {
-      "RIT": 74,
-      "FIN": 81,
-      "PAS": 70,
-      "DRI": 74,
-      "DEF": 35,
-      "FIS": 72
+      "RIT": 79,
+      "FIN": 86,
+      "PAS": 72,
+      "DRI": 79,
+      "DEF": 36,
+      "FIS": 76
      },
      "sem_nota_por": null,
      "x_medio": 0.542,
@@ -17750,12 +17750,12 @@
      "minutos": 1609,
      "overall": 80,
      "eixos": {
-      "RIT": 80,
-      "FIN": 73,
-      "PAS": 74,
-      "DRI": 77,
-      "DEF": 45,
-      "FIS": 64
+      "RIT": 84,
+      "FIN": 76,
+      "PAS": 78,
+      "DRI": 81,
+      "DEF": 46,
+      "FIS": 66
      },
      "sem_nota_por": null,
      "x_medio": 0.722,
@@ -17802,12 +17802,12 @@
      "minutos": 999,
      "overall": 80,
      "eixos": {
-      "RIT": 63,
-      "FIN": 45,
-      "PAS": 60,
-      "DRI": 56,
-      "DEF": 79,
-      "FIS": 75
+      "RIT": 72,
+      "FIN": 47,
+      "PAS": 66,
+      "DRI": 60,
+      "DEF": 88,
+      "FIS": 84
      },
      "sem_nota_por": null,
      "x_medio": 0.54,
@@ -17844,12 +17844,12 @@
      "minutos": 841,
      "overall": 80,
      "eixos": {
-      "RIT": 75,
-      "FIN": 78,
-      "PAS": 71,
-      "DRI": 85,
+      "RIT": 77,
+      "FIN": 80,
+      "PAS": 72,
+      "DRI": 87,
       "DEF": 36,
-      "FIS": 63
+      "FIS": 64
      },
      "sem_nota_por": null,
      "x_medio": 0.306,
@@ -17881,12 +17881,12 @@
      "minutos": 1678,
      "overall": 78,
      "eixos": {
-      "RIT": 72,
-      "FIN": 53,
-      "PAS": 77,
-      "DRI": 64,
-      "DEF": 70,
-      "FIS": 75
+      "RIT": 76,
+      "FIN": 54,
+      "PAS": 81,
+      "DRI": 66,
+      "DEF": 73,
+      "FIS": 79
      },
      "sem_nota_por": null,
      "x_medio": 0.517,
@@ -17925,10 +17925,10 @@
      "eixos": {
       "RIT": 66,
       "FIN": 41,
-      "PAS": 69,
+      "PAS": 70,
       "DRI": 59,
-      "DEF": 87,
-      "FIS": 79
+      "DEF": 88,
+      "FIS": 80
      },
      "sem_nota_por": null,
      "x_medio": 0.376,
@@ -17955,12 +17955,12 @@
      "minutos": 1520,
      "overall": 77,
      "eixos": {
-      "RIT": 74,
-      "FIN": 45,
-      "PAS": 69,
-      "DRI": 66,
-      "DEF": 70,
-      "FIS": 78
+      "RIT": 78,
+      "FIN": 46,
+      "PAS": 72,
+      "DRI": 68,
+      "DEF": 74,
+      "FIS": 82
      },
      "sem_nota_por": null,
      "x_medio": 0.8,
@@ -18002,12 +18002,12 @@
      "minutos": 1169,
      "overall": 77,
      "eixos": {
-      "RIT": 73,
-      "FIN": 64,
-      "PAS": 77,
-      "DRI": 74,
-      "DEF": 66,
-      "FIS": 65
+      "RIT": 76,
+      "FIN": 65,
+      "PAS": 80,
+      "DRI": 77,
+      "DEF": 68,
+      "FIS": 67
      },
      "sem_nota_por": null,
      "x_medio": 0.69,
@@ -18029,12 +18029,12 @@
      "minutos": 271,
      "overall": 77,
      "eixos": {
-      "RIT": 75,
+      "RIT": 76,
       "FIN": 46,
-      "PAS": 65,
+      "PAS": 66,
       "DRI": 60,
-      "DEF": 74,
-      "FIS": 82
+      "DEF": 75,
+      "FIS": 83
      },
      "sem_nota_por": null,
      "x_medio": 0.8,
@@ -18050,12 +18050,12 @@
      "minutos": 1247,
      "overall": 74,
      "eixos": {
-      "RIT": 72,
-      "FIN": 43,
-      "PAS": 75,
-      "DRI": 67,
-      "DEF": 65,
-      "FIS": 70
+      "RIT": 75,
+      "FIN": 44,
+      "PAS": 78,
+      "DRI": 69,
+      "DEF": 66,
+      "FIS": 73
      },
      "sem_nota_por": null,
      "x_medio": 0.204,
@@ -18092,11 +18092,11 @@
      "minutos": 2340,
      "overall": 73,
      "eixos": {
-      "REF": 66,
-      "EVI": 68,
-      "MAO": 73,
-      "PES": 64,
-      "SAI": 70
+      "REF": 69,
+      "EVI": 72,
+      "MAO": 77,
+      "PES": 66,
+      "SAI": 74
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -18138,12 +18138,12 @@
      "minutos": 1056,
      "overall": 73,
      "eixos": {
-      "RIT": 68,
-      "FIN": 61,
-      "PAS": 72,
-      "DRI": 67,
-      "DEF": 67,
-      "FIS": 72
+      "RIT": 71,
+      "FIN": 62,
+      "PAS": 75,
+      "DRI": 69,
+      "DEF": 70,
+      "FIS": 75
      },
      "sem_nota_por": null,
      "x_medio": 0.417,
@@ -18212,12 +18212,12 @@
      "minutos": 705,
      "overall": 71,
      "eixos": {
-      "RIT": 73,
-      "FIN": 69,
-      "PAS": 72,
-      "DRI": 75,
+      "RIT": 72,
+      "FIN": 68,
+      "PAS": 71,
+      "DRI": 74,
       "DEF": 57,
-      "FIS": 67
+      "FIS": 66
      },
      "sem_nota_por": null,
      "x_medio": 0.435,
@@ -18244,12 +18244,12 @@
      "minutos": 474,
      "overall": 71,
      "eixos": {
-      "RIT": 83,
-      "FIN": 53,
-      "PAS": 68,
-      "DRI": 67,
-      "DEF": 76,
-      "FIS": 75
+      "RIT": 77,
+      "FIN": 52,
+      "PAS": 64,
+      "DRI": 64,
+      "DEF": 70,
+      "FIS": 69
      },
      "sem_nota_por": null,
      "x_medio": 0.2,
@@ -18276,12 +18276,12 @@
      "minutos": 593,
      "overall": 69,
      "eixos": {
-      "RIT": 73,
-      "FIN": 44,
-      "PAS": 63,
-      "DRI": 58,
-      "DEF": 77,
-      "FIS": 70
+      "RIT": 70,
+      "FIN": 43,
+      "PAS": 60,
+      "DRI": 56,
+      "DEF": 74,
+      "FIS": 67
      },
      "sem_nota_por": null,
      "x_medio": 0.569,
@@ -18308,12 +18308,12 @@
      "minutos": 498,
      "overall": 69,
      "eixos": {
-      "RIT": 70,
-      "FIN": 73,
-      "PAS": 60,
-      "DRI": 76,
-      "DEF": 37,
-      "FIS": 73
+      "RIT": 67,
+      "FIN": 69,
+      "PAS": 58,
+      "DRI": 72,
+      "DEF": 36,
+      "FIS": 69
      },
      "sem_nota_por": null,
      "x_medio": 0.433,
@@ -18607,12 +18607,12 @@
      "minutos": 288,
      "overall": 76,
      "eixos": {
-      "RIT": 79,
-      "FIN": 80,
-      "PAS": 59,
-      "DRI": 79,
-      "DEF": 33,
-      "FIS": 73
+      "RIT": 77,
+      "FIN": 78,
+      "PAS": 58,
+      "DRI": 77,
+      "DEF": 32,
+      "FIS": 71
      },
      "sem_nota_por": null,
      "x_medio": 0.5
@@ -18627,12 +18627,12 @@
      "minutos": 1075,
      "overall": 72,
      "eixos": {
-      "RIT": 63,
+      "RIT": 64,
       "FIN": 45,
-      "PAS": 65,
-      "DRI": 55,
-      "DEF": 77,
-      "FIS": 73
+      "PAS": 66,
+      "DRI": 56,
+      "DEF": 78,
+      "FIS": 74
      },
      "sem_nota_por": null,
      "x_medio": 0.622
@@ -18807,12 +18807,12 @@
      "minutos": 1941,
      "overall": 85,
      "eixos": {
-      "RIT": 82,
-      "FIN": 72,
-      "PAS": 67,
-      "DRI": 77,
-      "DEF": 49,
-      "FIS": 56
+      "RIT": 91,
+      "FIN": 81,
+      "PAS": 74,
+      "DRI": 86,
+      "DEF": 51,
+      "FIS": 60
      },
      "sem_nota_por": null,
      "x_medio": 0.302,
@@ -18854,12 +18854,12 @@
      "minutos": 2007,
      "overall": 82,
      "eixos": {
-      "RIT": 68,
-      "FIN": 62,
-      "PAS": 79,
-      "DRI": 78,
-      "DEF": 60,
-      "FIS": 67
+      "RIT": 76,
+      "FIN": 66,
+      "PAS": 87,
+      "DRI": 86,
+      "DEF": 62,
+      "FIS": 73
      },
      "sem_nota_por": null,
      "x_medio": 0.38,
@@ -18901,12 +18901,12 @@
      "minutos": 1372,
      "overall": 81,
      "eixos": {
-      "RIT": 74,
-      "FIN": 43,
-      "PAS": 73,
-      "DRI": 63,
-      "DEF": 75,
-      "FIS": 77
+      "RIT": 81,
+      "FIN": 45,
+      "PAS": 78,
+      "DRI": 66,
+      "DEF": 82,
+      "FIS": 84
      },
      "sem_nota_por": null,
      "x_medio": 0.6,
@@ -18933,12 +18933,12 @@
      "minutos": 1357,
      "overall": 81,
      "eixos": {
-      "RIT": 82,
-      "FIN": 42,
-      "PAS": 72,
-      "DRI": 70,
-      "DEF": 75,
-      "FIS": 72
+      "RIT": 88,
+      "FIN": 43,
+      "PAS": 76,
+      "DRI": 73,
+      "DEF": 81,
+      "FIS": 78
      },
      "sem_nota_por": null,
      "x_medio": 0.8,
@@ -18970,12 +18970,12 @@
      "minutos": 2340,
      "overall": 80,
      "eixos": {
-      "RIT": 66,
-      "FIN": 42,
-      "PAS": 70,
-      "DRI": 66,
-      "DEF": 88,
-      "FIS": 74
+      "RIT": 68,
+      "FIN": 43,
+      "PAS": 74,
+      "DRI": 69,
+      "DEF": 92,
+      "FIS": 78
      },
      "sem_nota_por": null,
      "x_medio": 0.4,
@@ -19009,10 +19009,10 @@
      "eixos": {
       "RIT": 68,
       "FIN": 64,
-      "PAS": 74,
-      "DRI": 68,
-      "DEF": 82,
-      "FIS": 84
+      "PAS": 75,
+      "DRI": 69,
+      "DEF": 83,
+      "FIS": 85
      },
      "sem_nota_por": null,
      "x_medio": 0.2,
@@ -19044,12 +19044,12 @@
      "minutos": 1135,
      "overall": 80,
      "eixos": {
-      "RIT": 74,
-      "FIN": 70,
-      "PAS": 74,
-      "DRI": 69,
-      "DEF": 69,
-      "FIS": 85
+      "RIT": 77,
+      "FIN": 72,
+      "PAS": 77,
+      "DRI": 70,
+      "DEF": 71,
+      "FIS": 88
      },
      "sem_nota_por": null,
      "x_medio": 0.8,
@@ -19076,12 +19076,12 @@
      "minutos": 1096,
      "overall": 79,
      "eixos": {
-      "RIT": 78,
-      "FIN": 54,
-      "PAS": 73,
-      "DRI": 64,
-      "DEF": 65,
-      "FIS": 72
+      "RIT": 84,
+      "FIN": 55,
+      "PAS": 79,
+      "DRI": 67,
+      "DEF": 69,
+      "FIS": 78
      },
      "sem_nota_por": null,
      "x_medio": 0.2,
@@ -19110,10 +19110,10 @@
      "eixos": {
       "RIT": 66,
       "FIN": 65,
-      "PAS": 72,
-      "DRI": 69,
-      "DEF": 83,
-      "FIS": 85
+      "PAS": 71,
+      "DRI": 68,
+      "DEF": 82,
+      "FIS": 84
      },
      "sem_nota_por": null,
      "x_medio": 0.622,
@@ -19140,11 +19140,11 @@
      "minutos": 2430,
      "overall": 76,
      "eixos": {
-      "REF": 55,
-      "EVI": 52,
-      "MAO": 74,
-      "PES": 80,
-      "SAI": 68
+      "REF": 57,
+      "EVI": 54,
+      "MAO": 77,
+      "PES": 83,
+      "SAI": 71
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -19176,12 +19176,12 @@
      "minutos": 1035,
      "overall": 76,
      "eixos": {
-      "RIT": 73,
-      "FIN": 51,
-      "PAS": 72,
-      "DRI": 59,
-      "DEF": 91,
-      "FIS": 78
+      "RIT": 69,
+      "FIN": 50,
+      "PAS": 69,
+      "DRI": 57,
+      "DEF": 87,
+      "FIS": 74
      },
      "sem_nota_por": null,
      "x_medio": 0.6,
@@ -19203,12 +19203,12 @@
      "minutos": 994,
      "overall": 76,
      "eixos": {
-      "RIT": 77,
-      "FIN": 76,
-      "PAS": 65,
-      "DRI": 78,
+      "RIT": 76,
+      "FIN": 75,
+      "PAS": 64,
+      "DRI": 77,
       "DEF": 35,
-      "FIS": 80
+      "FIS": 79
      },
      "sem_nota_por": null,
      "x_medio": 0.465,
@@ -19235,12 +19235,12 @@
      "minutos": 877,
      "overall": 76,
      "eixos": {
-      "RIT": 77,
-      "FIN": 76,
-      "PAS": 80,
-      "DRI": 80,
-      "DEF": 35,
-      "FIS": 66
+      "RIT": 75,
+      "FIN": 74,
+      "PAS": 78,
+      "DRI": 78,
+      "DEF": 34,
+      "FIS": 65
      },
      "sem_nota_por": null,
      "x_medio": 0.507,
@@ -19267,12 +19267,12 @@
      "minutos": 1348,
      "overall": 75,
      "eixos": {
-      "RIT": 69,
-      "FIN": 68,
-      "PAS": 69,
-      "DRI": 71,
-      "DEF": 54,
-      "FIS": 62
+      "RIT": 75,
+      "FIN": 73,
+      "PAS": 75,
+      "DRI": 77,
+      "DEF": 56,
+      "FIS": 65
      },
      "sem_nota_por": null,
      "x_medio": 0.622,
@@ -19309,12 +19309,12 @@
      "minutos": 939,
      "overall": 75,
      "eixos": {
-      "RIT": 74,
-      "FIN": 72,
-      "PAS": 76,
-      "DRI": 75,
+      "RIT": 75,
+      "FIN": 73,
+      "PAS": 77,
+      "DRI": 76,
       "DEF": 54,
-      "FIS": 65
+      "FIS": 66
      },
      "sem_nota_por": null,
      "x_medio": 0.617,
@@ -19341,12 +19341,12 @@
      "minutos": 817,
      "overall": 75,
      "eixos": {
-      "RIT": 75,
-      "FIN": 71,
-      "PAS": 71,
-      "DRI": 73,
-      "DEF": 54,
-      "FIS": 63
+      "RIT": 78,
+      "FIN": 74,
+      "PAS": 73,
+      "DRI": 76,
+      "DEF": 55,
+      "FIS": 64
      },
      "sem_nota_por": null,
      "x_medio": 0.772,
@@ -19373,12 +19373,12 @@
      "minutos": 743,
      "overall": 75,
      "eixos": {
-      "RIT": 72,
-      "FIN": 82,
-      "PAS": 57,
-      "DRI": 73,
-      "DEF": 32,
-      "FIS": 80
+      "RIT": 70,
+      "FIN": 80,
+      "PAS": 56,
+      "DRI": 71,
+      "DEF": 31,
+      "FIS": 78
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -19432,12 +19432,12 @@
      "minutos": 501,
      "overall": 72,
      "eixos": {
-      "RIT": 63,
-      "FIN": 65,
-      "PAS": 73,
-      "DRI": 69,
-      "DEF": 79,
-      "FIS": 80
+      "RIT": 62,
+      "FIN": 63,
+      "PAS": 69,
+      "DRI": 66,
+      "DEF": 75,
+      "FIS": 76
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -19695,12 +19695,12 @@
      "minutos": 581,
      "overall": 72,
      "eixos": {
-      "RIT": 71,
-      "FIN": 61,
-      "PAS": 70,
-      "DRI": 68,
-      "DEF": 85,
-      "FIS": 71
+      "RIT": 68,
+      "FIN": 60,
+      "PAS": 68,
+      "DRI": 67,
+      "DEF": 82,
+      "FIS": 68
      },
      "sem_nota_por": null,
      "x_medio": 0.476
@@ -19849,11 +19849,11 @@
      "minutos": 1536,
      "overall": 78,
      "eixos": {
-      "RIT": 77,
+      "RIT": 78,
       "FIN": 65,
       "PAS": 72,
-      "DRI": 74,
-      "DEF": 84,
+      "DRI": 75,
+      "DEF": 85,
       "FIS": 60
      },
      "sem_nota_por": null,
@@ -19886,12 +19886,12 @@
      "minutos": 1825,
      "overall": 77,
      "eixos": {
-      "RIT": 72,
-      "FIN": 65,
-      "PAS": 75,
-      "DRI": 81,
-      "DEF": 41,
-      "FIS": 55
+      "RIT": 74,
+      "FIN": 66,
+      "PAS": 77,
+      "DRI": 83,
+      "DEF": 42,
+      "FIS": 56
      },
      "sem_nota_por": null,
      "x_medio": 0.76,
@@ -19923,12 +19923,12 @@
      "minutos": 1741,
      "overall": 76,
      "eixos": {
-      "RIT": 67,
-      "FIN": 43,
-      "PAS": 63,
-      "DRI": 64,
-      "DEF": 76,
-      "FIS": 68
+      "RIT": 74,
+      "FIN": 45,
+      "PAS": 66,
+      "DRI": 69,
+      "DEF": 83,
+      "FIS": 75
      },
      "sem_nota_por": null,
      "x_medio": 0.548,
@@ -19980,12 +19980,12 @@
      "minutos": 1561,
      "overall": 76,
      "eixos": {
-      "RIT": 71,
-      "FIN": 71,
-      "PAS": 71,
-      "DRI": 73,
-      "DEF": 44,
-      "FIS": 63
+      "RIT": 75,
+      "FIN": 76,
+      "PAS": 76,
+      "DRI": 78,
+      "DEF": 45,
+      "FIS": 66
      },
      "sem_nota_por": null,
      "x_medio": 0.395,
@@ -20017,12 +20017,12 @@
      "minutos": 1435,
      "overall": 76,
      "eixos": {
-      "RIT": 80,
-      "FIN": 81,
-      "PAS": 61,
-      "DRI": 78,
-      "DEF": 36,
-      "FIS": 66
+      "RIT": 77,
+      "FIN": 78,
+      "PAS": 60,
+      "DRI": 75,
+      "DEF": 35,
+      "FIS": 64
      },
      "sem_nota_por": null,
      "x_medio": 0.49,
@@ -20054,11 +20054,11 @@
      "minutos": 2160,
      "overall": 75,
      "eixos": {
-      "REF": 95,
-      "EVI": 83,
-      "MAO": 56,
-      "PES": 62,
-      "SAI": 47
+      "REF": 91,
+      "EVI": 79,
+      "MAO": 53,
+      "PES": 58,
+      "SAI": 45
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -20090,12 +20090,12 @@
      "minutos": 1707,
      "overall": 75,
      "eixos": {
-      "RIT": 79,
-      "FIN": 48,
-      "PAS": 60,
-      "DRI": 58,
-      "DEF": 73,
-      "FIS": 64
+      "RIT": 83,
+      "FIN": 49,
+      "PAS": 63,
+      "DRI": 60,
+      "DEF": 77,
+      "FIS": 68
      },
      "sem_nota_por": null,
      "x_medio": 0.192,
@@ -20127,12 +20127,12 @@
      "minutos": 1636,
      "overall": 75,
      "eixos": {
-      "RIT": 67,
-      "FIN": 54,
-      "PAS": 68,
-      "DRI": 68,
-      "DEF": 75,
-      "FIS": 65
+      "RIT": 71,
+      "FIN": 55,
+      "PAS": 74,
+      "DRI": 74,
+      "DEF": 81,
+      "FIS": 68
      },
      "sem_nota_por": null,
      "x_medio": 0.425,
@@ -20216,12 +20216,12 @@
      "minutos": 1793,
      "overall": 74,
      "eixos": {
-      "RIT": 69,
-      "FIN": 46,
-      "PAS": 57,
-      "DRI": 55,
-      "DEF": 70,
-      "FIS": 71
+      "RIT": 74,
+      "FIN": 47,
+      "PAS": 61,
+      "DRI": 58,
+      "DEF": 75,
+      "FIS": 76
      },
      "sem_nota_por": null,
      "x_medio": 0.534,
@@ -20258,12 +20258,12 @@
      "minutos": 1625,
      "overall": 74,
      "eixos": {
-      "RIT": 64,
-      "FIN": 47,
-      "PAS": 63,
-      "DRI": 56,
-      "DEF": 77,
-      "FIS": 74
+      "RIT": 67,
+      "FIN": 48,
+      "PAS": 66,
+      "DRI": 58,
+      "DEF": 80,
+      "FIS": 77
      },
      "sem_nota_por": null,
      "x_medio": 0.385,
@@ -20295,12 +20295,12 @@
      "minutos": 1063,
      "overall": 73,
      "eixos": {
-      "RIT": 78,
-      "FIN": 39,
-      "PAS": 64,
-      "DRI": 61,
-      "DEF": 80,
-      "FIS": 71
+      "RIT": 76,
+      "FIN": 38,
+      "PAS": 62,
+      "DRI": 60,
+      "DEF": 78,
+      "FIS": 69
      },
      "sem_nota_por": null,
      "x_medio": 0.808,
@@ -20316,12 +20316,12 @@
      "minutos": 1045,
      "overall": 73,
      "eixos": {
-      "RIT": 73,
-      "FIN": 47,
-      "PAS": 60,
-      "DRI": 62,
-      "DEF": 85,
-      "FIS": 76
+      "RIT": 69,
+      "FIN": 46,
+      "PAS": 58,
+      "DRI": 59,
+      "DEF": 81,
+      "FIS": 72
      },
      "sem_nota_por": null,
      "x_medio": 0.361,
@@ -20363,12 +20363,12 @@
      "minutos": 991,
      "overall": 71,
      "eixos": {
-      "RIT": 76,
-      "FIN": 66,
-      "PAS": 65,
+      "RIT": 78,
+      "FIN": 68,
+      "PAS": 66,
       "DRI": 64,
-      "DEF": 65,
-      "FIS": 68
+      "DEF": 66,
+      "FIS": 70
      },
      "sem_nota_por": null,
      "x_medio": 0.228,
@@ -20400,12 +20400,12 @@
      "minutos": 822,
      "overall": 71,
      "eixos": {
-      "RIT": 69,
-      "FIN": 79,
-      "PAS": 63,
-      "DRI": 77,
-      "DEF": 41,
-      "FIS": 66
+      "RIT": 66,
+      "FIN": 76,
+      "PAS": 62,
+      "DRI": 74,
+      "DEF": 40,
+      "FIS": 64
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -20421,12 +20421,12 @@
      "minutos": 600,
      "overall": 68,
      "eixos": {
-      "RIT": 66,
-      "FIN": 48,
-      "PAS": 57,
-      "DRI": 59,
-      "DEF": 80,
-      "FIS": 79
+      "RIT": 60,
+      "FIN": 46,
+      "PAS": 54,
+      "DRI": 54,
+      "DEF": 74,
+      "FIS": 73
      },
      "sem_nota_por": null,
      "x_medio": 0.557,
@@ -20442,12 +20442,12 @@
      "minutos": 629,
      "overall": 67,
      "eixos": {
-      "RIT": 61,
-      "FIN": 48,
-      "PAS": 58,
-      "DRI": 57,
-      "DEF": 83,
-      "FIS": 71
+      "RIT": 57,
+      "FIN": 47,
+      "PAS": 55,
+      "DRI": 55,
+      "DEF": 79,
+      "FIS": 67
      },
      "sem_nota_por": null,
      "x_medio": 0.652,
