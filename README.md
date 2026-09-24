@@ -117,3 +117,14 @@ VOL, MC, MEI, PD, PE, CA, alas) e joga a temporada em duas abas sincronizadas
   lugar na `escalacao_base`; reserva, pelo perfil dos eixos. Quando o futdata
   trouxer posição detalhada, trocar `inferirFuncoes` em `draft.js` pelo dado.
 - **Testar o motor sem navegador:** `node -e "const M=require('./motor.js')…"`.
+
+### Números da temporada (opcional)
+
+Cada jogador pode trazer `numeros`, com o total da temporada no Brasileirão. Todos os campos são opcionais; o que não vier não aparece.
+
+```json
+"numeros": { "gols": 12, "assistencias": 5, "desarmes": 38, "interceptacoes": 21, "duelos_ganhos": 95,
+             "dribles_certos": 30, "grandes_chances_criadas": 7, "defesas": 64, "jogos_sem_sofrer": 9 }
+```
+
+Na carta, o rodapé troca os minutos por: gols e assistências (meio e ataque), desarmes e interceptações (defesa), jogos sem sofrer gol e defesas (goleiro). Na ficha aparecem todos os que vierem. São totais calculados, nunca a base bruta.
