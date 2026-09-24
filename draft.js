@@ -129,7 +129,10 @@ const CHANCES_DO_LEQUE = { palha: 0.2, madeira: 0.45, tijolo: 0.28, grafeno: 0.0
 function sortearLeque(vaga) {
   const funcao = VAGAS[vaga][0];
   const usados = new Set(D.onze.map((s) => s.jogador).filter(Boolean));
-  let pool = D.r.indice.comNota.filter((j) => FUNCAO.get(j) === funcao && !usados.has(j));
+  // quem tem a vaga como posicao principal, e quem tem como secundaria com
+  // metade da chance de entrar no sorteio (o Piquerez lateral e ala)
+  let pool = D.r.indice.comNota.filter((j) => !usados.has(j)
+    && (FUNCAO.get(j) === funcao || (FUNCOES_EXTRAS.get(j)?.has(funcao) && Math.random() < 0.5)));
   // funcao com pouca gente: completa com a familia da posicao
   if (pool.length < 12) pool = D.r.indice.comNota.filter((j) => FAMILIA[funcao].includes(j.posicao) && !usados.has(j));
   // lateral e ala: so quem joga daquele lado (x medio; x alto = direita)
@@ -157,7 +160,7 @@ function sortearLeque(vaga) {
   return opcoes;
 }
 
-function desenharGramado(alvo, { ativa = -1 } = {}) {
+function desenharGramado(alvo, { ativa = -1, mover = false } = {}) {
   alvo.replaceChildren();
   D.onze.forEach((slot, k) => {
     const v = el("div", `vaga${k === ativa ? " vaga-ativa" : ""}${slot.jogador ? " vaga-cheia" : ""}`);
@@ -169,6 +172,16 @@ function desenharGramado(alvo, { ativa = -1 } = {}) {
       camisa.append(figuraUsuario(j.camisa));
       v.append(camisa, el("span", `vaga-nota nivel-${nivel(j.overall).id}`, String(j.overall)), el("span", "vaga-nome", sobrenome(j.nome)));
       v.title = `${j.nome} · veio do ${TIME_DE.get(j).nome}`;
+      const destinos = mover ? destinosDe(k) : [];
+      if (destinos.length) {
+        const b = el("button", "vaga-mover", "⇄");
+        b.type = "button";
+        const para = VAGAS[D.onze[destinos.find((d) => d > k) ?? destinos[0]].pos][1];
+        b.title = `Mudar ${sobrenome(j.nome)} para ${para} e sortear a vaga dele`;
+        b.setAttribute("aria-label", b.title);
+        b.addEventListener("click", () => moverDeVaga(k));
+        v.append(b);
+      }
     } else {
       v.append(el("span", "vaga-vazia", VAGAS[slot.pos][1]));
     }
@@ -179,10 +192,10 @@ function desenharGramado(alvo, { ativa = -1 } = {}) {
 function abrirLeque() {
   const slot = D.onze[D.vaga];
   $("vaga-nome").textContent = VAGAS[slot.pos][2];
-  $("vaga-progresso").textContent = `Escolha ${D.vaga + 1} de 11 · ${D.esquema}`;
+  $("vaga-progresso").textContent = `Escolha ${D.onze.filter((s) => s.jogador).length + 1} de 11 · ${D.esquema}`;
   $("trocar-leque").disabled = D.trocas <= 0;
   $("trocar-leque").textContent = D.trocas > 0 ? "Trocar o leque (1 vez)" : "Já trocou o leque";
-  desenharGramado($("gramado"), { ativa: D.vaga });
+  desenharGramado($("gramado"), { ativa: D.vaga, mover: true });
   const leque = $("leque");
   leque.replaceChildren();
   sortearLeque(slot.pos).forEach((j, i) => {
@@ -192,17 +205,44 @@ function abrirLeque() {
     const carta = cartaDoJogador(j, TIME_DE.get(j), D.r, { estatica: true });
     carta.classList.add("revelando");
     carta.style.animationDelay = movimentoReduzido ? "0s" : `${i * 90}ms`;
-    b.append(carta, el("span", "opcao-clube", `${NOME_FUNCAO[FUNCAO.get(j)] || ""} · ${TIME_DE.get(j).nome}`));
+    b.append(carta, el("span", "opcao-clube", `${funcoesDe(j).map((f) => NOME_FUNCAO[f]).join(" / ")} · ${TIME_DE.get(j).nome}`));
     b.addEventListener("click", () => escolher(j));
     leque.append(b);
   });
 }
 
+// a proxima vaga vazia (mover alguem de vaga pode esvaziar uma de tras)
+const proximaVaga = () => D.onze.findIndex((s) => !s.jogador);
+
 function escolher(jogador) {
   D.onze[D.vaga].jogador = jogador;
-  D.vaga += 1;
-  if (D.vaga < D.onze.length) abrirLeque();
+  D.vaga = proximaVaga();
+  if (D.vaga >= 0) abrirLeque();
   else mostrarResumo();
+}
+
+// cabe na vaga: uma das funcoes dele e a da vaga, e lateral/ala do lado certo
+// (sem lado medido nao barra: ausencia nao e "joga do outro lado")
+function cabeNaVaga(j, pos) {
+  if (!funcoesDe(j).includes(VAGAS[pos][0])) return false;
+  const lado = LADO_DA_VAGA[pos];
+  const x = lado ? ladoDoDefensor(D.r).get(j.player_id) : undefined;
+  return typeof x !== "number" || (lado === "D" ? x >= 0.5 : x < 0.5);
+}
+
+// vagas vazias pra onde o jogador da vaga k pode ir
+const destinosDe = (k) => D.onze.map((s, i) => i).filter((i) => i !== k && !D.onze[i].jogador && cabeNaVaga(D.onze[k].jogador, D.onze[i].pos));
+
+// muda o jogador de vaga: a de origem volta pro sorteio (Ronaldo de CA pra PE
+// pra puxar outro centroavante)
+function moverDeVaga(k) {
+  const destinos = destinosDe(k);
+  if (!destinos.length) return;
+  const i = destinos.find((d) => d > k) ?? destinos[0];
+  D.onze[i].jogador = D.onze[k].jogador;
+  D.onze[k].jogador = null;
+  D.vaga = proximaVaga();
+  abrirLeque();
 }
 
 // --- resumo ------------------------------------------------------------------------

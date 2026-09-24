@@ -577,3 +577,13 @@ body.simulando .cal-dia { pointer-events: none; }
   .draft-grade .gramado { position: relative; top: auto; width: 100%; max-width: 240px; margin: 0 auto; }
   .draft-grade .draft-lado { order: -1; }
 }
+
+/* muda o jogador de vaga (posicao secundaria): a de origem volta pro sorteio */
+.vaga-mover {
+  position: absolute; top: -0.35rem; right: 12%;
+  width: 1.55rem; height: 1.55rem; display: grid; place-items: center; padding: 0;
+  border-radius: 50%; border: 1px solid var(--canal); background: var(--fundo-cartao); color: var(--canal);
+  font-size: 0.85rem; font-weight: 800; line-height: 1; cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
+}
+.vaga-mover:hover, .vaga-mover:focus-visible { background: var(--canal); color: #111; }
