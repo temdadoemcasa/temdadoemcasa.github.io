@@ -92,29 +92,17 @@ function montarCriacao() {
   atualizarPreview();
 }
 
-function montarClubes() {
+// quem sai da Serie A pra voce entrar: fixo na Chapecoense (se um dia ela
+// nao estiver na base, sai o time mais fraco)
+const SAI_PADRAO = "Chapecoense";
+function definirQuemSai() {
   const forcas = Motor.timesDaSerieA(D.r);
-  const alvo = $("clubes");
-  alvo.replaceChildren();
-  const lista = [...D.r.times].sort((a, b) => a.nome.localeCompare(b.nome, "pt-BR"));
-  for (const time of lista) {
-    const b = el("button", "clube");
-    b.type = "button";
-    b.setAttribute("role", "radio");
-    b.setAttribute("aria-checked", String(D.sai === time.nome));
-    const f = forcas[time.nome];
-    const camisa = el("span", "clube-camisa");
-    camisa.append(figura(time, null, { cabeca: false }));
-    b.append(camisa, el("span", "clube-nome", time.nome), el("span", "clube-extra", `força ${Math.round((f.atq + f.def) / 2)}`));
-    b.addEventListener("click", () => {
-      for (const o of alvo.children) o.setAttribute("aria-checked", String(o === b));
-      D.sai = time.nome;
-      $("comecar-draft").disabled = false;
-      $("comecar-draft").textContent = `Tirar o ${time.nome} e montar seu time`;
-    });
-    alvo.append(b);
-  }
+  if (forcas[SAI_PADRAO]) { D.sai = SAI_PADRAO; return; }
+  D.sai = Object.entries(forcas).sort((x, y) => (x[1].atq + x[1].def) - (y[1].atq + y[1].def))[0][0];
 }
+const FEMININOS = new Set(["Chapecoense", "Ponte Preta", "Portuguesa"]);
+const doTime = (nome) => `${FEMININOS.has(nome) ? "da" : "do"} ${nome}`;
+const oTime = (nome) => `${FEMININOS.has(nome) ? "A" : "O"} ${nome}`;
 
 // --- draft -------------------------------------------------------------------------
 
@@ -303,7 +291,7 @@ function mostrarResumo() {
   info.append(el("p", "resumo-frase", `No papel, seria o ${pos}º time mais forte da Série A 2026.`));
   info.append(el("p", "nota", `${D.esquema}: ${descreverTatica(D.esquema)}.`));
   const ul = el("ul", "resumo-comps");
-  for (const c of [`Brasileirão, no lugar do ${D.sai}`, "Copa do Brasil, a partir da 5ª fase", `${COMP[D.continental]}: grupo sorteado quando a temporada começar`]) {
+  for (const c of [`Brasileirão, no lugar ${doTime(D.sai)}`, "Copa do Brasil, a partir da 5ª fase", `${COMP[D.continental]}: grupo sorteado quando a temporada começar`]) {
     ul.append(el("li", null, c));
   }
   info.append(el("p", "nota", "Temporada:"), ul);
@@ -369,7 +357,7 @@ function comecarTemporada() {
   const jogo = $("jogo");
   jogo.replaceChildren(
     el("p", "jogo-etapa", "Temporada 2026"),
-    el("p", "jogo-dica", `Sorteio: ${D.nome} cai no grupo ${D.grupo.letra} da ${COMP[D.continental]}, no lugar do ${D.grupo.sai}. O ${D.sai} foi pra Série B.`),
+    el("p", "jogo-dica", `Sorteio: ${D.nome} cai no grupo ${D.grupo.letra} da ${COMP[D.continental]}, no lugar do ${D.grupo.sai}. ${oTime(D.sai)} foi pra Série B.`),
   );
   delete jogo.dataset.resultado;
   atualizarPaineis();
@@ -1017,7 +1005,7 @@ function encerrar() {
     : pos >= 14 ? `Escapou do Z4 no sufoco: ${pos}º no Brasileirão.`
     : `${pos}º no Brasileirão. Nem fede, nem cheira.`;
   textos.append(
-    el("p", "bl-sobre", `${D.esquema} · no lugar do ${D.sai} · temporada 2026`),
+    el("p", "bl-sobre", `${D.esquema} · no lugar ${doTime(D.sai)} · temporada 2026`),
     el("h3", "bl-nome", D.nome),
     el("p", `bl-manchete${titulos.length ? " ouro" : pos >= 17 ? " queda" : ""}`, manchete),
   );
@@ -1141,7 +1129,7 @@ async function iniciarDraft() {
   $("draft-chances").textContent = `Chances por carta: ${NIVEIS.map((t) => `${t.nome} ${pct(CHANCES_DO_LEQUE[t.id])}`).join(" · ")}`;
   inferirFuncoes(r);
   montarCriacao();
-  montarClubes();
+  definirQuemSai();
   const efeito = () => { $("esquema-efeito").textContent = descreverTatica($("esquema").value); };
   $("esquema").addEventListener("change", efeito);
   efeito();
@@ -1181,15 +1169,12 @@ async function iniciarDraft() {
   $("cal-depois").addEventListener("click", () => mudarMes(1));
   $("sim-ir").addEventListener("click", simularAlvo);
   $("de-novo").addEventListener("click", () => {
-    D.sai = null;
-    $("comecar-draft").disabled = true;
-    $("comecar-draft").textContent = "Escolha quem sai da Série A";
-    montarClubes();
+    definirQuemSai();
     mostrar("clube");
   });
 }
 
 iniciarDraft().catch((erro) => {
   console.error(erro);
-  $("clubes").replaceChildren(el("div", "vazio", "O jogo não carregou agora. Tenta de novo daqui a pouco."));
+  $("tela-clube").append(el("div", "vazio", "O jogo não carregou agora. Tenta de novo daqui a pouco."));
 });
