@@ -412,8 +412,14 @@ const NUMEROS = {
   gols: ["G", "gols"], assistencias: ["A", "assistências"], desarmes: ["DES", "desarmes"],
   interceptacoes: ["INT", "interceptações"], duelos_ganhos: ["DUE", "duelos ganhos"], dribles_certos: ["DRB", "dribles certos"],
   grandes_chances_criadas: ["GCC", "grandes chances criadas"], defesas: ["DEF", "defesas"], jogos_sem_sofrer: ["SG", "jogos sem sofrer gol"],
+  passes_certos_pct: ["% PAS", "% de passes certos"],
 };
+// o que vai no rodape da carta: pela funcao (quando da pra saber), senao pela familia
 const NUMEROS_DA_CARTA = { G: ["jogos_sem_sofrer", "defesas"], D: ["desarmes", "interceptacoes"], M: ["gols", "assistencias"], F: ["gols", "assistencias"] };
+const NUMEROS_DA_FUNCAO = {
+  GOL: ["jogos_sem_sofrer", "defesas"], ZAG: ["desarmes", "interceptacoes"], LAT: ["desarmes", "assistencias"],
+  VOL: ["desarmes", "passes_certos_pct"], MC: ["gols", "assistencias"], MEI: ["gols", "assistencias"], PON: ["gols", "assistencias"], CA: ["gols", "assistencias"],
+};
 function numerosDoJogador(jogador, chaves = Object.keys(NUMEROS)) {
   const n = jogador.numeros || {};
   return chaves.filter((k) => typeof n[k] === "number").map((k) => [k, n[k]]);
@@ -476,8 +482,10 @@ function cartaDoJogador(jogador, time, r, { estatica = false } = {}) {
   info.append(
     el("span", null, `${pos}º de ${total} ${SIGLA[jogador.posicao] || ""}`),
     el("span", null, (() => {
-      const nums = numerosDoJogador(jogador, NUMEROS_DA_CARTA[jogador.posicao] || []);
-      return nums.length ? `${jogador.jogos} J · ${nums.map(([k, v]) => `${v} ${NUMEROS[k][0]}`).join(" · ")}` : `${jogador.jogos} J · ${jogador.minutos}'`;
+      const f = typeof FUNCAO !== "undefined" ? FUNCAO.get(jogador) : null;
+      const nums = numerosDoJogador(jogador, (f && NUMEROS_DA_FUNCAO[f]) || NUMEROS_DA_CARTA[jogador.posicao] || []);
+      const txt = ([k, v]) => (k === "passes_certos_pct" ? `${v}% PAS` : `${v} ${NUMEROS[k][0]}`);
+      return nums.length ? `${jogador.jogos} J · ${nums.map(txt).join(" · ")}` : `${jogador.jogos} J · ${jogador.minutos}'`;
     })()),
   );
   corpo.append(topo, nome, eixos, info);
@@ -1020,7 +1028,7 @@ function abrirFicha(jogador, time) {
     // "top 94%" de quem e 69 de 74 engana: so mostra quando e elogio de verdade
     ...(topo <= 50 ? [el("span", "fato", `top ${topo}% da posição`)] : []),
     el("span", "fato", `${jogador.jogos} jogos · ${jogador.minutos} min`),
-    ...numerosDoJogador(jogador).map(([k, v]) => el("span", "fato", `${v} ${NUMEROS[k][1]}`)),
+    ...numerosDoJogador(jogador).map(([k, v]) => el("span", "fato", k === "passes_certos_pct" ? `${v}% de passes certos` : `${v} ${NUMEROS[k][1]}`)),
   );
   cab.append(fatos);
   info.append(cab);
@@ -1343,6 +1351,38 @@ function ligarChips(seletor, chave, aoMudar) {
   }
 }
 
+// --- abertura: os dois minigames ---------------------------------------------
+
+// Draft: um leque com tres cartas reais (as melhores de posicoes diferentes).
+// Carreira: a sua carta crescendo, de casa de palha aos 16 ao grafeno aos 29.
+function mostrarAbertura(r) {
+  const vd = document.getElementById("visual-draft"), vc = document.getElementById("visual-carreira");
+  if (!vd || !vc) return;
+  const melhores = ["M", "F", "D"].map((p) => (r.indice.porPosicao[p] || [])[Math.floor(Math.random() * 3)]).filter(Boolean);
+  vd.replaceChildren(...melhores.map((j, i) => {
+    const w = el("div", `leque-carta leque-${i}`);
+    w.append(cartaDoJogador(j, TIME_DE.get(j), r, { estatica: true }));
+    return w;
+  }));
+  const c = r.cortes || {};
+  const ovrs = [(c.madeira ?? 65) - 4, (c.tijolo ?? 75) + 2, Math.min(97, (c.grafeno ?? 82) + 4)];
+  const etapas = [
+    ["16 anos · Série D", { nome: "Série D", kit: { padrao: "lisa", base: "#1f8f4e", numero: "#ffffff" } }],
+    ["22 anos · Série A", { nome: "Bahia" }],
+    ["29 anos · Europa", { nome: "Europa", kit: { padrao: "lisa", base: "#f2f2f2", numero: "#1b2a5c", gola: "#1b2a5c" } }],
+  ];
+  const reais = r.indice.porPosicao.F || [];
+  vc.replaceChildren(...etapas.map(([rotulo, time], i) => {
+    const o = ovrs[i];
+    const voce = { nome: "Você", overall: o, posicao: "F", camisa: 10, jogos: [18, 204, 412][i], minutos: 0, player_id: -1 - i,
+      eixos: { RIT: o - 2, FIN: Math.min(99, o + 4), PAS: o - 9, DRI: o - 1, DEF: 32, FIS: o - 4 } };
+    const rFalso = { eixos: r.eixos, indice: { porPosicao: { F: [...reais, voce].sort((a, b) => b.overall - a.overall) } } };
+    const w = el("div", `evolucao-carta evolucao-${i}`);
+    w.append(cartaDoJogador(voce, time, rFalso, { estatica: true }), el("span", "evolucao-rotulo", rotulo));
+    return w;
+  }));
+}
+
 async function iniciarOveralls() {
   const selTemporada = document.getElementById("temporada");
   const selTime = document.getElementById("time");
@@ -1378,6 +1418,7 @@ async function iniciarOveralls() {
   }
 
   const primeiro = await trocarTemporada();
+  mostrarAbertura(primeiro);
   iniciarVitrine();
   ligarBuscaDoTopo();
   selTemporada.addEventListener("change", trocarTemporada);
