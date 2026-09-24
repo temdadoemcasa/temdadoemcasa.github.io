@@ -56,10 +56,10 @@ const interpolar = (pts, x) => {
   for (let i = 1; i < pts.length; i++) if (x <= pts[i][0]) { const [x0, y0] = pts[i - 1], [x1, y1] = pts[i]; return y0 + (y1 - y0) * (x - x0) / (x1 - x0); }
   return pts[pts.length - 1][1];
 };
-const CURVA_GOL = [[60, 0.1], [70, 0.19], [76, 0.27], [80, 0.35], [84, 0.47], [88, 0.64], [92, 0.84], [95, 1.0], [97, 1.08]];
+const CURVA_GOL = [[60, 0.1], [70, 0.19], [76, 0.27], [80, 0.35], [84, 0.47], [88, 0.66], [92, 0.9], [95, 1.05], [97, 1.12]];
 const CURVA_ASSIST = [[60, 0.06], [70, 0.13], [80, 0.22], [88, 0.31], [95, 0.4], [97, 0.43]];
-const FRACAO_GOL = { CA: 1, PON: 0.5, MEI: 0.3, MC: 0.2, VOL: 0.1, LAT: 0.07, ZAG: 0.09, GOL: 0 };
-const FRACAO_ASSIST = { MEI: 1, PON: 0.85, MC: 0.6, CA: 0.5, LAT: 0.5, VOL: 0.35, ZAG: 0.12, GOL: 0.02 };
+const FRACAO_GOL = { CA: 1, PON: 0.68, MEI: 0.45, MC: 0.2, VOL: 0.1, LAT: 0.07, ZAG: 0.09, GOL: 0 };
+const FRACAO_ASSIST = { MEI: 1, PON: 0.85, MC: 0.6, CA: 0.5, LAT: 0.5, VOL: 0.55, ZAG: 0.12, GOL: 0.02 };
 // O ritmo sai do OVR, mas o jeito de jogar vem dos atributos, comparados com o
 // perfil normal da posicao: finalizacao e ritmo acima do normal viram gol (e
 // o velocista puro da menos passe); passe e drible viram assistencia. Quem
@@ -78,18 +78,23 @@ function perfilEsperado(f, ovr) {
   return Object.fromEntries(Object.keys(base).map((k) => [k, Math.min(99, base[k] + (ovr - ob) * CRESCIMENTO[f][k])]));
 }
 
+// Gols e assistencias saem direto dos atributos (sempre: atributo maior,
+// numero maior). Gol: finalizacao manda, ritmo e drible ajudam; atacante
+// que vira marcador perde um pouco. Assistencia: passe manda, drible ajuda;
+// o velocista puro passa menos. Quem passa mais do que finaliza (em relacao
+// ao normal da posicao) joga de falso 9: troca gol por assistencia.
 function ritmoDoJogador(J, nivelLiga) {
   const f = funcaoDe(C.pos);
   const liga = (72 - nivelLiga) * 0.2; // Serie D facilita, Premier League aperta
+  const a = J.attrs;
   if (f === "GOL") return { gol: 0, assist: interpolar(CURVA_ASSIST, J.ovr + liga) * FRACAO_ASSIST.GOL, estilo: 0 };
-  const a = J.attrs, o = J.ovr, esp = perfilEsperado(f, o);
-  const d = (k) => limitar((a[k] ?? o) - esp[k], -15, 15); // desvio do atributo em relacao ao perfil da posicao
-  const notaGol = o + liga + d("FIN") * 0.45 + d("RIT") * 0.2 + d("FIS") * 0.08 - Math.max(0, d("DEF")) * 0.12 - Math.max(0, d("PAS")) * 0.05;
-  const notaAssist = o + liga + d("PAS") * 0.45 + d("DRI") * 0.2 - Math.max(0, d("RIT")) * 0.08 - Math.max(0, d("FIN")) * 0.05;
-  const estilo = limitar((d("PAS") - d("FIN")) / 40, -0.4, 0.4);
+  const notaGol = 0.5 * a.FIN + 0.2 * a.RIT + 0.15 * a.DRI + 0.1 * a.FIS + 0.05 * a.PAS - Math.max(0, a.DEF - 60) * 0.05 + liga - 2.5;
+  const notaAssist = 0.5 * a.PAS + 0.3 * a.DRI + 0.1 * a.RIT + 0.1 * a.FIN - Math.max(0, a.RIT - a.PAS) * 0.05 + liga - 2.5;
+  // falso 9 so existe la na frente (centroavante e ponta)
+  const estilo = f === "CA" || f === "PON" ? limitar(((a.PAS - a.FIN) - (BASE[f].PAS - BASE[f].FIN)) / 40, 0, 0.4) : 0;
   return {
-    gol: interpolar(CURVA_GOL, notaGol) * FRACAO_GOL[f] * (1 - estilo * 0.5),
-    assist: interpolar(CURVA_ASSIST, notaAssist) * FRACAO_ASSIST[f] * Math.max(0.65, 1 + estilo * 1.8),
+    gol: interpolar(CURVA_GOL, notaGol) * FRACAO_GOL[f] * (1 - estilo * 0.6),
+    assist: interpolar(CURVA_ASSIST, notaAssist) * FRACAO_ASSIST[f] * (1 + estilo * 1.5),
     estilo,
   };
 }
@@ -988,7 +993,7 @@ function evoluir(J, p, rng) {
   // (mesmo que ele pese pouco no OVR); na queda, ele e o ultimo a cair
   let pontosDeFoco = J.foco && J.foco in J.attrs ? 3 : 0;
   if (pontosDeFoco && alvo <= antes) { J.attrs[J.foco] = limitar(J.attrs[J.foco] + 1, 20, 99); mudou[J.foco] = 1; pontosDeFoco = 0; J.ovr = ovrDe(J.attrs, f); }
-  for (let guarda = 0; J.ovr !== alvo && guarda < 400; guarda++) {
+  for (let guarda = 0; J.ovr !== alvo && guarda < 1500; guarda++) {
     const sobe = J.ovr < alvo;
     let k;
     if (sobe && pontosDeFoco > 0) { k = J.foco; pontosDeFoco--; }
@@ -1003,6 +1008,8 @@ function evoluir(J, p, rng) {
       const queda = pesos.map(([c, w]) => [c, w * (["RIT", "FIS", "REF"].includes(c) ? 2.5 : 1) * (c === J.foco ? 0.3 : 1)]);
       k = Motor.sortearPeso(rng, queda, ([, w]) => w)[0];
     }
+    // teto suave: acima de 85 cada ponto fica mais dificil; 99 e raridade
+    if (sobe && J.attrs[k] >= 85 && rng() > Math.pow((99 - J.attrs[k]) / 14, 1.6)) continue;
     const novo = limitar(J.attrs[k] + (sobe ? 1 : -1), 20, 99);
     if (novo === J.attrs[k]) continue;
     J.attrs[k] = novo;
