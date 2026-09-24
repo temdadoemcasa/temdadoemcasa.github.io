@@ -601,3 +601,11 @@
 .carreira-palco .roleta-svg { width: min(170px, 60vw); }
 @media (max-width: 960px) { .rolagem-topo { position: static; margin: 0; padding: 0; background: none; } }
 @media (max-width: 960px) { .carreira-palco .projecao { grid-auto-flow: row; grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+/* acesso e queda bem visiveis */
+.aviso-divisao { margin: 0.4rem 0 0.6rem; padding: 0.45rem 0.7rem; border-radius: 10px; font-weight: 800; font-size: 0.9rem; font-family: var(--numeros); letter-spacing: 0.03em; }
+.aviso-divisao.desce { background: rgba(255, 77, 109, 0.12); color: #ff7d95; border: 1px solid rgba(255, 77, 109, 0.4); }
+.aviso-divisao.sobe { background: rgba(200, 255, 0, 0.1); color: var(--canal); border: 1px solid rgba(200, 255, 0, 0.35); }
+.tc-divisao { font-weight: 800; }
+.tc-divisao.desce { color: #ff7d95; }
+.tc-divisao.sobe { color: var(--canal); }
