@@ -5,7 +5,7 @@
   "tijolo": 82,
   "grafeno": 86
  },
- "gerado_em": "2026-09-25T00:14:11+00:00",
+ "gerado_em": "2026-09-25T00:50:00+00:00",
  "populacao": "Brasileirão",
  "piso_minutos": 450,
  "jogos_com_placar": 277,
@@ -132,7 +132,7 @@
       "PAS": 67,
       "DRI": 84,
       "DEF": 32,
-      "FIS": 60
+      "FIS": 80
      },
      "sem_nota_por": null,
      "x_medio": 0.494,
