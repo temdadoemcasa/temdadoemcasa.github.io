@@ -5,7 +5,7 @@
   "tijolo": 82,
   "grafeno": 86
  },
- "gerado_em": "2026-09-25T00:50:00+00:00",
+ "gerado_em": "2026-09-25T22:31:15+00:00",
  "populacao": "Brasileirão",
  "piso_minutos": 450,
  "jogos_com_placar": 277,
@@ -47,8 +47,8 @@
       "slot": 1,
       "x": 0.75,
       "y": 0.2,
-      "player_id": 1476558,
-      "vezes": 5
+      "player_id": 981452,
+      "vezes": 6
      },
      {
       "slot": 2,
@@ -3964,8 +3964,8 @@
       "slot": 1,
       "x": 0.8,
       "y": 0.2,
-      "player_id": 974503,
-      "vezes": 4
+      "player_id": 1105232,
+      "vezes": 3
      },
      {
       "slot": 2,
@@ -8481,12 +8481,12 @@
      "minutos": 1089,
      "overall": 81,
      "eixos": {
-      "RIT": 83,
+      "RIT": 95,
       "FIN": 54,
       "PAS": 81,
       "DRI": 74,
-      "DEF": 69,
-      "FIS": 81
+      "DEF": 65,
+      "FIS": 76
      },
      "sem_nota_por": null,
      "x_medio": 0.2,
@@ -11004,11 +11004,11 @@
      "overall": 83,
      "eixos": {
       "RIT": 76,
-      "FIN": 79,
-      "PAS": 85,
-      "DRI": 88,
+      "FIN": 83,
+      "PAS": 89,
+      "DRI": 79,
       "DEF": 46,
-      "FIS": 70
+      "FIS": 64
      },
      "sem_nota_por": null,
      "x_medio": 0.439,
@@ -12110,8 +12110,8 @@
       "slot": 7,
       "x": 0.75,
       "y": 0.6,
-      "player_id": 863283,
-      "vezes": 5
+      "player_id": 922601,
+      "vezes": 4
      },
      {
       "slot": 8,
@@ -17485,8 +17485,8 @@
       "slot": 3,
       "x": 0.4,
       "y": 0.2,
-      "player_id": 1836799,
-      "vezes": 4
+      "player_id": 975118,
+      "vezes": 3
      },
      {
       "slot": 4,
