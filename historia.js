@@ -79,6 +79,8 @@
     // e na evolucao: ambiente bom faz crescer, ambiente ruim trava. O
     // vestiario (o dia a dia do treino) pesa mais que torcida e imprensa.
     J.efeito.evolucao += clamp(r.vestiario * 0.1 + r.torcida * 0.05 + r.imprensa * 0.04, -0.8, 0.8);
+    // e decai 20% ao ano: o que voce fez ha cinco temporadas pesa pouco hoje
+    for (const k of Object.keys(r)) r[k] = Math.round(r[k] * 0.8 * 10) / 10;
   };
 
   // o rival: um jogador de verdade da Serie A, de outro clube, que vira o
@@ -156,13 +158,13 @@
     },
     {
       id: "renovacao", arco: "A renovação",
-      quando: (J) => J.idade >= 21 && J.idade <= 31 && J.anosNoClube >= 1,
+      quando: (J) => J.idade >= 21 && J.idade <= 31 && J.anosNoClube >= 1 && !(typeof sobContrato === "function" && sobContrato(J)),
       evento: (J) => ({
         titulo: "O presidente quer renovar agora",
         texto: () => `Antes da janela, o ${J.clube.nome} oferece contrato longo, salário bom e multa alta. "Queremos você aqui por muitos anos."`,
         opcoes: [
           { rotulo: "Assina", consequencia: true,
-            sempre: (JJ) => { rep(JJ, { torcida: 1, vestiario: 1 }); JJ.efeito.vitrine -= 1; marcar(JJ, "fiel", JJ.clube.nome); agendar(JJ, "bracadeira", 2, { clube: JJ.clube.nome }); return "Foto com a camisa e a caneta. A torcida comprou a ideia; o mercado esfriou um pouco."; } },
+            sempre: (JJ) => { rep(JJ, { torcida: 1, vestiario: 1 }); JJ.efeito.vitrine -= 1; JJ.contratoAte = JJ.ano + 2; marcar(JJ, "fiel", JJ.clube.nome); agendar(JJ, "bracadeira", 2, { clube: JJ.clube.nome }); return "Foto com a camisa e a caneta. A torcida comprou a ideia; o mercado esfriou um pouco."; } },
           { rotulo: "Espera a janela", consequencia: true,
             sempre: (JJ) => { rep(JJ, { torcida: -1 }); JJ.efeito.vitrine += 2; agendar(JJ, "cobranca", 1, { clube: JJ.clube.nome }); return "Seu empresário espalhou que você está \"avaliando o mercado\". A arquibancada não gostou."; } },
         ],
@@ -491,11 +493,11 @@
       texto: () => "Uma investigação sobre manipulação de apostas chegou nos cartões do ano passado. O seu nome está numa planilha apreendida.",
       opcoes: [
         { rotulo: "Colabora com a investigação", chance: () => 0.6,
-          ok: (JJ) => { JJ.efeito.minutos -= 0.3; JJ.efeito.vitrine -= 2; rep(JJ, { imprensa: -1 }); return "Admitiu e colaborou. Seis jogos de gancho e multa. A carreira segue, marcada."; },
-          falha: (JJ) => { JJ.efeito.minutos -= 0.6; JJ.efeito.vitrine -= 4; rep(JJ, { torcida: -2, imprensa: -2 }); return "Gancho longo. O clube anunciou que você não entra mais em campo este ano."; } },
+          ok: (JJ) => { JJ.efeito.minutos -= 0.15; JJ.efeito.vitrine -= 2; rep(JJ, { imprensa: -1 }); return "Admitiu e colaborou. Seis jogos de gancho e multa. A carreira segue, marcada."; },
+          falha: (JJ) => { JJ.efeito.suspenso = true; JJ.efeito.vitrine -= 4; rep(JJ, { torcida: -2, imprensa: -2 }); return "Gancho longo. O clube anunciou que você não entra mais em campo este ano."; } },
         { rotulo: "Nega tudo", chance: () => 0.35,
           ok: (JJ) => { rep(JJ, { imprensa: -1 }); return "As provas não fecharam. Ficou a desconfiança em cada cartão seu."; },
-          falha: (JJ) => { JJ.efeito.minutos -= 0.7; JJ.efeito.vitrine -= 5; rep(JJ, { torcida: -3, vestiario: -2, imprensa: -2 }); return "As mensagens vazaram. Gancho de um ano, e o vestiário parou de falar com você."; } },
+          falha: (JJ) => { JJ.efeito.suspenso = true; JJ.efeito.vitrine -= 5; rep(JJ, { torcida: -3, vestiario: -2, imprensa: -2 }); return "As mensagens vazaram. Gancho de um ano, e o vestiário parou de falar com você."; } },
       ],
     }),
     voltou: (J) => ({
@@ -518,6 +520,8 @@
     }),
     reencontro: (J) => {
       const r = h(J).rival;
+      // o rival tem que estar do outro lado: no mesmo clube, ou voce la fora, nao ha reencontro
+      if (!r || r.time === J.clube.nome || J.clube.tipo === "ext") return null;
       const zoou = h(J).marcas.zoou;
       return {
         arco: "O rival", consequencia: zoou ? "Depois do apito" : "Provocação antes do mata-mata",
@@ -532,7 +536,7 @@
         ],
       };
     },
-    bracadeira: (J, dados) => (J.clube.nome !== dados.clube ? null : {
+    bracadeira: (J, dados) => (J.clube.nome !== dados.clube || h(J).marcas.capitao ? null : {
       arco: "A renovação", consequencia: "O presidente quer renovar agora",
       titulo: "A braçadeira",
       texto: () => `Dois anos depois da renovação, o técnico do ${J.clube.nome} quer você como capitão.`,
@@ -557,7 +561,7 @@
       titulo: "O joelho de novo",
       texto: () => "O joelho que você escondeu na final voltou a doer na pré-temporada.",
       opcoes: [
-        { rotulo: "Faz a cirurgia", sempre: (JJ) => { JJ.efeito.lesao += 0.35; JJ.efeito.queda += 0.6; return "Quatro meses fora, mas o joelho ficou novo. Coisa que só a cirurgia resolve."; } },
+        { rotulo: "Faz a cirurgia", sempre: (JJ) => { JJ.efeito.lesao += 0.35; if (JJ.idade >= JJ.idadePico) JJ.efeito.queda += 0.6; else JJ.efeito.evolucao += 0.3; return "Quatro meses fora, mas o joelho ficou novo. Coisa que só a cirurgia resolve."; } },
         { rotulo: "Infiltração e segue", chance: () => 0.5,
           ok: () => "Aguentou o ano inteiro na base do remédio.",
           falha: (JJ) => { JJ.efeito.lesao = 1; JJ.efeito.evolucao -= 1; return "Rompeu de vez na pré-temporada. Temporada perdida e um passo pra trás."; } },
@@ -578,6 +582,12 @@
 
   // Consequencias vencidas primeiro (ate 2), depois no maximo um arco novo
   // por temporada, com chance -- a carreira nao vira uma novela a cada ano.
+  // no maximo ARCOS_POR_CARREIRA arcos alem dos que abrem cada fase: sem o
+  // limite, 99% das carreiras viviam todos os arcos e a segunda partida
+  // contava a mesma historia (medido em 240 carreiras, 25/09)
+  const ARCOS_POR_CARREIRA = 5;
+  const arcosAbertos = (est) => INICIOS.filter((a) => !a.abre && est.iniciados[a.id]).length;
+
   Historia.eventosDoAno = function (J, rng, { completo }) {
     const est = h(J);
     const devidos = est.agenda.filter((a) => a.ano <= J.ano);
@@ -597,7 +607,7 @@
     if (abertura && eventos.length < 2) {
       est.iniciados[abertura.id] = true;
       eventos.push({ arco: abertura.arco, ...abertura.evento(J, rng) });
-    } else if (eventos.length < 2 && rng() < (completo ? 0.6 : 0.35)) {
+    } else if (eventos.length < 2 && arcosAbertos(est) < ARCOS_POR_CARREIRA && rng() < (completo ? 0.6 : 0.35)) {
       // so arcos da fase atual (os antigos valem pra qualquer fase), com peso:
       // o arco que abre a fase (rotina aos 16, contrato aos 20...) vem antes
       const f = fase(J);

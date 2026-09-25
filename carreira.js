@@ -61,8 +61,10 @@ const interpolar = (pts, x) => {
 };
 const CURVA_GOL = [[60, 0.1], [70, 0.19], [76, 0.27], [80, 0.35], [84, 0.47], [88, 0.66], [92, 0.9], [95, 1.05], [97, 1.12]];
 const CURVA_ASSIST = [[60, 0.06], [70, 0.13], [80, 0.22], [88, 0.31], [95, 0.4], [97, 0.43]];
-const FRACAO_GOL = { CA: 1, PON: 0.68, MEI: 0.45, MC: 0.2, VOL: 0.1, LAT: 0.07, ZAG: 0.09, GOL: 0 };
-const FRACAO_ASSIST = { MEI: 1, PON: 0.85, MC: 0.6, CA: 0.5, LAT: 0.5, VOL: 0.55, ZAG: 0.12, GOL: 0.02 };
+// defensor e volante tinham 0 gol na mediana (zagueiro real faz 1-3 de
+// cabeca; lateral da 3-6 assistencias): medido em 160 carreiras, 25/09
+const FRACAO_GOL = { CA: 1, PON: 0.68, MEI: 0.45, MC: 0.32, VOL: 0.2, LAT: 0.14, ZAG: 0.24, GOL: 0 };
+const FRACAO_ASSIST = { MEI: 1, PON: 0.85, MC: 0.65, CA: 0.5, LAT: 0.75, VOL: 0.6, ZAG: 0.2, GOL: 0.02 };
 // O ritmo sai do OVR, mas o jeito de jogar vem dos atributos, comparados com o
 // perfil normal da posicao: finalizacao e ritmo acima do normal viram gol (e
 // o velocista puro da menos passe); passe e drible viram assistencia. Quem
@@ -120,8 +122,8 @@ const TAXA_ASSIST = { MEI: 0.24, PON: 0.2, MC: 0.14, CA: 0.11, LAT: 0.12, VOL: 0
 // Selecao: corte de OVR pra ser convocado e chance de titulo numa Copa.
 // Cores so pra bandeirinha e camisa (sem escudo).
 const PAISES = [
-  ["BRA", "Brasil", ["#009c3b", "#ffdf00", "#002776"], { padrao: "lisa", base: "#ffdf00", numero: "#00843d", gola: "#00843d" }, 80, 0.17],
-  ["ARG", "Argentina", ["#75aadb", "#ffffff", "#75aadb"], { padrao: "vertical", faixas: [["#75aadb", 7], ["#ffffff", 7]], numero: "#111111" }, 80, 0.17],
+  ["BRA", "Brasil", ["#009c3b", "#ffdf00", "#002776"], { padrao: "lisa", base: "#ffdf00", numero: "#00843d", gola: "#00843d" }, 83, 0.17],
+  ["ARG", "Argentina", ["#75aadb", "#ffffff", "#75aadb"], { padrao: "vertical", faixas: [["#75aadb", 7], ["#ffffff", 7]], numero: "#111111" }, 83, 0.17],
   ["URU", "Uruguai", ["#7ab8e8", "#ffffff", "#7ab8e8"], { padrao: "lisa", base: "#7ab8e8", numero: "#111111" }, 75, 0.04],
   ["COL", "Colômbia", ["#fcd116", "#003893", "#ce1126"], { padrao: "lisa", base: "#fcd116", numero: "#003893" }, 75, 0.03],
   ["CHI", "Chile", ["#d52b1e", "#ffffff", "#0039a6"], { padrao: "lisa", base: "#d52b1e", numero: "#ffffff" }, 72, 0.01],
@@ -730,6 +732,8 @@ function custoDeAdaptacao(de, para) {
 function assinar(c, contexto) {
   const J = C.J;
   const adapta = contexto === "base" ? null : custoDeAdaptacao(J.clube, c);
+  // o vestiario e do clube: no clube novo a relacao comeca quase do zero
+  if (contexto !== "base" && J.historia && J.clube && J.clube.id !== c.id) J.historia.rep.vestiario = Math.round(J.historia.rep.vestiario * 0.3 * 10) / 10;
   if (adapta) { J.efeito.evolucao += adapta.evolucao; J.efeito.nota += adapta.nota; }
   if (J.clube && J.clube.id !== c.id) { J.transferencias.push({ ano: J.ano, de: J.clube.nome, para: c.nome }); Historia.novoClube(J); }
   J.clube = c;
@@ -1005,7 +1009,11 @@ function temporadaNoExterior(J, ano, rng) {
 const FASES_COPA = ["Fase de grupos", "Oitavas", "Quartas", "Semifinal", "Vice", "Campeão"];
 function temporadaNaSelecao(J, ano, rng, p) {
   const pais = paisDe(C.pais);
-  if (J.ovr < pais.corte || p < 0.45) return null;
+  // perto do corte a convocacao e sorte de momento (15% a 3 abaixo, ~60% no
+  // corte, certa 3 acima); antes era certa a partir do corte, e 71% das
+  // carreiras chegavam a selecao
+  const chanceConvocar = limitar(0.15 + (J.ovr - pais.corte + 3) * 0.15, 0, 1);
+  if (p < 0.45 || J.ovr < pais.corte - 3 || rng() > chanceConvocar) return null;
   const f = funcaoDe(C.pos);
   const ritmo = ritmoDoJogador(J, 76); // selecao: nivel de jogo internacional
   const golPorJogo = Math.min(0.9, ritmo.gol * 0.85);
@@ -1224,6 +1232,12 @@ function propostasDoAno(J, t, linha) {
     if (C.rng() < interesse * peso) interessados.push(c);
   }
   const escolhidas = [];
+  // "Topa voltar" (clube-formador): a proposta do clube que te revelou vem garantida
+  if (J.voltarPara) {
+    const casa = clubesDoMundo(J).find((c) => c.nome === J.voltarPara && c.id !== atual.id);
+    if (casa) escolhidas.push(casa);
+    J.voltarPara = null;
+  }
   while (escolhidas.length < 3 && interessados.length) {
     const c = Motor.sortearPeso(C.rng, interessados, (x) => Math.exp((x.forca + x.prestigio) / 3));
     escolhidas.push(c);
@@ -1368,9 +1382,9 @@ function jogarTemporada({ decidir = true } = {}) {
 // Efeitos que valem por uma temporada: minutos (fracao a mais ou a menos),
 // nota, vitrine pro mercado, lesao (fracao da temporada fora), evolucao
 // (pontos de OVR a mais no fim do ano) e queda (freia o declinio do veterano).
-const efeitoZerado = () => ({ minutos: 0, nota: 0, vitrine: 0, lesao: 0, evolucao: 0, queda: 0, gol: 0, assist: 0, textos: [] });
+const efeitoZerado = () => ({ minutos: 0, nota: 0, vitrine: 0, lesao: 0, evolucao: 0, queda: 0, gol: 0, assist: 0, suspenso: false, textos: [] });
 // lesao >= 1 e temporada perdida: zero minuto, nem o bonus de minutos salva
-const temporadaPerdida = (J) => J.efeito.lesao >= 1;
+const temporadaPerdida = (J) => J.efeito.lesao >= 1 || !!J.efeito.suspenso;
 const minutosDe = (J, s) => (temporadaPerdida(J) ? 0 : limitar(fracaoDeMinutos(s) * (1 - J.efeito.lesao) + J.efeito.minutos, 0.02, 0.95));
 
 // lesao: todo ano tem risco (nos dois modos); corpo fraco e idade pesam
@@ -1401,6 +1415,13 @@ const rotuloAttr = (k) => ({ ...ROTULOS_LINHA, ...Object.fromEntries(EIXOS_GOLEI
 
 // Cada evento: quando pode aparecer, o texto e as opcoes. Opcao com "chance"
 // mostra a porcentagem no botao e resolve pelo dado; sem chance e certeza.
+// contexto da temporada anterior: crise so aparece quando teve crise
+const ultimaLinha = (J) => J.historico[J.historico.length - 1];
+const anoRuim = (J) => { const u = ultimaLinha(J); return !!u && (u.rebaixado || (u.nota ?? 0) < 6.9); };
+const jogouContinental = (J) => { const u = ultimaLinha(J); return !!u && (u.campanha || []).some((c) => /Libertadores|Sul-Americana/.test(c.comp)); };
+const noBrasilOuPortugal = (J) => J.clube.tipo !== "ext" || J.clube.pais === "Portugal";
+const capitao = (J) => !!(J.historia && J.historia.marcas.capitao);
+
 const EVENTOS = [
   // --- base: treino, rotina e cabeca fora de campo ---
   {
@@ -1452,12 +1473,12 @@ const EVENTOS = [
     opcoes: [
       { rotulo: "Fica treinando", chance: () => 0.75,
         ok: (J) => { J.efeito.evolucao += 1; return "O trabalho extra apareceu: +1 de evolução no fim do ano."; },
-        falha: (J) => { J.efeito.lesao += 0.08; return "Sobrecarga. Sentiu a posterior e ficou umas semanas fora."; } },
-      { rotulo: "Vai descansar", sempre: () => "Corpo inteiro pra próxima semana. Nada muda." },
+        falha: (J) => { J.efeito.lesao += 0.1; J.efeito.nota -= 0.05; return "Sobrecarga. Sentiu a posterior e ficou umas semanas fora."; } },
+      { rotulo: "Vai descansar", sempre: (J) => { J.efeito.lesao = Math.max(0, J.efeito.lesao - 0.03); J.efeito.nota += 0.03; return "Corpo inteiro. Chegou mais leve no fim de semana."; } },
     ],
   },
   {
-    id: "dor", fases: ["afirmacao", "auge", "veterano"], quando: () => true,
+    id: "dor", fases: ["afirmacao", "auge", "veterano"], tema: "machucado", quando: () => true,
     titulo: "Jogo grande e uma dor na coxa",
     texto: () => "O departamento médico libera se você quiser. O técnico deixa a decisão com você.",
     opcoes: [
@@ -1468,7 +1489,7 @@ const EVENTOS = [
     ],
   },
   {
-    id: "penalti", fases: ["afirmacao", "auge", "veterano"], quando: () => !goleiro(),
+    id: "penalti", fases: ["afirmacao", "auge", "veterano"], tema: "penalti", quando: () => !goleiro(),
     titulo: "Pênalti aos 47 do segundo tempo",
     texto: () => "Empate no placar, estádio cheio. O batedor oficial olha pra você.",
     opcoes: [
@@ -1484,16 +1505,16 @@ const EVENTOS = [
     texto: () => "Um gol decide o jogo. O batedor deles ajeita a bola.",
     opcoes: [
       { rotulo: "Espera até o último instante", chance: (J) => limitar(0.2 + ((J.attrs.REF ?? 50) - 55) / 90, 0.15, 0.5),
-        ok: (J) => { J.efeito.vitrine += 2.5; J.efeito.nota += 0.2; return "Defendeu. Saiu carregado pelos companheiros."; },
+        ok: (J) => { J.efeito.vitrine += 2; J.efeito.nota += 0.15; return "Esperou, leu o chute e defendeu. Saiu carregado pelos companheiros."; },
         falha: () => "Ele bateu no canto. Não tinha o que fazer." },
-      { rotulo: "Escolhe um canto e vai", chance: () => 0.24,
-        ok: (J) => { J.efeito.vitrine += 2.5; J.efeito.nota += 0.2; return "Chutou pro lado que você escolheu. Defesa e festa."; },
-        falha: () => "Foi pro outro lado. Faz parte." },
+      { rotulo: "Escolhe um canto e vai", chance: () => 0.3,
+        ok: (J) => { J.efeito.vitrine += 3.5; J.efeito.nota += 0.25; return "Chutou pro lado que você escolheu, e você ainda fez cara de quem sabia. Defesa e festa."; },
+        falha: (J) => { J.efeito.nota -= 0.05; return "Pulou cedo, ele bateu no meio. O lance virou meme."; } },
     ],
   },
   // --- decisoes do estilo (o lado bom e o ruim de cada um aparecem aqui) ---
   {
-    id: "protagonista", fases: ["afirmacao", "auge"], quando: (J) => !goleiro() && ["FIN", "DRI"].includes(estiloDeJogo(J.attrs, C.pos).k),
+    id: "protagonista", fases: ["afirmacao", "auge"], tema: "penalti", quando: (J) => !goleiro() && ["FIN", "DRI"].includes(estiloDeJogo(J.attrs, C.pos).k),
     titulo: "Pênalti no clássico",
     texto: () => "Aos 44 do segundo tempo, pênalti a favor. O batedor oficial é o capitão, mas a torcida grita o seu nome.",
     opcoes: [
@@ -1523,9 +1544,9 @@ const EVENTOS = [
         ok: (J) => { J.efeito.minutos += 0.03; return "Entrosamento em dia e todo mundo bem no jogo."; },
         falha: (J) => { J.efeito.nota -= 0.1; return "Saiu mais tarde do que queria. Jogou no automático."; } },
       { rotulo: "Vai até o fim", chance: () => 0.45,
-        ok: (J) => { J.efeito.minutos += 0.05; return "Noite histórica, e no dia seguinte ninguém sentiu. O grupo fechou com você."; },
-        falha: (J) => { J.efeito.minutos -= 0.06; J.efeito.vitrine -= 1; return "Foto da festa rodou nas redes antes do jogo. O técnico não gostou."; } },
-      { rotulo: "Fica em casa", sempre: () => "Dormiu cedo. Ninguém lembra de festa que não foi." },
+        ok: (J) => { J.efeito.minutos += 0.03; Historia.mexerReputacao(J, { vestiario: 1 }); return "Noite histórica, e no dia seguinte ninguém sentiu. O grupo fechou com você."; },
+        falha: (J) => { J.efeito.minutos -= 0.06; J.efeito.vitrine -= 1; Historia.mexerReputacao(J, { imprensa: -1 }); return "Foto da festa rodou nas redes antes do jogo. O técnico não gostou."; } },
+      { rotulo: "Fica em casa", sempre: (J) => { J.efeito.nota += 0.03; return "Dormiu cedo e jogou bem. Mas perdeu a foto do grupo."; } },
     ],
   },
   {
@@ -1544,30 +1565,30 @@ const EVENTOS = [
     titulo: "O empresário ligou",
     texto: () => "Tem clube de olho em você. Ele pergunta se pode fazer barulho na imprensa.",
     opcoes: [
-      { rotulo: "Pode fazer barulho", sempre: (J) => { J.efeito.vitrine += 3; J.efeito.minutos -= 0.05; return "Seu nome apareceu em tudo que é site. No clube, o clima esfriou."; } },
+      { rotulo: "Pode fazer barulho", sempre: (J) => { J.efeito.vitrine += 3; J.efeito.minutos -= 0.04; Historia.mexerReputacao(J, { vestiario: -1 }); return "Seu nome apareceu em tudo que é site. No clube, o clima esfriou."; } },
       { rotulo: "Foco no clube", sempre: (J) => { J.efeito.nota += 0.1; J.efeito.minutos += 0.02; return "Cabeça no lugar, e o técnico percebeu."; } },
     ],
   },
   {
-    id: "entrevista", fases: ["afirmacao", "auge", "veterano"], quando: () => true,
+    id: "entrevista", fases: ["afirmacao", "auge", "veterano"], quando: anoRuim,
     titulo: "Derrota feia e o microfone na sua frente",
     texto: () => "A torcida está na bronca. O repórter quer saber o que aconteceu.",
     opcoes: [
       { rotulo: "Cobra o elenco", chance: () => 0.5,
-        ok: (J) => { J.efeito.vitrine += 1.5; return "A torcida adorou. Virou líder dentro e fora de campo."; },
-        falha: (J) => { J.efeito.minutos -= 0.05; return "O vestiário não gostou de ler aquilo. Clima pesado."; } },
-      { rotulo: "Assume a culpa", sempre: (J) => { J.efeito.minutos += 0.02; return "Resposta madura. O grupo agradeceu."; } },
+        ok: (J) => { J.efeito.vitrine += 1.5; Historia.mexerReputacao(J, { torcida: 1 }); return "A torcida adorou. Virou líder dentro e fora de campo."; },
+        falha: (J) => { J.efeito.minutos -= 0.04; Historia.mexerReputacao(J, { vestiario: -1 }); return "O vestiário não gostou de ler aquilo. Clima pesado."; } },
+      { rotulo: "Assume a culpa", sempre: (J) => { Historia.mexerReputacao(J, { vestiario: 1, torcida: -1 }); return "Resposta madura. O grupo agradeceu; a torcida queria alguém cobrando."; } },
     ],
   },
   {
-    id: "base", fases: ["base"], quando: (J) => J.idade <= 19,
+    id: "base", fases: ["base"], quando: (J) => J.idade <= 19 && J.ovr >= 66,
     titulo: "Convocação pra seleção sub-20",
     texto: () => "Vale vitrine e experiência, mas você perde umas rodadas no clube.",
     opcoes: [
       { rotulo: "Vai pra seleção", chance: () => 0.6,
-        ok: (J) => { J.efeito.evolucao += 1; J.efeito.vitrine += 1.5; J.efeito.minutos -= 0.05; return "Treinou com os melhores da idade e voltou outro jogador."; },
+        ok: (J) => { J.efeito.evolucao += 0.6; J.efeito.vitrine += 1.5; J.efeito.minutos -= 0.05; return "Treinou com os melhores da idade e voltou outro jogador."; },
         falha: (J) => { J.efeito.minutos -= 0.06; return "Ficou no banco da seleção e perdeu espaço no clube."; } },
-      { rotulo: "Pede pra ficar", sempre: (J) => { J.efeito.minutos += 0.04; return "O clube agradeceu e te deu sequência."; } },
+      { rotulo: "Pede pra ficar", sempre: (J) => { J.efeito.minutos += 0.05; J.efeito.evolucao += 0.2; Historia.mexerReputacao(J, { imprensa: -1 }); return "O clube agradeceu e te deu sequência. A imprensa estranhou a recusa."; } },
     ],
   },
   {
@@ -1575,9 +1596,9 @@ const EVENTOS = [
     titulo: "O preparador físico tem um plano",
     texto: () => "Rotina de recuperação pesada: gelo, sono regrado, academia todo dia.",
     opcoes: [
-      { rotulo: "Topa a rotina", sempre: (J) => { J.efeito.queda += 0.8; return "O corpo agradeceu. A idade pesou menos esse ano."; } },
+      { rotulo: "Topa a rotina", sempre: (J) => { J.efeito.queda += 0.6; J.efeito.minutos -= 0.03; return "O corpo agradeceu, mas o preparador te poupou em vários jogos."; } },
       { rotulo: "Segue do seu jeito", chance: () => 0.6,
-        ok: () => "Deu certo do seu jeito mesmo. Experiência conta.",
+        ok: (J) => { J.efeito.nota += 0.06; J.efeito.minutos += 0.02; return "Deu certo do seu jeito mesmo. Experiência conta."; },
         falha: (J) => { J.efeito.lesao += 0.12; J.efeito.queda -= 0.5; return "A panturrilha reclamou. Umas semanas fora."; } },
     ],
   },
@@ -1588,8 +1609,8 @@ const EVENTOS = [
     opcoes: [
       { rotulo: "Responde com a bola", chance: (J) => chanceAttr(J, "DRI", 60, 9),
         ok: (J) => { J.efeito.vitrine += 2; J.efeito.nota += 0.1; return "Caneta, gol e comemoração na frente da torcida deles."; },
-        falha: () => "Jogo travado, nada saiu. Ficou pra próxima." },
-      { rotulo: "Ignora", sempre: () => "Cabeça fria. Jogo normal." },
+        falha: (J) => { J.efeito.nota -= 0.08; Historia.mexerReputacao(J, { imprensa: -1 }); return "Jogo travado, nada saiu, e ele comemorou na sua frente."; } },
+      { rotulo: "Ignora", sempre: (J) => { J.efeito.nota += 0.03; return "Cabeça fria. Jogo sério, sem erro."; } },
     ],
   },
   {
@@ -1598,14 +1619,14 @@ const EVENTOS = [
     texto: () => "Ela propõe uma dieta bem mais rígida pro resto da temporada.",
     opcoes: [
       { rotulo: "Segue à risca", chance: () => 0.7,
-        ok: (J) => { J.efeito.evolucao += 0.8; J.efeito.lesao = Math.max(0, J.efeito.lesao - 0.04); return "Mais fôlego no fim dos jogos. Deu pra sentir."; },
-        falha: () => "Não se adaptou, voltou pro de sempre." },
-      { rotulo: "Mantém o cardápio", sempre: () => "Churrasco de domingo mantido." },
+        ok: (J) => { J.efeito.evolucao += 0.5; J.efeito.lesao = Math.max(0, J.efeito.lesao - 0.04); return "Mais fôlego no fim dos jogos. Deu pra sentir."; },
+        falha: (J) => { J.efeito.nota -= 0.08; J.efeito.evolucao -= 0.2; return "Não se adaptou: perdeu peso demais e ficou sem força por um mês."; } },
+      { rotulo: "Mantém o cardápio", sempre: (J) => { J.efeito.nota += 0.03; return "Churrasco de domingo mantido. Cabeça boa."; } },
     ],
   },
   // --- mais situacoes (cada uma aparece no maximo uma vez por carreira) ---
   {
-    id: "estreia", fases: ["base"], quando: (J) => J.idade <= 17,
+    id: "estreia", fases: ["base"], quando: (J) => J.idade <= 17 && !J.historico.some((h) => h.jogos > 0),
     titulo: "Estreia no profissional",
     texto: () => "Faltam 15 minutos e o técnico te chama pro aquecimento. Estádio cheio.",
     opcoes: [
@@ -1616,14 +1637,14 @@ const EVENTOS = [
     ],
   },
   {
-    id: "banco", fases: ["base", "afirmacao"], quando: () => true,
+    id: "banco", fases: ["base", "afirmacao"], quando: (J) => { const u = ultimaLinha(J); return !u || u.titular < 0.6; },
     titulo: "Três jogos seguidos no banco",
     texto: () => "Você não entende o motivo. O técnico não falou nada.",
     opcoes: [
       { rotulo: "Pede uma conversa", chance: () => 0.55,
         ok: (J) => { J.efeito.minutos += 0.06; return "Ele explicou o que queria e te devolveu a vaga na semana seguinte."; },
         falha: (J) => { J.efeito.minutos -= 0.03; Historia.mexerReputacao(J, { vestiario: -1 }); return "A conversa não foi boa. Continuou no banco e ainda ficou com fama de reclamão."; } },
-      { rotulo: "Treina calado", sempre: (J) => { J.efeito.evolucao += 0.5; return "Respondeu no treino. Ainda não voltou, mas evoluiu."; } },
+      { rotulo: "Treina calado", sempre: (J) => { J.efeito.evolucao += 0.3; J.efeito.minutos -= 0.03; return "Respondeu no treino. Evoluiu, mas ficou mais um tempo no banco."; } },
     ],
   },
   {
@@ -1658,14 +1679,14 @@ const EVENTOS = [
     ],
   },
   {
-    id: "bracadeira", fases: ["auge", "veterano"], quando: (J) => J.idade >= 25,
+    id: "bracadeira", fases: ["auge", "veterano"], tema: "capitao", quando: (J) => J.idade >= 25 && J.anosNoClube >= 2 && !capitao(J),
     titulo: "O técnico oferece a braçadeira",
     texto: () => "O capitão foi vendido. Ele quer você no lugar.",
     opcoes: [
       { rotulo: "Aceita", chance: () => 0.65,
-        ok: (J) => { J.efeito.nota += 0.1; J.efeito.minutos += 0.04; Historia.mexerReputacao(J, { vestiario: 1 }); return "Virou referência do grupo. Jogo difícil, é com você que falam."; },
+        ok: (J) => { J.efeito.nota += 0.1; J.efeito.minutos += 0.04; Historia.mexerReputacao(J, { vestiario: 1 }); if (J.historia) J.historia.marcas.capitao = J.clube.nome; return "Virou referência do grupo. Jogo difícil, é com você que falam."; },
         falha: (J) => { J.efeito.nota -= 0.1; return "Pesou. Passou o ano mais preocupado com o grupo do que com o próprio jogo."; } },
-      { rotulo: "Prefere não ser capitão", sempre: () => "Sugeriu um colega mais antigo. Seguiu só jogando." },
+      { rotulo: "Prefere não ser capitão", sempre: (J) => { J.efeito.nota += 0.03; return "Sugeriu um colega mais antigo. Seguiu só jogando, sem peso extra."; } },
     ],
   },
   {
@@ -1673,14 +1694,14 @@ const EVENTOS = [
     titulo: "Perdeu um gol feito",
     texto: () => "Sem goleiro, na pequena área. A torcida vaiou e o lance virou meme.",
     opcoes: [
-      { rotulo: "Fica depois do treino finalizando", sempre: (J) => { J.efeito.gol += 0.05; J.efeito.evolucao += 0.3; return "Cem finalizações por dia por um mês. O próximo não passou."; } },
+      { rotulo: "Fica depois do treino finalizando", sempre: (J) => { J.efeito.gol += 0.05; J.efeito.evolucao += 0.2; return "Cem finalizações por dia por um mês. O próximo não passou."; } },
       { rotulo: "Responde a torcida na comemoração", chance: (J) => chanceAttr(J, "FIN", 60, 9),
-        ok: (J) => { J.efeito.vitrine += 1; Historia.mexerReputacao(J, { torcida: -1, imprensa: 1 }); return "Fez o gol e mandou calar. Deu manchete, mas parte da torcida não esqueceu."; },
+        ok: (J) => { J.efeito.vitrine += 2.5; J.efeito.gol += 0.05; Historia.mexerReputacao(J, { imprensa: 1 }); return "Fez o gol e mandou calar. A manchete foi sua, e a arquibancada acabou rindo junto."; },
         falha: (J) => { Historia.mexerReputacao(J, { torcida: -2 }); return "Não fez o gol e a arquibancada pegou ainda mais pesado."; } },
     ],
   },
   {
-    id: "aquecimento", quando: () => true,
+    id: "aquecimento", tema: "machucado", quando: () => true,
     titulo: "Sentiu o tornozelo no aquecimento",
     texto: () => "Dá pra jogar, mas incomoda. O médico deixa com você.",
     opcoes: [
@@ -1697,7 +1718,7 @@ const EVENTOS = [
     opcoes: [
       { rotulo: "Aceita o papel", sempre: (J) => { J.efeito.minutos -= 0.04; J.efeito.nota += 0.12; return "Menos minutos, mais impacto. Virou o cara que entra e resolve."; } },
       { rotulo: "Quer ser titular", chance: () => 0.4,
-        ok: (J) => { J.efeito.minutos += 0.05; return "Ele cedeu e te deu a vaga. Agora é mostrar."; },
+        ok: (J) => { J.efeito.minutos += 0.09; return "Ele cedeu e te deu a vaga. Agora é mostrar."; },
         falha: (J) => { J.efeito.minutos -= 0.05; Historia.mexerReputacao(J, { vestiario: -1 }); return "Ele não gostou da resposta. Nem coringa, nem titular."; } },
     ],
   },
@@ -1706,8 +1727,10 @@ const EVENTOS = [
     titulo: "Psicóloga esportiva no clube",
     texto: () => "Ela abriu horários para o elenco. Sessão semanal, opcional.",
     opcoes: [
-      { rotulo: "Faz as sessões", sempre: (J) => { J.efeito.nota += 0.1; return "Menos ansiedade nos jogos grandes. A diferença apareceu nos detalhes."; } },
-      { rotulo: "Não vê necessidade", sempre: () => "Seguiu como estava." },
+      { rotulo: "Faz as sessões", sempre: (J) => { J.efeito.nota += 0.07; return "Menos ansiedade nos jogos grandes. A diferença apareceu nos detalhes."; } },
+      { rotulo: "Resolve do seu jeito", chance: () => 0.5,
+        ok: (J) => { J.efeito.nota += 0.12; return "Cabeça boa sozinho. Ano tranquilo."; },
+        falha: (J) => { J.efeito.nota -= 0.1; return "Um erro num jogo grande virou uma semana ruim, e outra, e outra."; } },
     ],
   },
   {
@@ -1716,9 +1739,9 @@ const EVENTOS = [
     texto: () => "Ele quer ficar depois do treino te passando uns macetes da posição.",
     opcoes: [
       { rotulo: "Fica com ele", chance: () => 0.8,
-        ok: (J) => { J.efeito.evolucao += 0.8; return "Aprendeu em um mês o que levaria anos. Macete de quem jogou muito."; },
-        falha: (J) => { J.efeito.lesao += 0.05; return "Carga extra demais. Sentiu a coxa."; } },
-      { rotulo: "Agradece e vai pra casa", sempre: () => "Ele entendeu. A porta ficou aberta." },
+        ok: (J) => { J.efeito.evolucao += 0.5; return "Aprendeu em um mês o que levaria anos. Macete de quem jogou muito."; },
+        falha: (J) => { J.efeito.lesao += 0.08; return "Carga extra demais. Sentiu a coxa."; } },
+      { rotulo: "Agradece e vai pra casa", sempre: (J) => { J.efeito.nota += 0.03; return "Ele entendeu. Descansado, você rendeu no fim de semana."; } },
     ],
   },
   {
@@ -1742,7 +1765,7 @@ const EVENTOS = [
     ],
   },
   {
-    id: "sondagem", fases: ["afirmacao", "auge"], quando: (J) => J.idade >= 20 && J.idade <= 29 && J.clube.tipo !== "ext",
+    id: "sondagem", fases: ["afirmacao", "auge"], quando: (J) => J.idade >= 20 && J.idade <= 29 && J.clube.tipo !== "ext" && J.clube.divisao === "A" && J.ovr >= 72,
     titulo: "Sondagem do exterior",
     texto: () => "Um clube de fora quer saber se você toparia sair no fim do ano. Salário muito maior.",
     opcoes: [
@@ -1767,7 +1790,7 @@ const EVENTOS = [
     texto: () => "Ele separou seus lances da temporada e quer mostrar o que dá pra melhorar.",
     opcoes: [
       { rotulo: "Assiste tudo", sempre: (J) => { J.efeito.nota += 0.08; J.efeito.assist += 0.05; return "Viu onde se posicionava mal. Começou a aparecer mais livre."; } },
-      { rotulo: "Prefere o campo", sempre: () => "Aprende jogando. Cada um tem seu jeito." },
+      { rotulo: "Prefere o campo", sempre: (J) => { J.efeito.evolucao += 0.2; return "Trocou a sala de vídeo por treino extra. Cada um tem seu jeito."; } },
     ],
   },
   {
@@ -1787,9 +1810,9 @@ const EVENTOS = [
     texto: () => "Ele quer você jogando mais adiantado, participando da saída de bola.",
     opcoes: [
       { rotulo: "Topa mudar", chance: () => 0.65,
-        ok: (J) => { J.efeito.evolucao += 0.7; J.efeito.nota += 0.05; return "Virou o primeiro armador do time. O técnico adorou."; },
-        falha: (J) => { J.efeito.nota -= 0.12; return "Tomou um gol de cobertura tentando sair jogando. Voltou pro básico."; } },
-      { rotulo: "Mantém seu estilo", sempre: () => "Goleiro de área, do jeito que sempre foi." },
+        ok: (J) => { J.efeito.evolucao += 0.5; J.efeito.nota += 0.05; return "Virou o primeiro armador do time. O técnico adorou."; },
+        falha: (J) => { J.efeito.nota -= 0.15; J.efeito.minutos -= 0.03; return "Tomou um gol de cobertura tentando sair jogando. Voltou pro básico, e pro banco por um jogo."; } },
+      { rotulo: "Mantém seu estilo", sempre: (J) => { J.efeito.nota += 0.03; return "Goleiro de área, do jeito que sempre foi. Sem susto."; } },
     ],
   },
   {
@@ -1799,8 +1822,8 @@ const EVENTOS = [
     opcoes: [
       { rotulo: "Estuda até de madrugada", chance: () => 0.6,
         ok: (J) => { J.efeito.vitrine += 2; J.efeito.nota += 0.15; return "Foi pros pênaltis e você pegou dois. Herói da classificação."; },
-        falha: (J) => { J.efeito.nota -= 0.05; return "Não foi pros pênaltis, e ainda chegou cansado."; } },
-      { rotulo: "Confia no instinto", sempre: () => "Dormiu bem. Jogo resolvido no tempo normal." },
+        falha: (J) => { J.efeito.nota -= 0.08; return "Foi pros pênaltis e eles trocaram os batedores. Chegou cansado e não pegou nenhum."; } },
+      { rotulo: "Confia no instinto", sempre: (J) => { J.efeito.nota += 0.04; return "Dormiu bem e fez duas defesas no tempo normal."; } },
     ],
   },
   {
@@ -1822,22 +1845,22 @@ const EVENTOS = [
       { rotulo: "Aumenta a carga", chance: () => 0.65,
         ok: (J) => { J.efeito.minutos += 0.05; return "Segurou a vaga. Competição fez bem."; },
         falha: (J) => { J.efeito.lesao += 0.08; return "Exagerou e sentiu a posterior. Ele assumiu enquanto você se recuperava."; } },
-      { rotulo: "Ajuda o garoto", sempre: (J) => { J.efeito.minutos -= 0.02; Historia.mexerReputacao(J, { vestiario: 1 }); return "Dividiu minutos, mas ganhou o grupo."; } },
+      { rotulo: "Ajuda o garoto", sempre: (J) => { J.efeito.minutos -= 0.05; Historia.mexerReputacao(J, { vestiario: 1 }); return "Dividiu minutos, mas ganhou o grupo."; } },
     ],
   },
   {
-    id: "reuniao", fases: ["auge", "veterano"], quando: () => true,
+    id: "reuniao", fases: ["auge", "veterano"], quando: anoRuim,
     titulo: "Reunião do elenco",
     texto: () => "Quatro derrotas seguidas. Os jogadores se reúnem sem a comissão.",
     opcoes: [
       { rotulo: "Toma a palavra", chance: () => 0.5,
         ok: (J) => { J.efeito.nota += 0.1; Historia.mexerReputacao(J, { vestiario: 1 }); return "O time reagiu na semana seguinte. Você virou voz no vestiário."; },
         falha: (J) => { Historia.mexerReputacao(J, { vestiario: -1 }); return "Falou demais. Os mais velhos não gostaram."; } },
-      { rotulo: "Escuta os mais velhos", sempre: () => "Ouviu, concordou, seguiu." },
+      { rotulo: "Escuta os mais velhos", sempre: (J) => { J.efeito.nota += 0.03; return "Ouviu, concordou, seguiu. Aprendeu como se sai de crise."; } },
     ],
   },
   {
-    id: "altitude", fases: ["afirmacao", "auge", "veterano"], quando: (J) => J.clube.tipo !== "ext" && J.clube.divisao === "A",
+    id: "altitude", fases: ["afirmacao", "auge", "veterano"], quando: (J) => J.clube.tipo !== "ext" && J.clube.divisao === "A" && jogouContinental(J),
     titulo: "Jogo na altitude pela copa",
     texto: () => "3.600 metros. O clube oferece viajar dois dias antes pra adaptar.",
     opcoes: [
@@ -1853,7 +1876,7 @@ const EVENTOS = [
     texto: () => "Querem que você vá conversar com os alunos na sua folga.",
     opcoes: [
       { rotulo: "Vai", sempre: (J) => { J.efeito.vitrine += 0.5; Historia.mexerReputacao(J, { torcida: 1 }); return "Manhã inteira de foto e autógrafo. Saiu no jornal da cidade."; } },
-      { rotulo: "Descansa", sempre: () => "Folga é folga." },
+      { rotulo: "Descansa", sempre: (J) => { J.efeito.nota += 0.03; return "Folga é folga. Voltou inteiro."; } },
     ],
   },
   {
@@ -1886,11 +1909,11 @@ const EVENTOS = [
       { rotulo: "Topa", chance: () => 0.6,
         ok: (J) => { J.efeito.evolucao += 0.5; J.efeito.lesao = Math.max(0, J.efeito.lesao - 0.03); return "Mais forte no corpo a corpo, sem perder velocidade."; },
         falha: (J) => { J.efeito.gol -= 0.05; J.efeito.nota -= 0.05; return "Ficou mais pesado e perdeu arranque. Vai levar um tempo pra ajustar."; } },
-      { rotulo: "Mantém o corpo", sempre: () => "Seguiu leve, do jeito que joga." },
+      { rotulo: "Mantém o corpo", sempre: (J) => { J.efeito.nota += 0.02; return "Seguiu leve, do jeito que joga."; } },
     ],
   },
   {
-    id: "idioma", quando: (J) => J.clube.tipo === "ext",
+    id: "idioma", quando: (J) => !noBrasilOuPortugal(J),
     titulo: "Aulas do idioma local",
     texto: () => "O clube paga aulas três vezes por semana, depois do treino.",
     opcoes: [
@@ -1901,7 +1924,7 @@ const EVENTOS = [
     ],
   },
   {
-    id: "saudade", quando: (J) => J.clube.tipo === "ext",
+    id: "saudade", quando: (J) => !noBrasilOuPortugal(J),
     titulo: "A saudade apertou",
     texto: () => "Frio, comida diferente e a família longe.",
     opcoes: [
@@ -1941,18 +1964,18 @@ const EVENTOS = [
     texto: () => "Perdendo por um. O técnico manda você subir pra área.",
     opcoes: [
       { rotulo: "Sobe", chance: () => 0.35,
-        ok: (J) => { J.efeito.vitrine += 2; J.efeito.gol += 0.1; return "Cabeçada no ângulo. Empate aos 49."; },
+        ok: (J) => { J.efeito.vitrine += 2; J.efeito.nota += 0.08; return "Cabeçada no ângulo. Empate aos 49."; },
         falha: (J) => { J.efeito.nota -= 0.05; return "Não pegou na bola, e o contra-ataque quase sai."; } },
       { rotulo: "Fica guardando a defesa", sempre: () => "Alguém tem que ficar. O empate não veio." },
     ],
   },
   {
-    id: "padrinho", fases: ["veterano"], quando: (J) => J.idade >= 30,
+    id: "padrinho", fases: ["veterano"], tema: "garoto", quando: (J) => J.idade >= 30,
     titulo: "Um garoto da base pede conselho",
     texto: () => "Ele joga na sua posição e quer ficar perto de você nos treinos.",
     opcoes: [
-      { rotulo: "Vira padrinho dele", sempre: (J) => { J.efeito.queda += 0.3; Historia.mexerReputacao(J, { vestiario: 1 }); return "Ensinou o que sabia e ganhou fôlego novo."; } },
-      { rotulo: "Sem tempo agora", sempre: () => "Deu umas dicas e seguiu sua rotina." },
+      { rotulo: "Vira padrinho dele", sempre: (J) => { J.efeito.queda += 0.3; J.efeito.minutos -= 0.02; Historia.mexerReputacao(J, { vestiario: 1 }); return "Ensinou o que sabia e ganhou fôlego novo. Ele já disputa minutos com você."; } },
+      { rotulo: "Sem tempo agora", sempre: (J) => { J.efeito.nota += 0.03; return "Deu umas dicas e seguiu sua rotina."; } },
     ],
   },
   {
@@ -1978,14 +2001,77 @@ const EVENTOS = [
     ],
   },
   {
-    id: "torcida-organizada", fases: ["afirmacao", "auge", "veterano"], quando: () => true,
+    id: "torcida-organizada", fases: ["afirmacao", "auge", "veterano"], quando: anoRuim,
     titulo: "A organizada quer uma conversa",
     texto: () => "Eles apareceram no CT depois de uma sequência ruim.",
     opcoes: [
       { rotulo: "Vai conversar", chance: () => 0.55,
         ok: (J) => { Historia.mexerReputacao(J, { torcida: 1 }); return "Conversa respeitosa. Saíram de lá apoiando."; },
         falha: (J) => { J.efeito.nota -= 0.08; return "Clima tenso. Cabeça pesada nos jogos seguintes."; } },
-      { rotulo: "Deixa pra diretoria", sempre: () => "A diretoria resolveu. Você seguiu treinando." },
+      { rotulo: "Deixa pra diretoria", sempre: (J) => { Historia.mexerReputacao(J, { torcida: -1 }); return "A diretoria resolveu. Na arquibancada, teve quem reparou que você não apareceu."; } },
+    ],
+  },
+  // --- situacoes novas (25/09): toda opcao com um lado bom e um ruim ---
+  {
+    id: "tecnico-demitido", quando: anoRuim,
+    titulo: "O técnico caiu",
+    texto: () => "Depois da sequência ruim, a diretoria demitiu o treinador. O interino chega amanhã e ninguém sabe quem ele conhece.",
+    opcoes: [
+      { rotulo: "Se apresenta como líder", chance: () => 0.6,
+        ok: (J) => { J.efeito.minutos += 0.08; Historia.mexerReputacao(J, { vestiario: 1 }); return "Primeira conversa e você já era peça-chave dele."; },
+        falha: (J) => { J.efeito.minutos -= 0.06; return "Ele achou que você queria mandar no time. Começou no banco."; } },
+      { rotulo: "Espera a escalação", sempre: (J) => { J.efeito.minutos -= 0.02; J.efeito.evolucao += 0.3; return "Treinou quieto. Demorou pra ganhar espaço, mas chegou pronto."; } },
+      { rotulo: "Liga pro empresário", sempre: (J) => { J.efeito.vitrine += 2; Historia.mexerReputacao(J, { vestiario: -1 }); return "Seu nome começou a circular no mercado. O grupo percebeu."; } },
+    ],
+  },
+  {
+    id: "data-fifa", quando: (J) => { const u = ultimaLinha(J); return !!u && !!u.selecao; },
+    titulo: "Data FIFA com o Brasileirão rolando",
+    texto: () => "A seleção te chamou de novo, mas o clube briga por posição e vai perder você em três rodadas.",
+    opcoes: [
+      { rotulo: "Vai pra seleção", sempre: (J) => { J.efeito.vitrine += 2.5; J.efeito.minutos -= 0.08; J.efeito.lesao += 0.03; return "Mais uma convocação no currículo. Voltou cansado e o clube sentiu."; } },
+      { rotulo: "Pede dispensa", sempre: (J) => { J.efeito.vitrine -= 1.5; J.efeito.minutos += 0.03; Historia.mexerReputacao(J, { torcida: 1, imprensa: -1 }); return "A torcida do clube adorou. O técnico da seleção anotou."; } },
+    ],
+  },
+  {
+    id: "pos-rebaixamento", quando: (J) => { const u = ultimaLinha(J); return !!u && !!u.rebaixado; },
+    titulo: "O time caiu",
+    texto: () => "Rebaixado. Na reapresentação, a torcida protesta no portão do CT e a imprensa quer saber se você fica.",
+    opcoes: [
+      { rotulo: "Fica e assume a volta", sempre: (J) => { Historia.mexerReputacao(J, { torcida: 2 }); J.efeito.vitrine -= 1.5; J.efeito.minutos += 0.04; return "\"Vou devolver o clube pra onde ele merece.\" Virou o rosto da reconstrução."; } },
+      { rotulo: "Força a saída", sempre: (J) => { Historia.mexerReputacao(J, { torcida: -3 }); J.efeito.vitrine += 2.5; return "Seu nome virou alvo no muro do CT. O mercado, porém, ouviu."; } },
+    ],
+  },
+  {
+    id: "reabilitacao", quando: (J) => { const u = ultimaLinha(J); return !!u && !!u.lesao && u.lesao.jogos >= 8; },
+    titulo: "Reta final da recuperação",
+    texto: () => "A lesão do ano passado está quase curada. O médico quer mais três semanas; você quer jogar já.",
+    opcoes: [
+      { rotulo: "Acelera a volta", chance: (J) => chanceAttr(J, goleiro() ? "REF" : "FIS", 55, 12),
+        ok: (J) => { J.efeito.minutos += 0.08; return "Voltou antes do previsto e sem dor. Ganhou a vaga de volta."; },
+        falha: (J) => { J.efeito.lesao += 0.25; J.efeito.evolucao -= 0.5; return "Recaída na segunda semana. Mais meses fora."; } },
+      { rotulo: "Segue o protocolo", sempre: (J) => { J.efeito.minutos -= 0.06; J.efeito.queda += 0.3; J.efeito.lesao = Math.max(0, J.efeito.lesao - 0.03); return "Voltou três semanas depois, inteiro. O corpo agradece daqui a uns anos."; } },
+    ],
+  },
+  {
+    id: "salario-atrasado", quando: (J) => J.clube.tipo !== "ext" && J.clube.divisao !== "A",
+    titulo: "Três meses de salário atrasado",
+    texto: () => "O clube não paga desde abril. O elenco discute o que fazer.",
+    opcoes: [
+      { rotulo: "Entra na Justiça", sempre: (J) => { J.efeito.vitrine += 1.5; Historia.mexerReputacao(J, { torcida: -1, vestiario: 1 }); return "Ação na Justiça do Trabalho. O mercado viu que você pode sair de graça; a torcida, não gostou."; } },
+      { rotulo: "Aceita parcelar", sempre: (J) => { Historia.mexerReputacao(J, { torcida: 1 }); J.efeito.nota -= 0.06; return "Fechou acordo com a diretoria. A cabeça pesou nas contas, mas a torcida reconheceu."; } },
+      { rotulo: "Puxa a greve de silêncio", chance: () => 0.5,
+        ok: (J) => { Historia.mexerReputacao(J, { vestiario: 2 }); return "O time todo fechou a boca pra imprensa, e o dinheiro apareceu em duas semanas."; },
+        falha: (J) => { Historia.mexerReputacao(J, { imprensa: -2 }); J.efeito.nota -= 0.05; return "A diretoria vazou que você liderou. Virou o vilão da crise."; } },
+    ],
+  },
+  {
+    id: "clube-formador", quando: (J) => J.idade >= 31 && !!J.historico[0] && J.historico[0].clube !== J.clube.nome && !sobContrato(J),
+    titulo: "O clube que te revelou chama",
+    texto: (J) => `O ${J.historico[0].clube} quer você de volta. Salário menor, mas é onde tudo começou.`,
+    opcoes: [
+      { rotulo: "Topa voltar", sempre: (J) => { J.voltarPara = J.historico[0].clube; J.efeito.vitrine -= 2; return "Deu a palavra. Na janela, a proposta chega; a torcida de lá já fez faixa."; } },
+      { rotulo: "Segue onde está", sempre: (J) => { J.efeito.minutos += 0.04; return "Agradeceu o carinho. Por enquanto, a história é aqui."; } },
     ],
   },
 ];
@@ -2033,7 +2119,9 @@ function sortearEventos(J, rng, n = 2) {
   // cada situacao aparece no maximo uma vez por carreira
   const vistos = new Set(J.eventosVistos || []);
   const f = Historia.fase(J);
-  const pool = EVENTOS.filter((e) => !vistos.has(e.id) && (!e.fases || e.fases.includes(f)) && e.quando(J));
+  // tema repetido (jogar machucado, penalti, capitao...) so uma vez por carreira
+  const temas = new Set(EVENTOS.filter((e) => e.tema && vistos.has(e.id)).map((e) => e.tema));
+  const pool = EVENTOS.filter((e) => !vistos.has(e.id) && (!e.fases || e.fases.includes(f)) && !(e.tema && temas.has(e.tema)) && e.quando(J));
   const completo = C.modo === "completo";
   const qtd = completo ? 2 : rng() < 0.35 ? 0 : 1;
   // a historia (historia.js) entra primeiro: consequencia vencida sempre
@@ -2658,7 +2746,7 @@ const RENOVACOES = [
   {
     id: "aumento", rotulo: "Aumento e mais minutos",
     anos: 1, bom: "mais minutos em cada ano do contrato", ruim: "o técnico cobra: nota pesa mais em jogo ruim",
-    todoAno: (e) => { e.minutos += 0.12; e.nota -= 0.05; },
+    todoAno: (e) => { e.minutos += 0.08; e.nota -= 0.05; },
     texto: (J) => `Renovou com o ${J.clube.nome}: aumento e promessa de minutos. Agora é entregar.`,
   },
   {
