@@ -1364,6 +1364,15 @@ function jogarTemporada({ decidir = true } = {}) {
   if (rng() < chanceParar) { J.aposentado = true; linha.fim = "Pendurou as chuteiras"; return linha; }
   // clube atual com a divisao e o titular de agora
   J.clube = clubesDoMundo(J).find((c) => c.id === J.clube.id) || J.clube;
+  // fim do emprestimo: volta pro clube dono do contrato (e a janela segue normal)
+  if (J.emprestimo && J.ano >= J.emprestimo.volta) {
+    const origem = clubesDoMundo(J).find((c) => c.id === J.emprestimo.origem) || J.clube;
+    linha.voltaDeEmprestimo = origem.nome;
+    J.transferencias.push({ ano: J.ano, de: J.clube.nome, para: origem.nome, emprestimo: true });
+    J.clube = origem;
+    J.anosNoClube = J.emprestimo.anosNoClube + 1;
+    J.emprestimo = null;
+  }
   const ofertas = propostasDoAno(J, t, linha);
   linha.ofertas = ofertas.map((c) => c.nome);
   if (t.rebaixado) linha.rebaixado = true;
@@ -1415,6 +1424,17 @@ const rotuloAttr = (k) => ({ ...ROTULOS_LINHA, ...Object.fromEntries(EIXOS_GOLEI
 
 // Cada evento: quando pode aparecer, o texto e as opcoes. Opcao com "chance"
 // mostra a porcentagem no botao e resolve pelo dado; sem chance e certeza.
+// emprestimo: um dos tres clubes mais fortes (do mesmo lado: Brasil ou
+// exterior, e menor que o atual) onde ele teria 40%+ de chance de jogar --
+// o garoto do Flamengo vai pra Serie B ou C, nao pra outro grande
+function destinoDeEmprestimo(J) {
+  const atual = J.clube;
+  const opcoes = clubesDoMundo(J).filter((c) => c.id !== atual.id && (c.tipo === "ext") === (atual.tipo === "ext")
+    && c.forca <= atual.forca - 3 && chanceDeTitular(J.ovr, c.nivel, J.idade) >= 0.4)
+    .sort((x, y) => y.forca - x.forca).slice(0, 3);
+  return opcoes.length ? opcoes[Math.floor(C.rng() * opcoes.length)] : null;
+}
+
 // contexto da temporada anterior: crise so aparece quando teve crise
 const ultimaLinha = (J) => J.historico[J.historico.length - 1];
 const anoRuim = (J) => { const u = ultimaLinha(J); return !!u && (u.rebaixado || (u.nota ?? 0) < 6.9); };
@@ -2013,6 +2033,27 @@ const EVENTOS = [
   },
   // --- situacoes novas (25/09): toda opcao com um lado bom e um ruim ---
   {
+    id: "emprestimo", fases: ["base", "afirmacao"],
+    quando: (J) => { const u = ultimaLinha(J); return J.idade <= 21 && !!u && u.titular < 0.35 && !J.emprestimo && !!destinoDeEmprestimo(J); },
+    titulo: "Proposta de empréstimo",
+    texto: (J) => `Você quase não jogou no ano passado. O ${J.clube.nome} topa te emprestar por uma temporada pra ganhar minutos.`,
+    opcoes: [
+      { rotulo: "Vai emprestado", sempre: (J) => {
+          const destino = destinoDeEmprestimo(J);
+          if (!destino) return "O clube interessado desistiu na última hora. Você segue no elenco.";
+          J.emprestimo = { origem: J.clube.id, volta: J.ano + 1, anosNoClube: J.anosNoClube };
+          J.transferencias.push({ ano: J.ano, de: J.clube.nome, para: destino.nome, emprestimo: true });
+          J.clube = destino;
+          J.efeito.vitrine -= 0.5;
+          Historia.mexerReputacao(J, { torcida: -1 });
+          return `Emprestado ao ${destino.nome} até o fim do ano. Lá você briga pra ser titular; em casa, a torcida esquece rápido.`;
+        } },
+      { rotulo: "Fica e briga pela vaga", chance: () => 0.4,
+        ok: (J) => { J.efeito.minutos += 0.1; J.efeito.evolucao += 0.2; return "Treinou como nunca e ganhou espaço no segundo semestre."; },
+        falha: (J) => { J.efeito.evolucao -= 0.4; J.efeito.minutos -= 0.03; return "Mais um ano quase parado. A idade de crescer está passando."; } },
+    ],
+  },
+  {
     id: "tecnico-demitido", quando: anoRuim,
     titulo: "O técnico caiu",
     texto: () => "Depois da sequência ruim, a diretoria demitiu o treinador. O interino chega amanhã e ninguém sabe quem ele conhece.",
@@ -2332,6 +2373,7 @@ function mostrarLinha(linha) {
   if (linha.olheiro && linha.ofertas && linha.ofertas.length) avisos.push("Tinha olheiro na arquibancada.");
   if (linha.ofertas && linha.ofertas.length && !linha.transferencia && C.modo !== "completo") avisos.push(`Sondado por ${linha.ofertas.join(", ")}; ficou.`);
   if (linha.transferencia) avisos.push(`Transferido pro ${linha.transferencia.para} (${linha.transferencia.liga}) por ${dinheiro(linha.transferencia.valor)}.`);
+  if (linha.voltaDeEmprestimo) avisos.push(`Fim do empréstimo: volta pro ${linha.voltaDeEmprestimo}.`);
   if (linha.fim) avisos.push(`${linha.fim} aos ${linha.idade + 1} anos.`);
   for (const a of avisos) alvo.append(el("p", "temporada-aviso", a));
 }
