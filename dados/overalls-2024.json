@@ -5,7 +5,7 @@
   "tijolo": 79,
   "grafeno": 84
  },
- "gerado_em": "2026-09-24T23:43:12+00:00",
+ "gerado_em": "2026-09-25T00:12:31+00:00",
  "populacao": "Brasileirão",
  "piso_minutos": 450,
  "jogos_com_placar": 380,
@@ -912,8 +912,8 @@
      "minutos": 1225,
      "overall": 64,
      "eixos": {
-      "REF": 42,
-      "EVI": 42,
+      "REF": 45,
+      "EVI": 45,
       "MAO": 63,
       "PES": 63,
       "SAI": 68
@@ -933,7 +933,7 @@
      "overall": 63,
      "eixos": {
       "REF": 77,
-      "EVI": 35,
+      "EVI": 45,
       "MAO": 53,
       "PES": 62,
       "SAI": 49
@@ -1849,8 +1849,8 @@
      "minutos": 540,
      "overall": 61,
      "eixos": {
-      "REF": 41,
-      "EVI": 41,
+      "REF": 45,
+      "EVI": 45,
       "MAO": 58,
       "PES": 57,
       "SAI": 72
@@ -3089,7 +3089,7 @@
      "eixos": {
       "REF": 48,
       "EVI": 56,
-      "MAO": 44,
+      "MAO": 45,
       "PES": 74,
       "SAI": 80
      },
@@ -6232,7 +6232,7 @@
      "overall": 71,
      "eixos": {
       "REF": 80,
-      "EVI": 44,
+      "EVI": 45,
       "MAO": 60,
       "PES": 76,
       "SAI": 64
@@ -6309,7 +6309,7 @@
      "overall": 62,
      "eixos": {
       "REF": 75,
-      "EVI": 44,
+      "EVI": 45,
       "MAO": 56,
       "PES": 59,
       "SAI": 46
@@ -13897,10 +13897,10 @@
      "minutos": 489,
      "overall": 59,
      "eixos": {
-      "REF": 43,
-      "EVI": 43,
+      "REF": 45,
+      "EVI": 45,
       "MAO": 56,
-      "PES": 43,
+      "PES": 45,
       "SAI": 80
      },
      "sem_nota_por": null,
@@ -13923,7 +13923,7 @@
      "minutos": 465,
      "overall": 59,
      "eixos": {
-      "REF": 42,
+      "REF": 45,
       "EVI": 51,
       "MAO": 67,
       "PES": 50,
@@ -14904,7 +14904,7 @@
       "REF": 78,
       "EVI": 49,
       "MAO": 67,
-      "PES": 43,
+      "PES": 45,
       "SAI": 69
      },
      "sem_nota_por": null,
@@ -17688,7 +17688,7 @@
      "minutos": 630,
      "overall": 59,
      "eixos": {
-      "REF": 44,
+      "REF": 45,
       "EVI": 45,
       "MAO": 66,
       "PES": 46,
@@ -18646,7 +18646,7 @@
      "overall": 69,
      "eixos": {
       "REF": 66,
-      "EVI": 41,
+      "EVI": 45,
       "MAO": 68,
       "PES": 77,
       "SAI": 52

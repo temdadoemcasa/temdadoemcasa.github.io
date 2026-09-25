@@ -5,7 +5,7 @@
   "tijolo": 79,
   "grafeno": 85
  },
- "gerado_em": "2026-09-24T23:44:05+00:00",
+ "gerado_em": "2026-09-25T00:13:21+00:00",
  "populacao": "Brasileirão",
  "piso_minutos": 450,
  "jogos_com_placar": 380,
@@ -11285,8 +11285,8 @@
      "minutos": 1530,
      "overall": 64,
      "eixos": {
-      "REF": 42,
-      "EVI": 41,
+      "REF": 45,
+      "EVI": 45,
       "MAO": 57,
       "PES": 57,
       "SAI": 80
@@ -11308,7 +11308,7 @@
       "REF": 60,
       "EVI": 74,
       "MAO": 60,
-      "PES": 38,
+      "PES": 45,
       "SAI": 61
      },
      "sem_nota_por": null,
@@ -12493,11 +12493,11 @@
      "minutos": 855,
      "overall": 58,
      "eixos": {
-      "REF": 40,
+      "REF": 45,
       "EVI": 45,
       "MAO": 57,
       "PES": 76,
-      "SAI": 40
+      "SAI": 45
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -13559,7 +13559,7 @@
      "overall": 70,
      "eixos": {
       "REF": 48,
-      "EVI": 44,
+      "EVI": 45,
       "MAO": 73,
       "PES": 61,
       "SAI": 80
@@ -17767,7 +17767,7 @@
      "overall": 64,
      "eixos": {
       "REF": 52,
-      "EVI": 42,
+      "EVI": 45,
       "MAO": 53,
       "PES": 76,
       "SAI": 67
@@ -20978,8 +20978,8 @@
       "REF": 77,
       "EVI": 79,
       "MAO": 54,
-      "PES": 34,
-      "SAI": 37
+      "PES": 45,
+      "SAI": 45
      },
      "sem_nota_por": null,
      "x_medio": 0.5,

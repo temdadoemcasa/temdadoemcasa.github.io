@@ -5,7 +5,7 @@
   "tijolo": 82,
   "grafeno": 86
  },
- "gerado_em": "2026-09-24T23:42:02+00:00",
+ "gerado_em": "2026-09-25T00:14:11+00:00",
  "populacao": "Brasileirão",
  "piso_minutos": 450,
  "jogos_com_placar": 277,
@@ -6586,7 +6586,7 @@
       "REF": 64,
       "EVI": 66,
       "MAO": 82,
-      "PES": 43,
+      "PES": 45,
       "SAI": 74
      },
      "sem_nota_por": null,
@@ -14917,8 +14917,8 @@
      "minutos": 643,
      "overall": 70,
      "eixos": {
-      "REF": 36,
-      "EVI": 40,
+      "REF": 45,
+      "EVI": 45,
       "MAO": 54,
       "PES": 81,
       "SAI": 78
