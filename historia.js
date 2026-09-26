@@ -240,18 +240,46 @@
     {
       id: "contrato", arco: "O primeiro contrato", abre: true, fases: ["base", "afirmacao"], peso: () => 5,
       quando: (J) => J.idade >= 19 && J.idade <= 21,
-      evento: () => ({
-        titulo: "Primeiro salário de verdade",
-        texto: () => "Contrato profissional assinado. Pela primeira vez, o dinheiro sobra.",
-        opcoes: [
-          { rotulo: "Compra o carro dos sonhos", consequencia: true,
-            sempre: (J) => { J.efeito.vitrine += 0.5; marcar(J, "ostentacao"); agendar(J, "garagem", 1); return "Chegou no CT de carro importado. Todo mundo viu, inclusive quem não devia."; } },
-          { rotulo: "Tira a família do aluguel",
-            sempre: (J) => { rep(J, { disciplina: 1, torcida: 1 }); J.efeito.nota += 0.05; return "Chave da casa na mão da sua mãe. O vídeo emocionou a cidade."; } },
-          { rotulo: "Guarda quase tudo",
-            sempre: (J) => { rep(J, { disciplina: 1 }); return "Ninguém reparou. O seu extrato reparou."; } },
-        ],
-      }),
+      evento: (J) => {
+        // o salario depende do clube: Serie C/D paga pouco mais que um minimo
+        const nivel = J.clube.tipo === "ext" || J.clube.divisao === "A" ? "alto" : J.clube.divisao === "B" ? "medio" : "baixo";
+        if (nivel === "baixo") return {
+          titulo: "Primeiro contrato profissional",
+          texto: () => `No ${J.clube.nome}, o salário é pouco mais que um mínimo. Mas é o primeiro com carteira assinada.`,
+          opcoes: [
+            { rotulo: "Manda quase tudo pra casa",
+              sempre: (JJ) => { rep(JJ, { disciplina: 1 }); return "A conta de luz de casa está em dia. Você come no refeitório do clube e não reclama."; } },
+            { rotulo: "Investe em você: chuteira boa e suplemento",
+              sempre: (JJ) => { JJ.efeito.evolucao += 0.4; return "Chuteira que não machuca o pé e nutricionista de graça no posto. Rende no treino."; } },
+            { rotulo: "Parcela um celular caro em 12x", consequencia: true,
+              sempre: (JJ) => { rep(JJ, { disciplina: -1 }); JJ.efeito.nota -= 0.05; return "As parcelas comem metade do salário até dezembro. Sobra pouco até pra passagem."; } },
+          ],
+        };
+        if (nivel === "medio") return {
+          titulo: "Primeiro salário de verdade",
+          texto: () => `O ${J.clube.nome} paga um salário de Série B: dá pra viver bem, sem exagero.`,
+          opcoes: [
+            { rotulo: "Financia um carro", consequencia: true,
+              sempre: (JJ) => { marcar(JJ, "ostentacao"); agendar(JJ, "garagem", 1); return "Carro zero em 60 parcelas. Chegou no CT buzinando."; } },
+            { rotulo: "Ajuda nas contas de casa",
+              sempre: (JJ) => { rep(JJ, { disciplina: 1 }); return "Seu pai parou de fazer hora extra. Você sentiu orgulho no treino."; } },
+            { rotulo: "Aluga um apê perto do CT",
+              sempre: (JJ) => { JJ.efeito.nota += 0.05; JJ.efeito.evolucao += 0.2; return "Dez minutos a pé do treino. Mais sono, menos ônibus."; } },
+          ],
+        };
+        return {
+          titulo: "Primeiro salário de verdade",
+          texto: () => "Contrato profissional assinado. Pela primeira vez, o dinheiro sobra.",
+          opcoes: [
+            { rotulo: "Compra o carro dos sonhos", consequencia: true,
+              sempre: (JJ) => { JJ.efeito.vitrine += 0.5; marcar(JJ, "ostentacao"); agendar(JJ, "garagem", 1); return "Chegou no CT de carro importado. Todo mundo viu, inclusive quem não devia."; } },
+            { rotulo: "Tira a família do aluguel",
+              sempre: (JJ) => { rep(JJ, { disciplina: 1, torcida: 1 }); JJ.efeito.nota += 0.05; return "Chave da casa na mão da sua mãe. O vídeo emocionou a cidade."; } },
+            { rotulo: "Guarda quase tudo",
+              sempre: (JJ) => { rep(JJ, { disciplina: 1 }); return "Ninguém reparou. O seu extrato reparou."; } },
+          ],
+        };
+      },
     },
     {
       id: "grupo", arco: "O grupo de apostas", fases: ["afirmacao", "auge"], peso: (J) => 2 + (h(J).marcas.bet_publi ? 2 : 0),
