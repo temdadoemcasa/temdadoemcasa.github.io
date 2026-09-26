@@ -5,7 +5,7 @@
   "tijolo": 79,
   "grafeno": 84
  },
- "gerado_em": "2026-09-25T00:12:31+00:00",
+ "gerado_em": "2026-09-26T00:28:05+00:00",
  "populacao": "Brasileirão",
  "piso_minutos": 450,
  "jogos_com_placar": 380,
@@ -834,6 +834,33 @@
      ]
     },
     {
+     "player_id": 1018093,
+     "nome": "B. Praxedes",
+     "nome_completo": "Bruno Praxedes",
+     "posicao": "M",
+     "camisa": 8,
+     "jogos": 13,
+     "minutos": 503,
+     "overall": 66,
+     "eixos": {
+      "RIT": 70,
+      "FIN": 59,
+      "PAS": 64,
+      "DRI": 61,
+      "DEF": 62,
+      "FIS": 70
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.5,
+     "recentes": [
+      [
+       "4-3-3",
+       8,
+       1
+      ]
+     ]
+    },
+    {
      "player_id": 1130040,
      "nome": "L. Belezi",
      "nome_completo": "Lucas Belezi",
@@ -871,33 +898,6 @@
       [
        "4-3-3",
        2,
-       1
-      ]
-     ]
-    },
-    {
-     "player_id": 1018093,
-     "nome": "B. Praxedes",
-     "nome_completo": "Bruno Praxedes",
-     "posicao": "M",
-     "camisa": 8,
-     "jogos": 13,
-     "minutos": 503,
-     "overall": 65,
-     "eixos": {
-      "RIT": 69,
-      "FIN": 58,
-      "PAS": 64,
-      "DRI": 60,
-      "DEF": 62,
-      "FIS": 69
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.5,
-     "recentes": [
-      [
-       "4-3-3",
-       8,
        1
       ]
      ]
@@ -2242,6 +2242,53 @@
      ]
     },
     {
+     "player_id": 930690,
+     "nome": "F. Vera",
+     "nome_completo": "Fausto Vera",
+     "posicao": "M",
+     "camisa": 18,
+     "jogos": 26,
+     "minutos": 1873,
+     "overall": 79,
+     "eixos": {
+      "RIT": 68,
+      "FIN": 71,
+      "PAS": 77,
+      "DRI": 80,
+      "DEF": 81,
+      "FIS": 80
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.533,
+     "recentes": [
+      [
+       "3-4-2-1",
+       5,
+       2
+      ],
+      [
+       "3-4-3",
+       5,
+       2
+      ],
+      [
+       "4-3-3",
+       6,
+       2
+      ],
+      [
+       "3-1-4-2",
+       6,
+       1
+      ],
+      [
+       "4-2-3-1",
+       5,
+       1
+      ]
+     ]
+    },
+    {
      "player_id": 973737,
      "nome": "B. Fuchs",
      "nome_completo": "Bruno Fuchs",
@@ -2378,6 +2425,48 @@
       [
        "3-4-3",
        4,
+       1
+      ]
+     ]
+    },
+    {
+     "player_id": 270287,
+     "nome": "Deyverson",
+     "nome_completo": "Deyverson",
+     "posicao": "F",
+     "camisa": 9,
+     "jogos": 21,
+     "minutos": 1232,
+     "overall": 77,
+     "eixos": {
+      "RIT": 78,
+      "FIN": 75,
+      "PAS": 62,
+      "DRI": 69,
+      "DEF": 39,
+      "FIS": 81
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.488,
+     "recentes": [
+      [
+       "3-4-2-1",
+       10,
+       2
+      ],
+      [
+       "3-4-3",
+       9,
+       2
+      ],
+      [
+       "3-1-4-2",
+       10,
+       1
+      ],
+      [
+       "4-3-3",
+       9,
        1
       ]
      ]
@@ -2531,53 +2620,6 @@
      ]
     },
     {
-     "player_id": 930690,
-     "nome": "F. Vera",
-     "nome_completo": "Fausto Vera",
-     "posicao": "M",
-     "camisa": 18,
-     "jogos": 26,
-     "minutos": 1873,
-     "overall": 74,
-     "eixos": {
-      "RIT": 67,
-      "FIN": 68,
-      "PAS": 74,
-      "DRI": 75,
-      "DEF": 76,
-      "FIS": 75
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.533,
-     "recentes": [
-      [
-       "3-4-2-1",
-       5,
-       2
-      ],
-      [
-       "3-4-3",
-       5,
-       2
-      ],
-      [
-       "4-3-3",
-       6,
-       2
-      ],
-      [
-       "3-1-4-2",
-       6,
-       1
-      ],
-      [
-       "4-2-3-1",
-       5,
-       1
-      ]
-     ]
-    },
-    {
      "player_id": 913598,
      "nome": "I. Gomes",
      "nome_completo": "Igor Gomes",
@@ -2615,48 +2657,6 @@
       [
        "4-3-3",
        5,
-       1
-      ]
-     ]
-    },
-    {
-     "player_id": 270287,
-     "nome": "Deyverson",
-     "nome_completo": "Deyverson",
-     "posicao": "F",
-     "camisa": 9,
-     "jogos": 21,
-     "minutos": 1232,
-     "overall": 73,
-     "eixos": {
-      "RIT": 74,
-      "FIN": 71,
-      "PAS": 60,
-      "DRI": 66,
-      "DEF": 38,
-      "FIS": 77
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.488,
-     "recentes": [
-      [
-       "3-4-2-1",
-       10,
-       2
-      ],
-      [
-       "3-4-3",
-       9,
-       2
-      ],
-      [
-       "3-1-4-2",
-       10,
-       1
-      ],
-      [
-       "4-3-3",
-       9,
        1
       ]
      ]
@@ -6084,6 +6084,38 @@
      ]
     },
     {
+     "player_id": 358166,
+     "nome": "A. Santana",
+     "nome_completo": "Alex Santana",
+     "posicao": "M",
+     "camisa": 80,
+     "jogos": 16,
+     "minutos": 677,
+     "overall": 72,
+     "eixos": {
+      "RIT": 67,
+      "FIN": 64,
+      "PAS": 70,
+      "DRI": 77,
+      "DEF": 68,
+      "FIS": 73
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.503,
+     "recentes": [
+      [
+       "3-4-1-2",
+       6,
+       1
+      ],
+      [
+       "4-3-1-2",
+       5,
+       1
+      ]
+     ]
+    },
+    {
      "player_id": 979325,
      "nome": "J. Martínez",
      "nome_completo": "José Martínez",
@@ -6185,38 +6217,6 @@
       [
        "4-3-1-2",
        1,
-       1
-      ]
-     ]
-    },
-    {
-     "player_id": 358166,
-     "nome": "A. Santana",
-     "nome_completo": "Alex Santana",
-     "posicao": "M",
-     "camisa": 80,
-     "jogos": 16,
-     "minutos": 677,
-     "overall": 71,
-     "eixos": {
-      "RIT": 67,
-      "FIN": 64,
-      "PAS": 69,
-      "DRI": 76,
-      "DEF": 67,
-      "FIS": 72
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.503,
-     "recentes": [
-      [
-       "3-4-1-2",
-       6,
-       1
-      ],
-      [
-       "4-3-1-2",
-       5,
        1
       ]
      ]
@@ -7161,6 +7161,43 @@
      ]
     },
     {
+     "player_id": 859083,
+     "nome": "Dudu",
+     "nome_completo": "Dudu",
+     "posicao": "D",
+     "camisa": 20,
+     "jogos": 18,
+     "minutos": 771,
+     "overall": 69,
+     "eixos": {
+      "RIT": 66,
+      "FIN": 43,
+      "PAS": 72,
+      "DRI": 60,
+      "DEF": 70,
+      "FIS": 69
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.804,
+     "recentes": [
+      [
+       "4-3-1-2",
+       1,
+       2
+      ],
+      [
+       "3-5-2",
+       4,
+       1
+      ],
+      [
+       "4-2-3-1",
+       1,
+       1
+      ]
+     ]
+    },
+    {
      "player_id": 973845,
      "nome": "H. Meritão",
      "nome_completo": "Higor Meritão",
@@ -7351,43 +7388,6 @@
       [
        "5-4-1",
        0,
-       1
-      ]
-     ]
-    },
-    {
-     "player_id": 859083,
-     "nome": "Dudu",
-     "nome_completo": "Dudu",
-     "posicao": "D",
-     "camisa": 20,
-     "jogos": 18,
-     "minutos": 771,
-     "overall": 65,
-     "eixos": {
-      "RIT": 63,
-      "FIN": 42,
-      "PAS": 68,
-      "DRI": 58,
-      "DEF": 66,
-      "FIS": 65
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.804,
-     "recentes": [
-      [
-       "4-3-1-2",
-       1,
-       2
-      ],
-      [
-       "3-5-2",
-       4,
-       1
-      ],
-      [
-       "4-2-3-1",
-       1,
        1
       ]
      ]
@@ -7867,6 +7867,37 @@
      ]
     },
     {
+     "player_id": 27756,
+     "nome": "Cássio",
+     "nome_completo": "Cássio",
+     "posicao": "G",
+     "camisa": 1,
+     "jogos": 24,
+     "minutos": 2160,
+     "overall": 80,
+     "eixos": {
+      "REF": 88,
+      "EVI": 65,
+      "MAO": 64,
+      "PES": 90,
+      "SAI": 65
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.5,
+     "recentes": [
+      [
+       "4-2-3-1",
+       0,
+       7
+      ],
+      [
+       "4-3-2-1",
+       0,
+       1
+      ]
+     ]
+    },
+    {
      "player_id": 263477,
      "nome": "L. Romero",
      "nome_completo": "Lucas Romero",
@@ -8015,37 +8046,6 @@
       [
        "4-4-1-1",
        9,
-       1
-      ]
-     ]
-    },
-    {
-     "player_id": 27756,
-     "nome": "Cássio",
-     "nome_completo": "Cássio",
-     "posicao": "G",
-     "camisa": 1,
-     "jogos": 24,
-     "minutos": 2160,
-     "overall": 75,
-     "eixos": {
-      "REF": 83,
-      "EVI": 60,
-      "MAO": 60,
-      "PES": 85,
-      "SAI": 62
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.5,
-     "recentes": [
-      [
-       "4-2-3-1",
-       0,
-       7
-      ],
-      [
-       "4-3-2-1",
-       0,
        1
       ]
      ]
@@ -13262,6 +13262,48 @@
      ]
     },
     {
+     "player_id": 328519,
+     "nome": "Jemerson",
+     "nome_completo": "Jemerson",
+     "posicao": "D",
+     "camisa": 28,
+     "jogos": 16,
+     "minutos": 1349,
+     "overall": 73,
+     "eixos": {
+      "RIT": 66,
+      "FIN": 46,
+      "PAS": 58,
+      "DRI": 55,
+      "DEF": 79,
+      "FIS": 76
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.403,
+     "recentes": [
+      [
+       "4-2-3-1",
+       3,
+       6
+      ],
+      [
+       "4-3-3",
+       3,
+       1
+      ],
+      [
+       "4-4-1-1",
+       3,
+       1
+      ],
+      [
+       "4-4-2",
+       3,
+       1
+      ]
+     ]
+    },
+    {
      "player_id": 358956,
      "nome": "C. Pavón",
      "nome_completo": "Cristian Pavón",
@@ -13625,48 +13667,6 @@
       [
        "4-4-1-1",
        5,
-       1
-      ]
-     ]
-    },
-    {
-     "player_id": 328519,
-     "nome": "Jemerson",
-     "nome_completo": "Jemerson",
-     "posicao": "D",
-     "camisa": 28,
-     "jogos": 16,
-     "minutos": 1349,
-     "overall": 69,
-     "eixos": {
-      "RIT": 62,
-      "FIN": 45,
-      "PAS": 55,
-      "DRI": 53,
-      "DEF": 75,
-      "FIS": 72
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.403,
-     "recentes": [
-      [
-       "4-2-3-1",
-       3,
-       6
-      ],
-      [
-       "4-3-3",
-       3,
-       1
-      ],
-      [
-       "4-4-1-1",
-       3,
-       1
-      ],
-      [
-       "4-4-2",
-       3,
        1
       ]
      ]
@@ -16420,6 +16420,38 @@
      ]
     },
     {
+     "player_id": 986233,
+     "nome": "Mauricio",
+     "nome_completo": "Mauricio",
+     "posicao": "M",
+     "camisa": 18,
+     "jogos": 25,
+     "minutos": 1515,
+     "overall": 81,
+     "eixos": {
+      "RIT": 81,
+      "FIN": 84,
+      "PAS": 73,
+      "DRI": 82,
+      "DEF": 48,
+      "FIS": 77
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.555,
+     "recentes": [
+      [
+       "4-2-3-1",
+       8,
+       3
+      ],
+      [
+       "4-2-3-1",
+       9,
+       1
+      ]
+     ]
+    },
+    {
      "player_id": 152276,
      "nome": "F. Anderson",
      "nome_completo": "Felipe Anderson",
@@ -16447,38 +16479,6 @@
       [
        "4-2-3-1",
        7,
-       1
-      ]
-     ]
-    },
-    {
-     "player_id": 986233,
-     "nome": "Mauricio",
-     "nome_completo": "Mauricio",
-     "posicao": "M",
-     "camisa": 18,
-     "jogos": 25,
-     "minutos": 1515,
-     "overall": 79,
-     "eixos": {
-      "RIT": 79,
-      "FIN": 82,
-      "PAS": 72,
-      "DRI": 80,
-      "DEF": 47,
-      "FIS": 75
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.555,
-     "recentes": [
-      [
-       "4-2-3-1",
-       8,
-       3
-      ],
-      [
-       "4-2-3-1",
-       9,
        1
       ]
      ]
@@ -17074,6 +17074,43 @@
      ]
     },
     {
+     "player_id": 1167069,
+     "nome": "Jhon Jhon",
+     "nome_completo": "Jhon Jhon",
+     "posicao": "M",
+     "camisa": 6,
+     "jogos": 21,
+     "minutos": 1311,
+     "overall": 76,
+     "eixos": {
+      "RIT": 71,
+      "FIN": 69,
+      "PAS": 77,
+      "DRI": 82,
+      "DEF": 57,
+      "FIS": 65
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.36,
+     "recentes": [
+      [
+       "4-2-3-1",
+       8,
+       4
+      ],
+      [
+       "4-2-3-1",
+       9,
+       3
+      ],
+      [
+       "4-2-3-1",
+       7,
+       1
+      ]
+     ]
+    },
+    {
      "player_id": 844576,
      "nome": "Cleiton",
      "nome_completo": "Cleiton",
@@ -17416,43 +17453,6 @@
      "sem_nota_por": null,
      "x_medio": 0.744,
      "recentes": []
-    },
-    {
-     "player_id": 1167069,
-     "nome": "Jhon Jhon",
-     "nome_completo": "Jhon Jhon",
-     "posicao": "M",
-     "camisa": 6,
-     "jogos": 21,
-     "minutos": 1311,
-     "overall": 71,
-     "eixos": {
-      "RIT": 66,
-      "FIN": 66,
-      "PAS": 72,
-      "DRI": 77,
-      "DEF": 56,
-      "FIS": 63
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.36,
-     "recentes": [
-      [
-       "4-2-3-1",
-       8,
-       4
-      ],
-      [
-       "4-2-3-1",
-       9,
-       3
-      ],
-      [
-       "4-2-3-1",
-       7,
-       1
-      ]
-     ]
     },
     {
      "player_id": 840150,
@@ -20312,6 +20312,80 @@
      ]
     },
     {
+     "player_id": 840247,
+     "nome": "Neris",
+     "nome_completo": "Neris",
+     "posicao": "D",
+     "camisa": 77,
+     "jogos": 22,
+     "minutos": 1672,
+     "overall": 78,
+     "eixos": {
+      "RIT": 73,
+      "FIN": 42,
+      "PAS": 66,
+      "DRI": 64,
+      "DEF": 83,
+      "FIS": 81
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.58,
+     "recentes": [
+      [
+       "4-2-3-1",
+       2,
+       4
+      ],
+      [
+       "5-3-2",
+       3,
+       3
+      ],
+      [
+       "5-4-1",
+       3,
+       1
+      ]
+     ]
+    },
+    {
+     "player_id": 863283,
+     "nome": "G. Silva",
+     "nome_completo": "Gustavo Silva",
+     "posicao": "M",
+     "camisa": 7,
+     "jogos": 22,
+     "minutos": 1144,
+     "overall": 76,
+     "eixos": {
+      "RIT": 79,
+      "FIN": 73,
+      "PAS": 72,
+      "DRI": 79,
+      "DEF": 58,
+      "FIS": 62
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.75,
+     "recentes": [
+      [
+       "4-2-3-1",
+       7,
+       5
+      ],
+      [
+       "4-3-3",
+       8,
+       1
+      ],
+      [
+       "5-3-2",
+       6,
+       1
+      ]
+     ]
+    },
+    {
      "player_id": 868076,
      "nome": "W. Lepo",
      "nome_completo": "Willean Lepo",
@@ -20371,6 +20445,38 @@
      ]
     },
     {
+     "player_id": 844601,
+     "nome": "Filipe Machado",
+     "nome_completo": "Filipe Machado",
+     "posicao": "M",
+     "camisa": 36,
+     "jogos": 24,
+     "minutos": 989,
+     "overall": 74,
+     "eixos": {
+      "RIT": 68,
+      "FIN": 57,
+      "PAS": 71,
+      "DRI": 79,
+      "DEF": 75,
+      "FIS": 68
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.385,
+     "recentes": [
+      [
+       "4-2-3-1",
+       6,
+       1
+      ],
+      [
+       "4-3-3",
+       5,
+       1
+      ]
+     ]
+    },
+    {
      "player_id": 122971,
      "nome": "R. Cáceres",
      "nome_completo": "Raúl Cáceres",
@@ -20408,43 +20514,6 @@
       [
        "5-4-1",
        1,
-       1
-      ]
-     ]
-    },
-    {
-     "player_id": 840247,
-     "nome": "Neris",
-     "nome_completo": "Neris",
-     "posicao": "D",
-     "camisa": 77,
-     "jogos": 22,
-     "minutos": 1672,
-     "overall": 73,
-     "eixos": {
-      "RIT": 68,
-      "FIN": 40,
-      "PAS": 63,
-      "DRI": 62,
-      "DEF": 78,
-      "FIS": 76
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.58,
-     "recentes": [
-      [
-       "4-2-3-1",
-       2,
-       4
-      ],
-      [
-       "5-3-2",
-       3,
-       3
-      ],
-      [
-       "5-4-1",
-       3,
        1
       ]
      ]
@@ -20565,43 +20634,6 @@
      ]
     },
     {
-     "player_id": 863283,
-     "nome": "G. Silva",
-     "nome_completo": "Gustavo Silva",
-     "posicao": "M",
-     "camisa": 7,
-     "jogos": 22,
-     "minutos": 1144,
-     "overall": 71,
-     "eixos": {
-      "RIT": 74,
-      "FIN": 68,
-      "PAS": 68,
-      "DRI": 74,
-      "DEF": 57,
-      "FIS": 60
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.75,
-     "recentes": [
-      [
-       "4-2-3-1",
-       7,
-       5
-      ],
-      [
-       "4-3-3",
-       8,
-       1
-      ],
-      [
-       "5-3-2",
-       6,
-       1
-      ]
-     ]
-    },
-    {
      "player_id": 1101061,
      "nome": "L. Naldi",
      "nome_completo": "Leo Naldi",
@@ -20621,38 +20653,6 @@
      "sem_nota_por": null,
      "x_medio": 0.464,
      "recentes": []
-    },
-    {
-     "player_id": 844601,
-     "nome": "Filipe Machado",
-     "nome_completo": "Filipe Machado",
-     "posicao": "M",
-     "camisa": 36,
-     "jogos": 24,
-     "minutos": 989,
-     "overall": 71,
-     "eixos": {
-      "RIT": 66,
-      "FIN": 56,
-      "PAS": 68,
-      "DRI": 76,
-      "DEF": 72,
-      "FIS": 66
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.385,
-     "recentes": [
-      [
-       "4-2-3-1",
-       6,
-       1
-      ],
-      [
-       "4-3-3",
-       5,
-       1
-      ]
-     ]
     },
     {
      "player_id": 795295,

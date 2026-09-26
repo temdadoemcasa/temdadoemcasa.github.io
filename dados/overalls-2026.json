@@ -5,7 +5,7 @@
   "tijolo": 82,
   "grafeno": 86
  },
- "gerado_em": "2026-09-25T22:31:15+00:00",
+ "gerado_em": "2026-09-26T00:29:42+00:00",
  "populacao": "Brasileirão",
  "piso_minutos": 450,
  "jogos_com_placar": 277,
@@ -241,6 +241,33 @@
      ]
     },
     {
+     "player_id": 261687,
+     "nome": "Gilberto",
+     "nome_completo": "Gilberto",
+     "posicao": "D",
+     "camisa": 12,
+     "jogos": 15,
+     "minutos": 1108,
+     "overall": 82,
+     "eixos": {
+      "RIT": 85,
+      "FIN": 52,
+      "PAS": 82,
+      "DRI": 70,
+      "DEF": 83,
+      "FIS": 77
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.8,
+     "recentes": [
+      [
+       "3-4-2-1",
+       4,
+       7
+      ]
+     ]
+    },
+    {
      "player_id": 925173,
      "nome": "J. F. Aguirre",
      "nome_completo": "Juan Felipe Aguirre",
@@ -350,33 +377,6 @@
        "3-4-2-1",
        5,
        10
-      ]
-     ]
-    },
-    {
-     "player_id": 261687,
-     "nome": "Gilberto",
-     "nome_completo": "Gilberto",
-     "posicao": "D",
-     "camisa": 12,
-     "jogos": 15,
-     "minutos": 1108,
-     "overall": 78,
-     "eixos": {
-      "RIT": 81,
-      "FIN": 51,
-      "PAS": 78,
-      "DRI": 68,
-      "DEF": 79,
-      "FIS": 74
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.8,
-     "recentes": [
-      [
-       "3-4-2-1",
-       4,
-       7
       ]
      ]
     },
@@ -2486,26 +2486,6 @@
      ]
     },
     {
-     "player_id": 166279,
-     "nome": "L. Vieira",
-     "nome_completo": "Léo Vieira",
-     "posicao": "G",
-     "camisa": 22,
-     "jogos": 16,
-     "minutos": 1394,
-     "overall": 76,
-     "eixos": {
-      "REF": 72,
-      "EVI": 72,
-      "MAO": 70,
-      "PES": 79,
-      "SAI": 80
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.5,
-     "recentes": []
-    },
-    {
      "player_id": 1807816,
      "nome": "R. Gómez",
      "nome_completo": "Román Gómez",
@@ -2588,6 +2568,26 @@
        1
       ]
      ]
+    },
+    {
+     "player_id": 166279,
+     "nome": "L. Vieira",
+     "nome_completo": "Léo Vieira",
+     "posicao": "G",
+     "camisa": 22,
+     "jogos": 16,
+     "minutos": 1394,
+     "overall": 74,
+     "eixos": {
+      "REF": 70,
+      "EVI": 70,
+      "MAO": 70,
+      "PES": 77,
+      "SAI": 78
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.5,
+     "recentes": []
     },
     {
      "player_id": 386212,
@@ -3126,6 +3126,48 @@
      ]
     },
     {
+     "player_id": 881215,
+     "nome": "N. Ferraresi",
+     "nome_completo": "Nahuel Ferraresi",
+     "posicao": "D",
+     "camisa": 5,
+     "jogos": 23,
+     "minutos": 1757,
+     "overall": 79,
+     "eixos": {
+      "RIT": 70,
+      "FIN": 51,
+      "PAS": 63,
+      "DRI": 57,
+      "DEF": 90,
+      "FIS": 80
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.574,
+     "recentes": [
+      [
+       "4-2-3-1",
+       2,
+       3
+      ],
+      [
+       "4-2-3-1",
+       3,
+       2
+      ],
+      [
+       "4-4-2",
+       2,
+       2
+      ],
+      [
+       "3-4-2-1",
+       1,
+       1
+      ]
+     ]
+    },
+    {
      "player_id": 1064039,
      "nome": "D. Santos",
      "nome_completo": "Danilo Santos",
@@ -3168,48 +3210,6 @@
       [
        "4-2-3-1",
        8,
-       1
-      ]
-     ]
-    },
-    {
-     "player_id": 881215,
-     "nome": "N. Ferraresi",
-     "nome_completo": "Nahuel Ferraresi",
-     "posicao": "D",
-     "camisa": 5,
-     "jogos": 23,
-     "minutos": 1757,
-     "overall": 78,
-     "eixos": {
-      "RIT": 69,
-      "FIN": 51,
-      "PAS": 62,
-      "DRI": 56,
-      "DEF": 89,
-      "FIS": 79
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.574,
-     "recentes": [
-      [
-       "4-2-3-1",
-       2,
-       3
-      ],
-      [
-       "4-2-3-1",
-       3,
-       2
-      ],
-      [
-       "4-4-2",
-       2,
-       2
-      ],
-      [
-       "3-4-2-1",
-       1,
        1
       ]
      ]
@@ -3286,12 +3286,12 @@
      "camisa": 88,
      "jogos": 21,
      "minutos": 981,
-     "overall": 72,
+     "overall": 73,
      "eixos": {
-      "RIT": 74,
-      "FIN": 69,
-      "PAS": 70,
-      "DRI": 75,
+      "RIT": 75,
+      "FIN": 70,
+      "PAS": 71,
+      "DRI": 76,
       "DEF": 58,
       "FIS": 68
      },
@@ -12516,6 +12516,48 @@
      ]
     },
     {
+     "player_id": 922601,
+     "nome": "Wallisson Luiz",
+     "nome_completo": "Wallisson Luiz",
+     "posicao": "M",
+     "camisa": 80,
+     "jogos": 18,
+     "minutos": 733,
+     "overall": 73,
+     "eixos": {
+      "RIT": 72,
+      "FIN": 57,
+      "PAS": 61,
+      "DRI": 64,
+      "DEF": 78,
+      "FIS": 71
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.606,
+     "recentes": [
+      [
+       "4-1-4-1",
+       7,
+       1
+      ],
+      [
+       "4-2-3-1",
+       5,
+       1
+      ],
+      [
+       "4-2-3-1",
+       7,
+       1
+      ],
+      [
+       "4-3-3",
+       6,
+       1
+      ]
+     ]
+    },
+    {
      "player_id": 874723,
      "nome": "Shaylon",
      "nome_completo": "Shaylon",
@@ -12648,48 +12690,6 @@
       [
        "4-1-4-1",
        10,
-       1
-      ]
-     ]
-    },
-    {
-     "player_id": 922601,
-     "nome": "Wallisson Luiz",
-     "nome_completo": "Wallisson Luiz",
-     "posicao": "M",
-     "camisa": 80,
-     "jogos": 18,
-     "minutos": 733,
-     "overall": 71,
-     "eixos": {
-      "RIT": 70,
-      "FIN": 57,
-      "PAS": 60,
-      "DRI": 63,
-      "DEF": 76,
-      "FIS": 69
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.606,
-     "recentes": [
-      [
-       "4-1-4-1",
-       7,
-       1
-      ],
-      [
-       "4-2-3-1",
-       5,
-       1
-      ],
-      [
-       "4-2-3-1",
-       7,
-       1
-      ],
-      [
-       "4-3-3",
-       6,
        1
       ]
      ]
@@ -13663,48 +13663,6 @@
      ]
     },
     {
-     "player_id": 801044,
-     "nome": "A. Barboza",
-     "nome_completo": "Alexander Barboza",
-     "posicao": "D",
-     "camisa": 2,
-     "jogos": 18,
-     "minutos": 1514,
-     "overall": 83,
-     "eixos": {
-      "RIT": 73,
-      "FIN": 51,
-      "PAS": 76,
-      "DRI": 61,
-      "DEF": 91,
-      "FIS": 85
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.333,
-     "recentes": [
-      [
-       "3-4-1-2",
-       3,
-       3
-      ],
-      [
-       "3-4-2-1",
-       3,
-       1
-      ],
-      [
-       "4-2-2-2",
-       3,
-       1
-      ],
-      [
-       "4-2-3-1",
-       3,
-       1
-      ]
-     ]
-    },
-    {
      "player_id": 881110,
      "nome": "J. Piquerez",
      "nome_completo": "Joaquín Piquerez",
@@ -13747,6 +13705,48 @@
       [
        "4-4-2",
        4,
+       1
+      ]
+     ]
+    },
+    {
+     "player_id": 801044,
+     "nome": "A. Barboza",
+     "nome_completo": "Alexander Barboza",
+     "posicao": "D",
+     "camisa": 2,
+     "jogos": 18,
+     "minutos": 1514,
+     "overall": 82,
+     "eixos": {
+      "RIT": 72,
+      "FIN": 51,
+      "PAS": 75,
+      "DRI": 60,
+      "DEF": 90,
+      "FIS": 84
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.333,
+     "recentes": [
+      [
+       "3-4-1-2",
+       3,
+       3
+      ],
+      [
+       "3-4-2-1",
+       3,
+       1
+      ],
+      [
+       "4-2-2-2",
+       3,
+       1
+      ],
+      [
+       "4-2-3-1",
+       3,
        1
       ]
      ]
@@ -15260,6 +15260,43 @@
    "momento": -2,
    "jogadores": [
     {
+     "player_id": 883207,
+     "nome": "A. Galeano",
+     "nome_completo": "Antonio Galeano",
+     "posicao": "F",
+     "camisa": 21,
+     "jogos": 17,
+     "minutos": 690,
+     "overall": 76,
+     "eixos": {
+      "RIT": 81,
+      "FIN": 74,
+      "PAS": 60,
+      "DRI": 73,
+      "DEF": 37,
+      "FIS": 76
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.508,
+     "recentes": [
+      [
+       "4-2-3-1",
+       9,
+       2
+      ],
+      [
+       "3-4-3",
+       8,
+       1
+      ],
+      [
+       "4-1-4-1",
+       6,
+       1
+      ]
+     ]
+    },
+    {
      "player_id": 954719,
      "nome": "A. Manga",
      "nome_completo": "Alef Manga",
@@ -15797,43 +15834,6 @@
      ]
     },
     {
-     "player_id": 883207,
-     "nome": "A. Galeano",
-     "nome_completo": "Antonio Galeano",
-     "posicao": "F",
-     "camisa": 21,
-     "jogos": 17,
-     "minutos": 690,
-     "overall": 68,
-     "eixos": {
-      "RIT": 73,
-      "FIN": 68,
-      "PAS": 56,
-      "DRI": 65,
-      "DEF": 35,
-      "FIS": 68
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.508,
-     "recentes": [
-      [
-       "4-2-3-1",
-       9,
-       2
-      ],
-      [
-       "3-4-3",
-       8,
-       1
-      ],
-      [
-       "4-1-4-1",
-       6,
-       1
-      ]
-     ]
-    },
-    {
      "player_id": 844602,
      "nome": "Z. Ivaldo",
      "nome_completo": "Zé Ivaldo",
@@ -15841,14 +15841,14 @@
      "camisa": 27,
      "jogos": 10,
      "minutos": 808,
-     "overall": 66,
+     "overall": 69,
      "eixos": {
-      "RIT": 58,
+      "RIT": 61,
       "FIN": 49,
-      "PAS": 54,
-      "DRI": 51,
-      "DEF": 76,
-      "FIS": 66
+      "PAS": 56,
+      "DRI": 53,
+      "DEF": 79,
+      "FIS": 69
      },
      "sem_nota_por": null,
      "x_medio": 0.539,
@@ -17946,6 +17946,38 @@
      ]
     },
     {
+     "player_id": 869644,
+     "nome": "I. Borduchi",
+     "nome_completo": "Iago Borduchi",
+     "posicao": "D",
+     "camisa": 12,
+     "jogos": 10,
+     "minutos": 474,
+     "overall": 78,
+     "eixos": {
+      "RIT": 84,
+      "FIN": 53,
+      "PAS": 69,
+      "DRI": 68,
+      "DEF": 77,
+      "FIS": 76
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.2,
+     "recentes": [
+      [
+       "3-4-2-1",
+       7,
+       2
+      ],
+      [
+       "4-2-3-1",
+       4,
+       1
+      ]
+     ]
+    },
+    {
      "player_id": 797225,
      "nome": "L. Ramon",
      "nome_completo": "Lucas Ramon",
@@ -18235,38 +18267,6 @@
      ]
     },
     {
-     "player_id": 869644,
-     "nome": "I. Borduchi",
-     "nome_completo": "Iago Borduchi",
-     "posicao": "D",
-     "camisa": 12,
-     "jogos": 10,
-     "minutos": 474,
-     "overall": 71,
-     "eixos": {
-      "RIT": 77,
-      "FIN": 52,
-      "PAS": 64,
-      "DRI": 64,
-      "DEF": 70,
-      "FIS": 69
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.2,
-     "recentes": [
-      [
-       "3-4-2-1",
-       7,
-       2
-      ],
-      [
-       "4-2-3-1",
-       4,
-       1
-      ]
-     ]
-    },
-    {
      "player_id": 1463909,
      "nome": "Newton",
      "nome_completo": "Newton",
@@ -18274,14 +18274,14 @@
      "camisa": 28,
      "jogos": 10,
      "minutos": 593,
-     "overall": 69,
+     "overall": 70,
      "eixos": {
-      "RIT": 70,
+      "RIT": 71,
       "FIN": 43,
-      "PAS": 60,
-      "DRI": 56,
-      "DEF": 74,
-      "FIS": 67
+      "PAS": 61,
+      "DRI": 57,
+      "DEF": 75,
+      "FIS": 68
      },
      "sem_nota_por": null,
      "x_medio": 0.569,

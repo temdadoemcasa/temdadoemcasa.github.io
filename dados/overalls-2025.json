@@ -5,7 +5,7 @@
   "tijolo": 79,
   "grafeno": 85
  },
- "gerado_em": "2026-09-25T00:13:21+00:00",
+ "gerado_em": "2026-09-26T00:28:54+00:00",
  "populacao": "Brasileirão",
  "piso_minutos": 450,
  "jogos_com_placar": 380,
@@ -246,6 +246,43 @@
      ]
     },
     {
+     "player_id": 914487,
+     "nome": "Ruan",
+     "nome_completo": "Ruan",
+     "posicao": "D",
+     "camisa": 16,
+     "jogos": 16,
+     "minutos": 1171,
+     "overall": 79,
+     "eixos": {
+      "RIT": 69,
+      "FIN": 41,
+      "PAS": 58,
+      "DRI": 61,
+      "DEF": 91,
+      "FIS": 80
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.582,
+     "recentes": [
+      [
+       "3-4-2-1",
+       1,
+       2
+      ],
+      [
+       "3-4-2-1",
+       2,
+       2
+      ],
+      [
+       "3-4-2-1",
+       3,
+       1
+      ]
+     ]
+    },
+    {
      "player_id": 559036,
      "nome": "G. Scarpa",
      "nome_completo": "Gustavo Scarpa",
@@ -450,14 +487,14 @@
      "camisa": 92,
      "jogos": 23,
      "minutos": 1282,
-     "overall": 73,
+     "overall": 75,
      "eixos": {
-      "RIT": 74,
-      "FIN": 71,
-      "PAS": 71,
-      "DRI": 76,
-      "DEF": 31,
-      "FIS": 60
+      "RIT": 76,
+      "FIN": 72,
+      "PAS": 73,
+      "DRI": 78,
+      "DEF": 32,
+      "FIS": 61
      },
      "sem_nota_por": null,
      "x_medio": 0.37,
@@ -572,43 +609,6 @@
        "3-4-2-1",
        7,
        2
-      ]
-     ]
-    },
-    {
-     "player_id": 914487,
-     "nome": "Ruan",
-     "nome_completo": "Ruan",
-     "posicao": "D",
-     "camisa": 16,
-     "jogos": 16,
-     "minutos": 1171,
-     "overall": 72,
-     "eixos": {
-      "RIT": 62,
-      "FIN": 39,
-      "PAS": 54,
-      "DRI": 56,
-      "DEF": 84,
-      "FIS": 73
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.582,
-     "recentes": [
-      [
-       "3-4-2-1",
-       1,
-       2
-      ],
-      [
-       "3-4-2-1",
-       2,
-       2
-      ],
-      [
-       "3-4-2-1",
-       3,
-       1
       ]
      ]
     },
@@ -3569,6 +3569,33 @@
      ]
     },
     {
+     "player_id": 1174206,
+     "nome": "P. Baya",
+     "nome_completo": "Paulo Baya",
+     "posicao": "F",
+     "camisa": 17,
+     "jogos": 19,
+     "minutos": 482,
+     "overall": 68,
+     "eixos": {
+      "RIT": 73,
+      "FIN": 63,
+      "PAS": 59,
+      "DRI": 72,
+      "DEF": 30,
+      "FIS": 60
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.375,
+     "recentes": [
+      [
+       "4-3-3",
+       8,
+       1
+      ]
+     ]
+    },
+    {
      "player_id": 1174196,
      "nome": "M. Victor",
      "nome_completo": "Marcos Victor",
@@ -3620,33 +3647,6 @@
      "sem_nota_por": null,
      "x_medio": 0.312,
      "recentes": []
-    },
-    {
-     "player_id": 1174206,
-     "nome": "P. Baya",
-     "nome_completo": "Paulo Baya",
-     "posicao": "F",
-     "camisa": 17,
-     "jogos": 19,
-     "minutos": 482,
-     "overall": 67,
-     "eixos": {
-      "RIT": 72,
-      "FIN": 62,
-      "PAS": 58,
-      "DRI": 71,
-      "DEF": 29,
-      "FIS": 60
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.375,
-     "recentes": [
-      [
-       "4-3-3",
-       8,
-       1
-      ]
-     ]
     },
     {
      "player_id": 973841,
@@ -7695,33 +7695,6 @@
      "recentes": []
     },
     {
-     "player_id": 789960,
-     "nome": "Y. Soteldo",
-     "nome_completo": "Yeferson Soteldo",
-     "posicao": "F",
-     "camisa": 7,
-     "jogos": 22,
-     "minutos": 821,
-     "overall": 74,
-     "eixos": {
-      "RIT": 74,
-      "FIN": 68,
-      "PAS": 69,
-      "DRI": 81,
-      "DEF": 36,
-      "FIS": 59
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.242,
-     "recentes": [
-      [
-       "4-2-3-1",
-       9,
-       1
-      ]
-     ]
-    },
-    {
      "player_id": 807850,
      "nome": "Lima",
      "nome_completo": "Lima",
@@ -7781,6 +7754,33 @@
       [
        "4-1-4-1",
        8,
+       1
+      ]
+     ]
+    },
+    {
+     "player_id": 789960,
+     "nome": "Y. Soteldo",
+     "nome_completo": "Yeferson Soteldo",
+     "posicao": "F",
+     "camisa": 7,
+     "jogos": 22,
+     "minutos": 821,
+     "overall": 73,
+     "eixos": {
+      "RIT": 73,
+      "FIN": 68,
+      "PAS": 68,
+      "DRI": 80,
+      "DEF": 36,
+      "FIS": 59
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.242,
+     "recentes": [
+      [
+       "4-2-3-1",
+       9,
        1
       ]
      ]
@@ -9226,14 +9226,14 @@
      "camisa": 23,
      "jogos": 32,
      "minutos": 2774,
-     "overall": 81,
+     "overall": 82,
      "eixos": {
-      "RIT": 86,
+      "RIT": 87,
       "FIN": 50,
-      "PAS": 74,
-      "DRI": 70,
-      "DEF": 85,
-      "FIS": 64
+      "PAS": 75,
+      "DRI": 71,
+      "DEF": 86,
+      "FIS": 65
      },
      "sem_nota_por": null,
      "x_medio": 0.2,
@@ -9357,6 +9357,38 @@
       [
        "4-3-3",
        8,
+       1
+      ]
+     ]
+    },
+    {
+     "player_id": 82576,
+     "nome": "M. Rocha",
+     "nome_completo": "Marcos Rocha",
+     "posicao": "D",
+     "camisa": 14,
+     "jogos": 13,
+     "minutos": 1053,
+     "overall": 77,
+     "eixos": {
+      "RIT": 67,
+      "FIN": 43,
+      "PAS": 73,
+      "DRI": 60,
+      "DEF": 91,
+      "FIS": 70
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.8,
+     "recentes": [
+      [
+       "4-2-3-1",
+       1,
+       5
+      ],
+      [
+       "4-1-4-1",
+       1,
        1
       ]
      ]
@@ -9640,38 +9672,6 @@
      "sem_nota_por": null,
      "x_medio": 0.586,
      "recentes": []
-    },
-    {
-     "player_id": 82576,
-     "nome": "M. Rocha",
-     "nome_completo": "Marcos Rocha",
-     "posicao": "D",
-     "camisa": 14,
-     "jogos": 13,
-     "minutos": 1053,
-     "overall": 73,
-     "eixos": {
-      "RIT": 64,
-      "FIN": 42,
-      "PAS": 69,
-      "DRI": 58,
-      "DEF": 87,
-      "FIS": 66
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.8,
-     "recentes": [
-      [
-       "4-2-3-1",
-       1,
-       5
-      ],
-      [
-       "4-1-4-1",
-       1,
-       1
-      ]
-     ]
     },
     {
      "player_id": 1068987,
@@ -10009,14 +10009,14 @@
      "camisa": 80,
      "jogos": 11,
      "minutos": 492,
-     "overall": 69,
+     "overall": 70,
      "eixos": {
-      "RIT": 69,
+      "RIT": 70,
       "FIN": 64,
-      "PAS": 64,
-      "DRI": 70,
+      "PAS": 65,
+      "DRI": 71,
       "DEF": 64,
-      "FIS": 71
+      "FIS": 72
      },
      "sem_nota_por": null,
      "x_medio": 0.503,
@@ -12183,6 +12183,33 @@
      ]
     },
     {
+     "player_id": 1002819,
+     "nome": "G. Veron",
+     "nome_completo": "Gabriel Veron",
+     "posicao": "F",
+     "camisa": 7,
+     "jogos": 19,
+     "minutos": 768,
+     "overall": 66,
+     "eixos": {
+      "RIT": 72,
+      "FIN": 62,
+      "PAS": 56,
+      "DRI": 65,
+      "DEF": 38,
+      "FIS": 65
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.39,
+     "recentes": [
+      [
+       "3-4-3",
+       10,
+       1
+      ]
+     ]
+    },
+    {
      "player_id": 797649,
      "nome": "Giovanny",
      "nome_completo": "Giovanny",
@@ -12282,33 +12309,6 @@
      "sem_nota_por": null,
      "x_medio": 0.31,
      "recentes": []
-    },
-    {
-     "player_id": 1002819,
-     "nome": "G. Veron",
-     "nome_completo": "Gabriel Veron",
-     "posicao": "F",
-     "camisa": 7,
-     "jogos": 19,
-     "minutos": 768,
-     "overall": 65,
-     "eixos": {
-      "RIT": 71,
-      "FIN": 61,
-      "PAS": 56,
-      "DRI": 64,
-      "DEF": 37,
-      "FIS": 64
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.39,
-     "recentes": [
-      [
-       "3-4-3",
-       10,
-       1
-      ]
-     ]
     },
     {
      "player_id": 1049781,
@@ -13337,27 +13337,6 @@
      ]
     },
     {
-     "player_id": 1048612,
-     "nome": "E. Carioca",
-     "nome_completo": "Edson Carioca",
-     "posicao": "F",
-     "camisa": 95,
-     "jogos": 21,
-     "minutos": 1178,
-     "overall": 78,
-     "eixos": {
-      "RIT": 80,
-      "FIN": 76,
-      "PAS": 65,
-      "DRI": 80,
-      "DEF": 41,
-      "FIS": 64
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.333,
-     "recentes": []
-    },
-    {
      "player_id": 795295,
      "nome": "C. Eduardo",
      "nome_completo": "Carlos Eduardo",
@@ -13365,12 +13344,12 @@
      "camisa": 96,
      "jogos": 26,
      "minutos": 773,
-     "overall": 78,
+     "overall": 79,
      "eixos": {
-      "RIT": 82,
-      "FIN": 78,
-      "PAS": 67,
-      "DRI": 77,
+      "RIT": 83,
+      "FIN": 79,
+      "PAS": 68,
+      "DRI": 78,
       "DEF": 50,
       "FIS": 76
      },
@@ -13393,6 +13372,27 @@
        1
       ]
      ]
+    },
+    {
+     "player_id": 1048612,
+     "nome": "E. Carioca",
+     "nome_completo": "Edson Carioca",
+     "posicao": "F",
+     "camisa": 95,
+     "jogos": 21,
+     "minutos": 1178,
+     "overall": 78,
+     "eixos": {
+      "RIT": 80,
+      "FIN": 76,
+      "PAS": 65,
+      "DRI": 80,
+      "DEF": 41,
+      "FIS": 64
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.333,
+     "recentes": []
     },
     {
      "player_id": 866847,
@@ -15365,6 +15365,33 @@
      ]
     },
     {
+     "player_id": 1067640,
+     "nome": "Vanderlan",
+     "nome_completo": "Vanderlan",
+     "posicao": "D",
+     "camisa": 12,
+     "jogos": 17,
+     "minutos": 1253,
+     "overall": 76,
+     "eixos": {
+      "RIT": 81,
+      "FIN": 41,
+      "PAS": 68,
+      "DRI": 70,
+      "DEF": 73,
+      "FIS": 76
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.2,
+     "recentes": [
+      [
+       "4-2-3-1",
+       4,
+       3
+      ]
+     ]
+    },
+    {
      "player_id": 997239,
      "nome": "G. Rodríguez",
      "nome_completo": "Guzmán Rodríguez",
@@ -15500,33 +15527,6 @@
        "4-2-3-1",
        10,
        4
-      ]
-     ]
-    },
-    {
-     "player_id": 1067640,
-     "nome": "Vanderlan",
-     "nome_completo": "Vanderlan",
-     "posicao": "D",
-     "camisa": 12,
-     "jogos": 17,
-     "minutos": 1253,
-     "overall": 72,
-     "eixos": {
-      "RIT": 77,
-      "FIN": 40,
-      "PAS": 66,
-      "DRI": 67,
-      "DEF": 69,
-      "FIS": 72
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.2,
-     "recentes": [
-      [
-       "4-2-3-1",
-       4,
-       3
       ]
      ]
     },
@@ -16067,6 +16067,43 @@
      ]
     },
     {
+     "player_id": 992093,
+     "nome": "L. Díaz",
+     "nome_completo": "Lautaro Díaz",
+     "posicao": "F",
+     "camisa": 19,
+     "jogos": 21,
+     "minutos": 1109,
+     "overall": 79,
+     "eixos": {
+      "RIT": 83,
+      "FIN": 76,
+      "PAS": 64,
+      "DRI": 80,
+      "DEF": 39,
+      "FIS": 73
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.479,
+     "recentes": [
+      [
+       "4-2-3-1",
+       10,
+       3
+      ],
+      [
+       "4-3-3",
+       10,
+       1
+      ],
+      [
+       "5-3-2",
+       10,
+       1
+      ]
+     ]
+    },
+    {
      "player_id": 949687,
      "nome": "Á. Barreal",
      "nome_completo": "Álvaro Barreal",
@@ -16173,6 +16210,43 @@
       [
        "4-3-3",
        4,
+       1
+      ]
+     ]
+    },
+    {
+     "player_id": 840119,
+     "nome": "I. Vinícius",
+     "nome_completo": "Igor Vinícius",
+     "posicao": "D",
+     "camisa": 18,
+     "jogos": 23,
+     "minutos": 1466,
+     "overall": 76,
+     "eixos": {
+      "RIT": 84,
+      "FIN": 48,
+      "PAS": 74,
+      "DRI": 73,
+      "DEF": 72,
+      "FIS": 65
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.802,
+     "recentes": [
+      [
+       "4-2-3-1",
+       1,
+       4
+      ],
+      [
+       "4-3-3",
+       1,
+       3
+      ],
+      [
+       "5-3-2",
+       1,
        1
       ]
      ]
@@ -16389,43 +16463,6 @@
      ]
     },
     {
-     "player_id": 840119,
-     "nome": "I. Vinícius",
-     "nome_completo": "Igor Vinícius",
-     "posicao": "D",
-     "camisa": 18,
-     "jogos": 23,
-     "minutos": 1466,
-     "overall": 73,
-     "eixos": {
-      "RIT": 81,
-      "FIN": 48,
-      "PAS": 71,
-      "DRI": 70,
-      "DEF": 69,
-      "FIS": 64
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.802,
-     "recentes": [
-      [
-       "4-2-3-1",
-       1,
-       4
-      ],
-      [
-       "4-3-3",
-       1,
-       3
-      ],
-      [
-       "5-3-2",
-       1,
-       1
-      ]
-     ]
-    },
-    {
      "player_id": 789100,
      "nome": "T. Soares",
      "nome_completo": "Tiquinho Soares",
@@ -16447,43 +16484,6 @@
      "recentes": [
       [
        "4-2-3-1",
-       10,
-       1
-      ]
-     ]
-    },
-    {
-     "player_id": 992093,
-     "nome": "L. Díaz",
-     "nome_completo": "Lautaro Díaz",
-     "posicao": "F",
-     "camisa": 19,
-     "jogos": 21,
-     "minutos": 1109,
-     "overall": 73,
-     "eixos": {
-      "RIT": 77,
-      "FIN": 70,
-      "PAS": 61,
-      "DRI": 74,
-      "DEF": 38,
-      "FIS": 69
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.479,
-     "recentes": [
-      [
-       "4-2-3-1",
-       10,
-       3
-      ],
-      [
-       "4-3-3",
-       10,
-       1
-      ],
-      [
-       "5-3-2",
        10,
        1
       ]
@@ -16548,6 +16548,80 @@
      ]
     },
     {
+     "player_id": 273329,
+     "nome": "Mayke",
+     "nome_completo": "Mayke",
+     "posicao": "D",
+     "camisa": 2,
+     "jogos": 15,
+     "minutos": 1036,
+     "overall": 71,
+     "eixos": {
+      "RIT": 74,
+      "FIN": 43,
+      "PAS": 66,
+      "DRI": 57,
+      "DEF": 75,
+      "FIS": 68
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.8,
+     "recentes": [
+      [
+       "4-2-3-1",
+       1,
+       1
+      ],
+      [
+       "4-3-3",
+       1,
+       1
+      ]
+     ]
+    },
+    {
+     "player_id": 1170954,
+     "nome": "V. Hugo",
+     "nome_completo": "Victor Hugo",
+     "posicao": "M",
+     "camisa": 29,
+     "jogos": 10,
+     "minutos": 454,
+     "overall": 71,
+     "eixos": {
+      "RIT": 72,
+      "FIN": 62,
+      "PAS": 66,
+      "DRI": 65,
+      "DEF": 60,
+      "FIS": 80
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.717,
+     "recentes": [
+      [
+       "4-2-3-1",
+       7,
+       1
+      ],
+      [
+       "4-2-3-1",
+       8,
+       1
+      ],
+      [
+       "4-3-3",
+       5,
+       1
+      ],
+      [
+       "5-3-2",
+       6,
+       1
+      ]
+     ]
+    },
+    {
      "player_id": 46798,
      "nome": "T. Rincón",
      "nome_completo": "Tomás Rincón",
@@ -16567,38 +16641,6 @@
      "sem_nota_por": null,
      "x_medio": 0.57,
      "recentes": []
-    },
-    {
-     "player_id": 273329,
-     "nome": "Mayke",
-     "nome_completo": "Mayke",
-     "posicao": "D",
-     "camisa": 2,
-     "jogos": 15,
-     "minutos": 1036,
-     "overall": 69,
-     "eixos": {
-      "RIT": 72,
-      "FIN": 42,
-      "PAS": 64,
-      "DRI": 56,
-      "DEF": 73,
-      "FIS": 66
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.8,
-     "recentes": [
-      [
-       "4-2-3-1",
-       1,
-       1
-      ],
-      [
-       "4-3-3",
-       1,
-       1
-      ]
-     ]
     },
     {
      "player_id": 242213,
@@ -16652,48 +16694,6 @@
      "sem_nota_por": null,
      "x_medio": 0.6,
      "recentes": []
-    },
-    {
-     "player_id": 1170954,
-     "nome": "V. Hugo",
-     "nome_completo": "Victor Hugo",
-     "posicao": "M",
-     "camisa": 29,
-     "jogos": 10,
-     "minutos": 454,
-     "overall": 69,
-     "eixos": {
-      "RIT": 70,
-      "FIN": 61,
-      "PAS": 64,
-      "DRI": 63,
-      "DEF": 59,
-      "FIS": 78
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.717,
-     "recentes": [
-      [
-       "4-2-3-1",
-       7,
-       1
-      ],
-      [
-       "4-2-3-1",
-       8,
-       1
-      ],
-      [
-       "4-3-3",
-       5,
-       1
-      ],
-      [
-       "5-3-2",
-       6,
-       1
-      ]
-     ]
     },
     {
      "player_id": 872039,
@@ -17177,6 +17177,43 @@
      ]
     },
     {
+     "player_id": 1008491,
+     "nome": "L. Pereira",
+     "nome_completo": "Léo Pereira",
+     "posicao": "F",
+     "camisa": 38,
+     "jogos": 22,
+     "minutos": 1283,
+     "overall": 71,
+     "eixos": {
+      "RIT": 78,
+      "FIN": 69,
+      "PAS": 56,
+      "DRI": 70,
+      "DEF": 31,
+      "FIS": 57
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.292,
+     "recentes": [
+      [
+       "4-2-3-1",
+       9,
+       4
+      ],
+      [
+       "4-3-3",
+       10,
+       1
+      ],
+      [
+       "4-4-1-1",
+       5,
+       1
+      ]
+     ]
+    },
+    {
      "player_id": 354894,
      "nome": "R. Thyere",
      "nome_completo": "Rafael Thyere",
@@ -17268,6 +17305,42 @@
       [
        "4-3-3",
        9,
+       1
+      ]
+     ]
+    },
+    {
+     "player_id": 147467,
+     "nome": "Gabriel",
+     "nome_completo": "Gabriel",
+     "posicao": "G",
+     "camisa": 1,
+     "jogos": 24,
+     "minutos": 2160,
+     "overall": 69,
+     "eixos": {
+      "REF": 53,
+      "EVI": 64,
+      "MAO": 75,
+      "PES": 52,
+      "SAI": 70
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.5,
+     "recentes": [
+      [
+       "4-2-3-1",
+       0,
+       4
+      ],
+      [
+       "4-4-1-1",
+       0,
+       2
+      ],
+      [
+       "4-3-3",
+       0,
        1
       ]
      ]
@@ -17410,6 +17483,48 @@
      "recentes": []
     },
     {
+     "player_id": 584432,
+     "nome": "Aderlan",
+     "nome_completo": "Aderlan",
+     "posicao": "D",
+     "camisa": 13,
+     "jogos": 16,
+     "minutos": 1006,
+     "overall": 68,
+     "eixos": {
+      "RIT": 69,
+      "FIN": 39,
+      "PAS": 58,
+      "DRI": 56,
+      "DEF": 78,
+      "FIS": 59
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.752,
+     "recentes": [
+      [
+       "4-2-3-1",
+       1,
+       1
+      ],
+      [
+       "4-3-3",
+       1,
+       1
+      ],
+      [
+       "4-4-1-1",
+       1,
+       1
+      ],
+      [
+       "5-4-1",
+       1,
+       1
+      ]
+     ]
+    },
+    {
      "player_id": 905459,
      "nome": "L. Cândido",
      "nome_completo": "Luan Cândido",
@@ -17447,43 +17562,6 @@
       [
        "5-4-1",
        4,
-       1
-      ]
-     ]
-    },
-    {
-     "player_id": 1008491,
-     "nome": "L. Pereira",
-     "nome_completo": "Léo Pereira",
-     "posicao": "F",
-     "camisa": 38,
-     "jogos": 22,
-     "minutos": 1283,
-     "overall": 67,
-     "eixos": {
-      "RIT": 74,
-      "FIN": 65,
-      "PAS": 54,
-      "DRI": 66,
-      "DEF": 30,
-      "FIS": 55
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.292,
-     "recentes": [
-      [
-       "4-2-3-1",
-       9,
-       4
-      ],
-      [
-       "4-3-3",
-       10,
-       1
-      ],
-      [
-       "4-4-1-1",
-       5,
        1
       ]
      ]
@@ -17611,42 +17689,6 @@
       [
        "5-4-1",
        9,
-       1
-      ]
-     ]
-    },
-    {
-     "player_id": 147467,
-     "nome": "Gabriel",
-     "nome_completo": "Gabriel",
-     "posicao": "G",
-     "camisa": 1,
-     "jogos": 24,
-     "minutos": 2160,
-     "overall": 65,
-     "eixos": {
-      "REF": 51,
-      "EVI": 60,
-      "MAO": 71,
-      "PES": 49,
-      "SAI": 66
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.5,
-     "recentes": [
-      [
-       "4-2-3-1",
-       0,
-       4
-      ],
-      [
-       "4-4-1-1",
-       0,
-       2
-      ],
-      [
-       "4-3-3",
-       0,
        1
       ]
      ]
@@ -17793,48 +17835,6 @@
      ]
     },
     {
-     "player_id": 584432,
-     "nome": "Aderlan",
-     "nome_completo": "Aderlan",
-     "posicao": "D",
-     "camisa": 13,
-     "jogos": 16,
-     "minutos": 1006,
-     "overall": 64,
-     "eixos": {
-      "RIT": 65,
-      "FIN": 38,
-      "PAS": 55,
-      "DRI": 54,
-      "DEF": 74,
-      "FIS": 55
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.752,
-     "recentes": [
-      [
-       "4-2-3-1",
-       1,
-       1
-      ],
-      [
-       "4-3-3",
-       1,
-       1
-      ],
-      [
-       "4-4-1-1",
-       1,
-       1
-      ],
-      [
-       "5-4-1",
-       1,
-       1
-      ]
-     ]
-    },
-    {
      "player_id": 922556,
      "nome": "P. Augusto",
      "nome_completo": "Pedro Augusto",
@@ -17842,14 +17842,14 @@
      "camisa": 28,
      "jogos": 14,
      "minutos": 559,
-     "overall": 63,
+     "overall": 64,
      "eixos": {
-      "RIT": 63,
+      "RIT": 64,
       "FIN": 57,
-      "PAS": 65,
-      "DRI": 64,
-      "DEF": 62,
-      "FIS": 67
+      "PAS": 66,
+      "DRI": 65,
+      "DEF": 63,
+      "FIS": 68
      },
      "sem_nota_por": null,
      "x_medio": 0.438,
@@ -20422,6 +20422,43 @@
      ]
     },
     {
+     "player_id": 980761,
+     "nome": "Ramon",
+     "nome_completo": "Ramon",
+     "posicao": "D",
+     "camisa": 13,
+     "jogos": 23,
+     "minutos": 1949,
+     "overall": 78,
+     "eixos": {
+      "RIT": 79,
+      "FIN": 45,
+      "PAS": 61,
+      "DRI": 57,
+      "DEF": 81,
+      "FIS": 76
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.194,
+     "recentes": [
+      [
+       "3-4-2-1",
+       7,
+       5
+      ],
+      [
+       "5-4-1",
+       5,
+       3
+      ],
+      [
+       "3-4-3",
+       7,
+       1
+      ]
+     ]
+    },
+    {
      "player_id": 922575,
      "nome": "G. Baralhas",
      "nome_completo": "Gabriel Baralhas",
@@ -20560,43 +20597,6 @@
       [
        "3-4-3",
        8,
-       1
-      ]
-     ]
-    },
-    {
-     "player_id": 980761,
-     "nome": "Ramon",
-     "nome_completo": "Ramon",
-     "posicao": "D",
-     "camisa": 13,
-     "jogos": 23,
-     "minutos": 1949,
-     "overall": 73,
-     "eixos": {
-      "RIT": 74,
-      "FIN": 44,
-      "PAS": 58,
-      "DRI": 55,
-      "DEF": 76,
-      "FIS": 71
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.194,
-     "recentes": [
-      [
-       "3-4-2-1",
-       7,
-       5
-      ],
-      [
-       "5-4-1",
-       5,
-       3
-      ],
-      [
-       "3-4-3",
-       7,
        1
       ]
      ]
