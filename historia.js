@@ -670,6 +670,8 @@
 
   // reputacao mexida de fora dos arcos (a renovacao da janela, carreira.js)
   Historia.mexerReputacao = function (J, mudancas) { rep(J, mudancas); };
+  Historia.marcar = function (J, k, v = true) { marcar(J, k, v); };
+  Historia.temMarca = function (J, k) { return !!h(J).marcas[k]; };
 
   Historia.registrar = function (J, ev, op, r) {
     h(J).trilha.push({
