@@ -30,9 +30,9 @@ const BASE = {
   PON: { RIT: 64, FIN: 54, PAS: 50, DRI: 62, DEF: 28, FIS: 48 },
   MEI: { RIT: 54, FIN: 54, PAS: 62, DRI: 60, DEF: 35, FIS: 46 },
   MC: { RIT: 52, FIN: 48, PAS: 60, DRI: 54, DEF: 50, FIS: 55 },
-  VOL: { RIT: 50, FIN: 40, PAS: 56, DRI: 46, DEF: 60, FIS: 62 },
+  VOL: { RIT: 50, FIN: 40, PAS: 55, DRI: 46, DEF: 58, FIS: 60 },
   LAT: { RIT: 62, FIN: 38, PAS: 54, DRI: 52, DEF: 56, FIS: 54 },
-  ZAG: { RIT: 48, FIN: 30, PAS: 46, DRI: 36, DEF: 62, FIS: 64 },
+  ZAG: { RIT: 48, FIN: 30, PAS: 46, DRI: 36, DEF: 58, FIS: 60 },
   GOL: { REF: 60, EVI: 55, MAO: 58, PES: 45, SAI: 52 },
 };
 const PESOS = {
@@ -45,10 +45,17 @@ const PESOS = {
   ZAG: { DEF: 0.4, FIS: 0.3, PAS: 0.15, RIT: 0.1, DRI: 0.05, FIN: 0 },
   GOL: { REF: 0.3, EVI: 0.25, MAO: 0.2, SAI: 0.15, PES: 0.1 },
 };
-const PONTOS_INICIAIS = 30, PASSO = 5, MAX_POR_ATRIBUTO = 15;
-// teto da montagem aos 16 (o de 18 e 80, ver tetoDaIdade): o zagueiro
-// nascia com 79 de fisico (64 + 15)
-const TETO_NA_CRIACAO = 77;
+// Montagem da carta aos 16: 30 pontos. Somar ate 66 custa 1 ponto por ponto;
+// acima de 66 custa 2 (especialista sai caro, e o teto aos 16 e 72). Da pra tirar
+// ate 10 pontos no total de outros atributos (no maximo 10 abaixo da base)
+// pra reforcar o que importa: e a troca que define o estilo.
+const PONTOS_INICIAIS = 30, TETO_NA_CRIACAO = 72, LIMIAR_CARO = 66, TROCA_MAX = 10, ABAIXO_MAX = 10;
+const custoAtributo = (base, v) => (v >= base
+  ? Math.max(0, Math.min(v, LIMIAR_CARO) - Math.min(base, LIMIAR_CARO)) + 2 * Math.max(0, Math.max(v, LIMIAR_CARO) - Math.max(base, LIMIAR_CARO))
+  : v - base);
+const custoDaCarta = (f, attrs) => Object.keys(BASE[f]).reduce((t, k) => t + custoAtributo(BASE[f][k], attrs[k]), 0);
+const trocaUsada = (f, attrs) => Object.keys(BASE[f]).reduce((t, k) => t + Math.max(0, BASE[f][k] - attrs[k]), 0);
+const pisoDoAtributo = (f, k) => Math.max(20, BASE[f][k] - ABAIXO_MAX);
 
 // Gols e assistencias por jogo (90 min) pelo OVR, com referencias reais pra
 // centroavante: ~0,35 um CA mediano, ~0,5 Pedro/Gabigol, ~0,65 Aguero,
@@ -81,7 +88,10 @@ const CRESCIMENTO = {
 // teto duro por idade: 80 aos 18 e +3 por ano, ate o teto do potencial (95
 // aos 23). Sem ele o centroavante saia de 92 de finalizacao aos 19.
 function tetoDaIdade(J, idade) {
-  return Math.min(J.tetoAtributo ?? 95, 80 + 3 * (idade - 18));
+  // sobe aos poucos: 72 aos 16, +2,5 por ano (82 aos 20, 92 aos 24), e nunca
+  // muito acima do proprio OVR (garoto de 65 nao tem 81 de passe)
+  const folga = idade <= 19 ? 12 : idade <= 23 ? 14 : 16;
+  return Math.min(J.tetoAtributo ?? 95, Math.floor(72 + 2.5 * (idade - 16)), (J.ovr ?? 60) + folga);
 }
 function perfilEsperado(f, ovr) {
   const base = BASE[f], ob = ovrDe(base, f);
@@ -319,10 +329,29 @@ const ESTILOS = {
   GOL: { REF: ["Paredão", "defesas difíceis"], EVI: ["Fechador de gol", "sofre menos do que devia"], MAO: ["Mão firme", "segura tudo"],
     PES: ["Goleiro líbero", "joga com os pés"], SAI: ["Dono da área", "sai bem do gol"] },
 };
+// na montagem, o estilo e o atributo em que voce mais investiu, medido pelo
+// quanto do espaco ate o teto voce usou. Menos de 6 pontos a mais: equilibrado.
+function estiloDaMontagem(attrs, pos) {
+  const f = POSICOES[pos].funcao;
+  // quanto do espaco ate o teto voce usou (ir de 62 a 72 conta mais que de 45 a 55)
+  const uso = (c) => (attrs[c] - BASE[f][c]) / Math.max(1, TETO_NA_CRIACAO - BASE[f][c]) + PESOS[f][c] * 0.01;
+  const [k, v] = Object.keys(BASE[f]).map((c) => [c, uso(c), attrs[c] - BASE[f][c]]).sort((a, b) => b[1] - a[1])[0].filter((_, i) => i !== 1);
+  if (v < 6) return { nome: "Equilibrado", dica: "rende como a média da posição", k: null };
+  const [nome, dica] = ESTILOS[f][k];
+  return { nome, dica, k };
+}
 function estiloDeJogo(attrs, pos) {
   const f = POSICOES[pos].funcao;
   const esp = perfilEsperado(f, ovrDe(attrs, f));
-  const [k, v] = Object.keys(esp).map((c) => [c, attrs[c] - esp[c]]).sort((a, b) => b[1] - a[1])[0];
+  const ordem = Object.keys(esp).map((c) => [c, attrs[c] - esp[c]]).sort((a, b) => b[1] - a[1]);
+  let [k, v] = ordem[0];
+  // o estilo escolhido na montagem fica enquanto ainda for um ponto forte
+  // (senao o goleador virava "pivo" no primeiro ano por causa da conta)
+  const origem = C.J && C.J.attrs === attrs ? C.J.estiloOrigem : null;
+  if (origem && origem in esp) {
+    const vo = attrs[origem] - esp[origem];
+    if (vo >= v - 6 && vo >= -3) { const [nome, dica] = ESTILOS[f][origem]; return { nome, dica, k: origem }; }
+  }
   if (v < 4) return { nome: "Equilibrado", dica: "rende como a média da posição", k: null };
   const [nome, dica] = ESTILOS[f][k];
   return { nome, dica, k };
@@ -453,49 +482,99 @@ function montarCampoPosicoes() {
 function iniciarCarta() {
   const f = funcaoDe(C.pos);
   C.attrs = { ...BASE[f] };
-  C.gastos = {};
-  C.pontos = PONTOS_INICIAIS;
+  desenharMontagem();
+}
+
+// o que cada atributo faz no jogo (alem de pesar no OVR)
+const FAZ_NO_JOGO = {
+  FIN: "gols", RIT: "gols no espaço e valor de mercado", PAS: "assistências", DRI: "assistências e vitrine",
+  DEF: "nota e vaga de quem defende", FIS: "mais jogos, menos lesão",
+  REF: "defesas difíceis", EVI: "sofre menos gol", MAO: "segura a bola", PES: "sai jogando", SAI: "domina a área",
+};
+
+// maior valor que da pra pagar nesse atributo com o que sobra
+function maximoPagavel(f, k) {
+  let v = C.attrs[k];
+  const resto = () => PONTOS_INICIAIS - custoDaCarta(f, C.attrs);
+  const orig = C.attrs[k];
+  while (v < TETO_NA_CRIACAO) {
+    C.attrs[k] = v + 1;
+    const ok = resto() >= 0;
+    C.attrs[k] = orig;
+    if (!ok) break;
+    v++;
+  }
+  return v;
+}
+function minimoPermitido(f, k) {
+  const livre = TROCA_MAX - (trocaUsada(f, C.attrs) - Math.max(0, BASE[f][k] - C.attrs[k]));
+  return Math.max(pisoDoAtributo(f, k), BASE[f][k] - Math.max(0, livre));
+}
+function mudarAtributo(k, v) {
+  const f = funcaoDe(C.pos);
+  C.attrs[k] = limitar(Math.round(v), minimoPermitido(f, k), maximoPagavel(f, k));
   desenharMontagem();
 }
 
 function desenharMontagem() {
   const f = funcaoDe(C.pos);
   const ovr = ovrDe(C.attrs, f);
+  const pontos = PONTOS_INICIAIS - custoDaCarta(f, C.attrs);
+  C.pontos = pontos;
   $("carta-montagem").replaceChildren(cartaDoCriado(C.attrs, ovr, null));
-  $("pontos-restantes").textContent = String(C.pontos);
+  $("pontos-restantes").textContent = String(pontos);
   $("ovr-montagem").textContent = String(ovr);
-  const est = estiloDeJogo(C.attrs, C.pos);
+  const est = estiloDaMontagem(C.attrs, C.pos);
+  C.estiloOrigem = est.k;
   const efe = efeitoDoEstilo(est);
   $("estilo-montagem").replaceChildren(...(est ? [
     el("span", null, `Estilo: ${est.nome} · ${est.dica}`),
     ...(efe ? [el("small", "renova-bom", `+ ${efe.bom}`), el("small", "renova-ruim", `− ${efe.ruim}`)] : []),
   ] : []));
+  const troca = trocaUsada(f, C.attrs);
+  $("troca-montagem").textContent = troca ? `Trocou ${troca} de ${TROCA_MAX} pontos tirados de outros atributos.` : "";
   const lista = $("atributos");
+  const foco = document.activeElement && document.activeElement.dataset ? document.activeElement.dataset.k : null;
   lista.replaceChildren();
   const rotulos = f === "GOL" ? Object.fromEntries(EIXOS_GOLEIRO.map(([c, s]) => [c, C.r.eixos[c] || s])) : ROTULOS_LINHA;
   const ordem = Object.entries(PESOS[f]).sort((a, b) => b[1] - a[1]).map(([k]) => k);
   for (const k of ordem) {
-    const gasto = C.gastos[k] || 0;
+    const base = BASE[f][k], v = C.attrs[k];
     const li = el("li", "atributo");
-    const peso = el("span", "atributo-peso", PESOS[f][k] >= 0.2 ? "chave" : PESOS[f][k] >= 0.1 ? "" : "pouco pesa");
-    const nome = el("span", "atributo-nome", rotulos[k] || k);
-    const barra = el("div", "atributo-trilho");
-    const base = el("i", "atributo-base"); base.style.width = `${BASE[f][k]}%`;
-    const extra = el("i", "atributo-extra"); extra.style.left = `${BASE[f][k]}%`; extra.style.width = `${gasto}%`;
-    barra.append(base, extra);
+    const nome = el("span", "atributo-nome");
+    nome.append(el("b", null, rotulos[k] || k), el("small", "atributo-faz", `${Math.round(PESOS[f][k] * 100)}% do OVR · ${FAZ_NO_JOGO[k]}`));
+    const trilho = el("div", "atributo-trilho");
+    const iBase = el("i", "atributo-base"); iBase.style.width = `${Math.min(base, v)}%`;
+    const iExtra = el("i", v >= base ? "atributo-extra" : "atributo-tirado");
+    iExtra.style.left = `${Math.min(base, v)}%`; iExtra.style.width = `${Math.abs(v - base)}%`;
+    const caro = el("i", "atributo-caro"); caro.style.left = `${LIMIAR_CARO}%`; caro.style.width = `${TETO_NA_CRIACAO - LIMIAR_CARO}%`;
+    trilho.append(caro, iBase, iExtra);
+    const faixa = el("input", "atributo-faixa");
+    Object.assign(faixa, { type: "range", min: "0", max: "100", step: "1", value: String(v) }); // mesma escala da barra; o limite real vem do clamp
+    faixa.dataset.k = k;
+    faixa.setAttribute("aria-label", `${rotulos[k] || k}: ${v}`);
+    faixa.addEventListener("input", () => mudarAtributo(k, Number(faixa.value)));
+    const pista = el("div", "atributo-pista");
+    pista.append(trilho, faixa);
     const menos = el("button", "botao atributo-menos", "−"); menos.type = "button";
-    menos.disabled = gasto <= 0;
-    menos.setAttribute("aria-label", `Tirar ${PASSO} de ${rotulos[k] || k}`);
-    const mais = el("button", "botao atributo-mais", `+${PASSO}`); mais.type = "button";
-    mais.disabled = C.pontos < PASSO || gasto >= MAX_POR_ATRIBUTO || C.attrs[k] + PASSO > TETO_NA_CRIACAO;
-    mais.setAttribute("aria-label", `Somar ${PASSO} em ${rotulos[k] || k}`);
-    menos.addEventListener("click", () => { C.gastos[k] = gasto - PASSO; C.attrs[k] -= PASSO; C.pontos += PASSO; desenharMontagem(); });
-    mais.addEventListener("click", () => { C.gastos[k] = gasto + PASSO; C.attrs[k] += PASSO; C.pontos -= PASSO; desenharMontagem(); });
-    li.append(nome, peso, barra, el("b", "atributo-valor", String(C.attrs[k])), menos, mais);
+    menos.disabled = v <= minimoPermitido(f, k);
+    menos.setAttribute("aria-label", `Tirar 1 de ${rotulos[k] || k}`);
+    const mais = el("button", "botao atributo-mais", "+"); mais.type = "button";
+    mais.disabled = v >= maximoPagavel(f, k);
+    mais.setAttribute("aria-label", `Somar 1 em ${rotulos[k] || k}`);
+    menos.addEventListener("click", () => mudarAtributo(k, v - 1));
+    mais.addEventListener("click", () => mudarAtributo(k, v + 1));
+    const valor = el("b", `atributo-valor${v > base ? " sobe" : v < base ? " desce" : ""}`, String(v));
+    valor.title = `Base ${base}`;
+    li.append(nome, pista, menos, valor, mais);
     lista.append(li);
+    if (foco === k) requestAnimationFrame(() => faixa.focus());
   }
-  $("confirmar-carta").disabled = C.pontos > 0;
-  $("confirmar-carta").textContent = C.pontos > 0 ? `Distribua ${C.pontos} pontos` : "Fechar a carta";
+  // da pra fechar quando nao sobra ponto que compre alguma coisa
+  const comprável = ordem.some((k) => maximoPagavel(f, k) > C.attrs[k]);
+  const pronto = pontos === 0 || !comprável;
+  $("confirmar-carta").disabled = !pronto;
+  $("confirmar-carta").textContent = pronto ? "Fechar a carta" : `Distribua ${pontos} ${pontos === 1 ? "ponto" : "pontos"}`;
 }
 
 // --- regua: forca do clube -> nivel do titular -------------------------------------
@@ -671,7 +750,18 @@ function mostrarPropostasDaBase() {
   desenharPainelJogador();
   const alvo = $("propostas-base");
   alvo.replaceChildren();
-  for (const c of propostasIniciais()) alvo.append(cartaoDeProposta(c, () => assinar(c, "base")));
+  // a troca da peneira em uma linha (medido em 900 carreiras simuladas: a
+  // Serie B chega na Serie A ~2 anos antes; a D joga mais nos primeiros anos)
+  const DICA_DIVISAO = {
+    B: "Mais vitrine: chega na Série A mais cedo, mas joga menos agora.",
+    C: "Meio-termo: joga um pouco e já aparece.",
+    D: "Joga mais e evolui jogando, mas demora mais pra ser visto.",
+  };
+  for (const c of propostasIniciais()) {
+    const card = cartaoDeProposta(c, () => assinar(c, "base"));
+    if (DICA_DIVISAO[c.divisao]) card.querySelector(".botao").before(el("p", "proposta-dica", DICA_DIVISAO[c.divisao]));
+    alvo.append(card);
+  }
 }
 
 function cartaoDeProposta(c, aoAssinar, { rotulo = "Assinar", extra = null, contexto = null } = {}) {
@@ -2164,14 +2254,21 @@ function sortearEventos(J, rng, n = 2) {
   const temas = new Set(EVENTOS.filter((e) => e.tema && vistos.has(e.id)).map((e) => e.tema));
   const pool = EVENTOS.filter((e) => !vistos.has(e.id) && (!e.fases || e.fases.includes(f)) && !(e.tema && temas.has(e.tema)) && e.quando(J));
   const completo = C.modo === "completo";
-  const qtd = completo ? 2 : rng() < 0.35 ? 0 : 1;
+  const arcos = Historia.eventosDoAno(J, rng, { completo });
+  // rapido: exatamente uma escolha por temporada -- a historia primeiro,
+  // senao uma situacao solta, senao o foco de treino
+  if (!completo) {
+    if (arcos.length) return [arcos[0]];
+    const solta = rng() < 0.7 ? Motor.embaralhar(rng, pool)[0] : null;
+    if (solta) { J.eventosVistos = [...vistos, solta.id]; return [solta]; }
+    return [eventoDeTreino(J, rng)];
+  }
+  const qtd = 2;
   // a historia (historia.js) entra primeiro: consequencia vencida sempre
   // aparece, e os eventos soltos completam ate o limite do modo
-  const arcos = Historia.eventosDoAno(J, rng, { completo });
   const escolhidos = Motor.embaralhar(rng, pool).slice(0, Math.max(0, qtd - arcos.length));
   J.eventosVistos = [...vistos, ...escolhidos.map((e) => e.id)];
-  if (!completo && arcos.length) return [...arcos, ...escolhidos];
-  return completo || !qtd ? [eventoDeTreino(J, rng), ...arcos, ...escolhidos] : escolhidos;
+  return [eventoDeTreino(J, rng), ...arcos, ...escolhidos];
 }
 
 function resolverOpcao(J, op, rng) {
@@ -2605,9 +2702,14 @@ function mostrarDecisao(R) {
   );
   // o palco tem altura fixa no desktop: traz a decisao pra vista
   const palco = caixa.closest(".carreira-palco");
-  if (palco && palco.scrollHeight > palco.clientHeight) requestAnimationFrame(() => {
+  if (palco && palco.scrollHeight > palco.clientHeight + 4) requestAnimationFrame(() => {
     const topo = palco.scrollTop + caixa.getBoundingClientRect().top - palco.getBoundingClientRect().top - R.topo.offsetHeight - 8;
     palco.scrollTo({ top: Math.max(0, topo), behavior: movimentoReduzido ? "auto" : "smooth" });
+  });
+  else requestAnimationFrame(() => {
+    // pagina: a decisao tem que aparecer inteira, logo abaixo da linha do tempo presa no topo
+    const r = caixa.getBoundingClientRect(), topoFixo = R.topo.getBoundingClientRect().bottom;
+    if (r.top < topoFixo + 8 || r.top > innerHeight * 0.55) window.scrollBy({ top: r.top - topoFixo - 12, behavior: movimentoReduzido ? "auto" : "smooth" });
   });
   caixa.classList.remove("saindo");
   caixa.style.animation = "none"; void caixa.offsetWidth; caixa.style.animation = "";
@@ -2705,16 +2807,7 @@ function roleta(chance, ok) {
 function fecharTemporadaCompleta() {
   C.eventos = null;
   $("proxima").hidden = false;
-  if (C.modo !== "completo") {
-    const linha = jogarTemporada();
-    mostrarLinha(linha);
-    desenharPainelJogador();
-    desenharTabelaCarreira();
-    $("proxima").disabled = false;
-    if (C.J.aposentado) { $("proxima").textContent = "Ver a aposentadoria"; $("tudo").disabled = true; }
-    else $("proxima").textContent = "Próxima temporada";
-    return;
-  }
+  // rapido e completo: a janela de transferencias e sempre sua
   const linha = jogarTemporada({ decidir: false });
   mostrarLinha(linha);
   desenharPainelJogador();
@@ -3048,7 +3141,7 @@ function criarJogador() {
     nome: C.nome || "Sem Nome", numero: C.numero, attrs: { ...C.attrs }, ovr, idade: IDADE_INICIAL, ano: ANO_INICIAL,
     ...sortearPotencial(ovr, f),
     clube: null, historico: [], titulos: [], premios: [], transferencias: [], valor: 0, anosNoClube: 0, aposentado: false,
-    efeito: efeitoZerado(), eventosVistos: [],
+    efeito: efeitoZerado(), eventosVistos: [], estiloOrigem: C.estiloOrigem || null,
   };
   Historia.iniciar(C.J);
   reiniciarMundo();

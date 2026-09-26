@@ -610,3 +610,35 @@
 .tc-divisao.desce { color: #ff7d95; }
 .tc-divisao.sobe { color: var(--canal); }
 .fase-aviso { margin: 0.2rem 0 0.4rem; padding: 0.4rem 0.7rem; border-radius: 10px; font-size: 0.82rem; background: rgba(92, 200, 255, 0.1); border: 1px solid rgba(92, 200, 255, 0.35); color: #5cc8ff; }
+
+/* --- montagem da carta: faixa (slider) com base, extra, tirado e zona cara --- */
+.atributo { grid-template-columns: minmax(9rem, 11rem) minmax(80px, 1fr) 2rem 2.4rem 2rem; }
+.atributo-nome { display: grid; gap: 0.05rem; }
+.atributo-nome b { font-size: 0.9rem; }
+.atributo-faz { font-size: 0.68rem; font-weight: 400; color: var(--texto-fraco); line-height: 1.25; }
+.atributo-pista { position: relative; height: 1.4rem; display: grid; align-items: center; }
+.atributo-pista .atributo-trilho { position: absolute; inset: 50% 0 auto; transform: translateY(-50%); }
+.atributo-caro { background: repeating-linear-gradient(135deg, rgba(242, 194, 48, 0.25) 0 4px, transparent 4px 8px); }
+.atributo-tirado { background: #ff4d6d; opacity: 0.8; }
+.atributo-faixa { position: relative; width: 100%; margin: 0; background: transparent; appearance: none; -webkit-appearance: none; height: 1.4rem; cursor: pointer; }
+.atributo-faixa::-webkit-slider-runnable-track { background: transparent; height: 1.4rem; }
+.atributo-faixa::-moz-range-track { background: transparent; }
+.atributo-faixa::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; margin-top: 0.2rem; border-radius: 50%; background: var(--texto); border: 2px solid var(--fundo); box-shadow: 0 0 0 1px var(--borda); }
+.atributo-faixa::-moz-range-thumb { width: 12px; height: 12px; border-radius: 50%; background: var(--texto); border: 2px solid var(--fundo); }
+.atributo-faixa:focus-visible { outline: 2px solid var(--canal); outline-offset: 2px; border-radius: 6px; }
+.atributo-valor.sobe { color: var(--canal); }
+.atributo-valor.desce { color: #ff7d95; }
+.troca-montagem { margin: 0 0 0.4rem; font-size: 0.78rem; color: #ff7d95; }
+.troca-montagem:empty { display: none; }
+@media (max-width: 640px) {
+  .atributo { grid-template-columns: minmax(0, 1fr) 2rem 2.4rem 2rem; }
+  .atributo-nome { grid-column: 1 / -1; }
+  .atributo-pista { grid-column: 1; }
+}
+
+/* palco sem rolagem interna: ocupa a tela e rola com a pagina; a linha do
+   tempo e a projecao ficam presas logo abaixo do topo do site */
+.carreira-palco { height: auto; max-height: none; overflow: visible; padding-right: 0; }
+.rolagem-topo { top: 4.1rem; margin: -1.1rem -1.2rem 0; padding: 1rem 1.2rem 0.3rem; border-bottom: 1px solid var(--borda); box-shadow: 0 8px 16px -12px rgba(0, 0, 0, 0.6); }
+.temporada-atual { overflow: visible; }
+.proposta-dica { margin: 0; font-size: 0.76rem; line-height: 1.35; color: #5cc8ff; text-align: center; }
