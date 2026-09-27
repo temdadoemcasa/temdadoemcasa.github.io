@@ -677,3 +677,11 @@
 .foco-dica { font-size: 0.68rem; color: var(--texto-fraco); }
 .foco-ano.travado .foco-chip:not([aria-pressed="true"]) { opacity: 0.35; pointer-events: none; }
 .foco-ano.travado .foco-dica { visibility: hidden; }
+
+/* decisao em cima, acompanhamento do ano embaixo (sem nada preso no topo) */
+.rolagem-cabecalho { margin-bottom: 0.7rem; }
+.rolagem-topo, .carreira-palco .rolagem-topo { position: static; top: auto; margin: 0.9rem 0 0; padding: 0.9rem 0 0; background: none; border: 0; border-top: 1px solid var(--borda); border-radius: 0; box-shadow: none; }
+.evento-caixa { min-height: 12rem; }
+.evento-caixa.saindo { opacity: 0.6; }
+.rolagem-topo .projecao-legenda { margin: 0.35rem 0 0.8rem; }
+.rolagem-topo .foco-ano { margin: 0.6rem 0 0; }
