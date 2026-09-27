@@ -2521,7 +2521,19 @@ function pedirGarantia(J, c, rng) {
 
 // --- tela da carreira ---------------------------------------------------------------
 
+function menuDaCarreira() {
+  if (C.menu) return C.menu;
+  const tela = $("tela-carreira");
+  C.menu = montarAbasMobile(tela, [
+    { id: "temporada", rotulo: "Temporada", icone: "jogo", paineis: [tela.querySelector(".carreira-centro")] },
+    { id: "carta", rotulo: "Carta", icone: "carta", paineis: [$("painel-jogador")] },
+    { id: "carreira", rotulo: "Carreira", icone: "lista", paineis: [tela.querySelector(".carreira-lateral")] },
+  ], "temporada");
+  return C.menu;
+}
+
 function iniciarTelaCarreira() {
+  menuDaCarreira().abrir("temporada", { rolar: false });
   mostrarTela("carreira");
   $("temporada-atual").replaceChildren(
     el("p", "jogo-etapa", `Temporada ${C.J.ano}`),
@@ -3046,6 +3058,7 @@ function roleta(chance, ok) {
 
 function fecharTemporadaCompleta() {
   C.eventos = null;
+  if (C.menu) { C.menu.marcar("carta"); C.menu.marcar("carreira"); }
   $("proxima").hidden = false;
   // rapido e completo: a janela de transferencias e sempre sua
   const linha = jogarTemporada({ decidir: false });
