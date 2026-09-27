@@ -649,7 +649,7 @@
       ],
     }),
     joelho: (J) => ({
-      arco: "O joelho", consequencia: "A final e o joelho",
+      arco: "O joelho", inicio: true, consequencia: "A final e o joelho",
       titulo: "O joelho de novo",
       texto: () => "O joelho que você escondeu na final voltou a doer na pré-temporada.",
       opcoes: [
