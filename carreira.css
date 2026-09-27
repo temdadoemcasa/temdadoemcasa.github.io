@@ -642,3 +642,15 @@
 .rolagem-topo { top: 4.1rem; margin: -1.1rem -1.2rem 0; padding: 1rem 1.2rem 0.3rem; border-bottom: 1px solid var(--borda); box-shadow: 0 8px 16px -12px rgba(0, 0, 0, 0.6); }
 .temporada-atual { overflow: visible; }
 .proposta-dica { margin: 0; font-size: 0.76rem; line-height: 1.35; color: #5cc8ff; text-align: center; }
+
+/* montagem sem pulo: o estilo tem altura fixa (3 linhas) e a troca reserva a dela */
+.estilo-montagem { min-height: 3.9rem; align-content: start; }
+.troca-montagem, .troca-montagem:empty { display: block; min-height: 1.1rem; }
+.estilos-prontos { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem; margin: 0 0 0.7rem; }
+.estilos-rotulo { font-size: 0.75rem; color: var(--texto-fraco); margin-right: 0.2rem; }
+.estilos-prontos .chip { font-size: 0.72rem; padding: 0.25rem 0.6rem; }
+.atributo .atributo-menos, .atributo .atributo-mais { font-size: 0.78rem; }
+.atributo { grid-template-columns: minmax(9rem, 11rem) minmax(80px, 1fr) 2.4rem 2.4rem 2.4rem; }
+@media (max-width: 640px) { .atributo { grid-template-columns: minmax(0, 1fr) 2.4rem 2.4rem 2.4rem; } }
+.estilo-montagem { height: 4rem; overflow: hidden; }
+.troca-montagem { height: 1.1rem; overflow: hidden; }

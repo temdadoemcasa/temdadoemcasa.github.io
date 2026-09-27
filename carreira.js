@@ -510,6 +510,23 @@ function minimoPermitido(f, k) {
   const livre = TROCA_MAX - (trocaUsada(f, C.attrs) - Math.max(0, BASE[f][k] - C.attrs[k]));
   return Math.max(pisoDoAtributo(f, k), BASE[f][k] - Math.max(0, livre));
 }
+// monta a carta de um estilo: o atributo do estilo vai ao teto, e o resto dos
+// pontos vai pros que mais pesam no OVR, sem passar de 70 (o estilo fica)
+function montarEstilo(k) {
+  const f = funcaoDe(C.pos);
+  C.attrs = { ...BASE[f] };
+  const sobe = (c, ate) => { while (C.attrs[c] < ate && custoDaCarta(f, { ...C.attrs, [c]: C.attrs[c] + 1 }) <= PONTOS_INICIAIS) C.attrs[c]++; };
+  sobe(k, TETO_NA_CRIACAO);
+  const outros = Object.entries(PESOS[f]).filter(([c]) => c !== k).sort((a, b) => b[1] - a[1]).map(([c]) => c);
+  // um ponto por vez, na ordem de peso, pra nao jogar tudo num so
+  for (let volta = 0; volta < 40; volta++) for (const c of outros) sobe(c, Math.min(TETO_NA_CRIACAO - 2, C.attrs[c] + 1));
+  desenharMontagem();
+}
+function montarAutomatico() {
+  const f = funcaoDe(C.pos);
+  montarEstilo(Object.entries(PESOS[f]).sort((a, b) => b[1] - a[1])[0][0]);
+}
+
 function mudarAtributo(k, v) {
   const f = funcaoDe(C.pos);
   C.attrs[k] = limitar(Math.round(v), minimoPermitido(f, k), maximoPagavel(f, k));
@@ -531,6 +548,16 @@ function desenharMontagem() {
     el("span", null, `Estilo: ${est.nome} · ${est.dica}`),
     ...(efe ? [el("small", "renova-bom", `+ ${efe.bom}`), el("small", "renova-ruim", `− ${efe.ruim}`)] : []),
   ] : []));
+  const chips = $("estilos-prontos");
+  chips.replaceChildren(el("span", "estilos-rotulo", "Montar como:"));
+  for (const c of Object.entries(PESOS[f]).sort((a, b) => b[1] - a[1]).map(([c]) => c)) {
+    if (!ESTILOS[f][c]) continue;
+    const b = el("button", "chip", ESTILOS[f][c][0]); b.type = "button";
+    b.setAttribute("aria-pressed", String(est.k === c));
+    b.title = ESTILOS[f][c][1];
+    b.addEventListener("click", () => montarEstilo(c));
+    chips.append(b);
+  }
   const troca = trocaUsada(f, C.attrs);
   $("troca-montagem").textContent = troca ? `Trocou ${troca} de ${TROCA_MAX} pontos tirados de outros atributos.` : "";
   const lista = $("atributos");
@@ -556,14 +583,15 @@ function desenharMontagem() {
     faixa.addEventListener("input", () => mudarAtributo(k, Number(faixa.value)));
     const pista = el("div", "atributo-pista");
     pista.append(trilho, faixa);
-    const menos = el("button", "botao atributo-menos", "−"); menos.type = "button";
+    // botoes de 5 em 5 (o que der, se sobrar menos); a faixa ajusta de 1 em 1
+    const menos = el("button", "botao atributo-menos", "−5"); menos.type = "button";
     menos.disabled = v <= minimoPermitido(f, k);
-    menos.setAttribute("aria-label", `Tirar 1 de ${rotulos[k] || k}`);
-    const mais = el("button", "botao atributo-mais", "+"); mais.type = "button";
+    menos.setAttribute("aria-label", `Tirar 5 de ${rotulos[k] || k}`);
+    const mais = el("button", "botao atributo-mais", "+5"); mais.type = "button";
     mais.disabled = v >= maximoPagavel(f, k);
-    mais.setAttribute("aria-label", `Somar 1 em ${rotulos[k] || k}`);
-    menos.addEventListener("click", () => mudarAtributo(k, v - 1));
-    mais.addEventListener("click", () => mudarAtributo(k, v + 1));
+    mais.setAttribute("aria-label", `Somar 5 em ${rotulos[k] || k}`);
+    menos.addEventListener("click", () => mudarAtributo(k, v - 5));
+    mais.addEventListener("click", () => mudarAtributo(k, v + 5));
     const valor = el("b", `atributo-valor${v > base ? " sobe" : v < base ? " desce" : ""}`, String(v));
     valor.title = `Base ${base}`;
     li.append(nome, pista, menos, valor, mais);
@@ -3394,6 +3422,7 @@ async function iniciarCarreiraPagina() {
   $("confirmar-jogador").textContent = "Montar a carta →";
   $("voltar-criacao").addEventListener("click", () => mostrarTela("criar"));
   $("zerar-pontos").addEventListener("click", iniciarCarta);
+  $("auto-pontos").addEventListener("click", montarAutomatico);
   $("confirmar-carta").addEventListener("click", () => { criarJogador(); mostrarPropostasDaBase(); });
   $("proxima").addEventListener("click", () => {
     if (C.J.aposentado) mostrarAposentadoria();
