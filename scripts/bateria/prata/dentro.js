@@ -177,7 +177,7 @@
       }
       const assinaAqui = (c, garantia) => {
         linha.transferencia = { para: c.nome, liga: c.liga, valor: valorDaVenda(J) };
-        assinar(c, "mercado"); if (garantia) J.efeito.minutos += 0.15;
+        assinar(c, "mercado"); if (garantia) J.efeito.titular = true;
         J.janela = [...(J.janela || []), `Assinou com o ${c.nome}${garantia ? ", com vaga de titular prometida" : ""}. Valor da transferência: ${J.valor}. O primeiro ano é de adaptação.`];
         reg.transferencias++;
       };

@@ -2,15 +2,18 @@
 
 Atualizado em **2026-09-27 (noite)**. Branch `prata-evolucao-e-caminho` (saiu de `integracao-main`), no GitHub, **não está no `main`**.
 
-## Antes de tudo: o `main` andou em paralelo
+## Junção com o `main` (feita em 27/09, noite)
 
-O `origin/main` recebeu os PRs #33–#38 de outra sessão enquanto esta branch era feita. Tentativa de merge em 27/09: **23 conflitos no `carreira.js`** + `index.html`, `prata-da-casa.html` e `tem-time-em-casa.html` (só o `?v=` dos arquivos). Os conflitos de verdade:
+O `main` tinha recebido os PRs #33–#38 de outra sessão em paralelo. O merge resolveu 23 conflitos no `carreira.js`:
 
-- **Curva de evolução (o principal):** aqui, `trajetoria` faz 94% do caminho até os 24 (expoente 2, maduro aos 24/26); no `main` (#36), expoente 2,3 até o pico e "evolução mais rápida entre 17 e 22"; e o #37 fez a evolução depender da liga (A > B > C > D). Os dois lados resolvem o mesmo pedido do dono de jeitos diferentes. **Juntar exige escolher um modelo (ou combinar) e recalibrar com a bateria:** as metas de auge abaixo foram medidas SEM as mudanças do `main`.
-- **Lances:** o `main` pôs `emCampo: true` e `fezGol(J)` nos lances; aqui eles passaram a usar `chanceLance` (dificuldade pela liga) e alguns centros mudaram (driblar o goleiro 66, desarme limpo 74, jogar no sacrifício 70). Resolver somando os dois.
-- `?v=` dos arquivos: usar uma versão nova, maior que as duas.
+- **Evolução:** fica a curva desta branch (94% do caminho até os 24) **com** o bônus de desempenho (#36) e o fator de liga A 1,3 · B 1,1 · C 0,9 · D 0,75 (#37) por cima; a ladeira depois do pico é a desta branch.
+- **Lances:** centros e `chanceLance` desta branch + `emCampo`, `fezGol` e `deuAssist` do `main`.
+- **Pedir titular:** a fórmula do `main` (#37) + "clube que pediu você não retira a proposta"; titular prometido usa `J.efeito.titular` do `main` (#33), também na bateria.
+- Janela do clube: fica o sistema de contratos desta branch.
+- `?v=` de todas as páginas: `2026-09-27j`.
+- "O banco te chama → Pendura e assume" virou dominante com o merge: quem ainda é titular agora perde minutos no último ano.
 
-Caminho sugerido: merge do `origin/main` na branch → resolver → `scripts/bateria/prata/bateria.sh` (4 processos) → reajustar `DERIVA_POTENCIAL`/`FAIXAS_POTENCIAL` até bater as metas → `node scripts/bateria/draft/testes-ui.js` e `scripts/bateria/draft/rodar.sh` → push do `main`.
+Depois do merge: bateria do Prata com todas as metas PASSA; auge aleatório 13,3 / 8,4 / 5,1% (88–90 / 91–93 / 94+), estratégica 20,6 / 12,7 / 9,4%; aos 24 (potencial 83–88) 84 aleatório, 86 estratégica. Draft: 50 testes de tela ok; bateria com as mesmas 4 metas em FAIL de antes (17º 39,5 pts, ranking do inteligente, maior nota 21,8%, decisões +19 pp), não mexidas.
 
 ## O que esta branch fez (7 commits)
 

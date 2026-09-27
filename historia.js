@@ -768,7 +768,7 @@
       ],
     }),
     joelho: (J) => ({
-      arco: "O joelho", consequencia: "A final e o joelho",
+      arco: "O joelho", inicio: true, consequencia: "A final e o joelho",
       titulo: "O joelho de novo",
       texto: () => "O joelho que você escondeu na final voltou a doer na pré-temporada.",
       opcoes: [
@@ -925,7 +925,8 @@
         titulo: "O banco te chama",
         texto: () => `O técnico do ${J.clube.nome} caiu. O presidente liga: quer você de interino, e depois efetivado.`,
         opcoes: [
-          { rotulo: "Pendura as chuteiras e assume", sempre: (JJ) => { JJ.viraTecnico = JJ.clube.nome; rep(JJ, { vestiario: 0.3 }); return "Última temporada como jogador; no fim do ano, a prancheta é sua."; } },
+          // quem ainda e titular paga: no ultimo ano ja divide o tempo com a comissao
+          { rotulo: "Pendura as chuteiras e assume", sempre: (JJ) => { JJ.viraTecnico = JJ.clube.nome; rep(JJ, { vestiario: 0.3 }); const titular = JJ.ovr >= (JJ.clube.nivel ?? 99); if (titular) JJ.efeito.minutos -= 0.06; return titular ? "Última temporada como jogador, já dividindo o tempo com a comissão. No fim do ano, a prancheta é sua." : "Última temporada como jogador; no fim do ano, a prancheta é sua."; } },
           { rotulo: "Ainda quer jogar", sempre: (JJ) => { JJ.efeito.queda += 0.7; return "Recusou por enquanto. O presidente disse que a porta fica aberta."; } },
         ],
       };

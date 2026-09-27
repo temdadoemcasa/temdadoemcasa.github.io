@@ -699,6 +699,28 @@ select, input {
 }
 
 .carta.revelando { animation: revelar 0.75s cubic-bezier(0.2, 0.9, 0.25, 1.15) both; }
+/* pacote aberto: cinco figurinhas lado a lado, uma de cada vez */
+.vitrine-dialogo { transition: width 0.3s ease; }
+.vitrine-dialogo.aberto { width: min(980px, calc(100% - 32px)); }
+.palco.pacote {
+  width: 100%;
+  aspect-ratio: auto;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: clamp(0.5rem, 1.4vw, 1rem);
+  align-items: start;
+}
+.palco.pacote::before { inset: -8% 0; background: radial-gradient(ellipse closest-side, var(--luz, rgba(200, 255, 0, 0.18)) 0%, transparent 100%); }
+.palco.pacote::after { display: none; }
+.vitrine-dialogo.aberto .vitrine-legenda { max-width: 52ch; }
+.palco.pacote > .carta { animation-delay: calc(var(--ordem, 0) * 220ms); }
+.palco.pacote > .carta:last-child { animation-duration: 1s; }
+@media (max-width: 640px) {
+  /* no celular: tres em cima, duas embaixo, centralizadas */
+  .palco.pacote { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .palco.pacote > .carta { grid-column: span 2; }
+  .palco.pacote > .carta:nth-child(4) { grid-column: 2 / span 2; }
+}
+
 @keyframes revelar {
   0% { opacity: 0; transform: perspective(700px) translateY(30%) rotateY(80deg) scale(0.7); filter: brightness(2.2); }
   60% { opacity: 1; filter: brightness(1.3); }
