@@ -58,7 +58,7 @@ function carregar(extras = {}) {
     "BANCO_VAGAS", "DIFICULDADES", "ESQUEMAS_TTC", "POSTURAS", "ENCAIXE", "ENTROSAMENTO", "todasVagas", "lequeAtual", "lequeDaVaga",
     "encaixeNaVaga", "valorNaVaga", "entrosamento", "forcaDoElenco", "ajusteDeContexto", "timesCpu", "montarTemporada",
     "decisivaParaUsuario", "contextoDecisivo", "escalarNoEsquema", "trocarEsquema", "janelaAberta", "lequeDaJanela", "aplicarJanela",
-    "simularTemporadaRapida", "hashTexto", "avaliacaoNaVaga", "garotoDaBase", "calib", "parDoUsuario", "linhaDoDesafio",
+    "simularTemporadaRapida", "hashTexto", "avaliacaoNaVaga", "garotoDaBase", "calib", "parDoUsuario", "linhaDoDesafio", "emJogoNoBrasileirao",
     "comparacaoDeForca"];
   vm.runInContext(`globalThis.__ = {}; for (const n of ${JSON.stringify(nomes)}) { try { globalThis.__[n] = eval(n); } catch (_) {} }`, ctx);
   vm.runInContext(`

@@ -394,3 +394,79 @@ Fumaça de 1.000 tentativas com as mesmas sementes, código de antes × depois:
 - As métricas das políticas sem decisão ficam idênticas (920 de 920 tentativas iguais).
 - A política "boa" ganha +6,1 pts, porque agora vê o adversário antes da postura.
 - 0 exceções no código novo. As 80 do código antigo são da bateria nova chamando `parDoUsuario`, que não existia lá.
+
+## 9. Fase 4: emoção do pacote e jogos que valem de verdade (27/09)
+
+```bash
+scripts/bateria/draft/rodar.sh && node scripts/bateria/draft/metas.js                 # metas, agora com o grupo [E] (emoção)
+SEMENTE_BASE=777777 SAIDA=/tmp/b2 scripts/bateria/draft/rodar.sh && node scripts/bateria/draft/metas.js /tmp/b2/tudo.jsonl
+node scripts/bateria/draft/estrela.js 40 50     # uma estrela no lugar de um madeira: quanto mexe nas chances
+node scripts/bateria/draft/decisivos.js 300 [humano|aleatorio|melhor]   # paradas "Até o próximo decisivo" por temporada
+```
+
+### 9.1 Emoção
+
+- **Chances do leque:** palha 10%, madeira 62%, tijolo 20%, concreto 8%. Antes eram 10/79/10/1.
+- **Contrapeso para a estrela não decidir sozinha**, usando as alavancas que já existiam:
+  - o elenco (antes de entrosamento e esquema) que passa de 7,5 pontos abaixo do elenco mais forte da CPU rende só 0,3 por ponto (`JOELHO_ELENCO`, `RENDE_ACIMA_DO_JOELHO`);
+  - o entrosamento vale mais: +0,9 por ligação, até +4;
+  - o time novo começa mais atrás: Fácil −1,5, Normal −2,7, Difícil −4,3;
+  - a folga do time pronto sobre o clube mais forte caiu de 2 para 1,5.
+
+| Normal | antes (fase 3) | fase 4 (sementes 0 / 777777) | meta |
+|---|---|---|---|
+| drafts que mostram 2+ concretos | 10,6% | **93,8% / 93,9%** | ≥ 90% |
+| drafts que mostram 1+ concreto | 41,9% | 99,0% / 99,2% | — |
+| leques com tijolo ou concreto | 43,3% | **77,7% / 77,7%** | ≥ 70% |
+| concretos vistos por draft | 0,5 | 4,3 | — |
+| concretos escolhidos pela maior nota | ~0,5 | 3,7 | — |
+
+**A estrela ainda é estrela** (`estrela.js`, mesmas sementes). Um concreto no lugar de um titular madeira da mesma função, com 50 temporadas por elenco:
+
+| elenco | força | G6 | campeão BR | algum título | posição média |
+|---|---|---|---|---|---|
+| típico ("humano") | +1,35 | +10,0 pp | +3,9 pp | +5,8 pp | −1,1 |
+| da maior nota | +1,07 | +5,0 pp | +4,8 pp | +6,7 pp | −0,5 |
+
+A caixa de chances do resumo mostra essa diferença.
+
+### 9.2 Jogos que valem
+
+- No Brasileirão, o jogo só é decisivo nas 6 últimas rodadas e com uma linha da tabela em jogo para você: título, G6/Libertadores, Sul-Americana (12º) ou fugir do Z4.
+- A linha está em jogo se você estiver a até 2 pontos dela (4 nas 2 últimas rodadas) e a conta ainda puder virar com os pontos que faltam (`emJogoNoBrasileirao`).
+- O cartão diz o que está em jogo ("Em jogo: a vaga na Libertadores · falta 1 ponto").
+- Mata-mata e finais continuam sempre decisivos.
+
+| paradas por temporada | antes (36ª-38ª sempre) | depois |
+|---|---|---|
+| draft típico ("humano"): média (p10-p90) | 12,7 (8-17) | 12,4 (7-18) |
+| ao acaso | 11,1 (7-16) | 10,4 (5-16) |
+| maior nota | 13,8 (9-19) | 12,3 (6-18) |
+| no Brasileirão (humano) | 4,2, com 0% das temporadas sem nenhuma | 3,0, com 18% das temporadas sem nenhuma (nada em jogo) |
+| por mês (humano, depois) | — | abr 1,0 · mai 1,0 · jul 0,5 · ago 3,6 · set 1,5 · out 1,5 · nov 3,0 · dez 0,2 |
+
+**Metade da meta de 6-12.** A média cai para 10-12, mas o p90 fica em 16-18. Quem vai longe nas copas soma 7-9 paradas só no mata-mata (Copa do Brasil 5,4 + continental 3,9 no draft típico).
+
+Para caber sempre em 12, mantendo "todo mata-mata decisivo", só dando menos parada no Brasileirão, e ele já está em ~3. A alternativa mais próxima: tornar decisivo só o jogo de volta e a final (a ida vira jogo comum, com a postura do painel). Isso tira ~3-4 paradas de quem vai longe.
+
+### 9.3 Metas depois da fase 4
+
+| meta | sementes 0 | sementes 777777 |
+|---|---|---|
+| 1 realismo (gols, mandante, visitante, 0×0, campeão, lanterna, 17º, Libertadores, pênaltis) | todas PASS: 2,35 · 49,7% · 25,9% · 8,0% · 74,0 · 29,4 · 41,0 · 52,7% brasileiro / 11,1% altitude · 18,0% | todas PASS |
+| 2 inteligente − maior nota (≥ +3) | +3,5 | +3,2 |
+| 2 escolhas que não são a maior nota (≥ 25%) | 40,0% | 40,6% |
+| 3 esquema ótimo mais frequente (≤ 40%) / melhor − pior (≥ 3) | 27,5% / 5,5 pts | — |
+| 4 decisões boas − Equilibrado: pts (≥ +3) / títulos (+3 a +5 pp) | +3,6 / +6,8 pp (FAIL: acima) | +4,3 / +12,5 pp (FAIL: acima) |
+| 5 Fácil / Normal / Difícil: mediana ao acaso | 8 / 12 / 15 | 9 / 11 / 13 (Difícil: FAIL por 1 posição; n=225) |
+| 5 campeão com a maior nota | 24,9 / 17,1 / 8,4% | 23,6 / 16,7 / 5,3% |
+| 7 time dos sonhos campeão (≤ 40%) | 37 / 31,5 / 22,5% | — |
+| 7 pior escolha: Z4 (75-92) / top 12 (≥ 3) | 80,0% / 5,3% | 75,3% / 3,5% |
+| 7 erros, calendário, expulso que marca, tempo | 0 · 0 · 0 · 17,6 ms | 0 · 0 · 0 · 15,9 ms |
+| E emoção | PASS (acima) | PASS |
+
+- `testes-ui.js`: 42 ok. Entram três checagens novas:
+  - mata-mata sempre decisivo;
+  - nenhuma rodada decisiva fora das 6 últimas e todo cartão de rodada com "Em jogo";
+  - a 36ª-38ª às vezes decisiva, às vezes não.
+- Chromium, temporada inteira no "Até o próximo decisivo": 0 erros no console.

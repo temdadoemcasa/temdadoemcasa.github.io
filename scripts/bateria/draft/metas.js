@@ -76,6 +76,15 @@ const C = bloco("C_pior");
 meta("7", "pior escolha: Z4 %", f1(pct(C.filter((x) => x.pos >= 17).length, C.length)), entre(pct(C.filter((x) => x.pos >= 17).length, C.length), 75, 92), "75-92");
 meta("7", "pior escolha: top 12 %", f1(pct(C.filter((x) => x.pos <= 12).length, C.length)), pct(C.filter((x) => x.pos <= 12).length, C.length) >= 3, "≥ 3");
 
+// E. emocao do pacote (Normal: tudo menos o bloco F de dificuldade)
+const NORMAL = L.filter((x) => !x.erro && x.emocao && (x.dificuldade || "normal") === "normal");
+const dois = NORMAL.filter((x) => x.emocao.concretos >= 2).length;
+const lq = NORMAL.reduce((s, x) => s + x.emocao.leques, 0), lqT = NORMAL.reduce((s, x) => s + x.emocao.lequesTijolo, 0);
+meta("E", "drafts que mostram 2+ concretos %", f1(pct(dois, NORMAL.length)), pct(dois, NORMAL.length) >= 90, "≥ 90");
+meta("E", "leques com tijolo ou concreto %", f1(pct(lqT, lq)), pct(lqT, lq) >= 70, "≥ 70");
+meta("E", "concretos vistos por draft (média) / escolhidos pela maior nota", `${f1(media(NORMAL.map((x) => x.emocao.concretos)))} / ${f1(media(B.map((x) => x.emocao.concretosEscolhidos)))}`, true, "informativo");
+meta("E", "drafts que mostram 1+ concreto %", f1(pct(NORMAL.filter((x) => x.emocao.concretos >= 1).length, NORMAL.length)), true, "informativo");
+
 // resumo por bloco
 const linhas = [];
 for (const b of [...new Set(L.map((x) => x.bloco))]) {

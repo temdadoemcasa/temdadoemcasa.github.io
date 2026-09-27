@@ -18,6 +18,9 @@ scripts/bateria/draft/dificuldade.sh normal           # afinar uma dificuldade (
 node scripts/bateria/draft/extras.js                  # time dos sonhos/pesadelo, tempo das chances do resumo, desafio do dia
 node scripts/bateria/draft/testes-ui.js               # 39 checagens de tela: trava, banco, janela, postura, desafio e o fluxo dos botões com cartão aberto (DOM falso)
 node scripts/bateria/draft/janela.js 150              # janela de transferências: abre em toda temporada? quando? quantos usam?
+node scripts/bateria/draft/estrela.js 40 50           # um concreto no lugar de um madeira: quanto mexe nas chances
+node scripts/bateria/draft/decisivos.js 300 humano    # paradas "Até o próximo decisivo" por temporada, por competição e por mês
+node scripts/bateria/draft/emocao.js <tudo.jsonl>     # drafts com 2+ concretos e leques com tijolo+ (também sai no metas.js, grupo [E])
 ```
 
 - A saída vai para `${TMPDIR:-/tmp}/bateria-draft/`, fora do repo. O `.jsonl` tem uns 5 MB. Para mudar a pasta, use `SAIDA=<pasta>`.

@@ -36,6 +36,8 @@ function draftar(p) {
   D.banco = A.BANCO_VAGAS.map((pos) => ({ pos, jogador: null }));
   D.vaga = 0; D.trocas = A.DIFICULDADES[D.dificuldade].trocas; D.trocasUsadas = 0; D.leques = {};
   const log = [];
+  const vistos = []; // todo leque que apareceu na tela (emocao: quantas estrelas a pessoa viu)
+  log.vistos = vistos;
   let guard = 0;
   const tijolo = A.NIVEIS.find((n) => n.id === "tijolo").min;
   while (D.vaga >= 0) {
@@ -43,13 +45,15 @@ function draftar(p) {
     const k = D.vaga;
     const slot = A.todasVagas()[k];
     let leque = A.lequeAtual();
+    vistos.push(leque);
     if (p.troca && D.trocas > 0 && Math.max(...leque.map((j) => j.overall)) < tijolo) {
       D.trocas -= 1; D.trocasUsadas += 1; delete D.leques[k];
       leque = A.lequeAtual();
+      vistos.push(leque);
     }
     const esc = POL[p.politica](leque, k);
     const maiorNota = Math.max(...leque.map((j) => j.overall));
-    log.push({ pos: slot.pos, ov: esc.overall, max: maiorNota, n: leque.length, naoMaior: esc.overall < maiorNota, enc: A.encaixeNaVaga(esc, slot.pos), id: esc.player_id });
+    log.push({ pos: slot.pos, ov: esc.overall, max: maiorNota, nivel: A.nivel(esc.overall).id, n: leque.length, naoMaior: esc.overall < maiorNota, enc: A.encaixeNaVaga(esc, slot.pos), id: esc.player_id });
     slot.jogador = esc;
     delete D.leques[k];
     D.vaga = A.proximaVaga();
@@ -208,9 +212,17 @@ function tentativa(p, i) {
     res.msDraft = msDraft;
   } catch (e) { erro = String(e && e.stack || e).split("\n").slice(0, 4).join(" | "); }
   const escolhas = draft || [];
+  const nivelDe = (j) => A.nivel(j.overall).id;
+  const vistos = (draft && draft.vistos) || [];
+  const emocao = {
+    leques: vistos.length,
+    lequesTijolo: vistos.filter((l) => l.some((j) => ["tijolo", "grafeno"].includes(nivelDe(j)))).length,
+    concretos: vistos.reduce((s, l) => s + l.filter((j) => nivelDe(j) === "grafeno").length, 0),
+    concretosEscolhidos: escolhas.filter((d) => d.nivel === "grafeno").length,
+  };
   return { i, ...p, erro, mediaOnze: escolhas.slice(0, 11).reduce((s, d) => s + d.ov, 0) / 11,
     naoMaior: escolhas.filter((d) => d.naoMaior && d.n > 1).length, escolhas: escolhas.length,
-    improvisados: escolhas.slice(0, 11).filter((d) => d.enc < 1).length, ...(res || {}) };
+    improvisados: escolhas.slice(0, 11).filter((d) => d.enc < 1).length, emocao, ...(res || {}) };
 }
 
 if (require.main === module) {

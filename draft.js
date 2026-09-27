@@ -90,25 +90,32 @@ const PARENTES = { MC: ["VOL", "MEI"] };
 const ENCAIXE = { principal: 1, secundaria: 0.96, familia: 0.88, fora: 0.75, ladoTrocado: 0.95 };
 // entrosamento: time montado do zero comeca devendo; cada companheiro de clube
 // que ja estava no onze soma (pontos da regua, no ataque e na defesa)
-const ENTROSAMENTO = { base: -1, porLigacao: 0.5, teto: 2.5 };
+const ENTROSAMENTO = { base: -1, porLigacao: 0.9, teto: 4 };
 // acima do teto (o elenco mais forte da Serie A, ataque + defesa, mais 1), a forca rende isso
 const TETO_ESTRELAS = 0.1;
-const TETO_FOLGA = 2; // o time pronto pode passar o clube mais forte por ate 2 pontos cheios
+// joelho do elenco (pontos em relacao ao elenco mais forte da CPU, antes de
+// entrosamento e esquema) e quanto cada ponto rende acima dele
+const JOELHO_ELENCO = -7.5;
+const RENDE_ACIMA_DO_JOELHO = 0.3;
+const TETO_FOLGA = 1.5; // o time pronto pode passar o clube mais forte por ate 1,5 ponto cheio
 // lesao por jogador por jogo (so no seu clube; a CPU ja entra com a media do elenco)
 const TAXA_LESAO = 0.006;
-// Chances do leque: quase tudo madeira, tijolo de vez em quando, concreto raro
-// (1%, como no envelope). Com leque mais parelho, a escolha deixa de ser "pega
-// o maior numero": encaixe, entrosamento e eixos decidem.
-const CHANCES_NORMAIS = { palha: 0.1, madeira: 0.79, tijolo: 0.1, grafeno: 0.01 };
+// Chances do leque: abrir figurinha de craque e a graca. Com estas, ~78% dos
+// leques trazem tijolo ou concreto e ~94% dos drafts mostram 2+ concretos (a
+// bateria mede). Pra estrela nao decidir tudo sozinha, o elenco acima do joelho
+// (JOELHO_ELENCO) rende RENDE_ACIMA_DO_JOELHO por ponto: encaixe, entrosamento
+// e eixos continuam pesando. Um concreto no lugar de um madeira ainda mexe:
+// +1,3 de forca, ~+10 pp de G6 num elenco tipico (estrela.js).
+const CHANCES_NORMAIS = { palha: 0.1, madeira: 0.62, tijolo: 0.2, grafeno: 0.08 };
 // na janela de transferencias o mercado e outro: vem reforco de verdade
 const CHANCES_JANELA = { palha: 0, madeira: 0.55, tijolo: 0.38, grafeno: 0.07 };
 // dificuldade: entrosamento inicial do time montado do zero e trocas de leque
 const DIFICULDADES = {
-  facil: { nome: "Fácil", chances: CHANCES_NORMAIS, trocas: 2, cartas: 5, entrosamento: 0.2,
+  facil: { nome: "Fácil", chances: CHANCES_NORMAIS, trocas: 2, cartas: 5, entrosamento: -1.5,
     resumo: "seu time já chega meio entrosado e você troca o leque 2 vezes" },
-  normal: { nome: "Normal", chances: CHANCES_NORMAIS, trocas: 1, cartas: 5, entrosamento: -1.3,
+  normal: { nome: "Normal", chances: CHANCES_NORMAIS, trocas: 1, cartas: 5, entrosamento: -2.7,
     resumo: "time montado do zero, 1 troca de leque" },
-  dificil: { nome: "Difícil", chances: CHANCES_NORMAIS, trocas: 0, cartas: 5, entrosamento: -2.5,
+  dificil: { nome: "Difícil", chances: CHANCES_NORMAIS, trocas: 0, cartas: 5, entrosamento: -4.3,
     resumo: "time montado na última hora, sem troca de leque" },
 };
 function descreverTatica(esquema) {
@@ -195,11 +202,11 @@ const oTime = (nome) => `${FEMININOS.has(nome) ? "A" : "O"} ${nome}`;
 const LADO_DA_VAGA = { LD: "D", ALD: "D", LE: "E", ALE: "E" };
 
 // chances do leque: CHANCES_NORMAIS (la em cima), iguais nas tres dificuldades.
-// Bateria de 5.000 temporadas em 27/09 (scripts/bateria/draft), no Normal:
-// escolher ao acaso fica no meio (mediana 12o-13o, Z4 ~21%), pegar sempre a
-// maior nota da ~19% de titulo brasileiro (G6 ~70%) e o "inteligente" (encaixe,
-// entrosamento e eixos) faz ~3,5 pontos a mais que a maior nota; sempre a pior
-// cai em ~80%. Com as chances do envelope, ao acaso cairia em ~55%.
+// Bateria de 5.000 temporadas em 27/09 (fase 4, scripts/bateria/draft), no
+// Normal: escolher ao acaso fica no meio (mediana 12o, Z4 ~19%), pegar sempre
+// a maior nota da ~17% de titulo brasileiro e o "inteligente" (encaixe,
+// entrosamento e eixos) faz ~3,4 pontos a mais que a maior nota; sempre a pior
+// cai em ~80%.
 const chancesDoLeque = () => (DIFICULDADES[D.dificuldade] || DIFICULDADES.normal).chances;
 
 // todas as vagas: o onze e depois o banco (D.vaga indexa essa lista)
@@ -524,7 +531,7 @@ function timesCpu() {
   }
   // teto do time de estrelas: o elenco mais forte da liga (antes do esquema) e,
   // pro time pronto, o clube mais forte com esquema, com uma folga
-  D.teto = teto + 1;
+  D.teto = teto + JOELHO_ELENCO;
   D.tetoTime = Math.max(...Object.values(times).map((t) => t.atq + t.def)) + TETO_FOLGA;
   D.cpu = { r: D.r, regras: D.regras, times };
   return timesCpu();
@@ -555,7 +562,7 @@ function forcaDoElenco(onze = D.onze, banco = D.banco, esquema = D.esquema) {
   // clubes nao rendem a soma). Entrosamento e esquema somam por cima.
   let { atq, def } = r;
   const sobra = atq + def - D.teto;
-  if (sobra > 0) { atq -= (sobra * (1 - TETO_ESTRELAS)) / 2; def -= (sobra * (1 - TETO_ESTRELAS)) / 2; }
+  if (sobra > 0) { atq -= (sobra * (1 - RENDE_ACIMA_DO_JOELHO)) / 2; def -= (sobra * (1 - RENDE_ACIMA_DO_JOELHO)) / 2; }
   atq += ent.bonus + esq.atq; def += ent.bonus + esq.def;
   const sobraTime = atq + def - D.tetoTime;
   if (sobraTime > 0) { atq -= (sobraTime * (1 - TETO_ESTRELAS)) / 2; def -= (sobraTime * (1 - TETO_ESTRELAS)) / 2; }
@@ -789,14 +796,56 @@ function depoisDoJogo(temp, etapa, jogo) {
 
 // decisivo pro usuario: mata-mata, reta final (36a-38a) e, da 30a rodada em
 // diante, confronto direto (ate 3 pontos de diferenca)
+// Decisivo pro usuario: todo mata-mata e toda final; no Brasileirao, so quando
+// alguma linha da tabela esta em jogo pra ele (emJogoNoBrasileirao).
 function decisivaParaUsuario(temp, etapa) {
   if (!etapa) return false;
-  if (Motor.decisiva(etapa)) return true;
-  if (etapa.comp !== "bra" || temp.bra.rodada < 29) return false;
+  if (etapa.mata) return true;
+  if (etapa.comp !== "bra") return false;
   const par = etapa.montar().find((j) => j.casa === temp.usuario || j.fora === temp.usuario);
-  if (!par) return false;
-  const pts = (id) => temp.bra.tabela.get(id).pts;
-  return Math.abs(pts(temp.usuario) - pts(par.casa === temp.usuario ? par.fora : par.casa)) <= 3;
+  return Boolean(par && emJogoNoBrasileirao(temp));
+}
+
+// O que o Brasileirao ainda decide pro usuario, pela tabela e pelos pontos que
+// faltam: titulo, vaga na Libertadores (G6), na Sul-Americana (7o-12o) e fugir
+// do Z4. So nas ultimas RETA_FINAL rodadas; a linha esta em jogo quando o
+// usuario esta a ate MARGEM_EM_JOGO pontos dela (2, ou 4 nas 2 ultimas) e a
+// conta ainda pode virar com os jogos que restam. Assim uma temporada tipica
+// para ~11 vezes (mata-mata ~8,6 + Brasileirao ~3), em vez de ~13 com a 36a-38a
+// sempre decisivas.
+const RETA_FINAL = 6;
+const MARGEM_EM_JOGO = (restam) => (restam <= 2 ? 4 : 2);
+function emJogoNoBrasileirao(temp) {
+  const restam = 38 - temp.bra.rodada;
+  if (restam > RETA_FINAL || restam <= 0) return null;
+  const tab = Motor.ordenar(temp.bra.tabela);
+  const pos = tab.findIndex((l) => l.id === temp.usuario) + 1;
+  const eu = tab[pos - 1];
+  const falta = (l) => 3 * (38 - l.j);
+  const margem = MARGEM_EM_JOGO(restam);
+  const zonas = (temp.ttc && temp.ttc.regras.brasileirao.zonas) || [];
+  const zona = (nome) => zonas.find((z) => z.nome === nome);
+  const linhas = [
+    { k: 1, nome: "o título" },
+    zona("Rebaixamento") && { k: zona("Rebaixamento").de - 1, nome: "fugir do Z4" },
+    zona("Libertadores") && { k: zona("Libertadores").ate, nome: "a vaga na Libertadores" },
+    zona("Sul-Americana") && { k: zona("Sul-Americana").ate, nome: "a vaga na Sul-Americana" },
+  ].filter(Boolean);
+  for (const { k, nome } of linhas) {
+    if (pos <= k) {
+      // dentro da linha: quem vem logo abaixo ainda alcanca?
+      const abaixo = tab[k];
+      if (!abaixo) continue;
+      const folga = eu.pts - abaixo.pts;
+      if (folga <= margem && abaixo.pts + falta(abaixo) >= eu.pts) return { linha: k, nome, texto: `Em jogo: ${nome} · ${folga ? `você tem ${folga} ${folga === 1 ? "ponto" : "pontos"} de folga` : "empatado com quem está logo abaixo"}` };
+    } else {
+      // fora da linha: da pra alcancar quem esta nela?
+      const alvo = tab[k - 1];
+      const atras = alvo.pts - eu.pts;
+      if (atras <= margem && eu.pts + falta(eu) >= alvo.pts) return { linha: k, nome, texto: `Em jogo: ${nome} · ${atras ? (atras === 1 ? "falta 1 ponto" : `faltam ${atras} pontos`) : "empatado com o time da linha"}` };
+    }
+  }
+  return null;
 }
 const decisiva = (e) => decisivaParaUsuario(D.temp, e);
 
@@ -820,7 +869,8 @@ function contextoDecisivo(temp, etapa) {
       const rival = par.casa === eu ? par.fora : par.casa;
       const p = (id) => tab.findIndex((l) => l.id === id) + 1;
       const l = (id) => tab[p(id) - 1];
-      return { rival, par, texto: `Você: ${p(eu)}º com ${l(eu).pts} pts · ${nomeDe(rival)}: ${p(rival)}º com ${l(rival).pts} pts · ${par.casa === eu ? "em casa" : "fora"} · ${comparacaoDeForca(temp, rival)}` };
+      const jogo = emJogoNoBrasileirao(temp);
+      return { rival, par, emJogo: jogo, texto: `${jogo ? `${jogo.texto} · ` : ""}Você: ${p(eu)}º com ${l(eu).pts} pts · ${nomeDe(rival)}: ${p(rival)}º com ${l(rival).pts} pts · ${par.casa === eu ? "em casa" : "fora"} · ${comparacaoDeForca(temp, rival)}` };
     }
   }
   // mata-mata: se a etapa e a proxima, o sorteio ja pode ser revelado (o jogo

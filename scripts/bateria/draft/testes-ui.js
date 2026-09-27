@@ -73,6 +73,34 @@ const lista = cobradores("Flamengo"); conf(!cobradores("Flamengo", new Set([list
 const primeiroLeque = (seed, data) => { A.semear(seed); novoDraft(); D.desafio = { data, semente: `ttc-${data}` }; const l = A.lequeAtual().map((j) => j.player_id).join(","); D.desafio = null; return l; };
 conf(primeiroLeque(1, "2026-09-27") === primeiroLeque(2, "2026-09-27"), "desafio: leques diferentes no mesmo dia");
 conf(primeiroLeque(1, "2026-09-27") !== primeiroLeque(1, "2026-09-28"), "desafio: mesmo leque em dias diferentes");
+// 6b) reta final: rodada do Brasileirao so e decisiva com algo em jogo; mata-mata sempre
+{
+  let semNada = 0, comAlgo = 0, mataNao = 0, cedo = 0, incoerente = 0;
+  for (let s = 0; s < 12; s++) {
+    A.semear(600 + s); D.sai = "Chapecoense"; D.continental = s % 2 ? "sul" : "lib";
+    novoDraft(); for (let k = 0; k < 16; k++) { D.vaga = k; A.todasVagas()[k].jogador = A.lequeAtual()[0]; }
+    const t = A.montarTemporada({ semente: 900 + s, rngGrupo: A.random }); D.temp = t; D.times = t.times;
+    while (!Motor.terminou(t)) {
+      const e = t.etapas[t.i], prox = Motor.agenda(t, 1)[0];
+      if (prox && prox.indice === t.i) {
+        const dec = A.decisivaParaUsuario(t, e);
+        if (e.mata && !dec) mataNao++;
+        if (e.comp === "bra") {
+          const ej = A.emJogoNoBrasileirao(t);
+          if (dec !== Boolean(ej)) incoerente++;
+          if (dec && 38 - t.bra.rodada > 6) cedo++;
+          if (t.bra.rodada >= 35) { if (dec) comAlgo++; else semNada++; }
+          if (dec && !/^Em jogo: /.test(A.contextoDecisivo(t, e).texto)) incoerente++;
+        }
+      }
+      Motor.avancar(t);
+    }
+  }
+  conf(mataNao === 0, "mata-mata nao decisivo");
+  conf(cedo === 0 && incoerente === 0, `rodada decisiva fora da reta final (${cedo}) ou sem 'Em jogo' no cartao (${incoerente})`);
+  conf(semNada > 0 && comAlgo > 0, `36a-38a deveriam ser decisivas so as vezes (decisivas ${comAlgo}, sem nada em jogo ${semNada})`);
+}
+
 // 7) fluxo pelas funcoes de tela reais, com DOM falso (domfalso.js): botoes com cartao aberto
 (async () => {
   const { domFalso } = require("./domfalso.js");
