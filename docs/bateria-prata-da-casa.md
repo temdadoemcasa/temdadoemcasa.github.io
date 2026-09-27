@@ -607,3 +607,75 @@ SEMENTE_C=20001 SEMENTE_R=30001 BATERIA_OUT=/tmp/b scripts/bateria/prata/bateria
 ```
 
 `metas.md` na pasta de saída traz todas as metas, A a H.
+
+---
+
+## 9. Fase 4: contrato mais simples na tela (27/09/2026)
+
+O dono jogou e pediu: "ficar sem renovar" é estranho, e o contrato deveria aparecer como escolhas simples, do tipo "renova por mais 1 ano". A mecânica continua a mesma:
+
+- com contrato, o clube decide as propostas;
+- no último ano o passe sai barato;
+- no fim do contrato o jogador sai de graça;
+- dá pra pedir pra ser vendido.
+
+Mudou só a forma das escolhas.
+
+### 9.1 Botões por estado (E2E: `node scripts/bateria/prata/e2e.js`, 200 carreiras, janela desenhada de verdade)
+
+| estado | antes (HEAD 71657ac) | depois |
+|---|---|---|
+| peneira | Assinar · linha "Contrato de 3 anos" | **Assina** · linha "Vai até 2028" |
+| com contrato | Seguir · "Seu contrato: mais 3 anos (até 2031)" | **Segue no clube (contrato até 2031)**, e "Pede pra ser vendido" se o clube barrou propostas |
+| último ano | "Aumento e mais minutos" / "Bônus por gol" / "Contrato longo de ídolo" (2 das 3, contrato novo de N anos) + **Ficar sem renovar** | **Renova por mais 1 ano** (+ porta aberta / − sem aumento) · **Renova por mais 3 anos** (com aumento, bônus por gol, ou "por mais 4 anos, como ídolo"; só pra quem jogou bem, mais curto depois dos 30) · **Deixa o contrato acabar (sai de graça no fim)** |
+| livre | as mesmas renovações + **Ficar sem renovar** (assinava um "contrato padrão") | **Renova por 1 ano** (+ o contrato longo, pra quem jogou bem), ou aceita outra proposta |
+| propostas liberadas | Assinar · Pedir vaga de titular · linha "Contrato de 4 anos · último ano do seu contrato: sai barato" | **Aceita** · Pedir vaga de titular · linha "Vai até 2030" (ou "· chega de graça") |
+| rápido, proposta de clube maior | Ficar / Seguir | "Segue no clube (contrato até 2031)" / "Segue no clube (último ano de contrato)" / "Renova por 4 anos e fica" (livre) · Aceita · Pedir vaga de titular |
+
+O E2E cobriu 20 estados (completo × rápido × com contrato/último ano/livre × com e sem propostas liberadas e barradas, antes e depois de pedir pra sair). Encontrou **0 problemas**: nenhum botão repetido, nenhum estado sem botão, nenhum rótulo quebrado.
+
+### 9.2 Metas (5.000 + extras, dois conjuntos)
+
+| meta | fase 3 (A / B) | fase 4 (A / B) | resultado |
+|---|---|---|---|
+| H: clubes por carreira, 5 políticas (p50 / p95) | 5/8 · 4/8 | 4/8 · 4/8 | PASSA |
+| H: "assina" (p50 / p95 / máx) | 7/10/12 · 7/10/12 | 7/10/14 · 7/10/12 | PASSA (p95 ≤ 10) |
+| H: elite→elite em anos seguidos sem motivo | 0 · 0 | 0 · 0 | PASSA |
+| H: Andarilho (todas) | 7,9% · 7,7% | 6,9% · 7,0% | PASSA |
+| A: prêmios só B-D × média; convocação só B-D | 3,4×5,7; 7,5% · 3,4×5,9; 5,7% | 2,9×5,7; 8,0% · 3,1×5,8; 5,7% | PASSA |
+| B: dominantes (gulosa ≥80%) | 3 · 3 | 4 · 2 | PASSA |
+| B: estratégica × aleatória; auge melhor − pior | +64%; 3,0–3,2 · +62%; 2,7–3,4 | +66%; 3,0–3,3 · +67%; 2,7–3,5 | PASSA |
+| C: rápido × completo | 11,9×12,7 · 15,8×13,0 | 11,9×14,0 · 15,8×14,0 | PASSA |
+| D: apostas / renovação / estreia no 1º ano | 27,3/30,0/100 · 30,0/28,8/100 | 27,4/34,6/100 · 29,8/34,1/100 | PASSA |
+| E: técnico / despedida | 13,4/22,6 · 14,3/23,8 | 13,6/22,0 · 13,6/21,1 | PASSA |
+| F: exceções / texto / repetida / situações | 0/0/0/111 · igual | 0/0/0/111 · igual (e 0 nas 3.400 extras) | PASSA |
+| F: aposentadoria p5-p50-p95 | 33-36-38 | 33-36-38 | PASSA |
+
+### 9.3 O que mudou (arquivo:linha)
+
+**`carreira.js`**
+- `:676`: peneira com botão "Assina".
+- `:708-713`: cartão da proposta mostra "Vai até 2030" (e "· chega de graça" pra quem está livre).
+- `:3070`: o botão da proposta é "Aceita".
+- `:3097-3128`: `RENOVACOES` virou tamanho de contrato:
+  - "curta" (1 ano, sempre oferecida);
+  - "aumento" e "gol" (3 anos);
+  - "idolo" (4 anos).
+  - `anosDaRenovacao` encurta o contrato longo aos 31+ (2 anos) e aos 33+ (só a curta).
+  - `rotuloDaRenovacao` escreve "Renova por mais N anos", ou "por N anos" pra quem está livre.
+- `:3130-3137`: `ofertasDeRenovacao`. A curta vem sempre; uma longa só pra quem jogou bem.
+- `:3145-3156`: `botoesDoClube`, os botões do seu clube por estado. A tela e a bateria usam a mesma lista.
+- `:3158-3187`: `cartaoDoClube` redesenhado. Uma linha de estado e os botões, cada renovação com o seu + / −. Sem "Ficar sem renovar".
+- `:790-801`: `renovarCom`. "mais N anos" conta a partir do fim do contrato atual (livre: a partir de agora). A curta não carrega efeito.
+- `:3049` e `:3059`: chamadas de `cartaoDoClube` com a assinatura nova.
+
+**Harness**
+- `dentro.js`: o mercado usa `botoesDoClube`, e as políticas foram adaptadas (a gulosa prefere a renovação longa com aumento; a cautelosa, a mais longa). Ganhou um gancho de E2E que desenha a janela real.
+- `e2e.js` (novo): lista os botões de cada estado e aponta repetição, estado sem saída e rótulo quebrado.
+
+**Docs**
+- `docs/prata-da-casa-escolhas.md`: a seção "Contratos" foi reescrita com os botões novos.
+
+### 9.4 CSS e HTML
+
+Nada novo. As classes são as mesmas da fase 3 (`.proposta-contrato`, `.mercado-barradas`, `.renova-opcao`).

@@ -120,7 +120,7 @@
       const incerta = ofertas.filter((b) => joga(b.c) >= 0.2).sort((a, b) => (degrau(b.c) - degrau(a.c)) || (b.c.forca - a.c.forca))[0];
       const g = incerta && bs.find((b) => b.tipo === "garantia" && b.c === incerta.c);
       if (g) return g;
-      return bs.find((b) => b.tipo === "renova" && b.r.id === "aumento") || bs.find((b) => b.tipo === "renova") || bs.find((b) => b.tipo === "fica");
+      return bs.find((b) => b.tipo === "renova" && b.r.id === "aumento") || bs.find((b) => b.tipo === "renova" && b.r.id !== "curta") || bs.find((b) => b.tipo === "fica") || bs.find((b) => b.tipo === "renova");
     },
     cautelosa: (bs, J, ctx, linha) => {
       bs = bs.filter((b) => b.tipo !== "pede");
@@ -128,7 +128,7 @@
         const o = bs.filter((b) => b.tipo === "assina").sort((a, b) => notaClube(J, b.c) - notaClube(J, a.c))[0];
         if (o) return o;
       }
-      return bs.find((b) => b.tipo === "renova" && b.r.id === "idolo") || bs.find((b) => b.tipo === "renova") || bs.find((b) => b.tipo === "fica");
+      return bs.find((b) => b.tipo === "renova" && b.r.id === "idolo") || bs.find((b) => b.tipo === "renova" && b.r.id !== "curta") || bs.find((b) => b.tipo === "renova") || bs.find((b) => b.tipo === "fica");
     },
   };
   const BASE_ESCOLHA = {
@@ -142,17 +142,25 @@
     cautelosa: (ps) => [...ps].sort((a, b) => chanceDeTitular(C.J.ovr, b.nivel, 16) - chanceDeTitular(C.J.ovr, a.nivel, 16))[0],
   };
 
+  const estadoJanela = (J, rapido, ofertas, barradas) => `${rapido ? "rápido" : "completo"} · ${anosRestantes(J) >= 2 ? "com contrato" : anosRestantes(J) === 1 ? "último ano" : "livre"}`
+    + ` · ${ofertas.length ? "com propostas liberadas" : "sem propostas"}${barradas.length && !rapido ? " · com propostas barradas" : ""}`;
   function mercado(J, linha, pol, ctx, reg, { rapido = false } = {}) {
     const ofertas = C.ofertasAbertas || [];
-    const renov = rapido ? [] : ofertasDeRenovacao(J, linha);
-    let bs = [...renov.map((r) => ({ tipo: "renova", r })), { tipo: "fica" }, ...ofertas.flatMap((c) => [{ tipo: "assina", c }, { tipo: "garantia", c }])];
+    // os botoes do clube vem do jogo (botoesDoClube), na ordem da tela
+    const doClube = botoesDoClube(J, linha, { rapido });
+    let bs = [...doClube, ...ofertas.flatMap((c) => [{ tipo: "assina", c }, { tipo: "garantia", c }])];
+    // e2e: desenha a janela de verdade (mostrarMercado) e guarda os botoes
+    if (ctx.e2e) ctx.e2e(estadoJanela(J, rapido, C.ofertasAbertas || [], C.ofertasBarradas || []), () => mostrarMercado(linha, rapido ? { so: ofertas } : {}));
+    reg.estadosJanela = reg.estadosJanela || [];
+    reg.estadosJanela.push([anosRestantes(J) >= 2 ? "com contrato" : anosRestantes(J) === 1 ? "último ano" : "livre", rapido ? "rápido" : "completo", doClube.map((b) => b.rotulo).join(" | ")]);
     // "Pede pra ser vendido" aparece quando o clube barrou propostas (completo)
-    if (!rapido && (C.ofertasBarradas || []).length && anosRestantes(J) >= 1 && !J.pediuSaida) bs.splice(renov.length + 1, 0, { tipo: "pede", barradas: C.ofertasBarradas });
+    if (!rapido && (C.ofertasBarradas || []).length && anosRestantes(J) >= 1 && !J.pediuSaida) bs.splice(doClube.length, 0, { tipo: "pede", barradas: C.ofertasBarradas });
     for (let guarda = 0; guarda < 20; guarda++) {
-      const b = MERCADO[pol](bs, J, ctx, linha);
+      const b = MERCADO[pol](bs, J, ctx, linha) || bs.find((x) => x.tipo === "fica") || bs.find((x) => x.tipo === "renova") || bs[0];
       reg.mercado[b.tipo === "renova" ? `renova:${b.r.id}` : b.tipo] = (reg.mercado[b.tipo === "renova" ? `renova:${b.r.id}` : b.tipo] || 0) + 1;
       if (b.tipo === "renova") {
         const r = b.r;
+        ctx.texto("rotulo-renovacao", b.rotulo);
         const texto = renovarCom(J, r); ctx.texto("renovacao", texto);
         J.janela = [...(J.janela || []), texto];
         Historia.registrar(J, { titulo: "Renovação", arco: null }, r, { texto, ok: null });
@@ -161,6 +169,7 @@
       if (b.tipo === "fica") break;
       if (b.tipo === "pede") {
         const lib = pedirSaida(J);
+        if (ctx.e2e) { C.ofertasAbertas = [...ofertas, ...lib]; ctx.e2e(`${estadoJanela(J, rapido, C.ofertasAbertas, C.ofertasBarradas || [])} · depois de pedir pra sair`, () => mostrarMercado(linha, { aviso: "pedido" })); }
         reg.mercado[`pede:${lib.length ? "liberou" : "segurou"}`] = (reg.mercado[`pede:${lib.length ? "liberou" : "segurou"}`] || 0) + 1;
         bs = [...bs.filter((x) => x.tipo !== "pede"), ...lib.flatMap((c) => [{ tipo: "assina", c }, { tipo: "garantia", c }])];
         continue;
@@ -279,17 +288,18 @@
   }
 
   // ---------- uma carreira inteira ----------
-  raiz.rodarCarreira = function ({ semente, pol, modo, rngPol, rngJog, semBugProjecao = false, capturar }) {
+  raiz.rodarCarreira = function ({ semente, pol, modo, rngPol, rngJog, semBugProjecao = false, capturar, e2e = null }) {
     const reg = {
       vistos: [], escolhas: [], mercado: {}, transferencias: 0, softlock: [], textosRuins: [], erros: [], eventosPorAno: [],
       conseqDevidas: {}, conseqMostradas: {}, simulouApos: null, saltos: 0, lados: {}, valores: [],
     };
-    const ctx = { rngPol, erros: reg.erros, semBugProjecao, texto: capturar, valores: pol === "gulosa" ? reg.valores : null };
+    const ctx = { rngPol, erros: reg.erros, semBugProjecao, texto: capturar, valores: pol === "gulosa" ? reg.valores : null, e2e };
     rngJog.semear(semente);
     criarJogadorAleatorio(rngPol, modo);
     criarJogador();
     const J = C.J;
     const props = propostasIniciais();
+    if (ctx.e2e) ctx.e2e("peneira", () => { const alvo = document.getElementById("propostas-base"); alvo.replaceChildren(); for (const c of props) alvo.append(cartaoDeProposta(c, () => {}, { contexto: "base", rotulo: "Assina" })); }, "propostas-base");
     const esc = BASE_ESCOLHA[pol](props, ctx);
     reg.base = { divisao: esc.divisao, opcoes: props.map((p) => p.divisao).join("") };
     assinar(esc, "base");

@@ -45,7 +45,8 @@ Não commite os `.jsonl`: somam uns 18 MB.
 - `rodar.js`: roda N carreiras e grava um `.jsonl`.
 - `agregar.js`: gera `tabelas.md` e `resumo.json`.
 - `comparar.js`: compara duas baterias rodadas com as mesmas sementes.
-- `metas.js`: confere as metas da fase 2 com números e imprime PASSA ou FALHA.
+- `metas.js`: confere as metas A a H com números e imprime PASSA ou FALHA.
+- `e2e.js`: desenha a janela de transferências de verdade em cada estado e lista os botões (`node scripts/bateria/prata/e2e.js`).
 
 ## Ao mexer no jogo
 

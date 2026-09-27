@@ -673,7 +673,7 @@ function mostrarPropostasDaBase() {
   desenharPainelJogador();
   const alvo = $("propostas-base");
   alvo.replaceChildren();
-  for (const c of propostasIniciais()) alvo.append(cartaoDeProposta(c, () => assinar(c, "base"), { contexto: "base" }));
+  for (const c of propostasIniciais()) alvo.append(cartaoDeProposta(c, () => assinar(c, "base"), { contexto: "base", rotulo: "Assina" }));
 }
 
 function cartaoDeProposta(c, aoAssinar, { rotulo = "Assinar", extra = null, contexto = null } = {}) {
@@ -706,11 +706,11 @@ function cartaoDeProposta(c, aoAssinar, { rotulo = "Assinar", extra = null, cont
     })(),
   );
   const adapta = contexto === "mercado" ? custoDeAdaptacao(J.clube, c) : null;
-  // o contrato que vem com a proposta (e se voce chega de graca)
+  // ate quando vai o contrato (e se voce chega de graca)
   if (contexto === "base" || contexto === "mercado") {
     const n = contexto === "base" ? CONTRATO_DA_BASE : anosDeContrato(J, c);
-    const rest = contexto === "mercado" ? anosRestantes(J) : 99;
-    card.append(el("p", "proposta-contrato", `Contrato de ${n} ${n === 1 ? "ano" : "anos"}${rest <= 0 ? " · você chega de graça" : rest === 1 ? " · último ano do seu contrato: sai barato" : ""}`));
+    const livre = contexto === "mercado" && anosRestantes(J) <= 0;
+    card.append(el("p", "proposta-contrato", `Vai até ${J.ano + n - 1}${livre ? " · chega de graça" : ""}`));
   }
   if (adapta) card.append(el("p", "proposta-adapta", adapta.texto));
   const acoes = el("div", "proposta-acoes");
@@ -742,7 +742,7 @@ function custoDeAdaptacao(de, para) {
 // J.contratoAte e a ultima temporada coberta. Na janela (J.ano ja e o ano
 // seguinte): 2+ anos restantes, quem decide as propostas e o clube; 1 ano, e o
 // ultimo ano (o clube vende barato pra nao perder de graca); 0, o jogador esta
-// livre e sai de graca. Ficar sem renovar = contrato padrao.
+// livre e sai de graca. Livre, fica quem renova (ou aceita outra proposta).
 const CONTRATO_DA_BASE = 3;
 function anosDeContrato(J, c) {
   const i = J.idade;
@@ -788,13 +788,16 @@ function pedirSaida(J) {
 }
 // renovar com o proprio clube (a tela e a bateria usam a mesma conta)
 function renovarCom(J, r) {
-  // o efeito vale em TODA temporada do contrato (jogarTemporada), a reputacao
-  // mexe uma vez so, na assinatura
-  J.contratoAte = Math.max(J.contratoAte || 0, J.ano + r.anos - 1);
-  J.renovacao = { id: r.id, assinado: J.ano, ate: J.contratoAte };
+  // "mais N anos" conta a partir do fim do contrato atual (livre: a partir de
+  // agora). O efeito vale em TODA temporada do contrato (jogarTemporada), a
+  // reputacao mexe uma vez so, na assinatura
+  const n = anosDaRenovacao(J, r);
+  const fim = anosRestantes(J) >= 1 ? J.contratoAte : J.ano - 1;
+  J.contratoAte = Math.max(J.contratoAte || 0, fim + n);
+  J.renovacao = r.id === "curta" ? null : { id: r.id, assinado: J.ano, ate: J.contratoAte };
   r.todoAno(J.efeito);
   if (r.naAssinatura) r.naAssinatura(J);
-  return r.texto(J);
+  return r.texto(J, n);
 }
 
 function assinar(c, contexto, { anos = null } = {}) {
@@ -3043,7 +3046,7 @@ function mostrarMercado(linha, { so = null, aviso = null } = {}) {
     const p = pedido();
     if (p) alvo.append(p);
     const so = el("div", "propostas");
-    so.append(cartaoDoClube(J, linha, fechar, "Ficou"));
+    so.append(cartaoDoClube(J, linha, fechar));
     alvo.append(so);
     return;
   }
@@ -3053,7 +3056,7 @@ function mostrarMercado(linha, { so = null, aviso = null } = {}) {
     ? `Proposta de um clube maior. Chance de titular no ${J.clube.nome} hoje: ${Math.round(chanceDeTitular(J.ovr, J.clube.nivel, J.idade) * 100)}%.`
     : `Chance de titular no ${J.clube.nome} hoje: ${Math.round(chanceDeTitular(J.ovr, J.clube.nivel, J.idade) * 100)}%. Pedir vaga de titular pode render a garantia, ou fazer o clube desistir.`));
   const grade = el("div", "propostas");
-  grade.append(cartaoDoClube(J, linha, fechar, so ? "Recusou a proposta e ficou" : "Recusou as propostas e ficou", { semRenovar: !!so }));
+  grade.append(cartaoDoClube(J, linha, fechar, { rapido: !!so }));
   for (const c of ofertas) {
     const assinarAqui = (garantia) => {
       const valor = valorDaVenda(J);
@@ -3064,7 +3067,7 @@ function mostrarMercado(linha, { so = null, aviso = null } = {}) {
       fechar(`Assinou com o ${c.nome} por ${n} ${n === 1 ? "ano" : "anos"}${garantia ? ", com vaga de titular prometida" : ""}. ${valor ? `Valor da transferência: ${dinheiro(valor)}.` : "Chegou de graça, em fim de contrato."} O primeiro ano é de adaptação.`, true);
     };
     grade.append(cartaoDeProposta(c, () => assinarAqui(false), {
-      contexto: "mercado",
+      contexto: "mercado", rotulo: "Aceita",
       extra: {
         rotulo: "Pedir vaga de titular",
         acao: (card, botao) => {
@@ -3088,72 +3091,95 @@ function mostrarMercado(linha, { so = null, aviso = null } = {}) {
 // Toda oferta tem um lado bom e um ruim; nao renovar e sempre possivel.
 // contrato em vigor fora do ultimo ano (as renovacoes e arcos usam)
 const sobContrato = (J) => anosRestantes(J) >= 2;
+// Renovar e escolher o tamanho: um ano (porta aberta) ou um contrato longo,
+// que vem com alguma coisa (aumento, bonus por gol, status de idolo) e com o
+// seu lado ruim. A curta o clube sempre oferece; a longa, so pra quem jogou bem.
 const RENOVACOES = [
   {
-    id: "aumento", rotulo: "Aumento e mais minutos",
-    anos: 2, bom: "mais minutos em cada ano do contrato", ruim: "o técnico cobra: nota pesa mais em jogo ruim",
-    todoAno: (e) => { e.minutos += 0.08; e.nota -= 0.05; },
-    texto: (J) => `Renovou com o ${J.clube.nome}: aumento e promessa de minutos. Agora é entregar.`,
+    id: "curta", anos: 1, bom: "porta aberta: no ano que vem você decide de novo", ruim: "sem aumento: o clube não se compromete",
+    todoAno: () => {},
+    texto: (J, n) => `Renovou com o ${J.clube.nome} por mais ${n === 1 ? "um ano" : `${n} anos`}. Contrato curto, porta aberta.`,
   },
   {
-    id: "gol", rotulo: "Bônus por gol", anos: 2,
-    bom: "+15% de gols em cada ano do contrato", ruim: "vira fominha: vestiário torce o nariz e saem menos assistências",
+    id: "aumento", anos: 3, bom: "aumento e mais minutos: a diretoria aposta em você", ruim: "o técnico cobra mais: nota pesa em jogo ruim",
+    todoAno: (e) => { e.minutos += 0.08; e.nota -= 0.05; },
+    texto: (J, n) => `Renovou com o ${J.clube.nome} por mais ${n} anos, com aumento e promessa de minutos. Agora é entregar.`,
+  },
+  {
+    id: "gol", anos: 3, bom: "bônus por gol: +15% de gols em cada ano", ruim: "vira fominha: menos assistências e o vestiário torce o nariz",
     so: (J) => ["CA", "PON", "MEI"].includes(funcaoDe(C.pos)),
     todoAno: (e) => { e.gol += 0.15; e.assist -= 0.2; },
     naAssinatura: (J) => Historia.mexerReputacao(J, { vestiario: -1 }),
-    texto: (J) => `Renovou com o ${J.clube.nome} com bônus por gol. Tem companheiro achando que você só pensa no seu.`,
+    texto: (J, n) => `Renovou com o ${J.clube.nome} por mais ${n} anos, com bônus por gol. Tem companheiro achando que você só pensa no seu.`,
   },
   {
-    id: "idolo", rotulo: "Contrato longo de ídolo",
-    anos: 4, bom: "torcida abraça e a cabeça tranquila ajuda a evoluir", ruim: "a imprensa fala em acomodação",
-    so: (J) => J.anosNoClube >= 2,
+    id: "idolo", anos: 4, bom: "a torcida abraça e a cabeça tranquila ajuda a evoluir", ruim: "a imprensa fala em acomodação",
+    so: (J) => J.anosNoClube >= 3,
     todoAno: (e) => { e.evolucao += 0.3; },
     naAssinatura: (J) => Historia.mexerReputacao(J, { torcida: 2, imprensa: -1 }),
-    texto: (J) => `Contrato longo com o ${J.clube.nome}. A torcida fez festa; a imprensa perguntou se você não quer mais.`,
+    texto: (J, n) => `Renovou com o ${J.clube.nome} por mais ${n} anos, como ídolo. A torcida fez festa; a imprensa perguntou se você não quer mais.`,
   },
 ];
+// o contrato longo encurta com a idade (aos 33+, so a renovacao de um ano)
+const anosDaRenovacao = (J, r) => (r.id === "curta" ? 1 : J.idade >= 33 ? 1 : J.idade >= 31 ? 2 : r.anos);
+const rotuloDaRenovacao = (J, r) => {
+  const n = anosDaRenovacao(J, r);
+  return `Renova por ${anosRestantes(J) >= 1 ? "mais " : ""}${n} ${n === 1 ? "ano" : "anos"}${r.id === "idolo" ? ", como ídolo" : ""}`;
+};
 
 function ofertasDeRenovacao(J, linha) {
-  const bem = (linha.nota ?? 0) >= 6.8 || (linha.titular ?? 0) >= 0.5;
   // o clube oferece renovar no ultimo ano (ou livre); com 2+ anos, nem abre
-  if (!bem || J.idade < 17 || anosRestantes(J) >= 2) return [];
-  const possiveis = RENOVACOES.filter((r) => !r.so || r.so(J));
-  return Motor.embaralhar ? Motor.embaralhar(C.rng, possiveis).slice(0, 2)
-    : possiveis.sort(() => C.rng() - 0.5).slice(0, 2);
+  if (J.idade < 17 || anosRestantes(J) >= 2) return [];
+  const bem = (linha.nota ?? 0) >= 6.8 || (linha.titular ?? 0) >= 0.5;
+  const longas = bem ? RENOVACOES.filter((r) => r.id !== "curta" && (!r.so || r.so(J)) && anosDaRenovacao(J, r) >= 2) : [];
+  const longa = longas.length ? Motor.embaralhar(C.rng, longas)[0] : null;
+  return [RENOVACOES[0], ...(longa ? [longa] : [])];
 }
 
-function cartaoDoClube(J, linha, fechar, textoFicar, { semRenovar = false } = {}) {
+// Os botoes do seu clube na janela, pelo estado do contrato (a tela e a
+// bateria usam a mesma lista):
+//   com contrato (2+ anos) -> "Segue no clube (contrato até 2031)"
+//   ultimo ano -> renovacoes + "Deixa o contrato acabar (sai de graça no fim)"
+//   livre -> so as renovacoes (ou aceita outra proposta)
+//   rapido -> um botao so, pra ficar
+function botoesDoClube(J, linha, { rapido = false } = {}) {
+  const rest = anosRestantes(J);
+  if (rest >= 2) return [{ tipo: "fica", rotulo: `Segue no clube (contrato até ${J.contratoAte})`, texto: `Seguiu no ${J.clube.nome}, com contrato até ${J.contratoAte}.` }];
+  if (rapido) {
+    if (rest === 1) return [{ tipo: "fica", rotulo: "Segue no clube (último ano de contrato)", texto: `Seguiu no ${J.clube.nome} para o último ano de contrato.` }];
+    const n = anosDeContrato(J, J.clube);
+    return [{ tipo: "fica", rotulo: `Renova por ${n} ${n === 1 ? "ano" : "anos"} e fica`, texto: `Ficou no ${J.clube.nome}.` }];
+  }
+  const renov = ofertasDeRenovacao(J, linha).map((r) => ({ tipo: "renova", r, rotulo: rotuloDaRenovacao(J, r) }));
+  if (rest === 1) return [...renov, { tipo: "fica", rotulo: "Deixa o contrato acabar (sai de graça no fim)", texto: `Vai jogar o último ano de contrato no ${J.clube.nome}. No fim, sai de graça.` }];
+  return renov;
+}
+
+function cartaoDoClube(J, linha, fechar, { rapido = false } = {}) {
   const card = el("article", "proposta proposta-ficar");
-  const renovar = semRenovar ? [] : ofertasDeRenovacao(J, linha);
   card.append(el("p", "proposta-liga", `Seu clube · ${J.clube.tipo === "ext" ? J.clube.liga : `Série ${J.clube.divisao}`}`), el("h3", "proposta-nome", J.clube.nome));
   const rest = anosRestantes(J);
-  card.append(el("p", "proposta-contrato", rest >= 2 ? `Seu contrato: mais ${rest} anos (até ${J.contratoAte}).`
-    : rest === 1 ? `Seu contrato: último ano (até ${J.contratoAte}). Sem renovar, no fim do ano você sai de graça.`
-    : "Fim de contrato: você está livre. Se ficar sem renovar, assina o contrato padrão."));
-  if (rest >= 2) card.append(el("p", "proposta-titular", "Fica e segue o contrato."));
-  else if (!renovar.length) card.append(el("p", "proposta-titular", "Fica, briga pela vaga e tenta de novo na próxima janela."));
-  else {
-    card.classList.add("proposta-renova");
-    card.append(el("p", "proposta-titular", "Quer renovar com você:"));
-    const lista = el("div", "renova-lista");
-    card.append(lista);
-    for (const r of renovar) {
-      const b = el("button", "botao renova-opcao");
-      b.type = "button";
-      b.append(el("span", null, r.rotulo), el("small", "renova-bom", `+ ${r.bom}`), el("small", "renova-ruim", `− ${r.ruim}`),
-        el("small", "renova-prazo", `contrato novo de ${r.anos} anos`));
-      b.addEventListener("click", () => {
-        const texto = renovarCom(J, r);
-        Historia.registrar(J, { titulo: "Renovação", arco: null }, r, { texto, ok: null });
+  card.append(el("p", "proposta-contrato", rest >= 2 ? `Seu contrato: mais ${rest} anos.`
+    : rest === 1 ? "Último ano de contrato: se não renovar, você sai de graça no fim do ano."
+    : "Seu contrato acabou: você está livre. Renove ou aceite outra proposta."));
+  const botoes = botoesDoClube(J, linha, { rapido });
+  if (botoes.some((x) => x.tipo === "renova")) card.classList.add("proposta-renova");
+  const lista = el("div", "renova-lista");
+  for (const x of botoes) {
+    const b = el("button", x.tipo === "renova" ? "botao renova-opcao" : "botao");
+    b.type = "button";
+    b.append(el("span", null, x.rotulo));
+    if (x.tipo === "renova") b.append(el("small", "renova-bom", `+ ${x.r.bom}`), el("small", "renova-ruim", `− ${x.r.ruim}`));
+    b.addEventListener("click", () => {
+      if (x.tipo === "renova") {
+        const texto = renovarCom(J, x.r);
+        Historia.registrar(J, { titulo: "Renovação", arco: null }, { rotulo: x.rotulo }, { texto, ok: null });
         fechar(texto, true);
-      });
-      lista.append(b);
-    }
+      } else fechar(x.texto);
+    });
+    lista.append(b);
   }
-  const b = el("button", "botao", rest >= 2 ? "Seguir" : renovar.length ? "Ficar sem renovar" : "Ficar");
-  b.type = "button";
-  b.addEventListener("click", () => fechar(`${textoFicar} no ${J.clube.nome}.`));
-  card.append(b);
+  card.append(lista);
   return card;
 }
 

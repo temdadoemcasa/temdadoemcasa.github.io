@@ -198,7 +198,7 @@ Se você trocou de clube antes de uma consequência chegar, a temporada avisa "f
 
 ## Contratos
 
-Toda assinatura vem com prazo, e o cartão da proposta mostra quanto: "contrato de 3 anos".
+Toda assinatura vem com prazo. O cartão da proposta mostra só até quando: "Vai até 2030", ou "Vai até 2030 · chega de graça" pra quem está livre. O botão é "Aceita" (na peneira, "Assina").
 
 **Duração**
 
@@ -210,30 +210,30 @@ Toda assinatura vem com prazo, e o cartão da proposta mostra quanto: "contrato 
 | 35+ | 1 ano |
 
 - Clube da Série A ou do exterior dá +1 ano até os 29.
-- A elite europeia não contrata por menos de 3 anos até os 32.
-- A base assina por 3 anos.
-- Renovar com o próprio clube dá um contrato novo: "Aumento e mais minutos" e "Bônus por gol" são de 2 anos, "Contrato longo de ídolo" é de 4.
+- A elite europeia contrata por no mínimo 3 anos até os 32.
+- A base assina por 3.
 
-**Na janela** (o cartão do seu clube mostra "seu contrato: mais 2 anos")
+**O seu clube na janela.** Os botões mudam com o contrato:
 
-- **2 anos ou mais de contrato:** as propostas chegam, mas quem decide é o clube.
-  - Ele só libera um passo claro acima (degrau de cima, ou clube bem mais forte), e mais fácil pra quem jogou bem (15%). Sem esse bom ano, 5%, e 2% pra quem não sobe.
-  - A elite europeia não vende pra ninguém do mesmo nível.
-  - As recusadas aparecem ("O Palmeiras recusou a proposta do Flamengo: você tem contrato").
-  - Dá pra **pedir pra ser vendido**. Custa Técnico −1, Torcida −1 e Vestiário −1, e o clube libera cada proposta com 35% de chance (25% na elite).
-- **Último ano:** o clube vende mais fácil pra não perder de graça (40% num salto, 12% no resto, 10% na elite). O passe custa metade, e o clube oferece renovar. É o dilema: renova ou sai de graça no fim do ano.
-- **Fim de contrato:** você está livre. Nada é barrado, o passe é de graça e o mercado olha mais, menos pro veterano de 32+. Ficar sem renovar assina o contrato padrão.
+- **Com contrato (2+ anos):** "Segue no clube (contrato até 2031)". As propostas chegam, mas quem decide é o clube: ele só libera um passo claro acima, mais fácil pra quem jogou bem, e a elite europeia não vende pra ninguém do mesmo nível. As recusadas aparecem, e dá pra "Pede pra ser vendido" (Técnico, Torcida e Vestiário −1; o clube pode segurar, e quase sempre segura quem acabou de chegar).
+- **Último ano:** o clube vende mais fácil (o passe custa metade). As opções são:
+  - "Renova por mais 1 ano": porta aberta, sem aumento;
+  - "Renova por mais 3 anos", que vem com aumento e mais minutos, ou bônus por gol, ou "Renova por mais 4 anos, como ídolo". Só pra quem jogou bem, e encurta depois dos 30;
+  - "Deixa o contrato acabar (sai de graça no fim)".
+- **Livre:** "Renova por 1 ano" (e o contrato longo, pra quem jogou bem), ou aceita outra proposta. Nada é barrado, e o mercado olha mais (menos pro veterano de 32+).
+- **Modo rápido:** um botão só pra ficar ("Segue no clube…", ou "Renova por N anos e fica" quando está livre). A janela automática segue as mesmas regras.
+
+Toda opção de renovação mostra os dois lados em uma linha (+ / −).
 
 **Exceções**
 
 - Empréstimo não mexe no contrato: ele segue com o clube dono.
 - A palavra dada (clube formador) e o pedido aceito pela diretoria ("O ídolo da divisão", repatriação) passam direto.
 - A Arábia paga a multa.
-- O modo rápido e o "Simular o resto" seguem as mesmas regras.
 
 ## Modos
 
-- **Completo:** foco e 2 situações por temporada. Na janela, você escolhe entre as propostas liberadas: pede vaga de titular, pede pra ser vendido ou renova no último ano.
+- **Completo:** foco e 2 situações por temporada. Na janela, você escolhe entre as propostas liberadas: pede vaga de titular, pede pra ser vendido, renova ou deixa o contrato acabar.
 - **Rápido:** foco e 1 situação por temporada. A janela é automática, menos quando chega proposta de um clube um degrau acima. Aí a decisão é sua: fica, vai ou pede vaga de titular.
 
 Renovação e transferência aparecem no resumo do ano seguinte, num bloco "Janela de transferências".
