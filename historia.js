@@ -64,23 +64,33 @@
   const agendar = (J, id, anos, dados = {}) => h(J).agenda.push({ id, ano: J.ano + anos, dados });
   const marcar = (J, k, v = true) => { h(J).marcas[k] = v; };
 
+  // O que a reputacao de agora vale na temporada (sem mexer em nada): o
+  // painel mostra isso ao lado das barras
+  Historia.efeitoDaReputacao = function (J) {
+    const r = h(J).rep;
+    const tec = r.tecnico || 0, disc = r.disciplina || 0;
+    return {
+      nota: clamp(r.torcida * 0.03, -0.15, 0.15) + clamp(disc * 0.02, -0.1, 0.1),
+      vitrine: r.torcida * 0.3 + r.imprensa * 0.5,
+      // o tecnico decide quem joga; o vestiario ajuda
+      minutos: clamp(r.vestiario * 0.015, -0.08, 0.08) + clamp(tec * 0.025, -0.15, 0.12),
+      // a disciplina decide quem evolui e quem se machuca; ambiente bom faz
+      // crescer, ambiente ruim trava (o vestiario pesa mais que torcida e imprensa)
+      evolucao: clamp(disc * 0.15, -0.6, 0.6) + clamp(r.vestiario * 0.1 + r.torcida * 0.05 + r.imprensa * 0.04, -0.8, 0.8),
+      lesao: disc < 0 ? -disc * 0.02 : 0,
+    };
+  };
+
   // A reputacao pesa na temporada (uma vez por ano, antes de jogar)
   Historia.aplicarReputacao = function (J) {
     const r = h(J).rep;
-    J.efeito.nota += clamp(r.torcida * 0.03, -0.15, 0.15);
-    J.efeito.vitrine += r.torcida * 0.3 + r.imprensa * 0.5;
-    J.efeito.minutos += clamp(r.vestiario * 0.015, -0.08, 0.08);
-    // o tecnico decide quem joga; a disciplina decide quem evolui e quem se machuca
-    const tec = r.tecnico || 0, disc = r.disciplina || 0;
-    J.efeito.minutos += clamp(tec * 0.025, -0.15, 0.12);
-    J.efeito.nota += clamp(disc * 0.02, -0.1, 0.1);
-    J.efeito.evolucao += clamp(disc * 0.15, -0.6, 0.6);
-    if (disc < 0) J.efeito.lesao += -disc * 0.02;
-    // e na evolucao: ambiente bom faz crescer, ambiente ruim trava. O
-    // vestiario (o dia a dia do treino) pesa mais que torcida e imprensa.
-    J.efeito.evolucao += clamp(r.vestiario * 0.1 + r.torcida * 0.05 + r.imprensa * 0.04, -0.8, 0.8);
-    // e decai 20% ao ano: o que voce fez ha cinco temporadas pesa pouco hoje
-    for (const k of Object.keys(r)) r[k] = Math.round(r[k] * 0.8 * 10) / 10;
+    const e = Historia.efeitoDaReputacao(J);
+    J.efeito.nota += e.nota; J.efeito.vitrine += e.vitrine; J.efeito.minutos += e.minutos;
+    J.efeito.evolucao += e.evolucao; J.efeito.lesao += e.lesao;
+    // e decai 20% ao ano: o que voce fez ha cinco temporadas pesa pouco hoje.
+    // Arredonda pra zero (trunc): com Math.round o 0,2 virava 0,16 -> 0,2 e a
+    // reputacao nunca zerava (ficava em +-0,2 pra sempre)
+    for (const k of Object.keys(r)) r[k] = Math.trunc(r[k] * 8 + (r[k] > 0 ? 1e-9 : -1e-9)) / 10;
   };
 
   // o rival: um jogador de verdade da Serie A, de outro clube, que vira o
@@ -122,26 +132,27 @@
 
   const INICIOS = [
     {
-      id: "aliciador", arco: "O aliciador", fases: ["afirmacao", "auge"], peso: (J) => 1 + (h(J).marcas.bet_publi ? 1.5 : 0) + (h(J).marcas.vazou ? 2 : 0) + (h(J).marcas.bet_insistiu ? 1 : 0),
+      id: "aliciador", arco: "O aliciador", tema: "apostas", fases: ["afirmacao", "auge"], peso: (J) => 0.8 + (h(J).marcas.bet_publi ? 1.5 : 0) + (h(J).marcas.vazou ? 2 : 0) + (h(J).marcas.bet_insistiu ? 1 : 0),
       quando: (J) => J.idade >= 19 && J.idade <= 33,
       evento: () => ({
         titulo: "Uma mensagem no direct",
         texto: () => "Perfil sem foto, conta nova. Oferece R$ 100 mil pra você tomar um amarelo no primeiro tempo do próximo jogo. \"É só um cartão, ninguém vai saber.\"",
         opcoes: [
           { rotulo: "Aceita o dinheiro", consequencia: true,
-            sempre: (J) => { marcar(J, "aliciado"); agendar(J, "operacao", 1); return "O cartão veio aos 23 minutos, numa falta boba. O dinheiro caiu na conta de um primo."; } },
+            sempre: (J) => { rep(J, { disciplina: -1 }); marcar(J, "aliciado"); agendar(J, "operacao", 1); return "O cartão veio aos 23 minutos, numa falta boba. O dinheiro caiu na conta de um primo."; } },
           { rotulo: "Ignora e apaga", consequencia: true,
-            sempre: (J) => { if (C.rng() < 0.5) agendar(J, "voltou", 1); return "Bloqueou e seguiu a vida. Parecia coisa pequena."; } },
+            sempre: (J) => { J.efeito.nota -= 0.03; if (C.rng() < 0.5) agendar(J, "voltou", 1); return "Bloqueou e seguiu a vida, mas dormiu mal naquela semana. Parecia coisa pequena."; } },
           { rotulo: "Mostra pro clube", consequencia: true,
-            sempre: (J) => { rep(J, { imprensa: 1, torcida: 1 }); marcar(J, "denunciou"); agendar(J, "testemunha", 1); return "O jurídico levou o print pra polícia. Na coletiva, o presidente te chamou de exemplo."; } },
+            sempre: (J) => { rep(J, { imprensa: 1, vestiario: -1 }); J.efeito.nota -= 0.05; marcar(J, "denunciou"); agendar(J, "testemunha", 1); agendar(J, "campanha", 3); return "O jurídico levou o print pra polícia. Na coletiva, o presidente te chamou de exemplo."; } },
         ],
       }),
     },
     {
-      id: "rival", arco: "O rival", fases: ["afirmacao", "auge"],
+      id: "rival", arco: "O rival", tema: "rival", fases: ["afirmacao", "auge"], peso: () => 1.5,
       quando: (J) => J.idade >= 18 && J.clube && J.clube.tipo !== "ext",
       evento: (J, rng) => {
         const r = h(J).rival || (h(J).rival = sortearRival(J, rng));
+        h(J).rivalAno = J.ano;
         return {
           titulo: "Provocação antes do mata-mata",
           texto: () => `${r.nome}, do ${r.time}, disse na coletiva que você "ainda não jogou nada". Tem jogo de volta na quarta, valendo vaga.`,
@@ -157,35 +168,35 @@
       },
     },
     {
-      id: "renovacao", arco: "A renovação",
+      id: "renovacao", arco: "A renovação", tema: "renovacao", peso: () => 4,
       quando: (J) => J.idade >= 21 && J.idade <= 31 && J.anosNoClube >= 1 && !(typeof sobContrato === "function" && sobContrato(J)),
       evento: (J) => ({
         titulo: "O presidente quer renovar agora",
         texto: () => `Antes da janela, o ${J.clube.nome} oferece contrato longo, salário bom e multa alta. "Queremos você aqui por muitos anos."`,
         opcoes: [
           { rotulo: "Assina", consequencia: true,
-            sempre: (JJ) => { rep(JJ, { torcida: 1, vestiario: 1 }); JJ.efeito.vitrine -= 1; JJ.contratoAte = JJ.ano + 2; marcar(JJ, "fiel", JJ.clube.nome); agendar(JJ, "bracadeira", 2, { clube: JJ.clube.nome }); return "Foto com a camisa e a caneta. A torcida comprou a ideia; o mercado esfriou um pouco."; } },
+            sempre: (JJ) => { rep(JJ, { torcida: 1, vestiario: 1 }); JJ.efeito.vitrine -= 1; JJ.efeito.evolucao += 0.3; JJ.contratoAte = JJ.ano + 2; marcar(JJ, "fiel", JJ.clube.nome); agendar(JJ, "bracadeira", 2, { clube: JJ.clube.nome }); return "Foto com a camisa e a caneta. A torcida comprou a ideia; o mercado esfriou um pouco."; } },
           { rotulo: "Espera a janela", consequencia: true,
             sempre: (JJ) => { rep(JJ, { torcida: -1 }); JJ.efeito.vitrine += 2; agendar(JJ, "cobranca", 1, { clube: JJ.clube.nome }); return "Seu empresário espalhou que você está \"avaliando o mercado\". A arquibancada não gostou."; } },
         ],
       }),
     },
     {
-      id: "mentor", arco: "O mentor", fases: ["base"],
+      id: "mentor", arco: "O mentor", tema: "mentor", fases: ["base"], peso: () => 1.5,
       quando: (J) => J.idade <= 19,
       evento: () => ({
         titulo: "O capitão te chamou",
         texto: () => "O veterano do elenco viu você no treino e propôs: meia hora a mais todo dia, só vocês dois.",
         opcoes: [
           { rotulo: "Topa na hora", consequencia: true,
-            sempre: (J) => { J.efeito.evolucao += 1; rep(J, { vestiario: 1 }); marcar(J, "mentorado"); return "Ele corrigiu o seu corpo no chute e o posicionamento. Você nunca mais esqueceu."; } },
+            sempre: (J) => { J.efeito.evolucao += 0.6; J.efeito.lesao += 0.05; J.efeito.nota -= 0.05; rep(J, { vestiario: 1 }); marcar(J, "mentorado"); return "Ele corrigiu o seu corpo no chute e o posicionamento. A carga extra cansou, mas você nunca mais esqueceu."; } },
           { rotulo: "Prefere treinar sozinho",
-            sempre: () => "Ele deu de ombros. Cada um tem o seu jeito." },
+            sempre: (J) => { J.efeito.nota += 0.05; J.efeito.evolucao += 0.2; return "Ele deu de ombros. Você seguiu no seu ritmo, descansado."; } },
         ],
       }),
     },
     {
-      id: "dor", arco: "O joelho",
+      id: "dor", arco: "O joelho", tema: "machucado",
       quando: (J) => J.idade >= 20,
       evento: () => ({
         titulo: "A final e o joelho",
@@ -211,25 +222,25 @@
         texto: () => "Quarto dividido com mais três garotos, ajuda de custo que mal paga a passagem e o time principal treinando no campo ao lado.",
         opcoes: [
           { rotulo: "Chega uma hora antes todo dia", consequencia: true,
-            sempre: (J) => { rep(J, { disciplina: 1, tecnico: 1 }); J.efeito.evolucao += 0.5; marcar(J, "rotina"); return { texto: "Academia vazia, bola parada, repetição. O preparador do profissional começou a reparar.", emSeguida: oportunidade(J) }; } },
+            sempre: (J) => { rep(J, { disciplina: 1 }); J.efeito.evolucao += 0.4; J.efeito.lesao += 0.05; marcar(J, "rotina"); return { texto: "Academia vazia, bola parada, repetição. O corpo de 16 anos sentiu, mas o preparador do profissional começou a reparar.", emSeguida: oportunidade(J) }; } },
           { rotulo: "Faz o que o treino pede",
-            sempre: (J) => { agendar(J, "oportunidade", 1); return "Cumpriu tudo, sem chamar atenção. Nem pra bem, nem pra mal."; } },
+            sempre: (J) => { J.efeito.nota += 0.08; J.efeito.lesao = Math.max(0, J.efeito.lesao - 0.03); agendar(J, "oportunidade", 1); return "Cumpriu tudo, sem chamar atenção. Descansado, rendeu nos jogos da base."; } },
           { rotulo: "Folga é pra voltar pro bairro", consequencia: true,
-            sempre: (J) => { rep(J, { disciplina: -1 }); marcar(J, "bairro"); agendar(J, "bairro", 1); return "Toda folga, ônibus de volta pros amigos. Na segunda, o preparador reparou no peso."; } },
+            sempre: (J) => { rep(J, { disciplina: -1 }); J.efeito.nota += 0.12; marcar(J, "bairro"); agendar(J, "bairro", 1); return "Toda folga, ônibus de volta pros amigos. Você joga solto e feliz; na segunda, o preparador reparou no peso."; } },
         ],
       }),
     },
     {
-      id: "aperto", arco: "Dinheiro curto", fases: ["base"], peso: () => 4,
+      id: "aperto", arco: "Dinheiro curto", tema: "apostas", fases: ["base"], peso: () => 1,
       quando: (J) => J.idade >= 17 && J.idade <= 19,
       evento: () => ({
         titulo: "O mês não fecha em casa",
         texto: () => "A ajuda de custo da base não paga as contas da família. Um site de apostas oferece R$ 5 mil por mês pra você divulgar o link no seu perfil.",
         opcoes: [
           { rotulo: "Divulga o site", consequencia: true,
-            sempre: (J) => { rep(J, { disciplina: -1 }); marcar(J, "bet_publi"); agendar(J, "bet_publi", 2); return "Dinheiro no primeiro dia. O link está na sua bio, e a sua família respirou."; } },
+            sempre: (J) => { rep(J, { disciplina: -1 }); J.efeito.nota += 0.1; marcar(J, "bet_publi"); agendar(J, "bet_publi", 2); return "Dinheiro no primeiro dia. O link está na sua bio, e a sua família respirou."; } },
           { rotulo: "Pede adiantamento ao clube",
-            sempre: (J) => { rep(J, { tecnico: 1 }); return "O clube adiantou dois meses. O coordenador da base gostou de você ter vindo falar."; } },
+            sempre: (J) => { rep(J, { tecnico: 1 }); J.efeito.nota -= 0.05; return "O clube adiantou dois meses. O coordenador gostou de você ter vindo falar, mas a dívida ficou na cabeça."; } },
           { rotulo: "Arruma um bico nas folgas", chance: () => 0.55,
             ok: (J) => { rep(J, { disciplina: 1 }); return "Aula de futebol pra criança no sábado de manhã. Pagou as contas sem atrapalhar o treino."; },
             falha: (J) => { J.efeito.evolucao -= 0.4; J.efeito.lesao += 0.04; return "Cansaço acumulado. Treinou pior o mês inteiro."; } },
@@ -245,49 +256,49 @@
         texto: () => "Contrato profissional assinado. Pela primeira vez, o dinheiro sobra.",
         opcoes: [
           { rotulo: "Compra o carro dos sonhos", consequencia: true,
-            sempre: (J) => { J.efeito.vitrine += 0.5; marcar(J, "ostentacao"); agendar(J, "garagem", 1); return "Chegou no CT de carro importado. Todo mundo viu, inclusive quem não devia."; } },
+            sempre: (J) => { J.efeito.vitrine += 1; J.efeito.nota += 0.05; rep(J, { disciplina: -0.5 }); marcar(J, "ostentacao"); agendar(J, "garagem", 1); agendar(J, "assalto", 3); return "Chegou no CT de carro importado. Todo mundo viu, inclusive quem não devia."; } },
           { rotulo: "Tira a família do aluguel",
-            sempre: (J) => { rep(J, { disciplina: 1, torcida: 1 }); J.efeito.nota += 0.05; return "Chave da casa na mão da sua mãe. O vídeo emocionou a cidade."; } },
+            sempre: (J) => { rep(J, { torcida: 1 }); J.efeito.nota += 0.05; J.efeito.evolucao -= 0.2; return "Chave da casa na mão da sua mãe. O vídeo emocionou a cidade; pra personal e fisioterapia, sobrou pouco."; } },
           { rotulo: "Guarda quase tudo",
-            sempre: (J) => { rep(J, { disciplina: 1 }); return "Ninguém reparou. O seu extrato reparou."; } },
+            sempre: (J) => { rep(J, { disciplina: 1 }); J.efeito.evolucao += 0.1; return "Ninguém reparou. O seu extrato reparou, e sobrou pra pagar um preparador particular."; } },
         ],
       }),
     },
     {
-      id: "grupo", arco: "O grupo de apostas", fases: ["afirmacao", "auge"], peso: (J) => 2 + (h(J).marcas.bet_publi ? 2 : 0),
+      id: "grupo", arco: "O grupo de apostas", tema: "apostas", fases: ["afirmacao", "auge"], peso: () => 0.8,
       quando: (J) => J.idade >= 20 && J.idade <= 30,
       evento: () => ({
         titulo: "O grupo da infância",
         texto: () => "No grupo de WhatsApp dos amigos, a galera aposta nos seus jogos. Pedem pra você contar quem vai jogar no domingo.",
         opcoes: [
           { rotulo: "Conta a escalação", consequencia: true,
-            sempre: (J) => { rep(J, { disciplina: -1 }); marcar(J, "vazou"); agendar(J, "stjd", 1 + (C.rng() < 0.5 ? 1 : 0)); return "Parecia bobeira. Eles ganharam uma boa grana e mandaram um áudio agradecendo."; } },
+            sempre: (J) => { rep(J, { disciplina: -1 }); J.efeito.nota += 0.1; marcar(J, "vazou"); agendar(J, "stjd", 1 + (C.rng() < 0.5 ? 1 : 0)); return "Parecia bobeira. Eles ganharam uma boa grana e mandaram um áudio agradecendo."; } },
           { rotulo: "Sai do grupo",
-            sempre: (J) => { rep(J, { disciplina: 1 }); return "Saiu sem explicar. Uns ficaram chateados, depois passou."; } },
-          { rotulo: "Avisa que isso dá punição", consequencia: true, chance: () => 0.6,
+            sempre: (J) => { rep(J, { disciplina: 1 }); J.efeito.nota -= 0.08; J.efeito.evolucao += 0.3; return "Saiu sem explicar. Os amigos de infância ficaram chateados, e isso pesou por uns meses."; } },
+          { rotulo: "Avisa que isso dá punição", consequencia: true, chance: () => 0.4,
             ok: (J) => { rep(J, { disciplina: 1 }); return "O grupo mudou de assunto e ninguém mais perguntou."; },
             falha: (J) => { agendar(J, "stjd", 2, { leve: true }); return "Continuaram apostando, agora sem te perguntar. Mas o seu nome ainda está no grupo."; } },
         ],
       }),
     },
     {
-      id: "polemica", arco: "O polêmico", fases: ["afirmacao", "auge"], peso: () => 3,
+      id: "polemica", arco: "O polêmico", tema: ["classico", "microfone"], fases: ["afirmacao", "auge"], peso: () => 2,
       quando: (J) => J.idade >= 20 && J.idade <= 31 && J.clube && J.clube.tipo !== "ext",
       evento: () => ({
         titulo: "Gol no clássico, na casa deles",
         texto: () => "Você fez o gol da vitória fora de casa. A torcida rival está a dez metros, xingando desde o aquecimento.",
         opcoes: [
-          { rotulo: "Comemora provocando", consequencia: true, chance: () => 0.55,
+          { rotulo: "Comemora provocando", consequencia: true, chance: () => 0.5,
             ok: (J) => { polemica(J); rep(J, { torcida: 2, imprensa: 1, tecnico: -1 }); J.efeito.vitrine += 2; agendar(J, "microfone", 1); return "Foto do ano. A sua torcida fez mural; o técnico te deu uma bronca, rindo."; },
             falha: (J) => { polemica(J); rep(J, { torcida: 1, imprensa: -2, tecnico: -2 }); J.efeito.minutos -= 0.04; agendar(J, "microfone", 1); return "Confusão generalizada, segundo amarelo, e o time sofreu o empate com um a menos."; } },
           { rotulo: "Corre pro banco",
-            sempre: (J) => { rep(J, { vestiario: 1 }); return "Abraço coletivo. A imagem que ficou foi a do grupo."; } },
+            sempre: (J) => { rep(J, { vestiario: 1 }); J.efeito.evolucao += 0.1; return "Abraço coletivo. A imagem que ficou foi a do grupo."; } },
         ],
       }),
     },
     // ===== AUGE (25-30): lideranca e crise =====
     {
-      id: "crise", arco: "A crise", fases: ["auge"], peso: () => 3,
+      id: "crise", arco: "A crise", tema: "crise", fases: ["auge"], peso: () => 2.5,
       quando: (J) => J.idade >= 24 && J.idade <= 32 && J.anosNoClube >= 1,
       evento: (J) => ({
         titulo: "O vestiário contra o técnico",
@@ -305,17 +316,121 @@
     },
     // ===== VETERANO (31+): corpo e legado =====
     {
-      id: "corpo", arco: "O corpo", abre: true, fases: ["veterano"], peso: () => 5,
+      id: "corpo", arco: "O corpo", tema: "carga", abre: true, fases: ["veterano"], peso: () => 5,
       quando: (J) => J.idade >= 31,
       evento: () => ({
         titulo: "O corpo começou a cobrar",
         texto: () => "A recuperação ficou mais lenta. O preparador sugere jogar um jogo por semana, no máximo.",
         opcoes: [
           { rotulo: "Aceita a gestão de carga", consequencia: true,
-            sempre: (J) => { rep(J, { tecnico: 1 }); J.efeito.queda += 0.8; J.efeito.minutos -= 0.08; agendar(J, "legado", 2); return "Menos jogos, mais inteiro nos grandes."; } },
+            sempre: (J) => { J.efeito.queda += 0.5; J.efeito.minutos -= 0.1; agendar(J, "legado", 2); return "Menos jogos, mais inteiro nos grandes."; } },
           { rotulo: "Quer jogar tudo", consequencia: true, chance: (J) => clamp(0.3 + ((J.attrs.FIS ?? J.attrs.REF ?? 60) - 65) / 50, 0.15, 0.7),
             ok: (J) => { J.efeito.queda += 0.3; J.efeito.vitrine += 1; agendar(J, "legado", 2); return "Jogou quase tudo, como aos 25. A imprensa chamou de fora de série."; },
             falha: (J) => { J.efeito.lesao += 0.25; J.efeito.queda -= 0.5; agendar(J, "legado", 1); return "A panturrilha estourou em setembro. O recado do corpo foi claro."; } },
+        ],
+      }),
+    },
+  ]);
+
+
+  // Destino no meio da temporada (Arabia): o clube asiatico mais forte que
+  // quer o jogador. Usa o mundo de carreira.js.
+  function destinoArabe(J) {
+    if (typeof clubesDoMundo !== "function") return null;
+    return clubesDoMundo(J).filter((c) => c.continente === "asia" && c.id !== J.clube.id).sort((a, b) => b.forca - a.forca)[0] || null;
+  }
+  const paisDaLiga = (J) => (typeof PAISES !== "undefined" && J.clube && J.clube.tipo === "ext" ? PAISES.find((p) => p.nome === J.clube.pais) : null);
+  const sobContratoAgora = (J) => typeof sobContrato === "function" && sobContrato(J);
+
+  INICIOS.push(...[
+    // ===== ficar embaixo ou subir: a escolha consciente (antes era atalho) =====
+    {
+      id: "idolo_local", arco: "O ídolo da divisão", tema: "renovacao", fases: ["afirmacao", "auge"], peso: () => 5,
+      quando: (J) => J.idade >= 20 && J.idade <= 28 && J.clube && J.clube.tipo !== "ext" && J.clube.divisao !== "A" && J.anosNoClube >= 1
+        && J.ovr >= (J.clube.nivel ?? 60) + 3 && !sobContratoAgora(J),
+      evento: (J) => ({
+        titulo: "O melhor da divisão",
+        texto: () => `Você é o nome da Série ${J.clube.divisao}. O presidente do ${J.clube.nome} oferece o maior salário do clube por três anos; o seu empresário diz que dá pra subir de patamar agora.`,
+        opcoes: [
+          { rotulo: "Renova e vira o ídolo da cidade", consequencia: true,
+            sempre: (JJ) => { rep(JJ, { torcida: 2, vestiario: 1 }); JJ.efeito.nota += 0.05; JJ.efeito.vitrine -= 2; JJ.contratoAte = JJ.ano + 3; JJ.lastro = (JJ.lastro || 0) - 0.8; marcar(JJ, "idolo_local", JJ.clube.nome); agendar(JJ, "cidade", 2, { clube: JJ.clube.nome }); return "Estátua no programa de TV local e camisa 10 vendida na feira. O nível do campeonato, porém, não puxa ninguém pra cima."; } },
+          { rotulo: "Pede pra ser vendido", consequencia: true,
+            sempre: (JJ) => { rep(JJ, { torcida: -2 }); JJ.efeito.vitrine += 2.5; JJ.efeito.evolucao += 0.3; JJ.forcarSaida = true; return "A torcida chamou de mercenário. Na janela, o clube vai te negociar com quem pagar."; } },
+          { rotulo: "Deixa pra decidir na janela",
+            sempre: (JJ) => { JJ.efeito.nota += 0.05; JJ.efeito.evolucao += 0.2; return "Nem sim, nem não. O presidente não gostou da espera, mas a porta ficou aberta."; } },
+        ],
+      }),
+    },
+    // ===== fora do pais: o primeiro ano =====
+    {
+      id: "choque", arco: "Choque cultural", tema: "adaptacao", livre: true, peso: () => 10,
+      quando: (J) => J.clube && J.clube.tipo === "ext" && J.clube.pais !== "Portugal" && J.anosNoClube <= 1 && J.idade <= 31,
+      evento: (J) => ({
+        titulo: "O primeiro inverno",
+        texto: () => `Três meses no ${J.clube.nome}. Escurece às quatro da tarde, o tradutor falta e a comida não tem gosto de casa.`,
+        opcoes: [
+          { rotulo: "Cola nos brasileiros do elenco", consequencia: true,
+            sempre: (JJ) => { JJ.efeito.nota += 0.12; rep(JJ, { vestiario: -1 }); marcar(JJ, "panelinha"); agendar(JJ, "repatriar", 1); return "Churrasco no domingo e resenha em português. Você rende, mas o resto do elenco te vê como panelinha."; } },
+          { rotulo: "Se tranca no CT e treina",
+            sempre: (JJ) => { JJ.efeito.evolucao += 0.7; JJ.efeito.nota -= 0.1; return "Academia, vídeo e cama. Evoluiu, mas o primeiro ano foi solitário e a nota sentiu."; } },
+          { rotulo: "Mergulha no idioma e na cidade", consequencia: true, chance: () => 0.55,
+            ok: (JJ) => { rep(JJ, { vestiario: 2, imprensa: 1 }); JJ.efeito.minutos += 0.05; marcar(JJ, "adaptado"); agendar(JJ, "naturalizacao", 2); return "Em seis meses dava entrevista na língua deles. O técnico passou a te usar como exemplo."; },
+            falha: (JJ) => { JJ.efeito.nota -= 0.12; agendar(JJ, "repatriar", 1); return "Muita coisa ao mesmo tempo. Cansou, rendeu pouco e a saudade apertou."; } },
+        ],
+      }),
+    },
+    // ===== selecao: a Copa e o corpo =====
+    {
+      id: "copa", arco: "A seleção", tema: "selecao", livre: true, peso: () => 10,
+      quando: (J) => { const u = J.historico[J.historico.length - 1]; return !!u && !!u.selecao && J.ano % 4 === 2 && J.idade >= 20 && J.idade <= 34; },
+      evento: () => ({
+        titulo: "A lista da Copa e a coxa",
+        texto: () => "Seu nome saiu na lista da Copa do Mundo. Duas semanas antes da apresentação, a coxa começou a fisgar.",
+        opcoes: [
+          { rotulo: "Esconde e vai pra Copa", consequencia: true, chance: (J) => clamp(0.4 + ((J.attrs.FIS ?? J.attrs.REF ?? 60) - 62) / 50, 0.2, 0.75),
+            ok: (J) => { J.efeito.vitrine += 2.7; J.efeito.nota += 0.05; rep(J, { torcida: 2 }); marcar(J, "copa"); agendar(J, "capitao_selecao", 2); return "Tratou escondido, jogou a Copa e ninguém soube. Por enquanto."; },
+            falha: (J) => { J.efeito.foraDaSelecao = true; J.efeito.lesao += 0.2; rep(J, { imprensa: -1 }); return "Rompeu no segundo treino da seleção. Cortado da Copa e dois meses fora no clube."; } },
+          { rotulo: "Avisa o médico da seleção",
+            sempre: (J) => { J.efeito.foraDaSelecao = true; rep(J, { imprensa: 1 }); J.efeito.queda += 0.4; J.efeito.evolucao += 0.4; return "Cortado por precaução. Assistiu à Copa do sofá, mas o clube recebeu você inteiro."; } },
+        ],
+      }),
+    },
+    // ===== veterano: dinheiro, despedida =====
+    {
+      id: "arabia", arco: "Os petrodólares", tema: "arabia", fases: ["veterano"], peso: () => 5,
+      quando: (J) => J.idade >= 31 && J.idade <= 33 && J.ovr >= 74 && J.clube && J.clube.continente !== "asia" && !sobContratoAgora(J),
+      evento: () => ({
+        titulo: "Proposta da Arábia",
+        texto: () => "Um clube saudita oferece três vezes o seu salário, casa com piscina e jogo às nove da noite com 35 graus.",
+        opcoes: [
+          { rotulo: "Aceita os petrodólares",
+            sempre: (JJ) => {
+              const d = destinoArabe(JJ);
+              if (!d) return "O negócio travou nos exames médicos. Você segue onde está.";
+              rep(JJ, { torcida: -1 });
+              JJ.efeito.queda += 0.6;
+              JJ.efeito.nota += 0.4;
+              marcar(JJ, "arabia");
+              if (typeof assinar === "function") assinar(d, "mercado");
+              return `Assinou com o ${d.nome}. A torcida daqui te chamou de mercenário; o gerente do banco, de senhor.`;
+            } },
+          { rotulo: "Fica pelo legado",
+            sempre: (JJ) => { rep(JJ, { torcida: 2 }); JJ.efeito.nota += 0.05; marcar(JJ, "recusou_arabia"); return "Recusou na frente das câmeras. A torcida cantou o seu nome; o corpo vai sentir o ritmo daqui."; } },
+        ],
+      }),
+    },
+    {
+      id: "despedida", arco: "A despedida", tema: "despedida", livre: true, fases: ["veterano"], peso: (J) => 3 + (h(J).marcas.fiel || h(J).marcas.capitao ? 5 : 0),
+      quando: (J) => J.idade >= 35 && J.clube && (J.anosNoClube >= 4 || !!h(J).marcas.fiel || h(J).marcas.capitao === J.clube.nome),
+      evento: (J) => ({
+        titulo: "O jogo de despedida",
+        texto: () => `O ${J.clube.nome} quer marcar a sua despedida: estádio cheio, família no gramado e camisa emoldurada.`,
+        opcoes: [
+          { rotulo: "Anuncia que é o último ano",
+            sempre: (JJ) => { JJ.ultimaTemporada = true; rep(JJ, { torcida: 2 }); JJ.efeito.minutos -= 0.12; marcar(JJ, "despedida", JJ.clube.nome); return "Anunciou chorando na coletiva. Cada jogo do ano virou homenagem, com rodízio pra todo mundo se despedir, e a última volta olímpica é sua."; } },
+          { rotulo: "Ainda tem lenha", chance: (JJ) => clamp(0.3 + (JJ.ovr - 70) / 30, 0.15, 0.7),
+            ok: (JJ) => { JJ.efeito.queda += 0.8; JJ.efeito.nota += 0.1; return "Adiou a festa e respondeu em campo. Mais um ano em alto nível."; },
+            falha: (JJ) => { JJ.efeito.nota -= 0.1; rep(JJ, { torcida: -1 }); return "A torcida queria a festa. O corpo, pelo visto, concordava com ela."; } },
         ],
       }),
     },
@@ -331,8 +446,8 @@
       texto: () => `A câmera te acha no gramado. ${r.nome} passa do seu lado de cabeça baixa.`,
       opcoes: [
         { rotulo: "Tira onda com ele", consequencia: true,
-          sempre: (JJ) => { rep(JJ, { torcida: 2, imprensa: -1 }); marcar(JJ, "zoou"); agendar(JJ, "reencontro", 1); return "Mandou tchau com a mão. O vídeo passou de um milhão de views. Ele não vai esquecer."; } },
-        { rotulo: "Cumprimenta e sai", sempre: (JJ) => { rep(JJ, { imprensa: 1 }); return respondeu ? "Ganhou na bola e foi elegante no fim. A imprensa gostou do contraste." : "Aperto de mão e troca de camisa. Gesto que ninguém zoa."; } },
+          sempre: (JJ) => { rep(JJ, { torcida: 2, imprensa: -1 }); if (JJ.idade <= 24) JJ.efeito.vitrine += 1; marcar(JJ, "zoou"); agendar(JJ, "reencontro", 1); return "Mandou tchau com a mão. O vídeo passou de um milhão de views. Ele não vai esquecer."; } },
+        { rotulo: "Cumprimenta e sai", sempre: (JJ) => { rep(JJ, { imprensa: 1 }); JJ.efeito.evolucao += 0.2; JJ.efeito.queda += 0.2; JJ.efeito.minutos += 0.02; return respondeu ? "Ganhou na bola e foi elegante no fim. A imprensa gostou do contraste." : "Aperto de mão e troca de camisa. Gesto que ninguém zoa."; } },
       ],
     };
   }
@@ -344,10 +459,10 @@
       titulo: respondeu ? "Você virou meme" : "A zoeira veio igual",
       texto: () => `${r.nome} postou a foto da classificação com uma legenda pra você. A torcida dele não perdoa.`,
       opcoes: [
-        { rotulo: "Responde a zoeira", consequencia: true, chance: () => 0.4,
-          ok: (JJ) => { rep(JJ, { torcida: 1 }); return "A resposta foi melhor que a provocação. Virou empate nas redes."; },
-          falha: (JJ) => { rep(JJ, { torcida: -1, vestiario: -1 }); agendar(JJ, "reencontro", 1); return "Não pegou bem. Virou meme pela segunda vez na semana."; } },
-        { rotulo: "Fica quieto e treina", sempre: (JJ) => { JJ.efeito.evolucao += 0.6; marcar(JJ, "combustivel"); agendar(JJ, "reencontro", 1); return "Salvou o print no celular. Combustível pro ano que vem."; } },
+        { rotulo: "Responde a zoeira", consequencia: true, chance: () => 0.5,
+          ok: (JJ) => { rep(JJ, { torcida: 2 }); JJ.efeito.vitrine += 1; return "A resposta foi melhor que a provocação. Virou empate nas redes."; },
+          falha: (JJ) => { rep(JJ, { torcida: -1 }); agendar(JJ, "reencontro", 1); return "Não pegou bem. Virou meme pela segunda vez na semana."; } },
+        { rotulo: "Fica quieto e treina", sempre: (JJ) => { JJ.efeito.evolucao += 0.4; marcar(JJ, "combustivel"); agendar(JJ, "reencontro", 1); return "Salvou o print no celular. Combustível pro ano que vem."; } },
       ],
     };
   }
@@ -415,10 +530,10 @@
       opcoes: [
         { rotulo: "Assume e colabora", chance: () => 0.6,
           ok: (JJ) => { rep(JJ, { imprensa: -1, tecnico: -1 }); JJ.efeito.minutos -= 0.15; JJ.efeito.vitrine -= 1.5; return "Gancho de 30 dias e multa. Ficou a lição, e a desconfiança."; },
-          falha: (JJ) => { rep(JJ, { imprensa: -2, torcida: -2, tecnico: -2 }); JJ.efeito.minutos -= 0.35; JJ.efeito.vitrine -= 3; return "Gancho de quatro meses. O clube soltou nota e o patrocinador saiu."; } },
+          falha: (JJ) => { rep(JJ, { imprensa: -2, torcida: -2, tecnico: -2 }); JJ.efeito.minutos -= 0.35; JJ.efeito.vitrine -= 3; marcar(JJ, "manchado"); return "Gancho de quatro meses. O clube soltou nota e o patrocinador saiu."; } },
         { rotulo: "Nega tudo", chance: () => 0.3,
           ok: (JJ) => { rep(JJ, { imprensa: -1 }); return "Faltou prova. Mas o assunto voltou em toda entrevista."; },
-          falha: (JJ) => { rep(JJ, { imprensa: -3, torcida: -3, vestiario: -2, tecnico: -3 }); JJ.efeito.minutos -= 0.6; JJ.efeito.vitrine -= 5; return "As mensagens vazaram na íntegra. Suspenso por quase um ano."; } },
+          falha: (JJ) => { rep(JJ, { imprensa: -3, torcida: -3, vestiario: -2, tecnico: -3 }); JJ.efeito.minutos -= 0.6; JJ.efeito.vitrine -= 5; marcar(JJ, "manchado"); return "As mensagens vazaram na íntegra. Suspenso por quase um ano."; } },
       ],
     }),
     // --- O primeiro contrato ---
@@ -427,13 +542,13 @@
       titulo: "O carro e a fase ruim",
       texto: () => "Três jogos sem render. Um torcedor fotografou seu carro na saída do CT e escreveu: \"joga menos que o motor\".",
       opcoes: [
-        { rotulo: "Responde nas redes", consequencia: true, chance: () => 0.35,
-          ok: (J) => { polemica(J); rep(J, { imprensa: 1 }); return "A resposta foi engraçada e virou meme a seu favor."; },
-          falha: (J) => { polemica(J); rep(J, { torcida: -2, tecnico: -1 }); return "A resposta pegou mal. Agora é você contra metade da arquibancada."; } },
+        { rotulo: "Responde nas redes", consequencia: true, chance: () => 0.45,
+          ok: (J) => { polemica(J); rep(J, { imprensa: 1 }); J.efeito.vitrine += 1; return "A resposta foi engraçada e virou meme a seu favor."; },
+          falha: (J) => { polemica(J); rep(J, { torcida: -1, tecnico: -1 }); return "A resposta pegou mal. Agora é você contra metade da arquibancada."; } },
         { rotulo: "Vende o carro e fica quieto",
-          sempre: (J) => { rep(J, { disciplina: 1, torcida: 1 }); return "Voltou a ir de carro comum. A torcida reparou, e o futebol voltou junto."; } },
+          sempre: (J) => { rep(J, { disciplina: 1 }); J.efeito.vitrine -= 1; return "Voltou a ir de carro comum. A torcida reparou, e o futebol voltou junto."; } },
         { rotulo: "Ignora e treina",
-          sempre: (J) => { J.efeito.evolucao += 0.3; return "Deixou falar. Quem responde é o próximo jogo."; } },
+          sempre: (J) => { J.efeito.evolucao += 0.35; J.efeito.queda += 0.2; return "Deixou falar. Quem responde é o próximo jogo."; } },
       ],
     }),
     // --- O polemico ---
@@ -442,11 +557,11 @@
       titulo: "O microfone",
       texto: () => "Você começou no banco no último jogo. O repórter quer saber o que achou da escolha do técnico.",
       opcoes: [
-        { rotulo: "Critica o técnico ao vivo", consequencia: true, chance: (J) => clamp(0.3 + h(J).rep.torcida * 0.06, 0.15, 0.6),
-          ok: (J) => { polemica(J); rep(J, { torcida: 1, imprensa: 1 }); h(J).rep.tecnico = 1; if (nPolemica(J) >= 2) agendar(J, "personagem", 1); return "A torcida ficou do seu lado. O técnico caiu duas semanas depois, e o novo te pôs no time."; },
-          falha: (J) => { polemica(J); rep(J, { tecnico: -4, vestiario: -1 }); J.efeito.minutos -= 0.15; if (nPolemica(J) >= 2) agendar(J, "personagem", 1); return "Afastado do grupo por uma semana. Voltou pro banco e ficou lá."; } },
+        { rotulo: "Critica o técnico ao vivo", consequencia: true, chance: (J) => clamp(0.35 + h(J).rep.torcida * 0.06, 0.15, 0.65),
+          ok: (J) => { polemica(J); rep(J, { torcida: 2, imprensa: 1 }); h(J).rep.tecnico = 1; J.efeito.minutos += 0.05; if (nPolemica(J) >= 2) agendar(J, "personagem", 1); return "A torcida ficou do seu lado. O técnico caiu duas semanas depois, e o novo te pôs no time."; },
+          falha: (J) => { polemica(J); rep(J, { tecnico: -3, vestiario: -1 }); J.efeito.minutos -= 0.12; if (nPolemica(J) >= 2) agendar(J, "personagem", 1); return "Afastado do grupo por uma semana. Voltou pro banco e ficou lá."; } },
         { rotulo: "Diz que respeita a decisão",
-          sempre: (J) => { rep(J, { tecnico: 1 }); return "Resposta de manual. O técnico agradeceu no treino."; } },
+          sempre: (J) => { rep(J, { tecnico: 1, torcida: -1 }); J.efeito.evolucao += 0.2; J.efeito.queda += 0.2; return "Resposta de manual. O técnico agradeceu no treino; a torcida queria ouvir outra coisa."; } },
       ],
     }),
     personagem: () => ({
@@ -456,9 +571,9 @@
       opcoes: [
         { rotulo: "Aceita o palco", chance: () => 0.5,
           ok: (J) => { J.efeito.vitrine += 3; rep(J, { imprensa: 2, tecnico: -1 }); return "Audiência alta e patrocínio novo. O clube tolera enquanto você decide jogos."; },
-          falha: (J) => { rep(J, { imprensa: -2, torcida: -2, tecnico: -2 }); J.efeito.minutos -= 0.08; return "Uma frase fora de contexto virou crise. Nota oficial do clube e banco."; } },
+          falha: (J) => { rep(J, { imprensa: -1, torcida: -1, tecnico: -1 }); J.efeito.minutos -= 0.05; return "Uma frase fora de contexto virou crise. Nota oficial do clube e banco."; } },
         { rotulo: "Some da mídia por um tempo",
-          sempre: (J) => { rep(J, { disciplina: 1 }); h(J).marcas.polemica = Math.max(0, nPolemica(J) - 1); return "Três meses sem entrevista. O assunto voltou a ser o seu futebol."; } },
+          sempre: (J) => { rep(J, { disciplina: 1 }); J.efeito.vitrine -= 0.5; h(J).marcas.polemica = Math.max(0, nPolemica(J) - 1); return "Três meses sem entrevista. O assunto voltou a ser o seu futebol."; } },
       ],
     }),
     // --- A crise ---
@@ -471,7 +586,7 @@
           ok: (JJ) => { rep(JJ, { vestiario: 2 }); return "Conversa dura, mas acabou em abraço. Grupo fechado de novo."; },
           falha: (JJ) => { rep(JJ, { vestiario: -1 }); return "Ninguém cedeu. Você terminou o ano isolado, mas titular."; } },
         { rotulo: "Deixa o tempo resolver",
-          sempre: (JJ) => { rep(JJ, { vestiario: 1 }); return "Aos poucos, com vitórias, o clima melhorou sozinho."; } },
+          sempre: (JJ) => { rep(JJ, { vestiario: 1 }); JJ.efeito.minutos -= 0.03; JJ.efeito.evolucao += 0.2; JJ.efeito.queda += 0.2; return "Aos poucos, com vitórias, o clima melhorou sozinho. Até lá, uns jogos no banco."; } },
       ],
     }),
     // --- O corpo ---
@@ -481,9 +596,9 @@
       texto: () => `O presidente do ${J.clube.nome} oferece um lugar na comissão técnica quando você parar.`,
       opcoes: [
         { rotulo: "Aceita e começa o curso de treinador",
-          sempre: (JJ) => { rep(JJ, { vestiario: 1, tecnico: 1 }); marcar(JJ, "futuro_tecnico"); JJ.efeito.queda += 0.3; return "Aulas à noite, prancheta no ônibus. Os garotos já te chamam de professor."; } },
+          sempre: (JJ) => { rep(JJ, { vestiario: 1 }); marcar(JJ, "futuro_tecnico"); JJ.efeito.queda += 0.3; JJ.efeito.nota -= 0.05; return "Aulas à noite, prancheta no ônibus. Cansa, mas os garotos já te chamam de professor."; } },
         { rotulo: "Ainda não é hora",
-          sempre: () => "Agradeceu. A cabeça ainda está dentro de campo." },
+          sempre: (JJ) => { JJ.efeito.nota += 0.05; JJ.efeito.minutos += 0.02; return "Agradeceu. A cabeça ainda está dentro de campo, e rende."; } },
       ],
     }),
 
@@ -493,11 +608,11 @@
       texto: () => "Uma investigação sobre manipulação de apostas chegou nos cartões do ano passado. O seu nome está numa planilha apreendida.",
       opcoes: [
         { rotulo: "Colabora com a investigação", chance: () => 0.6,
-          ok: (JJ) => { JJ.efeito.minutos -= 0.15; JJ.efeito.vitrine -= 2; rep(JJ, { imprensa: -1 }); return "Admitiu e colaborou. Seis jogos de gancho e multa. A carreira segue, marcada."; },
-          falha: (JJ) => { JJ.efeito.suspenso = true; JJ.efeito.vitrine -= 4; rep(JJ, { torcida: -2, imprensa: -2 }); return "Gancho longo. O clube anunciou que você não entra mais em campo este ano."; } },
+          ok: (JJ) => { JJ.efeito.minutos -= 0.15; JJ.efeito.vitrine -= 2; rep(JJ, { imprensa: -1 }); agendar(JJ, "chantagem", 3); return "Admitiu e colaborou. Seis jogos de gancho e multa. A carreira segue, marcada."; },
+          falha: (JJ) => { JJ.efeito.suspenso = true; JJ.efeito.vitrine -= 4; rep(JJ, { torcida: -2, imprensa: -2 }); marcar(JJ, "manchado"); return "Gancho longo. O clube anunciou que você não entra mais em campo este ano."; } },
         { rotulo: "Nega tudo", chance: () => 0.35,
-          ok: (JJ) => { rep(JJ, { imprensa: -1 }); return "As provas não fecharam. Ficou a desconfiança em cada cartão seu."; },
-          falha: (JJ) => { JJ.efeito.suspenso = true; JJ.efeito.vitrine -= 5; rep(JJ, { torcida: -3, vestiario: -2, imprensa: -2 }); return "As mensagens vazaram. Gancho de um ano, e o vestiário parou de falar com você."; } },
+          ok: (JJ) => { rep(JJ, { imprensa: -1 }); agendar(JJ, "chantagem", 3); return "As provas não fecharam. Ficou a desconfiança em cada cartão seu."; },
+          falha: (JJ) => { JJ.efeito.suspenso = true; JJ.efeito.vitrine -= 5; rep(JJ, { torcida: -3, vestiario: -2, imprensa: -2 }); marcar(JJ, "manchado"); return "As mensagens vazaram. Gancho de um ano, e o vestiário parou de falar com você."; } },
       ],
     }),
     voltou: (J) => ({
@@ -505,7 +620,7 @@
       titulo: "Ele voltou",
       texto: () => "O mesmo perfil. Agora são R$ 250 mil por um pênalti cometido, e a mensagem tem o nome da sua rua.",
       opcoes: [
-        { rotulo: "Leva pra polícia", sempre: (JJ) => { rep(JJ, { imprensa: 2, torcida: 1 }); marcar(JJ, "denunciou"); return "Prenderam o grupo. Você depôs de testemunha e virou capa do caderno de esporte."; } },
+        { rotulo: "Leva pra polícia", sempre: (JJ) => { rep(JJ, { imprensa: 2, torcida: 1 }); JJ.efeito.nota -= 0.08; marcar(JJ, "denunciou"); if (!h(JJ).marcas.campanha) agendar(JJ, "campanha", 2); return "Prenderam o grupo. Você depôs de testemunha e virou capa do caderno de esporte."; } },
         { rotulo: "Bloqueia de novo", sempre: () => "Trocou de número. Dormiu mal por uma semana." },
       ],
     }),
@@ -514,8 +629,8 @@
       titulo: "Testemunha da acusação",
       texto: () => "O caso virou processo. O promotor quer o seu depoimento público.",
       opcoes: [
-        { rotulo: "Depõe", sempre: (JJ) => { rep(JJ, { imprensa: 1, vestiario: -1 }); return "Três jogadores de outros clubes foram suspensos. No vestiário, uns te olham torto."; } },
-        { rotulo: "Pede sigilo", sempre: () => "Depôs em sala fechada. Ninguém ficou sabendo." },
+        { rotulo: "Depõe", sempre: (JJ) => { rep(JJ, { imprensa: 1, vestiario: -1 }); JJ.efeito.nota -= 0.03; return "Três jogadores de outros clubes foram suspensos. No vestiário, uns te olham torto."; } },
+        { rotulo: "Pede sigilo", sempre: (JJ) => { JJ.efeito.nota -= 0.02; JJ.efeito.evolucao += 0.3; return "Depôs em sala fechada. Ninguém ficou sabendo, e você voltou a treinar em paz."; } },
       ],
     }),
     reencontro: (J) => {
@@ -532,7 +647,7 @@
             ok: (JJ) => { rep(JJ, { torcida: 2 }); JJ.efeito.vitrine += 1.5; return "Ganhou o duelo e o jogo. No fim, ele veio trocar de camisa. Rivalidade encerrada com respeito."; },
             falha: (JJ) => { rep(JJ, { torcida: -1 }); JJ.efeito.nota -= 0.1; return "Ele levou a melhor desta vez. A zoeira voltou pro seu lado."; } },
           { rotulo: "Joga pro time",
-            sempre: (JJ) => { rep(JJ, { vestiario: 1 }); return "Não caiu na pilha. Tocou fácil, o time ganhou, e o técnico elogiou na coletiva."; } },
+            sempre: (JJ) => { rep(JJ, { vestiario: 0.7 }); return "Não caiu na pilha. Tocou fácil, o time ganhou, e o técnico elogiou na coletiva."; } },
         ],
       };
     },
@@ -541,8 +656,8 @@
       titulo: "A braçadeira",
       texto: () => `Dois anos depois da renovação, o técnico do ${J.clube.nome} quer você como capitão.`,
       opcoes: [
-        { rotulo: "Aceita", sempre: (JJ) => { rep(JJ, { vestiario: 2, torcida: 1 }); JJ.efeito.nota += 0.1; marcar(JJ, "capitao", JJ.clube.nome); return "Braçadeira no braço. Agora é você quem fala no vestiário antes do jogo."; } },
-        { rotulo: "Prefere só jogar", sempre: () => "Recusou com educação. Foco no próprio jogo." },
+        { rotulo: "Aceita", sempre: (JJ) => { rep(JJ, { vestiario: 0.8, torcida: JJ.anosNoClube >= 4 ? 1 : 0.2 }); JJ.efeito.nota -= 0.05; marcar(JJ, "capitao", JJ.clube.nome); return "Braçadeira no braço. Agora é você quem fala no vestiário antes do jogo, e o peso aparece."; } },
+        { rotulo: "Prefere só jogar", sempre: (JJ) => { JJ.efeito.nota += 0.03; JJ.efeito.evolucao += 0.25; JJ.efeito.queda += 0.25; return "Recusou com educação. Foco no próprio jogo."; } },
       ],
     }),
     cobranca: (J, dados) => (J.clube.nome !== dados.clube ? null : {
@@ -550,10 +665,10 @@
       titulo: "A torcida cobra",
       texto: () => "A janela passou, você ficou, e tem faixa na arquibancada: \"Quem não quer ficar, que vá\".",
       opcoes: [
-        { rotulo: "Beija o escudo depois do gol", chance: () => 0.55,
+        { rotulo: "Beija o escudo depois do gol", chance: (JJ) => clamp(0.3 + ((JJ.attrs.FIN ?? 40) - 50) / 60, 0.15, 0.8),
           ok: (JJ) => { rep(JJ, { torcida: 2 }); return "Gol, beijo no escudo, arquibancada de pé. Página virada."; },
           falha: (JJ) => { rep(JJ, { torcida: -1, imprensa: -1 }); return "Não fez gol no jogo. O beijo ficou pra outro dia, e a faixa ficou lá."; } },
-        { rotulo: "Pede desculpa na coletiva", sempre: (JJ) => { rep(JJ, { torcida: 1 }); return "Falou que o foco é o clube. Metade acreditou."; } },
+        { rotulo: "Pede desculpa na coletiva", sempre: (JJ) => { rep(JJ, { torcida: 1, imprensa: -1 }); return "Falou que o foco é o clube. Metade acreditou."; } },
       ],
     }),
     joelho: (J) => ({
@@ -561,10 +676,117 @@
       titulo: "O joelho de novo",
       texto: () => "O joelho que você escondeu na final voltou a doer na pré-temporada.",
       opcoes: [
-        { rotulo: "Faz a cirurgia", sempre: (JJ) => { JJ.efeito.lesao += 0.35; if (JJ.idade >= JJ.idadePico) JJ.efeito.queda += 0.6; else JJ.efeito.evolucao += 0.3; return "Quatro meses fora, mas o joelho ficou novo. Coisa que só a cirurgia resolve."; } },
-        { rotulo: "Infiltração e segue", chance: () => 0.5,
+        { rotulo: "Faz a cirurgia", sempre: (JJ) => { JJ.efeito.lesao += 0.4; if (JJ.idade >= JJ.idadePico) JJ.efeito.queda += 0.4; else JJ.efeito.evolucao += 0.4; return "Quatro meses fora, mas o joelho ficou novo. Coisa que só a cirurgia resolve."; } },
+        { rotulo: "Infiltração e segue", chance: () => 0.7,
           ok: () => "Aguentou o ano inteiro na base do remédio.",
-          falha: (JJ) => { JJ.efeito.lesao = 1; JJ.efeito.evolucao -= 1; return "Rompeu de vez na pré-temporada. Temporada perdida e um passo pra trás."; } },
+          falha: (JJ) => { JJ.efeito.lesao += 0.6; JJ.efeito.evolucao -= 0.6; return "Rompeu de vez na pré-temporada. Temporada perdida e um passo pra trás."; } },
+      ],
+    }),
+
+    // --- marcas que voltam anos depois ---
+    assalto: () => ({
+      arco: "O primeiro contrato", consequencia: "Compra o carro dos sonhos",
+      titulo: "A saída do CT",
+      texto: () => "Dois homens de moto te seguiram do CT até o sinal. Levaram o relógio e o susto ficou.",
+      opcoes: [
+        { rotulo: "Contrata segurança e muda de bairro",
+          sempre: (J) => { rep(J, { disciplina: 1 }); J.efeito.nota -= 0.05; J.efeito.vitrine -= J.ovr >= 73 ? 1.2 : 0.2; return "Carro blindado, condomínio fechado e uma vida mais trancada. A cabeça demorou a voltar."; } },
+        { rotulo: "Segue a vida normal", chance: (J) => clamp(0.5 + (h(J).rep.disciplina || 0) * 0.1, 0.2, 0.85),
+          ok: (J) => { J.efeito.nota += 0.05; return "Susto passou. Foi pro treino no dia seguinte como se nada tivesse acontecido."; },
+          falha: (J) => { J.efeito.nota -= 0.08; return "Não conseguia dormir. Jogou o mês seguinte olhando pro retrovisor."; } },
+      ],
+    }),
+    campanha: () => ({
+      arco: "O aliciador", consequencia: "Mostra pro clube",
+      titulo: "O rosto da campanha",
+      texto: () => "A confederação quer você na campanha contra a manipulação de resultados: vídeo, palestra nos clubes e entrevista na TV.",
+      opcoes: [
+        { rotulo: "Topa ser o rosto", chance: () => 0.5,
+          ok: (J) => { rep(J, { imprensa: 2, torcida: 1 }); J.efeito.vitrine += 1; marcar(J, "campanha"); return "Virou referência. Técnico de base usa o seu vídeo pra falar com os garotos."; },
+          falha: (J) => { rep(J, { imprensa: -1, vestiario: -1 }); J.efeito.nota -= 0.1; return "Veio ameaça anônima e uns colegas acharam que você posava de santo. Ano pesado."; } },
+        { rotulo: "Prefere o anonimato",
+          sempre: (J) => { J.efeito.nota += 0.05; J.efeito.evolucao += 0.2; J.efeito.queda += 0.2; return "Agradeceu e recusou. O que tinha pra fazer, já fez."; } },
+      ],
+    }),
+    chantagem: () => ({
+      arco: "O aliciador", consequencia: "Operação sobre apostas",
+      titulo: "O passado cobra",
+      texto: () => "Um número desconhecido manda o print do cartão de anos atrás. Quer dinheiro pra não entregar o resto para a imprensa.",
+      opcoes: [
+        { rotulo: "Paga e apaga", chance: () => 0.5,
+          ok: (J) => { rep(J, { disciplina: -1 }); return "Pagou. O número sumiu. Até quando, ninguém sabe."; },
+          falha: (J) => { rep(J, { imprensa: -3, torcida: -2 }); J.efeito.vitrine -= 2; marcar(J, "manchado"); return "Pagou, e ele vazou mesmo assim. O caso voltou pro noticiário com o seu nome na manchete."; } },
+        { rotulo: "Conta tudo ao clube e à polícia",
+          sempre: (J) => { rep(J, { imprensa: -1, vestiario: 1 }); J.efeito.minutos -= 0.04; return "Depoimento, delegacia e uma semana de manchete ruim. Depois, silêncio: o chantagista foi preso."; } },
+      ],
+    }),
+    // --- O idolo da divisao ---
+    cidade: (J, dados) => (J.clube.nome !== dados.clube ? null : {
+      arco: "O ídolo da divisão", consequencia: "O melhor da divisão",
+      titulo: "A cidade é sua",
+      texto: () => `Dois anos de ídolo no ${J.clube.nome}. Um clube da divisão de cima liga de novo: é a última janela pra subir antes da idade pesar.`,
+      opcoes: [
+        { rotulo: "Fica pra sempre",
+          sempre: (JJ) => { rep(JJ, { torcida: 2 }); JJ.contratoAte = JJ.ano + 3; JJ.efeito.queda += 0.3; JJ.efeito.vitrine -= 1; marcar(JJ, "fiel", JJ.clube.nome); return "Assinou até o fim da carreira. Aqui você é maior que qualquer contratação."; } },
+        { rotulo: "Última chance de subir",
+          sempre: (JJ) => { rep(JJ, { torcida: -2 }); JJ.efeito.vitrine += JJ.idade <= 25 ? 3.5 : 2; JJ.forcarSaida = true; JJ.contratoAte = null; return "Pediu pra sair. A cidade ficou triste, mas entendeu: é agora ou nunca."; } },
+      ],
+    }),
+    // --- Choque cultural ---
+    repatriar: (J) => (J.clube.tipo !== "ext" ? null : {
+      arco: "Choque cultural", consequencia: "O primeiro inverno",
+      titulo: "Um clube brasileiro quer te repatriar",
+      texto: () => "A saudade não passou. Um grande do Brasil liga: salário parecido, família perto e titular na certa.",
+      opcoes: [
+        { rotulo: "Volta pro Brasil",
+          sempre: (JJ) => { JJ.repatriar = true; JJ.efeito.nota += 0.1; JJ.efeito.vitrine -= 0.5; return "Deu o sinal verde. Na janela, a proposta chega."; } },
+        { rotulo: "Fica e aguenta", chance: () => 0.5,
+          ok: (JJ) => { JJ.efeito.evolucao += 0.5; JJ.efeito.nota += 0.05; return "O segundo ano foi outro. Hoje você pede o café na língua deles."; },
+          falha: (JJ) => { JJ.efeito.nota -= 0.12; return "Mais um ano duro. Rendeu abaixo do que podia."; } },
+      ],
+    }),
+    naturalizacao: (J) => {
+      const p = paisDaLiga(J);
+      if (!p || J.estreouSelecao || (typeof C !== "undefined" && C.pais === p.id)) return null;
+      return {
+        arco: "Choque cultural", consequencia: "Mergulha no idioma e na cidade",
+        titulo: "O passaporte",
+        texto: () => `A federação de ${p.nome} quer te naturalizar. Você nunca foi convocado pela seleção do seu país.`,
+        opcoes: [
+          { rotulo: "Aceita e muda de seleção",
+            sempre: (JJ) => { if (typeof C !== "undefined") C.pais = p.id; rep(JJ, { imprensa: 1, torcida: -1 }); JJ.efeito.vitrine += JJ.ovr >= 80 ? 2 : 0.5; marcar(JJ, "naturalizado", p.nome); return `Passaporte na mão. A partir de agora, a sua seleção é ${p.nome}; em casa, teve quem chamasse de traição.`; } },
+          { rotulo: "Ainda sonha com a seleção de casa",
+            sempre: (JJ) => { rep(JJ, { torcida: 1 }); return "Recusou. A camisa que você quer vestir é outra."; } },
+        ],
+      };
+    },
+    // --- A selecao ---
+    capitao_selecao: (J) => {
+      const u = J.historico[J.historico.length - 1];
+      if (!u || !u.selecao) return null;
+      return {
+        arco: "A seleção", consequencia: "Esconde e vai pra Copa",
+        titulo: "A braçadeira da seleção",
+        texto: () => "O técnico da seleção quer você de capitão no novo ciclo.",
+        opcoes: [
+          { rotulo: "Aceita",
+            sempre: (JJ) => { rep(JJ, { imprensa: 1 }); JJ.efeito.vitrine += 0.5; JJ.efeito.minutos -= 0.05; marcar(JJ, "capitao_selecao"); return "Braçadeira no braço e muita viagem. O clube sentiu nas datas FIFA."; } },
+          { rotulo: "Prefere que fique com um veterano",
+            sempre: (JJ) => { rep(JJ, { vestiario: 1 }); JJ.efeito.nota += 0.03; JJ.efeito.evolucao += 0.25; JJ.efeito.queda += 0.25; return "Sugeriu o mais velho do grupo. Ganhou respeito e menos pressão."; } },
+        ],
+      };
+    },
+    // --- O clube que te revelou (situacao solta de carreira.js) ---
+    casa: (J, dados) => (J.clube.nome !== dados.clube ? null : {
+      arco: "De volta pra casa", consequencia: "O clube que te revelou chama",
+      titulo: "A arquibancada da infância",
+      texto: () => `Primeira semana de volta ao ${J.clube.nome}. O técnico conta com você, mas tem um garoto de 19 anos na sua posição.`,
+      opcoes: [
+        { rotulo: "Aceita ser reserva e referência",
+          sempre: (JJ) => { rep(JJ, { vestiario: 2, torcida: 1 }); JJ.efeito.minutos -= 0.08; JJ.efeito.queda += 0.4; marcar(JJ, "fiel", JJ.clube.nome); return "Entra no segundo tempo, puxa o aquecimento e ensina o garoto. A torcida canta o seu nome do mesmo jeito."; } },
+        { rotulo: "Quer a camisa de titular", chance: (JJ) => clamp(0.4 + (JJ.ovr - (JJ.clube.nivel ?? 65)) / 20, 0.15, 0.8),
+          ok: (JJ) => { JJ.efeito.minutos += 0.08; rep(JJ, { torcida: 1 }); return "Ganhou no treino. Aos trinta e tantos, titular do clube do coração."; },
+          falha: (JJ) => { JJ.efeito.minutos -= 0.06; rep(JJ, { vestiario: -1 }); return "O garoto estava melhor. Banco, e um clima estranho na volta pra casa."; } },
       ],
     }),
     aprendiz: (J) => ({
@@ -572,11 +794,67 @@
       titulo: "O garoto da base",
       texto: () => "Um menino de 16 anos pede pra ficar depois do treino com você. Do jeito que o capitão fez contigo.",
       opcoes: [
-        { rotulo: "Ensina tudo", sempre: (JJ) => { rep(JJ, { vestiario: 2 }); JJ.efeito.queda += 0.5; return "Dois anos depois ele estreia no profissional e cita o seu nome na primeira entrevista."; } },
-        { rotulo: "Não tem tempo", sempre: () => "Ele entendeu. Foi pedir pra outro." },
+        { rotulo: "Ensina tudo", sempre: (JJ) => { rep(JJ, { vestiario: 1 }); JJ.efeito.queda += 0.4; JJ.efeito.minutos -= 0.04; return "Dois anos depois ele estreia no profissional e cita o seu nome na primeira entrevista."; } },
+        { rotulo: "Não tem tempo", sempre: (JJ) => { JJ.efeito.nota += 0.05; JJ.efeito.minutos += 0.03; return "Ele entendeu e foi pedir pra outro. Você seguiu focado no seu jogo."; } },
       ],
     }),
   };
+
+
+  // Cenas que nao sao agendadas: dependem de marcas e da idade
+  const CENAS_DE_MARCA = {
+    // o rival que voce provocou chega pro seu clube
+    companheiro: (J) => {
+      const est = h(J), r = est.rival;
+      if (!r || est.iniciados.companheiro || !(est.marcas.zoou || est.marcas.respondeu) || !est.rivalAno || J.ano < est.rivalAno + 2) return null;
+      if (!J.clube || J.clube.tipo === "ext" || r.time === J.clube.nome) return null;
+      return {
+        arco: "O rival", consequencia: "Provocação antes do mata-mata",
+        titulo: "O rival no seu vestiário",
+        texto: () => `${r.nome} acaba de assinar com o ${J.clube.nome}. No primeiro treino, ele vem direto na sua direção.`,
+        opcoes: [
+          { rotulo: "Estende a mão", sempre: (JJ) => { rep(JJ, { vestiario: 1 }); JJ.efeito.vitrine -= 0.5; return "Aperto de mão, foto no Instagram do clube e uma dupla que ninguém esperava."; } },
+          { rotulo: "Deixa claro quem manda", chance: (JJ) => clamp(0.4 + (JJ.ovr - 76) / 30, 0.2, 0.75),
+            ok: (JJ) => { JJ.efeito.minutos += 0.06; rep(JJ, { torcida: 1 }); return "Treino pegado, e a titularidade continuou sua."; },
+            falha: (JJ) => { rep(JJ, { vestiario: -1 }); JJ.efeito.minutos -= 0.05; return "Ele ganhou a vaga e o vestiário ficou do lado dele."; } },
+        ],
+      };
+    },
+    // curso de treinador: aos 35, o banco chama
+    interino: (J) => {
+      const est = h(J);
+      if (!est.marcas.futuro_tecnico || est.iniciados.interino || J.idade < 35 || !J.clube) return null;
+      return {
+        arco: "O corpo", consequencia: "Conversa sobre o futuro",
+        titulo: "O banco te chama",
+        texto: () => `O técnico do ${J.clube.nome} caiu. O presidente liga: quer você de interino, e depois efetivado.`,
+        opcoes: [
+          { rotulo: "Pendura as chuteiras e assume", sempre: (JJ) => { JJ.viraTecnico = JJ.clube.nome; rep(JJ, { vestiario: 1 }); JJ.efeito.nota += 0.03; return "Última temporada como jogador; no fim do ano, a prancheta é sua."; } },
+          { rotulo: "Ainda quer jogar", sempre: (JJ) => { JJ.efeito.queda += 0.5; return "Recusou por enquanto. O presidente disse que a porta fica aberta."; } },
+        ],
+      };
+    },
+  };
+
+  // Consequencia que sumiu porque voce trocou de clube: a trilha avisa
+  const PULADAS = {
+    racha: ["A crise", "O racha", "Você trocou de clube antes do racha estourar. O vestiário de lá ficou pra trás."],
+    bracadeira: ["A renovação", "A braçadeira", "A braçadeira prometida ficou no clube que você deixou."],
+    cobranca: ["A renovação", "A torcida cobra", "Você saiu antes da cobrança. A faixa ficou pendurada sem destinatário."],
+    reencontro: ["O rival", "Reencontro", "O reencontro não aconteceu: vocês foram parar do mesmo lado, ou longe demais."],
+    cidade: ["O ídolo da divisão", "A cidade é sua", "Você saiu antes de a cidade cobrar a escolha."],
+    casa: ["De volta pra casa", "A arquibancada da infância", "A volta pro clube que te revelou não aconteceu nessa janela."],
+    repatriar: ["Choque cultural", "Um clube brasileiro quer te repatriar", "Você já tinha voltado quando o convite chegou."],
+  };
+  function avisarPulada(J, id) {
+    const p = PULADAS[id];
+    if (!p) return;
+    const texto = p[2];
+    h(J).trilha.push({ ano: J.ano, idade: J.idade, clube: J.clube ? J.clube.nome : "", arco: p[0], titulo: p[1], escolha: "ficou pra trás", texto, ok: null, consequencia: null });
+    if (J.efeito && J.efeito.textos) J.efeito.textos.push({ titulo: p[1], escolha: "ficou pra trás", texto, ok: null });
+  }
+  const temasDe = (a) => [].concat(a.tema || []);
+  const marcarTema = (J, a) => { J.temasVistos = [...(J.temasVistos || []), ...temasDe(a)]; };
 
   // --- o que entra no ano ---------------------------------------------------------
 
@@ -585,8 +863,10 @@
   // no maximo ARCOS_POR_CARREIRA arcos alem dos que abrem cada fase: sem o
   // limite, 99% das carreiras viviam todos os arcos e a segunda partida
   // contava a mesma historia (medido em 240 carreiras, 25/09)
+  // (arcos "livres" -- choque cultural, Copa, despedida -- dependem de
+  // situacao rara e nao entram na conta)
   const ARCOS_POR_CARREIRA = 5;
-  const arcosAbertos = (est) => INICIOS.filter((a) => !a.abre && est.iniciados[a.id]).length;
+  const arcosAbertos = (est) => INICIOS.filter((a) => !a.abre && !a.livre && est.iniciados[a.id]).length;
 
   Historia.eventosDoAno = function (J, rng, { completo }) {
     const est = h(J);
@@ -595,46 +875,79 @@
     const eventos = [];
     for (const a of devidos) {
       const ev = CONSEQUENCIAS[a.id] && CONSEQUENCIAS[a.id](J, a.dados);
-      if (ev && eventos.length < 2) eventos.push(ev);
+      if (!ev) avisarPulada(J, a.id);
+      else if (eventos.length < 2) eventos.push(ev);
     }
     // o mentor aos 30: fecha o arco de quem aceitou o capitao aos 17
-    if (est.marcas.mentorado && J.idade >= 30 && !est.iniciados.aprendiz) {
+    if (est.marcas.mentorado && J.idade >= 30 && !est.iniciados.aprendiz && eventos.length < 2) {
       est.iniciados.aprendiz = true;
       eventos.push(CONSEQUENCIAS.aprendiz(J));
     }
+    // marcas que voltam sem agenda (o rival companheiro, o banco de tecnico)
+    for (const [id, cena] of Object.entries(CENAS_DE_MARCA)) {
+      if (eventos.length >= 2) break;
+      const ev = cena(J);
+      if (ev) { est.iniciados[id] = true; eventos.push(ev); }
+    }
     // o arco que abre cada fase entra sempre (rotina aos 16, contrato aos 20, corpo aos 31)
     const abertura = INICIOS.find((a) => a.abre && !est.iniciados[a.id] && a.fases.includes(fase(J)) && a.quando(J));
+    // arco de situacao (primeiro ano fora, ano de Copa, despedida) entra quando a situacao chega
+    const temas = new Set(J.temasVistos || []);
+    // nem todo jogador cruza com o mundo das apostas: sorteado uma vez por carreira
+    if (est.apostas === undefined) est.apostas = rng() < 0.36;
+    const podeTema = (a) => (a.tema !== "apostas" || est.apostas) && !temasDe(a).some((t) => temas.has(t))
+      // apostas: um arco por carreira; o aliciador so volta pra quem ja mexeu com aposta
+      || (a.id === "aliciador" && (est.marcas.bet_publi || est.marcas.vazou));
+    const f = fase(J);
+    const situacao = INICIOS.find((a) => a.livre && !est.iniciados[a.id] && (!a.fases || a.fases.includes(f)) && podeTema(a) && a.quando(J));
     if (abertura && eventos.length < 2) {
       est.iniciados[abertura.id] = true;
+      marcarTema(J, abertura);
       eventos.push({ arco: abertura.arco, ...abertura.evento(J, rng) });
-    } else if (eventos.length < 2 && arcosAbertos(est) < ARCOS_POR_CARREIRA && rng() < (completo ? 0.6 : 0.35)) {
-      // so arcos da fase atual (os antigos valem pra qualquer fase), com peso:
-      // o arco que abre a fase (rotina aos 16, contrato aos 20...) vem antes
-      const f = fase(J);
-      const livres = INICIOS.filter((a) => !est.iniciados[a.id] && (!a.fases || a.fases.includes(f)) && a.quando(J));
+    } else if (situacao && eventos.length < 2 && rng() < 0.8) {
+      est.iniciados[situacao.id] = true;
+      marcarTema(J, situacao);
+      eventos.push({ arco: situacao.arco, ...situacao.evento(J, rng) });
+    } else if (eventos.length < 2 && arcosAbertos(est) < ARCOS_POR_CARREIRA && rng() < (completo ? 0.6 : 0.4) * (f === "base" ? 0.6 : 1)) {
+      // so arcos da fase atual (os antigos valem pra qualquer fase), com peso
+      // e sem repetir tema (apostas, machucado, crise...) na mesma carreira
+      const livres = INICIOS.filter((a) => !a.livre && !est.iniciados[a.id] && (!a.fases || a.fases.includes(f)) && podeTema(a) && a.quando(J));
       if (livres.length) {
         const pesos = livres.map((a) => (a.peso ? a.peso(J) : 1));
         let x = rng() * pesos.reduce((p, q) => p + q, 0), k = 0;
         while (k < livres.length - 1 && (x -= pesos[k]) > 0) k++;
         const a = livres[k];
         est.iniciados[a.id] = true;
+        marcarTema(J, a);
         eventos.push({ arco: a.arco, ...a.evento(J, rng) });
       }
     }
     return eventos;
   };
 
-  // "Simular o resto": consequencia vencida nao some -- resolve sozinha,
-  // pela primeira opcao (a mais comum), e entra na trilha como automatica.
-  // Arco novo nao comeca no automatico.
+  // "Simular o resto": consequencia vencida nao some -- resolve sozinha e
+  // entra na trilha como automatica. Arco novo nao comeca no automatico.
+  // Qual opcao: a mais prudente, nao a primeira. A primeira costuma ser a
+  // ousada ("Critica o tecnico ao vivo", "Responde nas redes", "Aceita o
+  // palco"), e quem clica em simular nao escolheu arriscar. Menor risco =
+  // opcao certa (sem chance) antes da roleta; na roleta, a de maior chance;
+  // empate: a que nao abre outra consequencia, depois a ordem da tela.
+  const opcaoPrudente = (J, ev) => {
+    let melhor = ev.opcoes[0], menor = Infinity;
+    for (const op of ev.opcoes) {
+      const risco = (op.chance ? 1 - op.chance(J) : 0) + (op.consequencia ? 0.001 : 0);
+      if (risco < menor - 1e-9) { menor = risco; melhor = op; }
+    }
+    return melhor;
+  };
   Historia.resolverAutomatico = function (J, rng, resolver) {
     const est = h(J);
     const devidos = est.agenda.filter((a) => a.ano <= J.ano);
     est.agenda = est.agenda.filter((a) => a.ano > J.ano);
     for (const a of devidos) {
       const ev = CONSEQUENCIAS[a.id] && CONSEQUENCIAS[a.id](J, a.dados);
-      if (!ev) continue;
-      const op = ev.opcoes[0];
+      if (!ev) { avisarPulada(J, a.id); continue; }
+      const op = opcaoPrudente(J, ev);
       const r = resolver(J, op, rng);
       Historia.registrar(J, ev, { rotulo: `${op.rotulo} (no automático)` }, r);
     }
@@ -642,6 +955,9 @@
 
   // reputacao mexida de fora dos arcos (a renovacao da janela, carreira.js)
   Historia.mexerReputacao = function (J, mudancas) { rep(J, mudancas); };
+  // situacao solta de carreira.js que tambem volta depois (o clube formador)
+  Historia.agendar = agendar;
+  Historia.marcar = marcar;
 
   Historia.registrar = function (J, ev, op, r) {
     h(J).trilha.push({
