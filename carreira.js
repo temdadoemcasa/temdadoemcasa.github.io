@@ -1221,7 +1221,8 @@ function temporadaNaSelecao(J, ano, rng, p) {
 function trajetoria(J, idade) {
   if (idade >= J.idadePico) return J.potencial;
   const f = (J.idadePico - idade) / (J.idadePico - IDADE_INICIAL);
-  return J.ovrInicial + (J.potencial - J.ovrInicial) * (1 - Math.pow(f, 1.5));
+  // cresce mais rapido cedo (17-22), como na vida real: ~60% do caminho ate os 20
+  return J.ovrInicial + (J.potencial - J.ovrInicial) * (1 - Math.pow(f, 2.3));
 }
 
 function evoluir(J, p, rng) {
@@ -1238,7 +1239,10 @@ function evoluir(J, p, rng) {
   let delta;
   if (proxima <= J.idadePico) {
     const m = limitar(0.5 + 0.6 * p, 0.5, 1); // quem nao joga cresce menos (e recupera depois, em parte)
-    delta = (trajetoria(J, proxima) - J.ovr) * 0.8 * m + normal(rng, 0.8) + J.efeito.evolucao;
+    // jogar bem acelera: nota boa com minutos de verdade soma ate +1,5 no ano
+    const ultima = J.historico[J.historico.length - 1];
+    const desempenho = ultima ? limitar((ultima.nota - 6.6) * 1.6, -1, 1.5) * limitar(p * 1.2, 0, 1) : 0;
+    delta = (trajetoria(J, proxima) - J.ovr) * 0.8 * m + desempenho + normal(rng, 0.8) + J.efeito.evolucao;
   } else {
     const k = proxima - J.idadePico; // anos depois do pico
     const queda = [0, -0.4, -0.9, -1.5, -2.1, -2.8][k] ?? -3.4;
@@ -1502,6 +1506,9 @@ function jogarTemporada({ decidir = true } = {}) {
     time: J.clube.time || null, ovr: J.ovr, attrs: { ...J.attrs }, jogos, gols, assist, nota,
     semSofrer: f === "GOL" ? Math.round(st.semSofrerLiga * t.p) : null,
     campanha: t.campanha, titulos, selecao, minutos: Math.round(jogos * 90 * (0.7 + 0.3 * t.s)), titular: t.s,
+    jogosDoClube: st.jogos,
+    // garoto que nao joga no profissional joga na categoria dele (nao entra nos totais)
+    base: J.idade <= 19 ? { cat: J.idade <= 17 ? "sub-17" : "sub-20", jogos: Math.round(26 * limitar(1 - (jogos / Math.max(1, st.jogos)) * 1.3, 0, 1)) } : null,
     lesao, decisoes: J.efeito.textos, vitrineExtra: J.efeito.vitrine,
   };
   linha.premios = premiosDoAno(J, t, linha, rng);
@@ -1523,7 +1530,8 @@ function jogarTemporada({ decidir = true } = {}) {
     }
   }
   // fim do ano: evolui, envelhece, mercado
-  linha.evolucao = evoluir(J, t.p, rng);
+  // evolui pelo que jogou de verdade (nao pelo que estava previsto)
+  linha.evolucao = evoluir(J, limitar(jogos / Math.max(1, st.jogos), 0, 1), rng);
   J.idade += 1;
   J.ano += 1;
   J.anosNoClube += 1;
@@ -2736,12 +2744,16 @@ function mostrarLinha(linha) {
   alvo.replaceChildren();
   alvo.append(el("p", "jogo-etapa", `Temporada ${linha.ano} · ${linha.idade} anos · ${linha.clube} (${linha.liga})`));
   const numeros = el("dl", "temporada-numeros");
-  const itens = [["Jogos", linha.jogos], ["Gols", linha.gols], ["Assist.", linha.assist], ["Nota", linha.nota === null ? "—" : linha.nota.toFixed(1).replace(".", ",")], ["Craque do jogo", linha.craqueDoJogo]];
+  const itens = [[linha.base ? "Jogos no profissional" : "Jogos", linha.jogos], ["Gols", linha.gols], ["Assist.", linha.assist], ["Nota", linha.nota === null ? "—" : linha.nota.toFixed(1).replace(".", ",")], ["Craque do jogo", linha.craqueDoJogo]];
   if (linha.semSofrer !== null) itens.splice(1, 1, ["Sem sofrer gol", linha.semSofrer]);
   for (const [k, v] of itens) { const d = el("div"); d.append(el("dd", null, String(v)), el("dt", null, k)); numeros.append(d); }
   alvo.append(numeros);
-  const papel = linha.titular >= 0.7 ? "Dono da posição" : linha.titular >= 0.45 ? "Briga pela vaga" : linha.titular >= 0.2 ? "Primeiro do banco" : "Esquentou banco";
+  // o papel sai do que jogou de fato (jogos do jogador / jogos do clube no ano)
+  const fatia = linha.jogosDoClube ? linha.jogos / linha.jogosDoClube : linha.titular;
+  const papel = fatia >= 0.7 ? "Dono da posição" : fatia >= 0.45 ? "Titular na maior parte" : fatia >= 0.2 ? "Primeiro do banco" : "Esquentou banco";
   alvo.append(el("p", "temporada-papel", papel));
+  // ate os 19: deixa claro o que foi no profissional e o que foi na base
+  if (linha.base) alvo.append(el("p", "temporada-base", `${linha.jogos} jogos pelo profissional${linha.base.jogos ? ` · ${linha.base.jogos} pelo ${linha.base.cat} (não contam nos números da carreira)` : ""}`));
   const camp = el("ul", "temporada-campanha");
   for (const c of linha.campanha) {
     const li = el("li", c.campeao ? "campeao" : "");
