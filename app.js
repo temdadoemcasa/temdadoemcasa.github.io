@@ -1222,14 +1222,17 @@ function ligarFicha() {
 
 // --- vitrine: o envelope de figurinha ---------------------------------------
 
-// Chance fixa por nivel, como envelope de verdade: a maioria sai palha ou
-// madeira, grafeno e quase impossivel. Dentro do nivel, qualquer um.
-// As chances aparecem na pagina: nada de caixa-preta. O Tem Time em Casa usa as mesmas.
-const CHANCES = { palha: 0.5, madeira: 0.4, tijolo: 0.09, grafeno: 0.01 };
+// O envelope e so fantasia: cinco figurinhas e chance igual pra cada nivel.
+// Dentro do nivel, qualquer um. As chances aparecem na pagina: nada de caixa-preta.
+const CHANCES = { palha: 0.25, madeira: 0.25, tijolo: 0.25, grafeno: 0.25 };
+const FIGURINHAS_POR_ENVELOPE = 5;
 
-function sortear(r) {
+function sortear(r, fora = []) {
   const porNivel = {};
-  for (const j of r.indice.comNota) (porNivel[nivel(j.overall).id] ||= []).push(j);
+  for (const j of r.indice.comNota) {
+    if (fora.includes(j)) continue;
+    (porNivel[nivel(j.overall).id] ||= []).push(j);
+  }
   // nivel sem ninguem na temporada sai do sorteio e as chances se ajustam
   const niveis = Object.keys(CHANCES).filter((id) => porNivel[id]);
   let x = Math.random() * niveis.reduce((s, id) => s + CHANCES[id], 0);
@@ -1240,6 +1243,14 @@ function sortear(r) {
   }
   const grupo = porNivel[escolhido];
   return grupo[Math.floor(Math.random() * grupo.length)];
+}
+
+// cinco sem repetir, da pior pra melhor: a melhor sai por ultimo
+function sortearEnvelope(r) {
+  const saiu = [];
+  const n = Math.min(FIGURINHAS_POR_ENVELOPE, r.indice.comNota.length);
+  while (saiu.length < n) saiu.push(sortear(r, saiu));
+  return saiu.sort((a, b) => a.overall - b.overall);
 }
 
 function textoDasChances() {
@@ -1266,14 +1277,14 @@ function montarEnvelope(temporada) {
 }
 
 const FALAS = {
-  grafeno: "CASA DE CONCRETO! Essa quase ninguém tira.",
+  grafeno: "CASA DE CONCRETO! Nem o lobo com fôlego derruba essa.",
   tijolo: "Casa de tijolo! O lobo não derruba essa.",
   madeira: "Casa de madeira. Aguenta um sopro.",
   palha: "Casa de palha. O lobo sopra e leva.",
 };
 
 // O envelope mora num dialogo aberto pelo link do topo e sorteia da
-// temporada escolhida na secao de cartas. Tres cliques pra abrir:
+// temporada escolhida na secao de cartas. Tres cliques pra abrir o pacote de cinco:
 // 1) treme, 2) a aba solta e o brilho entrega a cor do nivel (a pista),
 // 3) rasga e revela.
 function iniciarVitrine() {
@@ -1286,14 +1297,15 @@ function iniciarVitrine() {
 
   const novoEnvelope = () => {
     const r = estado.r;
-    const jogador = sortear(r);
-    const time = TIME_DE.get(jogador);
-    const t = nivel(jogador.overall);
+    const pacote = sortearEnvelope(r);
+    const melhor = pacote[pacote.length - 1];
+    const t = nivel(melhor.overall);
     const envelope = montarEnvelope(r.temporada);
+    dialogo.classList.remove("aberto");
     palco.className = "palco";
     palco.replaceChildren(envelope);
-    legenda.textContent = "Clica no envelope pra rasgar.";
-    chances.textContent = `Chances: ${textoDasChances()}`;
+    legenda.textContent = `Clica no envelope pra rasgar. Vêm ${pacote.length} figurinhas.`;
+    chances.textContent = `Chances por figurinha: ${textoDasChances()}`;
     botao.hidden = true;
     let cliques = 0;
     envelope.addEventListener("click", async () => {
@@ -1305,6 +1317,7 @@ function iniciarVitrine() {
       envelope.classList.add("tremendo");
       if (cliques === 1) legenda.textContent = "Mais forte…";
       if (cliques === 2) {
+        // a pista e a cor da melhor figurinha do pacote
         palco.className = `palco nivel-${t.id} pista`;
         legenda.textContent = t.id === "grafeno" || t.id === "tijolo" ? "Opa… esse brilho…" : "Último puxão.";
       }
@@ -1312,11 +1325,17 @@ function iniciarVitrine() {
       envelope.classList.add("rasgando");
       palco.classList.add("clarao");
       await espera(movimentoReduzido ? 0 : 450);
-      const carta = cartaDoJogador(jogador, time, r);
-      carta.classList.add("revelando");
-      palco.replaceChildren(carta);
-      legenda.textContent = `${jogador.nome} (${time.nome}), ${jogador.overall} ${SIGLA[jogador.posicao]}. ${FALAS[t.id]}`;
-      await espera(movimentoReduzido ? 0 : 1400);
+      dialogo.classList.add("aberto");
+      palco.classList.add("pacote");
+      palco.replaceChildren(...pacote.map((j, i) => {
+        const carta = cartaDoJogador(j, TIME_DE.get(j), r);
+        carta.classList.add("revelando");
+        carta.style.setProperty("--ordem", String(i));
+        return carta;
+      }));
+      const time = TIME_DE.get(melhor);
+      legenda.textContent = `A melhor: ${melhor.nome} (${time.nome}), ${melhor.overall} ${SIGLA[melhor.posicao]}. ${FALAS[t.id]}`;
+      await espera(movimentoReduzido ? 0 : 1400 + pacote.length * 220);
       palco.classList.remove("clarao", "pista");
       botao.hidden = false;
       botao.textContent = "Abrir outro envelope";
