@@ -715,3 +715,4 @@
   100% { opacity: 0; transform: translate(var(--x), 60vh) rotate(var(--r)); }
 }
 @media (prefers-reduced-motion: reduce) { .festa-raios, .taca-festa, .festa-cena { animation: none; } }
+.temporada-base { margin: -0.3rem 0 0.6rem; font-size: 0.78rem; color: var(--texto-fraco); }
