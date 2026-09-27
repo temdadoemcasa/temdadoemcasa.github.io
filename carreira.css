@@ -616,6 +616,9 @@
 #tela-carreira .controles-jogo { margin-top: 1.6rem; padding-top: 0.9rem; border-top: 1px solid var(--borda); }
 #tela-carreira #tudo { background: transparent; border-color: transparent; color: var(--texto-fraco); font-size: 0.85rem; text-decoration: underline; text-underline-offset: 3px; }
 #tela-carreira #tudo.tudo-armado { border-color: #ff7d95; color: #ff7d95; text-decoration: none; }
+/* pendurar (34+): linha propria, discreto como o simular; armado fica vermelho */
+#tela-carreira #pendurar { grid-column: 1 / -1; justify-self: center; background: transparent; border-color: var(--borda); color: var(--texto-fraco); font-size: 0.85rem; }
+#tela-carreira #pendurar.tudo-armado { border-color: #ff7d95; color: #ff7d95; }
 .rep-valor { margin-left: 0.2rem; font-size: 0.7rem; font-variant-numeric: tabular-nums; color: var(--texto-fraco); }
 .rep-valor.sobe { color: var(--canal); }
 .rep-valor.desce { color: #ff7d95; }

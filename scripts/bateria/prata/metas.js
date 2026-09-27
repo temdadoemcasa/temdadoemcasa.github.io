@@ -82,7 +82,7 @@ linha("F", "carreiras com situação repetida", `${repet}`, "0", repet === 0);
 const trav = R.reduce((a, r) => a + r.softlock.length, 0);
 linha("F", "travas / estado alterado pela dica de lados", `${trav}`, "0", trav === 0);
 const idades = R.map((r) => r.idadeFim).sort((a, b) => a - b);
-linha("F", "idade de aposentadoria p5-p50-p95", `${idades[Math.floor(idades.length * 0.05)]}-${idades[Math.floor(idades.length / 2)]}-${idades[Math.floor(idades.length * 0.95)]}`, "mediana ~36", Math.abs(idades[Math.floor(idades.length / 2)] - 36) <= 1);
+linha("F", "idade de aposentadoria p5-p50-p95", `${idades[Math.floor(idades.length * 0.05)]}-${idades[Math.floor(idades.length / 2)]}-${idades[Math.floor(idades.length * 0.95)]}`, "mediana 36-38 (limite 40)", idades[Math.floor(idades.length / 2)] >= 36 && idades[Math.floor(idades.length / 2)] <= 38);
 
 // H: contratos (fase 3)
 const cinco = R.filter((r) => ["aleatoria", "gulosa", "cautelosa", "primeira", "impaciente"].includes(r.pol));

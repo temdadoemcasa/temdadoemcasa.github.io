@@ -148,7 +148,7 @@
   function mercado(J, linha, pol, ctx, reg, { rapido = false } = {}) {
     const ofertas = C.ofertasAbertas || [];
     // os botoes do clube vem do jogo (botoesDoClube), na ordem da tela
-    const doClube = botoesDoClube(J, linha, { rapido });
+    const doClube = botoesDoClube(J, linha, { rapido, semOfertas: !ofertas.length });
     let bs = [...doClube, ...ofertas.flatMap((c) => [{ tipo: "assina", c }, { tipo: "garantia", c }])];
     // e2e: desenha a janela de verdade (mostrarMercado) e guarda os botoes
     if (ctx.e2e) ctx.e2e(estadoJanela(J, rapido, C.ofertasAbertas || [], C.ofertasBarradas || []), () => mostrarMercado(linha, rapido ? { so: ofertas } : {}));
@@ -167,7 +167,7 @@
         Historia.registrar(J, { titulo: "Renovação", arco: null }, r, { texto, ok: null });
         break;
       }
-      if (b.tipo === "fica") break;
+      if (b.tipo === "fica") { if (b.aoFicar) b.aoFicar(J); break; }
       if (b.tipo === "pede") {
         const lib = pedirSaida(J);
         if (ctx.e2e) { C.ofertasAbertas = [...ofertas, ...lib]; ctx.e2e(`${estadoJanela(J, rapido, C.ofertasAbertas, C.ofertasBarradas || [])} · depois de pedir pra sair`, () => mostrarMercado(linha, { aviso: "pedido" })); }
@@ -316,6 +316,11 @@
     let anos = 0;
     while (!J.aposentado) {
       if (anos >= 40) { reg.softlock.push("mais de 40 temporadas"); break; }
+      // a partir dos 34 (goleiro, 36) o jogador pode pendurar: a bateria para
+      // cada vez mais provavel (18% no 1o ano, +12 por ano); simulando, vai ate o limite
+      if (anos < paraSimular && J.idade >= idadeDePendurar() && rngPol() < 0.18 + 0.12 * (J.idade - idadeDePendurar())) {
+        pendurarAsChuteiras(); reg.pendurou = J.idade; break;
+      }
       let linha;
       if (anos >= paraSimular) {
         if (reg.simulouApos === null) { reg.simulouApos = anos; C.eventos = null; C.ofertasAbertas = null; C.rolagem = null; }
@@ -338,7 +343,7 @@
     const nulos = H.filter((h) => !Number.isFinite(h.ovr) || (h.nota !== null && !Number.isFinite(h.nota)) || !Number.isFinite(h.gols)).length;
     return {
       semente, pol, modo, ...ini, base: reg.base,
-      temporadas: H.length, idadeFim: J.idade, aposentadoForcada: J.idade >= (funcaoDe(C.pos) === "GOL" ? 42 : 40),
+      temporadas: H.length, idadeFim: J.idade, aposentadoForcada: J.idade >= (funcaoDe(C.pos) === "GOL" ? 42 : 40), pendurou: reg.pendurou ?? null,
       auge, ovrFinal: J.ovr, jogos: tot.j, gols: tot.g, assist: tot.a,
       titulos: J.titulos.length, titulosClube: J.titulos.filter((t) => !t.selecao).length, premios: J.premios.length,
       bolaDeOuro: J.premios.filter((p) => p.nome === "Bola de Ouro").length,
@@ -362,6 +367,7 @@
       motivos: J.transferencias.filter((t) => !t.emprestimo).map((t) => `${t.motivo || "?"}@${t.ano - 2010}`),
       umAnoSo: H.filter((h, i) => i > 0 && i < H.length - 1 && h.clube !== H[i - 1].clube && H[i + 1].clube !== h.clube).length,
       final: (() => { const f = nomeDoFinal(J); capturar("final", `${f.titulo} ${f.texto} ${f.depois || ""}`.trim()); return f.titulo; })(),
+      ovrPorAno: H.map((h) => h.ovr),
       potencialFinal: J.potencial, potencialSorteado: J.potencialSorteado, saltos: reg.saltos, valores: reg.valores,
       temasApostas: J.historia.trilha.filter((t) => ["Dinheiro curto", "O grupo de apostas", "O aliciador"].includes(t.arco)).map((t) => t.arco).filter((v, i, a) => a.indexOf(v) === i),
       puladas: J.historia.trilha.filter((t) => t.escolha === "ficou pra trás").length,

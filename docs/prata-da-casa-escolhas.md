@@ -257,6 +257,12 @@ Quem clica em simular não escolheu arriscar. Arco novo não começa no automát
 
 Quando o jogador deu a palavra a um clube, a proposta desse clube é aceita no automático. Vale pra três casos: clube formador, pedido pra ser vendido e repatriação.
 
+## Veterano e aposentadoria
+
+- **A carreira vai até os 40** (goleiro, 42). Antes disso só para quem escolhe: a partir dos 34 (goleiro, 36) aparece o botão **Pendurar as chuteiras** (dois toques), além da despedida anunciada e do banco de técnico aceito. "Simular o resto" joga até o limite.
+- **Ladeira abaixo a partir dos 34:** depois do pico o OVR cai devagar (meio ponto por ano, no máximo 1); dos 34 em diante cai de 1 a 2 por temporada.
+- **Veterano na Europa:** a partir dos 34, quem tem menos de 90 de OVR não é renovado e o clube tenta revender. Sempre aparece uma proposta de um clube brasileiro (que não retira a proposta). Ficar só como reserva, e só por um ano. Na Europa, veterano de 32+ assina ano a ano. Bateria: de quem estava na Europa aos 33, 24% seguem lá aos 35 e 8% aos 36 (quase todos 90+).
+
 ## O final
 
 A tela de aposentadoria dá um nome à carreira, tirado dos números. A ordem de prioridade é:
