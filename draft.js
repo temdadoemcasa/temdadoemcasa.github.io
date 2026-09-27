@@ -353,7 +353,17 @@ function comecarTemporada() {
   const alvos = [["bra", COMP.bra], ["cdb", COMP.cdb], [D.continental, COMP[D.continental]]];
   $("sim-alvo").replaceChildren(...alvos.map(([v, t]) => new Option(t, v)));
   mostrar("temporada");
+  if (!D.menu) {
+    const tela = $("tela-temporada");
+    const colJogo = tela.querySelector(".coluna-jogo"), colTab = tela.querySelector(".coluna-tabelas");
+    D.menu = montarAbasMobile(tela, [
+      { id: "jogo", rotulo: "Jogo", icone: "jogo", paineis: [colJogo], aoAbrir: () => { if (D.visao !== "jogo") mudarVisao("jogo"); } },
+      { id: "tabelas", rotulo: "Tabelas", icone: "tabela", paineis: [colTab], aoAbrir: () => { if (D.visao !== "jogo") mudarVisao("jogo"); } },
+      { id: "calendario", rotulo: "Calendário", icone: "calendario", paineis: [], aoAbrir: () => { if (D.visao !== "cal") mudarVisao("cal"); } },
+    ], "jogo");
+  }
   mudarVisao("jogo");
+  D.menu.abrir("jogo", { rolar: false });
   const jogo = $("jogo");
   jogo.replaceChildren(
     el("p", "jogo-etapa", "Temporada 2026"),
@@ -877,6 +887,12 @@ async function simularAteDia(iso) {
 // Duas abas, uma temporada so: o que simula numa aparece na outra.
 function mudarVisao(v) {
   D.visao = v;
+  // celular: o menu de baixo acompanha (o calendario manda pro jogo a jogo)
+  if (D.menu) {
+    const atual = D.menu.atual();
+    if (v === "cal" && atual !== "calendario") D.menu.abrir("calendario", { rolar: false });
+    else if (v === "jogo" && atual === "calendario") D.menu.abrir("jogo", { rolar: false });
+  }
   $("visao-jogo").hidden = v !== "jogo";
   $("visao-cal").hidden = v !== "cal";
   for (const b of document.querySelectorAll(".abas-temporada .chip")) {

@@ -984,3 +984,24 @@ select, input {
 :root[data-tema="claro"] .rodada-jogo.eu { background: rgba(120, 180, 0, 0.12); }
 :root[data-tema="claro"] .barra { background: linear-gradient(90deg, rgba(74, 125, 0, 0.45), var(--canal)); }
 :root[data-tema="claro"] .avatar { content: url("img/simbolo-claro.svg"); }
+
+/* --- menu de baixo no celular (minigames) --- */
+.abas-mobile { display: none; }
+@media (max-width: 760px) {
+  .com-abas-mobile { padding-bottom: 5.2rem; }
+  .com-abas-mobile .aba-oculta { display: none !important; }
+  .abas-mobile {
+    display: flex; position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;
+    padding: 0.35rem 0.5rem calc(0.35rem + env(safe-area-inset-bottom, 0px));
+    background: color-mix(in srgb, var(--fundo-cartao) 94%, transparent); backdrop-filter: blur(10px);
+    border-top: 1px solid var(--borda); box-shadow: 0 -8px 20px -12px rgba(0, 0, 0, 0.6);
+  }
+  .aba-mobile {
+    position: relative; flex: 1; display: grid; justify-items: center; gap: 0.1rem; padding: 0.35rem 0.2rem;
+    background: none; border: 0; border-radius: 12px; color: var(--texto-fraco); font: inherit; font-size: 0.7rem; font-weight: 700; cursor: pointer;
+  }
+  .aba-mobile svg { width: 1.35rem; height: 1.35rem; }
+  .aba-mobile[aria-current="page"] { color: var(--canal); background: color-mix(in srgb, var(--canal) 10%, transparent); }
+  .aba-mobile.novidade::after { content: ""; position: absolute; top: 0.3rem; right: calc(50% - 1.1rem); width: 0.5rem; height: 0.5rem; border-radius: 50%; background: #ff4d6d; }
+}
+@media (max-width: 760px) { .com-abas-mobile .abas-temporada { display: none; } }

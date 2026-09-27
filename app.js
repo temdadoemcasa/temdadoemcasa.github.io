@@ -1579,3 +1579,49 @@ if (document.getElementById("elenco")) {
     falha("elenco", "As cartas não carregaram agora. Tenta de novo daqui a pouco.");
   });
 }
+
+// --- menu de baixo no celular (minigames) -----------------------------------------
+// Barra fixa com icones: cada aba mostra um painel e esconde os outros (so no
+// celular; no PC tudo aparece lado a lado). `abas`: [{ id, rotulo, icone, paineis: [el], aoAbrir }].
+const ICONES_ABA = {
+  jogo: '<path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18Zm0 4 3 2.2-1.1 3.6h-3.8L9 9.2 12 7Z" fill="currentColor"/>',
+  carta: '<rect x="5" y="3" width="14" height="18" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9 8h6M9 12h6M9 16h3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>',
+  lista: '<path d="M8 6h12M8 12h12M8 18h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="4" cy="6" r="1.4" fill="currentColor"/><circle cx="4" cy="12" r="1.4" fill="currentColor"/><circle cx="4" cy="18" r="1.4" fill="currentColor"/>',
+  tabela: '<rect x="3" y="4" width="18" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 9h18M9 9v11" stroke="currentColor" stroke-width="2"/>',
+  calendario: '<rect x="3" y="5" width="18" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 10h18M8 3v4M16 3v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>',
+};
+function montarAbasMobile(secao, abas, inicial) {
+  const barra = el("nav", "abas-mobile");
+  barra.setAttribute("aria-label", "Menu do jogo");
+  const botoes = {};
+  const abrir = (id, { rolar = true } = {}) => {
+    secao.dataset.abaMobile = id;
+    for (const a of abas) {
+      const ativo = a.id === id;
+      botoes[a.id].setAttribute("aria-current", ativo ? "page" : "false");
+      botoes[a.id].classList.remove("novidade");
+      for (const p of a.paineis) p.classList.toggle("aba-oculta", !ativo);
+    }
+    const a = abas.find((x) => x.id === id);
+    if (a && a.aoAbrir) a.aoAbrir();
+    if (rolar && matchMedia("(max-width: 760px)").matches) window.scrollTo({ top: Math.max(0, secao.offsetTop - 70), behavior: "auto" });
+  };
+  for (const a of abas) {
+    const b = el("button", "aba-mobile");
+    b.type = "button";
+    b.innerHTML = `<svg viewBox="0 0 24 24" aria-hidden="true">${ICONES_ABA[a.icone] || ""}</svg>`;
+    b.append(el("span", null, a.rotulo));
+    b.addEventListener("click", () => abrir(a.id));
+    botoes[a.id] = b;
+    barra.append(b);
+  }
+  secao.append(barra);
+  secao.classList.add("com-abas-mobile");
+  abrir(inicial || abas[0].id, { rolar: false });
+  return {
+    abrir,
+    // aviso discreto de que algo mudou numa aba fechada
+    marcar: (id) => { if (secao.dataset.abaMobile !== id && botoes[id]) botoes[id].classList.add("novidade"); },
+    atual: () => secao.dataset.abaMobile,
+  };
+}
