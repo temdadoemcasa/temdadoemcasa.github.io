@@ -202,6 +202,58 @@
   ];
 
   INICIOS.push(...[
+    {
+      id: "longe", arco: "Longe de casa", abre: true, fases: ["base"], peso: () => 4,
+      quando: (J) => J.idade <= 17,
+      evento: (J) => ({
+        titulo: "A saudade no primeiro mês",
+        texto: () => `Sua mãe liga chorando de saudade. A passagem pra casa custa metade da ajuda de custo do ${J.clube.nome}.`,
+        opcoes: [
+          { rotulo: "Vai pra casa no feriado",
+            sempre: (JJ) => { JJ.efeito.nota += 0.05; JJ.efeito.evolucao -= 0.2; return "Três dias de comida de mãe. Voltou leve, mas perdeu dois treinos."; } },
+          { rotulo: "Segura a saudade e treina", consequencia: true,
+            sempre: (JJ) => { rep(JJ, { disciplina: 1 }); JJ.efeito.evolucao += 0.3; agendar(JJ, "saudade", 1); return "Ficou. Treinou com raiva boa. Mas a saudade não foi embora."; } },
+          { rotulo: "Divide o quarto com um garoto da sua cidade",
+            sempre: (JJ) => { rep(JJ, { vestiario: 1 }); return "Sotaque igual, a mesma comida de domingo. Virou seu irmão no alojamento."; } },
+        ],
+      }),
+    },
+    {
+      id: "treino-pro", arco: "O treino do profissional", abre: true, fases: ["base"], peso: () => 4,
+      quando: (J) => J.idade <= 17,
+      evento: () => ({
+        titulo: "Faltou um no treino de cima",
+        texto: () => "O auxiliar do profissional aparece no campo da base: \"preciso de um pra completar, se troca em cinco minutos\".",
+        opcoes: [
+          { rotulo: "Vai e joga sem medo", consequencia: true, chance: (J) => clamp(0.35 + (J.ovr - 58) / 20, 0.2, 0.75),
+            ok: (J) => { rep(J, { tecnico: 2 }); marcar(J, "visto"); return { texto: "Deu uma caneta no lateral titular. O técnico perguntou seu nome.", emSeguida: oportunidade(J) }; },
+            falha: (J) => { rep(J, { tecnico: -1 }); return "Tremeu, errou três passes seguidos. Voltou pra base sem ninguém lembrar seu nome."; } },
+          { rotulo: "Vai e faz o simples",
+            sempre: (J) => { rep(J, { tecnico: 1 }); return "Tocou fácil, não comprometeu. Ficou na lista pra próxima vez."; } },
+          { rotulo: "Diz que ainda não está pronto",
+            sempre: (J) => { rep(J, { tecnico: -1 }); return "Chamaram outro garoto. Ele não saiu mais do profissional."; } },
+        ],
+      }),
+    },
+    {
+      id: "treinador-base", arco: "O técnico do sub-17", abre: true, fases: ["base"], peso: () => 4,
+      quando: (J) => J.idade <= 17,
+      evento: () => ({
+        titulo: "O técnico do sub-17 não gosta de você",
+        texto: () => "Três jogos no banco sem explicação. Dizem que ele prefere o sobrinho de um conselheiro.",
+        opcoes: [
+          { rotulo: "Treina em dobro pra provar", chance: () => 0.7,
+            ok: (J) => { rep(J, { disciplina: 1, tecnico: 1 }); J.efeito.evolucao += 0.4; return "Não tinha como deixar de fora. Voltou a ser titular em um mês."; },
+            falha: (J) => { J.efeito.lesao += 0.06; return "Exagerou na carga e sentiu a coxa. Continuou no banco, agora machucado."; } },
+          { rotulo: "Reclama com o coordenador", consequencia: true, chance: () => 0.45,
+            ok: (J) => { rep(J, { tecnico: 1 }); return "O coordenador assistiu os treinos e te pôs no time."; },
+            falha: (J) => { rep(J, { tecnico: -2 }); marcar(J, "reclamao"); return "O técnico soube quem reclamou. Ficou marcado como reclamão."; } },
+          { rotulo: "Espera a vez",
+            sempre: () => "Paciência. A vez veio no fim do ano, num jogo que já não valia nada." },
+        ],
+      }),
+    },
+
     // ===== BASE (16-19): sem dinheiro, pouco minuto, atras de uma chance =====
     {
       id: "rotina", arco: "A rotina", abre: true, fases: ["base"], peso: () => 6,
@@ -383,6 +435,18 @@
   // --- o que volta num ano seguinte ---------------------------------------------
 
   const CONSEQUENCIAS = {
+    saudade: () => ({
+      arco: "Longe de casa", consequencia: "A saudade no primeiro mês",
+      titulo: "A saudade cobrou",
+      texto: () => "Um ano longe. Você anda calado no alojamento e o psicólogo do clube percebeu.",
+      opcoes: [
+        { rotulo: "Aceita conversar com o psicólogo", sempre: (J) => { rep(J, { disciplina: 1 }); J.efeito.nota += 0.08; return "Falar ajudou. O futebol voltou junto com o sorriso."; } },
+        { rotulo: "Traz a família pra perto", sempre: (J) => { J.efeito.nota += 0.1; return "Alugaram um quarto perto do CT. Casa cheia de novo."; } },
+        { rotulo: "Guarda pra si", chance: () => 0.5,
+          ok: (J) => { J.efeito.evolucao += 0.3; return "Amadureceu no silêncio. Um ano duro que te fez mais forte."; },
+          falha: (J) => { J.efeito.nota -= 0.12; rep(J, { disciplina: -1 }); return "O rendimento caiu e ninguém entendeu por quê."; } },
+      ],
+    }),
     // --- A rotina ---
     oportunidade: (J) => oportunidade(J),
     bairro: () => ({
@@ -631,7 +695,11 @@
       eventos.push(CONSEQUENCIAS.aprendiz(J));
     }
     // o arco que abre cada fase entra sempre (rotina aos 16, contrato aos 20, corpo aos 31)
-    const abertura = INICIOS.find((a) => a.abre && !est.iniciados[a.id] && a.fases.includes(fase(J)) && a.quando(J));
+    // o arco que abre a fase e sorteado entre os da fase (so um abre cada fase)
+    est.abriu = est.abriu || {};
+    const candidatos = est.abriu[fase(J)] ? [] : INICIOS.filter((a) => a.abre && !est.iniciados[a.id] && a.fases.includes(fase(J)) && a.quando(J));
+    const abertura = candidatos.length ? candidatos[Math.floor(rng() * candidatos.length)] : null;
+    if (abertura) est.abriu[fase(J)] = true;
     if (abertura && eventos.length < 2) {
       est.iniciados[abertura.id] = true;
       eventos.push({ arco: abertura.arco, ...abertura.evento(J, rng) });

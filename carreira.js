@@ -2484,14 +2484,27 @@ const DICA_FOCO = {
   REF: "defesas difíceis", EVI: "pega mais chutes", MAO: "segura mais bolas", PES: "sai jogando com os pés", SAI: "domina a área",
 };
 // o foco rende ja no ano (alem dos pontos de atributo no fim da temporada)
-function aplicarFoco(J, k) {
+function aplicarFoco(J, k, s = 1) {
+  // s = -1 desfaz (quando troca o foco na pre-temporada)
   const e = J.efeito;
-  if (k === "FIN") e.gol += 0.12;
-  else if (k === "RIT") { e.gol += 0.07; e.assist += 0.03; }
-  else if (k === "PAS") e.assist += 0.15;
-  else if (k === "DRI") { e.assist += 0.1; e.gol += 0.03; }
-  else if (k === "FIS") { e.lesao = Math.max(0, e.lesao - 0.03); e.minutos += 0.03; }
-  else e.nota += 0.12; // DEF e os de goleiro: aparece na nota
+  if (k === "FIN") e.gol += 0.12 * s;
+  else if (k === "RIT") { e.gol += 0.07 * s; e.assist += 0.03 * s; }
+  else if (k === "PAS") e.assist += 0.15 * s;
+  else if (k === "DRI") { e.assist += 0.1 * s; e.gol += 0.03 * s; }
+  else if (k === "FIS") { e.lesao -= 0.03 * s; e.minutos += 0.03 * s; }
+  else e.nota += 0.12 * s; // DEF e os de goleiro: aparece na nota
+}
+// as 3 opcoes de foco do ano: o que mais pesa, o ponto forte e mais um
+function opcoesDeFoco(J, rng) {
+  const f = funcaoDe(C.pos);
+  const ordem = Object.entries(PESOS[f]).sort((a, b) => b[1] - a[1]).map(([k]) => k);
+  const esp = perfilEsperado(f, J.ovr);
+  const forte = Object.keys(esp).sort((a, b) => (J.attrs[b] - esp[b]) - (J.attrs[a] - esp[a]))[0];
+  const opcoes = [ordem[0]];
+  if (!opcoes.includes(forte)) opcoes.push(forte);
+  if (J.focoAnterior && !opcoes.includes(J.focoAnterior)) opcoes.push(J.focoAnterior);
+  for (const k of Motor.embaralhar(rng, ordem.slice(1))) if (opcoes.length < 3 && !opcoes.includes(k)) opcoes.push(k);
+  return opcoes.slice(0, 3);
 }
 function eventoDeTreino(J, rng) {
   const f = funcaoDe(C.pos);
@@ -2524,15 +2537,16 @@ function sortearEventos(J, rng, n = 2) {
   const completo = C.modo === "completo";
   const arcos = Historia.eventosDoAno(J, rng, { completo });
   // rapido: exatamente uma escolha por temporada -- a historia primeiro,
-  // senao uma situacao solta, senao o foco de treino
+  // senao uma situacao solta (o foco de treino fica no topo da temporada)
   if (!completo) {
     if (arcos.length) return [arcos[0]];
     const lancesLivres = pool.filter((e) => e.id.startsWith("lance-"));
-    const solta = rng() < 0.7 ? (lancesLivres.length && rng() < 0.5 ? Motor.embaralhar(rng, lancesLivres)[0] : Motor.embaralhar(rng, pool)[0]) : null;
+    const solta = lancesLivres.length && rng() < 0.45 ? Motor.embaralhar(rng, lancesLivres)[0] : Motor.embaralhar(rng, pool)[0];
     if (solta) { J.eventosVistos = [...vistos, solta.id]; return [solta]; }
-    return [eventoDeTreino(J, rng)];
+    return [];
   }
-  const qtd = 2;
+  // completo: 3 decisoes por ano (historia + lance + situacao)
+  const qtd = 3;
   // a historia (historia.js) entra primeiro: consequencia vencida sempre
   // aparece, e os eventos soltos completam ate o limite do modo
   // um lance de jogo quase todo ano (quando ainda tem), o resto das situacoes completa
@@ -2541,7 +2555,7 @@ function sortearEventos(J, rng, n = 2) {
   const lance = vagas && lancesLivres.length && rng() < 0.7 ? [Motor.embaralhar(rng, lancesLivres)[0]] : [];
   const escolhidos = [...lance, ...Motor.embaralhar(rng, pool.filter((e) => !lance.includes(e))).slice(0, vagas - lance.length)];
   J.eventosVistos = [...vistos, ...escolhidos.map((e) => e.id)];
-  return [eventoDeTreino(J, rng), ...arcos, ...escolhidos];
+  return [...arcos, ...escolhidos];
 }
 
 function resolverOpcao(J, op, rng) {
@@ -2898,7 +2912,31 @@ function iniciarRolagem() {
   R.caixa = el("div", "evento-caixa");
   // linha do tempo e projecao ficam presas no topo do palco enquanto a decisao rola
   R.topo = el("div", "rolagem-topo");
-  R.topo.append(...alvo.childNodes, linha, proj, legenda);
+  // foco do ano: escolha rapida na pre-temporada (nao e uma decisao do ano)
+  const focoBox = el("div", "foco-ano");
+  focoBox.append(el("span", "foco-rotulo", "Foco do ano"));
+  const opcoesFoco = opcoesDeFoco(J, C.rng);
+  const escolherFoco = (k, primeira = false) => {
+    if (J.foco === k) return;
+    if (J.foco) aplicarFoco(J, J.foco, -1);
+    J.foco = k; J.focoAnterior = k;
+    aplicarFoco(J, k);
+    for (const b of focoBox.querySelectorAll("button")) b.setAttribute("aria-pressed", String(b.dataset.k === k));
+    if (!primeira) atualizarProjecao(R);
+  };
+  for (const k of opcoesFoco) {
+    const b = el("button", "chip foco-chip", `${rotuloAttr(k)} ${J.attrs[k]}`);
+    b.type = "button"; b.dataset.k = k; b.title = DICA_FOCO[k];
+    b.addEventListener("click", () => { if (R.prog < 0.5 || !C.rolagem) escolherFoco(k); });
+    focoBox.append(b);
+  }
+  focoBox.append(el("small", "foco-dica", "dá pra trocar até a metade do ano"));
+  J.foco = null;
+  escolherFoco(J.focoAnterior && opcoesFoco.includes(J.focoAnterior) ? J.focoAnterior : opcoesFoco[0], true);
+  R.focoBox = focoBox;
+  R.proj = projecao(J);
+  for (const [k, c] of Object.entries(R.celulas)) c.dd.textContent = fmtProj(k, R.proj[k]);
+  R.topo.append(...alvo.childNodes, linha, focoBox, proj, legenda);
   alvo.append(R.topo, R.caixa, R.log);
   rolarProximo(R);
 }
@@ -2988,6 +3026,7 @@ function atualizarAoVivo(R) {
 
 function desenharProgresso(R) {
   R.barra.style.width = `${R.prog * 100}%`;
+  if (R.focoBox) R.focoBox.classList.toggle("travado", R.prog >= 0.5);
   atualizarAoVivo(R);
   const jogo = Math.max(1, Math.round(R.prog * R.proj.G));
   R.status.textContent = R.prog < 0.03 ? "Pré-temporada" : R.prog >= 1 ? "Fim da temporada" : `${mesDe(R, R.prog)} · jogo ${jogo} de ~${R.proj.G}`;

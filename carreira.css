@@ -669,3 +669,11 @@
 .tabela-carreira tr.proxima-linha.rolando td { color: var(--canal); font-style: normal; }
 .tabela-carreira tr.proxima-linha.rolando .tc-idade::after { content: " ●"; font-size: 0.6rem; animation: pisca 1.2s ease-in-out infinite; }
 @keyframes pisca { 50% { opacity: 0.2; } }
+
+/* foco do ano: escolha rapida no topo da temporada */
+.foco-ano { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem; margin: 0.2rem 0 0.7rem; }
+.foco-rotulo { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--texto-fraco); margin-right: 0.2rem; }
+.foco-chip { font-size: 0.72rem; padding: 0.22rem 0.6rem; }
+.foco-dica { font-size: 0.68rem; color: var(--texto-fraco); }
+.foco-ano.travado .foco-chip:not([aria-pressed="true"]) { opacity: 0.35; pointer-events: none; }
+.foco-ano.travado .foco-dica { visibility: hidden; }
