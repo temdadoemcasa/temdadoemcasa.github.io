@@ -863,7 +863,7 @@ function cartaoDeProposta(c, aoAssinar, { rotulo = "Assinar", extra = null, cont
     })(),
   );
   const adapta = contexto === "mercado" ? custoDeAdaptacao(J.clube, c) : null;
-  if (adapta) card.append(el("p", "proposta-adapta", adapta.texto));
+  if (adapta) card.append(el("p", `proposta-adapta${adapta.nota > 0 ? " boa" : ""}`, adapta.texto));
   const acoes = el("div", "proposta-acoes");
   acoes.append(botao);
   if (extra) {
@@ -883,6 +883,14 @@ const continenteDe = (c) => ({ leste: "europa" })[c.continente] || c.continente 
 const paisDoClube = (c) => (c.tipo === "ext" ? c.pais || c.liga : "Brasil");
 function custoDeAdaptacao(de, para) {
   if (!de || de.id === para.id) return null;
+  // voltar pra casa (pais onde nasceu) ou pra um pais onde ja jogou nao pesa:
+  // lingua, comida e futebol voce ja conhece
+  const J = C.J;
+  const destino = paisDoClube(para);
+  const casa = paisDe(C.pais).nome;
+  const jaJogou = J && J.historico.some((h) => (h.liga === para.liga) || (destino === "Brasil" && ["Brasileirão", "Série B", "Série C", "Série D"].includes(h.liga)));
+  if (destino === casa) return paisDoClube(de) === casa ? { evolucao: -0.3, nota: -0.03, texto: "clube novo: pouca adaptação" } : { evolucao: 0, nota: 0.05, texto: "volta pra casa: adaptação rápida" };
+  if (jaJogou) return { evolucao: -0.3, nota: -0.03, texto: "já conhece a liga: pouca adaptação" };
   if (continenteDe(de) !== continenteDe(para)) return { evolucao: -1.2, nota: -0.15, texto: "adaptação difícil: outro continente, outro futebol" };
   if (paisDoClube(de) !== paisDoClube(para)) return { evolucao: -0.9, nota: -0.1, texto: "adaptação: outro país, outra língua" };
   return { evolucao: -0.6, nota: -0.08, texto: "1º ano de adaptação: evolui menos" };

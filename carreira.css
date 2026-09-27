@@ -685,3 +685,4 @@
 .evento-caixa.saindo { opacity: 0.6; }
 .rolagem-topo .projecao-legenda { margin: 0.35rem 0 0.8rem; }
 .rolagem-topo .foco-ano { margin: 0.6rem 0 0; }
+.proposta-adapta.boa { color: var(--canal); }
