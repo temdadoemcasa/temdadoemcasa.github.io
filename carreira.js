@@ -2793,15 +2793,23 @@ function iniciarRolagem() {
 
   const alvo = $("temporada-atual");
   alvo.replaceChildren();
-  alvo.append(el("p", "jogo-etapa", `Temporada ${J.ano} · ${J.idade} anos · ${J.clube.nome} (${J.clube.liga})`));
+  // cabecalho: temporada a esquerda, a fase da carreira a direita (pill)
   const DESC_FASE = {
-    base: "Base: pouco minuto e pouco dinheiro. Treino e cabeça fora de campo decidem quem sobe.",
-    afirmacao: "Afirmação: o primeiro dinheiro, as redes e as tentações. Polêmica pode render ou afundar.",
-    auge: "Auge: liderança, vestiário e decisões grandes.",
-    veterano: "Veterano: o corpo cobra. Hora de pensar no legado.",
+    base: "Pouco minuto e pouco dinheiro: treino e cabeça decidem quem sobe.",
+    afirmacao: "Primeiro dinheiro, redes e tentações. Polêmica rende ou afunda.",
+    auge: "Liderança, vestiário e decisões grandes.",
+    veterano: "O corpo cobra. Hora de pensar no legado.",
   };
+  const ORDEM_FASE = ["base", "afirmacao", "auge", "veterano"];
   const fAtual = Historia.fase(J);
-  if (!J.historico.length || Historia.fase({ idade: J.idade - 1 }) !== fAtual) alvo.append(el("p", "fase-aviso", DESC_FASE[fAtual]));
+  const cab = el("div", "rolagem-cab");
+  const pill = el("span", `fase-pill fase-${fAtual}`);
+  pill.append(el("b", null, Historia.NOMES_FASE[fAtual]), el("small", null, `fase ${ORDEM_FASE.indexOf(fAtual) + 1} de 4`));
+  pill.title = DESC_FASE[fAtual];
+  cab.append(el("p", "jogo-etapa", `Temporada ${J.ano} · ${J.idade} anos · ${J.clube.nome} (${J.clube.liga})`), pill);
+  alvo.append(cab);
+  // no primeiro ano da fase, uma linha curta explica o que muda
+  if (!J.historico.length || Historia.fase({ idade: J.idade - 1 }) !== fAtual) alvo.append(el("p", `fase-aviso fase-${fAtual}`, DESC_FASE[fAtual]));
   // se o clube mudou de divisao no ano passado (e voce ficou), avisa aqui tambem
   const anterior = J.historico[J.historico.length - 1];
   if (anterior && anterior.mudouDivisao && anterior.clube === J.clube.nome) {
@@ -2837,7 +2845,7 @@ function iniciarRolagem() {
   R.caixa = el("div", "evento-caixa");
   // linha do tempo e projecao ficam presas no topo do palco enquanto a decisao rola
   R.topo = el("div", "rolagem-topo");
-  R.topo.append(alvo.firstChild, linha, proj, legenda);
+  R.topo.append(...alvo.childNodes, linha, proj, legenda);
   alvo.append(R.topo, R.caixa, R.log);
   rolarProximo(R);
 }
