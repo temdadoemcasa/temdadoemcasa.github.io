@@ -1752,7 +1752,10 @@ function sortearLesao(J, rng) {
 
 // atributo principal da posicao (o que mais pesa no OVR) e o da finalizacao/defesa
 const atributoChave = () => Object.entries(PESOS[funcaoDe(C.pos)]).sort((a, b) => b[1] - a[1])[0][0];
-const chanceAttr = (J, k, centro = 62, escala = 9) => limitar(logistica(((J.attrs[k] ?? 50) - centro) / escala), 0.12, 0.92);
+// o lance fica mais dificil quanto mais forte a liga: na Serie D o centro e o
+// de sempre; na Serie A (titular ~80) sobe ~8, na elite europeia ~12
+const dificuldadeDaLiga = (J) => limitar(((J.clube?.nivel ?? 66) - 66) * 0.6, 0, 12);
+const chanceAttr = (J, k, centro = 62, escala = 9) => limitar(logistica(((J.attrs[k] ?? 50) - centro - dificuldadeDaLiga(J)) / escala), 0.12, 0.92);
 const goleiro = () => funcaoDe(C.pos) === "GOL";
 // o jogo que vale alguma coisa, conforme o clube (texto dos lances)
 function jogoDecisivo(J) {
