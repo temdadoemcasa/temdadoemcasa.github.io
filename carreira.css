@@ -686,3 +686,32 @@
 .rolagem-topo .projecao-legenda { margin: 0.35rem 0 0.8rem; }
 .rolagem-topo .foco-ano { margin: 0.6rem 0 0; }
 .proposta-adapta.boa { color: var(--canal); }
+
+/* --- comemoracao de titulo: taca + nome, sem caixa, com raios e confete --- */
+.festa { position: fixed; inset: 0; z-index: 60; display: grid; place-items: center; pointer-events: auto; cursor: pointer;
+  background: radial-gradient(circle at 50% 45%, rgba(0, 0, 0, 0.62), rgba(0, 0, 0, 0.8) 70%); backdrop-filter: blur(3px); animation: festa-entra 0.25s ease both; }
+.festa.saindo { animation: festa-sai 0.3s ease both; }
+.festa-cena { position: relative; display: grid; justify-items: center; gap: 0.4rem; text-align: center; animation: festa-pulo 0.7s cubic-bezier(0.2, 1.6, 0.4, 1) both; }
+.festa-raios { position: absolute; top: 50%; left: 50%; width: 520px; height: 520px; margin: -300px 0 0 -260px; border-radius: 50%; pointer-events: none;
+  background: repeating-conic-gradient(from 0deg, rgba(242, 194, 48, 0.28) 0deg 8deg, transparent 8deg 22deg);
+  -webkit-mask: radial-gradient(circle, #000 18%, transparent 62%); mask: radial-gradient(circle, #000 18%, transparent 62%); animation: festa-gira 8s linear infinite; }
+.festa-premio .festa-raios { background: repeating-conic-gradient(from 0deg, rgba(200, 255, 0, 0.22) 0deg 8deg, transparent 8deg 22deg); }
+.taca-festa { position: relative; width: 150px; height: 150px; filter: drop-shadow(0 0 24px rgba(242, 194, 48, 0.7)) drop-shadow(0 10px 18px rgba(0, 0, 0, 0.6)); animation: festa-brilho 1.2s ease-in-out infinite alternate; }
+.taca-festa svg { width: 100%; height: 100%; }
+.festa-nome { position: relative; font-family: var(--numeros); font-weight: 800; font-size: clamp(1.8rem, 6vw, 3rem); letter-spacing: 0.03em; text-transform: uppercase; color: #fff;
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.6), 0 0 22px rgba(242, 194, 48, 0.8); }
+.festa-sub { position: relative; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #f2c230; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8); }
+.festa-confete { position: absolute; top: 40%; left: 50%; width: 0; height: 0; pointer-events: none; }
+.festa-confete i { position: absolute; width: 8px; height: 13px; border-radius: 2px; opacity: 0;
+  animation: festa-confete 1.9s cubic-bezier(0.15, 0.7, 0.3, 1) var(--d) forwards; }
+@keyframes festa-entra { from { opacity: 0; } }
+@keyframes festa-sai { to { opacity: 0; } }
+@keyframes festa-pulo { 0% { transform: scale(0.3) translateY(40px); opacity: 0; } 60% { opacity: 1; } 100% { transform: none; } }
+@keyframes festa-gira { to { transform: rotate(360deg); } }
+@keyframes festa-brilho { to { filter: drop-shadow(0 0 40px rgba(242, 194, 48, 0.95)) drop-shadow(0 10px 18px rgba(0, 0, 0, 0.6)); transform: translateY(-4px); } }
+@keyframes festa-confete {
+  0% { opacity: 1; transform: translate(0, 0) rotate(0); }
+  45% { opacity: 1; transform: translate(calc(var(--x) * 0.8), var(--y)) rotate(calc(var(--r) * 0.5)); }
+  100% { opacity: 0; transform: translate(var(--x), 60vh) rotate(var(--r)); }
+}
+@media (prefers-reduced-motion: reduce) { .festa-raios, .taca-festa, .festa-cena { animation: none; } }
