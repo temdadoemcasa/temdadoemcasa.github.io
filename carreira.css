@@ -654,3 +654,13 @@
 @media (max-width: 640px) { .atributo { grid-template-columns: minmax(0, 1fr) 2.4rem 2.4rem 2.4rem; } }
 .estilo-montagem { height: 4rem; overflow: hidden; }
 .troca-montagem { height: 1.1rem; overflow: hidden; }
+
+/* cabecalho da temporada: fase como pill, explicacao discreta so no 1o ano da fase */
+.rolagem-cab { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; flex-wrap: wrap; }
+.rolagem-cab .jogo-etapa { margin: 0; }
+.fase-pill { --f: #5cc8ff; display: inline-flex; align-items: baseline; gap: 0.35rem; padding: 0.2rem 0.6rem; border-radius: 999px; border: 1px solid color-mix(in srgb, var(--f) 55%, transparent); background: color-mix(in srgb, var(--f) 12%, transparent); white-space: nowrap; }
+.fase-pill b { font-family: var(--numeros); font-size: 0.8rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--f); }
+.fase-pill small { font-size: 0.66rem; color: var(--texto-fraco); }
+.fase-base { --f: #5cc8ff; } .fase-afirmacao { --f: #c8ff00; } .fase-auge { --f: #f2c230; } .fase-veterano { --f: #ff7d95; }
+:root[data-tema="claro"] .fase-afirmacao { --f: #4a7d00; } :root[data-tema="claro"] .fase-auge { --f: #b8860b; }
+.fase-aviso { margin: 0.35rem 0 0.1rem; padding: 0 0 0 0.6rem; border: 0; border-left: 2px solid var(--f); border-radius: 0; background: none; font-size: 0.8rem; color: var(--texto-fraco); }
