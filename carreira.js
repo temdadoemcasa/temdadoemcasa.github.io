@@ -1298,6 +1298,12 @@ function temporadaNaSelecao(J, ano, rng, p) {
 // potencial escondido e mais rapido jogando -- aos 24 o jogador ja tem 94% do
 // caminho (potencial 88 da ~86); o resto vem devagar ate o pico (29/30;
 // goleiro 33 a 35). Depois do pico cai aos poucos, acelerando a partir dos 33.
+// O potencial sorteado e a promessa; quem cumpre e o trabalho. Ate os 24, a
+// cada ano o potencial escorrega DERIVA_POTENCIAL se as escolhas nao
+// compensarem: quem joga no automatico termina ~2 abaixo do sorteado, quem se
+// cuida chega a +2 (no maximo). Metas do dono (27/09), jogando serio: auge
+// 94+ em ~6-8%, 91-93 em ~13%, 88-90 em ~17%; no aleatorio, 94+ em ~5%.
+const DERIVA_POTENCIAL = 0.8, POT_SOBE = 2, POT_DESCE = 6;
 function trajetoria(J, idade) {
   if (idade >= J.idadePico) return J.potencial;
   const maduro = Math.min(J.idadePico, J.idadePico >= 33 ? 26 : 24);
@@ -1319,13 +1325,13 @@ function evoluir(J, p, rng) {
   }
   // o trabalho acumulado ate os 24 mexe no teto: cada 1,5 de evolucao acima do
   // normal do ano (foco, treino extra, cabeca, ambiente) vale +1 de potencial;
-  // o contrario (noite, lesao mal curada, banco) tira. No maximo +3 / -3 do
+  // o contrario (noite, lesao mal curada, banco) tira. No maximo +2 / -6 do
   // sorteado: o dado ainda manda, mas quem se cuida chega mais longe.
   if (J.idade <= 24) {
     // (a adaptacao ao clube novo e um ano ruim, nao falta de trabalho: fica de fora)
-    J.lastro = (J.lastro || 0) + J.efeito.evolucao - (J.efeito.adaptacao || 0) - 0.35;
-    while (J.lastro >= 1 && J.potencial < J.potencialSorteado + 4) { J.lastro -= 1; J.potencial += 1; }
-    while (J.lastro <= -1 && J.potencial > Math.max(72, J.potencialSorteado - 4)) { J.lastro += 1; J.potencial -= 1; }
+    J.lastro = (J.lastro || 0) + J.efeito.evolucao - (J.efeito.adaptacao || 0) - DERIVA_POTENCIAL;
+    while (J.lastro >= 1 && J.potencial < J.potencialSorteado + POT_SOBE) { J.lastro -= 1; J.potencial += 1; }
+    while (J.lastro <= -1 && J.potencial > Math.max(72, J.potencialSorteado - POT_DESCE)) { J.lastro += 1; J.potencial -= 1; }
     J.lastro = limitar(J.lastro, -1, 1);
     J.tetoOvr = Math.max(J.tetoOvr ?? 95, J.potencial);
     J.tetoAtributo = Math.max(J.tetoAtributo ?? 95, Math.min(99, J.potencial));
@@ -3832,10 +3838,10 @@ function mostrarAposentadoria() {
 
 // --- liga tudo ------------------------------------------------------------------------
 
-// Potencial escondido, por faixa (piso 76): a maioria para entre 76 e 88;
-// 10% chegam a 89-92, 6% a 93-95 e so 1% vira lenda (97-99). Atributo trava
+// Potencial escondido, por faixa (piso 76): a maioria para entre 76 e 89;
+// 12% chegam a 90-92, 4% a 93-95 e 1,5% vira lenda (97-99). Atributo trava
 // em 95; so a lenda passa disso, ate 99. A carta montada so empurra um pouco.
-const FAIXAS_POTENCIAL = [[0.01, 97, 99, 99], [0.07, 93, 95, 95], [0.17, 89, 92, 95], [0.47, 83, 88, 95], [1, 76, 82, 95]];
+const FAIXAS_POTENCIAL = [[0.015, 97, 99, 99], [0.055, 93, 95, 95], [0.175, 90, 92, 95], [0.42, 85, 89, 95], [1, 76, 84, 95]];
 function sortearPotencial(ovr, f) {
   const rng = C.rng;
   const u = rng();

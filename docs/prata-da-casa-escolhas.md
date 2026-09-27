@@ -40,17 +40,21 @@ O potencial é sorteado escondido:
 
 | Faixa de potencial | Chance |
 |---|---|
-| 76–82 | 52% |
-| 83–88 | 30% |
-| 89–92 | 10% |
-| 93–95 | 6% |
-| 97–99 | 1% |
+| 76–84 | 58% |
+| 85–89 | 24,5% |
+| 90–92 | 12% |
+| 93–95 | 4% |
+| 97–99 | 1,5% |
 
-O sorteio ainda é o que mais pesa, mas o trabalho mexe no teto até os 24 anos:
+O sorteio é a promessa; o trabalho decide quanto dela se cumpre, até os 24 anos. Todo ano o potencial escorrega um pouco se nada compensar: quem joga no automático termina uns 2 pontos abaixo do sorteado, quem se cuida chega a +2.
 
-- **O que soma:** cada ponto de evolução acima do normal no ano vale +1 de potencial, até +4 sobre o sorteado. Contam o foco no atributo que mais pesa na posição, o treino extra, a cabeça, o ambiente e o contrato longo.
-- **O que tira:** a noite, a lesão mal curada e o banco, até −4.
+- **O que soma:** evolução acima do normal no ano (foco no atributo que mais pesa na posição, treino extra, cabeça, ambiente, contrato longo), até +2 sobre o sorteado.
+- **O que tira:** a noite, a lesão mal curada, o banco e o ano sem cuidado, até −6.
 - **O que não conta:** a adaptação do primeiro ano num clube novo.
+
+O salto é dos 16 aos 24 (goleiro, aos 26): aos 24 o jogador já fez 94% do caminho até o potencial, e o resto vem devagar até o pico. Cada atributo fica no máximo 8 acima do OVR ao subir, e na queda o que passa de OVR + 6 cai primeiro: a carta segue equilibrada até o fim.
+
+Metas do auge (bateria, 27/09): jogando sério, 94+ em ~6–8%, 91–93 em ~13% e 88–90 em ~17%; com escolhas aleatórias, 94+ em ~5%.
 
 ## Fase 1 · Base (16 a 19 anos)
 
