@@ -48,10 +48,17 @@ function carregar() {
   }
   vm.runInContext(draft, ctx, { filename: "draft.js" });
   // expoe o que o harness usa (consts de script nao viram propriedade do global)
-  vm.runInContext(`globalThis.__ = { D, ESQUEMAS, VAGAS, CHANCES_DO_LEQUE, NIVEIS, nivel, indexar, usarCortes, inferirFuncoes,
-    sortearLeque, proximaVaga, definirQuemSai, serieAComUsuario, timeDoUsuario, regrasComUsuario, idUsuario, estado,
-    FUNCAO, FUNCOES_EXTRAS, funcoesDe, cabeNaVaga, Motor };
-    globalThis.__semear = (f) => { Math.random = f; };`, ctx);
+  // o que existir nesta versao do draft.js (a da fase 1 nao tem as funcoes da fase 2)
+  const nomes = ["D", "ESQUEMAS", "VAGAS", "CHANCES_DO_LEQUE", "NIVEIS", "nivel", "indexar", "usarCortes", "inferirFuncoes",
+    "sortearLeque", "proximaVaga", "definirQuemSai", "serieAComUsuario", "timeDoUsuario", "regrasComUsuario", "idUsuario", "estado",
+    "FUNCAO", "FUNCOES_EXTRAS", "funcoesDe", "cabeNaVaga", "Motor", "TIME_DE", "FAMILIA",
+    "BANCO_VAGAS", "DIFICULDADES", "ESQUEMAS_TTC", "POSTURAS", "ENCAIXE", "ENTROSAMENTO", "todasVagas", "lequeAtual", "lequeDaVaga",
+    "encaixeNaVaga", "valorNaVaga", "entrosamento", "forcaDoElenco", "ajusteDeContexto", "timesCpu", "montarTemporada",
+    "decisivaParaUsuario", "contextoDecisivo", "escalarNoEsquema", "trocarEsquema", "janelaAberta", "lequeDaJanela", "aplicarJanela",
+    "simularTemporadaRapida", "hashTexto", "avaliacaoNaVaga", "garotoDaBase", "calib"];
+  vm.runInContext(`globalThis.__ = {}; for (const n of ${JSON.stringify(nomes)}) { try { globalThis.__[n] = eval(n); } catch (_) {} }`, ctx);
+  vm.runInContext(`
+globalThis.__semear = (f) => { Math.random = f; };`, ctx);
   const api = ctx.__;
   const json = (f) => JSON.parse(ler(f));
   const r = api.indexar(json("dados/overalls-2026.json"));
@@ -60,6 +67,8 @@ function carregar() {
   api.Motor.ELENCOS = json("dados/elencos-fora.json").times || {};
   api.D.r = r;
   api.D.regras = json("dados/competicoes-2026.json");
+  // experimentos: PATCH_CALIB='{"K":22}' mexe so na calibragem carregada
+  if (api.D.regras.motor_ttc) Object.assign(api.D.regras.motor_ttc, JSON.parse(process.env.PATCH_CALIB || "{}"));
   api.estado.r = r;
   api.definirQuemSai();
   // o MESMO gerador serve ao contexto (draft.js) e ao harness (api.random): tudo reprodutivel

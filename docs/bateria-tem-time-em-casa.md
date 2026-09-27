@@ -2,9 +2,11 @@
 
 Auditoria de 26/09/2026. Os scripts estão em `scripts/bateria/draft/` e o modo de rodar está no README de lá.
 
-Os números abaixo vêm da rodada com semente sobre o código de `192edfe` (seção "antes"). A seção 7 compara com o código depois das correções.
+Os números abaixo vêm da rodada com semente sobre o código de `192edfe` (seção "antes"). A seção 7 compara com o código depois das correções. A **seção 8 (Fase 2)** descreve o jogo novo (eixos, entrosamento, banco, postura, janela, dificuldade, desafio do dia) e as metas PASS/FAIL. Os scripts de hoje são os da fase 2.
 
 ## 0. Como reproduzir
+
+Os comandos abaixo são da fase 1: `analisar.js`, `extras.js`, `colisao.js`, `experimento.sh` e `resumo-exp.js` ficam no histórico do git. Os da fase 2 estão na seção 8.
 
 ```bash
 source ~/.nvm/nvm.sh
@@ -217,3 +219,148 @@ São 2.100 tentativas por cenário, sobre o código já corrigido:
 | testes de UI (`testes-ui.js`) | — (falham no código antigo) | 12/12 |
 
 (*) As 87 tentativas que divergem têm uma única causa: o id interno `_seu_clube` muda o último critério de desempate (ordem alfabética do id) em empates totais nos grupos. A partir daí, o sorteio segue outro caminho. A distribuição fica igual.
+
+## 8. Fase 2: realista, com decisão do começo ao fim
+
+Feito em 27/09/2026 sobre o código da seção 7. Os arquivos mudados são `draft.js`, `motor.js`, `dados/competicoes-2026.json`, `tem-time-em-casa.html` e `draft.css`.
+
+### 8.1 Como reproduzir
+
+```bash
+source ~/.nvm/nvm.sh
+scripts/bateria/draft/rodar.sh && node scripts/bateria/draft/metas.js                 # 5.000 tentativas + metas
+SEMENTE_BASE=777777 SAIDA=/tmp/b2 scripts/bateria/draft/rodar.sh && node scripts/bateria/draft/metas.js /tmp/b2/tudo.jsonl
+node scripts/bateria/draft/esquemas.js 400      # meta 3
+scripts/bateria/draft/decisoes.sh 400           # meta 4 por componente
+node scripts/bateria/draft/extras.js            # time dos sonhos, tempo das chances, desafio do dia
+node scripts/bateria/draft/testes-ui.js         # 24 checagens de tela (sem navegador)
+```
+
+### 8.2 O que mudou no jogo
+
+**Força pelos eixos.**
+- O ataque de cada jogador sai de FIN, DRI, PAS e RIT; a defesa, de DEF e FIS; o goleiro, de EVI, REF, MAO e SAI.
+- Cada função pesa diferente no ataque e na defesa do time (`Motor.PESO_FUNCAO`, `Motor.forcaPorEixos`).
+- Clubes da CPU e o seu seguem a mesma regra: 0,6 do onze e 0,4 do elenco (onze + 5).
+- A régua é separada para ataque e para defesa.
+
+**Encaixe na vaga.**
+
+| situação | fator |
+|---|---|
+| na função | 1 |
+| função secundária, ou volante/meia no MC | 0,96 |
+| mesma linha (improvisado) | 0,88 |
+| fora de posição | 0,75 |
+| lateral do lado trocado | ×0,95 |
+
+**Entrosamento.**
+- Cada companheiro de clube no onze vale +0,5 no ataque e na defesa, até +2,5.
+- O time montado do zero começa devendo, e isso muda com a dificuldade: Fácil +0,2, Normal −1,3, Difícil −2,5.
+- As cartas mostram selos: "Na função", "Joga aí às vezes", "Improvisado", "Fora de posição" e "+Entrosa ×N".
+
+**Banco de 5.**
+- Vagas: goleiro, defensor, meio, ataque e um coringa.
+- O banco entra nos 0,4 do elenco e cobre lesão (0,6% por titular por jogo, 1 a 8 jogos) e suspensão (vermelho tira do jogo seguinte).
+- Sem reserva que sirva, entra um garoto da base.
+- No painel aparece "Desfalques".
+
+**Time de estrelas.** Acima do elenco mais forte da liga, e acima do clube mais forte com esquema + 2, cada ponto de força rende 0,1. Onze craques de onze clubes não rendem a soma deles.
+
+**Esquemas com trade-off** (`ESQUEMAS_TTC`).
+- Cada esquema tem base, casa/fora, mata-mata e rival mais forte ou mais fraco.
+- Cada um tem uma vaga-chave pelos eixos: 4-3-3 quer ponta rápido e driblador, 4-4-2 quer dupla de área, 5-3-2 quer zagueiros fortes, e assim por diante.
+- O 3-4-2-1 entrou no seletor e em `ESQUEMAS`.
+- O esquema pode mudar no resumo e durante a temporada: o elenco é reescalado.
+
+**Postura.**
+- Antes de cada jogo decisivo (mata-mata, confronto direto da 30ª rodada em diante, e 36ª a 38ª), o cartão pede Pra cima, Equilibrado ou Fechadinho. Ele mostra o que está em jogo ("Ida: 0×1, você precisa tirar 1") e os desfalques.
+- Pra cima vale +2,5/−3; Fechadinho, −3/+2,5.
+- No contexto certo compensa: Pra cima em casa contra time menor vira +2,5/−1,6; Fechadinho fora contra time maior vira −1,6/+2,5.
+- Os outros jogos usam a "Postura nos outros jogos" do painel. O padrão é Equilibrado.
+
+**Janela.** Na pausa da Copa, 1 troca. O jogador escolhe quem sai e vê 5 cartas do mercado, que é mais forte (tijolo 38%, concreto 7%). "Até o próximo decisivo" para ali; "Simular tudo" segue sem trocar.
+
+**Leque e dificuldade.**
+- As chances do leque ficam iguais nas três dificuldades: palha 10%, madeira 79%, tijolo 10%, concreto 1% (o 1% é igual ao do envelope).
+- A dificuldade muda o entrosamento inicial e as trocas de leque (Fácil 2, Normal 1, Difícil 0).
+- Com leque parelho, quem decide é encaixe, entrosamento e eixos, e não "a maior nota".
+
+**Chances no resumo.** São 50 temporadas rápidas com o elenco de agora: G6, Z4, campeão brasileiro e algum título. Levam 0,29 s no Chromium e ~0,85 s no node com a máquina carregada. Rodam em pedaços, sem travar a tela.
+
+**Desafio do dia.**
+- A semente vem da data (`ttc-AAAA-MM-DD`).
+- O leque de cada vaga sai de data + vaga + ocorrência: quem monta o mesmo esquema vê os mesmos leques.
+- O grupo, a temporada e as chances também saem da data. A dificuldade fica em Normal.
+- O texto de "Copiar resultado" leva a data e a semente.
+
+**Motor.**
+- Calibragem opcional `motor_ttc`, em `dados/competicoes-2026.json`: K 21, mandante 1,40, visitante 0,90, altitude 1,06/0,95, régua dp 4,0, 20% dos 0×0 ganham um gol, teto dos estrangeiros 56.
+- O Prata da Casa não passa `calib` e continua com os números antigos.
+- Correções gerais, que valem para os dois jogos:
+  - desempate Conmebol nos grupos (pontos, saldo, gols pró, gols fora);
+  - volta em casa para a melhor campanha da competição, das quartas em diante;
+  - rodada do Brasileirão sem jogo de copa na véspera nem no dia seguinte (0 jogos em dias seguidos).
+  - Uma rodada de 60 carreiras do Prata da Casa com o motor novo deu 0 erros.
+- Ganchos `temp.preJogo` e `temp.posJogo`, para o seu clube mudar de jogo para jogo.
+
+### 8.3 Metas (5.000 tentativas; segunda coluna com outro conjunto de sementes)
+
+| meta | antes (fase 1) | fase 2 (sementes 0) | fase 2 (sementes 777777) | status |
+|---|---|---|---|---|
+| **1** gols/jogo (2,35-2,55) | 2,25 | 2,35 | 2,35 | PASS |
+| **1** mandante % (46-50) | 43,0 | 49,8 | 49,7 | PASS |
+| **1** visitante % (24-27) | 29,2 | 25,9 | 25,9 | PASS |
+| **1** 0×0 % (7-9) | 10,6 | 8,0 | 8,0 | PASS |
+| **1** pontos do campeão (73-82; p10-p90 ~66-88) | 71,5 (66-78) | 74,1 (68-80) | 74,2 (68-80) | PASS |
+| **1** lanterna (20-32) | 31,7 | 29,5 | 29,4 | PASS |
+| **1** 17º (40-46) | 42,1 | 41,1 | 41,1 | PASS |
+| **1** Libertadores com campeão brasileiro % (45-65) | 39,1 | 53,0 | 53,6 | PASS |
+| **1** Libertadores com campeão de altitude % (≤ 12) | 19,8 | 11,0 | 11,5 | PASS |
+| **1** ida e volta nos pênaltis % (15-25) | 19,9 | 17,9 | 18,0 | PASS |
+| **2** inteligente − maior nota, pts (+3 a +6) | ~0 (só a nota contava) | +3,3 | +3,6 | PASS |
+| **2** escolhas em que o melhor NÃO é a maior nota % (≥ 25) | 0 | 38,5 | 39,4 | PASS |
+| **3** esquema ótimo pro mesmo elenco, máximo % (≤ 40) | — | 26,0 (4-3-3) | — | PASS |
+| **3** melhor − pior esquema pro mesmo elenco, pts (≥ 3) | ~2,9 entre esquemas | 5,5 (p10 3,4) | — | PASS |
+| **4** decisões boas − sempre Equilibrado, pts (≥ +3) | sem decisões | +5,1 | +5,3 | PASS |
+| **4** idem, algum título, pp (+3 a +5) | sem decisões | +14,3 | +21,5 | FAIL (acima; ver 8.4) |
+| **5** Fácil: mediana ao acaso / campeão com a maior nota (~9º / ~25%) | — | 9º / 26,7% | 10º / 26,2% | PASS |
+| **5** Normal (~12º / ~15%) | 12º / 15,1% | 13º / 19,0% | 13º / 16,9% | PASS |
+| **5** Difícil (~15º / ~7%) | — | 14º / 7,6% | 14º / 8,0% | PASS |
+| **6** chances no resumo, 50 temporadas (≤ 1 s) | — | 0,29 s (Chromium) | — | PASS |
+| **6** desafio do dia: mesmo leque pra dois jogadores | — | sim | — | PASS |
+| **7** exceções / calendário / agenda / expulso que marca | 0 / 0 / 0 / 0 | 0 / 0 / 0 / 0 | 0 / 0 / 0 / 0 | PASS |
+| **7** tempo da temporada, mediana (≤ 30 ms) | 10,5 ms | 16,9 ms | 23,6 ms (máquina carregada) | PASS |
+| **7** pior escolha: Z4 % (75-92) / top 12 % (≥ 3) | 75,6 / 6,9 | 79,5 / 4,0 | 80,5 / 4,0 | PASS |
+| **7** time dos sonhos: campeão brasileiro (≤ 40%) | 21-37% | 40 / 39 / 23,5% (4-3-3 / 3-4-2-1 / 5-3-2) | — | PASS (no limite) |
+
+Leituras:
+- A política "inteligente" ganha da "maior nota" sem precisar de cartas maiores: a média do onze é até menor (80,3 contra 81,4). Ela ganha no entrosamento (4,9 contra 3,1 ligações), no encaixe e nos eixos.
+- Lesões e suspensões do seu clube: 3,4 e 5,8 por temporada.
+- São 13-14 jogos decisivos por temporada. A política boa usa postura fora do Equilibrado em ~6 deles.
+- Com as decisões boas, a janela é usada em ~91% das temporadas.
+
+### 8.4 Meta 4 por componente e o conflito pontos × títulos
+
+`decisoes.sh 400` roda com draft "humano" e a mesma semente em todas as variantes:
+
+| decisões na temporada | Δ pts | Δ algum título |
+|---|---|---|
+| só postura | +1,1 | +3,8 pp |
+| só janela | +1,7 | +7,7 pp |
+| só esquema pro elenco | +2,6 | +7,5 pp |
+| postura + janela | +2,8 | +9,5 pp |
+| tudo | +4,6 | +19,7 pp |
+
+Cada decisão sozinha fica perto da faixa de +3-5 pp. Juntas, +3 pontos já passam de 5 pp, e a meta pede as duas coisas ao mesmo tempo.
+
+Com o time típico (G6 em ~48%, algum título em ~20%), 3 pontos a mais no Brasileirão e uma chance maior no mata-mata mudam muito a disputa de títulos. As duas metas não cabem juntas no mesmo motor. Para caber nos 5 pp, as decisões teriam de valer ~1 ponto, e aí falharia o "≥ +3".
+
+A alternativa mais próxima é medir a meta em "títulos por temporada, contando só o Brasileirão". Nessa medida, "só postura" leva o campeão brasileiro de 8,8% para 12,0% (+3,2 pp, dentro da faixa) e "tudo", de 8,8% para 19,3%.
+
+### 8.5 O que ainda pesa (e propostas)
+
+- **Esquemas defensivos pouco escolhidos.** Com elenco da maior nota, 4-1-4-1 e 5-3-2 quase nunca são o esquema ótimo (2% e 0,8% dos elencos), porque o time forte enfrenta mais rivais fracos. Eles rendem com elenco fraco e no mata-mata. Para os times fortes, dá para dar a eles um bônus de "controle" nas finais.
+- **O esquema escolhido na criação raramente é o melhor para o elenco.** Ele é o melhor em 9% dos elencos; o resumo mostra o seletor e as chances para a pessoa descobrir, e trocar vale +3,4 pts em média. Proposta: destacar no resumo "com o 3-4-2-1 esse elenco rende mais".
+- **O time dos sonhos está no limite dos 40%.** A folga do teto (`TETO_FOLGA`) é o botão: com folga 1, fica em ~35%, mas a vantagem do "inteligente" cai para +2,6 a +3,0 (no limite da meta 2).
+- **A CPU não tem lesão nem entrosamento variável.** A média do elenco já cobre isso. Se um dia a CPU tiver desfalques, o banco dela passa a importar também.

@@ -52,10 +52,18 @@
   const MEDIA_NEUTRO = 1.1;
   const FATOR_MATA = 0.86;   // jogo eliminatorio: ninguem quer tomar gol
 
-  function medias(casa, fora, neutro) {
-    let mc = (neutro ? MEDIA_NEUTRO : MEDIA_CASA) * Math.exp((casa.atq - fora.def) / K);
-    let mf = (neutro ? MEDIA_NEUTRO : MEDIA_FORA) * Math.exp((fora.atq - casa.def) / K);
-    if (!neutro && casa.altitude && !fora.altitude) { mc *= 1.25; mf *= 0.85; }
+  // calib (opcional): outra calibragem sem mexer na dos outros jogos. O Tem
+  // Time em Casa passa a de dados/competicoes-2026.json ("motor_ttc"); o Prata
+  // da Casa segue com os numeros acima.
+  //   { K, casa, fora, neutro, mata, altitude: [mandante, visitante], menos_zero }
+  function medias(casa, fora, neutro, calib = null) {
+    const c = calib || {};
+    const k = c.K ?? K;
+    const base = neutro ? (c.neutro ?? MEDIA_NEUTRO) : null;
+    let mc = (base ?? c.casa ?? MEDIA_CASA) * Math.exp((casa.atq - fora.def) / k);
+    let mf = (base ?? c.fora ?? MEDIA_FORA) * Math.exp((fora.atq - casa.def) / k);
+    const [am, av] = c.altitude || [1.25, 0.85];
+    if (!neutro && casa.altitude && !fora.altitude) { mc *= am; mf *= av; }
     return [mc, mf];
   }
   Motor.medias = medias;
@@ -78,9 +86,9 @@
 
   // Um jogo em trechos: cada expulsao abre um trecho novo em que quem ficou
   // com um a menos ataca 30% menos e o outro lado 20% mais.
-  function jogar(rng, casa, fora, { neutro = false, mata = false } = {}) {
-    let [mc, mf] = medias(casa, fora, neutro);
-    if (mata) { mc *= FATOR_MATA; mf *= FATOR_MATA; }
+  function jogar(rng, casa, fora, { neutro = false, mata = false, calib = null } = {}) {
+    let [mc, mf] = medias(casa, fora, neutro, calib);
+    if (mata) { const f = (calib && calib.mata) ?? FATOR_MATA; mc *= f; mf *= f; }
     const eventos = [];
     // expulso no minuto m nao bate penalti nem faz gol dali em diante (nem no
     // proprio minuto m). A ordem das chamadas ao rng nao muda: mesma semente,
@@ -120,6 +128,15 @@
         }
       }
     }
+    // Poisson puro exagera o 0x0 entre times parecidos (~10,5% contra ~7-8% no
+    // Brasileirao): com calib.menos_zero, parte dos 0x0 ganha um gol
+    if (calib && calib.menos_zero && placar.casa + placar.fora === 0 && rng() < calib.menos_zero) {
+      const lado = rng() < mc / (mc + mf) ? "casa" : "fora";
+      const min = 1 + Math.floor(rng() * 90);
+      const time = lado === "casa" ? casa : fora;
+      eventos.push({ tipo: "gol", lado, min, autor: sortearAutor(rng, time, null, expulsosAte(lado, min)), penalti: false });
+      placar[lado] += 1;
+    }
     eventos.sort((x, y) => x.min - y.min);
     return { gc: placar.casa, gf: placar.fora, eventos };
   }
@@ -154,14 +171,14 @@
   // --- tabela de pontos corridos ------------------------------------------------
   function tabelaNova(ids) {
     const t = new Map();
-    for (const id of ids) t.set(id, { id, j: 0, v: 0, e: 0, d: 0, gp: 0, gc: 0, pts: 0 });
+    for (const id of ids) t.set(id, { id, j: 0, v: 0, e: 0, d: 0, gp: 0, gc: 0, pts: 0, gpf: 0 });
     return t;
   }
   function registrar(tabela, jogo) {
     const c = tabela.get(jogo.casa), f = tabela.get(jogo.fora);
     if (!c || !f) return;
     c.j++; f.j++;
-    c.gp += jogo.gc; c.gc += jogo.gf; f.gp += jogo.gf; f.gc += jogo.gc;
+    c.gp += jogo.gc; c.gc += jogo.gf; f.gp += jogo.gf; f.gc += jogo.gc; f.gpf += jogo.gf;
     if (jogo.gc > jogo.gf) { c.v++; f.d++; c.pts += 3; }
     else if (jogo.gc < jogo.gf) { f.v++; c.d++; f.pts += 3; }
     else { c.e++; f.e++; c.pts++; f.pts++; }
@@ -172,6 +189,13 @@
       b.pts - a.pts || b.v - a.v || (b.gp - b.gc) - (a.gp - a.gc) || b.gp - a.gp || a.id.localeCompare(b.id, "pt-BR"));
   }
   Motor.ordenar = ordenar;
+  // criterios da Conmebol (Libertadores e Sul-Americana 2026): pontos, saldo,
+  // gols pro, gols pro como visitante (depois, nome no lugar do sorteio)
+  function ordenarConmebol(tabela) {
+    return [...tabela.values()].sort((a, b) =>
+      b.pts - a.pts || (b.gp - b.gc) - (a.gp - a.gc) || b.gp - a.gp || b.gpf - a.gpf || a.id.localeCompare(b.id, "pt-BR"));
+  }
+  Motor.ordenarConmebol = ordenarConmebol;
 
   // turno e returno pelo metodo do circulo; returno inverte o mando
   function rodadasTurnoReturno(rng, ids) {
@@ -191,7 +215,9 @@
   }
 
   // Rodadas no domingo, entre inicio e fim, pulando a pausa da Copa do Mundo.
-  // Se o domingo ja tem jogo de copa, a rodada vai pro sabado.
+  // Domingo com jogo de copa na vespera, no dia ou no dia seguinte vira sabado,
+  // segunda, sexta ou terca (o primeiro sem copa colada); nenhum serve: o
+  // sabado de antes (se o sabado tem copa, o domingo mesmo).
   function datasSemanais(inicio, fim, pausa, n, ocupadas = new Set()) {
     const dia = 864e5;
     const iso = (t) => new Date(t).toISOString().slice(0, 10);
@@ -199,10 +225,12 @@
     let t = Date.parse(inicio);
     while (new Date(t).getUTCDay() !== 0) t += dia; // primeiro domingo
     const tFim = Date.parse(fim);
+    const colada = (x) => ocupadas.has(iso(x - dia)) || ocupadas.has(iso(x)) || ocupadas.has(iso(x + dia));
     const livres = [];
     for (; t <= tFim; t += 7 * dia) {
       if (t >= p0 && t <= p1) continue;
-      livres.push(ocupadas.has(iso(t)) && !ocupadas.has(iso(t - dia)) ? t - dia : t);
+      const opcao = [t, t - dia, t + dia, t - 2 * dia, t + 2 * dia].find((x) => x <= tFim && !colada(x));
+      livres.push(opcao ?? (ocupadas.has(iso(t)) && !ocupadas.has(iso(t - dia)) ? t - dia : t));
     }
     // se sobrar domingo, espalha; se faltar, repete (rodada no meio de semana)
     const datas = [];
@@ -216,10 +244,14 @@
   // --- a temporada ------------------------------------------------------------
   // times: { id: { id, nome, atq, def, altitude, artilheiros, ... } }
   // serieA: ids dos 20; usuario: id do clube que o jogador assumiu.
-  Motor.criarTemporada = function ({ regras, times, serieA, usuario, semente }) {
+  // calib: calibragem do jogo (ver medias). Ganchos opcionais, pro clube do
+  // usuario mudar de jogo pra jogo (lesao, suspensao, postura):
+  //   temp.preJogo(etapa, par) -> time a usar no lugar de times[usuario] (ou null)
+  //   temp.posJogo(etapa, jogo) -> depois do jogo do usuario
+  Motor.criarTemporada = function ({ regras, times, serieA, usuario, semente, calib = null }) {
     const rng = rngDe(semente ?? Date.now());
     const temp = {
-      rng, times, usuario, semente, etapas: [], i: 0,
+      rng, times, usuario, semente, calib, etapas: [], i: 0, campanha: { lib: new Map(), sul: new Map() },
       bra: { tabela: tabelaNova(serieA), rodada: 0 },
       cdb: {}, lib: { grupos: {} }, sul: { grupos: {} },
       campeoes: {}, eliminado: {}, gols: new Map(), historico: [],
@@ -323,7 +355,7 @@
           js.forEach((j) => registrar(j.grupo.tabela, j));
           if (rod === 5) {
             for (const g of Object.values(estado.grupos)) {
-              g.final = ordenar(g.tabela);
+              g.final = ordenarConmebol(g.tabela);
               const pos = g.final.findIndex((l) => l.id === usuario);
               if (pos >= 0 && (comp === "lib" ? pos >= 2 : pos >= 2)) {
                 // 3o da Libertadores cai pra Sul-Americana; resto sai
@@ -336,7 +368,7 @@
     };
     // ranking entre grupos pra definir cabecas: pontos, saldo, gols
     const rankear = (linhas) => [...linhas].sort((a, b) =>
-      b.pts - a.pts || (b.gp - b.gc) - (a.gp - a.gc) || b.gp - a.gp || a.id.localeCompare(b.id, "pt-BR"));
+      b.pts - a.pts || (b.gp - b.gc) - (a.gp - a.gc) || b.gp - a.gp || (b.gpf || 0) - (a.gpf || 0) || a.id.localeCompare(b.id, "pt-BR"));
     // chave fixa: 1x16, 8x9, 5x12, 4x13, 3x14, 6x11, 7x10, 2x15
     const CHAVE = [[1, 16], [8, 9], [5, 12], [4, 13], [3, 14], [6, 11], [7, 10], [2, 15]];
     const chaveFixa = (comp, fases, cabecas) => {
@@ -348,13 +380,21 @@
             const c = cabecas();
             return CHAVE.map(([x, y]) => [c[x - 1], c[y - 1]]);
           }
+          // das quartas em diante, decide em casa quem tem a melhor campanha
           const pares = [];
-          for (let k = 0; k < vivos.length; k += 2) pares.push([vivos[k], vivos[k + 1]]);
+          for (let k = 0; k < vivos.length; k += 2) pares.push(melhorCampanhaPrimeiro(comp, vivos[k], vivos[k + 1]));
           return pares;
         }, (v) => { vivos = v; });
       });
     };
 
+    // campanha na competicao inteira (grupos e mata-mata): pontos, saldo, gols
+    const melhorCampanhaPrimeiro = (comp, x, y) => {
+      const c = temp.campanha[comp], z = { pts: 0, sg: 0, gp: 0 };
+      const a = c.get(x) || z, b = c.get(y) || z;
+      const yMelhor = b.pts - a.pts || b.sg - a.sg || b.gp - a.gp;
+      return yMelhor > 0 ? [y, x] : [x, y];
+    };
     faseDeGrupos("lib");
     faseDeGrupos("sul");
     const grupos = (comp, pos) => Object.values(temp[comp].grupos).map((g) => g.final[pos]);
@@ -395,11 +435,25 @@
     if (!etapa) return null;
     temp.i += 1;
     const pares = etapa.montar();
-    const jogos = pares.map((p) => ({
-      ...p,
-      ...jogar(temp.rng, temp.times[p.casa], temp.times[p.fora], { neutro: Boolean(p.neutro), mata: Boolean(etapa.mata) }),
-    }));
+    const eu = temp.usuario;
+    const jogos = pares.map((p) => {
+      const ajuste = temp.preJogo && (p.casa === eu || p.fora === eu) ? temp.preJogo(etapa, p) : null;
+      const casa = ajuste && p.casa === eu ? ajuste : temp.times[p.casa];
+      const fora = ajuste && p.fora === eu ? ajuste : temp.times[p.fora];
+      return { ...p, ...jogar(temp.rng, casa, fora, { neutro: Boolean(p.neutro), mata: Boolean(etapa.mata), calib: temp.calib }) };
+    });
     if (etapa.depois) etapa.depois(jogos);
+    if (etapa.comp === "lib" || etapa.comp === "sul") {
+      const c = temp.campanha[etapa.comp];
+      for (const j of jogos) {
+        for (const [id, feitos, sofridos] of [[j.casa, j.gc, j.gf], [j.fora, j.gf, j.gc]]) {
+          const l = c.get(id) || { pts: 0, sg: 0, gp: 0 };
+          l.pts += feitos > sofridos ? 3 : feitos === sofridos ? 1 : 0;
+          l.sg += feitos - sofridos; l.gp += feitos;
+          c.set(id, l);
+        }
+      }
+    }
     for (const j of jogos) {
       for (const ev of j.eventos) {
         if (!ev.autor || ev.tipo !== "gol") continue;
@@ -409,6 +463,7 @@
       }
     }
     const doUsuario = jogos.find((j) => j.casa === temp.usuario || j.fora === temp.usuario) || null;
+    if (doUsuario && temp.posJogo) temp.posJogo(etapa, doUsuario);
     temp.historico.push({ etapa, jogos, doUsuario });
     return { etapa, jogos, doUsuario };
   };
@@ -524,6 +579,38 @@
   Motor.aplicarTatica = function (f, formacao) {
     const t = Motor.TATICA[formacao];
     return t ? { ...f, atq: f.atq + t.atq, def: f.def + t.def } : f;
+  };
+
+  // --- forca pelos eixos da carta (Tem Time em Casa) ------------------------------
+  // Ataque sai de finalizacao, drible, passe e ritmo; defesa, de defesa e fisico;
+  // o goleiro, dos eixos de goleiro. Cada funcao pesa diferente no ataque e na
+  // defesa do time. Sem eixo, vale o overall (ou SEM_NOTA).
+  const eixo = (j, k) => (j.eixos && typeof j.eixos[k] === "number" ? j.eixos[k] : (typeof j.overall === "number" ? j.overall : SEM_NOTA));
+  Motor.valorAtaque = (j) => (j.posicao === "G" ? 20
+    : 0.35 * eixo(j, "FIN") + 0.25 * eixo(j, "DRI") + 0.25 * eixo(j, "PAS") + 0.15 * eixo(j, "RIT"));
+  Motor.valorDefesa = (j) => (j.posicao === "G"
+    ? 0.35 * eixo(j, "EVI") + 0.3 * eixo(j, "REF") + 0.2 * eixo(j, "MAO") + 0.15 * eixo(j, "SAI")
+    : 0.6 * eixo(j, "DEF") + 0.4 * eixo(j, "FIS"));
+  Motor.PESO_FUNCAO = {
+    atq: { GOL: 0, ZAG: 0.15, LAT: 0.4, VOL: 0.35, MC: 0.65, MEI: 0.9, PON: 1, CA: 1.1 },
+    def: { GOL: 2.2, ZAG: 1.1, LAT: 0.8, VOL: 0.9, MC: 0.55, MEI: 0.3, PON: 0.2, CA: 0.1 },
+  };
+  // titulares: [{ jogador, funcao, encaixe }] (encaixe 1 = na funcao dele);
+  // elenco: [{ jogador, funcao }] com titulares e reservas. Mesma regra dos
+  // clubes da CPU: 0,6 do onze e 0,4 do elenco. Devolve a forca bruta (antes
+  // de ir pra regua).
+  Motor.forcaPorEixos = function (titulares, elenco) {
+    const media = (lista, lado, valor) => {
+      let soma = 0, peso = 0;
+      for (const t of lista) {
+        const w = Motor.PESO_FUNCAO[lado][t.funcao] ?? 0.5;
+        soma += w * valor(t.jogador) * (t.encaixe ?? 1); peso += w;
+      }
+      return peso ? soma / peso : SEM_NOTA;
+    };
+    const atq = 0.6 * media(titulares, "atq", Motor.valorAtaque) + 0.4 * media(elenco, "atq", Motor.valorAtaque);
+    const def = 0.6 * media(titulares, "def", Motor.valorDefesa) + 0.4 * media(elenco, "def", Motor.valorDefesa);
+    return { atq, def };
   };
 
   // Times da Serie A a partir do retrato: o onze da escalacao base + media

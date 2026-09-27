@@ -1,6 +1,19 @@
 {
  "_leia": "Regulamento e calendário das competições do minigame Draft. Formatos seguem os regulamentos 2026 (CBF e Conmebol); as datas são as oficiais ou aproximadas; a força dos clubes estrangeiros e dos convidados da Copa do Brasil é ESTIMADA à mão, na mesma escala da força calculada para a Série A (~50 fraco, ~63 forte). Pode editar à vontade.",
  "temporada": 2026,
+ "motor_ttc": {
+  "_leia": "Calibragem do motor so do Tem Time em Casa (o Prata da Casa usa a padrao do motor.js). Afinada com a bateria de scripts/bateria/draft contra o Brasileirao recente: ~2,35 gols por jogo, mandante ~50%, visitante ~26%, 0x0 ~8%, campeao ~74 pts, lanterna ~29, 17o ~41, Libertadores com campeao brasileiro ~53% e de altitude ~11%. K: pontos de forca que multiplicam os gols esperados por e; casa/fora/neutro: gols esperados entre times iguais; mata: fator do mata-mata; altitude: [mandante, visitante]; menos_zero: parte dos 0x0 que ganha um gol; regua_dp: espalhamento da Serie A na regua (media 55,5); estrangeiros: ajuste na forca de todos os estrangeiros; estrangeiros_teto: acima disso, a forca cresce pela metade.",
+  "K": 21,
+  "casa": 1.4,
+  "fora": 0.9,
+  "neutro": 1.12,
+  "mata": 0.86,
+  "altitude": [1.06, 0.95],
+  "menos_zero": 0.2,
+  "regua_dp": 4.0,
+  "estrangeiros": 0,
+  "estrangeiros_teto": 56
+ },
  "brasileirao": {
   "nome": "Brasileirão",
   "inicio": "2026-01-28",

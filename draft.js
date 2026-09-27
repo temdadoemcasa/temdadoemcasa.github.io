@@ -18,6 +18,8 @@ const ESQUEMAS = {
     ["MC", 27, 46], ["VOL", 50, 53], ["MC", 73, 46], ["CA", 35, 20], ["CA", 65, 20]],
   "3-4-3": [["GOL", 50, 88], ["ZAG", 25, 72], ["ZAG", 50, 75], ["ZAG", 75, 72],
     ["ALE", 10, 48], ["VOL", 38, 53], ["MC", 62, 53], ["ALD", 90, 48], ["PE", 17, 22], ["CA", 50, 16], ["PD", 83, 22]],
+  "3-4-2-1": [["GOL", 50, 88], ["ZAG", 25, 72], ["ZAG", 50, 75], ["ZAG", 75, 72],
+    ["ALE", 10, 50], ["VOL", 38, 56], ["MC", 62, 56], ["ALD", 90, 50], ["MEI", 33, 32], ["MEI", 67, 32], ["CA", 50, 15]],
 };
 // vaga -> [funcao do jogador, sigla no campo, nome por extenso]
 const VAGAS = {
@@ -26,12 +28,94 @@ const VAGAS = {
   VOL: ["VOL", "VOL", "volante"], MC: ["MC", "MC", "meio-campista"], MEI: ["MEI", "MEI", "meia"],
   PD: ["PON", "PD", "ponta-direita"], PE: ["PON", "PE", "ponta-esquerda"],
   MD: ["PON", "MD", "meia pela direita"], ME: ["PON", "ME", "meia pela esquerda"], CA: ["CA", "CA", "centroavante"],
+  // banco: a 4a posicao e a lista de funcoes que servem na vaga
+  RGOL: ["GOL", "GOL", "goleiro reserva", ["GOL"]],
+  RDEF: ["ZAG", "DEF", "defensor reserva", ["ZAG", "LAT"]],
+  RMEI: ["MC", "MEI", "meio-campista reserva", ["VOL", "MC", "MEI"]],
+  RATA: ["CA", "ATA", "atacante reserva", ["PON", "CA"]],
+  RCOR: ["MC", "RES", "reserva de linha (qualquer posição)", ["LAT", "ZAG", "VOL", "MC", "MEI", "PON", "CA"]],
+  RES: ["MC", "RES", "reserva", ["GOL", "LAT", "ZAG", "VOL", "MC", "MEI", "PON", "CA"]],
+};
+const funcoesDaVaga = (pos) => VAGAS[pos][3] || [VAGAS[pos][0]];
+// o banco do draft: 5 reservas depois do onze (cobrem lesao e suspensao e
+// pesam 0,4 na forca, a mesma regra dos clubes da CPU)
+const BANCO_VAGAS = ["RGOL", "RDEF", "RMEI", "RATA", "RCOR"];
+
+// Esquemas no Tem Time em Casa: [ataque, defesa] em pontos da regua de forca.
+// base vale sempre; casa/fora, mata (mata-mata), forte (rival mais forte) e
+// fraco (rival mais fraco) somam no jogo; chave: o esquema rende mais com
+// quem tem os eixos certos nas vagas certas (k por ponto acima de 72, ate +-2,5).
+const ESQUEMAS_TTC = {
+  "4-3-3": { base: [0.7, -0.4], casa: [0.4, 0], fora: [-0.3, -0.4], mata: [0, -0.3], forte: [-0.4, -0.8], fraco: [0.4, 0],
+    chave: { vagas: ["PE", "PD"], eixos: ["RIT", "DRI"], lado: 0, k: 0.2 },
+    resumo: "pontas abertos: rende com ponta rápido e driblador; sofre contra os grandes" },
+  "4-2-3-1": { base: [0.2, 0.4], casa: [0, 0], fora: [0, 0.3], mata: [0, 0.4], forte: [0, 0.4], fraco: [0, 0],
+    chave: { vagas: ["MEI", "VOL"], eixos: ["PAS", "DEF"], lado: 2, k: 0.2 },
+    resumo: "equilibrado: dois volantes que marcam seguram o mata-mata; o meia precisa de passe" },
+  "4-4-2": { base: [0.2, 0.3], casa: [0.3, 0], fora: [0, 0], mata: [0, 0], forte: [0, 0.3], fraco: [0.2, 0],
+    chave: { vagas: ["CA"], eixos: ["FIN", "FIS"], lado: 0, k: 0.2 },
+    resumo: "clássico: rende com dupla de área que finaliza e ganha no corpo" },
+  "4-1-4-1": { base: [0, 1.1], casa: [0, 0], fora: [0, 0.5], mata: [0, 0.4], forte: [0, 0.8], fraco: [-0.2, 0],
+    chave: { vagas: ["VOL", "MC"], eixos: ["DEF", "PAS"], lado: 2, k: 0.2 },
+    resumo: "cauteloso: bom fora e contra os grandes; precisa de volante que marca e meio que passa" },
+  "3-5-2": { base: [0.3, 0], casa: [0.3, 0], fora: [0, -0.2], mata: [0.3, -0.3], forte: [-0.3, 0], fraco: [0.2, 0],
+    chave: { vagas: ["ALE", "ALD", "MC"], eixos: ["RIT", "PAS"], lado: 0, k: 0.2 },
+    resumo: "meio povoado: vive dos alas com fôlego e do passe no meio" },
+  "3-4-3": { base: [1.2, -1.3], casa: [0.6, 0], fora: [-0.5, -0.8], mata: [0.3, -0.6], forte: [-1, -1.4], fraco: [0.6, 0],
+    chave: { vagas: ["PE", "PD", "ALE", "ALD"], eixos: ["RIT", "DRI"], lado: 0, k: 0.2 },
+    resumo: "muito ofensivo: com pontas e alas velozes atropela em casa; aberto contra os grandes" },
+  "5-3-2": { base: [-0.8, 1.6], casa: [-0.4, 0], fora: [0, 0.8], mata: [0, 0.8], forte: [0, 1.3], fraco: [-0.4, 0],
+    chave: { vagas: ["ZAG"], eixos: ["DEF", "FIS"], lado: 1, k: 0.2 },
+    resumo: "retranca: com zagueiros fortes segura fora, no mata-mata e contra os grandes" },
+  "3-4-2-1": { base: [0.7, -0.5], casa: [0.4, 0], fora: [-0.2, -0.2], mata: [0, 0], forte: [-0.4, -0.4], fraco: [0.3, 0],
+    chave: { vagas: ["MEI"], eixos: ["DRI", "PAS"], lado: 0, k: 0.2 },
+    resumo: "dois meias atrás do 9: precisa de drible e passe entre as linhas" },
+};
+// postura: pra cima faz mais gol e toma mais; fechadinho, o contrario. Fora
+// de contexto a soma e negativa; no contexto certo compensa: pra cima em casa
+// contra quem e mais fraco (ele nao tem como punir o espaco), fechadinho fora
+// contra quem e mais forte. Decisivo pergunta; nos outros jogos vale a postura
+// escolhida no painel (Equilibrado, se ninguem mexer).
+const POSTURAS = {
+  ataque: { nome: "Pra cima", atq: 2.5, def: -3, noContexto: { atq: 2.5, def: -1.6 }, contexto: (c) => c.casa && c.dif < -2,
+    dica: "mais gol pros dois lados: pra virar, quando só a vitória serve, ou em casa contra time menor" },
+  equilibrado: { nome: "Equilibrado", atq: 0, def: 0, dica: "o time de sempre" },
+  retranca: { nome: "Fechadinho", atq: -3, def: 2.5, noContexto: { atq: -1.6, def: 2.5 }, contexto: (c) => !c.casa && !c.neutro && c.dif > 2,
+    dica: "menos gol pros dois lados: pra segurar vantagem, o empate, ou fora contra time maior" },
+};
+// funcao vizinha que joga bem na vaga: so 6 cartas sao "meio-campo" puro, e
+// volante ou meia fazem a funcao (camisa 8 que marca, meia que recua)
+const PARENTES = { MC: ["VOL", "MEI"] };
+// encaixe na vaga (multiplica a contribuicao do jogador)
+const ENCAIXE = { principal: 1, secundaria: 0.96, familia: 0.88, fora: 0.75, ladoTrocado: 0.95 };
+// entrosamento: time montado do zero comeca devendo; cada companheiro de clube
+// que ja estava no onze soma (pontos da regua, no ataque e na defesa)
+const ENTROSAMENTO = { base: -1, porLigacao: 0.5, teto: 2.5 };
+// acima do teto (o elenco mais forte da Serie A, ataque + defesa, mais 1), a forca rende isso
+const TETO_ESTRELAS = 0.1;
+const TETO_FOLGA = 2; // o time pronto pode passar o clube mais forte por ate 2 pontos cheios
+// lesao por jogador por jogo (so no seu clube; a CPU ja entra com a media do elenco)
+const TAXA_LESAO = 0.006;
+// Chances do leque: quase tudo madeira, tijolo de vez em quando, concreto raro
+// (1%, como no envelope). Com leque mais parelho, a escolha deixa de ser "pega
+// o maior numero": encaixe, entrosamento e eixos decidem.
+const CHANCES_NORMAIS = { palha: 0.1, madeira: 0.79, tijolo: 0.1, grafeno: 0.01 };
+// na janela de transferencias o mercado e outro: vem reforco de verdade
+const CHANCES_JANELA = { palha: 0, madeira: 0.55, tijolo: 0.38, grafeno: 0.07 };
+// dificuldade: entrosamento inicial do time montado do zero e trocas de leque
+const DIFICULDADES = {
+  facil: { nome: "Fácil", chances: CHANCES_NORMAIS, trocas: 2, cartas: 5, entrosamento: 0.2,
+    resumo: "seu time já chega meio entrosado e você troca o leque 2 vezes" },
+  normal: { nome: "Normal", chances: CHANCES_NORMAIS, trocas: 1, cartas: 5, entrosamento: -1.3,
+    resumo: "time montado do zero, 1 troca de leque" },
+  dificil: { nome: "Difícil", chances: CHANCES_NORMAIS, trocas: 0, cartas: 5, entrosamento: -2.5,
+    resumo: "time montado na última hora, sem troca de leque" },
 };
 function descreverTatica(esquema) {
-  const t = Motor.TATICA[esquema];
+  const t = ESQUEMAS_TTC[esquema];
   if (!t) return "";
   const sinal = (v) => (v > 0 ? `+${String(v).replace(".", ",")}` : v < 0 ? `−${String(-v).replace(".", ",")}` : "0");
-  return `Ataque ${sinal(t.atq)} · Defesa ${sinal(t.def)} · ${t.resumo}`;
+  return `Ataque ${sinal(t.base[0])} · Defesa ${sinal(t.base[1])} · ${t.resumo}`;
 }
 
 const PADROES = [["vertical", "Listras"], ["horizontal", "Faixas"], ["lisa", "Lisa"], ["diagonal", "Diagonal"], ["faixa-peito", "Faixa no peito"]];
@@ -42,9 +126,11 @@ const CHAVE_REGRA = { lib: "libertadores", sul: "sulamericana" };
 const D = {
   r: null, regras: null, regrasTemp: null,
   nome: "Tem Dado FC", padrao: "vertical", cor1: "#c8ff00", cor2: "#111111", esquema: "4-3-3",
-  sai: null, continental: "lib", grupo: null,
-  onze: [], vaga: 0, trocas: 1, temp: null, times: null, animando: false, pularAnimacao: false, aba: "bra",
+  sai: null, continental: "lib", grupo: null, dificuldade: "normal", desafio: null, rng: null,
+  onze: [], banco: [], vaga: 0, trocas: 1, temp: null, times: null, animando: false, pularAnimacao: false, aba: "bra",
 };
+// todo sorteio do draft passa por aqui: no desafio do dia, D.rng tem semente
+const sorte = () => (D.rng || Math.random)();
 
 const $ = (id) => document.getElementById(id);
 const dataJogo = (iso) => new Date(`${iso}T12:00:00`).toLocaleDateString("pt-BR", { day: "2-digit", month: "short" });
@@ -108,22 +194,27 @@ const oTime = (nome) => `${FEMININOS.has(nome) ? "A" : "O"} ${nome}`;
 
 const LADO_DA_VAGA = { LD: "D", ALD: "D", LE: "E", ALE: "E" };
 
-// chances do leque: mais generosas que as do envelope (CHANCES, app.js). Bateria
-// de 5.000 temporadas em 26/09 (scripts/bateria/draft): com estas, escolher ao
-// acaso fica no meio (mediana 12o, Z4 ~23%, G4 ~13%), pegar sempre a maior nota
-// vai ao G4 em ~54% (G6 ~70%, campeao ~15%) e sempre a pior cai em ~76%. Com as
-// do envelope, ao acaso cairia em ~51% (mediana 17o).
-const CHANCES_DO_LEQUE = { palha: 0.2, madeira: 0.45, tijolo: 0.28, grafeno: 0.07 };
+// chances do leque: CHANCES_NORMAIS (la em cima), iguais nas tres dificuldades.
+// Bateria de 5.000 temporadas em 27/09 (scripts/bateria/draft), no Normal:
+// escolher ao acaso fica no meio (mediana 12o-13o, Z4 ~21%), pegar sempre a
+// maior nota da ~19% de titulo brasileiro (G6 ~70%) e o "inteligente" (encaixe,
+// entrosamento e eixos) faz ~3,5 pontos a mais que a maior nota; sempre a pior
+// cai em ~80%. Com as chances do envelope, ao acaso cairia em ~55%.
+const chancesDoLeque = () => (DIFICULDADES[D.dificuldade] || DIFICULDADES.normal).chances;
 
-function sortearLeque(vaga) {
-  const funcao = VAGAS[vaga][0];
-  const usados = new Set(D.onze.map((s) => s.jogador).filter(Boolean));
+// todas as vagas: o onze e depois o banco (D.vaga indexa essa lista)
+const todasVagas = () => [...D.onze, ...D.banco];
+
+function sortearLeque(vaga, chances = chancesDoLeque()) {
+  const funcoes = funcoesDaVaga(vaga);
+  const funcao = funcoes[0];
+  const usados = new Set(todasVagas().map((s) => s.jogador).filter(Boolean));
   // quem tem a vaga como posicao principal, e quem tem como secundaria com
   // metade da chance de entrar no sorteio (o Piquerez lateral e ala)
   let pool = D.r.indice.comNota.filter((j) => !usados.has(j)
-    && (FUNCAO.get(j) === funcao || (FUNCOES_EXTRAS.get(j)?.has(funcao) && Math.random() < 0.5)));
+    && (funcoes.includes(FUNCAO.get(j)) || ([...(FUNCOES_EXTRAS.get(j) || [])].some((f) => funcoes.includes(f)) && sorte() < 0.5)));
   // funcao com pouca gente: completa com a familia da posicao
-  if (pool.length < 12) pool = D.r.indice.comNota.filter((j) => FAMILIA[funcao].includes(j.posicao) && !usados.has(j));
+  if (pool.length < 12) pool = D.r.indice.comNota.filter((j) => funcoes.some((f) => FAMILIA[f].includes(j.posicao)) && !usados.has(j));
   // lateral e ala: so quem joga daquele lado (x medio; x alto = direita)
   const lado = LADO_DA_VAGA[vaga];
   if (lado) {
@@ -137,14 +228,15 @@ function sortearLeque(vaga) {
   const porNivel = {};
   for (const j of pool) (porNivel[nivel(j.overall).id] ||= []).push(j);
   const opcoes = [];
-  for (let tentativa = 0; opcoes.length < 5 && tentativa < 200; tentativa++) {
-    const niveis = Object.keys(CHANCES_DO_LEQUE).filter((id) => porNivel[id] && porNivel[id].some((j) => !opcoes.includes(j)));
+  const cartas = (DIFICULDADES[D.dificuldade] || DIFICULDADES.normal).cartas || 5;
+  for (let tentativa = 0; opcoes.length < cartas && tentativa < 200; tentativa++) {
+    const niveis = Object.keys(chances).filter((id) => porNivel[id] && porNivel[id].some((j) => !opcoes.includes(j)));
     if (!niveis.length) break;
-    let x = Math.random() * niveis.reduce((s, id) => s + CHANCES_DO_LEQUE[id], 0);
+    let x = sorte() * niveis.reduce((s, id) => s + chances[id], 0);
     let escolhido = niveis[niveis.length - 1];
-    for (const id of niveis) { x -= CHANCES_DO_LEQUE[id]; if (x <= 0) { escolhido = id; break; } }
+    for (const id of niveis) { x -= chances[id]; if (x <= 0) { escolhido = id; break; } }
     const livres = porNivel[escolhido].filter((j) => !opcoes.includes(j));
-    opcoes.push(livres[Math.floor(Math.random() * livres.length)]);
+    opcoes.push(livres[Math.floor(sorte() * livres.length)]);
   }
   return opcoes;
 }
@@ -178,36 +270,107 @@ function desenharGramado(alvo, { ativa = -1, mover = false } = {}) {
   });
 }
 
+// No desafio do dia, o leque de cada vaga sai de uma semente propria (data +
+// vaga + quantas vagas iguais vieram antes + troca), entao todo mundo que monta
+// o mesmo esquema ve os mesmos leques (menos quem ja estiver no seu time).
+function hashTexto(t) {
+  let h = 2166136261;
+  for (let i = 0; i < t.length; i++) { h ^= t.charCodeAt(i); h = Math.imul(h, 16777619); }
+  return h >>> 0;
+}
+function lequeDaVaga(k) {
+  const slot = todasVagas()[k];
+  if (!D.desafio) return sortearLeque(slot.pos);
+  const antes = todasVagas().slice(0, k).filter((s) => s.pos === slot.pos).length;
+  D.rng = Motor.rngDe(hashTexto(`${D.desafio.semente}|${slot.pos}|${antes}|${D.trocasUsadas || 0}`));
+  const leque = sortearLeque(slot.pos);
+  D.rng = null;
+  return leque;
+}
+
+// o leque da vaga atual (guardado ate ela ser preenchida: mover alguem de vaga
+// (⇄) nao pode virar sorteio infinito -- so "Trocar o leque" refaz)
+function lequeAtual() {
+  const na = todasVagas().map((s) => s.jogador).filter(Boolean);
+  if (!D.leques[D.vaga]) D.leques[D.vaga] = lequeDaVaga(D.vaga);
+  D.leques[D.vaga] = D.leques[D.vaga].filter((j) => !na.includes(j));
+  if (!D.leques[D.vaga].length) D.leques[D.vaga] = lequeDaVaga(D.vaga);
+  return D.leques[D.vaga];
+}
+
+// O que a carta faz no SEU time: encaixe na vaga e entrosamento com quem ja
+// esta no onze (companheiros do mesmo clube). Texto curto pra tela.
+function avaliacaoNaVaga(j, pos) {
+  const enc = encaixeNaVaga(j, pos);
+  const clube = TIME_DE.get(j).nome;
+  const companheiros = VAGAS[pos][3] ? 0 : D.onze.filter((s) => s.jogador && TIME_DE.get(s.jogador).nome === clube).length;
+  const encaixe = enc >= ENCAIXE.principal ? ["ok", "Na função"]
+    : enc >= ENCAIXE.secundaria * ENCAIXE.ladoTrocado ? ["meio", "Joga aí às vezes"]
+    : enc >= ENCAIXE.familia * ENCAIXE.ladoTrocado ? ["ruim", "Improvisado"] : ["pessimo", "Fora de posição"];
+  return { encaixe: enc, rotuloEncaixe: encaixe, companheiros, clube };
+}
+
 function abrirLeque() {
-  const slot = D.onze[D.vaga];
+  const slot = todasVagas()[D.vaga];
+  const noBanco = D.vaga >= D.onze.length;
   $("vaga-nome").textContent = VAGAS[slot.pos][2];
-  $("vaga-progresso").textContent = `Escolha ${D.onze.filter((s) => s.jogador).length + 1} de 11 · ${D.esquema}`;
+  const feitas = todasVagas().filter((s) => s.jogador).length;
+  $("vaga-progresso").textContent = noBanco
+    ? `Banco: reserva ${feitas - D.onze.length + 1} de ${D.banco.length} · cobre lesão e suspensão e pesa na força do elenco`
+    : `Escolha ${feitas + 1} de 11 · ${D.esquema}`;
   $("trocar-leque").disabled = D.trocas <= 0;
-  $("trocar-leque").textContent = D.trocas > 0 ? "Trocar o leque (1 vez)" : "Já trocou o leque";
-  desenharGramado($("gramado"), { ativa: D.vaga, mover: true });
+  $("trocar-leque").textContent = D.trocas > 0 ? `Trocar o leque (${D.trocas} ${D.trocas > 1 ? "vezes" : "vez"})` : "Sem trocas de leque";
+  desenharGramado($("gramado"), { ativa: noBanco ? -1 : D.vaga, mover: !noBanco });
+  desenharBanco($("vaga-progresso"), noBanco ? D.vaga - D.onze.length : -1);
   const leque = $("leque");
   leque.replaceChildren();
-  // o leque de cada vaga fica guardado ate ela ser preenchida: mover alguem
-  // de vaga (⇄) nao pode virar sorteio infinito -- so "Trocar o leque" refaz
-  const na = D.onze.map((s) => s.jogador).filter(Boolean);
-  if (!D.leques[D.vaga]) D.leques[D.vaga] = sortearLeque(slot.pos);
-  D.leques[D.vaga] = D.leques[D.vaga].filter((j) => !na.includes(j));
-  if (!D.leques[D.vaga].length) D.leques[D.vaga] = sortearLeque(slot.pos);
-  D.leques[D.vaga].forEach((j, i) => {
+  lequeAtual().forEach((j, i) => {
     const b = el("button", "opcao");
     b.type = "button";
-    b.setAttribute("aria-label", `${j.nome}, ${TIME_DE.get(j).nome}, overall ${j.overall}`);
+    const av = avaliacaoNaVaga(j, slot.pos);
+    b.setAttribute("aria-label", `${j.nome}, ${TIME_DE.get(j).nome}, overall ${j.overall}, ${av.rotuloEncaixe[1]}${av.companheiros ? `, entrosa com ${av.companheiros}` : ""}`);
     const carta = cartaDoJogador(j, TIME_DE.get(j), D.r, { estatica: true });
     carta.classList.add("revelando");
     carta.style.animationDelay = movimentoReduzido ? "0s" : `${i * 90}ms`;
-    b.append(carta, el("span", "opcao-clube", `${funcoesDe(j).map((f) => NOME_FUNCAO[f]).join(" / ")} · ${TIME_DE.get(j).nome}`));
+    const selos = el("span", "opcao-selos");
+    selos.append(el("span", `selo-encaixe encaixe-${av.rotuloEncaixe[0]}`, av.rotuloEncaixe[1]));
+    if (av.companheiros) selos.append(el("span", "selo-entrosa", `+Entrosa ×${av.companheiros}`));
+    b.append(carta, selos, el("span", "opcao-clube", `${funcoesDe(j).map((f) => NOME_FUNCAO[f]).join(" / ")} · ${TIME_DE.get(j).nome}`));
     b.addEventListener("click", () => escolher(j));
     leque.append(b);
   });
+  const ent = entrosamento(D.onze.map((s) => s.jogador));
+  $("draft-chances").textContent = `Entrosamento do onze: ${ent.ligacoes} ${ent.ligacoes === 1 ? "ligação" : "ligações"} (${sinalDecimal(ent.bonus)} na força) · ${textoChances()}`;
 }
 
-// a proxima vaga vazia (mover alguem de vaga pode esvaziar uma de tras)
-const proximaVaga = () => D.onze.findIndex((s) => !s.jogador);
+const sinalDecimal = (v) => `${v >= 0 ? "+" : "−"}${Math.abs(v).toFixed(1).replace(".", ",")}`;
+const textoChances = () => {
+  const pct = (v) => `${(v * 100).toLocaleString("pt-BR", { maximumFractionDigits: 1 })}%`;
+  return `Chances por carta (${DIFICULDADES[D.dificuldade].nome}): ${NIVEIS.map((t) => `${t.nome} ${pct(chancesDoLeque()[t.id])}`).join(" · ")}`;
+};
+
+// banco: lista curta logo depois de "depois" (no draft, embaixo do progresso;
+// no resumo, embaixo do gramado)
+function desenharBanco(depois, ativa = -1) {
+  const pai = depois.parentElement;
+  if (!pai) return;
+  let lista = pai.querySelector(".banco-lista");
+  if (!lista) { lista = el("ol", "banco-lista"); lista.setAttribute("aria-label", "Banco de reservas"); depois.after(lista); }
+  lista.replaceChildren();
+  D.banco.forEach((slot, k) => {
+    const li = el("li", `banco-vaga${k === ativa ? " vaga-ativa" : ""}${slot.jogador ? " vaga-cheia" : ""}`);
+    if (slot.jogador) {
+      const j = slot.jogador;
+      li.append(el("span", `vaga-nota nivel-${nivel(j.overall).id}`, String(j.overall)), el("span", "vaga-nome", sobrenome(j.nome)));
+      li.title = `${j.nome} · ${NOME_FUNCAO[FUNCAO.get(j)] || ""} · veio do ${TIME_DE.get(j).nome}`;
+    } else li.append(el("span", "vaga-vazia", VAGAS[slot.pos][1]));
+    lista.append(li);
+  });
+}
+
+// a proxima vaga vazia: o onze primeiro, depois o banco (mover alguem de vaga
+// pode esvaziar uma de tras)
+const proximaVaga = () => todasVagas().findIndex((s) => !s.jogador);
 
 // trava curta depois de cada escolha: no celular, o toque duplo pegava a carta
 // do leque seguinte (que aparece no mesmo lugar) sem querer
@@ -219,7 +382,7 @@ function escolher(jogador) {
   if (D.vaga < 0 || performance.now() < travaEscolhaAte) return;
   if (!(D.leques[D.vaga] || []).includes(jogador)) return;
   travaEscolhaAte = performance.now() + TRAVA_ESCOLHA_MS;
-  D.onze[D.vaga].jogador = jogador;
+  todasVagas()[D.vaga].jogador = jogador;
   delete D.leques[D.vaga];
   D.vaga = proximaVaga();
   if (D.vaga >= 0) abrirLeque();
@@ -260,16 +423,167 @@ function moverDeVaga(k) {
 const ID_USUARIO = "_seu_clube";
 const idUsuario = () => ID_USUARIO;
 
+// --- forca: eixos, encaixe, entrosamento, banco e esquema ------------------------------
+
+const calib = () => (D.regras && D.regras.motor_ttc) || null;
+const REGUA_MEDIA = 55.5;
+const FUNCAO_PADRAO = { G: "GOL", D: "ZAG", M: "MC", F: "CA" };
+const funcaoDe = (j) => FUNCAO.get(j) || FUNCAO_PADRAO[j.posicao] || "MC";
+let cacheLado = null;
+const ladoDe = () => { if (!cacheLado || cacheLado.r !== D.r) cacheLado = { r: D.r, x: ladoDoDefensor(D.r) }; return cacheLado.x; };
+
+// quanto o jogador rende na vaga: 1 na funcao principal, menos na secundaria,
+// improvisado na mesma linha (familia) ou fora de posicao; lateral do lado
+// trocado perde um pouco
+function encaixeNaVaga(j, pos) {
+  if (!j) return 0;
+  const funcoes = funcoesDaVaga(pos);
+  let e = funcoes.includes(FUNCAO.get(j)) ? ENCAIXE.principal
+    : funcoesDe(j).some((f) => funcoes.includes(f)) || funcoes.some((f) => (PARENTES[f] || []).includes(FUNCAO.get(j))) ? ENCAIXE.secundaria
+    : funcoes.some((f) => FAMILIA[f].includes(j.posicao)) ? ENCAIXE.familia : ENCAIXE.fora;
+  const lado = LADO_DA_VAGA[pos];
+  if (lado) {
+    const x = xNaFuncao(j, "LAT", ladoDe());
+    if (typeof x === "number" && (lado === "D" ? x < 0.5 : x >= 0.5)) e *= ENCAIXE.ladoTrocado;
+  }
+  return e;
+}
+// valor do jogador na vaga (mesma conta do motor, so pra comparar opcoes)
+function valorNaVaga(j, pos) {
+  const f = VAGAS[pos][3] ? funcaoDe(j) : VAGAS[pos][0];
+  const wa = Motor.PESO_FUNCAO.atq[f] ?? 0.5, wd = Motor.PESO_FUNCAO.def[f] ?? 0.5;
+  return ((wa * Motor.valorAtaque(j) + wd * Motor.valorDefesa(j)) / (wa + wd)) * encaixeNaVaga(j, pos);
+}
+// ligacoes: em cada clube, quantos companheiros alem do primeiro
+function entrosamento(jogadores) {
+  const porClube = new Map();
+  for (const j of jogadores) {
+    if (!j || !j.player_id) continue;
+    const c = TIME_DE.get(j) ? TIME_DE.get(j).nome : null;
+    if (c) porClube.set(c, (porClube.get(c) || 0) + 1);
+  }
+  let ligacoes = 0;
+  for (const n of porClube.values()) ligacoes += n - 1;
+  const base = (DIFICULDADES[D.dificuldade] || {}).entrosamento ?? ENTROSAMENTO.base;
+  return { ligacoes, porClube, bonus: Math.min(ENTROSAMENTO.teto, base + ENTROSAMENTO.porLigacao * ligacoes) };
+}
+// bonus do esquema pelos eixos de quem esta nas vagas-chave
+function bonusDoEsquema(onze, esquema) {
+  const e = ESQUEMAS_TTC[esquema];
+  if (!e) return { atq: 0, def: 0, chave: 0 };
+  let chave = 0;
+  const c = e.chave;
+  if (c) {
+    const vals = onze.filter((s) => s.jogador && c.vagas.includes(s.pos)).flatMap((s) => c.eixos.map((k) => {
+      const v = s.jogador.eixos && s.jogador.eixos[k];
+      return typeof v === "number" ? v : 60;
+    }));
+    if (vals.length) chave = Math.max(-2.5, Math.min(2.5, c.k * (vals.reduce((a, b) => a + b, 0) / vals.length - 72)));
+  }
+  const atq = e.base[0] + (c && c.lado !== 1 ? (c.lado === 2 ? chave / 2 : chave) : 0);
+  const def = e.base[1] + (c && c.lado !== 0 ? (c.lado === 2 ? chave / 2 : chave) : 0);
+  return { atq, def, chave };
+}
+// regua: a Serie A (sem voce) define media e desvio de ataque e de defesa
+function naReguaTtc(bruto) {
+  const e = D.escala2, dp = (calib() && calib().regua_dp) || 3.2;
+  return { atq: REGUA_MEDIA + ((bruto.atq - e.atq.m) / e.atq.dp) * dp, def: REGUA_MEDIA + ((bruto.def - e.def.m) / e.def.dp) * dp };
+}
+// clubes da Serie A pela mesma conta (onze base + 5 melhores de fora dele)
+function timesCpu() {
+  if (D.cpu && D.cpu.r === D.r && D.cpu.regras === D.regras) {
+    return Object.fromEntries(Object.entries(D.cpu.times).map(([k, t]) => [k, { ...t }]));
+  }
+  const times = Motor.timesDaSerieA(D.r);
+  const brutos = {};
+  for (const t of Object.values(times)) {
+    const resto = t.time.jogadores.filter((j) => !t.onze.includes(j) && j.overall !== null).sort((a, b) => b.overall - a.overall).slice(0, 5);
+    brutos[t.id] = Motor.forcaPorEixos(t.onze.map((j) => ({ jogador: j, funcao: funcaoDe(j), encaixe: 1 })),
+      [...t.onze, ...resto].map((j) => ({ jogador: j, funcao: funcaoDe(j) })));
+  }
+  const escala = (lado) => {
+    const v = Object.values(brutos).map((b) => b[lado]);
+    const m = v.reduce((a, b) => a + b, 0) / v.length;
+    return { m, dp: Math.sqrt(v.reduce((a, b) => a + (b - m) ** 2, 0) / v.length) || 1 };
+  };
+  D.escala2 = { atq: escala("atq"), def: escala("def") };
+  let teto = -Infinity;
+  for (const t of Object.values(times)) {
+    const r = naReguaTtc(brutos[t.id]);
+    teto = Math.max(teto, r.atq + r.def);
+    const b = ESQUEMAS_TTC[t.formacao] ? ESQUEMAS_TTC[t.formacao].base : [0, 0];
+    t.atq = r.atq + b[0];
+    t.def = r.def + b[1];
+  }
+  // teto do time de estrelas: o elenco mais forte da liga (antes do esquema) e,
+  // pro time pronto, o clube mais forte com esquema, com uma folga
+  D.teto = teto + 1;
+  D.tetoTime = Math.max(...Object.values(times).map((t) => t.atq + t.def)) + TETO_FOLGA;
+  D.cpu = { r: D.r, regras: D.regras, times };
+  return timesCpu();
+}
+// estrangeiros e convidados da Copa do Brasil, com o ajuste da calibragem
+function timesDeForaTtc(regras) {
+  const times = Motor.timesDeFora(regras);
+  const c = calib() || {};
+  for (const t of Object.values(times)) {
+    if (t.pais === "BRA") continue;
+    let f = t.atq + (c.estrangeiros || 0);
+    if (typeof c.estrangeiros_teto === "number" && f > c.estrangeiros_teto) f = c.estrangeiros_teto + (f - c.estrangeiros_teto) * 0.5;
+    t.atq = f; t.def = f;
+  }
+  return times;
+}
+
+// forca do seu time com um onze e um banco (o do draft, ou o do dia do jogo)
+function forcaDoElenco(onze = D.onze, banco = D.banco, esquema = D.esquema) {
+  if (!D.escala2) timesCpu();
+  const titulares = onze.filter((s) => s.jogador).map((s) => ({ jogador: s.jogador, funcao: VAGAS[s.pos][0], encaixe: encaixeNaVaga(s.jogador, s.pos) }));
+  const elenco = [...onze, ...banco].filter((s) => s.jogador).map((s) => ({ jogador: s.jogador, funcao: funcaoDe(s.jogador) }));
+  const r = naReguaTtc(Motor.forcaPorEixos(titulares, elenco));
+  const ent = entrosamento(onze.map((s) => s.jogador));
+  const esq = bonusDoEsquema(onze, esquema);
+  // time de estrelas: o elenco (antes de entrosamento e esquema) acima do mais
+  // forte da liga rende pouco por ponto (a bola e uma so; onze craques de onze
+  // clubes nao rendem a soma). Entrosamento e esquema somam por cima.
+  let { atq, def } = r;
+  const sobra = atq + def - D.teto;
+  if (sobra > 0) { atq -= (sobra * (1 - TETO_ESTRELAS)) / 2; def -= (sobra * (1 - TETO_ESTRELAS)) / 2; }
+  atq += ent.bonus + esq.atq; def += ent.bonus + esq.def;
+  const sobraTime = atq + def - D.tetoTime;
+  if (sobraTime > 0) { atq -= (sobraTime * (1 - TETO_ESTRELAS)) / 2; def -= (sobraTime * (1 - TETO_ESTRELAS)) / 2; }
+  return { atq, def, entrosamento: ent, esquema: esq };
+}
+
+// o jogo pede: casa/fora, mata-mata, rival mais forte ou mais fraco, postura
+function ajusteDeContexto(f, { casa = true, neutro = false, mata = false, rival = null, postura = "equilibrado", esquema = D.esquema } = {}) {
+  const e = ESQUEMAS_TTC[esquema] || {};
+  let atq = f.atq, def = f.def;
+  const soma = (v) => { if (v) { atq += v[0]; def += v[1]; } };
+  if (!neutro) soma(casa ? e.casa : e.fora);
+  if (mata) soma(e.mata);
+  const dif = rival ? (rival.atq + rival.def) - (f.atq + f.def) : 0;
+  if (dif > 3) soma(e.forte);
+  else if (dif < -3) soma(e.fraco);
+  const p = POSTURAS[postura];
+  if (p) {
+    const efeito = p.contexto && p.contexto({ casa, neutro, dif }) ? p.noContexto : p;
+    atq += efeito.atq; def += efeito.def;
+  }
+  return { atq, def };
+}
+
 function timeDoUsuario() {
   const onze = D.onze.map((s) => s.jogador);
+  const f = forcaDoElenco();
   return {
-    id: idUsuario(), nome: D.nome, usuario: true, serieA: true, onze, kit: kitUsuario(),
-    formacao: D.esquema, ...Motor.aplicarTatica(Motor.naRegua(Motor.forcaDoOnze(onze)), D.esquema),
+    id: idUsuario(), nome: D.nome, usuario: true, serieA: true, onze, kit: kitUsuario(), formacao: D.esquema,
+    atq: f.atq, def: f.def, entrosamento: f.entrosamento, bonusEsquema: f.esquema, artilheiros: Motor.forcaDoOnze(onze).artilheiros,
   };
 }
 
 function serieAComUsuario() {
-  const serieA = Motor.timesDaSerieA(D.r);
+  const serieA = timesCpu();
   delete serieA[D.sai];
   const eu = timeDoUsuario();
   serieA[eu.id] = eu;
@@ -291,8 +605,10 @@ function mostrarResumo() {
 
   const alvo = $("resumo");
   alvo.replaceChildren();
+  const coluna = el("div", "resumo-campo");
   const campo = el("div", "gramado gramado-resumo");
   desenharGramado(campo);
+  coluna.append(campo);
   const info = el("div", "resumo-info");
   info.append(el("p", "resumo-nome", D.nome));
   const numeros = el("dl", "resumo-numeros");
@@ -304,28 +620,248 @@ function mostrarResumo() {
   info.append(numeros);
   info.append(el("p", "nota", `A média é a nota das cartas. Força de ataque e de defesa é outra escala, a dos clubes: média da Série A ${mediaLiga}, o mais forte ${maisForte}, já com o efeito do ${D.esquema}.`));
   info.append(el("p", "resumo-frase", `No papel, seria o ${pos}º time mais forte da Série A 2026.`));
+  const ent = eu.entrosamento;
+  const clubes = [...ent.porClube].filter(([, n]) => n > 1).sort((a, b) => b[1] - a[1]).map(([c, n]) => `${n} do ${c}`);
+  info.append(el("p", "nota", `Entrosamento: ${ent.ligacoes} ${ent.ligacoes === 1 ? "ligação" : "ligações"} (${sinalDecimal(ent.bonus)} na força)${clubes.length ? ` · ${clubes.join(", ")}` : " · ninguém do mesmo clube"}. Improvisados: ${D.onze.filter((s) => encaixeNaVaga(s.jogador, s.pos) < ENCAIXE.principal).length}.`));
+  info.append(seletorDeEsquema(() => mostrarResumo()));
   info.append(el("p", "nota", `${D.esquema}: ${descreverTatica(D.esquema)}.`));
+  const chances = el("p", "resumo-chances", "Calculando as chances…");
+  chances.setAttribute("aria-live", "polite");
+  info.append(chances);
   const ul = el("ul", "resumo-comps");
   for (const c of [`Brasileirão, no lugar ${doTime(D.sai)}`, "Copa do Brasil, a partir da 5ª fase", `${COMP[D.continental]}: grupo sorteado quando a temporada começar`]) {
     ul.append(el("li", null, c));
   }
   info.append(el("p", "nota", "Temporada:"), ul);
-  alvo.append(campo, info);
+  alvo.append(coluna, info);
+  desenharBanco(campo);
+  // 50 temporadas rapidas (~0,5 s, em pedacos pra tela nao travar)
+  const pedido = (D.pedidoChances = (D.pedidoChances || 0) + 1);
+  estimarChances(50).then((c) => {
+    if (pedido !== D.pedidoChances) return;
+    const p = (v) => `${Math.round((100 * v) / c.n)}%`;
+    chances.textContent = `Em ${c.n} temporadas simuladas: G6 ${p(c.g6)} · Z4 ${p(c.z4)} · campeão brasileiro ${p(c.bra)} · algum título ${p(c.titulo)}`;
+  });
+}
+
+// select de esquema (resumo e temporada): reescala o elenco no esquema novo
+function seletorDeEsquema(depois) {
+  const rot = el("label", "seletor-esquema", "Esquema ");
+  const sel = el("select");
+  for (const e of Object.keys(ESQUEMAS)) sel.append(new Option(e, e, false, e === D.esquema));
+  sel.addEventListener("change", () => { trocarEsquema(sel.value); depois(); });
+  rot.append(sel);
+  return rot;
+}
+
+// postura dos jogos que nao sao decisivos (o decisivo pergunta na hora)
+function seletorDePostura() {
+  const rot = el("label", "seletor-esquema", "Postura nos outros jogos ");
+  const sel = el("select");
+  for (const [id, p] of Object.entries(POSTURAS)) sel.append(new Option(p.nome, id, false, id === (D.temp ? D.temp.ttc.posturaPadrao : "equilibrado")));
+  sel.title = "Pra cima rende em casa contra time menor; Fechadinho, fora contra time maior. Fora disso, custa.";
+  sel.addEventListener("change", () => { if (D.temp) D.temp.ttc.posturaPadrao = sel.value; });
+  rot.append(sel);
+  return rot;
+}
+
+// o elenco (16) no esquema novo: cada vaga pega o melhor que sobrou, na ordem
+// goleiro, zaga, laterais, volantes, 9, meias, meio, pontas; o resto e o banco
+const ORDEM_ESCALAR = ["GOL", "ZAG", "LAT", "VOL", "CA", "MEI", "MC", "PON"];
+function escalarNoEsquema(jogadores, esquema) {
+  const onze = ESQUEMAS[esquema].map(([pos, x, y]) => ({ pos, x, y, jogador: null }));
+  const livres = jogadores.filter(Boolean);
+  const ordem = onze.map((_, i) => i).sort((a, b) => ORDEM_ESCALAR.indexOf(VAGAS[onze[a].pos][0]) - ORDEM_ESCALAR.indexOf(VAGAS[onze[b].pos][0]));
+  for (const i of ordem) {
+    let melhor = -1, mv = -Infinity;
+    livres.forEach((j, k) => { const v = valorNaVaga(j, onze[i].pos); if (v > mv) { mv = v; melhor = k; } });
+    if (melhor >= 0) onze[i].jogador = livres.splice(melhor, 1)[0];
+  }
+  return { onze, banco: livres.map((j) => ({ pos: "RES", jogador: j })) };
+}
+function trocarEsquema(esquema) {
+  if (!ESQUEMAS[esquema] || esquema === D.esquema) return;
+  const r = escalarNoEsquema(todasVagas().map((s) => s.jogador), esquema);
+  D.esquema = esquema;
+  D.onze = r.onze;
+  D.banco = r.banco;
+  atualizarTimeDoUsuario();
+}
+// depois de mexer no elenco durante a temporada, a forca base acompanha
+function atualizarTimeDoUsuario() {
+  if (!D.temp) return;
+  const t = timeDoUsuario();
+  Object.assign(D.temp.times[D.temp.usuario], { atq: t.atq, def: t.def, onze: t.onze, formacao: t.formacao, artilheiros: t.artilheiros, entrosamento: t.entrosamento });
 }
 
 // --- temporada -----------------------------------------------------------------------
 
 // sorteia um grupo e tira dele o estrangeiro mais fraco pra entrar o usuario
-function regrasComUsuario(id) {
+function regrasComUsuario(id, rng = sorte) {
   const regras = structuredClone(D.regras);
   const grupos = regras[CHAVE_REGRA[D.continental]].grupos;
   const letras = Object.keys(grupos);
-  const letra = letras[Math.floor(Math.random() * letras.length)];
+  const letra = letras[Math.floor(rng() * letras.length)];
   const forca = (n) => (regras.estrangeiros[n] ? regras.estrangeiros[n].forca : 99);
   const sai = [...grupos[letra]].sort((a, b) => forca(a) - forca(b))[0];
   grupos[letra] = grupos[letra].map((n) => (n === sai ? id : n));
-  D.grupo = { letra, sai };
-  return regras;
+  return { regras, grupo: { letra, sai } };
+}
+
+// A temporada sem tela: o jogo, as chances do resumo e a bateria usam a mesma.
+// O seu clube muda de jogo pra jogo (temp.preJogo): quem esta lesionado ou
+// suspenso sai, o banco cobre (ou um garoto da base), e entram o esquema no
+// contexto (casa, mata-mata, rival) e a postura escolhida pro jogo.
+function montarTemporada({ semente, rngGrupo = sorte } = {}) {
+  const serieA = serieAComUsuario();
+  const eu = serieA[ID_USUARIO];
+  const { regras, grupo } = regrasComUsuario(eu.id, rngGrupo);
+  // quem saiu da Serie A continua existindo: segue na Libertadores/Sul-Americana
+  // (sem isso, o grupo dele ficava sem time e a copa travava)
+  const saiu = timesCpu()[D.sai];
+  const times = { ...(saiu ? { [D.sai]: saiu } : {}), ...serieA, ...timesDeForaTtc(regras) };
+  const temp = Motor.criarTemporada({ regras, times, serieA: Object.keys(serieA), usuario: eu.id, semente, calib: calib() });
+  temp.ttc = { regras, grupo, lesoes: new Map(), suspensos: new Map(), posturas: new Map(), ocorrencias: [], janelaUsada: false, janelaVista: false, escalacao: null, posturaPadrao: "equilibrado" };
+  temp.preJogo = (etapa, par) => timeNoJogo(temp, etapa, par);
+  temp.posJogo = (etapa, jogo) => depoisDoJogo(temp, etapa, jogo);
+  return temp;
+}
+
+const GAROTO_EIXOS = { RIT: 58, FIN: 52, PAS: 55, DRI: 54, DEF: 52, FIS: 56, REF: 58, EVI: 56, MAO: 56, PES: 52, SAI: 52 };
+const garotoDaBase = (pos) => ({ nome: "Garoto da base", posicao: FAMILIA[VAGAS[pos][0]][0], overall: 60, eixos: GAROTO_EIXOS, camisa: 30 });
+const disponivel = (st, j) => Boolean(j) && !st.lesoes.has(j) && !st.suspensos.has(j);
+
+// o onze do dia: desfalque sai e entra o reserva que mais rende na vaga
+function escalacaoDoDia(st) {
+  const reservas = D.banco.map((s) => s.jogador).filter((j) => disponivel(st, j));
+  const usados = new Set();
+  const onze = D.onze.map((slot) => {
+    if (disponivel(st, slot.jogador)) return { pos: slot.pos, jogador: slot.jogador };
+    let melhor = null, mv = -Infinity;
+    for (const r of reservas) if (!usados.has(r)) { const v = valorNaVaga(r, slot.pos); if (v > mv) { mv = v; melhor = r; } }
+    if (melhor) { usados.add(melhor); return { pos: slot.pos, jogador: melhor, no_lugar_de: slot.jogador }; }
+    return { pos: slot.pos, jogador: garotoDaBase(slot.pos), no_lugar_de: slot.jogador };
+  });
+  return { onze, banco: reservas.filter((r) => !usados.has(r)).map((j) => ({ pos: "RES", jogador: j })) };
+}
+
+function timeNoJogo(temp, etapa, par) {
+  const st = temp.ttc, eu = temp.usuario, casa = par.casa === eu;
+  const rival = temp.times[casa ? par.fora : par.casa];
+  const esc = escalacaoDoDia(st);
+  const f = forcaDoElenco(esc.onze, esc.banco, D.esquema);
+  const aj = ajusteDeContexto(f, { casa, neutro: Boolean(par.neutro), mata: Boolean(etapa.mata), rival, postura: st.posturas.get(etapa) || st.posturaPadrao || "equilibrado" });
+  st.escalacao = esc;
+  const onze = esc.onze.map((s) => s.jogador);
+  return { ...temp.times[eu], atq: aj.atq, def: aj.def, onze, artilheiros: Motor.forcaDoOnze(onze).artilheiros };
+}
+
+// depois do jogo: cumpre lesao e suspensao (conta jogos seus), vermelho
+// suspende o proximo, e cada titular pode se machucar (1 a 8 jogos, quase
+// sempre poucos)
+function depoisDoJogo(temp, etapa, jogo) {
+  const st = temp.ttc, rng = temp.rng;
+  for (const m of [st.lesoes, st.suspensos]) for (const [j, n] of [...m]) { if (n <= 1) m.delete(j); else m.set(j, n - 1); }
+  const esc = st.escalacao;
+  st.escalacao = null;
+  if (!esc) return;
+  const meu = jogo.casa === temp.usuario ? "casa" : "fora";
+  const titulares = esc.onze.map((s) => s.jogador).filter((j) => j.player_id);
+  for (const ev of jogo.eventos) {
+    if (ev.tipo !== "vermelho" || ev.lado !== meu) continue;
+    const j = titulares.find((x) => x.nome === ev.autor);
+    if (j) { st.suspensos.set(j, 1); st.ocorrencias.push({ data: etapa.data, tipo: "suspensão", jogador: j, jogos: 1 }); }
+  }
+  for (const j of titulares) {
+    if (rng() >= TAXA_LESAO) continue;
+    const n = 1 + Math.floor(rng() * rng() * 8);
+    st.lesoes.set(j, Math.max(n, st.lesoes.get(j) || 0));
+    st.ocorrencias.push({ data: etapa.data, tipo: "lesão", jogador: j, jogos: n });
+  }
+}
+
+// decisivo pro usuario: mata-mata, reta final (36a-38a) e, da 30a rodada em
+// diante, confronto direto (ate 3 pontos de diferenca)
+function decisivaParaUsuario(temp, etapa) {
+  if (!etapa) return false;
+  if (Motor.decisiva(etapa)) return true;
+  if (etapa.comp !== "bra" || temp.bra.rodada < 29) return false;
+  const par = etapa.montar().find((j) => j.casa === temp.usuario || j.fora === temp.usuario);
+  if (!par) return false;
+  const pts = (id) => temp.bra.tabela.get(id).pts;
+  return Math.abs(pts(temp.usuario) - pts(par.casa === temp.usuario ? par.fora : par.casa)) <= 3;
+}
+const decisiva = (e) => decisivaParaUsuario(D.temp, e);
+
+// o que esta em jogo (texto curto pro cartao da postura)
+function contextoDecisivo(temp, etapa) {
+  const eu = temp.usuario;
+  if (etapa.mata && /\(volta\)/.test(etapa.rotulo)) {
+    const ida = [...temp.historico].reverse().find((h) => h.etapa.comp === etapa.comp && h.etapa.fase === etapa.fase && h.doUsuario);
+    if (ida) {
+      const j = ida.doUsuario, meus = j.casa === eu ? j.gc : j.gf, deles = j.casa === eu ? j.gf : j.gc;
+      const rival = j.casa === eu ? j.fora : j.casa;
+      const sit = meus > deles ? "você leva vantagem" : meus < deles ? `você precisa tirar ${deles - meus} de diferença` : "tudo igual";
+      return { rival, texto: `Ida: ${meus}×${deles} contra ${nomeDe(rival)} · ${sit}`, saldoIda: meus - deles };
+    }
+  }
+  if (etapa.comp === "bra") {
+    const par = etapa.montar().find((j) => j.casa === eu || j.fora === eu);
+    if (par) {
+      const tab = Motor.ordenar(temp.bra.tabela);
+      const rival = par.casa === eu ? par.fora : par.casa;
+      const p = (id) => tab.findIndex((l) => l.id === id) + 1;
+      const l = (id) => tab[p(id) - 1];
+      return { rival, texto: `Você: ${p(eu)}º com ${l(eu).pts} pts · ${nomeDe(rival)}: ${p(rival)}º com ${l(rival).pts} pts` };
+    }
+  }
+  return { rival: null, texto: etapa.final ? "Final em jogo único, campo neutro" : "Mata-mata: o adversário sai no sorteio" };
+}
+
+// janela de transferencias: na pausa da Copa do Mundo, 1 troca
+function janelaAberta(temp = D.temp) {
+  if (!temp || temp.ttc.janelaUsada) return false;
+  const [ini] = temp.ttc.regras.brasileirao.pausa_copa || [];
+  const prox = temp.etapas[temp.i], ult = temp.etapas[temp.i - 1];
+  return Boolean(ini && prox && ult && ult.data < ini && prox.data >= ini);
+}
+function lequeDaJanela(k) {
+  const slot = todasVagas()[k];
+  const pos = slot.pos === "RES" ? "RCOR" : slot.pos;
+  const antes = D.rng;
+  if (D.desafio) D.rng = Motor.rngDe(hashTexto(`${D.desafio.semente}|janela|${pos}`));
+  const leque = sortearLeque(pos, CHANCES_JANELA);
+  D.rng = antes;
+  return leque;
+}
+function aplicarJanela(k, jogador) {
+  if (!janelaAberta()) return false;
+  todasVagas()[k].jogador = jogador;
+  D.temp.ttc.janelaUsada = true;
+  atualizarTimeDoUsuario();
+  return true;
+}
+
+// chances: temporadas rapidas com o elenco de agora (postura equilibrada,
+// sem janela), sem tocar no sorteio do jogo
+function simularTemporadaRapida(semente, rngGrupo) {
+  const temp = montarTemporada({ semente, rngGrupo });
+  while (!Motor.terminou(temp)) Motor.avancar(temp);
+  const pos = Motor.ordenar(temp.bra.tabela).findIndex((l) => l.id === temp.usuario) + 1;
+  return { pos, bra: temp.campeoes.bra === temp.usuario, titulo: Object.values(temp.campeoes).includes(temp.usuario) };
+}
+async function estimarChances(n = 50) {
+  const rng = Motor.rngDe(D.desafio ? hashTexto(`${D.desafio.semente}|chances`) : Math.floor(Math.random() * 1e9));
+  const c = { n, g6: 0, z4: 0, bra: 0, titulo: 0 };
+  for (let k = 0; k < n; k++) {
+    const r = simularTemporadaRapida(Math.floor(rng() * 1e9), rng);
+    if (r.pos <= 6) c.g6++;
+    if (r.pos >= 17) c.z4++;
+    if (r.bra) c.bra++;
+    if (r.titulo) c.titulo++;
+    if (k % 10 === 9 && typeof requestAnimationFrame === "function") await respirar();
+  }
+  return c;
 }
 
 // cor principal da camisa (pro fundo do placar)
@@ -346,22 +882,21 @@ function camisaDe(id, numero = null) {
 const nomeDe = (id) => (D.times && D.times[id] ? D.times[id].nome : id);
 
 function comecarTemporada() {
-  const serieA = serieAComUsuario();
-  const eu = Object.values(serieA).find((t) => t.usuario);
-  D.regrasTemp = regrasComUsuario(eu.id);
-  // quem saiu da Serie A continua existindo: segue na Libertadores/Sul-Americana
-  // (sem isso, o grupo dele ficava sem time e a copa travava)
-  const saiu = Motor.timesDaSerieA(D.r)[D.sai];
-  D.times = { ...(saiu ? { [D.sai]: saiu } : {}), ...serieA, ...Motor.timesDeFora(D.regrasTemp) };
-  D.temp = Motor.criarTemporada({
-    regras: D.regrasTemp, times: D.times, serieA: Object.keys(serieA), usuario: eu.id,
-    semente: Math.floor(Math.random() * 1e9),
-  });
+  D.pedidoChances = (D.pedidoChances || 0) + 1; // chances pendentes nao escrevem mais
+  const semente = D.desafio ? hashTexto(`${D.desafio.semente}|temporada`) : Math.floor(Math.random() * 1e9);
+  const rngGrupo = D.desafio ? Motor.rngDe(hashTexto(`${D.desafio.semente}|grupo`)) : sorte;
+  D.temp = montarTemporada({ semente, rngGrupo });
+  D.semente = semente;
+  D.times = D.temp.times;
+  D.regrasTemp = D.temp.ttc.regras;
+  D.grupo = D.temp.ttc.grupo;
   D.aba = "bra";
   $("feed").replaceChildren();
   $("rodada-lista").replaceChildren();
   $("rodada-titulo").textContent = "Resultados da rodada";
   for (const b of ["proximo", "ate-decisivo", "simular-tudo", "sim-ir"]) $(b).disabled = false;
+  const tatica = $("tatica-temporada");
+  if (tatica) tatica.replaceChildren(seletorDeEsquema(() => atualizarPaineis()), seletorDePostura());
   D.mes = D.temp.etapas[0].data.slice(0, 7);
   D.diaSel = null;
   $("proximo").textContent = "Próximo jogo";
@@ -373,6 +908,7 @@ function comecarTemporada() {
   jogo.replaceChildren(
     el("p", "jogo-etapa", "Temporada 2026"),
     el("p", "jogo-dica", `Sorteio: ${D.nome} cai no grupo ${D.grupo.letra} da ${COMP[D.continental]}, no lugar do ${D.grupo.sai}. ${oTime(D.sai)} foi pra Série B.`),
+    el("p", "jogo-dica", "Antes de cada jogo decisivo você escolhe a postura. Na pausa da Copa abre a janela: 1 troca no elenco."),
   );
   delete jogo.dataset.resultado;
   atualizarPaineis();
@@ -395,7 +931,7 @@ function montarPlacar(x) {
   alvo.replaceChildren();
   alvo.dataset.comp = x.etapa.comp;
   delete alvo.dataset.resultado;
-  const decisivo = Motor.decisiva(x.etapa);
+  const decisivo = decisiva(x.etapa);
   const topo = el("p", "jogo-etapa", `${x.etapa.rotulo} · ${dataJogo(x.etapa.data)}${j.neutro ? " · campo neutro" : ""}`);
   if (decisivo) topo.prepend(el("b", "tag-decisivo", "Decisivo"));
   const placar = el("div", "placar");
@@ -440,7 +976,7 @@ function animarJogo(x) {
   const j = x.doUsuario;
   const ui = montarPlacar(x);
   const fim = Math.max(90, ...j.eventos.map((e) => e.min));
-  const duracao = movimentoReduzido ? 0 : Motor.decisiva(x.etapa) ? 5200 : 3600;
+  const duracao = movimentoReduzido ? 0 : decisiva(x.etapa) ? 5200 : 3600;
   mostrarJogoSeEscondido();
   const placar = [0, 0];
   let mostrados = 0;
@@ -590,6 +1126,10 @@ function adicionarFeed(x) {
     el("span", "feed-placar", `${meus} × ${deles}`),
     el("span", "feed-rival", `${casa ? "vs" : "em"} ${nomeDe(rival)}${j.penaltis ? " (pên.)" : ""}${vermelhos ? " · expulsão" : ""}`),
   );
+  const postura = D.temp.ttc.posturas.get(x.etapa);
+  const baixas = D.temp.ttc.ocorrencias.filter((o) => o.data === x.etapa.data && o.tipo === "lesão").map((o) => `${sobrenome(o.jogador.nome)} lesionado (${o.jogos})`);
+  const extra = [postura && postura !== "equilibrado" ? POSTURAS[postura].nome : "", ...baixas].filter(Boolean);
+  if (extra.length) li.append(el("span", "feed-extra", extra.join(" · ")));
   $("feed").prepend(li);
 }
 
@@ -626,6 +1166,10 @@ function travar(sim) {
 async function proximoJogo() {
   if (D.simulando) return;
   if (D.animando) { D.pularAnimacao = true; return; }
+  // janela aberta (uma vez) e jogo decisivo sem postura: pergunta antes
+  if (janelaAberta() && !D.temp.ttc.janelaVista) { mostrarCartao(cartaoJanela()); return; }
+  const prox = Motor.agenda(D.temp, 1)[0];
+  if (prox && decisiva(prox.etapa) && !D.temp.ttc.posturas.has(prox.etapa)) { mostrarCartao(cartaoDecisivo(prox.etapa)); return; }
   let x;
   while ((x = Motor.avancar(D.temp))) if (x.doUsuario) break;
   if (!x) { atualizarPaineis(); encerrar(); return; }
@@ -667,7 +1211,8 @@ async function simular(parar, { respeitarDecisivo = true, botao = null } = {}) {
     const prox = Motor.agenda(D.temp, 1)[0];
     const e = D.temp.etapas[D.temp.i];
     if (parar(e)) { motivo = "fim"; break; }
-    if (respeitarDecisivo && prox && prox.indice === D.temp.i && Motor.decisiva(e)) {
+    if (respeitarDecisivo && janelaAberta() && !D.temp.ttc.janelaVista) { motivo = "janela"; break; }
+    if (respeitarDecisivo && prox && prox.indice === D.temp.i && decisiva(e) && !D.temp.ttc.posturas.has(e)) {
       // se o decisivo e logo o proximo, assiste ele em vez de pular
       if (!andou) { carregando(false, botao); proximoJogo(); return; }
       motivo = e;
@@ -688,31 +1233,91 @@ async function simular(parar, { respeitarDecisivo = true, botao = null } = {}) {
   if (ultimo) { mostrarPlacarPronto(ultimo); mostrarRodada(ultimo); }
   seguirCalendario();
   atualizarPaineis();
-  if (motivo && motivo !== "fim") {
-    $("jogo").append(cartaoDecisivo(motivo));
-  }
+  if (motivo === "janela") mostrarCartao(cartaoJanela());
+  else if (motivo && motivo !== "fim") mostrarCartao(cartaoDecisivo(motivo));
   if (Motor.terminou(D.temp)) encerrar();
 }
 
+// um cartao por vez embaixo do placar
+function mostrarCartao(card) {
+  for (const c of $("jogo").querySelectorAll(".proximo-decisivo, .janela")) c.remove();
+  $("jogo").append(card);
+  mostrarJogoSeEscondido();
+}
+
 // Cartao grande do proximo jogo decisivo: competicao, fase, data, o rival
-// (quando ja se sabe) e o botao pra assistir.
+// (quando ja se sabe), o que esta em jogo e a postura (cada botao ja joga).
 function cartaoDecisivo(etapa) {
-  const prox = Motor.agenda(D.temp, 1)[0];
+  const ctx = contextoDecisivo(D.temp, etapa);
   const card = el("div", `proximo-decisivo comp-${etapa.comp}`);
   const esq = el("div", "pd-textos");
-  esq.append(el("span", "pd-tag", "Próximo jogo é decisivo"), el("strong", "pd-titulo", etapa.rotulo), el("span", "pd-data", dataJogo(etapa.data)));
+  esq.append(el("span", "pd-tag", "Próximo jogo é decisivo"), el("strong", "pd-titulo", etapa.rotulo), el("span", "pd-data", dataJogo(etapa.data)),
+    el("span", "pd-contexto", ctx.texto));
+  const fora = [...D.temp.ttc.lesoes.keys(), ...D.temp.ttc.suspensos.keys()].filter((j) => todasVagas().some((s) => s.jogador === j));
+  if (fora.length) esq.append(el("span", "pd-contexto", `Desfalques: ${fora.map((j) => sobrenome(j.nome)).join(", ")}`));
   const vs = el("div", "pd-vs");
   const eu = el("span", "pd-camisa"); eu.append(camisaDe(D.temp.usuario));
   vs.append(eu, el("b", null, "×"));
-  const rival = prox && prox.jogo ? (prox.jogo.casa === D.temp.usuario ? prox.jogo.fora : prox.jogo.casa) : null;
   const ele = el("span", "pd-camisa");
-  if (rival) { ele.append(camisaDe(rival)); ele.title = nomeDe(rival); } else ele.append(el("span", "pd-rival-ind", "?"));
+  if (ctx.rival) { ele.append(camisaDe(ctx.rival)); ele.title = nomeDe(ctx.rival); } else ele.append(el("span", "pd-rival-ind", "?"));
   vs.append(ele);
-  const b = el("button", "botao botao-primario", "Assistir agora");
-  b.type = "button";
-  b.addEventListener("click", () => { card.remove(); proximoJogo(); });
-  card.append(esq, vs, b);
+  const posturas = el("div", "pd-posturas");
+  posturas.setAttribute("role", "group");
+  posturas.setAttribute("aria-label", "Postura pro jogo");
+  for (const [id, p] of Object.entries(POSTURAS)) {
+    const b = el("button", `botao${id === "equilibrado" ? " botao-primario" : ""}`, p.nome);
+    b.type = "button";
+    b.title = p.dica;
+    b.addEventListener("click", () => { D.temp.ttc.posturas.set(etapa, id); card.remove(); proximoJogo(); });
+    posturas.append(b);
+  }
+  card.append(esq, vs, posturas, el("p", "pd-dica", "Pra cima: mais gol pros dois lados. Fechadinho: menos. Equilibrado: o time de sempre."));
   return card;
+}
+
+// Janela de transferencias: escolhe quem sai, ve 5 cartas pra vaga dele e
+// troca (ou segue sem mexer). Uma vez por temporada.
+function cartaoJanela() {
+  D.temp.ttc.janelaVista = true;
+  const card = el("div", "janela");
+  card.append(el("strong", "pd-titulo", "Janela de transferências aberta"),
+    el("p", "pd-dica", "Pausa da Copa do Mundo: você pode trocar 1 jogador do elenco. Quem sai? Aparecem 5 cartas pra vaga dele."));
+  const lista = el("div", "janela-lista");
+  todasVagas().forEach((slot, k) => {
+    if (!slot.jogador) return;
+    const j = slot.jogador;
+    const lesao = D.temp.ttc.lesoes.get(j);
+    const b = el("button", "chip", `${VAGAS[slot.pos][1]} ${sobrenome(j.nome)} ${j.overall}${lesao ? ` · lesionado (${lesao})` : ""}`);
+    b.type = "button";
+    b.addEventListener("click", () => mostrarLequeDaJanela(card, k));
+    lista.append(b);
+  });
+  const seguir = el("button", "botao", "Seguir sem trocar");
+  seguir.type = "button";
+  seguir.addEventListener("click", () => { D.temp.ttc.janelaUsada = true; card.remove(); atualizarPaineis(); });
+  card.append(lista, seguir);
+  return card;
+}
+function mostrarLequeDaJanela(card, k) {
+  const slot = todasVagas()[k];
+  const leque = el("div", "leque leque-janela");
+  for (const j of lequeDaJanela(k)) {
+    const b = el("button", "opcao");
+    b.type = "button";
+    const av = avaliacaoNaVaga(j, slot.pos === "RES" ? "RCOR" : slot.pos);
+    b.append(cartaDoJogador(j, TIME_DE.get(j), D.r, { estatica: true }), el("span", "opcao-selos", av.rotuloEncaixe[1]),
+      el("span", "opcao-clube", `${NOME_FUNCAO[FUNCAO.get(j)] || ""} · ${TIME_DE.get(j).nome}`));
+    b.addEventListener("click", () => {
+      const saiu = slot.jogador;
+      if (aplicarJanela(k, j)) {
+        card.replaceChildren(el("strong", "pd-titulo", "Negócio fechado"), el("p", "pd-dica", `Sai ${saiu.nome}, chega ${j.nome} (${TIME_DE.get(j).nome}).`));
+        atualizarPaineis();
+      }
+    });
+    leque.append(b);
+  }
+  for (const v of card.querySelectorAll(".leque-janela")) v.remove();
+  card.append(el("p", "pd-dica", `Pra vaga de ${sobrenome(slot.jogador.nome)} (${VAGAS[slot.pos][2]}):`), leque);
 }
 
 const simularAteDecisivo = () => simular(() => false, { botao: $("ate-decisivo") });
@@ -743,8 +1348,11 @@ function situacao(comp) {
   if (t.campeoes[comp]) return "Encerrada";
   const g = comp === "cdb" ? null : grupoDoUsuario(comp);
   if (g && !g.final) {
-    const pos = Motor.ordenar(g.tabela).findIndex((l) => l.id === eu) + 1;
-    return `Grupo ${Object.keys(t[comp].grupos).find((k) => t[comp].grupos[k] === g)}: ${pos}º`;
+    const letra = Object.keys(t[comp].grupos).find((k) => t[comp].grupos[k] === g);
+    // antes da 1a rodada a ordem e so alfabetica: sem posicao
+    if (![...g.tabela.values()].some((l) => l.j)) return `Grupo ${letra}`;
+    const pos = Motor.ordenarConmebol(g.tabela).findIndex((l) => l.id === eu) + 1;
+    return `Grupo ${letra}: ${pos}º`;
   }
   const prox = Motor.agenda(t, 12).find((a) => a.etapa.comp === comp);
   if (prox) return prox.etapa.fase || "Na disputa";
@@ -817,7 +1425,7 @@ function desenharCalendario() {
     if (info) {
       const etapa = info.feito ? info.feito.etapa : info.futuro.etapa;
       cel.classList.add("tem-jogo", `comp-${etapa.comp}`);
-      if (Motor.decisiva(etapa)) cel.classList.add("decisivo");
+      if (decisiva(etapa)) cel.classList.add("decisivo");
       const jogo = info.feito ? info.feito.doUsuario : info.futuro.jogo;
       const mini = el("span", "cal-camisa");
       if (jogo) {
@@ -929,6 +1537,12 @@ function atualizarPaineis() {
     card.append(el("span", "status-comp", COMP[c]), el("strong", null, situacao(c)));
     status.append(card);
   }
+  // departamento medico: quem esta fora e por quantos jogos
+  const st = D.temp.ttc;
+  const fora = [...[...st.lesoes].map(([j, n]) => `${sobrenome(j.nome)} (lesão, ${n})`), ...[...st.suspensos].map(([j]) => `${sobrenome(j.nome)} (suspenso)`)];
+  const dm = el("div", "status-item status-dm");
+  dm.append(el("span", "status-comp", "Desfalques"), el("strong", null, fora.length ? fora.join(" · ") : "Ninguém"));
+  status.append(dm);
   desenharCalendario();
   const abas = $("abas");
   abas.replaceChildren();
@@ -949,7 +1563,7 @@ function atualizarPaineis() {
   else if (D.aba === "gols") painel.append(artilharia());
   else {
     const g = grupoDoUsuario(D.aba);
-    painel.append(tabela(Motor.ordenar(g.tabela), D.aba === "lib"
+    painel.append(tabela(Motor.ordenarConmebol(g.tabela), D.aba === "lib"
       ? [{ de: 1, ate: 2, cor: "#c8ff00", nome: "Oitavas" }, { de: 3, ate: 3, cor: "#5cc8ff", nome: "Sul-Americana" }]
       : [{ de: 1, ate: 1, cor: "#c8ff00", nome: "Oitavas" }, { de: 2, ate: 2, cor: "#5cc8ff", nome: "Playoffs" }]));
   }
@@ -1121,6 +1735,7 @@ function encerrar() {
   // rodape: copiar texto pronto
   const texto = [
     `${D.nome} (${D.esquema}) no Tem Time em Casa`,
+    D.desafio ? `Desafio do dia ${D.desafio.data.split("-").reverse().join("/")} · semente ${D.desafio.semente}` : `Dificuldade: ${DIFICULDADES[D.dificuldade].nome}`,
     manchete,
     ...compsDoUsuario().map((c) => `${COMP[c]}: ${campanha(c)}`),
     `${tudo.v}V ${tudo.e}E ${tudo.d}D · ${tudo.gp} gols · ${aproveitamento}%`,
@@ -1144,6 +1759,50 @@ function encerrar() {
 
 // --- liga tudo -----------------------------------------------------------------------
 
+// dificuldade (chips) e desafio do dia (mesmos leques pra todo mundo no dia)
+function ligarDificuldadeEDesafio() {
+  const caixa = $("dificuldade");
+  const nota = $("dificuldade-nota");
+  const desenhar = () => {
+    if (!caixa) return;
+    caixa.replaceChildren();
+    for (const [id, d] of Object.entries(DIFICULDADES)) {
+      const b = el("button", "chip", d.nome);
+      b.type = "button";
+      b.setAttribute("role", "radio");
+      b.setAttribute("aria-checked", String(D.dificuldade === id));
+      b.setAttribute("aria-pressed", String(D.dificuldade === id));
+      b.disabled = Boolean(D.desafio) && id !== "normal";
+      b.addEventListener("click", () => { D.dificuldade = id; desenhar(); });
+      caixa.append(b);
+    }
+    const d = DIFICULDADES[D.dificuldade];
+    if (nota) nota.textContent = `${d.nome}: ${d.resumo}.`;
+    const des = $("desafio-dia");
+    if (des) {
+      des.setAttribute("aria-pressed", String(Boolean(D.desafio)));
+      des.textContent = D.desafio ? `Desafio do dia ${D.desafio.data.split("-").reverse().join("/")}: ligado` : "Desafio do dia";
+    }
+    const dn = $("desafio-nota");
+    if (dn) dn.textContent = D.desafio ? "Mesmos leques, mesmo sorteio e mesma temporada pra todo mundo hoje (dificuldade Normal). O resultado sai com a data pra comparar." : "";
+    $("draft-chances").textContent = textoChances();
+  };
+  const des = $("desafio-dia");
+  if (des) {
+    des.addEventListener("click", () => {
+      if (D.desafio) D.desafio = null;
+      else {
+        const hoje = new Date();
+        const data = `${hoje.getFullYear()}-${String(hoje.getMonth() + 1).padStart(2, "0")}-${String(hoje.getDate()).padStart(2, "0")}`;
+        D.desafio = { data, semente: `ttc-${data}` };
+        D.dificuldade = "normal";
+      }
+      desenhar();
+    });
+  }
+  desenhar();
+}
+
 async function iniciarDraft() {
   UNIFORMES = await json("dados/uniformes.json").catch(() => ({}));
   const [r, regras, elencos] = await Promise.all([retrato("2026"), json("dados/competicoes-2026.json"),
@@ -1153,9 +1812,9 @@ async function iniciarDraft() {
   D.regras = regras;
   estado.r = r;
   usarCortes(r);
-  const pct = (v) => `${(v * 100).toLocaleString("pt-BR", { maximumFractionDigits: 1 })}%`;
-  $("draft-chances").textContent = `Chances por carta: ${NIVEIS.map((t) => `${t.nome} ${pct(CHANCES_DO_LEQUE[t.id])}`).join(" · ")}`;
+  $("draft-chances").textContent = textoChances();
   inferirFuncoes(r);
+  ligarDificuldadeEDesafio();
   montarCriacao();
   definirQuemSai();
   const efeito = () => { $("esquema-efeito").textContent = descreverTatica($("esquema").value); };
@@ -1178,13 +1837,17 @@ async function iniciarDraft() {
     D.nome = $("nome-time").value.trim() || "Tem Dado FC";
     D.esquema = $("esquema").value;
     D.onze = ESQUEMAS[D.esquema].map(([pos, x, y]) => ({ pos, x, y, jogador: null }));
+    D.banco = BANCO_VAGAS.map((pos) => ({ pos, jogador: null }));
     D.vaga = 0;
-    D.trocas = 1;
+    D.trocas = DIFICULDADES[D.dificuldade].trocas;
+    D.trocasUsadas = 0;
     D.leques = {};
     mostrar("draft");
     abrirLeque();
   });
-  $("trocar-leque").addEventListener("click", () => { if (D.trocas > 0) { D.trocas -= 1; delete D.leques[D.vaga]; abrirLeque(); } });
+  $("trocar-leque").addEventListener("click", () => {
+    if (D.trocas > 0) { D.trocas -= 1; D.trocasUsadas = (D.trocasUsadas || 0) + 1; delete D.leques[D.vaga]; abrirLeque(); }
+  });
   $("comecar-temporada").addEventListener("click", comecarTemporada);
   $("proximo").addEventListener("click", () => {
     if (Motor.terminou(D.temp) && !D.animando) encerrar();

@@ -267,7 +267,8 @@ a.marca { text-decoration: none; }
      dica avisa que tem mais pro lado (a carta cortada sozinha nao bastava) */
   .leque { -webkit-mask-image: linear-gradient(90deg, #000 82%, transparent);
            mask-image: linear-gradient(90deg, #000 82%, transparent); }
-  #vaga-progresso::after { content: " · arraste pro lado →"; color: var(--texto-fraco); }
+  /* so no passo do leque: fora dele o paragrafo fica vazio e a dica sobrava solta */
+  #vaga-progresso:not(:empty)::after { content: " · arraste pro lado →"; color: var(--texto-fraco); }
   .placar-camisa svg { width: 54px; }
   .placar-numeros { font-size: 2.6rem; }
 }
@@ -608,3 +609,76 @@ body.simulando .cal-dia { pointer-events: none; }
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
 }
 .vaga-mover:hover, .vaga-mover:focus-visible { background: var(--canal); color: #111; }
+
+/* --- fase 2: encaixe, entrosamento, banco, postura, janela, dificuldade ------------ */
+.opcao-selos { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.25rem; min-height: 1.3rem; }
+.selo-encaixe, .selo-entrosa {
+  padding: 0.08rem 0.4rem;
+  border-radius: 4px;
+  font-family: var(--numeros);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+  color: #111;
+  white-space: nowrap;
+}
+.encaixe-ok { background: var(--canal); }
+.encaixe-meio { background: #f2cc60; }
+.encaixe-ruim { background: #ff9f5a; }
+.encaixe-pessimo { background: #ff7d95; }
+.selo-entrosa { background: var(--rival); }
+
+.banco-lista { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.6rem 0 0; padding: 0; list-style: none; }
+.banco-vaga {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 2rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 8px;
+  background: var(--fundo-cartao);
+  border: 1px solid var(--borda);
+  font-size: 0.8rem;
+}
+.banco-vaga .vaga-nome { color: var(--texto); text-shadow: none; font-size: 0.78rem; }
+.banco-vaga .vaga-vazia { width: auto; height: auto; padding: 0.05rem 0.45rem; border-radius: 6px; border-width: 1px; color: var(--texto-fraco); background: none; border-color: var(--borda); }
+.banco-vaga.vaga-ativa { border-color: var(--canal); }
+.banco-vaga.vaga-ativa .vaga-vazia { color: var(--canal); border-color: var(--canal); animation: pulsar 1.2s ease-in-out infinite; }
+
+.resumo-campo { display: grid; gap: 0.2rem; }
+.resumo-chances { margin: 0.6rem 0 1rem; padding: 0.55rem 0.8rem; border-radius: 10px; background: var(--fundo-cartao); border: 1px solid var(--borda); font-weight: 600; }
+.seletor-esquema { display: inline-flex; align-items: center; gap: 0.45rem; margin: 0.2rem 0; font-size: 0.9rem; color: var(--texto-fraco); }
+.seletor-esquema select { font: inherit; color: var(--texto); background: var(--fundo-cartao); border: 1px solid var(--borda); border-radius: 8px; padding: 0.25rem 0.5rem; }
+.controles-tatica { display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; margin-top: 0.4rem; }
+
+.pd-contexto { font-size: 0.9rem; font-weight: 600; }
+.pd-posturas { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.pd-posturas .botao { flex: 1 1 8rem; text-align: center; }
+.pd-dica { grid-column: 1 / -1; margin: 0; color: var(--texto-fraco); font-size: 0.82rem; }
+
+.janela {
+  display: grid;
+  gap: 0.6rem;
+  margin-top: 1rem;
+  padding: 1rem 1.1rem;
+  border-radius: 14px;
+  background: linear-gradient(120deg, color-mix(in srgb, var(--rival) 22%, transparent), transparent 70%), var(--fundo);
+  border: 1px solid color-mix(in srgb, var(--rival) 55%, transparent);
+  animation: entrar 0.35s ease both;
+}
+.janela-lista { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.janela .botao { justify-self: start; }
+.leque-janela { margin-top: 0; }
+
+.status-dm { --comp: #ff9f5a; }
+.status-dm strong { font-size: 0.95rem; font-family: inherit; font-weight: 700; }
+.feed-extra { grid-column: 1 / -1; font-size: 0.75rem; color: var(--texto-fraco); }
+
+.desafio { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 1rem; margin: 0.6rem 0; }
+.desafio .nota { margin: 0; }
+#desafio-dia[aria-pressed="true"] { border-color: var(--canal); color: var(--canal); }
+
+@media (max-width: 640px) {
+  .selo-encaixe, .selo-entrosa { font-size: 0.66rem; }
+}

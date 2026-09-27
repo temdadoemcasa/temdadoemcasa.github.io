@@ -1,51 +1,56 @@
 # Bateria do Tem Time em Casa (draft + temporada)
 
-Roda milhares de tentativas completas do minigame no node, sem navegador. Cada tentativa tem um draft de 11 vagas e uma temporada inteira: Brasileirão, Copa do Brasil e Libertadores ou Sul-Americana.
+Roda milhares de tentativas completas do minigame no node, sem navegador. Cada tentativa tem o draft (11 titulares e 5 reservas) e uma temporada inteira: Brasileirão, Copa do Brasil e Libertadores ou Sul-Americana, com lesões, suspensões, postura e janela.
 
-Os scripts carregam o `app.js`, o `motor.js` e o `draft.js` **de verdade** num `vm` do node, com um DOM mínimo de mentira. O relatório com os resultados está em `docs/bateria-tem-time-em-casa.md`.
+Os scripts carregam o `app.js`, o `motor.js` e o `draft.js` **de verdade** num `vm` do node, com um DOM mínimo de mentira. O relatório com os números (fase 1 e fase 2) está em `docs/bateria-tem-time-em-casa.md`.
 
 ## Rodar (a partir da raiz do repo)
 
 Requisito: node 22 (`source ~/.nvm/nvm.sh`). Não há dependências.
 
 ```bash
-scripts/bateria/draft/rodar.sh                      # 5.000 tentativas, 4 processos, ~25 s
-node scripts/bateria/draft/analisar.js              # métricas (posição, títulos, realismo, erros)
-node scripts/bateria/draft/testes-ui.js             # testes das correções de UI do draft.js (12 checagens)
-node scripts/bateria/draft/colisao.js               # clube com nome de convidado da Copa do Brasil
-node scripts/bateria/draft/extras.js                # forças, time dos sonhos/pesadelo, expulsos, descanso, datas
-scripts/bateria/draft/experimento.sh                # cenários de balanceamento (patch só em memória)
+scripts/bateria/draft/rodar.sh                        # 5.000 tentativas, 4 processos, ~25 s
+node scripts/bateria/draft/metas.js                   # metas da fase 2, uma linha PASS/FAIL cada
+SEMENTE_BASE=777777 SAIDA=/tmp/b2 scripts/bateria/draft/rodar.sh && node scripts/bateria/draft/metas.js /tmp/b2/tudo.jsonl   # outro conjunto de sementes
+node scripts/bateria/draft/esquemas.js 400            # meta 3: esquema ótimo por elenco (pontos esperados, sem sorteio)
+scripts/bateria/draft/decisoes.sh 400                 # meta 4 por componente: postura, janela, esquema (pareado)
+scripts/bateria/draft/dificuldade.sh normal           # afinar uma dificuldade (ao acaso, maior nota, inteligente)
+node scripts/bateria/draft/extras.js                  # time dos sonhos/pesadelo, tempo das chances do resumo, desafio do dia
+node scripts/bateria/draft/testes-ui.js               # 24 checagens da lógica de tela (trava, banco, janela, postura, desafio…)
 ```
 
-A saída vai para `${TMPDIR:-/tmp}/bateria-draft/`, fora do repo; o `.jsonl` tem ~40 MB. Para escolher outra pasta, use `SAIDA=<pasta>`. O `plano.json` é gerado pelo `plano.js` a cada rodada e não é versionado.
-
-Para comparar duas versões do código, aponte `REPO_DIR` para uma cópia com `app.js`, `motor.js`, `draft.js` e `dados/`:
-
-```bash
-REPO_DIR=/tmp/antes  SAIDA=/tmp/b-antes  scripts/bateria/draft/rodar.sh
-REPO_DIR=$PWD        SAIDA=/tmp/b-depois scripts/bateria/draft/rodar.sh
-node scripts/bateria/draft/comparar.js /tmp/b-antes/tudo.jsonl /tmp/b-depois/tudo.jsonl
-```
+- A saída vai para `${TMPDIR:-/tmp}/bateria-draft/`, fora do repo. O `.jsonl` tem uns 5 MB. Para mudar a pasta, use `SAIDA=<pasta>`.
+- Para rodar em outra cópia do site, use `REPO_DIR=<pasta com app.js, motor.js, draft.js e dados/>`.
+- Para experimentar sem editar os arquivos (a troca vale só em memória):
+  - `PATCH_MOTOR='[["de","para"]]'` troca texto no `motor.js`;
+  - `PATCH_DRAFT` faz o mesmo no `draft.js`;
+  - `PATCH_CALIB='{"K":22}'` mexe na calibragem `motor_ttc`.
 
 ## Como funciona
 
-- **`carregar.js`** executa os três arquivos do site num `vm`.
-  - A única mudança, feita só em memória, é cortar a chamada final `iniciarDraft().catch(...)`.
-  - O `Math.random` do contexto vira mulberry32 com semente. O mesmo gerador fica exposto como `api.random` para o harness.
-  - `PATCH_MOTOR` e `PATCH_DRAFT` (JSON `[["de","para"],...]`) trocam trechos do código também só em memória. Servem para os experimentos.
+- **`carregar.js`** roda os três arquivos do site no `vm`.
+  - Corta só a chamada final `iniciarDraft()`.
+  - Troca o `Math.random` do contexto por um mulberry32 com semente. O mesmo gerador fica exposto como `api.random` para as políticas.
 - **`sim.js`** faz uma tentativa.
-  - O draft usa as funções reais `sortearLeque`, `proximaVaga` e `cabeNaVaga`. O resto espelha `abrirLeque`, `escolher` e "Trocar o leque".
-  - A temporada espelha `comecarTemporada` com as funções reais `serieAComUsuario` e `regrasComUsuario`. Depois roda `Motor.avancar` até o fim.
-  - A cada etapa, checa: número de jogos por competição, 38 jogos por time, time contra si mesmo, time indefinido, NaN, dois jogos no mesmo dia, agregado e pênaltis, `Motor.agenda` batendo com quem jogou, se o clube do usuário é o draftado, e expulso que marca ou bate pênalti depois do vermelho.
-  - O ⇄ (mudar de vaga) não é simulado.
+  - O draft espelha "Montar meu time", `lequeAtual` e `escolher`, usando as funções reais `sortearLeque`, `lequeDaVaga`, `proximaVaga`, `encaixeNaVaga` e `forcaDoElenco`.
+  - A temporada é `montarTemporada` + `Motor.avancar`, com as checagens a cada etapa: número de jogos, 38 por time, time contra si mesmo, NaN, dois jogos no mesmo dia, agenda × quem jogou, expulso que marca, dias seguidos.
+  - Políticas de draft:
+    - `aleatorio`;
+    - `melhor`: maior nota do leque;
+    - `pior`;
+    - `humano`: 70% a maior nota, 30% ao acaso;
+    - `inteligente`: maior força do time com a carta, contando encaixe, entrosamento, eixos e banco.
+  - Políticas de temporada:
+    - `padrao`: sempre Equilibrado, sem janela, sem trocar esquema. É o que "Simular tudo" faz.
+    - `bom`: postura pelo contexto, janela no pior titular e o melhor esquema para o elenco.
+    - `postura`, `janela`, `esquema` e `semEsquema`, para medir cada parte separada.
 - **`plano.js`** monta as 5.000 tentativas:
-  - aleatório: 1.000;
-  - maior nota do leque, 250 por esquema: 1.750;
-  - pior nota do leque, 100 por esquema: 700;
-  - maior nota usando a troca de leque: 300;
-  - "humano" (70% a maior nota, 30% ao acaso): 250;
-  - cada um dos 20 clubes como quem sai da Série A: 1.000.
-
-  Libertadores e Sul-Americana ficam 50/50.
-- **Semente** da tentativa `i`: `1000003*i+7`. Mesma semente, mesma tentativa: duas rodadas do mesmo código dão 5.000 de 5.000 iguais (confira com `comparar.js`).
-- **Limite de CPU:** `rodar.sh` e `experimento.sh` sobem no máximo 4 processos.
+  - aleatório: 800;
+  - maior nota: 1.000;
+  - pior: 400;
+  - inteligente: 900;
+  - humano: 200;
+  - temporada padrão × boa: 400 + 400, pareadas pela semente;
+  - Fácil e Difícil × (ao acaso, maior nota): 225 cada.
+- **Semente** da tentativa `i`: `SEMENTE_BASE + 1000003*i + 7` (o bloco pareado usa a semente do par). Mesma semente, mesma tentativa.
+- **Limite de CPU:** todos os `.sh` sobem no máximo 4 processos.
