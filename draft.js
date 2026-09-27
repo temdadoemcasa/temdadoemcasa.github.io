@@ -108,10 +108,11 @@ const oTime = (nome) => `${FEMININOS.has(nome) ? "A" : "O"} ${nome}`;
 
 const LADO_DA_VAGA = { LD: "D", ALD: "D", LE: "E", ALE: "E" };
 
-// chances do leque: mais generosas que as do envelope (CHANCES, app.js). Com as
-// do envelope, escolher ao acaso caia em 42% das temporadas; com estas (~350
-// temporadas simuladas em 25/09), ao acaso fica no meio (mediana 10o-11o, Z4 13-18%) e
-// pegar sempre a maior nota vai ao G4 em 64%.
+// chances do leque: mais generosas que as do envelope (CHANCES, app.js). Bateria
+// de 5.000 temporadas em 26/09 (scripts/bateria/draft): com estas, escolher ao
+// acaso fica no meio (mediana 12o, Z4 ~23%, G4 ~13%), pegar sempre a maior nota
+// vai ao G4 em ~54% (G6 ~70%, campeao ~15%) e sempre a pior cai em ~76%. Com as
+// do envelope, ao acaso cairia em ~51% (mediana 17o).
 const CHANCES_DO_LEQUE = { palha: 0.2, madeira: 0.45, tijolo: 0.28, grafeno: 0.07 };
 
 function sortearLeque(vaga) {
@@ -208,7 +209,16 @@ function abrirLeque() {
 // a proxima vaga vazia (mover alguem de vaga pode esvaziar uma de tras)
 const proximaVaga = () => D.onze.findIndex((s) => !s.jogador);
 
+// trava curta depois de cada escolha: no celular, o toque duplo pegava a carta
+// do leque seguinte (que aparece no mesmo lugar) sem querer
+const TRAVA_ESCOLHA_MS = 350;
+let travaEscolhaAte = 0;
+
 function escolher(jogador) {
+  // draft completo, clique durante a trava ou carta que nao e do leque aberto: ignora
+  if (D.vaga < 0 || performance.now() < travaEscolhaAte) return;
+  if (!(D.leques[D.vaga] || []).includes(jogador)) return;
+  travaEscolhaAte = performance.now() + TRAVA_ESCOLHA_MS;
   D.onze[D.vaga].jogador = jogador;
   delete D.leques[D.vaga];
   D.vaga = proximaVaga();
@@ -243,13 +253,12 @@ function moverDeVaga(k) {
 
 // --- resumo ------------------------------------------------------------------------
 
-function idUsuario() {
-  // nome igual a um clube que existe? ganha um sufixo pra nao misturar
-  const existe = (n) => D.r.times.some((t) => t.nome === n) || (D.regras.estrangeiros[n]);
-  let id = D.nome;
-  while (existe(id)) id += " FC";
-  return id;
-}
+// id interno do clube do usuario, fixo e independente do nome na tela: com o
+// nome como id, "Fortaleza" (ou qualquer convidado da Copa do Brasil) virava o
+// Fortaleza da CPU e ainda podia pegar ele mesmo no sorteio. Nome de clube nao
+// comeca com "_" (as chaves "_..." do JSON sao comentario e ninguem vira time).
+const ID_USUARIO = "_seu_clube";
+const idUsuario = () => ID_USUARIO;
 
 function timeDoUsuario() {
   const onze = D.onze.map((s) => s.jogador);
@@ -274,6 +283,11 @@ function mostrarResumo() {
   const eu = ranking.find((t) => t.usuario);
   const pos = ranking.indexOf(eu) + 1;
   const media = Math.round(D.onze.reduce((s, x) => s + x.jogador.overall, 0) / 11);
+  // ataque e defesa estao na regua de forca dos clubes (Motor.naRegua), nao na
+  // escala das cartas: a referencia e a propria Serie A
+  const outros = ranking.filter((t) => !t.usuario);
+  const mediaLiga = Math.round(outros.reduce((s, t) => s + (t.atq + t.def) / 2, 0) / outros.length);
+  const maisForte = Math.round(Math.max(...outros.map((t) => (t.atq + t.def) / 2)));
 
   const alvo = $("resumo");
   alvo.replaceChildren();
@@ -282,12 +296,13 @@ function mostrarResumo() {
   const info = el("div", "resumo-info");
   info.append(el("p", "resumo-nome", D.nome));
   const numeros = el("dl", "resumo-numeros");
-  for (const [rot, val] of [["Média do onze", media], ["Ataque", Math.round(eu.atq)], ["Defesa", Math.round(eu.def)]]) {
+  for (const [rot, val] of [["Média do onze (cartas)", media], ["Força de ataque", Math.round(eu.atq)], ["Força de defesa", Math.round(eu.def)]]) {
     const d = el("div");
     d.append(el("dd", null, String(val)), el("dt", null, rot));
     numeros.append(d);
   }
   info.append(numeros);
+  info.append(el("p", "nota", `A média é a nota das cartas. Força de ataque e de defesa é outra escala, a dos clubes: média da Série A ${mediaLiga}, o mais forte ${maisForte}, já com o efeito do ${D.esquema}.`));
   info.append(el("p", "resumo-frase", `No papel, seria o ${pos}º time mais forte da Série A 2026.`));
   info.append(el("p", "nota", `${D.esquema}: ${descreverTatica(D.esquema)}.`));
   const ul = el("ul", "resumo-comps");
@@ -472,11 +487,20 @@ function rodapeDoJogo(x) {
 
 // --- penaltis cobranca a cobranca ------------------------------------------------
 
-// quem bate: os 5 melhores finalizadores do onze (goleiro so no fim da fila)
-function cobradores(id) {
+// quem bate: os melhores finalizadores do onze (goleiro so no fim da fila).
+// Time sem onze (estrangeiro, convidado da Copa do Brasil) usa o elenco de
+// dados/elencos-fora.json pelo peso de gol; sem elenco, "cobrador N".
+// Quem foi expulso no jogo nao bate.
+function cobradores(id, expulsos = new Set()) {
   const t = D.times ? D.times[id] : null;
   const fin = (j) => (j.eixos && (j.eixos.FIN ?? j.eixos.CHU)) ?? 0;
-  const lista = t && t.onze ? t.onze.filter(Boolean).sort((a, b) => (a.posicao === "G") - (b.posicao === "G") || fin(b) - fin(a)).map((j) => j.nome) : [];
+  let lista = [];
+  if (t && t.onze) lista = t.onze.filter(Boolean).sort((a, b) => (a.posicao === "G") - (b.posicao === "G") || fin(b) - fin(a)).map((j) => j.nome);
+  else if (t && t.artilheiros && t.artilheiros.length) {
+    const goleiroPorUltimo = [...t.artilheiros].sort((a, b) => (a.pos === "G") - (b.pos === "G") || b.peso - a.peso);
+    lista = goleiroPorUltimo.slice(0, 11).map((a) => a.nome);
+  }
+  lista = lista.filter((nome) => !expulsos.has(nome));
   return lista.length ? lista : Array.from({ length: 11 }, (_, i) => `cobrador ${i + 1}`);
 }
 
@@ -489,7 +513,9 @@ function blocoPenaltis(j) {
     const bolas = el("span", "pen-bolas");
     const placar = el("b", "pen-placar", "0");
     linha.append(el("span", "pen-time", nomeDe(id)), bolas, placar);
-    linhas[lado] = { bolas, placar, gols: 0, id, cobs: cobradores(id), n: 0 };
+    const ladoNoJogo = lado === "a" ? "casa" : "fora";
+    const expulsos = new Set(j.eventos.filter((e) => e.tipo === "vermelho" && e.lado === ladoNoJogo && e.autor).map((e) => e.autor));
+    linhas[lado] = { bolas, placar, gols: 0, id, cobs: cobradores(id, expulsos), n: 0 };
     bloco.append(linha);
   }
   const narracao = el("p", "pen-narracao", "");
@@ -706,6 +732,8 @@ function grupoDoUsuario(comp) {
 function situacao(comp) {
   const t = D.temp, eu = t.usuario;
   if (comp === "bra") {
+    // antes da 1a rodada a tabela e so ordem alfabetica: sem posicao
+    if (!t.bra.rodada) return "—";
     const tab = Motor.ordenar(t.bra.tabela);
     const pos = tab.findIndex((l) => l.id === eu) + 1;
     return `${pos}º · ${tab[pos - 1].pts} pts · ${t.bra.rodada}/38`;

@@ -60,8 +60,14 @@
   }
   Motor.medias = medias;
 
-  function sortearAutor(rng, time, pesoPos) {
-    const lista = time.artilheiros || [];
+  // fora: nomes que nao podem ser sorteados (quem ja foi expulso no jogo)
+  function sortearAutor(rng, time, pesoPos, fora = null) {
+    let lista = time.artilheiros || [];
+    if (fora && fora.size) {
+      lista = lista.filter((a) => !fora.has(a.nome));
+      // ficou sem ninguem: gasta o sorteio mesmo assim (o rng segue igual)
+      if (!lista.length && time.artilheiros.length) { rng(); return null; }
+    }
     if (!lista.length) return null;
     return pesoPos ? sortearPeso(rng, lista, (a) => pesoPos[a.pos] ?? 1).nome : sortearPeso(rng, lista, (a) => a.peso).nome;
   }
@@ -76,12 +82,18 @@
     let [mc, mf] = medias(casa, fora, neutro);
     if (mata) { mc *= FATOR_MATA; mf *= FATOR_MATA; }
     const eventos = [];
+    // expulso no minuto m nao bate penalti nem faz gol dali em diante (nem no
+    // proprio minuto m). A ordem das chamadas ao rng nao muda: mesma semente,
+    // mesmo placar.
+    const expulsosAte = (lado, min) => new Set(eventos
+      .filter((e) => e.tipo === "vermelho" && e.lado === lado && e.autor && e.min <= min).map((e) => e.autor));
     for (const [lado, time] of [["casa", casa], ["fora", fora]]) {
       if (rng() < CHANCE_VERMELHO) {
         eventos.push({ tipo: "vermelho", lado, min: 10 + Math.floor(rng() * 80), autor: sortearAutor(rng, time, PESO_CARTAO) });
       }
       if (rng() < CHANCE_PEN_PERDIDO) {
-        eventos.push({ tipo: "penalti_perdido", lado, min: 1 + Math.floor(rng() * 90), autor: sortearAutor(rng, time) });
+        const min = 1 + Math.floor(rng() * 90);
+        eventos.push({ tipo: "penalti_perdido", lado, min, autor: sortearAutor(rng, time, null, expulsosAte(lado, min)) });
       }
     }
     const cortes = [0, ...eventos.filter((e) => e.tipo === "vermelho").map((e) => e.min).sort((a, b) => a - b), 90];
@@ -103,7 +115,7 @@
           let min = a + 1 + Math.floor(rng() * (b - a));
           if (b === 90 && min >= 89 && rng() < 0.5) min = 90 + 1 + Math.floor(rng() * 5);
           const penalti = rng() < FATIA_PENALTI;
-          eventos.push({ tipo: "gol", lado, min, autor: sortearAutor(rng, time), penalti });
+          eventos.push({ tipo: "gol", lado, min, autor: sortearAutor(rng, time, null, expulsosAte(lado, min)), penalti });
           placar[lado] += 1;
         }
       }
