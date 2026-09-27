@@ -682,3 +682,10 @@ body.simulando .cal-dia { pointer-events: none; }
 @media (max-width: 640px) {
   .selo-encaixe, .selo-entrosa { font-size: 0.66rem; }
 }
+
+/* resumo no celular: os tres numeros numa linha so (3 colunas iguais) */
+@media (max-width: 640px) {
+  .resumo-numeros { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.6rem; }
+  .resumo-numeros dd { font-size: 1.9rem; }
+  .resumo-numeros dt { font-size: 0.7rem; line-height: 1.2; }
+}

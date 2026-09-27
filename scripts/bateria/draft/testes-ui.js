@@ -73,5 +73,83 @@ const lista = cobradores("Flamengo"); conf(!cobradores("Flamengo", new Set([list
 const primeiroLeque = (seed, data) => { A.semear(seed); novoDraft(); D.desafio = { data, semente: `ttc-${data}` }; const l = A.lequeAtual().map((j) => j.player_id).join(","); D.desafio = null; return l; };
 conf(primeiroLeque(1, "2026-09-27") === primeiroLeque(2, "2026-09-27"), "desafio: leques diferentes no mesmo dia");
 conf(primeiroLeque(1, "2026-09-27") !== primeiroLeque(1, "2026-09-28"), "desafio: mesmo leque em dias diferentes");
-console.log(`testes de UI: ${ok} ok, ${falhas} falhas`);
-process.exit(falhas ? 1 : 0);
+// 7) fluxo pelas funcoes de tela reais, com DOM falso (domfalso.js): botoes com cartao aberto
+(async () => {
+  const { domFalso } = require("./domfalso.js");
+  const T = carregar(domFalso());
+  const run = (c) => vm.runInContext(c, T.ctx);
+  const TD = T.D;
+  const montar = (seed, desafio = null) => {
+    T.semear(seed);
+    TD.nome = "Teste FC"; TD.sai = "Chapecoense"; TD.continental = "lib"; TD.dificuldade = "normal"; TD.esquema = "4-3-3"; TD.desafio = desafio;
+    TD.onze = T.ESQUEMAS["4-3-3"].map(([pos, x, y]) => ({ pos, x, y, jogador: null })); TD.banco = T.BANCO_VAGAS.map((pos) => ({ pos, jogador: null }));
+    TD.leques = {}; TD.trocasUsadas = 0;
+    for (let k = 0; k < 16; k++) { TD.vaga = k; T.todasVagas()[k].jogador = T.lequeAtual()[0]; }
+    TD.vaga = -1;
+    run("comecarTemporada()");
+  };
+  // 7a) regressao: "Ate o proximo jogo decisivo" com o cartao do decisivo aberto
+  montar(11);
+  await run("simularAteDecisivo()");
+  let c = run("D.cartao");
+  conf(c && c.tipo === "decisivo", "1o aperto em 'ate o decisivo' nao mostrou o cartao");
+  const pendente = c && c.etapa;
+  conf(pendente && /contra /.test(run("contextoDecisivo(D.temp, D.cartao.etapa)").texto), "cartao do mata-mata sem adversario (sorteio nao revelado)");
+  const iAntes = TD.temp.i;
+  await run("simularAteDecisivo()");
+  conf(TD.temp.i > iAntes, "BUG 1: 'ate o decisivo' com cartao aberto nao andou");
+  conf(TD.temp.historico.some((h) => h.etapa === pendente && h.doUsuario), "o decisivo pendente nao foi jogado");
+  conf(TD.temp.ttc.posturas.get(pendente) === "equilibrado", "decisivo pulado deveria ir no Equilibrado");
+  let viuJanela = false, parado = 0, apertos = 0;
+  for (; apertos < 80 && !T.Motor.terminou(TD.temp); apertos++) {
+    const antes = TD.temp.i;
+    await run("simularAteDecisivo()");
+    c = run("D.cartao");
+    if (c && c.tipo === "janela") viuJanela = true;
+    if (TD.temp.i === antes && !T.Motor.terminou(TD.temp)) parado++;
+  }
+  conf(T.Motor.terminou(TD.temp) && parado === 0, `temporada nao terminou so com 'ate o decisivo' (${apertos} apertos, ${parado} sem andar)`);
+  conf(viuJanela, "janela nao apareceu no caminho do 'ate o decisivo'");
+  conf(TD.temp.ttc.janelaUsada, "passar pela janela com outro botao deveria fechar a janela");
+  // 7b) "Proximo jogo" com o cartao aberto joga o decisivo
+  montar(12);
+  for (let k = 0; k < 40 && !(run("D.cartao") && run("D.cartao").tipo === "decisivo"); k++) await run("proximoJogo()");
+  c = run("D.cartao");
+  conf(c && c.tipo === "decisivo", "proximo jogo nunca mostrou cartao de decisivo");
+  const n0 = TD.temp.historico.filter((h) => h.doUsuario).length;
+  await run("proximoJogo()");
+  conf(TD.temp.historico.filter((h) => h.doUsuario).length === n0 + 1 && TD.temp.historico.some((h) => h.etapa === c.etapa && h.doUsuario), "proximo jogo com cartao aberto nao jogou o decisivo");
+  // 7c) postura escolhida no cartao vale no jogo
+  for (let k = 0; k < 60 && !(run("D.cartao") && run("D.cartao").tipo === "decisivo"); k++) await run("proximoJogo()");
+  c = run("D.cartao");
+  if (c && c.tipo === "decisivo") {
+    const botao = run("$('jogo').querySelectorAll('.pd-posturas .botao')").find((b) => b.textContent === "Fechadinho");
+    botao.click(); await new Promise((r) => setTimeout(r, 20));
+    conf(TD.temp.ttc.posturas.get(c.etapa) === "retranca" && TD.temp.historico.some((h) => h.etapa === c.etapa), "botao Fechadinho nao jogou com a postura");
+  }
+  // 7d) janela: aparece no "Proximo jogo" e da pra pular
+  montar(13);
+  let janela = null;
+  for (let k = 0; k < 120 && !T.Motor.terminou(TD.temp); k++) {
+    await run("proximoJogo()");
+    c = run("D.cartao");
+    if (c && c.tipo === "janela") { janela = TD.temp.etapas[TD.temp.i].data; break; }
+  }
+  conf(Boolean(janela), "janela nao apareceu no 'proximo jogo'");
+  const seguir = run("$('jogo').querySelectorAll('.janela .botao')").find((b) => b.textContent === "Seguir sem trocar");
+  seguir.click();
+  conf(!run("D.cartao") && TD.temp.ttc.janelaUsada && !run("janelaAberta()"), "'Seguir sem trocar' nao fechou a janela");
+  // 7e) desafio: texto de copiar com data, semente e a linha de comparacao
+  montar(14, { data: "2026-09-27", semente: "ttc-2026-09-27" });
+  await run("simular(() => false, { respeitarDecisivo: false })");
+  conf(T.Motor.terminou(TD.temp), "simular tudo nao terminou a temporada");
+  let copiado = "";
+  T.ctx.navigator.clipboard.writeText = async (t) => { copiado = t; };
+  const copiar = run("$('balanco').querySelectorAll('.bl-rodape .botao')").find((b) => b.textContent === "Copiar resultado");
+  copiar.click(); await new Promise((r) => setTimeout(r, 20));
+  conf(/^Desafio 27\/09: .*— e você\?$/m.test(copiado) && /semente ttc-2026-09-27/.test(copiado), "texto do desafio sem data/semente/linha de comparacao: " + copiado.split("\n")[0]);
+  console.log("exemplo do texto do desafio:\n  " + copiado.split("\n").slice(0, 3).join("\n  "));
+  console.log(`janela abriu antes do jogo de ${janela}`);
+  console.log(`testes de UI: ${ok} ok, ${falhas} falhas`);
+  process.exit(falhas ? 1 : 0);
+})().catch((e) => { console.log("FALHOU com excecao:", e); process.exit(1); });

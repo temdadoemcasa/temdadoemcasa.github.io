@@ -135,7 +135,8 @@ function temporada(p) {
       decisivos++;
       if (quer("postura")) {
         let pp = posturaBoa(temp, e);
-        if (pp === "equilibrado") pp = posturaDoContexto(temp, prevista.jogo);
+        // mata-mata: o sorteio ja pode ser visto na vespera (A.parDoUsuario)
+        if (pp === "equilibrado") pp = posturaDoContexto(temp, prevista.jogo || A.parDoUsuario(temp, e));
         temp.ttc.posturas.set(e, pp);
         if (pp !== "equilibrado") posturasUsadas++;
       }

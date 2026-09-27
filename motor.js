@@ -273,13 +273,15 @@
         if (r === rodadas.length - 1) temp.campeoes.bra = ordenar(temp.bra.tabela)[0].id; }));
 
     // mata-mata ida e volta: "a" e o cabeca (decide em casa)
+    // o sorteio (obter) acontece uma vez so: a tela pode revelar o adversario
+    // antes do jogo chamando montar() na vespera, e o jogo usa o mesmo par
     const confrontosDuplos = (comp, fase, datas, obter, aoFim) => {
-      let pares = [], ida = [];
+      let pares = null, ida = [];
       E(datas.ida, comp, `${regras[nomeRegra(comp)].nome} · ${fase} (ida)`,
-        () => { pares = obter(); return pares.map(([a, b]) => ({ casa: b, fora: a })); },
+        () => { if (!pares) pares = obter(); return pares.map(([a, b]) => ({ casa: b, fora: a })); },
         (js) => { ida = js; }, { mata: true, fase });
       E(datas.volta, comp, `${regras[nomeRegra(comp)].nome} · ${fase} (volta)`,
-        () => pares.map(([a, b]) => ({ casa: a, fora: b })),
+        () => (pares || []).map(([a, b]) => ({ casa: a, fora: b })),
         (js) => {
           const vencedores = js.map((volta, k) => {
             const primeiro = ida[k];
@@ -300,9 +302,9 @@
         }, { mata: true, fase });
     };
     const finalUnica = (comp, data, obter) => {
-      let par;
+      let par = null;
       E(data, comp, `${regras[nomeRegra(comp)].nome} · Final`,
-        () => { par = obter(); return [{ casa: par[0], fora: par[1], neutro: true }]; },
+        () => { if (!par) par = obter(); return [{ casa: par[0], fora: par[1], neutro: true }]; },
         ([j]) => {
           let venc = j.gc > j.gf ? par[0] : j.gf > j.gc ? par[1] : null;
           if (!venc) {

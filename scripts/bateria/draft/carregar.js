@@ -19,7 +19,8 @@ function mulberry32(seed) {
   };
 }
 
-function carregar() {
+// extras: globais a mais ou no lugar dos de cima (ex.: o DOM falso de domfalso.js)
+function carregar(extras = {}) {
   const nulo = () => null;
   const ctx = {
     console, structuredClone, setTimeout, clearTimeout,
@@ -27,7 +28,9 @@ function carregar() {
     document: { getElementById: nulo, querySelector: nulo, querySelectorAll: () => [], addEventListener() {}, body: { classList: { toggle() {} } } },
     window: undefined, location: { hash: "" }, requestAnimationFrame: (f) => setTimeout(f, 0),
     performance: { now: () => Date.now() },
+    ...extras,
   };
+  if (ctx.window === "self") ctx.window = ctx; // DOM falso: window e o proprio global (o Motor vai pra ele)
   vm.createContext(ctx);
   const ler = (f) => fs.readFileSync(path.join(REPO, f), "utf8");
   vm.runInContext(ler("app.js"), ctx, { filename: "app.js" });
@@ -55,7 +58,8 @@ function carregar() {
     "BANCO_VAGAS", "DIFICULDADES", "ESQUEMAS_TTC", "POSTURAS", "ENCAIXE", "ENTROSAMENTO", "todasVagas", "lequeAtual", "lequeDaVaga",
     "encaixeNaVaga", "valorNaVaga", "entrosamento", "forcaDoElenco", "ajusteDeContexto", "timesCpu", "montarTemporada",
     "decisivaParaUsuario", "contextoDecisivo", "escalarNoEsquema", "trocarEsquema", "janelaAberta", "lequeDaJanela", "aplicarJanela",
-    "simularTemporadaRapida", "hashTexto", "avaliacaoNaVaga", "garotoDaBase", "calib"];
+    "simularTemporadaRapida", "hashTexto", "avaliacaoNaVaga", "garotoDaBase", "calib", "parDoUsuario", "linhaDoDesafio",
+    "comparacaoDeForca"];
   vm.runInContext(`globalThis.__ = {}; for (const n of ${JSON.stringify(nomes)}) { try { globalThis.__[n] = eval(n); } catch (_) {} }`, ctx);
   vm.runInContext(`
 globalThis.__semear = (f) => { Math.random = f; };`, ctx);

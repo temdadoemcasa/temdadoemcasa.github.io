@@ -16,7 +16,8 @@ node scripts/bateria/draft/esquemas.js 400            # meta 3: esquema ótimo p
 scripts/bateria/draft/decisoes.sh 400                 # meta 4 por componente: postura, janela, esquema (pareado)
 scripts/bateria/draft/dificuldade.sh normal           # afinar uma dificuldade (ao acaso, maior nota, inteligente)
 node scripts/bateria/draft/extras.js                  # time dos sonhos/pesadelo, tempo das chances do resumo, desafio do dia
-node scripts/bateria/draft/testes-ui.js               # 24 checagens da lógica de tela (trava, banco, janela, postura, desafio…)
+node scripts/bateria/draft/testes-ui.js               # 39 checagens de tela: trava, banco, janela, postura, desafio e o fluxo dos botões com cartão aberto (DOM falso)
+node scripts/bateria/draft/janela.js 150              # janela de transferências: abre em toda temporada? quando? quantos usam?
 ```
 
 - A saída vai para `${TMPDIR:-/tmp}/bateria-draft/`, fora do repo. O `.jsonl` tem uns 5 MB. Para mudar a pasta, use `SAIDA=<pasta>`.
@@ -44,6 +45,7 @@ node scripts/bateria/draft/testes-ui.js               # 24 checagens da lógica 
     - `padrao`: sempre Equilibrado, sem janela, sem trocar esquema. É o que "Simular tudo" faz.
     - `bom`: postura pelo contexto, janela no pior titular e o melhor esquema para o elenco.
     - `postura`, `janela`, `esquema` e `semEsquema`, para medir cada parte separada.
+- **`domfalso.js`** é um DOM de mentira (elementos, classes, eventos, `querySelector` por classe). Com ele, `testes-ui.js` roda as funções de tela reais (`comecarTemporada`, `simular`, `proximoJogo`, os cartões e o balanço) sem navegador. É assim que o teste pega regressões como "Até o próximo decisivo parado com o cartão aberto".
 - **`plano.js`** monta as 5.000 tentativas:
   - aleatório: 800;
   - maior nota: 1.000;

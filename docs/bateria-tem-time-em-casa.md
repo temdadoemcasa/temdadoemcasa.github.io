@@ -364,3 +364,33 @@ A alternativa mais próxima é medir a meta em "títulos por temporada, contando
 - **O esquema escolhido na criação raramente é o melhor para o elenco.** Ele é o melhor em 9% dos elencos; o resumo mostra o seletor e as chances para a pessoa descobrir, e trocar vale +3,4 pts em média. Proposta: destacar no resumo "com o 3-4-2-1 esse elenco rende mais".
 - **O time dos sonhos está no limite dos 40%.** A folga do teto (`TETO_FOLGA`) é o botão: com folga 1, fica em ~35%, mas a vantagem do "inteligente" cai para +2,6 a +3,0 (no limite da meta 2).
 - **A CPU não tem lesão nem entrosamento variável.** A média do elenco já cobre isso. Se um dia a CPU tiver desfalques, o banco dela passa a importar também.
+
+### 8.6 Correções depois do teste no celular (27/09)
+
+1. **"Até o próximo jogo decisivo" parado com o cartão aberto.**
+   - Com o cartão da postura na tela, o botão chamava o `proximoJogo()`, que desenhava o mesmo cartão de novo. A temporada não andava (80 apertos, 0 etapas).
+   - Agora `D.cartao` guarda o cartão aberto. Apertar Próximo jogo, Até o decisivo, Simular ou o calendário com o cartão na tela decide pelo padrão (`seguirCartao`): o decisivo vai no Equilibrado e a janela fecha sem troca. Depois o jogo segue até o próximo decisivo ou a próxima janela.
+   - O `testes-ui.js` agora roda o fluxo de verdade num DOM falso (`domfalso.js`). No código de antes, o teste falha: "80 apertos, 80 sem andar".
+2. **O cartão do mata-mata mostra o adversário.**
+   - O sorteio do mata-mata acontece uma vez só (`confrontosDuplos` e `finalUnica` guardam o par). Antes de mostrar o cartão, o jogo joga as etapas em que você não está (`avancarAte`) e revela o sorteio.
+   - O cartão diz, por exemplo, "Ida fora de casa contra Novorizontino · rival mais fraco". Na volta: "Ida: 0×0 · tudo igual · volta em casa · rival mais fraco". No Brasileirão: "em casa/fora · jogo parelho".
+   - A bateria confirma que o sorteio não mudou: 920 de 920 tentativas idênticas fora da política "boa", que agora usa o adversário para escolher a postura.
+3. **A janela de transferências abre sempre.**
+   - Em 150 temporadas por dificuldade × política, ela abriu em 150 de 150: depois do último jogo antes da pausa (31/05), antes do jogo de 19/07.
+   - Uso: quem pega a maior nota usa em 96%, com reforço de +5,6 de nota. Quem escolhe ao acaso usa em 49%, com +2,8.
+   - "Seguir sem trocar" fecha a janela.
+   - Não aparecia antes por dois motivos: o bug 1 travava o "Até o decisivo", e o "Simular até aqui" do calendário pulava a janela. Agora o calendário para nela também.
+4. **Resumo no celular.** Os três números cabem numa linha só (3 colunas iguais, números em 1,9rem). Conferido a 390 px.
+5. **Desafio do dia.**
+   - A primeira linha do "Copiar resultado" convida a comparar: `Desafio 27/09: 12º no BR — e você?`. Com título, fica: `Desafio 27/09: campeão brasileiro, campeão da Copa do Brasil — e você?`.
+   - Depois vêm a data e a semente.
+   - Repetir o mesmo dia dá os mesmos leques (testado com geradores diferentes). Mudar o dia muda os leques.
+6. **Revisão rápida.**
+   - O entrosamento lia "2 ligações (−0,3 na força)", que parecia contradição. Agora lê "−0,3 na força (time novo −1,3, +0,5 × 2 ligações)".
+   - O cartão explica que os outros botões jogam no Equilibrado.
+   - A versão dos arquivos mudou (`?v=2026-09-27b`), para o navegador buscar o código novo.
+
+Fumaça de 1.000 tentativas com as mesmas sementes, código de antes × depois:
+- As métricas das políticas sem decisão ficam idênticas (920 de 920 tentativas iguais).
+- A política "boa" ganha +6,1 pts, porque agora vê o adversário antes da postura.
+- 0 exceções no código novo. As 80 do código antigo são da bateria nova chamando `parDoUsuario`, que não existia lá.

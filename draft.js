@@ -340,9 +340,16 @@ function abrirLeque() {
     leque.append(b);
   });
   const ent = entrosamento(D.onze.map((s) => s.jogador));
-  $("draft-chances").textContent = `Entrosamento do onze: ${ent.ligacoes} ${ent.ligacoes === 1 ? "ligação" : "ligações"} (${sinalDecimal(ent.bonus)} na força) · ${textoChances()}`;
+  $("draft-chances").textContent = `Entrosamento do onze: ${textoEntrosamento(ent)} · ${textoChances()}`;
 }
 
+// "−0,3 na força (time novo −1,3, +0,5 × 2 ligações)": o sinal sozinho parecia
+// contradizer as ligacoes (2 ligacoes e numero negativo)
+function textoEntrosamento(ent) {
+  const base = (DIFICULDADES[D.dificuldade] || {}).entrosamento ?? ENTROSAMENTO.base;
+  const lig = `${ent.ligacoes} ${ent.ligacoes === 1 ? "ligação" : "ligações"}`;
+  return `${sinalDecimal(ent.bonus)} na força (time novo ${sinalDecimal(base)}, ${sinalDecimal(ENTROSAMENTO.porLigacao)} × ${lig}${ent.bonus >= ENTROSAMENTO.teto ? ", no teto" : ""})`;
+}
 const sinalDecimal = (v) => `${v >= 0 ? "+" : "−"}${Math.abs(v).toFixed(1).replace(".", ",")}`;
 const textoChances = () => {
   const pct = (v) => `${(v * 100).toLocaleString("pt-BR", { maximumFractionDigits: 1 })}%`;
@@ -622,7 +629,7 @@ function mostrarResumo() {
   info.append(el("p", "resumo-frase", `No papel, seria o ${pos}º time mais forte da Série A 2026.`));
   const ent = eu.entrosamento;
   const clubes = [...ent.porClube].filter(([, n]) => n > 1).sort((a, b) => b[1] - a[1]).map(([c, n]) => `${n} do ${c}`);
-  info.append(el("p", "nota", `Entrosamento: ${ent.ligacoes} ${ent.ligacoes === 1 ? "ligação" : "ligações"} (${sinalDecimal(ent.bonus)} na força)${clubes.length ? ` · ${clubes.join(", ")}` : " · ninguém do mesmo clube"}. Improvisados: ${D.onze.filter((s) => encaixeNaVaga(s.jogador, s.pos) < ENCAIXE.principal).length}.`));
+  info.append(el("p", "nota", `Entrosamento: ${textoEntrosamento(ent)}${clubes.length ? ` · ${clubes.join(", ")}` : " · ninguém do mesmo clube"}. Improvisados: ${D.onze.filter((s) => encaixeNaVaga(s.jogador, s.pos) < ENCAIXE.principal).length}.`));
   info.append(seletorDeEsquema(() => mostrarResumo()));
   info.append(el("p", "nota", `${D.esquema}: ${descreverTatica(D.esquema)}.`));
   const chances = el("p", "resumo-chances", "Calculando as chances…");
@@ -802,7 +809,8 @@ function contextoDecisivo(temp, etapa) {
       const j = ida.doUsuario, meus = j.casa === eu ? j.gc : j.gf, deles = j.casa === eu ? j.gf : j.gc;
       const rival = j.casa === eu ? j.fora : j.casa;
       const sit = meus > deles ? "você leva vantagem" : meus < deles ? `você precisa tirar ${deles - meus} de diferença` : "tudo igual";
-      return { rival, texto: `Ida: ${meus}×${deles} contra ${nomeDe(rival)} · ${sit}`, saldoIda: meus - deles };
+      const decideEmCasa = j.casa !== eu;
+      return { rival, texto: `Ida: ${meus}×${deles} contra ${nomeDe(rival)} · ${sit} · volta ${decideEmCasa ? "em casa" : "fora"} · ${comparacaoDeForca(temp, rival)}`, saldoIda: meus - deles };
     }
   }
   if (etapa.comp === "bra") {
@@ -812,10 +820,39 @@ function contextoDecisivo(temp, etapa) {
       const rival = par.casa === eu ? par.fora : par.casa;
       const p = (id) => tab.findIndex((l) => l.id === id) + 1;
       const l = (id) => tab[p(id) - 1];
-      return { rival, texto: `Você: ${p(eu)}º com ${l(eu).pts} pts · ${nomeDe(rival)}: ${p(rival)}º com ${l(rival).pts} pts` };
+      return { rival, par, texto: `Você: ${p(eu)}º com ${l(eu).pts} pts · ${nomeDe(rival)}: ${p(rival)}º com ${l(rival).pts} pts · ${par.casa === eu ? "em casa" : "fora"} · ${comparacaoDeForca(temp, rival)}` };
     }
   }
+  // mata-mata: se a etapa e a proxima, o sorteio ja pode ser revelado (o jogo
+  // usa o mesmo par, ver confrontosDuplos no motor)
+  const par = parDoUsuario(temp, etapa);
+  if (par) {
+    const rival = par.casa === eu ? par.fora : par.casa;
+    const onde = par.neutro ? "campo neutro" : par.casa === eu ? "em casa" : "fora de casa";
+    return { rival, par, texto: `${etapa.final ? "Final" : "Ida"} ${onde} contra ${nomeDe(rival)} · ${comparacaoDeForca(temp, rival)}` };
+  }
   return { rival: null, texto: etapa.final ? "Final em jogo único, campo neutro" : "Mata-mata: o adversário sai no sorteio" };
+}
+
+// o jogo do usuario numa etapa, sem sortear fora de hora: mata-mata so quando
+// a etapa e a proxima do calendario (o sorteio acontece uma vez so)
+function parDoUsuario(temp, etapa) {
+  if (etapa.mata && temp.etapas[temp.i] !== etapa) return null;
+  return etapa.montar().find((j) => j.casa === temp.usuario || j.fora === temp.usuario) || null;
+}
+// "rival mais forte", pela mesma regua (e o mesmo corte) do esquema e da postura
+function comparacaoDeForca(temp, rival) {
+  const eu = temp.times[temp.usuario], ele = temp.times[rival];
+  if (!eu || !ele) return "";
+  const dif = (ele.atq + ele.def) - (eu.atq + eu.def);
+  return dif > 3 ? "rival mais forte" : dif < -3 ? "rival mais fraco" : "jogo parelho";
+}
+
+// joga as etapas sem o usuario ate a de indice k (a do proximo jogo dele)
+function avancarAte(k) {
+  let andou = 0;
+  while (D.temp.i < k && !Motor.terminou(D.temp)) { Motor.avancar(D.temp); andou++; }
+  return andou;
 }
 
 // janela de transferencias: na pausa da Copa do Mundo, 1 troca
@@ -1166,10 +1203,18 @@ function travar(sim) {
 async function proximoJogo() {
   if (D.simulando) return;
   if (D.animando) { D.pularAnimacao = true; return; }
+  // cartao na tela e o jogador segue: janela fica pra tras, decisivo vai no
+  // Equilibrado (ou na postura ja escolhida)
+  seguirCartao();
   // janela aberta (uma vez) e jogo decisivo sem postura: pergunta antes
   if (janelaAberta() && !D.temp.ttc.janelaVista) { mostrarCartao(cartaoJanela()); return; }
   const prox = Motor.agenda(D.temp, 1)[0];
-  if (prox && decisiva(prox.etapa) && !D.temp.ttc.posturas.has(prox.etapa)) { mostrarCartao(cartaoDecisivo(prox.etapa)); return; }
+  if (prox && decisiva(prox.etapa) && !D.temp.ttc.posturas.has(prox.etapa)) {
+    // joga antes o que nao e seu, pra o sorteio do mata-mata ja sair no cartao
+    if (avancarAte(prox.indice)) { seguirCalendario(); atualizarPaineis(); }
+    mostrarCartao(cartaoDecisivo(prox.etapa));
+    return;
+  }
   let x;
   while ((x = Motor.avancar(D.temp))) if (x.doUsuario) break;
   if (!x) { atualizarPaineis(); encerrar(); return; }
@@ -1200,9 +1245,10 @@ const respirar = () => new Promise((ok) => requestAnimationFrame(() => setTimeou
 
 // corre sem animar ate "parar" dizer que chegou; para ANTES de jogo decisivo
 // do usuario, pra ele assistir esse com calma
-async function simular(parar, { respeitarDecisivo = true, botao = null } = {}) {
+async function simular(parar, { respeitarDecisivo = true, pararNaJanela = respeitarDecisivo, botao = null } = {}) {
   if (D.animando || D.simulando) return;
   let ultimo = null, motivo = null, andou = 0;
+  seguirCartao();
   carregando(true, botao);
   if (botao) botao.textContent = "Simulando…";
   await respirar();
@@ -1211,10 +1257,8 @@ async function simular(parar, { respeitarDecisivo = true, botao = null } = {}) {
     const prox = Motor.agenda(D.temp, 1)[0];
     const e = D.temp.etapas[D.temp.i];
     if (parar(e)) { motivo = "fim"; break; }
-    if (respeitarDecisivo && janelaAberta() && !D.temp.ttc.janelaVista) { motivo = "janela"; break; }
+    if (pararNaJanela && janelaAberta() && !D.temp.ttc.janelaVista) { motivo = "janela"; break; }
     if (respeitarDecisivo && prox && prox.indice === D.temp.i && decisiva(e) && !D.temp.ttc.posturas.has(e)) {
-      // se o decisivo e logo o proximo, assiste ele em vez de pular
-      if (!andou) { carregando(false, botao); proximoJogo(); return; }
       motivo = e;
       break;
     }
@@ -1238,11 +1282,26 @@ async function simular(parar, { respeitarDecisivo = true, botao = null } = {}) {
   if (Motor.terminou(D.temp)) encerrar();
 }
 
-// um cartao por vez embaixo do placar
-function mostrarCartao(card) {
-  for (const c of $("jogo").querySelectorAll(".proximo-decisivo, .janela")) c.remove();
+// um cartao por vez embaixo do placar; D.cartao lembra qual esta aberto
+function mostrarCartao(card, cartao = card.cartao) {
+  fecharCartao();
+  D.cartao = cartao || null;
   $("jogo").append(card);
   mostrarJogoSeEscondido();
+}
+function fecharCartao() {
+  for (const c of $("jogo").querySelectorAll(".proximo-decisivo, .janela")) c.remove();
+  D.cartao = null;
+}
+// o jogador apertou Proximo jogo / Ate o decisivo / Simular com um cartao
+// aberto: decide pelo padrao em vez de travar (decisivo no Equilibrado,
+// janela sem troca)
+function seguirCartao() {
+  const c = D.cartao;
+  if (!c || !D.temp) { fecharCartao(); return; }
+  if (c.tipo === "decisivo" && !D.temp.ttc.posturas.has(c.etapa)) D.temp.ttc.posturas.set(c.etapa, "equilibrado");
+  if (c.tipo === "janela") D.temp.ttc.janelaUsada = true;
+  fecharCartao();
 }
 
 // Cartao grande do proximo jogo decisivo: competicao, fase, data, o rival
@@ -1268,10 +1327,11 @@ function cartaoDecisivo(etapa) {
     const b = el("button", `botao${id === "equilibrado" ? " botao-primario" : ""}`, p.nome);
     b.type = "button";
     b.title = p.dica;
-    b.addEventListener("click", () => { D.temp.ttc.posturas.set(etapa, id); card.remove(); proximoJogo(); });
+    b.addEventListener("click", () => { D.temp.ttc.posturas.set(etapa, id); fecharCartao(); proximoJogo(); });
     posturas.append(b);
   }
-  card.append(esq, vs, posturas, el("p", "pd-dica", "Pra cima: mais gol pros dois lados. Fechadinho: menos. Equilibrado: o time de sempre."));
+  card.append(esq, vs, posturas, el("p", "pd-dica", "Pra cima: mais gol pros dois lados (rende em casa contra time menor). Fechadinho: menos (rende fora contra time maior). Os outros botões jogam no Equilibrado."));
+  card.cartao = { tipo: "decisivo", etapa };
   return card;
 }
 
@@ -1294,8 +1354,9 @@ function cartaoJanela() {
   });
   const seguir = el("button", "botao", "Seguir sem trocar");
   seguir.type = "button";
-  seguir.addEventListener("click", () => { D.temp.ttc.janelaUsada = true; card.remove(); atualizarPaineis(); });
+  seguir.addEventListener("click", () => { D.temp.ttc.janelaUsada = true; fecharCartao(); atualizarPaineis(); });
   card.append(lista, seguir);
+  card.cartao = { tipo: "janela" };
   return card;
 }
 function mostrarLequeDaJanela(card, k) {
@@ -1498,7 +1559,10 @@ function desenharAcao(meus, hoje) {
 async function simularAteDia(iso) {
   if (D.animando || D.simulando) return;
   const tinhaJogo = Motor.agenda(D.temp, 400).find((a) => a.etapa.data === iso);
-  await simular((e) => e.data >= iso, { respeitarDecisivo: false, botao: document.querySelector("#cal-acao .botao-primario") });
+  // pelo calendario nao para em decisivo (o dia escolhido manda), mas a janela
+  // de transferencias aparece se ficar no caminho
+  await simular((e) => e.data >= iso, { respeitarDecisivo: false, pararNaJanela: true, botao: document.querySelector("#cal-acao .botao-primario") });
+  if (D.cartao && D.cartao.tipo === "janela") { mudarVisao("jogo"); mostrarJogoSeEscondido(); return; }
   const e = D.temp.etapas[D.temp.i];
   if (e && e.data === iso && Motor.agenda(D.temp, 1).some((a) => a.indice === D.temp.i)) { mudarVisao("jogo"); proximoJogo(); return; }
   // o jogo do dia sumiu: o time caiu antes naquela copa
@@ -1734,6 +1798,7 @@ function encerrar() {
 
   // rodape: copiar texto pronto
   const texto = [
+    D.desafio ? linhaDoDesafio(pos, titulos) : "",
     `${D.nome} (${D.esquema}) no Tem Time em Casa`,
     D.desafio ? `Desafio do dia ${D.desafio.data.split("-").reverse().join("/")} · semente ${D.desafio.semente}` : `Dificuldade: ${DIFICULDADES[D.dificuldade].nome}`,
     manchete,
@@ -1755,6 +1820,14 @@ function encerrar() {
   rodape.append(copiar, novo);
   alvo.append(topo, corpo, rodape);
   mostrar("fim");
+}
+
+// uma linha pra comparar o desafio: "Desafio 27/09: 6º no BR, campeão da Copa do Brasil — e você?"
+function linhaDoDesafio(pos, titulos) {
+  const dia = D.desafio.data.split("-").slice(1).reverse().join("/");
+  const conquistas = titulos.filter((c) => c !== "bra").map((c) => `campeão da ${COMP[c]}`);
+  const br = titulos.includes("bra") ? "campeão brasileiro" : `${pos}º no BR`;
+  return `Desafio ${dia}: ${[br, ...conquistas].join(", ")} — e você?`;
 }
 
 // --- liga tudo -----------------------------------------------------------------------
