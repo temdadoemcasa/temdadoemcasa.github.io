@@ -189,12 +189,15 @@ Se você trocou de clube antes de uma consequência chegar, a temporada avisa "f
 
 ## Como uma temporada escolhe as perguntas
 
-1. O foco da pré-temporada entra todo ano, nos dois modos. O texto muda com a fase. Focar no atributo que mais pesa na posição faz o OVR crescer mais.
-2. Entram as consequências que venceram (no máximo duas) e as cenas de marca (o rival companheiro, o banco de técnico).
-3. Se a fase acabou de começar, entra o arco que abre a fase: a rotina aos 16, o primeiro contrato aos 19–21 e o corpo aos 31.
+1. O **foco do ano** não é uma decisão: é um chip no topo da temporada. São 3 opções (o que mais pesa na posição, o seu ponto forte e mais uma), e dá pra trocar até a metade do ano. A dica muda com a fase, e o atributo que mais pesa faz o OVR crescer mais.
+2. Entram as consequências que venceram e as cenas de marca (o rival companheiro, o banco de técnico): até duas no completo e uma no rápido. A que não coube espera o ano seguinte.
+3. Se a fase acabou de começar, entra um arco que abre a fase. Na base, sorteado entre a rotina, "Longe de casa", "O treino do profissional" e "O técnico do sub-17". Depois vêm o primeiro contrato (salário conforme a divisão) e o corpo aos 31.
 4. O arco de situação (primeiro ano no exterior, ano de Copa, despedida) entra quando a situação chega.
 5. Senão, pode começar um arco novo da fase, sem repetir tema. Arcos que combinam com as suas marcas pesam mais: quem mexeu com aposta atrai o aliciador.
-6. Situações soltas da fase completam o ano: duas no completo, uma no rápido. Nenhuma se repete, e o tema também não.
+6. Completam o ano os **lances de jogo** (a decisão muda o placar e a força do time no ano) e as situações soltas da fase. Nenhuma se repete, e o tema também não. Pênalti decisivo e pênalti no fim do jogo, por exemplo, são o mesmo tema.
+   - **Completo:** 3 decisões por ano (história + lance + situação); o lance entra em 70% dos anos.
+   - **Rápido:** exatamente 1 escolha por ano: a história, se houver; senão, um lance (45%) ou uma situação solta.
+   - A estreia no profissional vem na frente no primeiro ano do completo.
 
 ## Contratos
 
@@ -221,7 +224,7 @@ Toda assinatura vem com prazo. O cartão da proposta mostra só até quando: "Va
   - "Renova por mais 3 anos", que vem com aumento e mais minutos, ou bônus por gol, ou "Renova por mais 4 anos, como ídolo". Só pra quem jogou bem, e encurta depois dos 30;
   - "Deixa o contrato acabar (sai de graça no fim)".
 - **Livre:** "Renova por 1 ano" (e o contrato longo, pra quem jogou bem), ou aceita outra proposta. Nada é barrado, e o mercado olha mais (menos pro veterano de 32+).
-- **Modo rápido:** um botão só pra ficar ("Segue no clube…", ou "Renova por N anos e fica" quando está livre). A janela automática segue as mesmas regras.
+- **Simular o resto:** a janela automática segue as mesmas regras, e quem fica livre renova pelo contrato padrão.
 
 Toda opção de renovação mostra os dois lados em uma linha (+ / −).
 
@@ -233,10 +236,10 @@ Toda opção de renovação mostra os dois lados em uma linha (+ / −).
 
 ## Modos
 
-- **Completo:** foco e 2 situações por temporada. Na janela, você escolhe entre as propostas liberadas: pede vaga de titular, pede pra ser vendido, renova ou deixa o contrato acabar.
-- **Rápido:** foco e 1 situação por temporada. A janela é automática, menos quando chega proposta de um clube um degrau acima. Aí a decisão é sua: fica, vai ou pede vaga de titular.
+- **Completo:** 3 decisões por temporada, mais o foco do ano.
+- **Rápido:** 1 escolha por temporada, mais o foco do ano.
 
-Renovação e transferência aparecem no resumo do ano seguinte, num bloco "Janela de transferências".
+Nos dois modos a janela de transferências é sua: escolher entre as propostas liberadas, pedir vaga de titular, pedir pra ser vendido, renovar ou deixar o contrato acabar. Renovação e transferência aparecem no resumo do ano seguinte, num bloco "Janela de transferências".
 
 ## No automático ("Simular o resto")
 

@@ -13,10 +13,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <script src="tema.js?v=2026-09-27g"></script>
-  <link rel="stylesheet" href="estilo.css?v=2026-09-27g">
-  <link rel="stylesheet" href="draft.css?v=2026-09-27g">
-  <link rel="stylesheet" href="carreira.css?v=2026-09-27g">
+  <script src="tema.js?v=2026-09-27h"></script>
+  <link rel="stylesheet" href="estilo.css?v=2026-09-27h">
+  <link rel="stylesheet" href="draft.css?v=2026-09-27h">
+  <link rel="stylesheet" href="carreira.css?v=2026-09-27h">
 </head>
 <body>
   <header class="topo">
@@ -85,11 +85,11 @@
           <div class="modos" role="group" aria-label="Modo de jogo">
             <button class="modo" type="button" data-modo="rapido" aria-pressed="true">
               <strong>Rápido</strong>
-              <span>Foco de treino e 1 decisão por temporada. Proposta de clube maior é com você.</span>
+              <span>1 decisão por temporada. Transferências e foco de treino continuam com você.</span>
             </button>
             <button class="modo" type="button" data-modo="completo" aria-pressed="false">
               <strong>Completo</strong>
-              <span>Foco de treino e mais 2 decisões por temporada. Você escolhe as propostas.</span>
+              <span>3 decisões por temporada: história, lances de jogo e bastidores.</span>
             </button>
           </div>
         </div>
@@ -100,7 +100,7 @@
     <!-- 2. carta -->
     <section class="tela" id="tela-carta" aria-labelledby="t-carta" hidden>
       <h2 id="t-carta">Monte a carta</h2>
-      <p class="nota">A base vem da posição. Você tem 30 pontos pra somar, de 5 em 5, no máximo 15 por atributo. Atributo "chave" pesa mais no OVR da posição.</p>
+      <p class="nota">A base vem da posição. Você tem 30 pontos (ou escolha um estilo pronto). Até 66, cada ponto custa 1; acima de 66 custa 2 (aos 16, ninguém passa de 72). Quer ser especialista? Tire até 10 pontos de outros atributos. O atributo em que você mais investir vira o seu estilo.</p>
       <div class="montagem">
         <div class="montagem-carta" id="carta-montagem"></div>
         <div class="montagem-lado">
@@ -109,10 +109,13 @@
             <div><b id="ovr-montagem">0</b><span>OVR</span></div>
           </div>
           <p class="estilo-montagem" id="estilo-montagem"></p>
+          <p class="troca-montagem" id="troca-montagem"></p>
+          <div class="estilos-prontos" id="estilos-prontos"></div>
           <ul class="atributos" id="atributos"></ul>
           <div class="controles-jogo">
             <button class="botao" id="voltar-criacao" type="button">Voltar</button>
             <button class="botao" id="zerar-pontos" type="button">Zerar pontos</button>
+            <button class="botao" id="auto-pontos" type="button">Distribuir automático</button>
             <button class="botao botao-primario" id="confirmar-carta" type="button" disabled>Distribua 30 pontos</button>
           </div>
         </div>
@@ -175,10 +178,10 @@
     <p class="rodape-autor">Site, dados e minigames feitos por <a href="https://www.linkedin.com/in/breno-sayao/" target="_blank" rel="noopener">Breno Sayão</a>, engenheiro de dados · <a href="https://www.linkedin.com/in/breno-sayao/" target="_blank" rel="noopener">LinkedIn</a></p>
   </footer>
 
-  <script src="app.js?v=2026-09-27g"></script>
-  <script src="motor.js?v=2026-09-27g"></script>
-  <script src="historia.js?v=2026-09-27g"></script>
-  <script src="escudos.js?v=2026-09-27g"></script>
-  <script src="carreira.js?v=2026-09-27g"></script>
+  <script src="app.js?v=2026-09-27h"></script>
+  <script src="motor.js?v=2026-09-27h"></script>
+  <script src="historia.js?v=2026-09-27h"></script>
+  <script src="escudos.js?v=2026-09-27h"></script>
+  <script src="carreira.js?v=2026-09-27h"></script>
 </body>
 </html>

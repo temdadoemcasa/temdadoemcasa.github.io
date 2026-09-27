@@ -46,7 +46,15 @@ class ElFalso {
     anda(this);
     return r;
   }
-  querySelector(sel) { return this.querySelectorAll(sel)[0] || null; }
+  // como no document: classe simples que nao existe vira um elemento falso
+  // (o menu de baixo do celular procura .coluna-jogo/.coluna-tabelas na tela)
+  querySelector(sel) {
+    const achado = this.querySelectorAll(sel)[0];
+    if (achado || !/^\.[\w-]+$/.test(sel)) return achado || null;
+    this.falsos = this.falsos || new Map();
+    if (!this.falsos.has(sel)) this.falsos.set(sel, new ElFalso("div"));
+    return this.falsos.get(sel);
+  }
   closest(sel) { let e = this; while (e) { if (e._casa && e._casa(sel)) return e; e = e.parentElement; } return null; }
   addEventListener(tipo, f) { (this.ouvintes[tipo] ||= []).push(f); }
   dispatchEvent(ev) { for (const f of this.ouvintes[ev.type] || []) f(ev); return true; }

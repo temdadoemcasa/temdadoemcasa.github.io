@@ -636,3 +636,70 @@
 .proposta-ficar .proposta-contrato { color: var(--texto); }
 .mercado-barradas { display: grid; gap: 0.4rem; margin: 0.4rem 0 0.8rem; padding: 0.6rem 0.75rem; border: 1px dashed var(--borda); border-radius: 10px; }
 .mercado-barradas .botao { justify-self: start; display: grid; gap: 0.1rem; text-align: left; }
+
+/* --- montagem da carta: faixa (slider) com base, extra, tirado e zona cara --- */
+.atributo { grid-template-columns: minmax(9rem, 11rem) minmax(80px, 1fr) 2rem 2.4rem 2rem; }
+.atributo-nome { display: grid; gap: 0.05rem; }
+.atributo-nome b { font-size: 0.9rem; }
+.atributo-faz { font-size: 0.68rem; font-weight: 400; color: var(--texto-fraco); line-height: 1.25; }
+.atributo-pista { position: relative; height: 1.4rem; display: grid; align-items: center; }
+.atributo-pista .atributo-trilho { position: absolute; inset: 50% 0 auto; transform: translateY(-50%); }
+.atributo-caro { background: repeating-linear-gradient(135deg, rgba(242, 194, 48, 0.25) 0 4px, transparent 4px 8px); }
+.atributo-tirado { background: #ff4d6d; opacity: 0.8; }
+.atributo-faixa { position: relative; width: 100%; margin: 0; background: transparent; appearance: none; -webkit-appearance: none; height: 1.4rem; cursor: pointer; }
+.atributo-faixa::-webkit-slider-runnable-track { background: transparent; height: 1.4rem; }
+.atributo-faixa::-moz-range-track { background: transparent; }
+.atributo-faixa::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; margin-top: 0.2rem; border-radius: 50%; background: var(--texto); border: 2px solid var(--fundo); box-shadow: 0 0 0 1px var(--borda); }
+.atributo-faixa::-moz-range-thumb { width: 12px; height: 12px; border-radius: 50%; background: var(--texto); border: 2px solid var(--fundo); }
+.atributo-faixa:focus-visible { outline: 2px solid var(--canal); outline-offset: 2px; border-radius: 6px; }
+.atributo-valor.sobe { color: var(--canal); }
+.atributo-valor.desce { color: #ff7d95; }
+.troca-montagem { margin: 0 0 0.4rem; font-size: 0.78rem; color: #ff7d95; }
+.troca-montagem:empty { display: none; }
+@media (max-width: 640px) {
+  .atributo { grid-template-columns: minmax(0, 1fr) 2rem 2.4rem 2rem; }
+  .atributo-nome { grid-column: 1 / -1; }
+  .atributo-pista { grid-column: 1; }
+}
+
+/* palco sem rolagem interna: ocupa a tela e rola com a pagina; a linha do
+   tempo e a projecao ficam presas logo abaixo do topo do site */
+.carreira-palco { height: auto; max-height: none; overflow: visible; padding-right: 0; }
+.rolagem-topo { top: 4.1rem; margin: -1.1rem -1.2rem 0; padding: 1rem 1.2rem 0.3rem; border-bottom: 1px solid var(--borda); box-shadow: 0 8px 16px -12px rgba(0, 0, 0, 0.6); }
+.temporada-atual { overflow: visible; }
+.proposta-dica { margin: 0; font-size: 0.76rem; line-height: 1.35; color: #5cc8ff; text-align: center; }
+
+/* montagem sem pulo: o estilo tem altura fixa (3 linhas) e a troca reserva a dela */
+.estilo-montagem { min-height: 3.9rem; align-content: start; }
+.troca-montagem, .troca-montagem:empty { display: block; min-height: 1.1rem; }
+.estilos-prontos { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem; margin: 0 0 0.7rem; }
+.estilos-rotulo { font-size: 0.75rem; color: var(--texto-fraco); margin-right: 0.2rem; }
+.estilos-prontos .chip { font-size: 0.72rem; padding: 0.25rem 0.6rem; }
+.atributo .atributo-menos, .atributo .atributo-mais { font-size: 0.78rem; }
+.atributo { grid-template-columns: minmax(9rem, 11rem) minmax(80px, 1fr) 2.4rem 2.4rem 2.4rem; }
+@media (max-width: 640px) { .atributo { grid-template-columns: minmax(0, 1fr) 2.4rem 2.4rem 2.4rem; } }
+.estilo-montagem { height: 4rem; overflow: hidden; }
+.troca-montagem { height: 1.1rem; overflow: hidden; }
+
+/* cabecalho da temporada: fase como pill, explicacao discreta so no 1o ano da fase */
+.rolagem-cab { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; flex-wrap: wrap; }
+.rolagem-cab .jogo-etapa { margin: 0; }
+.fase-pill { --f: #5cc8ff; display: inline-flex; align-items: baseline; gap: 0.35rem; padding: 0.2rem 0.6rem; border-radius: 999px; border: 1px solid color-mix(in srgb, var(--f) 55%, transparent); background: color-mix(in srgb, var(--f) 12%, transparent); white-space: nowrap; }
+.fase-pill b { font-family: var(--numeros); font-size: 0.8rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--f); }
+.fase-pill small { font-size: 0.66rem; color: var(--texto-fraco); }
+.fase-base { --f: #5cc8ff; } .fase-afirmacao { --f: #c8ff00; } .fase-auge { --f: #f2c230; } .fase-veterano { --f: #ff7d95; }
+:root[data-tema="claro"] .fase-afirmacao { --f: #4a7d00; } :root[data-tema="claro"] .fase-auge { --f: #b8860b; }
+.fase-aviso { margin: 0.35rem 0 0.1rem; padding: 0 0 0 0.6rem; border: 0; border-left: 2px solid var(--f); border-radius: 0; background: none; font-size: 0.8rem; color: var(--texto-fraco); }
+.projecao-delta { font-variant-numeric: tabular-nums; }
+.fato-ano { display: block; white-space: nowrap; font-size: 0.62rem; font-weight: 600; color: var(--canal); font-family: Inter, sans-serif; letter-spacing: 0; }
+.tabela-carreira tr.proxima-linha.rolando td { color: var(--canal); font-style: normal; }
+.tabela-carreira tr.proxima-linha.rolando .tc-idade::after { content: " ●"; font-size: 0.6rem; animation: pisca 1.2s ease-in-out infinite; }
+@keyframes pisca { 50% { opacity: 0.2; } }
+
+/* foco do ano: escolha rapida no topo da temporada */
+.foco-ano { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem; margin: 0.2rem 0 0.7rem; }
+.foco-rotulo { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--texto-fraco); margin-right: 0.2rem; }
+.foco-chip { font-size: 0.72rem; padding: 0.22rem 0.6rem; }
+.foco-dica { font-size: 0.68rem; color: var(--texto-fraco); }
+.foco-ano.travado .foco-chip:not([aria-pressed="true"]) { opacity: 0.35; pointer-events: none; }
+.foco-ano.travado .foco-dica { visibility: hidden; }

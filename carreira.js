@@ -30,9 +30,9 @@ const BASE = {
   PON: { RIT: 64, FIN: 54, PAS: 50, DRI: 62, DEF: 28, FIS: 48 },
   MEI: { RIT: 54, FIN: 54, PAS: 62, DRI: 60, DEF: 35, FIS: 46 },
   MC: { RIT: 52, FIN: 48, PAS: 60, DRI: 54, DEF: 50, FIS: 55 },
-  VOL: { RIT: 50, FIN: 40, PAS: 56, DRI: 46, DEF: 60, FIS: 62 },
+  VOL: { RIT: 50, FIN: 40, PAS: 55, DRI: 46, DEF: 58, FIS: 60 },
   LAT: { RIT: 62, FIN: 38, PAS: 54, DRI: 52, DEF: 56, FIS: 54 },
-  ZAG: { RIT: 48, FIN: 30, PAS: 46, DRI: 36, DEF: 62, FIS: 64 },
+  ZAG: { RIT: 48, FIN: 30, PAS: 46, DRI: 36, DEF: 58, FIS: 60 },
   GOL: { REF: 60, EVI: 55, MAO: 58, PES: 45, SAI: 52 },
 };
 const PESOS = {
@@ -45,10 +45,17 @@ const PESOS = {
   ZAG: { DEF: 0.4, FIS: 0.3, PAS: 0.15, RIT: 0.1, DRI: 0.05, FIN: 0 },
   GOL: { REF: 0.3, EVI: 0.25, MAO: 0.2, SAI: 0.15, PES: 0.1 },
 };
-const PONTOS_INICIAIS = 30, PASSO = 5, MAX_POR_ATRIBUTO = 15;
-// teto da montagem aos 16 (o de 18 e 80, ver tetoDaIdade): o zagueiro
-// nascia com 79 de fisico (64 + 15)
-const TETO_NA_CRIACAO = 77;
+// Montagem da carta aos 16: 30 pontos. Somar ate 66 custa 1 ponto por ponto;
+// acima de 66 custa 2 (especialista sai caro, e o teto aos 16 e 72). Da pra tirar
+// ate 10 pontos no total de outros atributos (no maximo 10 abaixo da base)
+// pra reforcar o que importa: e a troca que define o estilo.
+const PONTOS_INICIAIS = 30, TETO_NA_CRIACAO = 72, LIMIAR_CARO = 66, TROCA_MAX = 10, ABAIXO_MAX = 10;
+const custoAtributo = (base, v) => (v >= base
+  ? Math.max(0, Math.min(v, LIMIAR_CARO) - Math.min(base, LIMIAR_CARO)) + 2 * Math.max(0, Math.max(v, LIMIAR_CARO) - Math.max(base, LIMIAR_CARO))
+  : v - base);
+const custoDaCarta = (f, attrs) => Object.keys(BASE[f]).reduce((t, k) => t + custoAtributo(BASE[f][k], attrs[k]), 0);
+const trocaUsada = (f, attrs) => Object.keys(BASE[f]).reduce((t, k) => t + Math.max(0, BASE[f][k] - attrs[k]), 0);
+const pisoDoAtributo = (f, k) => Math.max(20, BASE[f][k] - ABAIXO_MAX);
 
 // Gols e assistencias por jogo (90 min) pelo OVR, com referencias reais pra
 // centroavante: ~0,35 um CA mediano, ~0,5 Pedro/Gabigol, ~0,65 Aguero,
@@ -81,7 +88,10 @@ const CRESCIMENTO = {
 // teto duro por idade: 80 aos 18 e +3 por ano, ate o teto do potencial (95
 // aos 23). Sem ele o centroavante saia de 92 de finalizacao aos 19.
 function tetoDaIdade(J, idade) {
-  return Math.min(J.tetoAtributo ?? 95, 80 + 3 * (idade - 18));
+  // sobe aos poucos: 72 aos 16, +2,5 por ano (82 aos 20, 92 aos 24), e nunca
+  // muito acima do proprio OVR (garoto de 65 nao tem 81 de passe)
+  const folga = idade <= 19 ? 12 : idade <= 23 ? 14 : 16;
+  return Math.min(J.tetoAtributo ?? 95, Math.floor(72 + 2.5 * (idade - 16)), (J.ovr ?? 60) + folga);
 }
 function perfilEsperado(f, ovr) {
   const base = BASE[f], ob = ovrDe(base, f);
@@ -319,10 +329,29 @@ const ESTILOS = {
   GOL: { REF: ["Paredão", "defesas difíceis"], EVI: ["Fechador de gol", "sofre menos do que devia"], MAO: ["Mão firme", "segura tudo"],
     PES: ["Goleiro líbero", "joga com os pés"], SAI: ["Dono da área", "sai bem do gol"] },
 };
+// na montagem, o estilo e o atributo em que voce mais investiu (pontos acima
+// da base). Menos de 6 pontos a mais em tudo: equilibrado.
+function estiloDaMontagem(attrs, pos) {
+  const f = POSICOES[pos].funcao;
+  // quanto do espaco ate o teto voce usou (ir de 62 a 72 conta mais que de 45 a 55)
+  // pontos investidos acima da base; empate: o que mais pesa na posicao
+  const [k, v] = Object.keys(BASE[f]).map((c) => [c, attrs[c] - BASE[f][c] + PESOS[f][c] * 0.01]).sort((a, b) => b[1] - a[1])[0];
+  if (v < 6) return { nome: "Equilibrado", dica: "rende como a média da posição", k: null };
+  const [nome, dica] = ESTILOS[f][k];
+  return { nome, dica, k };
+}
 function estiloDeJogo(attrs, pos) {
   const f = POSICOES[pos].funcao;
   const esp = perfilEsperado(f, ovrDe(attrs, f));
-  const [k, v] = Object.keys(esp).map((c) => [c, attrs[c] - esp[c]]).sort((a, b) => b[1] - a[1])[0];
+  const ordem = Object.keys(esp).map((c) => [c, attrs[c] - esp[c]]).sort((a, b) => b[1] - a[1]);
+  let [k, v] = ordem[0];
+  // o estilo escolhido na montagem fica enquanto ainda for um ponto forte
+  // (senao o goleador virava "pivo" no primeiro ano por causa da conta)
+  const origem = C.J && C.J.attrs === attrs ? C.J.estiloOrigem : null;
+  if (origem && origem in esp) {
+    const vo = attrs[origem] - esp[origem];
+    if (vo >= v - 6 && vo >= -3) { const [nome, dica] = ESTILOS[f][origem]; return { nome, dica, k: origem }; }
+  }
   if (v < 4) return { nome: "Equilibrado", dica: "rende como a média da posição", k: null };
   const [nome, dica] = ESTILOS[f][k];
   return { nome, dica, k };
@@ -453,49 +482,168 @@ function montarCampoPosicoes() {
 function iniciarCarta() {
   const f = funcaoDe(C.pos);
   C.attrs = { ...BASE[f] };
-  C.gastos = {};
-  C.pontos = PONTOS_INICIAIS;
+  desenharMontagem();
+}
+
+// o que cada atributo faz no jogo (alem de pesar no OVR)
+const FAZ_NO_JOGO = {
+  FIN: "gols", RIT: "gols no espaço e valor de mercado", PAS: "assistências", DRI: "assistências e vitrine",
+  DEF: "nota e vaga de quem defende", FIS: "mais jogos, menos lesão",
+  REF: "defesas difíceis", EVI: "sofre menos gol", MAO: "segura a bola", PES: "sai jogando", SAI: "domina a área",
+};
+
+// maior valor que da pra pagar nesse atributo com o que sobra
+function maximoPagavel(f, k) {
+  let v = C.attrs[k];
+  const resto = () => PONTOS_INICIAIS - custoDaCarta(f, C.attrs);
+  const orig = C.attrs[k];
+  while (v < TETO_NA_CRIACAO) {
+    C.attrs[k] = v + 1;
+    const ok = resto() >= 0;
+    C.attrs[k] = orig;
+    if (!ok) break;
+    v++;
+  }
+  return v;
+}
+function minimoPermitido(f, k) {
+  const livre = TROCA_MAX - (trocaUsada(f, C.attrs) - Math.max(0, BASE[f][k] - C.attrs[k]));
+  return Math.max(pisoDoAtributo(f, k), BASE[f][k] - Math.max(0, livre));
+}
+// monta a carta de um estilo: o atributo do estilo vai ao teto, e o resto dos
+// pontos vai pros que mais pesam no OVR, sem passar de 70 (o estilo fica)
+function montarEstilo(k) {
+  const f = funcaoDe(C.pos);
+  C.attrs = cartaDoEstilo(f, k, ovrAlvoDosEstilos(f));
+  desenharMontagem();
+}
+// OVR sem arredondar (pra mirar o alvo com precisao)
+const ovrFino = (a, f) => Object.entries(PESOS[f]).reduce((t, [c, w]) => t + w * (a[c] ?? 0), 0);
+// carta de um estilo com o atributo do estilo em `nivel`. O resto dos pontos
+// vai pros que mais pesam enquanto couber no OVR alvo; o que sobra vai pros que
+// menos pesam. Nenhum passa o uso do atributo do estilo (o estilo fica).
+function cartaComNivel(f, k, nivel, alvo = 99) {
+  const a = { ...BASE[f] };
+  const cabe = (c, v) => custoDaCarta(f, { ...a, [c]: v }) <= PONTOS_INICIAIS;
+  if (!cabe(k, nivel)) return null;
+  a[k] = nivel;
+  const invK = a[k] - BASE[f][k];
+  const limite = (c) => Math.min(TETO_NA_CRIACAO, BASE[f][c] + invK - 1);
+  const outros = Object.entries(PESOS[f]).filter(([c]) => c !== k).sort((x, y) => y[1] - x[1]).map(([c]) => c);
+  for (let guarda = 0; guarda < 200; guarda++) {
+    const livres = outros.filter((c) => a[c] < limite(c) && cabe(c, a[c] + 1));
+    if (!livres.length) break;
+    // o mais pesado que ainda nao estoura o alvo; senao, o mais leve
+    const c = livres.find((x) => ovrFino(a, f) + PESOS[f][x] < alvo + 0.49) || livres[livres.length - 1];
+    a[c]++;
+  }
+  return a;
+}
+// todos os estilos de uma posicao saem com o MESMO OVR: o maior que todos alcancam
+const alvoCache = {};
+function ovrAlvoDosEstilos(f) {
+  if (alvoCache[f] !== undefined) return alvoCache[f];
+  const faixa = (k) => {
+    const ovrs = [];
+    for (let n = BASE[f][k] + 6; n <= TETO_NA_CRIACAO; n++) { const a = cartaComNivel(f, k, n); if (a && custoDaCarta(f, a) === PONTOS_INICIAIS) ovrs.push(ovrDe(a, f)); }
+    return ovrs;
+  };
+  let alvo = 99;
+  for (const k of Object.keys(ESTILOS[f])) { const o = faixa(k); if (o.length) alvo = Math.min(alvo, Math.max(...o)); }
+  // desce ate um alvo que todo estilo consegue bater exato
+  for (; alvo > 40; alvo--) if (Object.keys(ESTILOS[f]).every((k) => cartaDoEstilo(f, k, alvo, true))) break;
+  return (alvoCache[f] = alvo);
+}
+function cartaDoEstilo(f, k, alvo, soTestar = false) {
+  // entre os niveis que batem o OVR alvo gastando tudo, o atributo do estilo mais alto
+  for (let n = TETO_NA_CRIACAO; n >= BASE[f][k] + 6; n--) {
+    const a = cartaComNivel(f, k, n, alvo);
+    if (a && ovrDe(a, f) === alvo && estiloDaMontagem(a, Object.keys(POSICOES).find((p) => funcaoDe(p) === f)).k === k) return a;
+  }
+  if (soTestar) return null;
+  return cartaComNivel(f, k, TETO_NA_CRIACAO, alvo) || { ...BASE[f] };
+}
+function montarAutomatico() {
+  const f = funcaoDe(C.pos);
+  montarEstilo(Object.entries(PESOS[f]).sort((a, b) => b[1] - a[1])[0][0]);
+}
+
+function mudarAtributo(k, v) {
+  const f = funcaoDe(C.pos);
+  C.attrs[k] = limitar(Math.round(v), minimoPermitido(f, k), maximoPagavel(f, k));
   desenharMontagem();
 }
 
 function desenharMontagem() {
   const f = funcaoDe(C.pos);
   const ovr = ovrDe(C.attrs, f);
+  const pontos = PONTOS_INICIAIS - custoDaCarta(f, C.attrs);
+  C.pontos = pontos;
   $("carta-montagem").replaceChildren(cartaDoCriado(C.attrs, ovr, null));
-  $("pontos-restantes").textContent = String(C.pontos);
+  $("pontos-restantes").textContent = String(pontos);
   $("ovr-montagem").textContent = String(ovr);
-  const est = estiloDeJogo(C.attrs, C.pos);
+  const est = estiloDaMontagem(C.attrs, C.pos);
+  C.estiloOrigem = est.k;
   const efe = efeitoDoEstilo(est);
   $("estilo-montagem").replaceChildren(...(est ? [
     el("span", null, `Estilo: ${est.nome} · ${est.dica}`),
     ...(efe ? [el("small", "renova-bom", `+ ${efe.bom}`), el("small", "renova-ruim", `− ${efe.ruim}`)] : []),
   ] : []));
+  const chips = $("estilos-prontos");
+  chips.replaceChildren(el("span", "estilos-rotulo", "Montar como:"));
+  for (const c of Object.entries(PESOS[f]).sort((a, b) => b[1] - a[1]).map(([c]) => c)) {
+    if (!ESTILOS[f][c]) continue;
+    const b = el("button", "chip", ESTILOS[f][c][0]); b.type = "button";
+    b.setAttribute("aria-pressed", String(est.k === c));
+    b.title = ESTILOS[f][c][1];
+    b.addEventListener("click", () => montarEstilo(c));
+    chips.append(b);
+  }
+  const troca = trocaUsada(f, C.attrs);
+  $("troca-montagem").textContent = troca ? `Trocou ${troca} de ${TROCA_MAX} pontos tirados de outros atributos.` : "";
   const lista = $("atributos");
+  const foco = document.activeElement && document.activeElement.dataset ? document.activeElement.dataset.k : null;
   lista.replaceChildren();
   const rotulos = f === "GOL" ? Object.fromEntries(EIXOS_GOLEIRO.map(([c, s]) => [c, C.r.eixos[c] || s])) : ROTULOS_LINHA;
   const ordem = Object.entries(PESOS[f]).sort((a, b) => b[1] - a[1]).map(([k]) => k);
   for (const k of ordem) {
-    const gasto = C.gastos[k] || 0;
+    const base = BASE[f][k], v = C.attrs[k];
     const li = el("li", "atributo");
-    const peso = el("span", "atributo-peso", PESOS[f][k] >= 0.2 ? "chave" : PESOS[f][k] >= 0.1 ? "" : "pouco pesa");
-    const nome = el("span", "atributo-nome", rotulos[k] || k);
-    const barra = el("div", "atributo-trilho");
-    const base = el("i", "atributo-base"); base.style.width = `${BASE[f][k]}%`;
-    const extra = el("i", "atributo-extra"); extra.style.left = `${BASE[f][k]}%`; extra.style.width = `${gasto}%`;
-    barra.append(base, extra);
-    const menos = el("button", "botao atributo-menos", "−"); menos.type = "button";
-    menos.disabled = gasto <= 0;
-    menos.setAttribute("aria-label", `Tirar ${PASSO} de ${rotulos[k] || k}`);
-    const mais = el("button", "botao atributo-mais", `+${PASSO}`); mais.type = "button";
-    mais.disabled = C.pontos < PASSO || gasto >= MAX_POR_ATRIBUTO || C.attrs[k] + PASSO > TETO_NA_CRIACAO;
-    mais.setAttribute("aria-label", `Somar ${PASSO} em ${rotulos[k] || k}`);
-    menos.addEventListener("click", () => { C.gastos[k] = gasto - PASSO; C.attrs[k] -= PASSO; C.pontos += PASSO; desenharMontagem(); });
-    mais.addEventListener("click", () => { C.gastos[k] = gasto + PASSO; C.attrs[k] += PASSO; C.pontos -= PASSO; desenharMontagem(); });
-    li.append(nome, peso, barra, el("b", "atributo-valor", String(C.attrs[k])), menos, mais);
+    const nome = el("span", "atributo-nome");
+    nome.append(el("b", null, rotulos[k] || k), el("small", "atributo-faz", `${Math.round(PESOS[f][k] * 100)}% do OVR · ${FAZ_NO_JOGO[k]}`));
+    const trilho = el("div", "atributo-trilho");
+    const iBase = el("i", "atributo-base"); iBase.style.width = `${Math.min(base, v)}%`;
+    const iExtra = el("i", v >= base ? "atributo-extra" : "atributo-tirado");
+    iExtra.style.left = `${Math.min(base, v)}%`; iExtra.style.width = `${Math.abs(v - base)}%`;
+    const caro = el("i", "atributo-caro"); caro.style.left = `${LIMIAR_CARO}%`; caro.style.width = `${TETO_NA_CRIACAO - LIMIAR_CARO}%`;
+    trilho.append(caro, iBase, iExtra);
+    const faixa = el("input", "atributo-faixa");
+    Object.assign(faixa, { type: "range", min: "0", max: "100", step: "1", value: String(v) }); // mesma escala da barra; o limite real vem do clamp
+    faixa.dataset.k = k;
+    faixa.setAttribute("aria-label", `${rotulos[k] || k}: ${v}`);
+    faixa.addEventListener("input", () => mudarAtributo(k, Number(faixa.value)));
+    const pista = el("div", "atributo-pista");
+    pista.append(trilho, faixa);
+    // botoes de 5 em 5 (o que der, se sobrar menos); a faixa ajusta de 1 em 1
+    const menos = el("button", "botao atributo-menos", "−5"); menos.type = "button";
+    menos.disabled = v <= minimoPermitido(f, k);
+    menos.setAttribute("aria-label", `Tirar 5 de ${rotulos[k] || k}`);
+    const mais = el("button", "botao atributo-mais", "+5"); mais.type = "button";
+    mais.disabled = v >= maximoPagavel(f, k);
+    mais.setAttribute("aria-label", `Somar 5 em ${rotulos[k] || k}`);
+    menos.addEventListener("click", () => mudarAtributo(k, v - 5));
+    mais.addEventListener("click", () => mudarAtributo(k, v + 5));
+    const valor = el("b", `atributo-valor${v > base ? " sobe" : v < base ? " desce" : ""}`, String(v));
+    valor.title = `Base ${base}`;
+    li.append(nome, pista, menos, valor, mais);
     lista.append(li);
+    if (foco === k) requestAnimationFrame(() => faixa.focus());
   }
-  $("confirmar-carta").disabled = C.pontos > 0;
-  $("confirmar-carta").textContent = C.pontos > 0 ? `Distribua ${C.pontos} pontos` : "Fechar a carta";
+  // da pra fechar quando nao sobra ponto que compre alguma coisa
+  const comprável = ordem.some((k) => maximoPagavel(f, k) > C.attrs[k]);
+  const pronto = pontos === 0 || !comprável;
+  $("confirmar-carta").disabled = !pronto;
+  $("confirmar-carta").textContent = pronto ? "Fechar a carta" : `Distribua ${pontos} ${pontos === 1 ? "ponto" : "pontos"}`;
 }
 
 // --- regua: forca do clube -> nivel do titular -------------------------------------
@@ -673,7 +821,18 @@ function mostrarPropostasDaBase() {
   desenharPainelJogador();
   const alvo = $("propostas-base");
   alvo.replaceChildren();
-  for (const c of propostasIniciais()) alvo.append(cartaoDeProposta(c, () => assinar(c, "base"), { contexto: "base", rotulo: "Assina" }));
+  // a troca da peneira em uma linha (medido em 900 carreiras simuladas: a
+  // Serie B chega na Serie A ~2 anos antes; a D joga mais nos primeiros anos)
+  const DICA_DIVISAO = {
+    B: "Mais vitrine: chega na Série A mais cedo, mas joga menos agora.",
+    C: "Meio-termo: joga um pouco e já aparece.",
+    D: "Joga mais e evolui jogando, mas demora mais pra ser visto.",
+  };
+  for (const c of propostasIniciais()) {
+    const card = cartaoDeProposta(c, () => assinar(c, "base"), { contexto: "base", rotulo: "Assina" });
+    if (DICA_DIVISAO[c.divisao]) card.querySelector(".botao").before(el("p", "proposta-dica", DICA_DIVISAO[c.divisao]));
+    alvo.append(card);
+  }
 }
 
 function cartaoDeProposta(c, aoAssinar, { rotulo = "Assinar", extra = null, contexto = null } = {}) {
@@ -832,7 +991,8 @@ function registrarLocal(tab, casa, fora, gc, gf) {
 
 // o jogador entra no ataque/defesa do time proporcional aos minutos
 function reforcoDoJogador(time, J, p, nivel) {
-  const d = (J.ovr - nivel) * 0.09 * p;
+  // lance decidido (ou entregue) nas escolhas do ano: o time inteiro sente
+  const d = (J.ovr - nivel) * 0.09 * p + limitar((J.efeito.forca || 0) * 4, -5, 5);
   const fam = POSICOES[C.pos].fam;
   if (fam === "F") time.atq += d;
   else if (fam === "M") { time.atq += d * 0.6; time.def += d * 0.6; }
@@ -1526,6 +1686,7 @@ function jogarTemporada({ decidir = true } = {}) {
   if (t.rebaixado) linha.rebaixado = true;
   // modo completo: quem escolhe e voce (a tela de mercado resolve)
   if (!decidir) { C.ofertasAbertas = ofertas; return linha; }
+  linha.automatica = true; // janela resolvida sozinha ("Simular o resto")
   const destino = decidirTransferencia(J, ofertas, t.rebaixado);
   if (destino) {
     linha.transferencia = { para: destino.nome, liga: destino.liga, valor: valorDaVenda(J) };
@@ -1540,7 +1701,7 @@ function jogarTemporada({ decidir = true } = {}) {
 // Efeitos que valem por uma temporada: minutos (fracao a mais ou a menos),
 // nota, vitrine pro mercado, lesao (fracao da temporada fora), evolucao
 // (pontos de OVR a mais no fim do ano) e queda (freia o declinio do veterano).
-const efeitoZerado = () => ({ minutos: 0, nota: 0, vitrine: 0, lesao: 0, evolucao: 0, queda: 0, gol: 0, assist: 0, suspenso: false, foraDaSelecao: false, textos: [] });
+const efeitoZerado = () => ({ minutos: 0, nota: 0, vitrine: 0, lesao: 0, evolucao: 0, queda: 0, gol: 0, assist: 0, forca: 0, suspenso: false, foraDaSelecao: false, textos: [] });
 // lesao >= 1 e temporada perdida: zero minuto, nem o bonus de minutos salva
 const temporadaPerdida = (J) => J.efeito.lesao >= 1 || !!J.efeito.suspenso;
 const minutosDe = (J, s) => (temporadaPerdida(J) ? 0 : limitar(fracaoDeMinutos(s) * (1 - J.efeito.lesao) + J.efeito.minutos, 0.02, 0.95));
@@ -1571,6 +1732,15 @@ function sortearLesao(J, rng) {
 const atributoChave = () => Object.entries(PESOS[funcaoDe(C.pos)]).sort((a, b) => b[1] - a[1])[0][0];
 const chanceAttr = (J, k, centro = 62, escala = 9) => limitar(logistica(((J.attrs[k] ?? 50) - centro) / escala), 0.12, 0.92);
 const goleiro = () => funcaoDe(C.pos) === "GOL";
+// o jogo que vale alguma coisa, conforme o clube (texto dos lances)
+function jogoDecisivo(J) {
+  const c = J.clube || {};
+  const op = c.tipo === "ext" ? ["Jogo de volta das quartas da copa nacional", "Clássico que decide a liderança", "Mata-mata da copa continental"]
+    : c.divisao === "A" ? ["Jogo de volta da Copa do Brasil", "Mata-mata da Libertadores", "Final do estadual"]
+    : c.divisao === "B" ? ["Rodada decisiva pelo acesso na Série B", "Copa do Brasil contra um time da Série A", "Final do estadual"]
+    : [`Mata-mata da Série ${c.divisao || "D"}, valendo acesso`, "Copa do Brasil contra um time da Série A", "Final do estadual"];
+  return op[(J.ano + J.idade) % op.length];
+}
 const rotuloAttr = (k) => ({ ...ROTULOS_LINHA, ...Object.fromEntries(EIXOS_GOLEIRO.map(([c, s]) => [c, C.r.eixos[c] || s])) })[k] || k;
 
 // Cada evento: quando pode aparecer, o texto e as opcoes. Opcao com "chance"
@@ -1594,6 +1764,197 @@ const noBrasilOuPortugal = (J) => J.clube.tipo !== "ext" || J.clube.pais === "Po
 const capitao = (J) => !!(J.historia && J.historia.marcas.capitao);
 
 const EVENTOS = [
+  // --- lances de jogo: a decisao muda o placar e o ano. `forca` mexe na forca
+  // do time na temporada inteira (vai mais longe ou cai antes nas copas).
+  // Sempre tem a opcao de menor esforco, que quase nao muda nada. ---
+  {
+    id: "lance-cara-a-cara", fases: ["afirmacao", "auge", "veterano"], tema: ["lance-ca", "cara-a-cara"], quando: () => funcaoDe(C.pos) === "CA",
+    titulo: "Cara a cara com o goleiro",
+    texto: (J) => `${jogoDecisivo(J)}. 1 a 1 aos 88, você sai sozinho da linha do meio. O goleiro vem na sua direção.`,
+    opcoes: [
+      { rotulo: "Cavadinha", chance: (J) => chanceAttr(J, "FIN", 70, 9) * 0.85,
+        ok: (J) => { J.efeito.forca += 0.6; J.efeito.vitrine += 3; Historia.mexerReputacao(J, { torcida: 2 }); Historia.marcar(J, "decidiu"); return "A bola subiu devagar e morreu na rede. 2 a 1, classificado, e o lance vai passar o ano inteiro na TV."; },
+        falha: (J) => { J.efeito.forca -= 0.5; Historia.mexerReputacao(J, { torcida: -2, tecnico: -2 }); J.efeito.minutos -= 0.04; return "O goleiro nem pulou e segurou. Eliminados nos pênaltis, e a cavadinha virou o assunto da semana."; } },
+      { rotulo: "Dribla o goleiro", chance: (J) => chanceAttr(J, "DRI", 62, 9),
+        ok: (J) => { J.efeito.forca += 0.6; J.efeito.vitrine += 2; Historia.mexerReputacao(J, { torcida: 1 }); return "Corte seco, gol vazio. 2 a 1, classificado."; },
+        falha: (J) => { J.efeito.forca -= 0.4; Historia.mexerReputacao(J, { tecnico: -1 }); return "Levou a bola longe demais e o zagueiro chegou. Ficou no 1 a 1, e o time caiu."; } },
+      { rotulo: "Bate no canto", chance: (J) => chanceAttr(J, "FIN", 60, 9),
+        ok: (J) => { J.efeito.forca += 0.5; J.efeito.vitrine += 1; return "Rasteiro, no canto. 2 a 1, classificado."; },
+        falha: (J) => { J.efeito.forca -= 0.3; return "O goleiro espalmou. Ficou no empate, e o time caiu nos pênaltis."; } },
+      { rotulo: "Espera o companheiro chegar", sempre: () => "Segurou, a defesa voltou e a jogada morreu. Ninguém cobrou, ninguém lembrou." },
+    ],
+  },
+  {
+    id: "lance-penalti-decisao", fases: ["afirmacao", "auge", "veterano"], tema: ["lance-penalti", "penalti"], quando: () => !goleiro(),
+    titulo: "Pênalti aos 49, jogo de eliminação",
+    texto: (J) => `${jogoDecisivo(J)}. Empate no agregado e pênalti a seu favor no último lance.${Historia.temMarca(J, "perdeu_penalti") ? " A torcida lembra do último que você perdeu." : ""}`,
+    opcoes: [
+      { rotulo: "Bate forte no alto", chance: (J) => chanceAttr(J, "FIN", 58, 10) - (Historia.temMarca(J, "perdeu_penalti") ? 0.1 : 0),
+        ok: (J) => { J.efeito.forca += 0.6; J.efeito.vitrine += 2; Historia.mexerReputacao(J, { torcida: 1 }); return "Na gaveta. Classificado no último lance."; },
+        falha: (J) => { J.efeito.forca -= 0.6; Historia.mexerReputacao(J, { torcida: -2, tecnico: -2 }); J.efeito.minutos -= 0.05; Historia.marcar(J, "perdeu_penalti"); return "Por cima do travessão. Eliminados, e você passou a jogar menos depois disso."; } },
+      { rotulo: "Cavadinha", chance: (J) => chanceAttr(J, "FIN", 64, 10) * 0.8,
+        ok: (J) => { J.efeito.forca += 0.6; J.efeito.vitrine += 3.5; Historia.mexerReputacao(J, { torcida: 2, imprensa: 1 }); return "O goleiro caiu, a bola entrou devagar. Frieza de quem já nasceu pra isso."; },
+        falha: (J) => { J.efeito.forca -= 0.6; Historia.mexerReputacao(J, { torcida: -3, tecnico: -3, imprensa: -1 }); J.efeito.minutos -= 0.08; Historia.marcar(J, "perdeu_penalti"); return "Ele ficou em pé e pegou. Eliminados, e a cavadinha te persegue."; } },
+      { rotulo: "Deixa pro batedor oficial", sempre: (J) => { J.efeito.forca += 0.1; return "Ele converteu. Você foi o primeiro a abraçar."; } },
+    ],
+  },
+  {
+    id: "lance-cabecada", fases: ["base", "afirmacao", "auge", "veterano"], tema: "lance-cabeca", quando: () => ["CA", "ZAG"].includes(funcaoDe(C.pos)),
+    titulo: "Cruzamento no último minuto",
+    texto: (J) => `${jogoDecisivo(J)}. Perdendo por 1 a 0, a bola vai pra área.`,
+    opcoes: [
+      { rotulo: "Ataca o primeiro pau", chance: (J) => chanceAttr(J, "FIS", 66, 9),
+        ok: (J) => { J.efeito.forca += 0.4; J.efeito.vitrine += 1.5; J.efeito.gol += 0.03; return "Testada no ângulo. Empate que levou pros pênaltis, e o time passou."; },
+        falha: (J) => { J.efeito.forca -= 0.35; return "Tomou a frente, mas a bola raspou a cabeça e saiu. Derrota."; } },
+      { rotulo: "Espera a sobra", chance: () => 0.35,
+        ok: (J) => { J.efeito.forca += 0.45; J.efeito.gol += 0.02; return "A bola sobrou no seu pé. Empate no último lance, e o time passou nos pênaltis."; },
+        falha: () => "A sobra não veio. Derrota por 1 a 0, jogo esquecível." },
+    ],
+  },
+  {
+    id: "lance-um-contra-um", fases: ["afirmacao", "auge", "veterano"], tema: "lance-ponta", quando: () => ["PON", "LAT"].includes(funcaoDe(C.pos)),
+    titulo: "Um contra um, fim de jogo",
+    texto: (J) => `${jogoDecisivo(J)}. 0 a 0 aos 85, você recebe aberto com o lateral deles na frente.`,
+    opcoes: [
+      { rotulo: "Corta pra dentro e chuta", chance: (J) => (chanceAttr(J, "DRI", 60, 9) + chanceAttr(J, "FIN", 58, 9)) / 2,
+        ok: (J) => { J.efeito.forca += 0.5; J.efeito.vitrine += 2; return "Chute colocado no segundo pau. 1 a 0, classificado."; },
+        falha: (J) => { J.efeito.forca -= 0.3; J.efeito.nota -= 0.05; return "Bateu no marcador e saiu o contra-ataque deles. 0 a 1."; } },
+      { rotulo: "Vai ao fundo e cruza", chance: (J) => chanceAttr(J, "PAS", 58, 9),
+        ok: (J) => { J.efeito.forca += 0.4; J.efeito.assist += 0.05; return "Cruzamento na cabeça do centroavante. 1 a 0, e a assistência é sua."; },
+        falha: () => "O cruzamento bateu no zagueiro. Ficou no 0 a 0 e foi pros pênaltis." },
+      { rotulo: "Segura a bola no canto", sempre: (J) => { Historia.mexerReputacao(J, { tecnico: 1 }); return "Ganhou dois minutos e um escanteio. O técnico aplaudiu a malandragem."; } },
+    ],
+  },
+  {
+    id: "lance-falta", fases: ["afirmacao", "auge", "veterano"], tema: "lance-falta", quando: () => ["MEI", "MC", "PON", "VOL"].includes(funcaoDe(C.pos)),
+    titulo: "Falta na entrada da área",
+    texto: (J) => `${jogoDecisivo(J)}. 1 a 1 aos 90. A barreira está armada e a bola é sua, se quiser.`,
+    opcoes: [
+      { rotulo: "Bate no ângulo", chance: (J) => chanceAttr(J, "FIN", 64, 9) * 0.8,
+        ok: (J) => { J.efeito.forca += 0.6; J.efeito.vitrine += 2.5; Historia.mexerReputacao(J, { torcida: 1 }); return "Por cima da barreira, no ângulo. 2 a 1 e classificado."; },
+        falha: (J) => { J.efeito.forca -= 0.2; return "Na barreira. O jogo foi pros pênaltis e o time caiu."; } },
+      { rotulo: "Cruza na área", chance: (J) => chanceAttr(J, "PAS", 60, 9) * 0.7,
+        ok: (J) => { J.efeito.forca += 0.5; J.efeito.assist += 0.04; return "Cruzamento na medida, gol de cabeça. Assistência sua na classificação."; },
+        falha: () => "O goleiro saiu e socou. Ficou no empate." },
+      { rotulo: "Deixa pro batedor", sempre: () => "Ele bateu, o goleiro pegou. Jogo seguiu empatado." },
+    ],
+  },
+  {
+    id: "lance-escanteio", fases: ["base", "afirmacao", "auge", "veterano"], tema: "lance-escanteio", quando: () => ["MEI", "MC"].includes(funcaoDe(C.pos)),
+    titulo: "Escanteio aos 44 do segundo tempo",
+    texto: (J) => `${jogoDecisivo(J)}. Placar em branco. O zagueirão pede a bola no primeiro pau.`,
+    opcoes: [
+      { rotulo: "Fechada no primeiro pau", chance: (J) => chanceAttr(J, "PAS", 60, 9) * 0.7,
+        ok: (J) => { J.efeito.forca += 0.5; J.efeito.assist += 0.04; return "Desvio de cabeça, gol. 1 a 0 e classificado."; },
+        falha: (J) => { J.efeito.forca -= 0.15; return "O goleiro cortou e saiu o contra-ataque. Pênaltis."; } },
+      { rotulo: "Jogada ensaiada curta", chance: (J) => chanceAttr(J, "DRI", 60, 9) * 0.6,
+        ok: (J) => { J.efeito.forca += 0.5; J.efeito.vitrine += 1.5; Historia.mexerReputacao(J, { tecnico: 1 }); return "Ninguém entendeu, e a bola terminou na rede. O técnico apontou pra você na coletiva."; },
+        falha: (J) => { J.efeito.forca -= 0.3; Historia.mexerReputacao(J, { tecnico: -1 }); return "Perderam a bola e saiu o contra-ataque. 0 a 1."; } },
+      { rotulo: "Cruza na área, no bolo", sempre: (J) => { J.efeito.forca += 0.2; return "Bate-rebate na área e a bola sobrou pra fora. Seguiu 0 a 0, mas o time pressionou até o fim."; } },
+    ],
+  },
+  {
+    id: "lance-lancamento", fases: ["afirmacao", "auge", "veterano"], tema: "lance-lancamento", quando: () => ["MC", "VOL", "MEI"].includes(funcaoDe(C.pos)),
+    titulo: "O atacante partiu nas costas da zaga",
+    texto: (J) => `${jogoDecisivo(J)}. 0 a 0, você tem a bola no meio e 40 metros de campo aberto na frente.`,
+    opcoes: [
+      { rotulo: "Arrisca o lançamento", chance: (J) => chanceAttr(J, "PAS", 68, 9),
+        ok: (J) => { J.efeito.forca += 0.4; J.efeito.assist += 0.05; J.efeito.vitrine += 1; return "Na medida, ele só completou. Assistência na vitória."; },
+        falha: (J) => { J.efeito.forca -= 0.35; return "Longo demais. O goleiro ficou com a bola e o jogo terminou 0 a 0."; } },
+      { rotulo: "Toca curto e gira", sempre: (J) => { J.efeito.forca += 0.3; J.efeito.nota += 0.03; return "Posse mantida e o time respirou. O jogo seguiu travado."; } },
+    ],
+  },
+  {
+    id: "lance-contra-ataque", fases: ["afirmacao", "auge", "veterano"], tema: "lance-marcacao", quando: () => ["VOL", "MC"].includes(funcaoDe(C.pos)),
+    titulo: "Contra-ataque 3 contra 2",
+    texto: (J) => `${jogoDecisivo(J)}. Vencendo por 1 a 0 aos 80, eles saem em velocidade e você é o primeiro a chegar.`,
+    opcoes: [
+      { rotulo: "Falta tática", sempre: (J) => { J.efeito.forca += 0.3; J.efeito.minutos -= 0.02; Historia.mexerReputacao(J, { tecnico: 1 }); return "Amarelo e contra-ataque parado. Vitória segura, e você cumpre suspensão no jogo seguinte."; } },
+      { rotulo: "Tenta o desarme limpo", chance: (J) => chanceAttr(J, "DEF", 69, 9),
+        ok: (J) => { J.efeito.forca += 0.4; J.efeito.vitrine += 1; return "Carrinho perfeito, bola roubada. A torcida levantou."; },
+        falha: (J) => { J.efeito.forca -= 0.5; Historia.mexerReputacao(J, { tecnico: -1 }); return "Passou por você. 1 a 1, e o empate custou a vaga."; } },
+      { rotulo: "Recua acompanhando", chance: () => 0.6,
+        ok: () => "A defesa se recompôs. Vitória mantida.",
+        falha: (J) => { J.efeito.forca -= 0.3; return "Tocaram entre vocês e empataram."; } },
+    ],
+  },
+  {
+    id: "lance-ultimo-homem", fases: ["base", "afirmacao", "auge", "veterano"], tema: "lance-defesa", quando: () => ["ZAG", "LAT"].includes(funcaoDe(C.pos)),
+    titulo: "Último homem",
+    texto: (J) => `${jogoDecisivo(J)}. 1 a 0 pra vocês aos 87. O centroavante deles sai na cara e só você está entre ele e o goleiro.`,
+    opcoes: [
+      { rotulo: "Carrinho", chance: (J) => chanceAttr(J, "DEF", 66, 9),
+        ok: (J) => { J.efeito.forca += 0.5; J.efeito.vitrine += 1.5; Historia.mexerReputacao(J, { torcida: 2 }); return "Tirou limpo, na bola. Comemorou como gol, e a vitória ficou."; },
+        falha: (J) => { J.efeito.forca -= 0.6; J.efeito.minutos -= 0.05; Historia.mexerReputacao(J, { tecnico: -1 }); return "Chegou atrasado: pênalti e vermelho. Empate, e três jogos de suspensão."; } },
+      { rotulo: "Puxa a camisa", sempre: (J) => { J.efeito.forca += 0.4; J.efeito.minutos -= 0.02; Historia.mexerReputacao(J, { imprensa: -0.5 }); return "Vermelho direto, mas o gol não saiu. Vitória com dez, e você fora dos próximos jogos."; } },
+      { rotulo: "Acompanha e confia no goleiro", chance: () => 0.5,
+        ok: (J) => { Historia.mexerReputacao(J, { tecnico: 1 }); return "O goleiro fechou o ângulo e defendeu. Vitória, e o técnico elogiou a calma."; },
+        falha: (J) => { J.efeito.forca -= 0.2; return "Ele tocou na saída do goleiro. 1 a 1."; } },
+    ],
+  },
+  {
+    id: "lance-saida-pressionada", fases: ["afirmacao", "auge", "veterano"], tema: "lance-saida", quando: () => funcaoDe(C.pos) === "ZAG",
+    titulo: "Pressão alta na saída de bola",
+    texto: (J) => `${jogoDecisivo(J)}. Dois atacantes em cima de você, bola no pé, 1 a 0 no placar.`,
+    opcoes: [
+      { rotulo: "Tira um e sai jogando", chance: (J) => chanceAttr(J, "DRI", 42, 9),
+        ok: (J) => { J.efeito.vitrine += 2; Historia.mexerReputacao(J, { tecnico: 1 }); return "Drible curto e passe vertical. O estádio aplaudiu o zagueiro."; },
+        falha: (J) => { J.efeito.forca -= 0.5; Historia.mexerReputacao(J, { tecnico: -2 }); return "Perdeu na área. Gol deles e empate."; } },
+      { rotulo: "Chutão pra frente", sempre: (J) => { J.efeito.forca -= 0.05; return "Bola no lateral deles, e ela voltou. Sem susto, sem aplauso."; } },
+    ],
+  },
+  {
+    id: "lance-apoio", fases: ["afirmacao", "auge", "veterano"], tema: "lance-apoio", quando: () => funcaoDe(C.pos) === "LAT",
+    titulo: "O corredor está livre",
+    texto: (J) => `${jogoDecisivo(J)}. 0 a 0 aos 75. O ponta deles ficou pra trás e o seu lado está aberto.`,
+    opcoes: [
+      { rotulo: "Ultrapassa e apoia", chance: (J) => chanceAttr(J, "RIT", 63, 9),
+        ok: (J) => { J.efeito.forca += 0.4; J.efeito.assist += 0.05; return "Chegou no fundo e cruzou pra gol. 1 a 0."; },
+        falha: (J) => { J.efeito.forca -= 0.4; Historia.mexerReputacao(J, { tecnico: -1 }); return "Perderam a bola e o contra-ataque saiu pelo seu lado. 0 a 1."; } },
+      { rotulo: "Fica guardando o lado", sempre: (J) => { J.efeito.forca += 0.1; Historia.mexerReputacao(J, { tecnico: 1 }); return "O jogo terminou 0 a 0. Ninguém passou por você, e o técnico gostou."; } },
+    ],
+  },
+  {
+    id: "lance-goleiro-penalti", fases: ["base", "afirmacao", "auge", "veterano"], tema: "lance-gol-penalti", quando: () => goleiro(),
+    titulo: "Pênalti contra no último minuto",
+    texto: (J) => `${jogoDecisivo(J)}. Vocês vencem por 1 a 0. Se entrar, a vaga vai pros pênaltis.`,
+    opcoes: [
+      { rotulo: "Pula no canto que você estudou", chance: (J) => chanceAttr(J, "REF", 62, 10) * 0.55,
+        ok: (J) => { J.efeito.forca += 0.6; J.efeito.vitrine += 2; Historia.mexerReputacao(J, { torcida: 1 }); return "Adivinhou e espalmou. Classificado, e você carregado nos ombros."; },
+        falha: (J) => { J.efeito.forca -= 0.35; return "Ele bateu no outro canto. Foi pros pênaltis, e o time caiu."; } },
+      { rotulo: "Espera até o último instante", chance: (J) => chanceAttr(J, "EVI", 62, 10) * 0.45,
+        ok: (J) => { J.efeito.forca += 0.6; J.efeito.vitrine += 2.5; return "Ele tentou a cavadinha e você estava lá. Defesa e classificação."; },
+        falha: (J) => { J.efeito.forca -= 0.15; return "Esperou demais, a bola passou do lado. Pênaltis."; } },
+      { rotulo: "Pula pro lado de sempre", sempre: (J) => { J.efeito.forca += 0.15; J.efeito.nota += 0.08; return "Ele bateu no meio. Pênaltis, e o time passou por pouco."; } },
+    ],
+  },
+  {
+    id: "lance-goleiro-saida", fases: ["afirmacao", "auge", "veterano"], tema: "lance-gol-saida", quando: () => goleiro(),
+    titulo: "Cruzamento no último lance",
+    texto: (J) => `${jogoDecisivo(J)}. 1 a 0 pra vocês. Bola alta na área, atacante deles subindo.`,
+    opcoes: [
+      { rotulo: "Sai do gol e soca", chance: (J) => chanceAttr(J, "SAI", 58, 9),
+        ok: (J) => { J.efeito.forca += 0.4; Historia.mexerReputacao(J, { tecnico: 1 }); return "Soco firme, bola longe. Fim de jogo e vitória."; },
+        falha: (J) => { J.efeito.forca -= 0.6; Historia.mexerReputacao(J, { torcida: -2 }); return "Não chegou na bola. Gol de cabeça, empate, e a culpa caiu em você."; } },
+      { rotulo: "Fica na linha", chance: () => 0.55,
+        ok: () => "A cabeçada saiu fraca, no seu colo. Vitória.",
+        falha: (J) => { J.efeito.forca -= 0.3; return "Cabeçada no canto. 1 a 1."; } },
+    ],
+  },
+  {
+    id: "lance-disputa-penaltis", fases: ["afirmacao", "auge", "veterano"], tema: "lance-disputa", quando: () => !goleiro(),
+    titulo: "Disputa de pênaltis",
+    texto: (J) => `${jogoDecisivo(J)}. Terminou empatado. O técnico pergunta quem quer bater.`,
+    opcoes: [
+      { rotulo: "Pede a quinta cobrança", chance: (J) => chanceAttr(J, "FIN", 56, 10) - 0.08,
+        ok: (J) => { J.efeito.forca += 0.6; J.efeito.vitrine += 2.5; Historia.mexerReputacao(J, { torcida: 2, vestiario: 1 }); return "A última cobrança, a da classificação. No meio, forte. Você correu pra torcida."; },
+        falha: (J) => { J.efeito.forca -= 0.6; Historia.mexerReputacao(J, { torcida: -2 }); J.efeito.minutos -= 0.04; Historia.marcar(J, "perdeu_penalti"); return "O goleiro pegou a última. Eliminados, e a foto da sua cabeça baixa rodou o país."; } },
+      { rotulo: "Bate a primeira", chance: (J) => chanceAttr(J, "FIN", 52, 10),
+        ok: (J) => { J.efeito.forca += 0.3; return "Abriu a série convertendo. O time passou."; },
+        falha: (J) => { J.efeito.forca -= 0.3; Historia.marcar(J, "perdeu_penalti"); return "Perdeu a primeira. O time não se recuperou."; } },
+      { rotulo: "Deixa pros batedores", sempre: () => "Assistiu do meio-campo, abraçado nos companheiros. O time passou." },
+    ],
+  },
   // --- base: treino, rotina e cabeca fora de campo ---
   {
     id: "sub20-ou-profissional", fases: ["base"], quando: () => true,
@@ -1670,20 +2031,8 @@ const EVENTOS = [
       { rotulo: "Deixo pro batedor", sempre: (J) => { J.efeito.nota += 0.03; Historia.mexerReputacao(J, { vestiario: 1 }); return "Ele bateu, fez, e você correu pra abraçar. O grupo gostou de ver."; } },
     ],
   },
-  {
-    id: "penalti-gol", fases: ["afirmacao", "auge", "veterano"], quando: () => goleiro(),
-    titulo: "Pênalti contra no último lance",
-    texto: () => "Um gol decide o jogo. O batedor deles ajeita a bola.",
-    opcoes: [
-      { rotulo: "Espera até o último instante", chance: (J) => limitar(0.2 + ((J.attrs.REF ?? 50) - 55) / 90, 0.15, 0.5),
-        ok: (J) => { J.efeito.vitrine += 2; J.efeito.nota += 0.15; return "Esperou, leu o chute e defendeu. Saiu carregado pelos companheiros."; },
-        falha: () => "Ele bateu no canto. Não tinha o que fazer." },
-      { rotulo: "Escolhe um canto e vai", chance: (J) => limitar(0.1 + ((J.attrs.SAI ?? 50) - 50) / 70, 0.1, 0.4),
-        ok: (J) => { J.efeito.vitrine += 3.5; J.efeito.nota += 0.25; return "Chutou pro lado que você escolheu, e você ainda fez cara de quem sabia. Defesa e festa."; },
-        falha: (J) => { J.efeito.nota -= 0.05; return "Pulou cedo, ele bateu no meio. O lance virou meme."; } },
-    ],
-  },
-  // --- decisoes do estilo (o lado bom e o ruim de cada um aparecem aqui) ---
+  // (o "Pênalti contra no último lance" do goleiro virou o lance de jogo
+  // "lance-goleiro-penalti", que tem as mesmas escolhas e mexe no placar)
   {
     id: "protagonista", fases: ["afirmacao", "auge"], tema: "penalti", quando: (J) => !goleiro() && ["FIN", "DRI"].includes(estiloDeJogo(J.attrs, C.pos).k),
     titulo: "Pênalti no clássico",
@@ -1857,7 +2206,7 @@ const EVENTOS = [
     titulo: "O técnico oferece a braçadeira",
     texto: () => "O capitão foi vendido. Ele quer você no lugar.",
     opcoes: [
-      { rotulo: "Aceita", chance: (J) => chanceAttr(J, atributoChave(), 74, 10),
+      { rotulo: "Aceita", chance: (J) => chanceAttr(J, atributoChave(), 76, 10),
         ok: (J) => { J.efeito.minutos += 0.03; Historia.mexerReputacao(J, { vestiario: 1 }); if (J.historia) J.historia.marcas.capitao = J.clube.nome; return "Virou referência do grupo. Jogo difícil, é com você que falam."; },
         falha: (J) => { J.efeito.nota -= 0.15; return "Pesou. Passou o ano mais preocupado com o grupo do que com o próprio jogo."; } },
       { rotulo: "Prefere não ser capitão", sempre: (J) => { J.efeito.nota += 0.03; J.efeito.evolucao += 0.3; return "Sugeriu um colega mais antigo. Seguiu só jogando, sem peso extra."; } },
@@ -1879,7 +2228,7 @@ const EVENTOS = [
     titulo: "Sentiu o tornozelo no aquecimento",
     texto: () => "Dá pra jogar, mas incomoda. O médico deixa com você.",
     opcoes: [
-      { rotulo: "Joga assim mesmo", chance: (J) => chanceAttr(J, goleiro() ? "REF" : "FIS", 52, 10),
+      { rotulo: "Joga assim mesmo", chance: (J) => chanceAttr(J, goleiro() ? "REF" : "FIS", 55, 10),
         ok: (J) => { J.efeito.minutos += 0.02; return "Aguentou os 90 e nem lembrou do tornozelo depois."; },
         falha: (J) => { J.efeito.lesao += 0.15; return "Torceu de vez no primeiro tempo. Umas semanas fora."; } },
       { rotulo: "Avisa o médico", sempre: (J) => { J.efeito.minutos -= 0.02; return "Ficou fora de um jogo. Voltou inteiro."; } },
@@ -1994,7 +2343,7 @@ const EVENTOS = [
     titulo: "Decisão por pênaltis à vista",
     texto: () => "Jogo de volta de mata-mata. O analista tem os vídeos dos batedores deles.",
     opcoes: [
-      { rotulo: "Estuda até de madrugada", chance: (J) => chanceAttr(J, "REF", 79, 10),
+      { rotulo: "Estuda até de madrugada", chance: (J) => chanceAttr(J, "REF", 81, 10),
         ok: (J) => { J.efeito.vitrine += 1.5; J.efeito.nota += 0.1; return "Foi pros pênaltis e você pegou dois. Herói da classificação."; },
         falha: (J) => { J.efeito.nota -= 0.08; return "Foi pros pênaltis e eles trocaram os batedores. Chegou cansado e não pegou nenhum."; } },
       { rotulo: "Confia no instinto", sempre: (J) => { J.efeito.nota += 0.05; J.efeito.evolucao += 0.3; J.efeito.queda += 0.3; return "Dormiu bem e fez duas defesas no tempo normal."; } },
@@ -2120,7 +2469,7 @@ const EVENTOS = [
     ],
   },
   {
-    id: "cara-a-cara", quando: () => ["F", "M"].includes(POSICOES[C.pos].fam),
+    id: "cara-a-cara", tema: "cara-a-cara", quando: () => ["F", "M"].includes(POSICOES[C.pos].fam),
     titulo: "Cara a cara, companheiro livre do lado",
     texto: () => "Última jogada do jogo, empate no placar.",
     opcoes: [
@@ -2284,47 +2633,42 @@ const DICA_FOCO = {
   REF: "defesas difíceis", EVI: "pega mais chutes", MAO: "segura mais bolas", PES: "sai jogando com os pés", SAI: "domina a área",
 };
 // o foco rende ja no ano (alem dos pontos de atributo no fim da temporada)
-function aplicarFoco(J, k) {
+function aplicarFoco(J, k, s = 1) {
+  // s = -1 desfaz (quando troca o foco na pre-temporada)
   const e = J.efeito;
   // treinar o que mais pesa na posicao faz o OVR crescer (e o potencial, ate
   // os 24 -- ver evoluir); os outros mudam o estilo e rendem no ano
   const peso = PESOS[funcaoDe(C.pos)][k] || 0;
-  if (peso >= 0.2) e.evolucao += J.idade <= 24 ? 0.4 : 0.2;
-  if (k === "FIN") e.gol += 0.12;
-  else if (k === "RIT") { e.gol += 0.07; e.assist += 0.03; }
-  else if (k === "PAS") e.assist += 0.15;
-  else if (k === "DRI") { e.assist += 0.1; e.gol += 0.03; }
-  else if (k === "FIS") { e.lesao = Math.max(0, e.lesao - 0.03); e.minutos += 0.03; }
-  else e.nota += 0.12; // DEF e os de goleiro: aparece na nota
+  if (peso >= 0.2) e.evolucao += (J.idade <= 24 ? 0.4 : 0.2) * s;
+  if (k === "FIN") e.gol += 0.12 * s;
+  else if (k === "RIT") { e.gol += 0.07 * s; e.assist += 0.03 * s; }
+  else if (k === "PAS") e.assist += 0.15 * s;
+  else if (k === "DRI") { e.assist += 0.1 * s; e.gol += 0.03 * s; }
+  else if (k === "FIS") { e.lesao -= 0.03 * s; e.minutos += 0.03 * s; }
+  else e.nota += 0.12 * s; // DEF e os de goleiro: aparece na nota
 }
-function eventoDeTreino(J, rng) {
+// as 3 opcoes de foco do ano: o que mais pesa, o ponto forte e mais um
+function opcoesDeFoco(J, rng) {
   const f = funcaoDe(C.pos);
   const ordem = Object.entries(PESOS[f]).sort((a, b) => b[1] - a[1]).map(([k]) => k);
-  // o que mais pesa na posicao, o ponto forte do seu estilo e mais um pra variar
   const esp = perfilEsperado(f, J.ovr);
   const forte = Object.keys(esp).sort((a, b) => (J.attrs[b] - esp[b]) - (J.attrs[a] - esp[a]))[0];
   const opcoes = [ordem[0]];
   if (!opcoes.includes(forte)) opcoes.push(forte);
+  if (J.focoAnterior && !opcoes.includes(J.focoAnterior)) opcoes.push(J.focoAnterior);
   for (const k of Motor.embaralhar(rng, ordem.slice(1))) if (opcoes.length < 3 && !opcoes.includes(k)) opcoes.push(k);
-  // o texto muda com a fase (e varia de um ano pro outro)
-  const TEXTOS_FOCO = {
+  return opcoes.slice(0, 3);
+}
+// o texto do foco muda com a fase (e varia de um ano pro outro): vira a dica
+// do "Foco do ano" no topo da temporada
+function textoDoFoco(J) {
+  const textos = {
     base: ["Primeira semana com o grupo principal. O preparador quer saber onde você vai colocar a energia.", "Na base, o treino é a vitrine. O que você quer mostrar este ano?", "O coordenador da base monta a planilha da temporada e pergunta o que você quer atacar."],
     afirmacao: ["Pré-temporada de quem quer se firmar. O preparador pergunta onde apertar.", "Ano pra ganhar a vaga de vez. O que você quer levar pro campo?", "O analista trouxe os números do ano passado. Dá pra escolher onde melhorar."],
     auge: ["No auge, cada detalhe conta. Onde você vai colocar a energia neste ano?", "Pré-temporada de titular: o preparador quer refinar um ponto só.", "O corpo está no ponto. A pergunta é o que lapidar."],
     veterano: [`Aos ${J.idade} anos, pré-temporada é escolha: o que manter e o que deixar ir.`, "O preparador fala baixo: dá pra segurar um atributo, não todos.", "Pré-temporada de veterano. Menos volume, mais foco num ponto."],
   }[Historia.fase(J)];
-  return {
-    id: "foco", titulo: "Foco da pré-temporada",
-    texto: () => TEXTOS_FOCO[J.ano % TEXTOS_FOCO.length],
-    opcoes: opcoes.map((k) => ({
-      rotulo: `${rotuloAttr(k)} (${J.attrs[k]})`, dica: DICA_FOCO[k],
-      sempre: (JJ) => {
-        JJ.foco = k; aplicarFoco(JJ, k);
-        const chave = (PESOS[funcaoDe(C.pos)][k] || 0) >= 0.2;
-        return `Pré-temporada focada em ${rotuloAttr(k).toLowerCase()}: ${DICA_FOCO[k]}.${chave ? " É o que mais pesa na sua posição: o OVR cresce mais no fim do ano." : ""}`;
-      },
-    })),
-  };
+  return textos[J.ano % textos.length];
 }
 
 // Rapido: 1 decisao por temporada (as vezes o foco de treino). Completo: o
@@ -2334,36 +2678,54 @@ function sortearEventos(J, rng, n = 2) {
   const vistos = new Set(J.eventosVistos || []);
   const f = Historia.fase(J);
   const completo = C.modo === "completo";
-  // rapido: foco de treino e 1 situacao por ano (antes 35% dos anos eram so
-  // o foco, e as politicas terminavam iguais); completo: foco e 2 situacoes
-  const qtd = completo ? 2 : 1;
   // a historia (historia.js) entra primeiro: consequencia vencida sempre
-  // aparece, e os eventos soltos completam ate o limite do modo. Os arcos
-  // vem antes pra que o tema deles (apostas, machucado, crise...) ja conte.
-  const arcos = Historia.eventosDoAno(J, rng, { completo });
+  // aparece. No rapido so cabe uma escolha: o resto da agenda espera o ano
+  // seguinte (antes, a segunda consequencia sumia). Os arcos vem antes pra que
+  // o tema deles (apostas, machucado, crise...) ja conte.
+  const arcos = Historia.eventosDoAno(J, rng, { completo, limite: completo ? 2 : 1 });
   // tema repetido so uma vez por carreira, contando os arcos de historia.js
   const temaDe = (e) => [].concat(e.tema || []);
   const temas = new Set(J.temasVistos || []);
   const pool = EVENTOS.filter((e) => !vistos.has(e.id) && (!e.fases || e.fases.includes(f)) && !temaDe(e).some((t) => temas.has(t)) && e.quando(J));
-  // situacao que so tem uma hora certa (a estreia) vem na frente
-  const ordem = [...pool.filter((e) => e.prioridade), ...Motor.embaralhar(rng, pool.filter((e) => !e.prioridade))];
-  const escolhidos = [];
+  const lancesLivres = pool.filter((e) => e.id.startsWith("lance-"));
+  const guardar = (escolhidos) => {
+    for (const e of escolhidos) temaDe(e).forEach((t) => temas.add(t));
+    J.eventosVistos = [...vistos, ...escolhidos.map((e) => e.id)];
+    J.temasVistos = [...temas];
+  };
+  // rapido: exatamente uma escolha por temporada -- a historia primeiro,
+  // senao uma situacao solta (a que tem hora certa, como a estreia, na frente;
+  // o foco de treino fica no topo da temporada)
+  if (!completo) {
+    if (arcos.length) { guardar([]); return [arcos[0]]; }
+    const prioridade = pool.find((e) => e.prioridade);
+    const solta = prioridade || (lancesLivres.length && rng() < 0.45 ? Motor.embaralhar(rng, lancesLivres)[0] : Motor.embaralhar(rng, pool)[0]);
+    guardar(solta ? [solta] : []);
+    return solta ? [solta] : [];
+  }
+  // completo: 3 decisoes por ano (historia + lance + situacao). Um lance de
+  // jogo quase todo ano (quando ainda tem); a situacao com hora certa (a
+  // estreia) vem na frente; nada do mesmo tema no mesmo ano
+  const vagas = Math.max(0, 3 - arcos.length);
+  const escolhidos = vagas && lancesLivres.length && rng() < 0.7 ? [Motor.embaralhar(rng, lancesLivres)[0]] : [];
+  escolhidos.forEach((e) => temaDe(e).forEach((t) => temas.add(t)));
+  const resto = pool.filter((e) => !escolhidos.includes(e));
+  const ordem = [...resto.filter((e) => e.prioridade), ...Motor.embaralhar(rng, resto.filter((e) => !e.prioridade))];
   for (const e of ordem) {
-    if (escolhidos.length >= Math.max(0, qtd - arcos.length)) break;
-    if (temaDe(e).some((t) => temas.has(t))) continue; // dois do mesmo tema no mesmo ano, nao
+    if (escolhidos.length >= vagas) break;
+    if (temaDe(e).some((t) => temas.has(t))) continue;
     escolhidos.push(e);
     temaDe(e).forEach((t) => temas.add(t));
   }
-  J.eventosVistos = [...vistos, ...escolhidos.map((e) => e.id)];
-  J.temasVistos = [...temas];
-  return [eventoDeTreino(J, rng), ...arcos, ...escolhidos];
+  guardar(escolhidos);
+  return [...arcos, ...escolhidos];
 }
 
 // Os dois lados de uma opcao certa (sem roleta): roda a opcao num rascunho do
 // jogador, compara efeito e reputacao, e desfaz tudo (o sorteio usa um dado
 // fixo pra nao gastar o de verdade)
 const LADOS_EFEITO = [["minutos", "minutos", 1], ["nota", "nota", 1], ["vitrine", "vitrine", 1], ["evolucao", "evolução", 1],
-  ["queda", "fôlego no fim da carreira", 1], ["gol", "gols", 1], ["assist", "assistências", 1], ["lesao", "risco de lesão", -1]];
+  ["queda", "fôlego no fim da carreira", 1], ["gol", "gols", 1], ["assist", "assistências", 1], ["forca", "o time no ano", 1], ["lesao", "risco de lesão", -1]];
 const LADOS_REP = [["tecnico", "técnico"], ["disciplina", "cabeça"], ["torcida", "torcida"], ["vestiario", "vestiário"], ["imprensa", "imprensa"]];
 function ladosDaOpcao(J, op) {
   const bom = [], ruim = [];
@@ -2408,7 +2770,19 @@ function pedirGarantia(J, c, rng) {
 
 // --- tela da carreira ---------------------------------------------------------------
 
+function menuDaCarreira() {
+  if (C.menu) return C.menu;
+  const tela = $("tela-carreira");
+  C.menu = montarAbasMobile(tela, [
+    { id: "temporada", rotulo: "Temporada", icone: "jogo", paineis: [tela.querySelector(".carreira-centro")] },
+    { id: "carta", rotulo: "Carta", icone: "carta", paineis: [$("painel-jogador")] },
+    { id: "carreira", rotulo: "Carreira", icone: "lista", paineis: [tela.querySelector(".carreira-lateral")] },
+  ], "temporada");
+  return C.menu;
+}
+
 function iniciarTelaCarreira() {
+  menuDaCarreira().abrir("temporada", { rolar: false });
   mostrarTela("carreira");
   $("temporada-atual").replaceChildren(
     el("p", "jogo-etapa", `Temporada ${C.J.ano}`),
@@ -2432,7 +2806,7 @@ function desenharPainelJogador() {
   for (const [k, v] of [
     ["Idade", J.idade], ["Clube", J.clube ? J.clube.nome : "Sem clube"], ["Valor", dinheiro(J.valor)],
     ["Jogos", tot.j], ["Gols", tot.g], ["Assist.", tot.a],
-  ]) { const d = el("div"); d.append(el("dt", null, k), el("dd", null, String(v))); fatos.append(d); }
+  ]) { const d = el("div"); const dd = el("dd", null, String(v)); dd.dataset.fato = k; dd.dataset.base = String(v); d.append(el("dt", null, k), dd); fatos.append(d); }
   // reputacao (historia.js): de -5 a 5, o centro e neutro
   const rep = el("div", "painel-rep");
   rep.append(el("span", "painel-rep-rotulo", `Fase: ${Historia.NOMES_FASE[Historia.fase(J)]} · confiança e reputação`));
@@ -2519,7 +2893,7 @@ function desenharTabelaCarreira() {
   }
   if (!J.aposentado) {
     const tr = el("tr", "proxima-linha");
-    tr.append(el("td", "tc-idade", String(J.idade)), el("td", "tc-clube", J.clube.nome), el("td", "tc-ovr", "?"), el("td", null, "—"), el("td", null, "—"), el("td", null, "—"), el("td"), el("td"));
+    tr.append(el("td", "tc-idade", String(J.idade)), el("td", "tc-clube", J.clube.nome), el("td", "tc-ovr", "?"), el("td", "tc-vivo-j", "—"), el("td", "tc-vivo-g", "—"), el("td", "tc-vivo-a", "—"), el("td"), el("td"));
     tbody.append(tr);
   }
 }
@@ -2609,7 +2983,7 @@ function mostrarLinha(linha) {
     alvo.children[0].after(faixa);
   } else if (linha.rebaixado) avisos.push("O time terminou na zona de rebaixamento.");
   if (linha.olheiro && linha.ofertas && linha.ofertas.length) avisos.push("Tinha olheiro na arquibancada.");
-  if (linha.ofertas && linha.ofertas.length && !linha.transferencia && !linha.saltoPendente && C.modo !== "completo") avisos.push(`Sondado por ${linha.ofertas.join(", ")}; ficou.`);
+  if (linha.ofertas && linha.ofertas.length && !linha.transferencia && linha.automatica) avisos.push(`Sondado por ${linha.ofertas.join(", ")}; ficou.`);
   if (linha.transferencia) avisos.push(`Transferido pro ${linha.transferencia.para} (${linha.transferencia.liga}) ${linha.transferencia.valor ? `por ${dinheiro(linha.transferencia.valor)}` : "de graça, em fim de contrato"}.`);
   if (linha.ofertasBarradas && linha.ofertasBarradas.length) avisos.push(`O ${linha.clube} recusou ${linha.ofertasBarradas.length === 1 ? "a proposta" : "as propostas"} do ${linha.ofertasBarradas.join(", do ")}: você tem contrato.`);
   if (linha.voltaDeEmprestimo) avisos.push(`Fim do empréstimo: volta pro ${linha.voltaDeEmprestimo}.`);
@@ -2705,15 +3079,23 @@ function iniciarRolagem() {
 
   const alvo = $("temporada-atual");
   alvo.replaceChildren();
-  alvo.append(el("p", "jogo-etapa", `Temporada ${J.ano} · ${J.idade} anos · ${J.clube.nome} (${J.clube.liga})`));
+  // cabecalho: temporada a esquerda, a fase da carreira a direita (pill)
   const DESC_FASE = {
-    base: "Base: pouco minuto e pouco dinheiro. Treino e cabeça fora de campo decidem quem sobe.",
-    afirmacao: "Afirmação: o primeiro dinheiro, as redes e as tentações. Polêmica pode render ou afundar.",
-    auge: "Auge: liderança, vestiário e decisões grandes.",
-    veterano: "Veterano: o corpo cobra. Hora de pensar no legado.",
+    base: "Pouco minuto e pouco dinheiro: treino e cabeça decidem quem sobe.",
+    afirmacao: "Primeiro dinheiro, redes e tentações. Polêmica rende ou afunda.",
+    auge: "Liderança, vestiário e decisões grandes.",
+    veterano: "O corpo cobra. Hora de pensar no legado.",
   };
+  const ORDEM_FASE = ["base", "afirmacao", "auge", "veterano"];
   const fAtual = Historia.fase(J);
-  if (!J.historico.length || Historia.fase({ idade: J.idade - 1 }) !== fAtual) alvo.append(el("p", "fase-aviso", DESC_FASE[fAtual]));
+  const cab = el("div", "rolagem-cab");
+  const pill = el("span", `fase-pill fase-${fAtual}`);
+  pill.append(el("b", null, Historia.NOMES_FASE[fAtual]), el("small", null, `fase ${ORDEM_FASE.indexOf(fAtual) + 1} de 4`));
+  pill.title = DESC_FASE[fAtual];
+  cab.append(el("p", "jogo-etapa", `Temporada ${J.ano} · ${J.idade} anos · ${J.clube.nome} (${J.clube.liga})`), pill);
+  alvo.append(cab);
+  // no primeiro ano da fase, uma linha curta explica o que muda
+  if (!J.historico.length || Historia.fase({ idade: J.idade - 1 }) !== fAtual) alvo.append(el("p", `fase-aviso fase-${fAtual}`, DESC_FASE[fAtual]));
   // se o clube mudou de divisao no ano passado (e voce ficou), avisa aqui tambem
   const anterior = J.historico[J.historico.length - 1];
   if (anterior && anterior.mudouDivisao && anterior.clube === J.clube.nome) {
@@ -2749,7 +3131,34 @@ function iniciarRolagem() {
   R.caixa = el("div", "evento-caixa");
   // linha do tempo e projecao ficam presas no topo do palco enquanto a decisao rola
   R.topo = el("div", "rolagem-topo");
-  R.topo.append(alvo.firstChild, linha, proj, legenda);
+  // foco do ano: escolha rapida na pre-temporada (nao e uma decisao do ano)
+  const focoBox = el("div", "foco-ano");
+  const rotuloFoco = el("span", "foco-rotulo", "Foco do ano");
+  rotuloFoco.title = textoDoFoco(J);
+  focoBox.append(rotuloFoco);
+  const opcoesFoco = opcoesDeFoco(J, C.rng);
+  const escolherFoco = (k, primeira = false) => {
+    if (J.foco === k) return;
+    if (J.foco) aplicarFoco(J, J.foco, -1);
+    J.foco = k; J.focoAnterior = k;
+    aplicarFoco(J, k);
+    for (const b of focoBox.querySelectorAll("button")) b.setAttribute("aria-pressed", String(b.dataset.k === k));
+    if (!primeira) atualizarProjecao(R);
+  };
+  for (const k of opcoesFoco) {
+    const b = el("button", "chip foco-chip", `${rotuloAttr(k)} ${J.attrs[k]}`);
+    b.type = "button"; b.dataset.k = k;
+    b.title = (PESOS[funcaoDe(C.pos)][k] || 0) >= 0.2 ? `${DICA_FOCO[k]} · é o que mais pesa na posição: o OVR cresce mais` : DICA_FOCO[k];
+    b.addEventListener("click", () => { if (R.prog < 0.5 || !C.rolagem) escolherFoco(k); });
+    focoBox.append(b);
+  }
+  focoBox.append(el("small", "foco-dica", "dá pra trocar até a metade do ano"));
+  J.foco = null;
+  escolherFoco(J.focoAnterior && opcoesFoco.includes(J.focoAnterior) ? J.focoAnterior : opcoesFoco[0], true);
+  R.focoBox = focoBox;
+  R.proj = projecao(J);
+  for (const [k, c] of Object.entries(R.celulas)) c.dd.textContent = fmtProj(k, R.proj[k]);
+  R.topo.append(...alvo.childNodes, linha, focoBox, proj, legenda);
   alvo.append(R.topo, R.caixa, R.log);
   rolarProximo(R);
 }
@@ -2775,7 +3184,14 @@ function atualizarProjecao(R) {
     if (Math.abs(dif) < limiar) { c.delta.textContent = ""; continue; }
     void c.box.offsetWidth; // reinicia a animacao
     c.box.classList.add(dif > 0 ? "mudou-sobe" : "mudou-desce");
-    c.delta.textContent = fmtDif(k, dif);
+    // numero inteiro na tela (jogos, gols, assist., OVR): a diferenca e a do numero
+    // que aparece; se ele nao mudou, so uma setinha (a tendencia melhorou/piorou)
+    if (k === "nota" || k === "vitrine") c.delta.textContent = fmtDif(k, dif);
+    else {
+      const visivel = Math.round(R.proj[k]) - Math.round(antes[k]);
+      c.delta.textContent = visivel ? `${visivel > 0 ? "+" : "−"}${Math.abs(visivel)}` : dif > 0 ? "▲" : "▼";
+      c.delta.title = visivel ? "" : "A projeção melhorou, mas ainda não mudou o número inteiro";
+    }
   }
 }
 
@@ -2807,8 +3223,33 @@ function rolarAte(R, alvoProg) {
   });
 }
 
+// enquanto o ano rola: a linha da temporada na tabela e os totais do painel
+// vao somando (pela projecao ate aqui; no fim entra o numero de verdade)
+function atualizarAoVivo(R) {
+  const parcial = { j: Math.round(R.proj.jogos * R.prog), g: Math.round(R.proj.gols * R.prog), a: Math.round(R.proj.assist * R.prog) };
+  const chave = `${parcial.j}-${parcial.g}-${parcial.a}`;
+  if (R.vivo === chave) return;
+  R.vivo = chave;
+  const linha = document.querySelector("#tabela-carreira .proxima-linha");
+  if (linha) {
+    linha.classList.add("rolando");
+    linha.querySelector(".tc-vivo-j").textContent = String(parcial.j);
+    linha.querySelector(".tc-vivo-g").textContent = String(parcial.g);
+    linha.querySelector(".tc-vivo-a").textContent = String(parcial.a);
+  }
+  for (const [fato, v] of [["Jogos", parcial.j], ["Gols", parcial.g], ["Assist.", parcial.a]]) {
+    const dd = document.querySelector(`#painel-jogador dd[data-fato="${fato}"]`);
+    if (!dd) continue;
+    const base = Number(dd.dataset.base) || 0;
+    dd.replaceChildren(document.createTextNode(String(base + v)));
+    if (v) dd.append(el("small", "fato-ano", ` +${v} no ano`));
+  }
+}
+
 function desenharProgresso(R) {
   R.barra.style.width = `${R.prog * 100}%`;
+  if (R.focoBox) R.focoBox.classList.toggle("travado", R.prog >= 0.5);
+  atualizarAoVivo(R);
   const jogo = Math.max(1, Math.round(R.prog * R.proj.G));
   R.status.textContent = R.prog < 0.03 ? "Pré-temporada" : R.prog >= 1 ? "Fim da temporada" : `${mesDe(R, R.prog)} · jogo ${jogo} de ~${R.proj.G}`;
 }
@@ -2846,9 +3287,14 @@ function mostrarDecisao(R) {
   );
   // o palco tem altura fixa no desktop: traz a decisao pra vista
   const palco = caixa.closest(".carreira-palco");
-  if (palco && palco.scrollHeight > palco.clientHeight) requestAnimationFrame(() => {
+  if (palco && palco.scrollHeight > palco.clientHeight + 4) requestAnimationFrame(() => {
     const topo = palco.scrollTop + caixa.getBoundingClientRect().top - palco.getBoundingClientRect().top - R.topo.offsetHeight - 8;
     palco.scrollTo({ top: Math.max(0, topo), behavior: movimentoReduzido ? "auto" : "smooth" });
+  });
+  else requestAnimationFrame(() => {
+    // pagina: a decisao tem que aparecer inteira, logo abaixo da linha do tempo presa no topo
+    const r = caixa.getBoundingClientRect(), topoFixo = R.topo.getBoundingClientRect().bottom;
+    if (r.top < topoFixo + 8 || r.top > innerHeight * 0.55) window.scrollBy({ top: r.top - topoFixo - 12, behavior: movimentoReduzido ? "auto" : "smooth" });
   });
   caixa.classList.remove("saindo");
   caixa.style.animation = "none"; void caixa.offsetWidth; caixa.style.animation = "";
@@ -2950,48 +3396,15 @@ function roleta(chance, ok) {
 
 function fecharTemporadaCompleta() {
   C.eventos = null;
+  if (C.menu) { C.menu.marcar("carta"); C.menu.marcar("carreira"); }
   $("proxima").hidden = false;
-  if (C.modo !== "completo") {
-    // rapido: a janela resolve sozinha, menos quando chega proposta de clube de
-    // um degrau acima -- essa e a decisao que mais muda a carreira, e e sua
-    const linha = jogarTemporada({ decidir: false });
-    const salto = C.J.aposentado ? null : propostaDeSalto(C.J, C.ofertasAbertas || []);
-    if (salto) linha.saltoPendente = true;
-    else if (!C.J.aposentado) janelaAutomatica(C.J, linha);
-    mostrarLinha(linha);
-    desenharPainelJogador();
-    desenharTabelaCarreira();
-    if (salto) { mostrarMercado(linha, { so: [salto] }); return; }
-    $("proxima").disabled = false;
-    if (C.J.aposentado) { $("proxima").textContent = "Ver a aposentadoria"; $("tudo").disabled = true; }
-    else $("proxima").textContent = "Próxima temporada";
-    return;
-  }
+  // rapido e completo: a janela de transferencias e sempre sua
   const linha = jogarTemporada({ decidir: false });
   mostrarLinha(linha);
   desenharPainelJogador();
   desenharTabelaCarreira();
   if (C.J.aposentado) { $("proxima").textContent = "Ver a aposentadoria"; $("proxima").disabled = false; $("tudo").disabled = true; return; }
   mostrarMercado(linha);
-}
-
-// proposta de degrau acima (modo rapido): a melhor delas vira decisao. Quem
-// deu a palavra (clube formador, pediu pra sair, repatriacao) segue no automatico.
-function propostaDeSalto(J, ofertas) {
-  if (ofertas.some((c) => c.palavraDada || c.pedida)) return null;
-  const acima = ofertas.filter((c) => degrau(c) > degrau(J.clube));
-  return acima.sort((a, b) => (b.forca + b.prestigio) - (a.forca + a.prestigio))[0] || null;
-}
-// a janela do modo rapido sem decisao: a conta de decidirTransferencia
-function janelaAutomatica(J, linha) {
-  const destino = decidirTransferencia(J, C.ofertasAbertas || [], linha.rebaixado);
-  C.ofertasAbertas = null;
-  if (destino) {
-    linha.transferencia = { para: destino.nome, liga: destino.liga, valor: valorDaVenda(J) };
-    assinar(destino, "mercado");
-  }
-  const n = garantirContrato(J);
-  if (n) J.janela = [...(J.janela || []), `Fim de contrato: renovou por ${n} ${n === 1 ? "ano" : "anos"} com o ${J.clube.nome}.`];
 }
 
 // janela de transferencias: voce escolhe (ou fica). Da pra pedir vaga de titular.
@@ -3423,7 +3836,7 @@ function criarJogador() {
     nome: C.nome || "Sem Nome", numero: C.numero, attrs: { ...C.attrs }, ovr, idade: IDADE_INICIAL, ano: ANO_INICIAL,
     ...sortearPotencial(ovr, f),
     clube: null, historico: [], titulos: [], premios: [], transferencias: [], valor: 0, anosNoClube: 0, aposentado: false,
-    efeito: efeitoZerado(), eventosVistos: [],
+    efeito: efeitoZerado(), eventosVistos: [], estiloOrigem: C.estiloOrigem || null,
   };
   Historia.iniciar(C.J);
   reiniciarMundo();
@@ -3475,6 +3888,7 @@ async function iniciarCarreiraPagina() {
   $("confirmar-jogador").textContent = "Montar a carta →";
   $("voltar-criacao").addEventListener("click", () => mostrarTela("criar"));
   $("zerar-pontos").addEventListener("click", iniciarCarta);
+  $("auto-pontos").addEventListener("click", montarAutomatico);
   $("confirmar-carta").addEventListener("click", () => { criarJogador(); mostrarPropostasDaBase(); });
   $("proxima").addEventListener("click", () => {
     if (C.J.aposentado) mostrarAposentadoria();

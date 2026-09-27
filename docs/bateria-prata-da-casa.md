@@ -679,3 +679,104 @@ O E2E cobriu 20 estados (completo × rápido × com contrato/último ano/livre �
 ### 9.4 CSS e HTML
 
 Nada novo. As classes são as mesmas da fase 3 (`.proposta-contrato`, `.mercado-barradas`, `.renova-opcao`).
+
+---
+
+## 10. Integração com origin/main (#26–#32), 27/09/2026
+
+A integração junta os PRs de outra frente (carta com custo crescente e estilos prontos, lances de jogo, fase como pill, menu no celular, foco do ano fora das decisões, rápido com 1 escolha e janela, completo com 3 decisões, salário conforme a divisão) com as fases 1 a 4 desta bateria. Nos conflitos, a UX de main prevaleceu. As nossas correções, o balanceamento, o conteúdo e os contratos entraram por cima.
+
+### 10.1 Metas: antes (nossa HEAD 6bd1b8c, seção 9) × depois (merge)
+
+| meta | antes A / B | depois A / B | resultado |
+|---|---|---|---|
+| A: prêmios só B-D × média | 2,9×5,7 / 3,1×5,8 | 3,2×5,7 / 3,3×5,8 | PASSA |
+| A: convocação e Bola de Ouro só B-D | 8,0% e 0 / 5,7% e 0 | 7,1% e 0 / 5,5% e 0 | PASSA |
+| B: dominantes (gulosa ≥80%) | 4 / 2 | 4 / 4 | PASSA |
+| B: estratégica × aleatória | +66% / +67% | +50% / +52% | PASSA |
+| B: OVR auge, melhor − pior | 3,0–3,3 / 2,7–3,5 | 2,8–3,1 / 2,9–3,1 | PASSA |
+| C: espalhamento rápido × completo | 11,9×14,0 / 15,8×14,0 | **6,7×13,6 / 6,7×14,1** | **FALHA por pouco** (0,50 / 0,48 da metade) |
+| D: apostas / renovação / estreia no 1º ano | 27% / 35% / 100% | 28% / 32% / 100% | PASSA |
+| E: técnico / despedida | 13,6% / 22,0% | 13,8% / 19,7% | PASSA |
+| F: exceções / texto / repetição / estado mexido pela dica | 0 / 0 / 0 / 0 | 0 / 0 / 0 / 0 (e 0 nas 3.400 extras) | PASSA |
+| F: situações alcançadas | 111/111 | **125/125** (com os 14 lances e as cenas novas de main na história; sai o `penalti-gol`, cópia de um lance) | PASSA |
+| F: aposentadoria p50 | 36 | 36 | PASSA |
+| H: clubes p50 / p95 | 4 / 8 | 5 / 8 | PASSA |
+| H: "assina" p95 / máx | 10 / 14 | 10 / 13-14 | PASSA |
+| H: elite→elite sem motivo | 0 | 0 | PASSA |
+| H: Andarilho | 6,9% / 7,0% | 8,7% / 9,1% | PASSA |
+| E2E da janela | 20 estados, 0 problemas | 33 estados (rápido agora com janela inteira), 0 problemas | PASSA |
+
+**Sobre a meta C.** Main fixou o rápido em "exatamente 1 escolha por temporada" e deu janela inteira nos dois modos. Com uma escolha por ano, sobra pouco pra separar quem joga bem de quem joga mal: o espalhamento do rápido caiu de 11,9 para 6,7. Mesmo assim, a estratégica ainda faz 19,7 contra 13,1 da cautelosa. Testei subir a chance de o lance de jogo aparecer no rápido de 45% para 60%, e o espalhamento foi a 6,95×13,56, o que passa no conjunto A. Não apliquei, porque é um parâmetro de main e o ganho está no nível do ruído. Fica pro dono decidir: aceitar o rápido mais "leve", ou subir para 60%.
+
+**Cobertura dos lances** (conjunto A, 6.000 carreiras; cada lance depende da posição):
+
+| lance | carreiras |
+|---|---|
+| disputa de pênaltis | 72% |
+| pênalti decisivo | 62% |
+| falta | 46% |
+| um contra um | 41% |
+| último homem | 24% |
+| lançamento | 19% |
+| escanteio | 15% |
+| apoio | 15% |
+| cabeçada | 14% |
+| contra-ataque | 13% |
+| goleiro no pênalti | 8% |
+| goleiro na saída | 7% |
+| saída pressionada | 5% |
+| cara a cara | 4% |
+
+**Cenas novas de main na base:** "O primeiro contrato" com salário baixo 52%, "Longe de casa" 31%, "O técnico do sub-17" 32% e "O treino do profissional" 31%.
+
+### 10.2 Conflitos resolvidos (arquivo:linha)
+
+**`carreira.js`**
+- `:832` Peneira: a dica por divisão de main mais o nosso cartão ("Vai até 2028", botão "Assina").
+- `:1704` `efeitoZerado`: une `forca` (main) e `foraDaSelecao` (nosso).
+- `:2638-2662` `aplicarFoco`: o `s` de main (desfazer ao trocar o foco) mais a nossa evolução pro atributo que mais pesa, que também é desfeita. Mantém `opcoesDeFoco` de main.
+- `:2676-2723` `sortearEventos`, com a estrutura de main:
+  - rápido com 1 escolha (história primeiro, senão lance a 45%, senão situação);
+  - completo com 3 decisões (história + lance a 70% + situação);
+  - por cima, os nossos temas cruzados com a história (`J.temasVistos`), a prioridade da estreia e o limite de história por modo.
+  - `ladosDaOpcao` mantido.
+- `:3401` `fecharTemporadaCompleta`: a de main (janela sua nos dois modos). Saíram a nossa `propostaDeSalto` e a `janelaAutomatica`, sem uso agora.
+
+**`historia.js`**
+- `:306-350` Primeiro contrato: a divisão por salário de main (baixo/médio/alto), com os nossos custos:
+  - baixo: mandar pra casa custa evolução, e o celular dá vitrine;
+  - médio: o carro também agenda "A saída do CT", e o apê custa um pouco de cabeça;
+  - alto: as nossas opções com custo.
+- `:992-1005` Abertura de fase: o sorteio de main entre as aberturas da fase. Só conta como aberta quando entra de fato no ano; antes, uma abertura sorteada num ano cheio sumia. Por cima, o nosso bloco de temas e apostas e os arcos de situação.
+- `:1063-1065` Exports: `Historia.agendar` (nosso) e `Historia.marcar` / `Historia.temMarca` (main).
+
+### 10.3 O que foi unificado (sobreposições que não eram conflito de texto)
+
+- **Contrato.** O "contrato conforme o clube" de main é o salário do primeiro contrato por divisão, sem prazo. O único sistema de contrato é o nosso, e não há lógica dupla.
+- **Foco.** O chip de main substitui o nosso evento de foco (`eventoDeTreino` saiu).
+  - O texto por fase virou a dica do "Foco do ano" (`textoDoFoco`, `:2664`; título em `:3137`).
+  - O chip do atributo-chave avisa que o OVR cresce mais.
+  - O automático escolhe o foco sozinho, como antes.
+- **Lances × situações do mesmo tema.** Viraram o mesmo tema (`:1771`, `:1788`, `:2472`): o pênalti decisivo com "Pênalti aos 47" e "Pênalti no clássico", e o cara a cara do centroavante com "Cara a cara, companheiro livre". O "Pênalti contra no último lance" do goleiro era cópia do lance de main e saiu (`:2034`).
+- **Rápido com 1 escolha × agenda da história.** `Historia.eventosDoAno` ganhou `limite` (`historia.js:969-976`). No rápido cabe 1, e a consequência que não coube fica pro ano seguinte. Antes, a segunda sumia sem aviso.
+- **"O titular sentiu no aquecimento"** podia aparecer duas vezes (a rotina e o treino do profissional de main levam a ela). Agora é uma vez por carreira (`historia.js:117`, `:570`).
+- **Dica "+ / −".** A dica das opções certas também mostra "o time no ano" (a `forca` dos lances, `:2728`).
+- **"Sondado por X; ficou".** Só aparece quando a janela foi resolvida sozinha (`linha.automatica`, `:1689`), já que o rápido agora tem janela.
+- **Balanceamento dos conteúdos de main**, pra caber na meta B:
+  - lances com custo no fracasso e opção segura que rende um pouco;
+  - "O treino do profissional", "O técnico do sub-17", "Longe de casa" e "A saudade cobrou";
+  - "Proposta da Arábia" e o evento "Aquecimento".
+
+### 10.4 Harness
+
+- **`dentro.js`:**
+  - a carta segue a montagem de main (metade estilo pronto, metade pontos ao acaso sob o custo);
+  - o foco do ano é uma escolha separada, na mesma ordem de sorteios de `iniciarRolagem`;
+  - rápido e completo usam a janela inteira;
+  - a gulosa enxerga a `forca` dos lances.
+- **`agregar.js`:** cenas novas no catálogo.
+
+Rodar: `scripts/bateria/prata/bateria.sh` (conjunto A), `SEMENTE_C=20001 SEMENTE_R=30001 BATERIA_OUT=/tmp/b scripts/bateria/prata/bateria.sh` (conjunto B), `node scripts/bateria/prata/e2e.js 40`.
+
+CSS e HTML: nada novo.

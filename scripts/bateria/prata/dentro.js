@@ -13,7 +13,7 @@
     bet_publi: ["A publicidade que ficou"], stjd: ["Denúncia no tribunal esportivo", "Seu nome numa investigação"], garagem: ["O carro e a fase ruim"],
     microfone: ["O microfone"], personagem: ["Você virou personagem"], racha: ["O racha"], legado: ["Conversa sobre o futuro"],
     operacao: ["Operação sobre apostas"], voltou: ["Ele voltou"], testemunha: ["Testemunha da acusação"], reencontro: ["Reencontro com <rival>"],
-    bracadeira: ["A braçadeira"], cobranca: ["A torcida cobra"], joelho: ["O joelho de novo"],
+    bracadeira: ["A braçadeira"], cobranca: ["A torcida cobra"], joelho: ["O joelho de novo"], saudade: ["A saudade cobrou"],
     assalto: ["A saída do CT"], campanha: ["O rosto da campanha"], chantagem: ["O passado cobra"], cidade: ["A cidade é sua"],
     repatriar: ["Um clube brasileiro quer te repatriar"], naturalizacao: ["O passaporte"], capitao_selecao: ["A braçadeira da seleção"],
     casa: ["A arquibancada da infância"],
@@ -41,7 +41,8 @@
     const r = J.historia.rep;
     const repSoma = r.tecnico + r.disciplina + r.torcida + r.vestiario + r.imprensa;
     const p = projecao(J); // (o estado e restaurado depois de cada teste)
-    const curto = 4 * p.nota + 1.2 * p.ovr + 0.5 * p.vitrine + 4 * (p.jogos / p.G) + 0.2 * repSoma;
+    // (forca: o lance decidido faz o time ir mais longe no ano -- titulo e vitrine)
+    const curto = 4 * p.nota + 1.2 * p.ovr + 0.5 * p.vitrine + 4 * (p.jogos / p.G) + 0.2 * repSoma + 2 * (J.efeito.forca || 0);
     if (!longo) return curto;
     // estrategica: tambem pesa o que rende nos anos seguintes -- evolucao ate
     // os 24 (vira potencial), folego depois do pico, reputacao e marcas ruins
@@ -142,7 +143,7 @@
     cautelosa: (ps) => [...ps].sort((a, b) => chanceDeTitular(C.J.ovr, b.nivel, 16) - chanceDeTitular(C.J.ovr, a.nivel, 16))[0],
   };
 
-  const estadoJanela = (J, rapido, ofertas, barradas) => `${rapido ? "rápido" : "completo"} · ${anosRestantes(J) >= 2 ? "com contrato" : anosRestantes(J) === 1 ? "último ano" : "livre"}`
+  const estadoJanela = (J, rapido, ofertas, barradas) => `${C.modo === "completo" ? "completo" : "rápido"} · ${anosRestantes(J) >= 2 ? "com contrato" : anosRestantes(J) === 1 ? "último ano" : "livre"}`
     + ` · ${ofertas.length ? "com propostas liberadas" : "sem propostas"}${barradas.length && !rapido ? " · com propostas barradas" : ""}`;
   function mercado(J, linha, pol, ctx, reg, { rapido = false } = {}) {
     const ofertas = C.ofertasAbertas || [];
@@ -209,6 +210,18 @@
     const les = sortearLesaoDados(J, C.rng);
     J.lesaoPre = les ? { dados: les, pos: 0.1 + C.rng() * 0.8, aplicada: false } : null;
     if (!ctx.semBugProjecao) projecao(J);
+    // foco do ano: 3 opcoes (opcoesDeFoco), comeca no do ano passado; a politica troca
+    const opcoesFoco = opcoesDeFoco(J, C.rng);
+    const trocarFoco = (k) => { if (J.foco === k) return; if (J.foco) aplicarFoco(J, J.foco, -1); J.foco = k; J.focoAnterior = k; aplicarFoco(J, k); };
+    J.foco = null;
+    trocarFoco(J.focoAnterior && opcoesFoco.includes(J.focoAnterior) ? J.focoAnterior : opcoesFoco[0]);
+    projecao(J);
+    const focoEv = { id: "foco", titulo: "Foco do ano", opcoes: opcoesFoco.map((k) => ({ rotulo: rotuloAttr(k), sempre: (JJ) => { if (JJ.foco) aplicarFoco(JJ, JJ.foco, -1); JJ.foco = k; aplicarFoco(JJ, k); return ""; } })) };
+    const padrao = opcoesFoco.indexOf(J.foco);
+    const escolhaFoco = ["cautelosa", "primeira"].includes(pol) ? padrao : POLITICAS[pol](focoEv, J, ctx);
+    trocarFoco(opcoesFoco[escolhaFoco]);
+    reg.vistos.push("foco");
+    reg.escolhas.push(["foco", `${escolhaFoco}:${rotuloAttr(J.foco)}`, null, J.idade]);
     let prog = 0;
     const avancaAte = (alvo) => {
       const lp = J.lesaoPre;
@@ -254,20 +267,9 @@
     avancaAte(1);
     // fecharTemporadaCompleta
     let linha;
-    if (C.modo !== "completo") {
-      // fecharTemporadaCompleta do rapido: salto de degrau vira decisao
-      linha = jogarTemporada({ decidir: false });
-      const salto = J.aposentado ? null : propostaDeSalto(J, C.ofertasAbertas || []);
-      if (salto) {
-        linha.saltoPendente = true;
-        C.ofertasAbertas = [salto];
-        mercado(J, linha, pol, ctx, reg, { rapido: true });
-        reg.saltos++;
-      } else if (!J.aposentado) { janelaAutomatica(J, linha); if (linha.transferencia) reg.transferencias++; }
-    } else {
-      linha = jogarTemporada({ decidir: false });
-      if (!J.aposentado) mercado(J, linha, pol, ctx, reg);
-    }
+    // fecharTemporadaCompleta: nos dois modos a janela e sua
+    linha = jogarTemporada({ decidir: false });
+    if (!J.aposentado) mercado(J, linha, pol, ctx, reg);
     return linha;
   }
 
@@ -277,13 +279,19 @@
     C.pais = rngP() < 0.8 ? "BRA" : PAISES[1 + Math.floor(rngP() * (PAISES.length - 1))].id;
     C.nome = "TESTE"; C.numero = 9; C.pe = "Direito"; C.modo = modo;
     const f = funcaoDe(C.pos);
-    C.attrs = { ...BASE[f] };
-    let pontos = 30;
-    for (let g = 0; pontos > 0 && g < 100; g++) {
-      const ks = Object.keys(C.attrs).filter((k) => C.attrs[k] - BASE[f][k] < 15 && C.attrs[k] + 5 <= TETO_NA_CRIACAO);
-      const k = ks[Math.floor(rngP() * ks.length)];
-      C.attrs[k] += 5; pontos -= 5;
+    // a montagem da carta de main: metade usa um estilo pronto, metade
+    // distribui os 30 pontos ao acaso (custo crescente acima de 66, teto 72)
+    const estilos = Object.keys(ESTILOS[f]);
+    if (rngP() < 0.5) C.attrs = cartaDoEstilo(f, estilos[Math.floor(rngP() * estilos.length)], ovrAlvoDosEstilos(f));
+    else {
+      C.attrs = { ...BASE[f] };
+      for (let g = 0; g < 400; g++) {
+        const ks = Object.keys(C.attrs).filter((k) => C.attrs[k] < TETO_NA_CRIACAO && custoDaCarta(f, { ...C.attrs, [k]: C.attrs[k] + 1 }) <= PONTOS_INICIAIS);
+        if (!ks.length) break;
+        C.attrs[ks[Math.floor(rngP() * ks.length)]] += 1;
+      }
     }
+    C.estiloOrigem = estiloDaMontagem(C.attrs, C.pos).k;
     C.tabelaAnterior = null; C.ofertasAbertas = null; C.eventos = null; C.rolagem = null;
   }
 

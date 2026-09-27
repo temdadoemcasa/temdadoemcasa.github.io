@@ -19,7 +19,10 @@ const idsEventos = [...bloco.matchAll(/^\s{4}id: "([^"]+)"/gm)].map((m) => m[1])
 const ARCOS = {
   "A rotina": ["Primeira semana no alojamento", "O titular sentiu no aquecimento", "Os amigos do bairro", "A diretoria chamou você e a sua família"],
   "Dinheiro curto": ["O mês não fecha em casa", "A publicidade que ficou"],
-  "O primeiro contrato": ["Primeiro salário de verdade", "O carro e a fase ruim", "A saída do CT"],
+  "O primeiro contrato": ["Primeiro salário de verdade", "Primeiro contrato profissional", "O carro e a fase ruim", "A saída do CT"],
+  "Longe de casa": ["A saudade no primeiro mês", "A saudade cobrou"],
+  "O treino do profissional": ["Faltou um no treino de cima"],
+  "O técnico do sub-17": ["O técnico do sub-17 não gosta de você"],
   "O grupo de apostas": ["O grupo da infância", "Denúncia no tribunal esportivo", "Seu nome numa investigação"],
   "O polêmico": ["Gol no clássico, na casa deles", "O microfone", "Você virou personagem"],
   "O aliciador": ["Uma mensagem no direct", "Operação sobre apostas", "Ele voltou", "Testemunha da acusação", "O rosto da campanha", "O passado cobra"],
