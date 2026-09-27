@@ -534,7 +534,18 @@
     const dp = Math.sqrt(vals.reduce((a, b) => a + (b - media) ** 2, 0) / vals.length) || 1;
     Motor.ESCALA = { media, dp };
     for (const t of Object.values(times)) Object.assign(t, Motor.aplicarTatica(Motor.naRegua(t), t.formacao));
+    // tamanho do clube: orcamento, elenco de reposicao e camisa pesam na
+    // temporada longa (time grande dificilmente cai; Flamengo e Sao Paulo nunca cairam)
+    for (const t of Object.values(times)) {
+      const g = Motor.GRANDEZA[t.nome] || 0;
+      t.atq += g * 0.7; t.def += g * 0.7;
+    }
     return times;
+  };
+  Motor.GRANDEZA = {
+    Flamengo: 3, Palmeiras: 3, "São Paulo": 3, Corinthians: 3, "Atlético-MG": 3, Internacional: 3, "Grêmio": 3,
+    Fluminense: 2.5, Santos: 2.5, Cruzeiro: 2.5, Botafogo: 2.5, Vasco: 2.5, Athletico: 1.5, Bahia: 1.5, Fortaleza: 1, "RB Bragantino": 1,
+    Sport: 0.5, "Sport Recife": 0.5, "Vitória": 0.5, "Ceará": 0.5, Coritiba: 0.5,
   };
 
   // Elencos dos times sem carta (estrangeiros, Serie B/C/D), so nome e

@@ -1058,6 +1058,14 @@ function temporadaNoBrasil(J, ano, rng) {
   for (const [k, v] of golsNaLiga) if (k !== meu) maxOutros = Math.max(maxOutros, v);
 
   const tabela = Motor.ordenar(temp.bra.tabela);
+  // time grande quase nunca cai: na reta final ele contrata, troca tecnico e
+  // escapa (3 em cada 4 vezes), e quem cai no lugar dele e um dos pequenos
+  for (let i = 16; i < tabela.length; i++) {
+    const g = Motor.GRANDEZA[tabela[i].id] || 0;
+    if (g < 2.5 || rng() > 0.75) continue;
+    const k = [15, 14, 13, 12].find((j) => (Motor.GRANDEZA[tabela[j].id] || 0) < 1.5);
+    if (k !== undefined) [tabela[i], tabela[k]] = [tabela[k], tabela[i]];
+  }
   C.tabelaAnterior = tabela.map((l) => l.id);
   const pos = tabela.findIndex((l) => l.id === clube.id) + 1;
   const campanha = [{ comp: "Brasileirão", res: `${pos}º`, campeao: pos === 1 }];
