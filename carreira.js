@@ -1241,8 +1241,13 @@ function evoluir(J, p, rng) {
     const m = limitar(0.5 + 0.6 * p, 0.5, 1); // quem nao joga cresce menos (e recupera depois, em parte)
     // jogar bem acelera: nota boa com minutos de verdade soma ate +1,5 no ano
     const ultima = J.historico[J.historico.length - 1];
-    const desempenho = ultima ? limitar((ultima.nota - 6.6) * 1.6, -1, 1.5) * limitar(p * 1.2, 0, 1) : 0;
-    delta = (trajetoria(J, proxima) - J.ovr) * 0.8 * m + desempenho + normal(rng, 0.8) + J.efeito.evolucao;
+    // (a nota e relativa a liga: sofrer na Serie A pesa pouco, brilhar na D ajuda, mas nao tanto quanto treinar num nivel alto)
+    const desempenho = ultima ? limitar((ultima.nota - 6.6) * 1.2, -0.4, 1.2) * limitar(p * 1.2, 0, 1) : 0;
+    // o nivel da liga acelera ou freia: treinar e jogar na Serie A (ou numa liga
+    // forte de fora) faz crescer mais que na B, que faz mais que na C e na D
+    const c = J.clube || {};
+    const liga = c.tipo === "ext" ? ({ 5: 1.45, 4: 1.35, 3: 1.15 })[c.prestigio] ?? 1 : ({ A: 1.3, B: 1.1, C: 0.9, D: 0.75 })[c.divisao] ?? 1;
+    delta = (trajetoria(J, proxima) - J.ovr) * 0.8 * m * liga + desempenho + normal(rng, 0.8) + J.efeito.evolucao;
   } else {
     const k = proxima - J.idadePico; // anos depois do pico
     const queda = [0, -0.4, -0.9, -1.5, -2.1, -2.8][k] ?? -3.4;
@@ -2320,7 +2325,7 @@ const EVENTOS = [
     ],
   },
   {
-    id: "ferias", quando: () => true,
+    id: "ferias", inicio: true, quando: () => true,
     titulo: "Férias de dez dias",
     texto: () => "O ano foi longo. Dá pra descansar de verdade ou treinar com um personal.",
     opcoes: [
@@ -2484,7 +2489,8 @@ const EVENTOS = [
     ],
   },
   {
-    id: "pos-rebaixamento", quando: (J) => { const u = ultimaLinha(J); return !!u && !!u.rebaixado; },
+    // so pra quem continua no clube que caiu (e no comeco do ano, na reapresentacao)
+    id: "pos-rebaixamento", inicio: true, quando: (J) => { const u = ultimaLinha(J); return !!u && !!u.rebaixado && u.clube === J.clube.nome; },
     titulo: "O time caiu",
     texto: () => "Rebaixado. Na reapresentação, a torcida protesta no portão do CT e a imprensa quer saber se você fica.",
     opcoes: [
@@ -2620,9 +2626,15 @@ function resolverOpcao(J, op, rng) {
 // Negociacao: pedir garantia de titular. O clube aceita mais facil se voce
 // for melhor que o titular dele; se recusar, pode desistir.
 function pedirGarantia(J, c, rng) {
-  const aceita = limitar(logistica((J.ovr - c.nivel + 1) / 3), 0.1, 0.9);
+  // clube so promete vaga pra quem ja e melhor que o titular dele; vindo de
+  // divisao de baixo, pesa mais (quem sobe de nivel tem que provar antes)
+  const ordem = { D: 0, C: 1, B: 2, A: 3 };
+  const nivelDe = (x) => (x.tipo === "ext" ? 3 + ((x.prestigio ?? 3) >= 4 ? 1 : 0) : ordem[x.divisao] ?? 1);
+  const salto = Math.max(0, nivelDe(c) - nivelDe(J.clube || c));
+  const aceita = limitar(logistica((J.ovr - c.nivel - 1) / 2.5) - 0.15 * salto, 0.03, 0.85);
   if (rng() < aceita) return { resultado: "aceitou", chance: aceita };
-  return { resultado: rng() < 0.45 ? "desistiu" : "recusou", chance: aceita };
+  // pedir alto demais irrita: quanto menor a chance, mais o clube desiste
+  return { resultado: rng() < 0.35 + (0.5 - Math.min(0.5, aceita)) ? "desistiu" : "recusou", chance: aceita };
 }
 
 // --- tela da carreira ---------------------------------------------------------------
@@ -2912,7 +2924,7 @@ function iniciarRolagem() {
   // onde cada decisao cai no ano: o foco na pre-temporada, o resto espalhado
   const resto = R.eventos.filter((e) => e.id !== "foco").length;
   let j = 0;
-  R.pontos = R.eventos.map((e) => (e.id === "foco" ? 0.02 : 0.22 + (j++ + 0.5) * (0.66 / resto) + (C.rng() - 0.5) * 0.08));
+  R.pontos = R.eventos.map((e) => (e.id === "foco" || e.inicio ? 0.03 : 0.22 + (j++ + 0.5) * (0.66 / resto) + (C.rng() - 0.5) * 0.08));
   // lance de jogo cai na data de um mata-mata que o clube joga de verdade
   R.contextos = R.eventos.map(() => null);
   const ctxs = Motor.embaralhar(C.rng, contextosDoClube(J));
