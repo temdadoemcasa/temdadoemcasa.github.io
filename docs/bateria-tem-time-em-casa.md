@@ -470,3 +470,25 @@ Para caber sempre em 12, mantendo "todo mata-mata decisivo", só dando menos par
   - nenhuma rodada decisiva fora das 6 últimas e todo cartão de rodada com "Em jogo";
   - a 36ª-38ª às vezes decisiva, às vezes não.
 - Chromium, temporada inteira no "Até o próximo decisivo": 0 erros no console.
+
+### 9.4 Ida do mata-mata vira jogo comum (proposta da 9.2, aplicada)
+
+- A ida do mata-mata não pergunta mais a postura: vale a do painel ("Postura nos outros jogos", Equilibrado se ninguém mexer).
+- Perguntam a volta, com o agregado na mesa, e a final em jogo único (`ehIda` e `decisivaParaUsuario`).
+- Embaixo do placar aparece a linha "Próximo: Copa do Brasil · Oitavas (ida) contra X (12 de ago.). Ida: vale a postura do painel (Equilibrado); a volta pergunta." Ela muda na hora em que a pessoa troca a postura do painel.
+- O calendário mostra o mesmo aviso no "Próximo".
+- A regra do Brasileirão ("Em jogo") não mudou.
+
+`decisivos.js 300` (paradas de "Até o próximo decisivo" por temporada):
+
+| draft | fase 4 | agora | meta |
+|---|---|---|---|
+| típico ("humano") | 12,4 (p10 7, p90 18) | **7,9 (p10 4, p90 11)** | média 7-10, p90 ≤ 12 |
+| ao acaso | 10,4 (5-16) | 7,0 (3-11) | |
+| maior nota (vai mais longe) | 12,3 (6-18) | 7,8 (4-12) | |
+
+Média por mês no draft típico: mai 1,0 · jul 0,3 · ago 1,6 · set 1,0 · out 1,2 · nov 2,6 · dez 0,2. Ficam no Brasileirão 3,0, na Copa do Brasil 2,8 e na continental 2,1.
+
+- **Decisões boas − sempre Equilibrado:** +4,1 pts (`decisoes.sh 400`, igual à fase 4, meta ≥ +3). A política boa escolhe a postura da ida pelo contexto, no painel, com o adversário já sorteado.
+- **Fumaça de 1.000 tentativas, fase 4 × agora:** 920 de 920 tentativas iguais fora da política "boa". As métricas não se mexem.
+- **`testes-ui.js`:** 44 ok. Checam que a ida não pede postura, que a volta e a final pedem, e que a dica "Ida: vale a postura do painel (Equilibrado)" aparece.

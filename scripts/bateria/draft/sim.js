@@ -144,7 +144,7 @@ function temporada(p) {
         temp.ttc.posturas.set(e, pp);
         if (pp !== "equilibrado") posturasUsadas++;
       }
-    } else if (esperaJogo && quer("postura")) temp.ttc.posturaPadrao = posturaDoContexto(temp, prevista.jogo);
+    } else if (esperaJogo && quer("postura")) temp.ttc.posturaPadrao = posturaDoContexto(temp, prevista.jogo || A.parDoUsuario(temp, e));
     const x = Motor.avancar(temp);
     if (Boolean(esperaJogo) !== Boolean(x.doUsuario)) { agendaErros++; if (agendaErros <= 3) problemas.push(`agenda!=jogo em ${x.etapa.rotulo}`); }
     jogosPorComp[x.etapa.comp] += x.jogos.length;

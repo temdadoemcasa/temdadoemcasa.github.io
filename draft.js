@@ -674,7 +674,7 @@ function seletorDePostura() {
   const sel = el("select");
   for (const [id, p] of Object.entries(POSTURAS)) sel.append(new Option(p.nome, id, false, id === (D.temp ? D.temp.ttc.posturaPadrao : "equilibrado")));
   sel.title = "Pra cima rende em casa contra time menor; Fechadinho, fora contra time maior. Fora disso, custa.";
-  sel.addEventListener("change", () => { if (D.temp) D.temp.ttc.posturaPadrao = sel.value; });
+  sel.addEventListener("change", () => { if (D.temp) { D.temp.ttc.posturaPadrao = sel.value; mostrarDicaDoProximo(); } });
   rot.append(sel);
   return rot;
 }
@@ -794,13 +794,14 @@ function depoisDoJogo(temp, etapa, jogo) {
   }
 }
 
-// decisivo pro usuario: mata-mata, reta final (36a-38a) e, da 30a rodada em
-// diante, confronto direto (ate 3 pontos de diferenca)
-// Decisivo pro usuario: todo mata-mata e toda final; no Brasileirao, so quando
-// alguma linha da tabela esta em jogo pra ele (emJogoNoBrasileirao).
+// Decisivo pro usuario (pergunta a postura): a volta do mata-mata, com o
+// agregado na mesa, e a final em jogo unico; no Brasileirao, so quando alguma
+// linha da tabela esta em jogo pra ele (emJogoNoBrasileirao). A ida do
+// mata-mata e jogo comum: vale a postura do painel.
+const ehIda = (etapa) => Boolean(etapa.mata && !etapa.final && /\(ida\)/.test(etapa.rotulo));
 function decisivaParaUsuario(temp, etapa) {
   if (!etapa) return false;
-  if (etapa.mata) return true;
+  if (etapa.mata) return !ehIda(etapa);
   if (etapa.comp !== "bra") return false;
   const par = etapa.montar().find((j) => j.casa === temp.usuario || j.fora === temp.usuario);
   return Boolean(par && emJogoNoBrasileirao(temp));
@@ -1575,7 +1576,8 @@ function desenharAcao(meus, hoje) {
     }
     if (prox) {
       const contra = prox.jogo ? `${prox.jogo.casa === D.temp.usuario ? "vs" : "em"} ${nomeDe(prox.jogo.casa === D.temp.usuario ? prox.jogo.fora : prox.jogo.casa)}` : "adversário a definir";
-      alvo.append(el("span", "cal-resumo", `Próximo: ${contra} (${COMP_CURTA[prox.etapa.comp]}, ${dataJogo(prox.etapa.data)})`));
+      const ida = ehIda(prox.etapa) ? ` · ida: vale a postura do painel (${POSTURAS[D.temp.ttc.posturaPadrao || "equilibrado"].nome})` : "";
+      alvo.append(el("span", "cal-resumo", `Próximo: ${contra} (${COMP_CURTA[prox.etapa.comp]}, ${dataJogo(prox.etapa.data)})${ida}`));
     }
     alvo.append(el("p", "nota", "Clica num dia pra ver o jogo ou simular até ele."));
     return;
@@ -1643,7 +1645,25 @@ function mostrarJogoSeEscondido() {
   if (r.top < 64 || r.top > innerHeight * 0.6) $("jogo").scrollIntoView({ behavior: movimentoReduzido ? "auto" : "smooth", block: "start" });
 }
 
+// linha curta embaixo do placar: o proximo jogo e, se for ida de mata-mata,
+// que vale a postura do painel (ela nao pergunta)
+function dicaDoProximo() {
+  const prox = Motor.agenda(D.temp, 1)[0];
+  if (!prox || !ehIda(prox.etapa)) return null;
+  const par = parDoUsuario(D.temp, prox.etapa);
+  const rival = par ? (par.casa === D.temp.usuario ? par.fora : par.casa) : null;
+  const postura = POSTURAS[D.temp.ttc.posturaPadrao || "equilibrado"].nome;
+  return `Próximo: ${prox.etapa.rotulo}${rival ? ` contra ${nomeDe(rival)}` : ""} (${dataJogo(prox.etapa.data)}). Ida: vale a postura do painel (${postura}); a volta pergunta.`;
+}
+function mostrarDicaDoProximo() {
+  const jogo = $("jogo");
+  for (const d of jogo.querySelectorAll(".proximo-dica")) d.remove();
+  const texto = D.temp && !Motor.terminou(D.temp) ? dicaDoProximo() : null;
+  if (texto) jogo.append(el("p", "jogo-dica proximo-dica", texto));
+}
+
 function atualizarPaineis() {
+  mostrarDicaDoProximo();
   const status = $("status");
   status.replaceChildren();
   for (const c of compsDoUsuario()) {

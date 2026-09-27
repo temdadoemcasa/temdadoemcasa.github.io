@@ -84,7 +84,7 @@ conf(primeiroLeque(1, "2026-09-27") !== primeiroLeque(1, "2026-09-28"), "desafio
       const e = t.etapas[t.i], prox = Motor.agenda(t, 1)[0];
       if (prox && prox.indice === t.i) {
         const dec = A.decisivaParaUsuario(t, e);
-        if (e.mata && !dec) mataNao++;
+        if (e.mata && !dec !== A.ehIda(e)) mataNao++;
         if (e.comp === "bra") {
           const ej = A.emJogoNoBrasileirao(t);
           if (dec !== Boolean(ej)) incoerente++;
@@ -96,7 +96,7 @@ conf(primeiroLeque(1, "2026-09-27") !== primeiroLeque(1, "2026-09-28"), "desafio
       Motor.avancar(t);
     }
   }
-  conf(mataNao === 0, "mata-mata nao decisivo");
+  conf(mataNao === 0, "volta e final deveriam ser decisivas e a ida nao");
   conf(cedo === 0 && incoerente === 0, `rodada decisiva fora da reta final (${cedo}) ou sem 'Em jogo' no cartao (${incoerente})`);
   conf(semNada > 0 && comAlgo > 0, `36a-38a deveriam ser decisivas so as vezes (decisivas ${comAlgo}, sem nada em jogo ${semNada})`);
 }
@@ -128,7 +128,7 @@ conf(primeiroLeque(1, "2026-09-27") !== primeiroLeque(1, "2026-09-28"), "desafio
   conf(TD.temp.i > iAntes, "BUG 1: 'ate o decisivo' com cartao aberto nao andou");
   conf(TD.temp.historico.some((h) => h.etapa === pendente && h.doUsuario), "o decisivo pendente nao foi jogado");
   conf(TD.temp.ttc.posturas.get(pendente) === "equilibrado", "decisivo pulado deveria ir no Equilibrado");
-  let viuJanela = false, parado = 0, apertos = 0;
+  let viuJanela = Boolean(run("D.cartao") && run("D.cartao").tipo === "janela"), parado = 0, apertos = 0;
   for (; apertos < 80 && !T.Motor.terminou(TD.temp); apertos++) {
     const antes = TD.temp.i;
     await run("simularAteDecisivo()");
@@ -139,6 +139,18 @@ conf(primeiroLeque(1, "2026-09-27") !== primeiroLeque(1, "2026-09-28"), "desafio
   conf(T.Motor.terminou(TD.temp) && parado === 0, `temporada nao terminou so com 'ate o decisivo' (${apertos} apertos, ${parado} sem andar)`);
   conf(viuJanela, "janela nao apareceu no caminho do 'ate o decisivo'");
   conf(TD.temp.ttc.janelaUsada, "passar pela janela com outro botao deveria fechar a janela");
+  // 7a2) ida de mata-mata nao pergunta postura e a dica embaixo do placar avisa
+  montar(15);
+  let viuDica = false, perguntouIda = false;
+  for (let k = 0; k < 80 && !T.Motor.terminou(TD.temp); k++) {
+    await run("proximoJogo()");
+    const card = run("D.cartao");
+    if (card && card.tipo === "decisivo" && T.ehIda(card.etapa)) perguntouIda = true;
+    const dica = run("$('jogo').querySelectorAll('.proximo-dica')")[0];
+    if (dica && /Ida: vale a postura do painel \(Equilibrado\)/.test(dica.textContent)) viuDica = true;
+  }
+  conf(!perguntouIda, "ida de mata-mata nao deveria pedir postura");
+  conf(viuDica, "a dica 'Ida: vale a postura do painel' nao apareceu");
   // 7b) "Proximo jogo" com o cartao aberto joga o decisivo
   montar(12);
   for (let k = 0; k < 40 && !(run("D.cartao") && run("D.cartao").tipo === "decisivo"); k++) await run("proximoJogo()");
