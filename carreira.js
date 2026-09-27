@@ -3232,6 +3232,45 @@ function roleta(chance, ok) {
   return caixa;
 }
 
+// Conquista do ano na tela: a taca grande, o nome, raios girando e confete.
+// Sem caixa em volta. Um por vez (~2 s cada); clicar pula.
+function comemorarTitulos(linha) {
+  const lista = [
+    ...linha.titulos.map((nome) => ({ nome, premio: false, sub: linha.clube })),
+    ...((linha.selecao && linha.selecao.titulos) || []).map((nome) => ({ nome, premio: false, sub: paisDe(C.pais).nome })),
+    ...linha.premios.filter((n) => /Bola de Ouro|Craque|Melhor/.test(n)).map((nome) => ({ nome, premio: true, sub: "Prêmio individual" })),
+  ];
+  if (!lista.length) return;
+  const camada = el("div", "festa");
+  camada.setAttribute("role", "status");
+  document.body.append(camada);
+  let i = 0, timer = null;
+  const proximo = () => {
+    clearTimeout(timer);
+    if (i >= lista.length) { camada.classList.add("saindo"); setTimeout(() => camada.remove(), 300); return; }
+    const t = lista[i++];
+    const cena = el("div", `festa-cena${t.premio ? " festa-premio" : ""}`);
+    const raios = el("div", "festa-raios");
+    const taca_ = taca(t.nome, { premio: t.premio, tamanho: "festa" });
+    const confete = el("div", "festa-confete");
+    const cores = ["#c8ff00", "#f2c230", "#ff7d95", "#5cc8ff", "#ffffff"];
+    for (let k = 0; k < (movimentoReduzido ? 0 : 36); k++) {
+      const c = el("i");
+      c.style.setProperty("--x", `${(Math.random() * 2 - 1) * 46}vw`);
+      c.style.setProperty("--y", `${-20 - Math.random() * 40}vh`);
+      c.style.setProperty("--r", `${Math.random() * 720 - 360}deg`);
+      c.style.setProperty("--d", `${Math.random() * 0.25}s`);
+      c.style.background = cores[k % cores.length];
+      confete.append(c);
+    }
+    cena.append(raios, confete, taca_, el("strong", "festa-nome", t.nome), el("span", "festa-sub", `${t.sub} · ${linha.ano}`));
+    camada.replaceChildren(cena);
+    timer = setTimeout(proximo, movimentoReduzido ? 1400 : 2300);
+  };
+  camada.addEventListener("click", proximo);
+  proximo();
+}
+
 function fecharTemporadaCompleta() {
   C.eventos = null;
   if (C.menu) { C.menu.marcar("carta"); C.menu.marcar("carreira"); }
@@ -3241,6 +3280,7 @@ function fecharTemporadaCompleta() {
   mostrarLinha(linha);
   desenharPainelJogador();
   desenharTabelaCarreira();
+  comemorarTitulos(linha);
   if (C.J.aposentado) { $("proxima").textContent = "Ver a aposentadoria"; $("proxima").disabled = false; $("tudo").disabled = true; return; }
   mostrarMercado(linha);
 }
