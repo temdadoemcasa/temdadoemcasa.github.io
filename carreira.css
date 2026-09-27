@@ -664,3 +664,8 @@
 .fase-base { --f: #5cc8ff; } .fase-afirmacao { --f: #c8ff00; } .fase-auge { --f: #f2c230; } .fase-veterano { --f: #ff7d95; }
 :root[data-tema="claro"] .fase-afirmacao { --f: #4a7d00; } :root[data-tema="claro"] .fase-auge { --f: #b8860b; }
 .fase-aviso { margin: 0.35rem 0 0.1rem; padding: 0 0 0 0.6rem; border: 0; border-left: 2px solid var(--f); border-radius: 0; background: none; font-size: 0.8rem; color: var(--texto-fraco); }
+.projecao-delta { font-variant-numeric: tabular-nums; }
+.fato-ano { display: block; white-space: nowrap; font-size: 0.62rem; font-weight: 600; color: var(--canal); font-family: Inter, sans-serif; letter-spacing: 0; }
+.tabela-carreira tr.proxima-linha.rolando td { color: var(--canal); font-style: normal; }
+.tabela-carreira tr.proxima-linha.rolando .tc-idade::after { content: " ●"; font-size: 0.6rem; animation: pisca 1.2s ease-in-out infinite; }
+@keyframes pisca { 50% { opacity: 0.2; } }

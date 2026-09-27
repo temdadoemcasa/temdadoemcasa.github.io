@@ -329,13 +329,13 @@ const ESTILOS = {
   GOL: { REF: ["Paredão", "defesas difíceis"], EVI: ["Fechador de gol", "sofre menos do que devia"], MAO: ["Mão firme", "segura tudo"],
     PES: ["Goleiro líbero", "joga com os pés"], SAI: ["Dono da área", "sai bem do gol"] },
 };
-// na montagem, o estilo e o atributo em que voce mais investiu, medido pelo
-// quanto do espaco ate o teto voce usou. Menos de 6 pontos a mais: equilibrado.
+// na montagem, o estilo e o atributo em que voce mais investiu (pontos acima
+// da base). Menos de 6 pontos a mais em tudo: equilibrado.
 function estiloDaMontagem(attrs, pos) {
   const f = POSICOES[pos].funcao;
   // quanto do espaco ate o teto voce usou (ir de 62 a 72 conta mais que de 45 a 55)
-  const uso = (c) => (attrs[c] - BASE[f][c]) / Math.max(1, TETO_NA_CRIACAO - BASE[f][c]) + PESOS[f][c] * 0.01;
-  const [k, v] = Object.keys(BASE[f]).map((c) => [c, uso(c), attrs[c] - BASE[f][c]]).sort((a, b) => b[1] - a[1])[0].filter((_, i) => i !== 1);
+  // pontos investidos acima da base; empate: o que mais pesa na posicao
+  const [k, v] = Object.keys(BASE[f]).map((c) => [c, attrs[c] - BASE[f][c] + PESOS[f][c] * 0.01]).sort((a, b) => b[1] - a[1])[0];
   if (v < 6) return { nome: "Equilibrado", dica: "rende como a média da posição", k: null };
   const [nome, dica] = ESTILOS[f][k];
   return { nome, dica, k };
@@ -514,13 +514,54 @@ function minimoPermitido(f, k) {
 // pontos vai pros que mais pesam no OVR, sem passar de 70 (o estilo fica)
 function montarEstilo(k) {
   const f = funcaoDe(C.pos);
-  C.attrs = { ...BASE[f] };
-  const sobe = (c, ate) => { while (C.attrs[c] < ate && custoDaCarta(f, { ...C.attrs, [c]: C.attrs[c] + 1 }) <= PONTOS_INICIAIS) C.attrs[c]++; };
-  sobe(k, TETO_NA_CRIACAO);
-  const outros = Object.entries(PESOS[f]).filter(([c]) => c !== k).sort((a, b) => b[1] - a[1]).map(([c]) => c);
-  // um ponto por vez, na ordem de peso, pra nao jogar tudo num so
-  for (let volta = 0; volta < 40; volta++) for (const c of outros) sobe(c, Math.min(TETO_NA_CRIACAO - 2, C.attrs[c] + 1));
+  C.attrs = cartaDoEstilo(f, k, ovrAlvoDosEstilos(f));
   desenharMontagem();
+}
+// OVR sem arredondar (pra mirar o alvo com precisao)
+const ovrFino = (a, f) => Object.entries(PESOS[f]).reduce((t, [c, w]) => t + w * (a[c] ?? 0), 0);
+// carta de um estilo com o atributo do estilo em `nivel`. O resto dos pontos
+// vai pros que mais pesam enquanto couber no OVR alvo; o que sobra vai pros que
+// menos pesam. Nenhum passa o uso do atributo do estilo (o estilo fica).
+function cartaComNivel(f, k, nivel, alvo = 99) {
+  const a = { ...BASE[f] };
+  const cabe = (c, v) => custoDaCarta(f, { ...a, [c]: v }) <= PONTOS_INICIAIS;
+  if (!cabe(k, nivel)) return null;
+  a[k] = nivel;
+  const invK = a[k] - BASE[f][k];
+  const limite = (c) => Math.min(TETO_NA_CRIACAO, BASE[f][c] + invK - 1);
+  const outros = Object.entries(PESOS[f]).filter(([c]) => c !== k).sort((x, y) => y[1] - x[1]).map(([c]) => c);
+  for (let guarda = 0; guarda < 200; guarda++) {
+    const livres = outros.filter((c) => a[c] < limite(c) && cabe(c, a[c] + 1));
+    if (!livres.length) break;
+    // o mais pesado que ainda nao estoura o alvo; senao, o mais leve
+    const c = livres.find((x) => ovrFino(a, f) + PESOS[f][x] < alvo + 0.49) || livres[livres.length - 1];
+    a[c]++;
+  }
+  return a;
+}
+// todos os estilos de uma posicao saem com o MESMO OVR: o maior que todos alcancam
+const alvoCache = {};
+function ovrAlvoDosEstilos(f) {
+  if (alvoCache[f] !== undefined) return alvoCache[f];
+  const faixa = (k) => {
+    const ovrs = [];
+    for (let n = BASE[f][k] + 6; n <= TETO_NA_CRIACAO; n++) { const a = cartaComNivel(f, k, n); if (a && custoDaCarta(f, a) === PONTOS_INICIAIS) ovrs.push(ovrDe(a, f)); }
+    return ovrs;
+  };
+  let alvo = 99;
+  for (const k of Object.keys(ESTILOS[f])) { const o = faixa(k); if (o.length) alvo = Math.min(alvo, Math.max(...o)); }
+  // desce ate um alvo que todo estilo consegue bater exato
+  for (; alvo > 40; alvo--) if (Object.keys(ESTILOS[f]).every((k) => cartaDoEstilo(f, k, alvo, true))) break;
+  return (alvoCache[f] = alvo);
+}
+function cartaDoEstilo(f, k, alvo, soTestar = false) {
+  // entre os niveis que batem o OVR alvo gastando tudo, o atributo do estilo mais alto
+  for (let n = TETO_NA_CRIACAO; n >= BASE[f][k] + 6; n--) {
+    const a = cartaComNivel(f, k, n, alvo);
+    if (a && ovrDe(a, f) === alvo && estiloDaMontagem(a, Object.keys(POSICOES).find((p) => funcaoDe(p) === f)).k === k) return a;
+  }
+  if (soTestar) return null;
+  return cartaComNivel(f, k, TETO_NA_CRIACAO, alvo) || { ...BASE[f] };
 }
 function montarAutomatico() {
   const f = funcaoDe(C.pos);
@@ -2557,7 +2598,7 @@ function desenharPainelJogador() {
   for (const [k, v] of [
     ["Idade", J.idade], ["Clube", J.clube ? J.clube.nome : "Sem clube"], ["Valor", dinheiro(J.valor)],
     ["Jogos", tot.j], ["Gols", tot.g], ["Assist.", tot.a],
-  ]) { const d = el("div"); d.append(el("dt", null, k), el("dd", null, String(v))); fatos.append(d); }
+  ]) { const d = el("div"); const dd = el("dd", null, String(v)); dd.dataset.fato = k; dd.dataset.base = String(v); d.append(el("dt", null, k), dd); fatos.append(d); }
   // reputacao (historia.js): de -5 a 5, o centro e neutro
   const rep = el("div", "painel-rep");
   rep.append(el("span", "painel-rep-rotulo", `Fase: ${Historia.NOMES_FASE[Historia.fase(J)]} · confiança e reputação`));
@@ -2628,7 +2669,7 @@ function desenharTabelaCarreira() {
   }
   if (!J.aposentado) {
     const tr = el("tr", "proxima-linha");
-    tr.append(el("td", "tc-idade", String(J.idade)), el("td", "tc-clube", J.clube.nome), el("td", "tc-ovr", "?"), el("td", null, "—"), el("td", null, "—"), el("td", null, "—"), el("td"), el("td"));
+    tr.append(el("td", "tc-idade", String(J.idade)), el("td", "tc-clube", J.clube.nome), el("td", "tc-ovr", "?"), el("td", "tc-vivo-j", "—"), el("td", "tc-vivo-g", "—"), el("td", "tc-vivo-a", "—"), el("td"), el("td"));
     tbody.append(tr);
   }
 }
@@ -2883,7 +2924,14 @@ function atualizarProjecao(R) {
     if (Math.abs(dif) < limiar) { c.delta.textContent = ""; continue; }
     void c.box.offsetWidth; // reinicia a animacao
     c.box.classList.add(dif > 0 ? "mudou-sobe" : "mudou-desce");
-    c.delta.textContent = fmtDif(k, dif);
+    // numero inteiro na tela (jogos, gols, assist., OVR): a diferenca e a do numero
+    // que aparece; se ele nao mudou, so uma setinha (a tendencia melhorou/piorou)
+    if (k === "nota" || k === "vitrine") c.delta.textContent = fmtDif(k, dif);
+    else {
+      const visivel = Math.round(R.proj[k]) - Math.round(antes[k]);
+      c.delta.textContent = visivel ? `${visivel > 0 ? "+" : "−"}${Math.abs(visivel)}` : dif > 0 ? "▲" : "▼";
+      c.delta.title = visivel ? "" : "A projeção melhorou, mas ainda não mudou o número inteiro";
+    }
   }
 }
 
@@ -2915,8 +2963,32 @@ function rolarAte(R, alvoProg) {
   });
 }
 
+// enquanto o ano rola: a linha da temporada na tabela e os totais do painel
+// vao somando (pela projecao ate aqui; no fim entra o numero de verdade)
+function atualizarAoVivo(R) {
+  const parcial = { j: Math.round(R.proj.jogos * R.prog), g: Math.round(R.proj.gols * R.prog), a: Math.round(R.proj.assist * R.prog) };
+  const chave = `${parcial.j}-${parcial.g}-${parcial.a}`;
+  if (R.vivo === chave) return;
+  R.vivo = chave;
+  const linha = document.querySelector("#tabela-carreira .proxima-linha");
+  if (linha) {
+    linha.classList.add("rolando");
+    linha.querySelector(".tc-vivo-j").textContent = String(parcial.j);
+    linha.querySelector(".tc-vivo-g").textContent = String(parcial.g);
+    linha.querySelector(".tc-vivo-a").textContent = String(parcial.a);
+  }
+  for (const [fato, v] of [["Jogos", parcial.j], ["Gols", parcial.g], ["Assist.", parcial.a]]) {
+    const dd = document.querySelector(`#painel-jogador dd[data-fato="${fato}"]`);
+    if (!dd) continue;
+    const base = Number(dd.dataset.base) || 0;
+    dd.replaceChildren(document.createTextNode(String(base + v)));
+    if (v) dd.append(el("small", "fato-ano", ` +${v} no ano`));
+  }
+}
+
 function desenharProgresso(R) {
   R.barra.style.width = `${R.prog * 100}%`;
+  atualizarAoVivo(R);
   const jogo = Math.max(1, Math.round(R.prog * R.proj.G));
   R.status.textContent = R.prog < 0.03 ? "Pré-temporada" : R.prog >= 1 ? "Fim da temporada" : `${mesDe(R, R.prog)} · jogo ${jogo} de ~${R.proj.G}`;
 }
