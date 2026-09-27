@@ -65,6 +65,35 @@ while (!Motor.terminou(D.temp)) {
 }
 conf(viuJanela, "janela nunca abriu");
 conf(D.temp.ttc.ocorrencias.every((o) => o.jogador && o.jogos >= 1), "ocorrencia de lesao/suspensao invalida");
+// 4b) mudar jogador de vaga nao sorteia leque novo (o "roubo" de 27/09: ir e
+// voltar entre duas vagas refazia o leque sem gastar troca). Cada vaga sorteia
+// uma vez; a vaga que esvazia volta com o que sobrou do leque dela.
+{
+  novoDraft("4-3-3");
+  const mover = vm.runInContext("moverDeVaga", ctx), destinos = vm.runInContext("destinosDe", ctx);
+  const ca = D.onze.findIndex((s) => s.pos === "CA"), pe = D.onze.findIndex((s) => s.pos === "PE");
+  const coringa = A.r.indice.comNota.find((j) => A.cabeNaVaga(j, D.onze[ca].pos) && A.cabeNaVaga(j, D.onze[pe].pos));
+  conf(!!coringa, "nenhum jogador cabe em CA e PE");
+  D.vaga = ca; A.lequeAtual(); D.leques[ca] = [coringa, ...D.leques[ca].filter((j) => j !== coringa)].slice(0, 5);
+  const lequeCa = [...D.leques[ca]];
+  ctx.__agora += 1000; esc(coringa);
+  conf(D.onze[ca].jogador === coringa, "escolha do CA nao entrou");
+  conf(destinos(ca).includes(pe), "CA que joga de ponta nao pode ir pra PE");
+  mover(ca, pe);
+  conf(D.onze[pe].jogador === coringa && !D.onze[ca].jogador && D.vaga === ca, "mover CA -> PE nao abriu a vaga do CA");
+  conf(A.lequeAtual().every((j) => lequeCa.includes(j)) && !A.lequeAtual().includes(coringa), "CA liberado sorteou leque novo em vez de voltar o dele");
+  mover(pe, ca); D.vaga = pe; const lequePe = [...A.lequeAtual()];
+  for (let n = 0; n < 4; n++) { mover(D.onze[ca].jogador ? ca : pe, D.onze[ca].jogador ? pe : ca); }
+  D.vaga = pe; mover(pe, ca); D.vaga = pe;
+  conf(A.lequeAtual().every((j) => lequePe.includes(j)), "ir e voltar entre CA e PE refez o leque da PE");
+  // troca entre duas vagas cheias: os dois cabem na vaga um do outro
+  const outro = A.lequeAtual().find((j) => A.cabeNaVaga(j, D.onze[ca].pos));
+  if (outro) {
+    ctx.__agora += 1000; esc(outro);
+    const [a, b] = [D.onze[ca].jogador, D.onze[pe].jogador];
+    if (destinos(ca).includes(pe)) { mover(ca, pe); conf(D.onze[pe].jogador === a && D.onze[ca].jogador === b, "troca entre duas vagas cheias falhou"); }
+  }
+}
 // 5) cobradores de estrangeiro e expulso fora da fila
 const cobradores = vm.runInContext("cobradores", ctx);
 const est = cobradores("Boca Juniors"); conf(!est[0].startsWith("cobrador") && est.length >= 5, "Boca sem nomes: " + est.slice(0, 3));

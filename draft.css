@@ -600,15 +600,18 @@ body.simulando .cal-dia { pointer-events: none; }
   .draft-grade .draft-lado { order: -1; }
 }
 
-/* muda o jogador de vaga (posicao secundaria): a de origem volta pro sorteio */
-.vaga-mover {
-  position: absolute; top: -0.35rem; right: 12%;
-  width: 1.55rem; height: 1.55rem; display: grid; place-items: center; padding: 0;
-  border-radius: 50%; border: 1px solid var(--canal); background: var(--fundo-cartao); color: var(--canal);
-  font-size: 0.85rem; font-weight: 800; line-height: 1; cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
-}
-.vaga-mover:hover, .vaga-mover:focus-visible { background: var(--canal); color: #111; }
+/* draft: vaga e botao (toque na vazia abre o leque; no jogador, escolhe quem
+   mover e o toque seguinte, o destino). Os destinos possiveis ficam marcados. */
+button.vaga { background: none; border: 0; padding: 0; margin: 0; color: inherit; font: inherit; cursor: pointer; }
+button.vaga:focus-visible { outline: 2px solid var(--canal); outline-offset: 3px; border-radius: 6px; }
+button.vaga:hover .vaga-vazia { border-color: var(--canal); color: var(--canal); }
+.vaga-movendo .vaga-camisa svg { filter: drop-shadow(0 0 6px var(--canal)) drop-shadow(0 3px 4px rgba(0,0,0,0.4)); }
+.vaga-movendo .vaga-nome { color: var(--canal); }
+.vaga-destino .vaga-vazia, .vaga-destino.vaga-cheia .vaga-camisa { outline: 2px dashed var(--canal); outline-offset: 3px; border-radius: 50%; }
+.vaga-destino .vaga-vazia { border-color: var(--canal); color: var(--canal); animation: pulsar 1.2s ease-in-out infinite; }
+.draft-aviso { color: var(--canal); margin: 0.2rem 0 0.4rem; }
+.banco-clicavel { cursor: pointer; }
+.banco-clicavel:hover .vaga-vazia, .banco-clicavel:focus-visible .vaga-vazia { color: var(--canal); border-color: var(--canal); }
 
 /* --- fase 2: encaixe, entrosamento, banco, postura, janela, dificuldade ------------ */
 .opcao-selos { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.25rem; min-height: 1.3rem; }

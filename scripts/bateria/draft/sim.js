@@ -54,8 +54,7 @@ function draftar(p) {
     const esc = POL[p.politica](leque, k);
     const maiorNota = Math.max(...leque.map((j) => j.overall));
     log.push({ pos: slot.pos, ov: esc.overall, max: maiorNota, nivel: A.nivel(esc.overall).id, n: leque.length, naoMaior: esc.overall < maiorNota, enc: A.encaixeNaVaga(esc, slot.pos), id: esc.player_id });
-    slot.jogador = esc;
-    delete D.leques[k];
+    slot.jogador = esc; // (o leque da vaga fica guardado: draft.js nao apaga mais)
     D.vaga = A.proximaVaga();
   }
   return log;

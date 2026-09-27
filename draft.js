@@ -250,10 +250,18 @@ function sortearLeque(vaga, chances = chancesDoLeque()) {
   return opcoes;
 }
 
-function desenharGramado(alvo, { ativa = -1, mover = false } = {}) {
+// No draft o gramado e interativo: toque na vaga vazia abre o leque dela; toque
+// num jogador escolhe quem mover e o toque seguinte, a vaga pra onde ele vai
+// (vazia, ou de outro jogador que tambem cabe na dele: os dois trocam)
+function desenharGramado(alvo, { ativa = -1, interativo = false } = {}) {
   alvo.replaceChildren();
+  const movendo = interativo ? D.movendo ?? -1 : -1;
+  const destinos = movendo >= 0 ? destinosDe(movendo) : [];
   D.onze.forEach((slot, k) => {
-    const v = el("div", `vaga${k === ativa ? " vaga-ativa" : ""}${slot.jogador ? " vaga-cheia" : ""}`);
+    const classes = ["vaga", k === ativa && movendo < 0 ? "vaga-ativa" : "", slot.jogador ? "vaga-cheia" : "",
+      k === movendo ? "vaga-movendo" : "", destinos.includes(k) ? "vaga-destino" : ""].filter(Boolean).join(" ");
+    const v = el(interativo ? "button" : "div", classes);
+    if (interativo) v.type = "button";
     v.style.left = `${slot.x}%`;
     v.style.top = `${slot.y}%`;
     if (slot.jogador) {
@@ -262,21 +270,45 @@ function desenharGramado(alvo, { ativa = -1, mover = false } = {}) {
       camisa.append(figuraUsuario(j.camisa));
       v.append(camisa, el("span", `vaga-nota nivel-${nivel(j.overall).id}`, String(j.overall)), el("span", "vaga-nome", sobrenome(j.nome)));
       v.title = `${j.nome} · veio do ${TIME_DE.get(j).nome}`;
-      const destinos = mover ? destinosDe(k) : [];
-      if (destinos.length) {
-        const b = el("button", "vaga-mover", "⇄");
-        b.type = "button";
-        const para = VAGAS[D.onze[destinos.find((d) => d > k) ?? destinos[0]].pos][1];
-        b.title = `Mudar ${sobrenome(j.nome)} para ${para} e sortear a vaga dele`;
-        b.setAttribute("aria-label", b.title);
-        b.addEventListener("click", () => moverDeVaga(k));
-        v.append(b);
-      }
     } else {
       v.append(el("span", "vaga-vazia", VAGAS[slot.pos][1]));
+      if (interativo) v.title = `Escolher o ${VAGAS[slot.pos][2].toLowerCase()}`;
+    }
+    if (interativo) {
+      if (movendo >= 0) v.title = k === movendo ? "Cancelar" : destinos.includes(k) ? `Levar ${sobrenome(D.onze[movendo].jogador.nome)} para ${VAGAS[slot.pos][1]}` : v.title;
+      else if (slot.jogador) v.title = `${v.title} · toque pra mudar de posição`;
+      v.setAttribute("aria-label", v.title);
+      v.addEventListener("click", () => tocarVaga(k));
     }
     alvo.append(v);
   });
+}
+
+// toque numa vaga do gramado durante o draft
+function tocarVaga(k) {
+  const slot = D.onze[k];
+  if (D.movendo != null && D.movendo >= 0) {
+    const de = D.movendo;
+    D.movendo = null;
+    if (k !== de && destinosDe(de).includes(k)) moverDeVaga(de, k);
+    else abrirLeque();
+    return;
+  }
+  if (slot.jogador) {
+    if (!destinosDe(k).length) { avisoDoDraft(`${sobrenome(slot.jogador.nome)} não joga em nenhuma outra vaga do esquema.`); return; }
+    D.movendo = k;
+    abrirLeque();
+    avisoDoDraft(`Pra onde vai ${sobrenome(slot.jogador.nome)}? Toque numa vaga marcada (ou nele de novo pra cancelar).`);
+    return;
+  }
+  D.vaga = k;
+  abrirLeque();
+}
+function avisoDoDraft(texto) {
+  const a = $("draft-aviso");
+  if (!a) return;
+  a.textContent = texto;
+  a.hidden = !texto;
 }
 
 // No desafio do dia, o leque de cada vaga sai de uma semente propria (data +
@@ -297,8 +329,10 @@ function lequeDaVaga(k) {
   return leque;
 }
 
-// o leque da vaga atual (guardado ate ela ser preenchida: mover alguem de vaga
-// (⇄) nao pode virar sorteio infinito -- so "Trocar o leque" refaz)
+// o leque da vaga atual: cada vaga sorteia UMA vez no draft. Escolher, mover
+// ou esvaziar a vaga nao apaga o leque dela (voltar pra vaga mostra as cartas
+// que sobraram) -- so "Trocar o leque" refaz. Mudar jogador de vaga nao pode
+// virar sorteio infinito.
 function lequeAtual() {
   const na = todasVagas().map((s) => s.jogador).filter(Boolean);
   if (!D.leques[D.vaga]) D.leques[D.vaga] = lequeDaVaga(D.vaga);
@@ -329,8 +363,9 @@ function abrirLeque() {
     : `Escolha ${feitas + 1} de 11 · ${D.esquema}`;
   $("trocar-leque").disabled = D.trocas <= 0;
   $("trocar-leque").textContent = D.trocas > 0 ? `Trocar o leque (${D.trocas} ${D.trocas > 1 ? "vezes" : "vez"})` : "Sem trocas de leque";
-  desenharGramado($("gramado"), { ativa: noBanco ? -1 : D.vaga, mover: !noBanco });
-  desenharBanco($("vaga-progresso"), noBanco ? D.vaga - D.onze.length : -1);
+  desenharGramado($("gramado"), { ativa: noBanco ? -1 : D.vaga, interativo: true });
+  desenharBanco($("vaga-progresso"), noBanco ? D.vaga - D.onze.length : -1, { interativo: true });
+  avisoDoDraft(D.onze.every((s) => s.jogador) || D.movendo != null ? "" : "Toque numa vaga vazia pra escolher outra posição, ou num jogador pra mudar ele de posição.");
   const leque = $("leque");
   leque.replaceChildren();
   lequeAtual().forEach((j, i) => {
@@ -367,7 +402,7 @@ const textoChances = () => {
 
 // banco: lista curta logo depois de "depois" (no draft, embaixo do progresso;
 // no resumo, embaixo do gramado)
-function desenharBanco(depois, ativa = -1) {
+function desenharBanco(depois, ativa = -1, { interativo = false } = {}) {
   const pai = depois.parentElement;
   if (!pai) return;
   let lista = pai.querySelector(".banco-lista");
@@ -379,7 +414,18 @@ function desenharBanco(depois, ativa = -1) {
       const j = slot.jogador;
       li.append(el("span", `vaga-nota nivel-${nivel(j.overall).id}`, String(j.overall)), el("span", "vaga-nome", sobrenome(j.nome)));
       li.title = `${j.nome} · ${NOME_FUNCAO[FUNCAO.get(j)] || ""} · veio do ${TIME_DE.get(j).nome}`;
-    } else li.append(el("span", "vaga-vazia", VAGAS[slot.pos][1]));
+    } else {
+      li.append(el("span", "vaga-vazia", VAGAS[slot.pos][1]));
+      // no draft, reserva vazia tambem e clicavel (o banco depois do onze)
+      if (interativo) {
+        li.classList.add("banco-clicavel");
+        li.tabIndex = 0; li.setAttribute("role", "button");
+        li.setAttribute("aria-label", `Escolher reserva: ${VAGAS[slot.pos][2]}`);
+        const abrir = () => { D.movendo = null; D.vaga = D.onze.length + k; abrirLeque(); };
+        li.addEventListener("click", abrir);
+        li.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); abrir(); } });
+      }
+    }
     lista.append(li);
   });
 }
@@ -399,7 +445,7 @@ function escolher(jogador) {
   if (!(D.leques[D.vaga] || []).includes(jogador)) return;
   travaEscolhaAte = performance.now() + TRAVA_ESCOLHA_MS;
   todasVagas()[D.vaga].jogador = jogador;
-  delete D.leques[D.vaga];
+  D.movendo = null;
   D.vaga = proximaVaga();
   if (D.vaga >= 0) abrirLeque();
   else mostrarResumo();
@@ -414,20 +460,30 @@ function cabeNaVaga(j, pos) {
   return typeof x !== "number" || (lado === "D" ? x >= 0.5 : x < 0.5);
 }
 
-// vagas vazias pra onde o jogador da vaga k pode ir
-const destinosDe = (k) => D.onze.map((s, i) => i).filter((i) => i !== k && !D.onze[i].jogador && cabeNaVaga(D.onze[k].jogador, D.onze[i].pos));
+// vagas pra onde o jogador da vaga k pode ir: vazia em que ele cabe, ou de
+// outro jogador quando os dois cabem na vaga um do outro (trocam)
+const destinosDe = (k) => {
+  const j = D.onze[k] && D.onze[k].jogador;
+  if (!j) return [];
+  return D.onze.map((s, i) => i).filter((i) => i !== k && cabeNaVaga(j, D.onze[i].pos)
+    && (!D.onze[i].jogador || cabeNaVaga(D.onze[i].jogador, D.onze[k].pos)));
+};
 
-// muda o jogador de vaga: a de origem volta pro sorteio (Ronaldo de CA pra PE
-// pra puxar outro centroavante)
-function moverDeVaga(k) {
-  const destinos = destinosDe(k);
-  if (!destinos.length) return;
-  const i = destinos.find((d) => d > k) ?? destinos[0];
-  D.onze[i].jogador = D.onze[k].jogador;
-  D.onze[k].jogador = null;
-  delete D.leques[i];
-  D.vaga = proximaVaga();
-  abrirLeque();
+// muda o jogador de vaga (Bruno Henrique de CA pra PE pra escolher outro
+// centroavante). A vaga que esvazia volta com o leque DELA (o que sobrou), nunca
+// um sorteio novo; se o destino tinha alguem, os dois trocam.
+function moverDeVaga(k, i) {
+  if (!destinosDe(k).includes(i)) return;
+  const [a, b] = [D.onze[k].jogador, D.onze[i].jogador];
+  D.onze[i].jogador = a;
+  D.onze[k].jogador = b;
+  D.movendo = null;
+  // a vaga que esvaziou abre na hora (mudou o BH pra PE: agora escolhe o CA);
+  // numa troca entre duas cheias, segue a vaga que estava aberta (ou a proxima)
+  if (!b) D.vaga = k;
+  else if (D.vaga < 0 || todasVagas()[D.vaga].jogador) D.vaga = proximaVaga();
+  if (D.vaga >= 0) abrirLeque();
+  else mostrarResumo();
 }
 
 // --- resumo ------------------------------------------------------------------------
@@ -2003,6 +2059,7 @@ async function iniciarDraft() {
     D.trocas = DIFICULDADES[D.dificuldade].trocas;
     D.trocasUsadas = 0;
     D.leques = {};
+    D.movendo = null;
     mostrar("draft");
     abrirLeque();
   });
