@@ -479,3 +479,131 @@ scripts/bateria/prata/bateria.sh                                   # conjunto A 
 SEMENTE_C=20001 SEMENTE_R=30001 BATERIA_OUT=/tmp/b scripts/bateria/prata/bateria.sh   # conjunto B
 node scripts/bateria/prata/metas.js "$TMPDIR/bateria-prata-da-casa" "$TMPDIR/bateria-prata-da-casa"
 ```
+
+---
+
+## 8. Fase 3: contratos (27/09/2026)
+
+**O problema.** No jogo real, com um bot que sempre clica "Assinar", o jogador passou por 19 clubes em 20 temporadas, um por ano: Botafogo → Lokomotiv → Lille → Stuttgart → PSV → Manchester United → Arsenal → Milan → Real Madrid… Nenhuma meta anterior pegava isso.
+
+**O que mudou.** Agora toda assinatura tem prazo, e com contrato em vigor quem decide a saída é o clube. As regras de prazo, liberação, último ano e fim de contrato estão em `docs/prata-da-casa-escolhas.md`, seção "Contratos".
+
+**Nova política na bateria: "assina".** Ela decide as situações ao acaso, mas no mercado clica "Assinar" sempre que aparece proposta. São 1.000 carreiras por conjunto de sementes, fora das 5.000 (700 no completo, 300 no rápido).
+
+### 8.1 Antes × depois
+
+"Antes" é o HEAD `37b3e83` (fase 2), rodado com o `motor.js` atual, as mesmas sementes e o mesmo harness (a política "assina" foi acrescentada só na cópia de medição).
+
+| meta | antes A | antes B | depois A | depois B | resultado |
+|---|---|---|---|---|---|
+| H: clubes por carreira, 5 políticas (p50 / p95) | 6 / 12 | 6 / 12 | 5 / 8 | 4 / 8 | PASSA |
+| H: política "assina" (p50 / p95 / máx) | 15 / 19 / 22 | 15 / 19 / 22 | 7 / 10 / 12 | 7 / 10 / 12 | PASSA (p95 ≤ 10) |
+| H: "assina", dois clubes da elite europeia em anos seguidos, sem motivo | 528 | 580 | 0 | 0 | PASSA |
+| H: "assina", o mesmo com motivo (fim de contrato, último ano, pediu) | – | – | 59 | 48 | – |
+| H: final "Andarilho" (todas as políticas) | 15,4% | 15,3% | 7,9% | 7,7% | PASSA |
+| H: final "Andarilho" (política "assina") | 43,0% | 43,3% | 28,9% | 29,2% | – |
+| A: prêmios, só B-D × média | 3,23 × 4,86 | 3,26 × 4,97 | 3,38 × 5,72 | 3,39 × 5,86 | PASSA |
+| A: convocado, só B-D / Bola de Ouro só B-D | 7,4% / 0 | 6,8% / 0 | 7,5% / 0 | 5,7% / 0 | PASSA |
+| B: situações com a gulosa ≥80% na mesma opção | 3 | 2 | 3 | 3 | PASSA |
+| B: estratégica × aleatória | +61% | +69% | +64% | +62% | PASSA |
+| B: OVR auge, melhor − pior jogada por faixa | 2,8–3,1 | 2,9–3,1 | 3,0–3,2 | 2,7–3,4 | PASSA |
+| C: espalhamento do score, rápido × completo | 10,9 × 15,2 | 13,9 × 15,2 | 11,9 × 12,7 | 15,8 × 13,0 | PASSA |
+| D: apostas / renovação / estreia no 1º ano | 28,6% / 22,2% / 100% | 30,9% / 21,8% / 100% | 27,3% / 30,0% / 100% | 30,0% / 28,8% / 100% | PASSA |
+| E: virou técnico / despedida | 13,6% / 21,7% | 14,1% / 21,3% | 13,4% / 22,6% | 14,3% / 23,8% | PASSA |
+| F: exceções / texto suspeito / situação repetida / estado mexido pela dica | 0 / 0 / 0 / 0 | 0 / 0 / 0 / 0 | 0 / 0 / 0 / 0 (e 0 nas 1.700 extras) | igual | PASSA |
+| F: situações alcançadas | 111/111 | 111/111 | 111/111 | 111/111 | PASSA |
+| F: aposentadoria p5-p50-p95 | 33-36-38 | 33-36-38 | 33-36-38 | 33-36-38 | PASSA |
+
+**Motivo das transferências**, depois (conjunto A, todas as políticas, que sabem pedir pra sair):
+
+| motivo | transferências |
+|---|---|
+| último ano de contrato | 9.953 |
+| fim de contrato (livre) | 7.840 |
+| pediu pra ser vendido | 5.570 |
+| liberado pelo clube | 5.341 |
+
+**Clubes por política, depois (conjunto A, p50 / p95 / máx):**
+
+| política | p50 | p95 | máx |
+|---|---|---|---|
+| aleatória | 6 | 10 | 13 |
+| gulosa | 6 | 9 | 11 |
+| impaciente | 5 | 8 | 11 |
+| cautelosa | 2 | 5 | 7 |
+| primeira | 2 | 4 | 7 |
+| assina | 7 | 10 | 12 |
+
+Antes, a aleatória tinha 9 / 14 / 18 e a gulosa 9 / 12 / 17.
+
+**Dominantes restantes (3, contando a margem):**
+- as duas opções éticas da fase 2;
+- "O clube que te revelou chama" → Topa voltar (84%). Com o contrato, a volta pra casa ficou pro fim do contrato, e o fôlego que ela dá pesa mais pro veterano.
+
+A calibragem das escolhas mudou pouco. Com contratos, o contexto muda: renovação e ídolo local ficaram mais frequentes. Os ajustes:
+- "O melhor da divisão": renovar vale mais a partir dos 25; pedir pra ser vendido, até os 23.
+- "A braçadeira": a torcida só dá o bônus depois de 6 anos no clube.
+- "O passaporte": a vitrine é alta só com OVR 82+.
+- "O banco te chama", "Termina a escola", "Estuda até de madrugada", empréstimo e o ídolo auxiliar tiveram ajustes pequenos.
+
+### 8.2 O que mudou (arquivo:linha)
+
+**`carreira.js`**
+- `:746-793`: o bloco novo de contratos:
+  - `CONTRATO_DA_BASE`;
+  - `anosDeContrato`: idade, degrau, mínimo de 3 anos na elite;
+  - `anosRestantes`;
+  - `valorDaVenda`: metade no último ano, 0 livre;
+  - `garantirContrato`: contrato padrão pra quem fica livre;
+  - `clubeLibera` e `liberaNoUltimoAno`: a decisão do clube;
+  - `pedirSaida`: custo e chance;
+  - `renovarCom`: a mesma conta pra tela e pra bateria.
+- `:795-813`: `assinar`. Toda assinatura grava o prazo, e a transferência guarda o motivo (livre, último ano, pediu, liberado).
+- `:1285-1293` e `:1360-1373`: `propostasDoAno`. O mercado olha mais pra quem está livre ou no último ano (menos pro veterano livre). Com contrato em vigor, as propostas passam pelo clube, e as recusadas ficam em `C.ofertasBarradas` e `linha.ofertasBarradas`. Saiu o antigo "sob contrato, a janela nem abre".
+- `:1526`: simulação e automático. O valor da venda segue o contrato, e a janela termina com `garantirContrato`. No rápido, o mesmo em `janelaAutomatica` (`:2985`).
+- `:2605-2606`: resumo do ano. "de graça, em fim de contrato" e "O X recusou a proposta do Y: você tem contrato".
+- `:3005-3065`: `mostrarMercado`:
+  - bloco "Pede pra ser vendido" com o custo, reabrindo a janela com as liberadas;
+  - a assinatura diz "por N anos" e mostra valor ou "de graça";
+  - quem fica livre sem renovar recebe o contrato padrão, que vai pra "Janela de transferências".
+- `:3083`, `:3101`, `:3112`: `sobContrato` virou "2+ anos". As renovações têm prazo novo (2, 2 e 4 anos) e só aparecem no último ano ou em fim de contrato.
+- `:3122-3129`: cartão do clube: "Seu contrato: mais 2 anos (até 2031)", "último ano… sai de graça" ou "Fim de contrato: você está livre".
+- `:708-715`: cartão da proposta (peneira e mercado): "Contrato de 4 anos", com "você chega de graça" ou "último ano do seu contrato: sai barato".
+- `:2260`: "O clube que te revelou chama" só no último ano de contrato.
+
+**`historia.js`**
+- `:344`: `restantes(J)`.
+- `:172`: o arco "A renovação" aparece com até 2 anos de contrato e sem renovação ativa.
+- `:351`: "O ídolo da divisão" aparece com até 2 anos de contrato.
+- `:402`: a Arábia vale com contrato em vigor, porque o clube saudita paga a multa.
+- `:178`, `:357`, `:732`: as assinaturas dos arcos estendem o contrato (`Math.max`) em vez de encurtar.
+
+**Harness** (`scripts/bateria/prata/`)
+- `dentro.js`:
+  - política "assina";
+  - botão "pede" no mercado: a gulosa pede quando o clube barrou um salto com vaga real; cautelosa e primeira nunca pedem;
+  - renovação via `renovarCom` e fim da janela com `garantirContrato`;
+  - campos novos: `eliteSeguidos`, `eliteSeguidosSemMotivo`, `motivos`.
+- `metas.js`: seção H.
+- `bateria.sh`: roda também a "assina".
+- `agregar.js`: deixa "assina" e "pior" fora das tabelas das 5.000.
+
+### 8.3 CSS sugerido (o `carreira.css` não é meu)
+
+```css
+.proposta-contrato { margin: 0.2rem 0 0; font-size: 0.76rem; font-weight: 600; color: var(--texto-fraco); }
+.proposta-ficar .proposta-contrato { color: var(--texto); }
+.mercado-barradas { display: grid; gap: 0.4rem; margin: 0.4rem 0 0.8rem; padding: 0.6rem 0.75rem; border: 1px dashed var(--borda); border-radius: 10px; }
+.mercado-barradas .botao { justify-self: start; display: grid; gap: 0.1rem; text-align: left; }
+```
+
+Não precisa mexer no HTML.
+
+### 8.4 Reproduzir
+
+```bash
+scripts/bateria/prata/bateria.sh                                                     # conjunto A (+ estratégica, pior, assina)
+SEMENTE_C=20001 SEMENTE_R=30001 BATERIA_OUT=/tmp/b scripts/bateria/prata/bateria.sh  # conjunto B
+```
+
+`metas.md` na pasta de saída traz todas as metas, A a H.

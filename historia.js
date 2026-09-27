@@ -169,13 +169,13 @@
     },
     {
       id: "renovacao", arco: "A renovação", tema: "renovacao", peso: () => 4,
-      quando: (J) => J.idade >= 21 && J.idade <= 31 && J.anosNoClube >= 1 && !(typeof sobContrato === "function" && sobContrato(J)),
+      quando: (J) => J.idade >= 21 && J.idade <= 31 && J.anosNoClube >= 1 && restantes(J) <= 2 && !J.renovacao,
       evento: (J) => ({
         titulo: "O presidente quer renovar agora",
         texto: () => `Antes da janela, o ${J.clube.nome} oferece contrato longo, salário bom e multa alta. "Queremos você aqui por muitos anos."`,
         opcoes: [
           { rotulo: "Assina", consequencia: true,
-            sempre: (JJ) => { rep(JJ, { torcida: 1, vestiario: 1 }); JJ.efeito.vitrine -= 1; JJ.efeito.evolucao += 0.3; JJ.contratoAte = JJ.ano + 2; marcar(JJ, "fiel", JJ.clube.nome); agendar(JJ, "bracadeira", 2, { clube: JJ.clube.nome }); return "Foto com a camisa e a caneta. A torcida comprou a ideia; o mercado esfriou um pouco."; } },
+            sempre: (JJ) => { rep(JJ, { torcida: 1, vestiario: 1 }); JJ.efeito.vitrine -= 1; JJ.efeito.evolucao += 0.3; JJ.contratoAte = Math.max(JJ.contratoAte || 0, JJ.ano + 3); marcar(JJ, "fiel", JJ.clube.nome); agendar(JJ, "bracadeira", 2, { clube: JJ.clube.nome }); return "Foto com a camisa e a caneta. A torcida comprou a ideia; o mercado esfriou um pouco."; } },
           { rotulo: "Espera a janela", consequencia: true,
             sempre: (JJ) => { rep(JJ, { torcida: -1 }); JJ.efeito.vitrine += 2; agendar(JJ, "cobranca", 1, { clube: JJ.clube.nome }); return "Seu empresário espalhou que você está \"avaliando o mercado\". A arquibancada não gostou."; } },
         ],
@@ -340,24 +340,25 @@
     return clubesDoMundo(J).filter((c) => c.continente === "asia" && c.id !== J.clube.id).sort((a, b) => b.forca - a.forca)[0] || null;
   }
   const paisDaLiga = (J) => (typeof PAISES !== "undefined" && J.clube && J.clube.tipo === "ext" ? PAISES.find((p) => p.nome === J.clube.pais) : null);
-  const sobContratoAgora = (J) => typeof sobContrato === "function" && sobContrato(J);
+  // anos de contrato que faltam (contando o atual); sem carreira.js, livre
+  const restantes = (J) => (typeof anosRestantes === "function" ? anosRestantes(J) : 0);
 
   INICIOS.push(...[
     // ===== ficar embaixo ou subir: a escolha consciente (antes era atalho) =====
     {
       id: "idolo_local", arco: "O ídolo da divisão", tema: "renovacao", fases: ["afirmacao", "auge"], peso: () => 5,
       quando: (J) => J.idade >= 20 && J.idade <= 28 && J.clube && J.clube.tipo !== "ext" && J.clube.divisao !== "A" && J.anosNoClube >= 1
-        && J.ovr >= (J.clube.nivel ?? 60) + 3 && !sobContratoAgora(J),
+        && J.ovr >= (J.clube.nivel ?? 60) + 3 && restantes(J) <= 2,
       evento: (J) => ({
         titulo: "O melhor da divisão",
         texto: () => `Você é o nome da Série ${J.clube.divisao}. O presidente do ${J.clube.nome} oferece o maior salário do clube por três anos; o seu empresário diz que dá pra subir de patamar agora.`,
         opcoes: [
           { rotulo: "Renova e vira o ídolo da cidade", consequencia: true,
-            sempre: (JJ) => { rep(JJ, { torcida: 2, vestiario: 1 }); JJ.efeito.nota += 0.05; JJ.efeito.vitrine -= 2; JJ.contratoAte = JJ.ano + 3; JJ.lastro = (JJ.lastro || 0) - 0.8; marcar(JJ, "idolo_local", JJ.clube.nome); agendar(JJ, "cidade", 2, { clube: JJ.clube.nome }); return "Estátua no programa de TV local e camisa 10 vendida na feira. O nível do campeonato, porém, não puxa ninguém pra cima."; } },
+            sempre: (JJ) => { rep(JJ, { torcida: JJ.idade >= 25 ? 2.5 : 1.7, vestiario: 0.6 }); JJ.efeito.vitrine -= 2.5; JJ.contratoAte = Math.max(JJ.contratoAte || 0, JJ.ano + 3); JJ.lastro = (JJ.lastro || 0) - 0.8; marcar(JJ, "idolo_local", JJ.clube.nome); agendar(JJ, "cidade", 2, { clube: JJ.clube.nome }); return "Estátua no programa de TV local e camisa 10 vendida na feira. O nível do campeonato, porém, não puxa ninguém pra cima."; } },
           { rotulo: "Pede pra ser vendido", consequencia: true,
-            sempre: (JJ) => { rep(JJ, { torcida: -2 }); JJ.efeito.vitrine += 2.5; JJ.efeito.evolucao += 0.3; JJ.forcarSaida = true; return "A torcida chamou de mercenário. Na janela, o clube vai te negociar com quem pagar."; } },
+            sempre: (JJ) => { rep(JJ, { torcida: -2 }); JJ.efeito.vitrine += JJ.idade <= 23 ? 2.5 : 1; JJ.efeito.evolucao += 0.3; JJ.forcarSaida = true; return "A torcida chamou de mercenário. Na janela, o clube vai te negociar com quem pagar."; } },
           { rotulo: "Deixa pra decidir na janela",
-            sempre: (JJ) => { JJ.efeito.nota += 0.05; JJ.efeito.evolucao += 0.2; return "Nem sim, nem não. O presidente não gostou da espera, mas a porta ficou aberta."; } },
+            sempre: (JJ) => { JJ.efeito.evolucao += 0.1; JJ.efeito.nota -= 0.05; return "Nem sim, nem não. O presidente não gostou da espera, mas a porta ficou aberta."; } },
         ],
       }),
     },
@@ -398,7 +399,8 @@
     // ===== veterano: dinheiro, despedida =====
     {
       id: "arabia", arco: "Os petrodólares", tema: "arabia", fases: ["veterano"], peso: () => 5,
-      quando: (J) => J.idade >= 31 && J.idade <= 33 && J.ovr >= 74 && J.clube && J.clube.continente !== "asia" && !sobContratoAgora(J),
+      // o clube saudita paga a multa: vale com contrato em vigor
+      quando: (J) => J.idade >= 31 && J.idade <= 33 && J.ovr >= 74 && J.clube && J.clube.continente !== "asia",
       evento: () => ({
         titulo: "Proposta da Arábia",
         texto: () => "Um clube saudita oferece três vezes o seu salário, casa com piscina e jogo às nove da noite com 35 graus.",
@@ -656,8 +658,8 @@
       titulo: "A braçadeira",
       texto: () => `Dois anos depois da renovação, o técnico do ${J.clube.nome} quer você como capitão.`,
       opcoes: [
-        { rotulo: "Aceita", sempre: (JJ) => { rep(JJ, { vestiario: 0.8, torcida: JJ.anosNoClube >= 4 ? 1 : 0.2 }); JJ.efeito.nota -= 0.05; marcar(JJ, "capitao", JJ.clube.nome); return "Braçadeira no braço. Agora é você quem fala no vestiário antes do jogo, e o peso aparece."; } },
-        { rotulo: "Prefere só jogar", sempre: (JJ) => { JJ.efeito.nota += 0.03; JJ.efeito.evolucao += 0.25; JJ.efeito.queda += 0.25; return "Recusou com educação. Foco no próprio jogo."; } },
+        { rotulo: "Aceita", sempre: (JJ) => { rep(JJ, { vestiario: 0.6, torcida: JJ.anosNoClube >= 6 ? 1 : 0.2 }); JJ.efeito.nota -= 0.02; marcar(JJ, "capitao", JJ.clube.nome); return "Braçadeira no braço. Agora é você quem fala no vestiário antes do jogo, e o peso aparece."; } },
+        { rotulo: "Prefere só jogar", sempre: (JJ) => { JJ.efeito.nota += 0.03; JJ.efeito.evolucao += 0.35; JJ.efeito.queda += 0.35; return "Recusou com educação. Foco no próprio jogo."; } },
       ],
     }),
     cobranca: (J, dados) => (J.clube.nome !== dados.clube ? null : {
@@ -727,7 +729,7 @@
       texto: () => `Dois anos de ídolo no ${J.clube.nome}. Um clube da divisão de cima liga de novo: é a última janela pra subir antes da idade pesar.`,
       opcoes: [
         { rotulo: "Fica pra sempre",
-          sempre: (JJ) => { rep(JJ, { torcida: 2 }); JJ.contratoAte = JJ.ano + 3; JJ.efeito.queda += 0.3; JJ.efeito.vitrine -= 1; marcar(JJ, "fiel", JJ.clube.nome); return "Assinou até o fim da carreira. Aqui você é maior que qualquer contratação."; } },
+          sempre: (JJ) => { rep(JJ, { torcida: 2 }); JJ.contratoAte = Math.max(JJ.contratoAte || 0, JJ.ano + 3); JJ.efeito.queda += 0.3; JJ.efeito.vitrine -= 1; marcar(JJ, "fiel", JJ.clube.nome); return "Assinou até o fim da carreira. Aqui você é maior que qualquer contratação."; } },
         { rotulo: "Última chance de subir",
           sempre: (JJ) => { rep(JJ, { torcida: -2 }); JJ.efeito.vitrine += JJ.idade <= 25 ? 3.5 : 2; JJ.forcarSaida = true; JJ.contratoAte = null; return "Pediu pra sair. A cidade ficou triste, mas entendeu: é agora ou nunca."; } },
       ],
@@ -754,7 +756,7 @@
         texto: () => `A federação de ${p.nome} quer te naturalizar. Você nunca foi convocado pela seleção do seu país.`,
         opcoes: [
           { rotulo: "Aceita e muda de seleção",
-            sempre: (JJ) => { if (typeof C !== "undefined") C.pais = p.id; rep(JJ, { imprensa: 1, torcida: -1 }); JJ.efeito.vitrine += JJ.ovr >= 80 ? 2 : 0.5; marcar(JJ, "naturalizado", p.nome); return `Passaporte na mão. A partir de agora, a sua seleção é ${p.nome}; em casa, teve quem chamasse de traição.`; } },
+            sempre: (JJ) => { if (typeof C !== "undefined") C.pais = p.id; rep(JJ, { imprensa: 1, torcida: -1 }); JJ.efeito.vitrine += JJ.ovr >= 82 ? 2 : 0.9; marcar(JJ, "naturalizado", p.nome); return `Passaporte na mão. A partir de agora, a sua seleção é ${p.nome}; em casa, teve quem chamasse de traição.`; } },
           { rotulo: "Ainda sonha com a seleção de casa",
             sempre: (JJ) => { rep(JJ, { torcida: 1 }); return "Recusou. A camisa que você quer vestir é outra."; } },
         ],
@@ -829,8 +831,8 @@
         titulo: "O banco te chama",
         texto: () => `O técnico do ${J.clube.nome} caiu. O presidente liga: quer você de interino, e depois efetivado.`,
         opcoes: [
-          { rotulo: "Pendura as chuteiras e assume", sempre: (JJ) => { JJ.viraTecnico = JJ.clube.nome; rep(JJ, { vestiario: 1 }); JJ.efeito.nota += 0.03; return "Última temporada como jogador; no fim do ano, a prancheta é sua."; } },
-          { rotulo: "Ainda quer jogar", sempre: (JJ) => { JJ.efeito.queda += 0.5; return "Recusou por enquanto. O presidente disse que a porta fica aberta."; } },
+          { rotulo: "Pendura as chuteiras e assume", sempre: (JJ) => { JJ.viraTecnico = JJ.clube.nome; rep(JJ, { vestiario: 0.3 }); return "Última temporada como jogador; no fim do ano, a prancheta é sua."; } },
+          { rotulo: "Ainda quer jogar", sempre: (JJ) => { JJ.efeito.queda += 0.7; return "Recusou por enquanto. O presidente disse que a porta fica aberta."; } },
         ],
       };
     },

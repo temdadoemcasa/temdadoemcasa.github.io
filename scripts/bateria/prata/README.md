@@ -40,7 +40,8 @@ Não commite os `.jsonl`: somam uns 18 MB.
 
   Mais duas, fora das 5.000:
   - estratégica: a gulosa olhando também o longo prazo (evolução, fôlego, marcas), com mercado ambicioso e com critério;
-  - pior: a opção de menor valor em toda decisão, só pra medir quanto as escolhas pesam.
+  - pior: a opção de menor valor em toda decisão, só pra medir quanto as escolhas pesam;
+  - assina: decide ao acaso, mas no mercado clica "Assinar" sempre que pode (mede os contratos).
 - `rodar.js`: roda N carreiras e grava um `.jsonl`.
 - `agregar.js`: gera `tabelas.md` e `resumo.json`.
 - `comparar.js`: compara duas baterias rodadas com as mesmas sementes.

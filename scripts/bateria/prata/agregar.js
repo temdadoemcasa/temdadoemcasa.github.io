@@ -8,7 +8,7 @@ const OUT = process.env.BATERIA_OUT || path.join(require("os").tmpdir(), "bateri
 const REPO = process.env.REPO || path.resolve(__dirname, "../../..");
 
 const ler = (f) => fs.readFileSync(path.join(OUT, f), "utf8").trim().split("\n").filter(Boolean).map(JSON.parse);
-const arquivos = fs.readdirSync(OUT).filter((f) => f.endsWith(".jsonl") && !f.startsWith("x-") && !f.startsWith("pior") && f !== "teste.jsonl");
+const arquivos = fs.readdirSync(OUT).filter((f) => f.endsWith(".jsonl") && !f.startsWith("x-") && !f.startsWith("pior") && !f.startsWith("assina") && f !== "teste.jsonl");
 const R = arquivos.flatMap(ler);
 const extras = fs.readdirSync(OUT).filter((f) => f.startsWith("x-") && f.endsWith(".jsonl"));
 

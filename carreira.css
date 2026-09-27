@@ -630,3 +630,9 @@
 .temporada-janela { margin: 0.6rem 0; padding: 0.5rem 0.7rem; border-left: 3px solid var(--canal); background: var(--fundo-cartao); border-radius: 6px; font-size: 0.85rem; }
 .temporada-janela p { margin: 0.15rem 0; }
 .temporada-janela-cab { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--texto-fraco); }
+
+/* --- contratos (27/09): prazo na proposta e bloco "Pede pra ser vendido" --- */
+.proposta-contrato { margin: 0.2rem 0 0; font-size: 0.76rem; font-weight: 600; color: var(--texto-fraco); }
+.proposta-ficar .proposta-contrato { color: var(--texto); }
+.mercado-barradas { display: grid; gap: 0.4rem; margin: 0.4rem 0 0.8rem; padding: 0.6rem 0.75rem; border: 1px dashed var(--borda); border-radius: 10px; }
+.mercado-barradas .botao { justify-self: start; display: grid; gap: 0.1rem; text-align: left; }

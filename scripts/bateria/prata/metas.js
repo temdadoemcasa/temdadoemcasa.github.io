@@ -5,7 +5,8 @@ const fs = require("fs"), path = require("path");
 const [dir, dirPior] = process.argv.slice(2);
 const ler = (d, filtro = () => true) => fs.readdirSync(d).filter((f) => f.endsWith(".jsonl") && filtro(f))
   .flatMap((f) => fs.readFileSync(path.join(d, f), "utf8").trim().split("\n").filter(Boolean).map(JSON.parse));
-const R = ler(dir, (f) => !f.startsWith("x-") && !f.startsWith("pior")).filter((r) => !r.excecao);
+const R = ler(dir, (f) => !f.startsWith("x-") && !f.startsWith("pior") && !f.startsWith("assina")).filter((r) => !r.excecao);
+const ASS = ler(dir, (f) => f.startsWith("assina")).filter((r) => !r.excecao);
 const P = dirPior ? ler(dirPior, (f) => f.startsWith("pior")).filter((r) => !r.excecao) : [];
 const media = (xs) => (xs.length ? xs.reduce((a, b) => a + b, 0) / xs.length : 0);
 const pct = (a, b) => (b ? `${((100 * a) / b).toFixed(1)}%` : "-");
@@ -82,6 +83,22 @@ const trav = R.reduce((a, r) => a + r.softlock.length, 0);
 linha("F", "travas / estado alterado pela dica de lados", `${trav}`, "0", trav === 0);
 const idades = R.map((r) => r.idadeFim).sort((a, b) => a - b);
 linha("F", "idade de aposentadoria p5-p50-p95", `${idades[Math.floor(idades.length * 0.05)]}-${idades[Math.floor(idades.length / 2)]}-${idades[Math.floor(idades.length * 0.95)]}`, "mediana ~36", Math.abs(idades[Math.floor(idades.length / 2)] - 36) <= 1);
+
+// H: contratos (fase 3)
+const cinco = R.filter((r) => ["aleatoria", "gulosa", "cautelosa", "primeira", "impaciente"].includes(r.pol));
+const qn = (xs, p) => { const s = [...xs].sort((a, b) => a - b); return s[Math.min(s.length - 1, Math.floor(p * s.length))]; };
+const cl = cinco.map((r) => r.clubes);
+linha("H", "clubes por carreira, 5 políticas: p50 / p95", `${qn(cl, 0.5)} / ${qn(cl, 0.95)}`, "p50 4-6, p95 ≤ 9", qn(cl, 0.5) >= 4 && qn(cl, 0.5) <= 6 && qn(cl, 0.95) <= 9);
+if (ASS.length) {
+  const ca = ASS.map((r) => r.clubes);
+  linha("H", "política que aceita toda proposta: clubes p50 / p95 / máx", `${qn(ca, 0.5)} / ${qn(ca, 0.95)} / ${Math.max(...ca)}`, "≤ 10", qn(ca, 0.95) <= 10);
+  const semMotivo = ASS.reduce((a, r) => a + (r.eliteSeguidosSemMotivo || 0), 0), comMotivo = ASS.reduce((a, r) => a + (r.eliteSeguidos || 0), 0);
+  linha("H", "aceita tudo: dois clubes da elite europeia em anos seguidos (sem motivo / total)", `${semMotivo} / ${comMotivo} em ${ASS.length} carreiras`, "0 sem motivo", semMotivo === 0);
+  linha("H", "aceita tudo: final Andarilho", pct(ASS.filter((r) => r.final === "Andarilho").length, ASS.length), "modesto", null);
+}
+linha("H", "final Andarilho (todas as políticas)", pct(R.filter((r) => r.final === "Andarilho").length, R.length), "modesto", R.filter((r) => r.final === "Andarilho").length / R.length <= 0.12);
+const mot = {}; for (const r of [...R, ...ASS]) for (const m of r.motivos || []) { const k = m.split("@")[0]; mot[k] = (mot[k] || 0) + 1; }
+linha("H", "motivo das transferências", Object.entries(mot).map(([k, v]) => `${k} ${v}`).join(", "), "-", null);
 
 console.log(`# Metas (${R.length} carreiras${P.length ? ` + ${P.length} da política pior` : ""})\n`);
 console.log(["| meta | o que | valor | alvo | resultado |", "|---|---|---|---|---|", ...out].join("\n"));

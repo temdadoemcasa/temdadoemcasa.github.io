@@ -196,9 +196,44 @@ Se você trocou de clube antes de uma consequência chegar, a temporada avisa "f
 5. Senão, pode começar um arco novo da fase, sem repetir tema. Arcos que combinam com as suas marcas pesam mais: quem mexeu com aposta atrai o aliciador.
 6. Situações soltas da fase completam o ano: duas no completo, uma no rápido. Nenhuma se repete, e o tema também não.
 
+## Contratos
+
+Toda assinatura vem com prazo, e o cartão da proposta mostra quanto: "contrato de 3 anos".
+
+**Duração**
+
+| idade | contrato |
+|---|---|
+| até 25 anos | 4 anos |
+| 26 a 29 | 3 anos |
+| 30 a 34 | 2 anos |
+| 35+ | 1 ano |
+
+- Clube da Série A ou do exterior dá +1 ano até os 29.
+- A elite europeia não contrata por menos de 3 anos até os 32.
+- A base assina por 3 anos.
+- Renovar com o próprio clube dá um contrato novo: "Aumento e mais minutos" e "Bônus por gol" são de 2 anos, "Contrato longo de ídolo" é de 4.
+
+**Na janela** (o cartão do seu clube mostra "seu contrato: mais 2 anos")
+
+- **2 anos ou mais de contrato:** as propostas chegam, mas quem decide é o clube.
+  - Ele só libera um passo claro acima (degrau de cima, ou clube bem mais forte), e mais fácil pra quem jogou bem (15%). Sem esse bom ano, 5%, e 2% pra quem não sobe.
+  - A elite europeia não vende pra ninguém do mesmo nível.
+  - As recusadas aparecem ("O Palmeiras recusou a proposta do Flamengo: você tem contrato").
+  - Dá pra **pedir pra ser vendido**. Custa Técnico −1, Torcida −1 e Vestiário −1, e o clube libera cada proposta com 35% de chance (25% na elite).
+- **Último ano:** o clube vende mais fácil pra não perder de graça (40% num salto, 12% no resto, 10% na elite). O passe custa metade, e o clube oferece renovar. É o dilema: renova ou sai de graça no fim do ano.
+- **Fim de contrato:** você está livre. Nada é barrado, o passe é de graça e o mercado olha mais, menos pro veterano de 32+. Ficar sem renovar assina o contrato padrão.
+
+**Exceções**
+
+- Empréstimo não mexe no contrato: ele segue com o clube dono.
+- A palavra dada (clube formador) e o pedido aceito pela diretoria ("O ídolo da divisão", repatriação) passam direto.
+- A Arábia paga a multa.
+- O modo rápido e o "Simular o resto" seguem as mesmas regras.
+
 ## Modos
 
-- **Completo:** foco e 2 situações por temporada. Na janela, você escolhe entre as propostas, pede vaga de titular ou renova.
+- **Completo:** foco e 2 situações por temporada. Na janela, você escolhe entre as propostas liberadas: pede vaga de titular, pede pra ser vendido ou renova no último ano.
 - **Rápido:** foco e 1 situação por temporada. A janela é automática, menos quando chega proposta de um clube um degrau acima. Aí a decisão é sua: fica, vai ou pede vaga de titular.
 
 Renovação e transferência aparecem no resumo do ano seguinte, num bloco "Janela de transferências".

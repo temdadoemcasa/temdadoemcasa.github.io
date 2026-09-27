@@ -90,6 +90,8 @@
     },
   };
   POLITICAS.impaciente = POLITICAS.aleatoria;
+  // assina: decisoes ao acaso, mas no mercado clica "Assinar" sempre que pode
+  POLITICAS.assina = POLITICAS.aleatoria;
 
   // mercado (modo completo): botoes na ordem da tela
   const notaClube = (J, c) => {
@@ -97,16 +99,21 @@
     return c.forca + c.prestigio * 0.8 + s * pesoJogar - (s < 0.2 ? 5 : 0);
   };
   const MERCADO = {
+    assina: (bs) => bs.find((b) => b.tipo === "assina") || bs.find((b) => b.tipo === "fica"),
     estrategica: (bs, J, ctx, linha) => MERCADO.gulosa(bs, J, ctx, linha),
     pior: (bs) => bs.find((b) => b.tipo === "fica") || bs[0],
     aleatoria: (bs, J, ctx) => bs[Math.floor(ctx.rngPol() * bs.length)],
+    // (a cautelosa e a primeira nunca pedem: "pede" nao e a primeira nem a segura)
     impaciente: (bs, J, ctx) => bs[Math.floor(ctx.rngPol() * bs.length)],
-    primeira: (bs) => bs[0],
+    primeira: (bs) => bs.filter((b) => b.tipo !== "pede")[0],
     // gulosa ("nota e fama"): ambiciosa mas com cabeca -- sobe de degrau (ou vai
     // pra clube bem mais forte) quando tem chance real de jogar; se a vaga e
     // incerta, pede garantia; recusada a garantia, fica
     gulosa: (bs, J, ctx, linha) => {
       const joga = (c) => chanceDeTitular(J.ovr, c.nivel, J.idade);
+      // clube barrou um salto de degrau com vaga real: pede pra ser vendido
+      const pede = bs.find((b) => b.tipo === "pede");
+      if (pede && !bs.some((b) => b.tipo === "assina" && degrau(b.c) > degrau(J.clube)) && pede.barradas.some((c) => degrau(c) > degrau(J.clube) && joga(c) >= 0.45)) return pede;
       const ofertas = bs.filter((b) => b.tipo === "assina" && (degrau(b.c) > degrau(J.clube) || b.c.forca > J.clube.forca + 2 || linha.rebaixado || notaClube(J, b.c) > notaClube(J, J.clube) + 1.2));
       const boas = ofertas.filter((b) => joga(b.c) >= 0.45).sort((a, b) => (degrau(b.c) - degrau(a.c)) || (b.c.forca - a.c.forca));
       if (boas.length) return boas[0];
@@ -116,6 +123,7 @@
       return bs.find((b) => b.tipo === "renova" && b.r.id === "aumento") || bs.find((b) => b.tipo === "renova") || bs.find((b) => b.tipo === "fica");
     },
     cautelosa: (bs, J, ctx, linha) => {
+      bs = bs.filter((b) => b.tipo !== "pede");
       if (linha.rebaixado) {
         const o = bs.filter((b) => b.tipo === "assina").sort((a, b) => notaClube(J, b.c) - notaClube(J, a.c))[0];
         if (o) return o;
@@ -124,6 +132,7 @@
     },
   };
   const BASE_ESCOLHA = {
+    assina: (ps) => ps[0],
     estrategica: (ps) => [...ps].sort((a, b) => chanceDeTitular(C.J.ovr, b.nivel, 16) * 10 + b.forca / 10 - (chanceDeTitular(C.J.ovr, a.nivel, 16) * 10 + a.forca / 10))[0],
     pior: (ps) => [...ps].sort((a, b) => a.forca - b.forca)[0],
     aleatoria: (ps, ctx) => ps[Math.floor(ctx.rngPol() * ps.length)],
@@ -137,21 +146,27 @@
     const ofertas = C.ofertasAbertas || [];
     const renov = rapido ? [] : ofertasDeRenovacao(J, linha);
     let bs = [...renov.map((r) => ({ tipo: "renova", r })), { tipo: "fica" }, ...ofertas.flatMap((c) => [{ tipo: "assina", c }, { tipo: "garantia", c }])];
+    // "Pede pra ser vendido" aparece quando o clube barrou propostas (completo)
+    if (!rapido && (C.ofertasBarradas || []).length && anosRestantes(J) >= 1 && !J.pediuSaida) bs.splice(renov.length + 1, 0, { tipo: "pede", barradas: C.ofertasBarradas });
     for (let guarda = 0; guarda < 20; guarda++) {
       const b = MERCADO[pol](bs, J, ctx, linha);
       reg.mercado[b.tipo === "renova" ? `renova:${b.r.id}` : b.tipo] = (reg.mercado[b.tipo === "renova" ? `renova:${b.r.id}` : b.tipo] || 0) + 1;
       if (b.tipo === "renova") {
         const r = b.r;
-        J.contratoAte = J.ano + r.anos; J.renovacao = { id: r.id, assinado: J.ano, ate: J.contratoAte };
-        r.todoAno(J.efeito); if (r.naAssinatura) r.naAssinatura(J);
-        const texto = r.texto(J); ctx.texto("renovacao", texto);
+        const texto = renovarCom(J, r); ctx.texto("renovacao", texto);
         J.janela = [...(J.janela || []), texto];
         Historia.registrar(J, { titulo: "Renovação", arco: null }, r, { texto, ok: null });
         break;
       }
       if (b.tipo === "fica") break;
+      if (b.tipo === "pede") {
+        const lib = pedirSaida(J);
+        reg.mercado[`pede:${lib.length ? "liberou" : "segurou"}`] = (reg.mercado[`pede:${lib.length ? "liberou" : "segurou"}`] || 0) + 1;
+        bs = [...bs.filter((x) => x.tipo !== "pede"), ...lib.flatMap((c) => [{ tipo: "assina", c }, { tipo: "garantia", c }])];
+        continue;
+      }
       const assinaAqui = (c, garantia) => {
-        linha.transferencia = { para: c.nome, liga: c.liga, valor: J.valor };
+        linha.transferencia = { para: c.nome, liga: c.liga, valor: valorDaVenda(J) };
         assinar(c, "mercado"); if (garantia) J.efeito.minutos += 0.15;
         J.janela = [...(J.janela || []), `Assinou com o ${c.nome}${garantia ? ", com vaga de titular prometida" : ""}. Valor da transferência: ${J.valor}. O primeiro ano é de adaptação.`];
         reg.transferencias++;
@@ -162,6 +177,8 @@
       if (g.resultado === "aceitou") { assinaAqui(b.c, true); break; }
       bs = bs.filter((x) => !(x.c === b.c && (x.tipo === "garantia" || g.resultado === "desistiu")));
     }
+    // fechar() da tela: livre e sem renovar -> contrato padrao
+    if (garantirContrato(J)) reg.mercado.padrao = (reg.mercado.padrao || 0) + 1;
     C.ofertasAbertas = null;
   }
 
@@ -321,6 +338,11 @@
       vistos: reg.vistos, escolhas: reg.escolhas, mercado: reg.mercado, eventosPorAno: reg.eventosPorAno,
       conseqDevidas: reg.conseqDevidas, conseqMostradas: reg.conseqMostradas, simulouApos: reg.simulouApos,
       softlock: reg.softlock, textosRuins: reg.textosRuins, erros: reg.erros, nulos,
+      eliteSeguidos: H.filter((h, i) => i > 0 && lugares[i] === "europa+" && lugares[i - 1] === "europa+" && h.clube !== H[i - 1].clube).length,
+      eliteSeguidosSemMotivo: H.filter((h, i) => i > 0 && lugares[i] === "europa+" && lugares[i - 1] === "europa+" && h.clube !== H[i - 1].clube
+        && (J.transferencias.find((t) => t.para === h.clube && t.ano === h.ano) || {}).motivo === "liberado").length,
+      motivos: J.transferencias.filter((t) => !t.emprestimo).map((t) => `${t.motivo || "?"}@${t.ano - 2010}`),
+      umAnoSo: H.filter((h, i) => i > 0 && i < H.length - 1 && h.clube !== H[i - 1].clube && H[i + 1].clube !== h.clube).length,
       final: (() => { const f = nomeDoFinal(J); capturar("final", `${f.titulo} ${f.texto} ${f.depois || ""}`.trim()); return f.titulo; })(),
       potencialFinal: J.potencial, potencialSorteado: J.potencialSorteado, saltos: reg.saltos, valores: reg.valores,
       temasApostas: J.historia.trilha.filter((t) => ["Dinheiro curto", "O grupo de apostas", "O aliciador"].includes(t.arco)).map((t) => t.arco).filter((v, i, a) => a.indexOf(v) === i),
