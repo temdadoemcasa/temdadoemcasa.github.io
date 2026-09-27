@@ -90,14 +90,14 @@ const PARENTES = { MC: ["VOL", "MEI"] };
 const ENCAIXE = { principal: 1, secundaria: 0.96, familia: 0.88, fora: 0.75, ladoTrocado: 0.95 };
 // entrosamento: time montado do zero comeca devendo; cada companheiro de clube
 // que ja estava no onze soma (pontos da regua, no ataque e na defesa)
-const ENTROSAMENTO = { base: -1, porLigacao: 0.9, teto: 4 };
+const ENTROSAMENTO = { base: -1, porLigacao: 0.8, teto: 4 };
 // acima do teto (o elenco mais forte da Serie A, ataque + defesa, mais 1), a forca rende isso
 const TETO_ESTRELAS = 0.1;
 // joelho do elenco (pontos em relacao ao elenco mais forte da CPU, antes de
 // entrosamento e esquema) e quanto cada ponto rende acima dele
-const JOELHO_ELENCO = -7.5;
-const RENDE_ACIMA_DO_JOELHO = 0.3;
-const TETO_FOLGA = 1.5; // o time pronto pode passar o clube mais forte por ate 1,5 ponto cheio
+const JOELHO_ELENCO = -8.5;
+const RENDE_ACIMA_DO_JOELHO = 0.25;
+const TETO_FOLGA = 3; // o time pronto pode passar o clube mais forte por ate 3 pontos cheios
 // lesao por jogador por jogo (so no seu clube; a CPU ja entra com a media do elenco)
 const TAXA_LESAO = 0.006;
 // Chances do leque: abrir figurinha de craque e a graca. Com estas, ~78% dos
@@ -105,17 +105,18 @@ const TAXA_LESAO = 0.006;
 // bateria mede). Pra estrela nao decidir tudo sozinha, o elenco acima do joelho
 // (JOELHO_ELENCO) rende RENDE_ACIMA_DO_JOELHO por ponto: encaixe, entrosamento
 // e eixos continuam pesando. Um concreto no lugar de um madeira ainda mexe:
-// +1,3 de forca, ~+10 pp de G6 num elenco tipico (estrela.js).
+// +1,2 de forca, ~+7 pp de G6 e ~+4 pp de titulo num elenco tipico (estrela.js).
 const CHANCES_NORMAIS = { palha: 0.1, madeira: 0.62, tijolo: 0.2, grafeno: 0.08 };
 // na janela de transferencias o mercado e outro: vem reforco de verdade
 const CHANCES_JANELA = { palha: 0, madeira: 0.55, tijolo: 0.38, grafeno: 0.07 };
 // dificuldade: entrosamento inicial do time montado do zero e trocas de leque
 const DIFICULDADES = {
-  facil: { nome: "Fácil", chances: CHANCES_NORMAIS, trocas: 2, cartas: 5, entrosamento: -1.5,
+  // entrosamento inicial afinado pela bateria (fase 6): ver o comentario de chancesDoLeque
+  facil: { nome: "Fácil", chances: CHANCES_NORMAIS, trocas: 2, cartas: 5, entrosamento: 0.2,
     resumo: "seu time já chega meio entrosado e você troca o leque 2 vezes" },
-  normal: { nome: "Normal", chances: CHANCES_NORMAIS, trocas: 1, cartas: 5, entrosamento: -2.7,
+  normal: { nome: "Normal", chances: CHANCES_NORMAIS, trocas: 1, cartas: 5, entrosamento: -1.4,
     resumo: "time montado do zero, 1 troca de leque" },
-  dificil: { nome: "Difícil", chances: CHANCES_NORMAIS, trocas: 0, cartas: 5, entrosamento: -4.3,
+  dificil: { nome: "Difícil", chances: CHANCES_NORMAIS, trocas: 0, cartas: 5, entrosamento: -3.1,
     resumo: "time montado na última hora, sem troca de leque" },
 };
 function descreverTatica(esquema) {
@@ -202,11 +203,12 @@ const oTime = (nome) => `${FEMININOS.has(nome) ? "A" : "O"} ${nome}`;
 const LADO_DA_VAGA = { LD: "D", ALD: "D", LE: "E", ALE: "E" };
 
 // chances do leque: CHANCES_NORMAIS (la em cima), iguais nas tres dificuldades.
-// Bateria de 5.000 temporadas em 27/09 (fase 4, scripts/bateria/draft), no
-// Normal: escolher ao acaso fica no meio (mediana 12o, Z4 ~19%), pegar sempre
-// a maior nota da ~17% de titulo brasileiro e o "inteligente" (encaixe,
-// entrosamento e eixos) faz ~3,4 pontos a mais que a maior nota; sempre a pior
-// cai em ~80%.
+// Bateria de 5.000 temporadas em 27/09 (fase 6, depois do teste do dono,
+// scripts/bateria/draft), no Normal: escolher ao acaso fica na metade de cima
+// (mediana 9o, Z4 ~10%), pegar sempre a maior nota da ~22% de titulo
+// brasileiro e o "inteligente" (encaixe, entrosamento e eixos) ~31% (G6 ~92%),
+// com ~3 pontos a mais que a maior nota; sempre a pior cai em ~71%. Facil:
+// inteligente campeao ~43%; Dificil: ~18%.
 const chancesDoLeque = () => (DIFICULDADES[D.dificuldade] || DIFICULDADES.normal).chances;
 
 // todas as vagas: o onze e depois o banco (D.vaga indexa essa lista)
@@ -542,7 +544,7 @@ function timesDeForaTtc(regras) {
   const c = calib() || {};
   for (const t of Object.values(times)) {
     if (t.pais === "BRA") continue;
-    let f = t.atq + (c.estrangeiros || 0);
+    let f = t.atq + (c.estrangeiros || 0) + ((c.estrangeiros_pais || {})[t.pais] || 0);
     if (typeof c.estrangeiros_teto === "number" && f > c.estrangeiros_teto) f = c.estrangeiros_teto + (f - c.estrangeiros_teto) * 0.5;
     t.atq = f; t.def = f;
   }

@@ -123,7 +123,12 @@ function temporada(p) {
   const problemas = [];
   const jogosPorComp = { bra: 0, cdb: 0, lib: 0, sul: 0 };
   const jogosDoTimePorData = new Map();
-  const liga = { gols: 0, jogos: 0, casa: 0, emp: 0, fora: 0, zz: 0, seis: 0 };
+  const liga = { gols: 0, jogos: 0, casa: 0, emp: 0, fora: 0, zz: 0, seis: 0, forteJogos: 0, forteVence: 0, forteEmpata: 0 };
+  // forca no inicio: os 5 mais fortes e os 5 mais fracos da CPU (atq + def) e o ranking do usuario entre os 20
+  const forca = (id) => temp.times[id].atq + temp.times[id].def;
+  const cpuIds = [...temp.bra.tabela.keys()].filter((id) => id !== eu).sort((a, b) => forca(b) - forca(a));
+  const top5 = new Set(cpuIds.slice(0, 5)), fim5 = new Set(cpuIds.slice(-5));
+  const posForca = 1 + cpuIds.filter((id) => forca(id) > forca(eu)).length;
   const mata = { confrontos: 0, penaltis: 0 };
   let n = 0, agendaErros = 0, expulsoMarca = 0, decisivos = 0, posturasUsadas = 0, janela = 0, garotos = 0;
   const doDraft = D.onze.map((s) => s.jogador);
@@ -168,6 +173,12 @@ function temporada(p) {
         if (j.gc > j.gf) liga.casa++; else if (j.gc < j.gf) liga.fora++; else liga.emp++;
         if (j.gc + j.gf === 0) liga.zz++;
         if (j.gc + j.gf >= 6) liga.seis++;
+        const forteCasa = top5.has(j.casa) && fim5.has(j.fora), forteFora = top5.has(j.fora) && fim5.has(j.casa);
+        if (forteCasa || forteFora) {
+          liga.forteJogos++;
+          if (j.gc === j.gf) liga.forteEmpata++;
+          else if ((j.gc > j.gf) === forteCasa) liga.forteVence++;
+        }
       }
       if (j.classificado && j.agregado !== undefined) { mata.confrontos++; if (j.penaltis) mata.penaltis++; }
       if (j.penaltis && j.penaltis[0] === j.penaltis[1]) problemas.push("penaltis empatados");
@@ -193,7 +204,8 @@ function temporada(p) {
     pos, pts: tab[pos - 1].pts, atq: temp.times[eu].atq, def: temp.times[eu].def,
     tituloBra: temp.campeoes.bra === eu, tituloCdb: temp.campeoes.cdb === eu, tituloLib: temp.campeoes.lib === eu, tituloSul: temp.campeoes.sul === eu,
     campeoes: Object.fromEntries(Object.entries(temp.campeoes).map(([c, id]) => [c, id === eu ? "EU" : id])),
-    eliminado: temp.eliminado, cpuPts: cpu.map((l) => l.pts), cpuTop: cpu[0].id,
+    eliminado: temp.eliminado, cpuPts: cpu.map((l) => l.pts), cpuTop: cpu[0].id, posForca,
+    libPais: temp.campeoes.lib ? (temp.times[temp.campeoes.lib].pais || "BRA") : null,
     liga, mata, problemas, ms, agendaErros, expulsoMarca, diasSeguidos, decisivos, posturasUsadas, janela, esquemaFinal: D.esquema,
     lesoes: ocorr.filter((o) => o.tipo === "lesão").length, suspensoes: ocorr.filter((o) => o.tipo === "suspensão").length,
     entrosamento: A.entrosamento(D.onze.map((s) => s.jogador)).ligacoes,

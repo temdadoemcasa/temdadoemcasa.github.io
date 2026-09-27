@@ -13,7 +13,7 @@ bloco("H_humano", 200, () => ({ politica: "humano" }));
 // decisoes na temporada: pares com o mesmo draft (mesma semente de draft via "par")
 bloco("T_padrao", 400, () => ({ politica: "humano", decisao: "padrao" }));
 bloco("T_bom", 400, () => ({ politica: "humano", decisao: "bom" }));
-for (const dif of ["facil", "dificil"]) for (const pol of ["aleatorio", "melhor"]) bloco(`F_${dif}_${pol}`, 225, () => ({ politica: pol, dificuldade: dif }));
+for (const dif of ["facil", "dificil"]) for (const pol of ["aleatorio", "melhor", "inteligente"]) bloco(`F_${dif}_${pol}`, 150, () => ({ politica: pol, dificuldade: dif }));
 // T_bom k usa a mesma semente de T_padrao k (mesmo draft, mesmo sorteio): comparacao pareada
 const padrao = p.map((x, i) => [x, i]).filter(([x]) => x.bloco === "T_padrao").map(([, i]) => i);
 let kb = 0;

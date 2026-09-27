@@ -20,6 +20,7 @@ node scripts/bateria/draft/testes-ui.js               # 39 checagens de tela: tr
 node scripts/bateria/draft/janela.js 150              # janela de transferências: abre em toda temporada? quando? quantos usam?
 node scripts/bateria/draft/estrela.js 40 50           # um concreto no lugar de um madeira: quanto mexe nas chances
 node scripts/bateria/draft/decisivos.js 300 humano    # paradas "Até o próximo decisivo" por temporada, por competição e por mês
+node scripts/bateria/draft/libertadores-prata.js 600   # Libertadores no mundo do Prata (calibragem padrão do motor)
 node scripts/bateria/draft/emocao.js <tudo.jsonl>     # drafts com 2+ concretos e leques com tijolo+ (também sai no metas.js, grupo [E])
 ```
 

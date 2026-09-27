@@ -492,3 +492,84 @@ Média por mês no draft típico: mai 1,0 · jul 0,3 · ago 1,6 · set 1,0 · ou
 - **Decisões boas − sempre Equilibrado:** +4,1 pts (`decisoes.sh 400`, igual à fase 4, meta ≥ +3). A política boa escolhe a postura da ida pelo contexto, no painel, com o adversário já sorteado.
 - **Fumaça de 1.000 tentativas, fase 4 × agora:** 920 de 920 tentativas iguais fora da política "boa". As métricas não se mexem.
 - **`testes-ui.js`:** 44 ok. Checam que a ida não pede postura, que a volta e a final pedem, e que a dica "Ida: vale a postura do painel (Equilibrado)" aparece.
+
+## 10. Depois do teste do dono (27/09): Libertadores brasileira, o melhor vence, draft menos difícil
+
+O dono jogou e reclamou de três coisas:
+- "metade de campeão brasileiro na Libertadores é irreal";
+- "o mandante nem sempre vence, geralmente ganha o melhor";
+- "talvez seja impossível ganhar".
+
+A calibragem nova é só do Tem Time em Casa (`motor_ttc` em `dados/competicoes-2026.json`):
+
+| parâmetro | antes | agora |
+|---|---|---|
+| K (quanto a força pesa; menor = pesa mais) | 21 | 18 |
+| mandante / visitante | 1,40 / 0,90 | 1,30 / 1,00 |
+| altitude (mandante / visitante) | 1,06 / 0,95 | 1,03 / 0,97 |
+| estrangeiros (ajuste geral) | 0 | −3,4 |
+| `estrangeiros_pais` (novo, lido em draft.js:547) | — | ARG +1,4 |
+
+No draft (draft.js):
+
+| parâmetro | antes | agora |
+|---|---|---|
+| entrosamento inicial Fácil / Normal / Difícil (115-119) | −1,5 / −2,7 / −4,3 | +0,2 / −1,4 / −3,1 |
+| por ligação de entrosamento (93) | +0,9 | +0,8 |
+| joelho do elenco (98-99) | −7,5 e rende 0,3 | −8,5 e rende 0,25 |
+| folga sobre o clube mais forte (100) | 1,5 | 3 |
+
+O Prata da Casa não lê `motor_ttc`.
+
+```bash
+scripts/bateria/draft/rodar.sh && node scripts/bateria/draft/metas.js            # metas novas (1, 3b, 5)
+node scripts/bateria/draft/libertadores-prata.js 600                             # Libertadores no mundo do Prata
+```
+
+| meta | antes (fase 5) | agora (sementes 0 / 777777) | status |
+|---|---|---|---|
+| Libertadores com campeão brasileiro, todas (75-80) | 52,9% | 78,9 / 79,1% | PASS |
+| idem, só CPU (você na Sul-Americana) (75-80) | 50,8% | 76,6 / 76,7% | PASS |
+| campeão de altitude (≤ 8) | 11,0% | 3,7 / 3,5% | PASS |
+| argentino entre os não brasileiros (maior parte) | 33% (Equador quase igual) | 57 / 60% | PASS |
+| vitória do mandante (43-46) / visitante (28-31) | 49,7 / 25,9% | 44,9 / 30,6% | PASS |
+| 5 mais fortes × 5 mais fracos, o forte vence em casa ou fora (≥ 60) | 56,5% | 60,2 / 60,5% (empate 21,7%) | PASS |
+| gols por jogo (2,35-2,55) / 0×0 (7-9) | 2,35 / 8,0% | 2,37 / 7,9% | PASS |
+| pontos do campeão (74-84) / lanterna (20-30) | 74,0 / 29,4 | 76,7 / 26,5 | PASS |
+| pontos do 17º (meta antiga 40-46) | 41,0 | 39,5 / 39,4 | FAIL (ver abaixo) |
+| inteligente: campeão brasileiro (28-35) / G6 (≥ 85) | 26,4 / 83,7% | 31,1 / 91,9% · 30,4 / 91,2% | PASS |
+| inteligente: ranking de força (~3-4) | 1,3 | 1,2 (1º em 91%) | FAIL (ver abaixo) |
+| maior nota: campeão brasileiro (22-28) | 17,1% | 22,0 / 24,0% | PASS |
+| ao acaso: mediana (9-10) / Z4 (≤ 12) | 12º / 17,4% | 9º / 10,1% · 9º / 9,9% | PASS |
+| Fácil: inteligente campeão (~45) | 24,7% | 42,7 / 42,7% | PASS |
+| Difícil: inteligente campeão (~18) | 18,0% | 20,0 / 18,7% | PASS |
+| inteligente − maior nota (≥ +2) | +3,5 | +3,6 / +2,7 | PASS |
+| decisões boas − Equilibrado (≥ +3 pts) | +3,6 | +5,2 / +4,0 (`decisoes.sh`: +3,8) | PASS |
+| estrela: concreto no lugar de um madeira | +10 pp de G6 | +6,7 pp de G6, +3,7 pp de título (típico) | PASS |
+| time dos sonhos campeão (≤ 55) | 37% | 39,5 / 43,5 / 27% | PASS |
+| pior escolha rebaixada (≥ 60) | 80% | 71 / 72% | PASS |
+| exceções, calendário, emoção, `testes-ui.js` | ok | ok (44 ok) | PASS |
+
+**O ranking de força "~3-4" não cabe junto com os outros alvos.**
+- Mesmo antes da mudança, o inteligente já era o mais forte no papel (ataque + defesa) em 85% das temporadas.
+- Com o campeão brasileiro em ~31% e o G6 em ~92% (o que o dono pediu), ele continua 1º no papel em ~91%.
+- O que segura o título é o mata-mata, as lesões, o contexto (fora de casa, rivais) e o Flamengo e o Palmeiras colados atrás.
+- Para ficar em 3º ou 4º na força, o time teria de ser mais fraco. Aí o título cairia abaixo de 28%.
+- Leitura honesta: o time bem montado é o favorito no papel e ganha ~1 em cada 3 anos, e Flamengo e Palmeiras disputam o resto.
+
+**O 17º fez 39,5 pts, contra 41 antes.** Com a força pesando mais, a tabela abre: lanterna com 26 pts e campeão com 77. A linha do rebaixamento desce 1,5 ponto. Não há faixa nova para essa métrica nos alvos do dono, e subir o 17º de volta pediria achatar a liga de novo. Fica registrada como fora da faixa antiga de 40-46.
+
+### 10.1 Libertadores no Prata da Casa (dados compartilhados)
+
+- O Prata usa a calibragem padrão do motor (K 27, altitude 1,25/0,85) e a força dos estrangeiros do JSON sem ajuste.
+- `libertadores-prata.js 600` simula só a CPU, com a Série A do retrato e o sorteio de ±1,1 que o Prata faz: **34,5% de campeão brasileiro e 23,2% de altitude.** O Equador (19%) ganha mais que a Argentina (18%).
+
+**Proposta (não aplicada no pacote principal; fica em `proposta-prata/`), a menor mudança só de dados:**
+- baixar 6,5 a força de todos os estrangeiros no JSON e subir 2 a dos argentinos;
+- compensar no `motor_ttc` do Tem Time em Casa: `estrangeiros` −3,4 → +3,1 e `estrangeiros_pais.ARG` +1,4 → −0,6.
+
+O Tem Time em Casa fica igual; só muda arredondamento de ponto flutuante. Numa fumaça de 500 tentativas, 442 saíram idênticas e as outras no mesmo patamar.
+
+Com a proposta, o Prata vai para **74,7% de campeão brasileiro e 5,8% de altitude** (argentino 11,3%, o resto espalhado). A fumaça de 300 carreiras (`rodar.js`: gulosa, aleatória e impaciente completas, cautelosa rápida, 75 de cada) deu **0 exceções e 0 textos quebrados**.
+
+Mexer nos números do motor padrão (K, altitude) teria efeito mais direto no Prata, mas exige mudar o `carreira.js`, que é do outro agente.
