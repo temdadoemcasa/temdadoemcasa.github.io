@@ -786,7 +786,7 @@
       texto: () => "Dois homens de moto te seguiram do CT até o sinal. Levaram o relógio e o susto ficou.",
       opcoes: [
         { rotulo: "Contrata segurança e muda de bairro",
-          sempre: (J) => { rep(J, { disciplina: 1 }); J.efeito.nota -= 0.05; J.efeito.vitrine -= J.ovr >= 73 ? 1.2 : 0.2; return "Carro blindado, condomínio fechado e uma vida mais trancada. A cabeça demorou a voltar."; } },
+          sempre: (J) => { rep(J, { disciplina: 1 }); J.efeito.nota -= 0.05; J.efeito.evolucao += 0.25; J.efeito.vitrine -= J.ovr >= 73 ? 0.6 : 0.2; return "Carro blindado, condomínio fechado e uma vida mais trancada: casa, CT e academia. A cabeça demorou a voltar."; } },
         { rotulo: "Segue a vida normal", chance: (J) => clamp(0.5 + (h(J).rep.disciplina || 0) * 0.1, 0.2, 0.85),
           ok: (J) => { J.efeito.nota += 0.05; return "Susto passou. Foi pro treino no dia seguinte como se nada tivesse acontecido."; },
           falha: (J) => { J.efeito.nota -= 0.08; return "Não conseguia dormir. Jogou o mês seguinte olhando pro retrovisor."; } },
