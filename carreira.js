@@ -89,8 +89,9 @@ const CRESCIMENTO = {
 // aos 23). Sem ele o centroavante saia de 92 de finalizacao aos 19.
 function tetoDaIdade(J, idade) {
   // sobe aos poucos: 72 aos 16, +2,5 por ano (82 aos 20, 92 aos 24), e nunca
-  // muito acima do proprio OVR (garoto de 65 nao tem 81 de passe)
-  const folga = idade <= 19 ? 12 : idade <= 23 ? 14 : 16;
+  // muito acima do proprio OVR (garoto de 65 nao tem 81 de passe; carta 79
+  // nao tem 90 de nada)
+  const folga = idade <= 19 ? 11 : 8;
   return Math.min(J.tetoAtributo ?? 95, Math.floor(72 + 2.5 * (idade - 16)), (J.ovr ?? 60) + folga);
 }
 function perfilEsperado(f, ovr) {
@@ -924,9 +925,11 @@ function garantirContrato(J) {
 // acima e voce jogou bem; clube da elite europeia nao vende pra rival do mesmo nivel
 function clubeLibera(J, atual, c, linha) {
   const sobe = degrau(c) > degrau(atual) || (degrau(atual) < 5 && c.forca >= atual.forca + 5);
-  const jogouBem = (linha.nota ?? 0) >= 7.2 || (linha.premios || []).length > 0;
+  const jogouBem = (linha.nota ?? 0) >= 7 || (linha.premios || []).length > 0;
   if (degrau(atual) >= 5 && degrau(c) <= 5) return 0;
-  return sobe && jogouBem ? 0.15 : sobe ? 0.05 : 0.02;
+  // quem sobe de patamar depois de um ano bom costuma ser vendido (o clube
+  // pequeno vive disso); sem ano bom, o clube segura
+  return sobe && jogouBem ? (degrau(atual) <= 2 ? 0.7 : 0.3) : sobe ? 0.12 : 0.02;
 }
 // ultimo ano de contrato: o clube prefere vender agora a perder de graca, mas
 // so libera de verdade pra quem vai subir de patamar
@@ -1291,13 +1294,17 @@ function temporadaNaSelecao(J, ano, rng, p) {
 
 // --- evolucao ----------------------------------------------------------------------
 
-// Curva de carreira: cresce ate o pico (29/30; goleiro 32 a 34) puxado pelo
-// potencial escondido, mais rapido jogando; depois do pico cai aos poucos,
-// acelerando a partir dos 33 (goleiro, quatro anos depois).
+// Curva de carreira: o salto e dos 16 aos 24 (goleiro, aos 26), puxado pelo
+// potencial escondido e mais rapido jogando -- aos 24 o jogador ja tem 94% do
+// caminho (potencial 88 da ~86); o resto vem devagar ate o pico (29/30;
+// goleiro 33 a 35). Depois do pico cai aos poucos, acelerando a partir dos 33.
 function trajetoria(J, idade) {
   if (idade >= J.idadePico) return J.potencial;
-  const f = (J.idadePico - idade) / (J.idadePico - IDADE_INICIAL);
-  return J.ovrInicial + (J.potencial - J.ovrInicial) * (1 - Math.pow(f, 1.5));
+  const maduro = Math.min(J.idadePico, J.idadePico >= 33 ? 26 : 24);
+  const gap = J.potencial - J.ovrInicial;
+  if (idade >= maduro) return J.ovrInicial + gap * (0.94 + 0.06 * (idade - maduro) / (J.idadePico - maduro));
+  const f = (maduro - idade) / (maduro - IDADE_INICIAL);
+  return J.ovrInicial + gap * 0.94 * (1 - Math.pow(f, 2));
 }
 
 function evoluir(J, p, rng) {
@@ -1353,13 +1360,15 @@ function evoluir(J, p, rng) {
     else if (sobe) {
       // cada um melhora mais no que ja e bom: o estilo da carta se mantem
       const esp = perfilEsperado(f, J.ovr);
-      const forte = pesos.map(([c, w]) => [c, w * (1 + Math.max(0, J.attrs[c] - esp[c]) / 16)]);
+      const forte = pesos.map(([c, w]) => [c, w * (1 + Math.max(0, J.attrs[c] - esp[c]) / 32)]);
       k = Motor.sortearPeso(rng, forte, ([, w]) => w)[0];
     }
     else {
-      // o corpo cai primeiro: ritmo e fisico perdem mais
+      // o corpo cai primeiro: ritmo e fisico perdem mais. Mas a carta segue
+      // equilibrada: o que passou de OVR + 6 cai antes (79 nao tem 90 de passe)
+      const acima = pesos.filter(([c]) => J.attrs[c] > J.ovr + 6).sort(([a], [b]) => J.attrs[b] - J.attrs[a]);
       const queda = pesos.map(([c, w]) => [c, w * (["RIT", "FIS", "REF"].includes(c) ? 2.5 : 1) * (c === J.foco ? 0.3 : 1)]);
-      k = Motor.sortearPeso(rng, queda, ([, w]) => w)[0];
+      k = acima.length ? acima[0][0] : Motor.sortearPeso(rng, queda, ([, w]) => w)[0];
     }
     // teto suave: acima de 85 cada ponto fica mais dificil; 99 e raridade
     // teto suave: perto do teto cada ponto fica mais dificil (teto 95; lenda 99)
@@ -1463,6 +1472,9 @@ function propostasDoAno(J, t, linha) {
   const vitrine = (linha.nota === null ? -4 : (linha.nota - 6.9) * 2.2) + linha.premios.length * 1.2 + (J.idade <= 21 ? 1 : 0) + (linha.vitrineExtra || 0);
   const sorte = C.rng() < 0.08 ? 5 : 0; // o olheiro estava no jogo certo
   linha.olheiro = sorte > 0;
+  // destaque: ano bom, ou (garoto) titular da B/C/D com nota boa -- a nota e
+  // relativa a liga, e garoto titular na B ja chama atencao
+  const destaque = (linha.nota ?? 0) >= 7 || linha.premios.length > 0 || (J.idade <= 20 && (linha.titular ?? 0) >= 0.6 && (linha.nota ?? 0) >= 6.7);
   const interessados = [];
   for (const c of clubesDoMundo(J)) {
     if (c.id === atual.id) continue;
@@ -1470,7 +1482,7 @@ function propostasDoAno(J, t, linha) {
     // Passou da janela, so quem ja esta la continua circulando por la.
     const vitrineGrande = atual.tipo === "ext" || atual.divisao === "A";
     if (c.continente === "europa") {
-      const janela = vitrineGrande && ((J.idade >= 20 && J.idade <= 24 && J.ovr >= 76) || (J.idade >= 18 && J.idade <= 19 && J.ovr >= 80));
+      const janela = vitrineGrande && ((J.idade >= 20 && J.idade <= 24 && J.ovr >= 82) || (J.idade >= 18 && J.idade <= 19 && J.ovr >= 84));
       const jaEsta = atual.continente === "europa" && J.idade <= 32;
       if (!janela && !jaEsta) continue;
     }
@@ -1478,19 +1490,23 @@ function propostasDoAno(J, t, linha) {
     if (c.continente === "asia" && !(J.idade >= 24 && J.ovr >= 74)) continue;
     if (c.continente === "leste" && !(J.idade >= 21 && J.idade <= 31 && J.ovr >= 72)) continue;
     if (c.tipo === "ext" && c.continente === "america" && J.ovr < 64) continue;
-    // clube so olha quem chega perto do titular dele; elite quer carta de elite
-    if (J.ovr < c.nivel - 3) continue;
+    // clube so olha quem chega perto do titular dele; elite quer carta de elite.
+    // Garoto que se destacou la embaixo a Serie A compra como aposta
+    const praSerieA = destaque && c.tipo !== "ext" && c.divisao === "A" && atual.tipo !== "ext" && atual.divisao !== "A";
+    const aposta = praSerieA && J.idade <= 20;
+    if (J.ovr < c.nivel - (aposta ? 7 : 3)) continue;
     if (c.forca >= 65 && J.ovr < 86) continue;
-    if (c.forca >= 62 && c.continente === "europa" && J.ovr < 82) continue;
+    if (c.forca >= 62 && c.continente === "europa" && J.ovr < 85) continue;
     const mesmoOuAcima = c.forca >= atual.forca - 3 || t.rebaixado || linha.titular < 0.3;
     if (!mesmoOuAcima) continue;
-    // sobe no maximo um degrau por vez; dois so com o olheiro certo
+    // sobe no maximo um degrau por vez; dois com o olheiro certo. Quem se
+    // destacou na B, C ou D pode ir direto pra Serie A (Remo, Chape...)
     const pulo = degrau(c) - degrau(atual);
-    if (pulo > (sorte ? 2 : 1)) continue;
+    if (pulo > (sorte ? 2 : 1) && !praSerieA) continue;
     // menor de idade vindo de baixo: clube de cima prefere esperar
     const novinho = J.idade <= 17 && pulo > 0 ? 2.5 : 0;
     const salto = Math.max(0, c.prestigio - atual.prestigio - 0.8) * 3;
-    const interesse = logistica((J.ovr - c.nivel + 2 + vitrine + sorte + barato - salto - novinho) / 2.2);
+    const interesse = logistica((J.ovr - c.nivel + 2 + vitrine + sorte + barato + (aposta ? 4 : 0) - salto - novinho) / 2.2);
     // o jogo e sobre o futebol brasileiro: fora da Europa, o exterior e excecao
     // (a Argentina pesa normal so pra quem e argentino)
     const peso = c.tipo !== "ext" || c.continente === "europa" ? 1
