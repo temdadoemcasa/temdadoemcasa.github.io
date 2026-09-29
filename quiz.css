@@ -381,3 +381,15 @@
 .festa-quiz-dica { margin: 0.45rem 1rem 0.8rem; font-size: 0.72rem; color: var(--texto-fraco); }
 .festa-quiz-dica:empty { display: none; }
 @keyframes festa-carrega { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+/* confirmar tocando de novo: aviso na borda de baixo da alternativa escolhida (nao mexe no layout) */
+.alternativa { padding-right: 1rem; }
+.toque-de-novo {
+  position: absolute; right: 0.7rem; bottom: -0.62rem; z-index: 2;
+  padding: 0.12rem 0.6rem; border-radius: 999px; background: var(--quiz); color: #111;
+  font-size: 0.7rem; font-weight: 800; letter-spacing: 0.02em; white-space: nowrap; cursor: pointer;
+  animation: toque-pisca 1.2s ease-in-out infinite;
+}
+.toque-de-novo.valendo { animation: none; opacity: 0.55; }
+@keyframes toque-pisca { 50% { box-shadow: 0 0 0 4px color-mix(in srgb, var(--quiz) 30%, transparent); } }
+@media (prefers-reduced-motion: reduce) { .toque-de-novo { animation: none; } }

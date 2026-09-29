@@ -228,15 +228,14 @@ function desenharAlternativas() {
     if (Q.eliminadas.has(i)) { b.classList.add("eliminada"); b.disabled = true; }
     b.addEventListener("click", () => escolher(i));
     li.append(b);
-    // escolheu: aparece o check no canto da propria alternativa; tocar nele confirma
+    // escolheu: tocar de novo na mesma alternativa confirma; o aviso fica na borda dela
     if (Q.escolhida === i) {
       b.classList.add("escolhida");
-      const ok = el("button", "confirmar-check", "✓");
-      ok.type = "button";
-      ok.id = "confirmar";
-      ok.setAttribute("aria-label", `Confirmar a resposta ${LETRAS[i]}`);
-      ok.addEventListener("click", (e) => { e.stopPropagation(); confirmar(); });
-      li.append(ok);
+      b.setAttribute("aria-label", `${LETRAS[i]}, ${o.texto}. Toque de novo pra confirmar.`);
+      const aviso = el("span", "toque-de-novo", matchMedia("(pointer: fine)").matches ? "Clique de novo (ou Enter) pra confirmar ✓" : "Toque de novo pra confirmar ✓");
+      aviso.id = "confirmar";
+      aviso.addEventListener("click", (e) => { e.stopPropagation(); confirmar(); });
+      li.append(aviso);
     }
     return li;
   }));
@@ -244,7 +243,13 @@ function desenharAlternativas() {
 
 function escolher(i) {
   if (Q.travado || Q.eliminadas.has(i)) return;
+  // segundo toque na mesma alternativa confirma (com uma folguinha contra toque duplo sem querer)
+  if (Q.escolhida === i) {
+    if (Date.now() - (Q.escolhidaEm || 0) > 280) confirmar();
+    return;
+  }
   Q.escolhida = i;
+  Q.escolhidaEm = Date.now();
   desenharAlternativas();
   desenharAjudas();
   mostrarAcao("acao-padrao");
@@ -261,8 +266,7 @@ function desistirDaEscolha() {
 async function confirmar() {
   if (Q.escolhida === null || Q.travado) return;
   Q.travado = true;
-  $("confirmar").disabled = true;
-  $("confirmar").classList.add("valendo");
+  $("confirmar")?.classList.add("valendo");
   desenharAjudas();
   const botoes = [...document.querySelectorAll("#alternativas .alternativa")];
   for (const b of botoes) b.disabled = true;
