@@ -434,6 +434,8 @@ function parar() {
 // Popup rapido por cima de tudo (nao mexe no layout): a sua camisa de costas,
 // com nome e numero, no cenario da prateleira, e o Dadao comemorando junto.
 // Some sozinho e nao bloqueia: da pra tocar em Proxima por baixo.
+const LIMITE_NOME = 12;
+
 const FESTA_DO_DEGRAU = [
   null,
   ["Várzea", "Primeiro gol na várzea. A resenha começou."],
@@ -450,18 +452,128 @@ const FESTA_DO_DEGRAU = [
   ["Champions", "Ouviu o hino da Champions de dentro do campo."],
   ["Seleção", "Convocado! Camisa amarela no peito."],
   ["Copa do Mundo", "Campeão do mundo! A taça é sua."],
-  ["Prateleira Messi e CR7", "Você sentou na mesa de Messi e Cristiano Ronaldo. Só gigante aqui."],
+  ["Prateleira Messi e CR7", "Bola de Ouro na estante! Você sentou na mesa de Messi e Cristiano Ronaldo."],
   ["Prateleira Rei Pelé", "Você chegou aos pés do nosso Rei Pelé. Parabéns, craque!"],
 ];
+
+// Cada prateleira tem o seu cenario (props desenhados a mao, sem marca nem pessoa real).
+const PROPS_DA_FESTA = {
+  1: (g) => { // varzea: chao de terra, trave de madeira e bola
+    g.append(svg("rect", { x: 0, y: 176, width: 240, height: 24, fill: "#7a5230" }),
+      svg("path", { d: "M176 176 V120 H228 V176", fill: "none", stroke: "#a7794a", "stroke-width": 5, "stroke-linejoin": "round" }));
+    g.append(bola(196, 168, 8));
+  },
+  2: (g) => { for (const x of [176, 200, 224]) g.append(cone(x, 176)); g.append(bola(186, 150, 8)); },
+  3: (g) => g.append(medalha(200, 110, "#cd7f32", "15")),
+  4: (g) => g.append(medalha(200, 110, "#c0c7cf", "17")),
+  5: (g) => g.append(medalha(200, 110, "#f2c230", "20")),
+  6: (g) => { g.append(gramado()); g.append(refletor(28, 24), refletor(212, 24)); },
+  7: (g) => { g.append(gramado(), torcida()); g.append(refletor(28, 24), refletor(212, 24)); },
+  8: (g) => { g.append(gramado()); g.append(refletor(28, 24), camera(200, 120)); },
+  9: (g) => { g.append(gramado(), torcida()); g.append(figurinha(200, 104)); },
+  10: (g) => { g.append(gramado(), torcida("#ffffff")); for (let i = 0; i < 26; i++) g.append(svg("rect", { x: 8 + (i * 37) % 224, y: 20 + (i * 53) % 130, width: 6, height: 4, fill: "#ffffff", opacity: 0.85, transform: `rotate(${(i * 31) % 90} ${8 + (i * 37) % 224} ${20 + (i * 53) % 130})` })); g.append(sinalizador(212, 176)); },
+  11: (g) => g.append(aviao(196, 56), svg("path", { d: "M14 60 Q60 40 110 52", fill: "none", stroke: "rgba(255,255,255,.45)", "stroke-width": 2, "stroke-dasharray": "5 5" })),
+  12: (g) => { g.append(gramado()); for (const [x, y, t] of [[196, 70, 12], [220, 110, 8], [182, 128, 7], [210, 150, 9], [36, 60, 9]]) g.append(svg("path", { d: estrela(x, y, t, t * 0.45), fill: "#ffffff" })); },
+  13: (g) => g.append(bandeira(178, 58)),
+  14: (g) => { for (let i = 0; i < 10; i++) g.append(svg("rect", { x: 170 + (i * 13) % 60, y: 20 + (i * 29) % 70, width: 4, height: 8, fill: "#f2c230" })); g.append(taca(196, 104)); },
+  15: (g) => { g.append(bolaDeOuro(200, 112)); for (const [x, y, t] of [[176, 70, 7], [226, 84, 6], [40, 64, 8]]) g.append(svg("path", { d: estrela(x, y, t, t * 0.45), fill: "#f2c230" })); },
+  16: (g) => { for (const [x, y, r] of [[30, 188, 26], [62, 196, 30], [182, 192, 30], [214, 186, 24]]) g.append(svg("circle", { cx: x, cy: y, r, fill: "#ffffff", opacity: 0.95 })); },
+};
+
+function bola(cx, cy, r) {
+  const g = svg("g");
+  g.append(svg("circle", { cx, cy, r, fill: "#ffffff", stroke: "#111", "stroke-width": 1 }),
+    svg("path", { d: `M${cx} ${cy - r * 0.45} l${r * 0.43} ${r * 0.31} l-${r * 0.16} ${r * 0.5} h-${r * 0.54} l-${r * 0.16} -${r * 0.5} Z`, fill: "#111" }));
+  return g;
+}
+function cone(x, y) { return svg("path", { d: `M${x - 7} ${y} L${x} ${y - 20} L${x + 7} ${y} Z`, fill: "#ff8a1f", stroke: "#b85d00", "stroke-width": 1 }); }
+function medalha(x, y, cor, txt) {
+  const g = svg("g");
+  g.append(svg("path", { d: `M${x - 12} ${y - 44} L${x - 4} ${y - 14} M${x + 12} ${y - 44} L${x + 4} ${y - 14}`, stroke: "#5cc8ff", "stroke-width": 7 }),
+    svg("circle", { cx: x, cy: y, r: 20, fill: cor, stroke: "rgba(0,0,0,.3)", "stroke-width": 2 }),
+    svg("circle", { cx: x, cy: y, r: 14, fill: "none", stroke: "rgba(255,255,255,.5)", "stroke-width": 1.5 }));
+  const t = svg("text", { x, y: y + 5, "text-anchor": "middle", "font-family": "Barlow Condensed, Arial Narrow, sans-serif", "font-weight": 800, "font-size": 14, fill: "#111" });
+  t.textContent = txt;
+  g.append(t);
+  return g;
+}
+function gramado() { return svg("path", { d: "M0 176 H240 V200 H0 Z", fill: "#1f7a3b" }); }
+function torcida(cor) {
+  const g = svg("g", { opacity: 0.55 });
+  for (let i = 0; i < 26; i++) g.append(svg("circle", { cx: 6 + i * 9.2, cy: 160 + (i % 2) * 6, r: 4.2, fill: cor || ["#ff7d95", "#5cc8ff", "#f2c230", "#e6edf3"][i % 4] }));
+  return g;
+}
+function refletor(x, y) {
+  const g = svg("g");
+  g.append(svg("path", { d: `M${x} ${y + 10} L${x - 30} ${y + 110} L${x + 30} ${y + 110} Z`, fill: "rgba(255,255,255,.08)" }),
+    svg("rect", { x: x - 14, y, width: 28, height: 12, rx: 2, fill: "#e6edf3" }),
+    svg("path", { d: `M${x - 8} ${y + 4} h4 m4 0 h4 m4 0 h4`, stroke: "#9aa4b1", "stroke-width": 3 }));
+  return g;
+}
+function camera(x, y) {
+  const g = svg("g");
+  g.append(svg("path", { d: `M${x} ${y + 12} L${x - 14} ${y + 56} M${x} ${y + 12} L${x + 14} ${y + 56} M${x} ${y + 12} V${y + 56}`, stroke: "#9aa4b1", "stroke-width": 3 }),
+    svg("rect", { x: x - 20, y: y - 10, width: 34, height: 22, rx: 4, fill: "#2b3442", stroke: "#9aa4b1", "stroke-width": 1.5 }),
+    svg("rect", { x: x + 14, y: y - 5, width: 12, height: 12, rx: 2, fill: "#111" }),
+    svg("circle", { cx: x - 12, cy: y - 3, r: 3, fill: "#ff4d6d" }));
+  return g;
+}
+function figurinha(x, y) {
+  const g = svg("g", { transform: `rotate(10 ${x} ${y})` });
+  g.append(svg("rect", { x: x - 18, y: y - 24, width: 36, height: 48, rx: 4, fill: "#f2c230", stroke: "#b88a00", "stroke-width": 1.5 }),
+    svg("rect", { x: x - 13, y: y - 19, width: 26, height: 26, rx: 2, fill: "#1b3a8c" }),
+    svg("rect", { x: x - 13, y: y + 11, width: 26, height: 4, rx: 1, fill: "#111", opacity: 0.6 }));
+  return g;
+}
+function sinalizador(x, y, cor = "#ff4d6d") {
+  const g = svg("g");
+  g.append(svg("circle", { cx: x, cy: y - 36, r: 16, fill: cor, opacity: 0.35 }), svg("circle", { cx: x - 6, cy: y - 54, r: 11, fill: cor, opacity: 0.22 }),
+    svg("rect", { x: x - 2, y: y - 22, width: 4, height: 22, fill: "#e6edf3" }), svg("circle", { cx: x, cy: y - 24, r: 5, fill: "#fff3b0" }));
+  return g;
+}
+function aviao(x, y) {
+  return svg("path", { d: `M${x - 30} ${y} L${x + 26} ${y - 6} Q${x + 34} ${y - 6} ${x + 30} ${y + 2} L${x - 26} ${y + 8} Z M${x - 4} ${y - 2} L${x + 6} ${y - 22} L${x + 12} ${y - 22} L${x + 8} ${y - 3} Z M${x - 6} ${y + 5} L${x + 2} ${y + 22} L${x + 8} ${y + 22} L${x + 6} ${y + 3} Z M${x - 28} ${y + 1} L${x - 34} ${y - 12} L${x - 28} ${y - 12} L${x - 20} ${y} Z`, fill: "#e6edf3", stroke: "#9aa4b1", "stroke-width": 1 });
+}
+function bandeira(x, y) {
+  const g = svg("g", { transform: `rotate(-6 ${x} ${y})` });
+  g.append(svg("rect", { x: x - 2, y: y - 6, width: 3, height: 110, fill: "#c9cfd8" }),
+    svg("rect", { x, y, width: 58, height: 40, fill: "#009c3b" }),
+    svg("path", { d: `M${x + 29} ${y + 4} L${x + 54} ${y + 20} L${x + 29} ${y + 36} L${x + 4} ${y + 20} Z`, fill: "#ffdf00" }),
+    svg("circle", { cx: x + 29, cy: y + 20, r: 9, fill: "#002776" }));
+  return g;
+}
+function taca(x, y) {
+  // taca generica: bojo com alcas, haste fina e base em dois degraus
+  const g = svg("g", { class: "festa-brilho" });
+  g.append(
+    svg("path", { d: `M${x - 22} ${y - 34} C${x - 38} ${y - 34} ${x - 36} ${y - 10} ${x - 16} ${y - 8}`, fill: "none", stroke: "#e0a800", "stroke-width": 4.5, "stroke-linecap": "round" }),
+    svg("path", { d: `M${x + 22} ${y - 34} C${x + 38} ${y - 34} ${x + 36} ${y - 10} ${x + 16} ${y - 8}`, fill: "none", stroke: "#e0a800", "stroke-width": 4.5, "stroke-linecap": "round" }),
+    svg("path", { d: `M${x - 24} ${y - 40} H${x + 24} Q${x + 24} ${y + 2} ${x} ${y + 8} Q${x - 24} ${y + 2} ${x - 24} ${y - 40} Z`, fill: "#f7c948", stroke: "#b88a00", "stroke-width": 1.5 }),
+    svg("path", { d: `M${x - 14} ${y - 34} Q${x - 14} ${y - 8} ${x - 4} ${y}`, fill: "none", stroke: "#fff3b0", "stroke-width": 3, "stroke-linecap": "round", opacity: 0.8 }),
+    svg("path", { d: `M${x - 4} ${y + 8} H${x + 4} L${x + 6} ${y + 26} H${x - 6} Z`, fill: "#e0a800" }),
+    svg("rect", { x: x - 16, y: y + 26, width: 32, height: 8, rx: 2, fill: "#f7c948", stroke: "#b88a00", "stroke-width": 1.2 }),
+    svg("rect", { x: x - 20, y: y + 34, width: 40, height: 10, rx: 2, fill: "#2b3442", stroke: "#b88a00", "stroke-width": 1.2 }),
+  );
+  return g;
+}
+function bolaDeOuro(x, y) {
+  const g = svg("g", { class: "festa-brilho" });
+  g.append(svg("path", { d: `M${x - 18} ${y + 30} H${x + 18} L${x + 12} ${y + 42} H${x - 12} Z`, fill: "#2b3442", stroke: "#b88a00", "stroke-width": 1.2 }),
+    svg("circle", { cx: x, cy: y, r: 28, fill: "#f2c230", stroke: "#b88a00", "stroke-width": 2 }),
+    svg("path", { d: `M${x} ${y - 11} l10.5 7.6 l-4 12.3 h-13 l-4 -12.3 Z`, fill: "#d9a900", stroke: "#b88a00", "stroke-width": 1 }),
+    svg("path", { d: `M${x} ${y - 11} V${y - 27} M${x + 10.5} ${y - 3.4} L${x + 26} ${y - 9} M${x + 6.5} ${y + 8.9} L${x + 15} ${y + 22} M${x - 6.5} ${y + 8.9} L${x - 15} ${y + 22} M${x - 10.5} ${y - 3.4} L${x - 26} ${y - 9}`, stroke: "#b88a00", "stroke-width": 1.5 }),
+    svg("ellipse", { cx: x - 10, cy: y - 12, rx: 8, ry: 5, fill: "#fff6cc", opacity: 0.7, transform: `rotate(-30 ${x - 10} ${y - 12})` }));
+  return g;
+}
 
 function cenaDaFesta(d) {
   const kit = kitDoDegrau(d);
   const numero = { G: 1, D: 4, M: 8, F: 10 }[Q.pos] || 10;
-  const nome = (Q.nome || "Você").toUpperCase().slice(0, 12);
+  const nome = (Q.nome || "Você").toUpperCase().slice(0, LIMITE_NOME);
   const uid = `festa${++cenaDaFesta.n}`;
   const raiz = svg("svg", { viewBox: "0 0 240 200", class: "festa-cena-svg", "aria-hidden": "true" });
-  const ceu = { 16: ["#fff1b8", "#e0a800"], 15: ["#3a2d6b", "#0d1117"], 14: ["#4a3a0c", "#0d1117"], 13: ["#0d6b33", "#0d1117"] }[d]
-    || (d >= 11 ? ["#1d3170", "#0d1117"] : d >= 6 ? ["#17482c", "#0d1117"] : ["#24401c", "#0d1117"]);
+  const ceu = { 16: ["#fff1b8", "#e0a800"], 15: ["#3a2d6b", "#0d1117"], 14: ["#4a3a0c", "#0d1117"], 13: ["#0d6b33", "#0d1117"], 11: ["#5b7fb8", "#1b2a5c"] }[d]
+    || (d === 12 ? ["#1d3170", "#070b1f"] : d >= 6 ? ["#17482c", "#0d1117"] : d === 1 ? ["#6f8fb0", "#2b3a48"] : ["#24401c", "#0d1117"]);
   const claro = (hex, k) => {
     const n = parseInt(hex.slice(1), 16), f = (c) => Math.max(0, Math.min(255, Math.round(c + (255 - c) * k)));
     return `rgb(${f(n >> 16)},${f((n >> 8) & 255)},${f(n & 255)})`;
@@ -471,41 +583,42 @@ function cenaDaFesta(d) {
       svg("stop", { offset: "0", "stop-color": ceu[0] }), svg("stop", { offset: "1", "stop-color": ceu[1] })]),
     svg("linearGradient", { id: `${uid}t`, x1: "0", y1: "0", x2: "1", y2: "1" }, [
       svg("stop", { offset: "0", "stop-color": claro(kit.base, 0.18) }), svg("stop", { offset: "1", "stop-color": kit.base })]),
-    svg("path", { id: `${uid}a`, d: "M90 92 Q120 84 150 92" }),
+    svg("path", { id: `${uid}a`, d: "M72 96 Q120 84 168 96" }),
   ]));
   raiz.append(svg("rect", { width: 240, height: 200, fill: `url(#${uid}c)` }));
-  // raios girando atras da camisa
-  const raios = svg("g", { class: "festa-raios-svg", opacity: d === 16 ? 0.5 : 0.16 });
+  const raios = svg("g", { class: "festa-raios-svg", opacity: d === 16 ? 0.5 : 0.13 });
   for (let i = 0; i < 12; i++) raios.append(svg("path", { d: "M120 108 L110 -50 L130 -50 Z", fill: d === 16 ? "#ffffff" : "#f2c230", transform: `rotate(${i * 30} 120 108)` }));
   raiz.append(raios);
-  if (d === 16) for (const [x, y, r] of [[30, 188, 26], [62, 196, 30], [182, 192, 30], [214, 186, 24]]) raiz.append(svg("circle", { cx: x, cy: y, r, fill: "#ffffff", opacity: 0.95 }));
-  if (d === 15 || d === 12) for (const [x, y, t] of [[42, 70, 16], [198, 70, 16], [28, 130, 9], [212, 130, 9]]) raiz.append(svg("path", { d: estrela(x, y, t, t * 0.45), fill: "#f2c230" }));
-  if (d === 14) raiz.append(svg("path", { d: "M186 104 H212 V120 Q212 134 199 137 Q186 134 186 120 Z M195 137 H203 V146 H195 Z M189 146 H209 V152 H189 Z", fill: "#f2c230", stroke: "#b88a00", "stroke-width": 1.5 }));
-  // confete
-  for (let i = 0; i < 16; i++) {
-    const x = 12 + ((i * 53) % 216), y = 8 + ((i * 37) % 80);
+  const cenario = svg("g", { class: "festa-props" });
+  (PROPS_DA_FESTA[d] || (() => {}))(cenario);
+  raiz.append(cenario);
+  for (let i = 0; i < 14; i++) {
+    const x = 12 + ((i * 53) % 216), y = 8 + ((i * 37) % 70);
     raiz.append(svg("rect", { x, y, width: 5, height: 9, rx: 1, fill: ["#f2c230", "#c8ff00", "#ff7d95", "#5cc8ff", "#ffffff"][i % 5], class: "confete", style: `animation-delay:${(i % 6) * 0.13}s`, transform: `rotate(${(i * 47) % 180} ${x} ${y})` }));
   }
-  // a camisa de costas, com nome e numero
+  // a camisa de costas
   const camisa = svg("g", { class: "festa-camisa" });
   camisa.append(
     svg("ellipse", { cx: 120, cy: 186, rx: 46, ry: 6, fill: "rgba(0,0,0,.28)" }),
     svg("path", { d: "M82 62 L102 52 Q120 60 138 52 L158 62 L186 86 L170 110 L156 100 L156 172 Q120 180 84 172 L84 100 L70 110 L54 86 Z", fill: `url(#${uid}t)`, stroke: "rgba(0,0,0,.35)", "stroke-width": 1.5, "stroke-linejoin": "round" }),
-    svg("path", { d: "M120 58 L120 176", stroke: "rgba(0,0,0,.06)", "stroke-width": 36 }),
-    svg("path", { d: "M102 52 Q120 62 138 52", fill: "none", stroke: kit.gola || claro(kit.base, -0.2 + 0.2) , "stroke-width": 4, "stroke-linecap": "round" }),
+    svg("path", { d: "M102 52 Q120 62 138 52", fill: "none", stroke: kit.gola || kit.numero, "stroke-width": 4, "stroke-linecap": "round", opacity: 0.9 }),
     svg("path", { d: "M60 94 L74 104 M180 94 L166 104", stroke: kit.numero, "stroke-width": 4, "stroke-linecap": "round", opacity: 0.85 }),
   );
-  const nomeTxt = svg("text", { "text-anchor": "middle", fill: kit.numero, "font-family": "Barlow Condensed, Arial Narrow, sans-serif", "font-weight": 800, "font-size": nome.length > 9 ? 11 : 14, "letter-spacing": "1.5" });
+  // nome: cabe sempre na largura das costas (o texto encolhe, nunca passa da camisa)
+  const tam = nome.length <= 6 ? 15 : nome.length <= 9 ? 13 : 11;
+  const nomeTxt = svg("text", { "text-anchor": "middle", fill: kit.numero, "font-family": "Barlow Condensed, Arial Narrow, sans-serif", "font-weight": 800, "font-size": tam, "letter-spacing": nome.length > 9 ? "0.5" : "1.5" });
   const caminho = svg("textPath", { href: `#${uid}a`, startOffset: "50%" });
+  // nome comprido encolhe pra caber entre os ombros (no maximo 68 de largura)
+  const largura = nome.length * tam * 0.62 + (nome.length > 9 ? 0 : nome.length * 1.5);
+  if (largura > 68) { caminho.setAttribute("textLength", "68"); caminho.setAttribute("lengthAdjust", "spacingAndGlyphs"); }
   caminho.textContent = nome;
   nomeTxt.append(caminho);
-  const num = svg("text", { x: 120, y: 156, "text-anchor": "middle", fill: kit.numero, stroke: "rgba(0,0,0,.25)", "stroke-width": 1.5, "paint-order": "stroke", "font-family": "Barlow Condensed, Arial Narrow, sans-serif", "font-weight": 800, "font-size": 58 });
+  const num = svg("text", { x: 120, y: 136, "text-anchor": "middle", "dominant-baseline": "central", fill: kit.numero, stroke: "rgba(0,0,0,.22)", "stroke-width": 1.2, "paint-order": "stroke", "font-family": "Barlow Condensed, Arial Narrow, sans-serif", "font-weight": 800, "font-size": 44 });
   num.textContent = String(numero);
   camisa.append(nomeTxt, num);
   if (d === 16) camisa.append(svg("path", { d: "M98 44 L106 24 L115 38 L120 18 L125 38 L134 24 L142 44 Z", fill: "#f2c230", stroke: "#b88a00", "stroke-width": 2, "stroke-linejoin": "round" }));
   raiz.append(camisa);
-  // o Dadao aplaudindo no canto
-  raiz.append(svg("image", { href: "img/dadao.svg", x: 2, y: 116, width: 58, height: 70, class: "festa-dadao" }));
+  raiz.append(svg("image", { href: "img/dadao.svg", x: 2, y: 118, width: 56, height: 68, class: "festa-dadao" }));
   return raiz;
 }
 
@@ -582,7 +695,7 @@ function terminar(como) {
 let QUIZ_ABAS = null;
 
 function comecar() {
-  Q.nome = ($("nome").value || "").trim().slice(0, 16) || "Você";
+  Q.nome = ($("nome").value || "").trim().slice(0, LIMITE_NOME) || "Você";
   try { localStorage.setItem("tem-resposta-nome", Q.nome); localStorage.setItem("tem-resposta-pos", Q.pos); } catch { /* ok */ }
   Q.degrau = 0;
   Q.numero = 1;
