@@ -27,16 +27,6 @@ const Q = {
 
 const $ = (id) => document.getElementById(id);
 
-// traz pra tela sem pular: so rola se o elemento estiver fora (celular, sobretudo)
-function mostrarNaTela(no) {
-  if (!no) return;
-  const q = no.getBoundingClientRect();
-  const barra = document.querySelector(".abas-mobile");
-  const baixo = innerHeight - (barra && getComputedStyle(barra).display !== "none" ? barra.offsetHeight : 0);
-  if (q.top >= 70 && q.bottom <= baixo) return;
-  no.scrollIntoView({ block: q.height > baixo - 70 ? "start" : "center", behavior: movimentoReduzido ? "auto" : "smooth" });
-}
-
 const CHAVE_RECORDE = "tem-resposta-recorde";
 function lerRecorde() { try { return Number(localStorage.getItem(CHAVE_RECORDE)) || 0; } catch { return 0; } }
 function guardarRecorde(d) { try { if (d > lerRecorde()) localStorage.setItem(CHAVE_RECORDE, String(d)); } catch { /* ok */ } }
@@ -137,8 +127,18 @@ function desenharAjudas() {
   $("ajuda-pular").disabled = final || a.pulos <= 0 || trava;
   $("pulos-restantes").textContent = String(a.pulos);
   $("parar").disabled = trava;
-  $("aviso-final").hidden = !final;
 }
+
+// Palco de acao: um painel por vez, sempre no mesmo lugar (nada pula, nada rola)
+function mostrarAcao(id) {
+  for (const p of document.querySelectorAll("#palco-acao .acao")) {
+    const ativa = p.id === id;
+    p.classList.toggle("ativa", ativa);
+    p.inert = !ativa;
+  }
+}
+
+function falar(texto) { $("ajuda-linha").textContent = texto; }
 
 function novaPergunta() {
   const nv = NIVEL_DA_PERGUNTA(Q.numero);
@@ -150,14 +150,10 @@ function novaPergunta() {
   Q.eliminadas = new Set();
   Q.escolhida = null;
   Q.travado = false;
-  $("ajuda-resultado").replaceChildren();
-  $("ajuda-resultado").hidden = true;
-  $("confirmar-caixa").hidden = true;
-  $("retorno").hidden = true;
-  $("painel-pergunta").classList.remove("respondida");
+  Q.marcas = { votos: null, boys: [[], [], [], []], enciclopedia: null };
+  mostrarAcao("acao-padrao");
+  falar(Q.numero === 16 ? "Pergunta final: sem ajuda. Se parar, leva a carta de 15 acertos. Errar zera." : "");
 
-  const cab = $("pergunta-cabeca");
-  cab.dataset.nivel = nv;
   $("pergunta-numero").textContent = Q.numero === 16 ? "Pergunta final" : `Pergunta ${Q.numero} de 16`;
   // sem rotulo de dificuldade: so a final ganha o selo do premio
   $("pergunta-nivel").textContent = Q.numero === 16 ? "Vale a carta Nível Pelé" : "";
@@ -181,14 +177,40 @@ function desenharTrilha() {
   }
 }
 
+const iniciais = (nome) => {
+  const partes = nome.replace(/-/g, " ").split(/\s+/).filter(Boolean);
+  return (partes.length > 1 ? partes[0][0] + partes[partes.length - 1][0] : nome.slice(0, 2)).toUpperCase();
+};
+
+// As ajudas aparecem DENTRO das alternativas (porcentagem, quem votou, o selo
+// do Enciclopedia): a pessoa olha pro mesmo lugar e nada se mexe.
 function desenharAlternativas() {
   const lista = $("alternativas");
+  const m = Q.marcas;
   lista.replaceChildren(...Q.opcoes.map((o, i) => {
     const li = el("li");
     const b = el("button", "alternativa");
     b.type = "button";
     b.dataset.i = String(i);
-    b.append(el("b", "alternativa-letra", LETRAS[i]), el("span", null, o.texto));
+    b.append(el("b", "alternativa-letra", LETRAS[i]), el("span", "alternativa-texto", o.texto));
+    const extras = el("span", "alternativa-extras");
+    if (m.enciclopedia === i) {
+      b.classList.add("indicada");
+      const selo = el("span", "selo-enciclopedia", "✓");
+      selo.title = "O Enciclopédia";
+      extras.append(selo);
+    }
+    for (const quem of m.boys[i]) {
+      const av = el("span", "avatar-boy", iniciais(quem));
+      av.title = quem;
+      extras.append(av);
+    }
+    if (m.votos && !Q.eliminadas.has(i)) {
+      b.classList.add("com-voto");
+      b.style.setProperty("--voto", `${m.votos[i]}%`);
+      extras.append(el("span", "voto", `${m.votos[i]}%`));
+    }
+    if (extras.childNodes.length) b.append(extras);
     if (Q.eliminadas.has(i)) { b.classList.add("eliminada"); b.disabled = true; }
     if (Q.escolhida === i) b.classList.add("escolhida");
     b.addEventListener("click", () => escolher(i));
@@ -203,15 +225,13 @@ function escolher(i) {
   desenharAlternativas();
   desenharAjudas();
   $("confirmar-texto").textContent = `Vai de ${LETRAS[i]}? Tá certo disso?`;
-  $("confirmar-caixa").hidden = false;
-  $("parar-caixa").hidden = true;
+  mostrarAcao("confirmar-caixa");
   $("confirmar").focus({ preventScroll: true });
-  mostrarNaTela($("confirmar-caixa"));
 }
 
 function desistirDaEscolha() {
   Q.escolhida = null;
-  $("confirmar-caixa").hidden = true;
+  mostrarAcao("acao-padrao");
   desenharAlternativas();
   desenharAjudas();
 }
@@ -219,34 +239,34 @@ function desistirDaEscolha() {
 async function confirmar() {
   if (Q.escolhida === null || Q.travado) return;
   Q.travado = true;
-  $("confirmar-caixa").hidden = true;
+  $("confirmar-texto").textContent = "Valendo...";
+  for (const b of document.querySelectorAll("#confirmar-caixa button")) b.disabled = true;
   desenharAjudas();
   const botoes = [...document.querySelectorAll("#alternativas .alternativa")];
   for (const b of botoes) b.disabled = true;
   const marcada = botoes[Q.escolhida];
   marcada.classList.add("suspense");
   await espera(movimentoReduzido ? 0 : 1100);
+  for (const b of document.querySelectorAll("#confirmar-caixa button")) b.disabled = false;
   marcada.classList.remove("suspense");
   const certa = Q.opcoes.findIndex((o) => o.certa);
   const acertou = Q.escolhida === certa;
   botoes[certa].classList.add("certa");
   if (!acertou) marcada.classList.add("errada");
   Q.historico.push({ numero: Q.numero, q: Q.pergunta.q, certa: Q.pergunta.a, marcada: Q.opcoes[Q.escolhida].texto, acertou });
-  // respondeu: some o painel de valores e ajudas, fica so o resultado
-  if (!(acertou && Q.numero === 16)) $("painel-pergunta").classList.add("respondida");
 
+  const retorno = $("retorno");
   if (!acertou) {
     Q.degrau = degrauSeErrar();
     const g = ESCADA_QUIZ[Q.degrau];
-    $("retorno").classList.add("errou");
+    retorno.classList.add("errou");
     $("retorno-texto").textContent = `Errou! A certa era ${LETRAS[certa]}, ${Q.pergunta.a}.${Q.pergunta.x ? ` ${Q.pergunta.x}` : ""}`;
     $("retorno-subiu").textContent = Q.numero === 16 ? "Na final, errar zera." : `Sua carta caiu pra ${g.nome} (${g.ovr}).`;
     $("retorno-carta").replaceChildren();
     $("proxima").textContent = "Ver o resultado";
     $("proxima").dataset.fim = "errou";
-    $("retorno").hidden = false;
+    mostrarAcao("retorno");
     $("proxima").focus({ preventScroll: true });
-    mostrarNaTela($("retorno"));
     return;
   }
   Q.degrau = Q.numero;
@@ -255,16 +275,14 @@ async function confirmar() {
     await espera(movimentoReduzido ? 0 : 900);
     return terminar("campeao");
   }
-  const retorno = $("retorno");
   retorno.classList.remove("errou");
   delete $("proxima").dataset.fim;
   desenharCarta($("retorno-carta"), Q.degrau);
   $("retorno-texto").textContent = Q.pergunta.x ? `Certa! ${Q.pergunta.x}` : "Certa!";
   $("retorno-subiu").textContent = `Sua carta subiu pra ${ESCADA_QUIZ[Q.degrau].nome} (${ESCADA_QUIZ[Q.degrau].ovr}).`;
-  retorno.hidden = false;
   $("proxima").textContent = Q.numero === 15 ? "Ir pra pergunta final" : "Próxima pergunta";
+  mostrarAcao("retorno");
   $("proxima").focus({ preventScroll: true });
-  mostrarNaTela(retorno);
 }
 
 function subirCarta() {
@@ -280,7 +298,9 @@ function proxima() {
   if ($("proxima").dataset.fim) { delete $("proxima").dataset.fim; return terminar("errou"); }
   Q.numero += 1;
   novaPergunta();
-  window.scrollTo({ top: 0, behavior: "auto" });
+  // so volta se o topo da pergunta tiver saido da tela
+  const topo = $("pergunta-cabeca").getBoundingClientRect().top;
+  if (topo < 0) $("pergunta-cabeca").scrollIntoView({ block: "start" });
 }
 
 // --- ajudas ----------------------------------------------------------------------
@@ -288,24 +308,14 @@ function proxima() {
 const vivas = () => Q.opcoes.map((o, i) => i).filter((i) => !Q.eliminadas.has(i));
 const indiceCerto = () => Q.opcoes.findIndex((o) => o.certa);
 
-function caixaDeAjuda(titulo) {
-  const caixa = $("ajuda-resultado");
-  caixa.hidden = false;
-  caixa.replaceChildren(el("p", "ajuda-titulo", titulo));
-  $("parar-caixa").hidden = true;
-  requestAnimationFrame(() => mostrarNaTela(caixa));
-  return caixa;
-}
-
 // Cartas: quatro viradas pra baixo. Rei tira nenhuma, As tira uma, 2 tira duas, 3 tira tres.
 function ajudaCartas() {
   if (!Q.ajudas.cartas) return;
   Q.ajudas.cartas = false;
   Q.travado = true;
   desenharAjudas();
-  const caixa = caixaDeAjuda("Escolhe uma carta. Rei não tira nenhuma, Ás tira uma, 2 tira duas, 3 tira três.");
   const baralho = embaralhar([["K", 0], ["A", 1], ["2", 2], ["3", 3]]);
-  const mesa = el("div", "baralho");
+  const mesa = $("baralho");
   const botoes = baralho.map(([face, n], i) => {
     const b = el("button", "carta-baralho");
     b.type = "button";
@@ -320,16 +330,18 @@ function ajudaCartas() {
       b.classList.add("escolhida");
       const erradas = embaralhar(vivas().filter((j) => !Q.opcoes[j].certa)).slice(0, n);
       for (const j of erradas) Q.eliminadas.add(j);
-      await espera(movimentoReduzido ? 0 : 500);
-      caixa.append(el("p", "ajuda-fala", n === 0 ? "Rei. Não saiu nenhuma." : `${face === "A" ? "Ás" : face}: ${n === 1 ? "saiu uma errada" : `saíram ${n} erradas`}.`));
+      await espera(movimentoReduzido ? 0 : 700);
+      const nome = { K: "Rei", A: "Ás" }[face] || face;
+      falar(n === 0 ? "Cartas: saiu o Rei. Nenhuma alternativa caiu." : `Cartas: saiu ${nome}. ${n === 1 ? "Caiu uma errada." : `Caíram ${n} erradas.`}`);
       Q.travado = false;
+      mostrarAcao("acao-padrao");
       desenharAlternativas();
       desenharAjudas();
     });
     return b;
   });
-  mesa.append(...botoes);
-  caixa.append(mesa);
+  mesa.replaceChildren(...botoes);
+  mostrarAcao("cartas-caixa");
 }
 
 // Golden Boys (os universitarios do programa): tres joias sorteadas por partida,
@@ -340,7 +352,6 @@ const GOLDEN_BOYS = [
   "Ethan Nwaneri", "Lewis-Skelly", "Mathys Tel", "Vitor Roque", "Savinho", "Gavi", "Musiala", "Wirtz",
   "Bellingham", "Xavi Simons", "Rodrigo Mora", "Geovany Quenda", "Kendry Páez", "Rayan",
 ];
-const CERTEZA = ["Tenho quase certeza.", "Acho que é essa.", "No chute, hein.", "Essa eu sei!", "Não me cobra depois.", "Meu pai sabe essa, confia.", "Vi num vídeo, é essa."];
 function sortearGoldenBoys() {
   let anteriores = [];
   try { anteriores = JSON.parse(localStorage.getItem("tem-resposta-boys")) || []; } catch { /* ok */ }
@@ -352,42 +363,34 @@ function sortearGoldenBoys() {
 function ajudaGoldenBoys() {
   if (!Q.ajudas.boys) return;
   Q.ajudas.boys = false;
-  desenharAjudas();
   const acerto = { f: 0.88, m: 0.7, d: 0.5 }[NIVEL_DA_PERGUNTA(Q.numero)];
-  const caixa = caixaDeAjuda("Os Golden Boys");
-  const lista = el("ul", "palpites");
-  const frases = embaralhar(CERTEZA);
-  Q.boys.forEach((quem, k) => {
-    const certo = indiceCerto();
-    const erradas = vivas().filter((j) => j !== certo);
+  const certo = indiceCerto();
+  const erradas = vivas().filter((j) => j !== certo);
+  const falas = Q.boys.map((quem) => {
     const voto = Math.random() < acerto || !erradas.length ? certo : erradas[Math.floor(Math.random() * erradas.length)];
-    const li = el("li");
-    li.append(el("b", null, quem), el("span", null, `Vou de ${LETRAS[voto]}. ${frases[k]}`));
-    lista.append(li);
+    Q.marcas.boys[voto].push(quem);
+    return `${quem}: ${LETRAS[voto]}`;
   });
-  caixa.append(lista);
+  falar(`Golden Boys: ${falas.join(" · ")}`);
+  desenharAlternativas();
+  desenharAjudas();
 }
 
 // O Enciclopedia: aquele que sabe tudo de bola. Nao erra, mas so da pra chamar uma vez.
 function ajudaEnciclopedia() {
   if (!Q.ajudas.enciclopedia) return;
   Q.ajudas.enciclopedia = false;
-  desenharAjudas();
   const certo = indiceCerto();
-  const caixa = caixaDeAjuda("Ajuda certeira");
-  const fala = `Pode marcar ${LETRAS[certo]}, ${Q.opcoes[certo].texto}. Tá no meu caderno desde sempre.`;
-  const lista = el("ul", "palpites");
-  const li = el("li", "certeira");
-  li.append(el("b", null, "O Enciclopédia"), el("span", null, fala));
-  lista.append(li);
-  caixa.append(lista);
+  Q.marcas.enciclopedia = certo;
+  falar(`O Enciclopédia: pode marcar ${LETRAS[certo]}. Tá no meu caderno desde sempre.`);
+  desenharAlternativas();
+  desenharAjudas();
 }
 
 // Arquibancada: a torcida vota. A certa leva mais voto quanto mais facil.
 function ajudaArquibancada() {
   if (!Q.ajudas.arquibancada) return;
   Q.ajudas.arquibancada = false;
-  desenharAjudas();
   const nv = NIVEL_DA_PERGUNTA(Q.numero);
   const certo = indiceCerto();
   const abertas = vivas();
@@ -401,22 +404,17 @@ function ajudaArquibancada() {
   // fecha em 100
   const maior = pct.indexOf(Math.max(...pct));
   pct[maior] += 100 - pct.reduce((a, b) => a + b, 0);
-  const caixa = caixaDeAjuda("A arquibancada votou");
-  const barras = el("ul", "arquibancada");
-  pct.forEach((v, i) => {
-    const li = el("li");
-    li.style.setProperty("--v", `${v}%`);
-    if (Q.eliminadas.has(i)) li.classList.add("eliminada");
-    li.append(el("b", null, LETRAS[i]), el("span", "barra-voto"), el("span", "pct", `${v}%`));
-    barras.append(li);
-  });
-  caixa.append(barras);
+  Q.marcas.votos = pct;
+  falar(`Arquibancada: a maioria foi de ${LETRAS[maior]}.`);
+  desenharAlternativas();
+  desenharAjudas();
 }
 
 function ajudaPular() {
   if (Q.ajudas.pulos <= 0 || Q.numero === 16) return;
   Q.ajudas.pulos -= 1;
   novaPergunta();
+  falar(`Pulou. ${Q.ajudas.pulos === 0 ? "Acabaram os pulos." : `Ainda tem ${Q.ajudas.pulos}.`}`);
 }
 
 function parar() {
@@ -425,9 +423,8 @@ function parar() {
   $("parar-texto").textContent = Q.degrau === 0
     ? "Parar agora? Você ainda não acertou nenhuma e sai com a carta da pelada de rua."
     : `Parar agora e levar a carta ${g.nome} (${g.ovr})?`;
-  $("parar-caixa").hidden = false;
+  mostrarAcao("parar-caixa");
   $("parar-sim").focus({ preventScroll: true });
-  mostrarNaTela($("parar-caixa"));
 }
 
 // --- fim ----------------------------------------------------------------------
@@ -486,7 +483,6 @@ function comecar() {
   Q.boys = sortearGoldenBoys();
   $("ajuda-boys").title = Q.boys.join(", ");
   $("fim-carta").classList.remove("festa-quiz");
-  $("parar-caixa").hidden = true;
   mostrarTela("tela-jogo");
   if (!QUIZ_ABAS) {
     QUIZ_ABAS = montarAbasMobile($("tela-jogo"), [
@@ -531,8 +527,8 @@ function iniciarQuiz() {
   $("ajuda-arquibancada").addEventListener("click", ajudaArquibancada);
   $("ajuda-pular").addEventListener("click", ajudaPular);
   $("parar").addEventListener("click", parar);
-  $("parar-sim").addEventListener("click", () => { $("parar-caixa").hidden = true; terminar("parou"); });
-  $("parar-nao").addEventListener("click", () => { $("parar-caixa").hidden = true; });
+  $("parar-sim").addEventListener("click", () => terminar("parou"));
+  $("parar-nao").addEventListener("click", () => mostrarAcao("acao-padrao"));
   $("compartilhar").addEventListener("click", async () => {
     const texto = Q.textoCompartilhar;
     try {
@@ -551,7 +547,7 @@ function iniciarQuiz() {
   // teclado: A-D escolhe, Enter confirma
   document.addEventListener("keydown", (e) => {
     if ($("tela-jogo").hidden || e.target instanceof HTMLInputElement) return;
-    if (e.key === "Escape" && !$("confirmar-caixa").hidden) return desistirDaEscolha();
+    if (e.key === "Escape" && $("confirmar-caixa").classList.contains("ativa") && !Q.travado) return desistirDaEscolha();
     if (e.key.length !== 1 || e.ctrlKey || e.metaKey || e.altKey) return;
     const i = LETRAS.indexOf(e.key.toUpperCase());
     if (i >= 0) escolher(i);
