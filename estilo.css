@@ -1147,3 +1147,7 @@ select, input {
   .abertura .jogos .quiz-vitrine-carta { width: 112px; }
   .abertura .jogos .quiz-escadinha li { font-size: 0.78rem; }
 }
+@media (min-width: 1001px) {
+  .abertura .jogos .quiz-escada-coluna { width: clamp(150px, 14vw, 180px); }
+  .abertura .jogos .quiz-vitrine-carta { width: clamp(90px, 8vw, 112px); }
+}
