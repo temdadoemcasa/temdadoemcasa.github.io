@@ -1474,7 +1474,7 @@ function ligarChips(seletor, chave, aoMudar) {
   }
 }
 
-// --- Tem Resposta em Casa: a escada e a carta de quem joga ----------------------
+// --- Show do Dadão: a escada e a carta de quem joga ----------------------
 // 16 perguntas como no programa de TV. Cada degrau e uma prateleira do futebol
 // e da um OVR pra carta. O `valor` e a escala escondida do programa (em mil):
 // errar leva a metade do que ja tinha, e a metade cai no degrau desse valor.

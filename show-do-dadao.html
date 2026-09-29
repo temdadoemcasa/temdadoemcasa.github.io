@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Show do Dadão · Tem dado em casa</title>
+  <meta name="description" content="Quiz de futebol em 16 perguntas: acerta e sua carta sobe, da pelada de rua até o Nível Pelé. Para, leva a carta. Erra, cai pela metade.">
+  <meta property="og:title" content="Show do Dadão · Tem dado em casa">
+  <meta property="og:description" content="16 perguntas de futebol. Da pelada de rua até o Nível Pelé. Tá certo disso?">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://temdadoemcasa.github.io/img/og.png?v=2">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#0b0b0c">
+  <link rel="icon" type="image/svg+xml" href="img/simbolo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script src="tema.js?v=2026-09-27j"></script>
+  <link rel="stylesheet" href="estilo.css?v=2026-09-28ux2">
+  <link rel="stylesheet" href="quiz.css?v=2026-09-29dadao">
+</head>
+<body>
+  <header class="topo">
+    <a class="marca" href="index.html">
+      <img class="avatar" src="img/simbolo.svg" alt="" width="36" height="36">
+      <span class="marca-nome">Tem dado em casa</span>
+    </a>
+    <nav class="menu" aria-label="Seções">
+      <a href="index.html#overalls">Cartas</a>
+      <a href="show-do-dadao.html" aria-current="page">Show do Dadão</a>
+      <a href="tem-time-em-casa.html">Tem Time em Casa</a>
+      <a href="prata-da-casa.html">Prata da Casa</a>
+    </nav>
+  </header>
+
+  <main class="quiz">
+    <!-- 1. quem joga -->
+    <section class="tela" id="tela-inicio" aria-labelledby="t-inicio">
+      <div class="inicio">
+        <div class="inicio-textos">
+          <p class="hero-sobretitulo">Quiz de futebol</p>
+          <h1 id="t-inicio">Show do Dadão</h1>
+          <p class="inicio-regras">16 perguntas: 5 fáceis, 5 médias, 5 difíceis e a final. Cada acerto sobe a sua carta um degrau, da pelada de rua até o <b>Nível Pelé</b>. Parou, leva a carta. Errou, cai pra metade do caminho. Na final, errar zera.</p>
+          <form class="inicio-form" id="form-inicio">
+            <label>Seu nome na carta
+              <input id="nome" type="text" maxlength="16" autocomplete="off" placeholder="Você">
+            </label>
+            <div class="campo">
+              <span class="rotulo">Posição</span>
+              <div class="chips" id="posicoes" role="group" aria-label="Posição">
+                <button class="chip" type="button" data-pos="G" aria-pressed="false">Goleiro</button>
+                <button class="chip" type="button" data-pos="D" aria-pressed="false">Defesa</button>
+                <button class="chip" type="button" data-pos="M" aria-pressed="false">Meio</button>
+                <button class="chip" type="button" data-pos="F" aria-pressed="true">Ataque</button>
+              </div>
+            </div>
+            <button class="botao botao-primario botao-grande" type="submit">Começar</button>
+            <p class="inicio-recorde" id="inicio-recorde"></p>
+          </form>
+          <p class="inicio-ajudas">Ajudas: <b>cartas</b>, <b>Golden Boys</b> (três joias diferentes a cada partida), <b>arquibancada</b> e <b>O Enciclopédia</b>, que não erra, uma vez cada. E <b>3 pulos</b>. Banco com <span id="total-perguntas">200</span> perguntas.</p>
+        </div>
+        <div class="inicio-carta" id="inicio-carta" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <!-- 2. o jogo -->
+    <section class="tela" id="tela-jogo" aria-label="Pergunta" hidden>
+      <div class="mesa">
+        <div class="painel-pergunta" id="painel-pergunta">
+          <p class="quiz-mini" id="quiz-mini"></p>
+          <div class="pergunta-cabeca" id="pergunta-cabeca">
+            <span class="pergunta-numero" id="pergunta-numero"></span>
+            <span class="pergunta-nivel" id="pergunta-nivel"></span>
+          </div>
+          <div class="trilha" id="trilha" aria-hidden="true"></div>
+          <h2 class="enunciado" id="enunciado" aria-live="polite"></h2>
+          <ol class="alternativas" id="alternativas"></ol>
+
+          <div class="confirmar-caixa" id="confirmar-caixa" hidden>
+            <p id="confirmar-texto"></p>
+            <div class="confirmar-botoes">
+              <button class="botao botao-primario" id="confirmar" type="button">Confirmar</button>
+              <button class="botao" id="voltar-escolha" type="button">Pensar mais</button>
+            </div>
+          </div>
+
+          <div class="retorno" id="retorno" aria-live="polite" hidden>
+            <div class="retorno-carta" id="retorno-carta" aria-hidden="true"></div>
+            <div class="retorno-textos">
+              <p id="retorno-texto"></p>
+              <p class="retorno-subiu" id="retorno-subiu"></p>
+              <button class="botao botao-primario" id="proxima" type="button">Próxima pergunta</button>
+            </div>
+          </div>
+
+          <div class="confirmar-caixa parar-caixa" id="parar-caixa" hidden>
+            <p id="parar-texto"></p>
+            <div class="confirmar-botoes">
+              <button class="botao botao-primario" id="parar-sim" type="button">Parar e levar</button>
+              <button class="botao" id="parar-nao" type="button">Continuar jogando</button>
+            </div>
+          </div>
+
+          <div class="ajuda-resultado" id="ajuda-resultado" aria-live="polite" hidden></div>
+
+          <dl class="valores">
+            <div class="valor-errar"><dt>Errar</dt><dd id="valor-errar"></dd></div>
+            <div class="valor-parar"><dt>Parar</dt><dd id="valor-parar"></dd></div>
+            <div class="valor-acertar"><dt>Acertar</dt><dd id="valor-acertar"></dd></div>
+          </dl>
+
+          <div class="ajudas" aria-label="Ajudas">
+            <button class="ajuda" id="ajuda-cartas" type="button">Cartas</button>
+            <button class="ajuda" id="ajuda-boys" type="button">Golden Boys</button>
+            <button class="ajuda" id="ajuda-arquibancada" type="button">Arquibancada</button>
+            <button class="ajuda" id="ajuda-enciclopedia" type="button">O Enciclopédia</button>
+            <button class="ajuda" id="ajuda-pular" type="button">Pular <i id="pulos-restantes">3</i></button>
+            <button class="ajuda ajuda-parar" id="parar" type="button">Parar</button>
+          </div>
+          <p class="aviso-final" id="aviso-final" hidden>Na pergunta final não tem ajuda. Se parar, leva a carta de 15 acertos.</p>
+        </div>
+
+        <aside class="painel-escada" id="painel-escada" aria-label="Sua carta e a escada">
+          <div class="quiz-carta" id="quiz-carta"></div>
+          <ol class="escada" id="escada"></ol>
+        </aside>
+      </div>
+    </section>
+
+    <!-- 3. fim -->
+    <section class="tela" id="tela-fim" aria-labelledby="fim-titulo" hidden>
+      <div class="fim">
+        <div class="fim-carta" id="fim-carta"></div>
+        <div class="fim-textos">
+          <h2 id="fim-titulo"></h2>
+          <p id="fim-texto"></p>
+          <p class="fim-recorde" id="fim-recorde"></p>
+          <div class="confirmar-botoes">
+            <button class="botao botao-primario" id="de-novo" type="button">Jogar de novo</button>
+            <button class="botao" id="compartilhar" type="button">Compartilhar resultado</button>
+            <button class="botao" id="trocar" type="button">Trocar nome ou posição</button>
+          </div>
+          <details class="fim-resumo" id="fim-resumo">
+            <summary>Ver as perguntas da partida</summary>
+            <ol class="fim-lista" id="fim-lista"></ol>
+          </details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <div class="rodape-linha">
+      <span class="rodape-marca">Tem dado em casa · resenha futebolística com dados</span>
+      <nav class="rodape-redes" aria-label="Redes do Tem dado em casa">
+        <a href="https://www.youtube.com/@temdadoemcasafc" target="_blank" rel="noopener">YouTube</a>
+        <a href="https://www.instagram.com/temdadoemcasafc/" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://www.tiktok.com/@temdadoemcasafc" target="_blank" rel="noopener">TikTok</a>
+      </nav>
+    </div>
+    <p class="rodape-autor">Site, dados e minigames feitos por <a href="https://www.linkedin.com/in/breno-sayao/" target="_blank" rel="noopener">Breno Sayão</a>, engenheiro de dados · <a href="https://www.linkedin.com/in/breno-sayao/" target="_blank" rel="noopener">LinkedIn</a></p>
+  </footer>
+
+  <script src="app.js?v=2026-09-29dadao"></script>
+  <script src="dados/perguntas.js?v=2026-09-28ux2"></script>
+  <script src="quiz.js?v=2026-09-29dadao"></script>
+</body>
+</html>
