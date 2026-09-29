@@ -275,7 +275,8 @@ async function confirmar() {
   const acertou = Q.escolhida === certa;
   botoes[certa].classList.add("certa");
   if (!acertou) marcada.classList.add("errada");
-  Q.historico.push({ numero: Q.numero, q: Q.pergunta.q, certa: Q.pergunta.a, marcada: Q.opcoes[Q.escolhida].texto, acertou });
+  Q.historico.push({ numero: Q.numero, q: Q.pergunta.q, certa: Q.pergunta.a, marcada: Q.opcoes[Q.escolhida].texto, acertou,
+    frase: Q.pergunta.r || "" });
 
   const retorno = $("retorno");
   if (!acertou) {
@@ -294,7 +295,7 @@ async function confirmar() {
   Q.degrau = Q.numero;
   subirCarta();
   if (Q.numero === 16) {
-    await comemorar(16, { curiosidade: Q.pergunta.x || "" });
+    await comemorar(16, { curiosidade: Q.pergunta.x || "", frase: Q.pergunta.r || "" });
     return terminar("campeao");
   }
   // sem botao: a comemoracao segura ~3 s e a proxima pergunta entra sozinha
@@ -305,7 +306,7 @@ async function confirmar() {
   $("retorno-subiu").textContent = `Sua carta subiu pra ${ESCADA_QUIZ[Q.degrau].nome} (${ESCADA_QUIZ[Q.degrau].ovr}).`;
   $("proxima").hidden = true;
   mostrarAcao("retorno");
-  await comemorar(Q.degrau, { curiosidade: Q.pergunta.x || "" });
+  await comemorar(Q.degrau, { curiosidade: Q.pergunta.x || "", frase: Q.pergunta.r || "" });
   $("proxima").hidden = false;
   proxima();
 }
@@ -718,10 +719,11 @@ function estrela(cx, cy, R, r) {
 }
 
 // Acertou: a comemoracao vira a tela de carregamento. Mostra onde a carta chegou,
-// a curiosidade da pergunta e uma barra de ~3 s; depois a proxima pergunta entra sozinha.
-// Um toque pula a espera.
+// a frase da resposta (a resenha, campo r), a curiosidade e uma barra de ~3 s; com frase,
+// a espera cresce com o tamanho dela (ate 6 s) pra dar tempo de ler. Um toque pula a espera.
 const ESPERA_ENTRE_PERGUNTAS = 3000;
-function comemorar(d, { curiosidade = "", duracao = ESPERA_ENTRE_PERGUNTAS } = {}) {
+const esperaDaFrase = (frase) => (frase ? Math.min(6000, Math.max(ESPERA_ENTRE_PERGUNTAS, 1800 + 40 * frase.length)) : ESPERA_ENTRE_PERGUNTAS);
+function comemorar(d, { curiosidade = "", frase = "", duracao = esperaDaFrase(frase) } = {}) {
   const info = FESTA_DO_DEGRAU[d];
   if (!info) return Promise.resolve();
   document.querySelector(".festa-quiz-pop")?.remove();
@@ -735,6 +737,7 @@ function comemorar(d, { curiosidade = "", duracao = ESPERA_ENTRE_PERGUNTAS } = {
     el("p", "festa-quiz-nivel", `${info[0]} · ${g.ovr}`),
     el("p", "festa-quiz-texto", info[1]),
   );
+  if (frase) caixa.append(el("p", "festa-quiz-frase", frase));
   if (curiosidade) caixa.append(el("p", "festa-quiz-curiosidade", curiosidade));
   const barra = el("div", "festa-quiz-barra");
   barra.style.setProperty("--duracao", `${duracao}ms`);
@@ -775,6 +778,8 @@ function terminar(como) {
     const caiu = Q.numero === 16 ? "Na final, errar zera: a carta voltou pra pelada de rua." : `A carta caiu pra ${g.nome} (${g.ovr}).`;
     texto.textContent = `A certa era ${ultima.certa}. ${caiu}`;
   }
+  // errou: a frase da resposta aparece aqui, na volta pra tela principal do jogo
+  $("fim-frase").textContent = como === "errou" && ultima?.frase ? ultima.frase : "";
   const acertos = Q.historico.filter((h) => h.acertou).length;
   const recordeAntes = lerRecorde();
   guardarRecorde(d);

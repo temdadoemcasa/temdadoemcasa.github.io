@@ -8,7 +8,8 @@ so evita que a resposta apareca de cara pra quem abrir o arquivo.
     python3 scripts/perguntas.py decodificar caminho/saida.json
 
 Formato de cada pergunta:
-    {"n": "f|m|d|p", "q": "enunciado", "a": "certa", "e": ["errada", "errada", "errada"], "x": "curiosidade (opcional)"}
+    {"n": "f|m|d|p", "q": "enunciado", "a": "certa", "e": ["errada", "errada", "errada"], "x": "curiosidade (opcional)",
+     "r": "frase da resposta (opcional): a resenha que aparece no carregamento se acertou e na tela final se errou"}
 n: f = facil, m = medio, d = dificil, p = a pergunta final.
 s: nota de dificuldade de 1 a 10 (f: 1-3, m: 4-6, d: 7-9, p: 10). O jogo puxa a pergunta
    de cada numero pela nota: 1, 2, 3, 4, 4, 5, 5, 6, 7, 7, 8, 8, 9, 9, 9, 10.
@@ -40,6 +41,7 @@ def validar(perguntas):
         opcoes = [p["a"], *erradas]
         assert len(set(opcoes)) == 4, f"{onde}: alternativa repetida"
         assert p["q"] not in vistos, f"{onde}: pergunta repetida"
+        assert len(p.get("r") or "") <= 180, f"{onde}: frase da resposta (r) passa de 180 caracteres"
         vistos.add(p["q"])
 
 

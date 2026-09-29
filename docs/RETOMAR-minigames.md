@@ -2,6 +2,12 @@
 
 Atualizado em **2026-09-27 (noite)**. Branch `prata-evolucao-e-caminho` (saiu de `integracao-main`), no GitHub, **não está no `main`**.
 
+## Show do Dadão: frase da resposta (29/09)
+
+- Cada pergunta tem o campo `r`: uma frase de resenha sobre a resposta certa (aparece no carregamento se acertou e na tela final se errou; a curiosidade `x` continua embaixo).
+- **A fonte do banco com as frases é `~/Documents/temdadoemcasa/show-do-dadao/perguntas.json`.** Quem for editar/adicionar perguntas parte dela e roda `python3 scripts/perguntas.py codificar <ela>`; gerar a partir de uma fonte sem `r` apaga as frases do site.
+- Pergunta nova precisa de `r` (até 180 caracteres, validado pelo script): piada ou referência, nada de citação inventada, número só conferido.
+
 ## Junção com o `main` (feita em 27/09, noite)
 
 O `main` tinha recebido os PRs #33–#38 de outra sessão em paralelo. O merge resolveu 23 conflitos no `carreira.js`:
