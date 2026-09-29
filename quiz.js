@@ -62,14 +62,26 @@ const embaralhar = (lista) => {
 };
 
 // pergunta do nivel que nao saiu nesta partida; prefere as que a pessoa ainda nao viu
-function sortearPergunta(nivel) {
-  const pool = Q.banco[nivel].filter((p) => !Q.usadas.has(p.id));
+// Cada pergunta tem uma nota de dificuldade (s, de 1 a 10) e cada numero da
+// escada puxa a sua nota: a dificuldade sobe um degrau de cada vez, sem pergunta
+// facil depois de uma dificil.
+const NOTA_DA_PERGUNTA = [null, 1, 2, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10];
+
+function sortearPergunta(numero) {
+  const alvo = NOTA_DA_PERGUNTA[numero];
+  const todas = [...Q.banco.f, ...Q.banco.m, ...Q.banco.d, ...Q.banco.p];
   const vistas = lerVistas();
-  const novas = pool.filter((p) => !vistas.includes(p.id));
-  const fonte = novas.length ? novas : pool.length ? pool : Q.banco[nivel];
-  // entre as ja vistas, a mais antiga primeiro
-  if (!novas.length && pool.length) return [...pool].sort((a, b) => vistas.indexOf(a.id) - vistas.indexOf(b.id))[0];
-  return fonte[Math.floor(Math.random() * fonte.length)];
+  // a nota certa primeiro; se acabar, a vizinha de baixo (nunca uma mais dificil antes da hora)
+  for (const nota of [alvo, alvo - 1, alvo + 1]) {
+    const pool = todas.filter((p) => (p.s ?? 0) === nota && !Q.usadas.has(p.id));
+    if (!pool.length) continue;
+    const novas = pool.filter((p) => !vistas.includes(p.id));
+    if (novas.length) return novas[Math.floor(Math.random() * novas.length)];
+    // entre as ja vistas, a mais antiga primeiro
+    return [...pool].sort((x, y) => vistas.indexOf(x.id) - vistas.indexOf(y.id))[0];
+  }
+  const nivel = NIVEL_DA_PERGUNTA(numero);
+  return Q.banco[nivel][Math.floor(Math.random() * Q.banco[nivel].length)];
 }
 
 // --- regras --------------------------------------------------------------------
@@ -143,7 +155,7 @@ function falar(texto) { $("ajuda-linha").textContent = texto; }
 
 function novaPergunta() {
   const nv = NIVEL_DA_PERGUNTA(Q.numero);
-  const p = sortearPergunta(nv);
+  const p = sortearPergunta(Q.numero);
   Q.pergunta = p;
   Q.usadas.add(p.id);
   guardarVista(p.id);
