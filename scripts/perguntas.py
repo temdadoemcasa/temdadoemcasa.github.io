@@ -9,7 +9,9 @@ so evita que a resposta apareca de cara pra quem abrir o arquivo.
 
 Formato de cada pergunta:
     {"n": "f|m|d|p", "q": "enunciado", "a": "certa", "e": ["errada", "errada", "errada"], "x": "curiosidade (opcional)"}
-n: f = facil (perguntas 1-5), m = medio (6-10), d = dificil (11-15), p = a pergunta final (16).
+n: f = facil, m = medio, d = dificil, p = a pergunta final.
+s: nota de dificuldade de 1 a 10 (f: 1-3, m: 4-6, d: 7-9, p: 10). O jogo puxa a pergunta
+   de cada numero pela nota: 1, 2, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10.
 """
 import base64
 import json
@@ -30,6 +32,8 @@ def validar(perguntas):
     for i, p in enumerate(perguntas):
         onde = f"pergunta {i + 1} ({p.get('q', '')[:50]})"
         assert p.get("n") in NIVEIS, f"{onde}: nivel invalido"
+        faixa = {"f": (1, 3), "m": (4, 6), "d": (7, 9), "p": (10, 10)}[p["n"]]
+        assert faixa[0] <= p.get("s", 0) <= faixa[1], f"{onde}: nota s fora da faixa do nivel"
         assert p.get("q") and p.get("a"), f"{onde}: sem enunciado ou resposta"
         erradas = p.get("e") or []
         assert len(erradas) == 3, f"{onde}: precisa de 3 erradas"
