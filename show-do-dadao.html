@@ -16,8 +16,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
   <script src="tema.js?v=2026-09-27j"></script>
-  <link rel="stylesheet" href="estilo.css?v=2026-09-28ux2">
-  <link rel="stylesheet" href="quiz.css?v=2026-09-29dadao">
+  <link rel="stylesheet" href="estilo.css?v=2026-09-29dadao2">
+  <link rel="stylesheet" href="quiz.css?v=2026-09-29dadao2">
 </head>
 <body>
   <header class="topo">
@@ -38,7 +38,8 @@
     <section class="tela" id="tela-inicio" aria-labelledby="t-inicio">
       <div class="inicio">
         <div class="inicio-textos">
-          <p class="hero-sobretitulo">Quiz de futebol</p>
+          <img class="dadao dadao-mini" src="img/dadao.svg" alt="" width="84" height="101" aria-hidden="true">
+          <p class="hero-sobretitulo">Quiz de futebol · apresentado pelo Dadão</p>
           <h1 id="t-inicio">Show do Dadão</h1>
           <p class="inicio-regras">16 perguntas: 5 fáceis, 5 médias, 5 difíceis e a final. Cada acerto sobe a sua carta um degrau, da pelada de rua até o <b>Nível Pelé</b>. Parou, leva a carta. Errou, cai pra metade do caminho. Na final, errar zera.</p>
           <form class="inicio-form" id="form-inicio">
@@ -59,7 +60,10 @@
           </form>
           <p class="inicio-ajudas">Ajudas: <b>cartas</b>, <b>Golden Boys</b> (três joias diferentes a cada partida), <b>arquibancada</b> e <b>O Enciclopédia</b>, que não erra, uma vez cada. E <b>3 pulos</b>. Banco com <span id="total-perguntas">200</span> perguntas.</p>
         </div>
-        <div class="inicio-carta" id="inicio-carta" aria-hidden="true"></div>
+        <div class="inicio-palco" aria-hidden="true">
+          <img class="dadao" src="img/dadao.svg" alt="" width="260" height="314">
+          <div class="inicio-carta" id="inicio-carta"></div>
+        </div>
       </div>
     </section>
 
@@ -161,8 +165,8 @@
     <p class="rodape-autor">Site, dados e minigames feitos por <a href="https://www.linkedin.com/in/breno-sayao/" target="_blank" rel="noopener">Breno Sayão</a>, engenheiro de dados · <a href="https://www.linkedin.com/in/breno-sayao/" target="_blank" rel="noopener">LinkedIn</a></p>
   </footer>
 
-  <script src="app.js?v=2026-09-29dadao"></script>
+  <script src="app.js?v=2026-09-29dadao2"></script>
   <script src="dados/perguntas.js?v=2026-09-28ux2"></script>
-  <script src="quiz.js?v=2026-09-29dadao"></script>
+  <script src="quiz.js?v=2026-09-29dadao2"></script>
 </body>
 </html>
