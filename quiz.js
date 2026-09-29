@@ -65,7 +65,8 @@ const embaralhar = (lista) => {
 // Cada pergunta tem uma nota de dificuldade (s, de 1 a 10) e cada numero da
 // escada puxa a sua nota: a dificuldade sobe um degrau de cada vez, sem pergunta
 // facil depois de uma dificil.
-const NOTA_DA_PERGUNTA = [null, 1, 2, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10];
+// as 6 ultimas puxam do topo do banco: 8, 8, 9, 9, 9 e a final 10
+const NOTA_DA_PERGUNTA = [null, 1, 2, 3, 4, 4, 5, 5, 6, 7, 7, 8, 8, 9, 9, 9, 10];
 
 function sortearPergunta(numero) {
   const alvo = NOTA_DA_PERGUNTA[numero];
@@ -871,6 +872,8 @@ function iniciarQuiz() {
   });
   // teclado: A-D escolhe, Enter confirma
   document.addEventListener("keydown", (e) => {
+    const festa = document.querySelector(".festa-quiz-pop");
+    if (festa && (e.key === "Enter" || e.key === " " || e.key === "Escape")) { e.preventDefault(); festa.click(); return; }
     if ($("tela-jogo").hidden || e.target instanceof HTMLInputElement) return;
     if (e.key === "Escape" && Q.escolhida !== null && !Q.travado) return desistirDaEscolha();
     if (e.key === "Enter" && Q.escolhida !== null && !Q.travado && document.activeElement?.id !== "confirmar") { e.preventDefault(); return confirmar(); }

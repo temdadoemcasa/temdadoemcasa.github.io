@@ -11,7 +11,7 @@ Formato de cada pergunta:
     {"n": "f|m|d|p", "q": "enunciado", "a": "certa", "e": ["errada", "errada", "errada"], "x": "curiosidade (opcional)"}
 n: f = facil, m = medio, d = dificil, p = a pergunta final.
 s: nota de dificuldade de 1 a 10 (f: 1-3, m: 4-6, d: 7-9, p: 10). O jogo puxa a pergunta
-   de cada numero pela nota: 1, 2, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10.
+   de cada numero pela nota: 1, 2, 3, 4, 4, 5, 5, 6, 7, 7, 8, 8, 9, 9, 9, 10.
 """
 import base64
 import json
