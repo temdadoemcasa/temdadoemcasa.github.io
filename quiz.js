@@ -1,10 +1,11 @@
 // Show do Dadão: quiz de futebol no formato do programa de TV.
-// 16 perguntas (5 faceis, 5 medias, 5 dificeis e a final). Cada acerto sobe a
+// 16 perguntas (2 faceis, 6 medias, 7 dificeis e a final). Cada acerto sobe a
 // carta um degrau na ESCADA_QUIZ (app.js). Parar leva a carta atual; errar leva
 // a metade do caminho; na final, errar zera. Ajudas: cartas, Golden Boys, O Enciclopedia,
 // arquibancada (uma vez cada) e 3 pulos. Na final nao tem ajuda.
 
-const NIVEL_DA_PERGUNTA = (n) => (n <= 5 ? "f" : n <= 10 ? "m" : n <= 15 ? "d" : "p");
+// curva: 2 faceis, 6 medias, 7 dificeis e a final
+const NIVEL_DA_PERGUNTA = (n) => (n <= 2 ? "f" : n <= 8 ? "m" : n <= 15 ? "d" : "p");
 const NOME_NIVEL = { f: "Fácil", m: "Médio", d: "Difícil", p: "Pergunta final" };
 const LETRAS = ["A", "B", "C", "D"];
 const CHAVE_VISTAS = "tem-resposta-vistas";
@@ -614,7 +615,7 @@ function trono(g, u) {
 
 function cenaDaFesta(d) {
   const kit = kitDoDegrau(d);
-  const numero = { G: 1, D: 4, M: 8, F: 10 }[Q.pos] || 10;
+  const numero = { G: 1, D: 4, M: 10, F: 9 }[Q.pos] || 9;
   const nome = (Q.nome || "Você").toUpperCase().slice(0, LIMITE_NOME);
   const uid = `festa${++cenaDaFesta.n}`;
   const raiz = svg("svg", { viewBox: "0 0 240 200", class: "festa-cena-svg", "aria-hidden": "true" });
