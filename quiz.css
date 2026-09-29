@@ -182,3 +182,38 @@
 .palpites li.certeira { grid-template-columns: 8rem minmax(0, 1fr); }
 .palpites li.certeira span { font-weight: 600; }
 :root[data-tema="claro"] .quiz .botao-primario { background: var(--quiz); border-color: #d9a900; color: #111; }
+
+/* trilha: as 16 perguntas em tracinhos, a final dourada */
+.trilha { display: grid; grid-template-columns: repeat(15, minmax(0, 1fr)) minmax(0, 1.6fr); gap: 3px; margin-top: -0.4rem; }
+.trilha i { height: 5px; border-radius: 3px; background: var(--fundo-alto); border: 1px solid var(--borda); }
+.trilha i:nth-child(5), .trilha i:nth-child(10), .trilha i:nth-child(15) { margin-right: 4px; }
+.trilha i.feita { background: var(--certa); border-color: var(--certa); }
+.trilha i.agora { background: var(--quiz); border-color: var(--quiz); }
+.trilha i.final:not(.agora) { border-color: color-mix(in srgb, var(--quiz) 60%, var(--borda)); }
+
+/* retorno com a carta nova (no celular a carta da lateral fica escondida na outra aba) */
+.retorno { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 1rem; align-items: center; }
+.retorno-carta { display: none; width: 92px; }
+.retorno-carta:empty { display: none !important; }
+.retorno.errou { border-color: var(--errada); }
+.retorno.errou #retorno-texto { color: var(--texto); }
+.parar-caixa { border-color: color-mix(in srgb, var(--quiz) 60%, var(--borda)); }
+.inicio-recorde, .fim-recorde { margin: 0; font-size: 0.88rem; color: var(--quiz-texto); font-weight: 600; }
+.inicio-recorde:empty, .fim-recorde:empty { display: none; }
+.fim-textos .fim-recorde { margin: -0.6rem 0 1.2rem; }
+@media (max-width: 760px) {
+  .retorno-carta { display: block; }
+  .retorno-carta .carta { animation: subiu 0.8s cubic-bezier(0.2, 1.4, 0.4, 1) both; }
+  .quiz-mini { display: none; }
+}
+@media (min-width: 761px) { .retorno { grid-template-columns: 1fr; } }
+.respondida .valores, .respondida .ajudas, .respondida .aviso-final, .respondida .ajuda-resultado { display: none; }
+@media (pointer: coarse) { .ajuda { min-height: 44px; } }
+@media (max-width: 760px) {
+  .inicio-carta { display: none; }
+  .inicio-regras { margin: 0.6rem 0 1rem; font-size: 0.95rem; }
+}
+:root[data-tema="claro"] .quiz .chip[aria-pressed="true"] { background: var(--quiz); border-color: #d9a900; color: #111; }
+#posicoes { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); max-width: 28rem; }
+#posicoes .chip { padding-inline: 0.3rem; text-align: center; }
+@media (max-width: 400px) { #posicoes .chip { font-size: 0.72rem; } }

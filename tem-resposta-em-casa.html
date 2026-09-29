@@ -16,8 +16,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
   <script src="tema.js?v=2026-09-27j"></script>
-  <link rel="stylesheet" href="estilo.css?v=2026-09-28quiz2">
-  <link rel="stylesheet" href="quiz.css?v=2026-09-28quiz">
+  <link rel="stylesheet" href="estilo.css?v=2026-09-28ux2">
+  <link rel="stylesheet" href="quiz.css?v=2026-09-28ux2">
 </head>
 <body>
   <header class="topo">
@@ -55,6 +55,7 @@
               </div>
             </div>
             <button class="botao botao-primario botao-grande" type="submit">Começar</button>
+            <p class="inicio-recorde" id="inicio-recorde"></p>
           </form>
           <p class="inicio-ajudas">Ajudas: <b>cartas</b>, <b>Golden Boys</b> (três joias diferentes a cada partida), <b>arquibancada</b> e <b>O Enciclopédia</b>, que não erra, uma vez cada. E <b>3 pulos</b>. Banco com <span id="total-perguntas">200</span> perguntas.</p>
         </div>
@@ -71,6 +72,7 @@
             <span class="pergunta-numero" id="pergunta-numero"></span>
             <span class="pergunta-nivel" id="pergunta-nivel"></span>
           </div>
+          <div class="trilha" id="trilha" aria-hidden="true"></div>
           <h2 class="enunciado" id="enunciado" aria-live="polite"></h2>
           <ol class="alternativas" id="alternativas"></ol>
 
@@ -82,10 +84,21 @@
             </div>
           </div>
 
-          <div class="retorno" id="retorno" hidden>
-            <p id="retorno-texto"></p>
-            <p class="retorno-subiu" id="retorno-subiu"></p>
-            <button class="botao botao-primario" id="proxima" type="button">Próxima pergunta</button>
+          <div class="retorno" id="retorno" aria-live="polite" hidden>
+            <div class="retorno-carta" id="retorno-carta" aria-hidden="true"></div>
+            <div class="retorno-textos">
+              <p id="retorno-texto"></p>
+              <p class="retorno-subiu" id="retorno-subiu"></p>
+              <button class="botao botao-primario" id="proxima" type="button">Próxima pergunta</button>
+            </div>
+          </div>
+
+          <div class="confirmar-caixa parar-caixa" id="parar-caixa" hidden>
+            <p id="parar-texto"></p>
+            <div class="confirmar-botoes">
+              <button class="botao botao-primario" id="parar-sim" type="button">Parar e levar</button>
+              <button class="botao" id="parar-nao" type="button">Continuar jogando</button>
+            </div>
           </div>
 
           <div class="ajuda-resultado" id="ajuda-resultado" aria-live="polite" hidden></div>
@@ -121,8 +134,10 @@
         <div class="fim-textos">
           <h2 id="fim-titulo"></h2>
           <p id="fim-texto"></p>
+          <p class="fim-recorde" id="fim-recorde"></p>
           <div class="confirmar-botoes">
             <button class="botao botao-primario" id="de-novo" type="button">Jogar de novo</button>
+            <button class="botao" id="compartilhar" type="button">Compartilhar resultado</button>
             <button class="botao" id="trocar" type="button">Trocar nome ou posição</button>
           </div>
           <details class="fim-resumo" id="fim-resumo">
@@ -146,8 +161,8 @@
     <p class="rodape-autor">Site, dados e minigames feitos por <a href="https://www.linkedin.com/in/breno-sayao/" target="_blank" rel="noopener">Breno Sayão</a>, engenheiro de dados · <a href="https://www.linkedin.com/in/breno-sayao/" target="_blank" rel="noopener">LinkedIn</a></p>
   </footer>
 
-  <script src="app.js?v=2026-09-28quiz2"></script>
-  <script src="dados/perguntas.js?v=2026-09-28quiz"></script>
-  <script src="quiz.js?v=2026-09-28quiz"></script>
+  <script src="app.js?v=2026-09-28ux2"></script>
+  <script src="dados/perguntas.js?v=2026-09-28ux2"></script>
+  <script src="quiz.js?v=2026-09-28ux2"></script>
 </body>
 </html>

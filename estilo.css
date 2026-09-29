@@ -1068,3 +1068,10 @@ select, input {
   .quiz-escadinha li { font-size: 0.78rem; }
 }
 .carta-quiz .carta-clube { display: none; }
+/* menu com quatro jogos: nao quebra linha no meio do nome */
+.menu a, .marca-nome { white-space: nowrap; }
+@media (max-width: 1100px) and (min-width: 641px) {
+  .menu { gap: 0.8rem; font-size: 0.85rem; }
+  .menu a[href="#videos"], .menu a[href="#metodo"] { display: none; }
+}
+@media (max-width: 820px) and (min-width: 641px) { .marca-nome { display: none; } }
