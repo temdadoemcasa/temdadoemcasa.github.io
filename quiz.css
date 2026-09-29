@@ -372,6 +372,9 @@
 /* comemoracao = tela de carregamento entre perguntas */
 .festa-quiz-acertou { margin: 0.8rem 1rem 0; font-size: 0.8rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--certa, #3ddc84); }
 .festa-quiz-caixa .festa-quiz-nivel { margin-top: 0.1rem; }
+.festa-quiz-frase { margin: -0.4rem 1.1rem 1rem; padding: 0.55rem 0.8rem; border-radius: 12px; background: color-mix(in srgb, #f2c230 12%, var(--fundo-alto)); border-left: 4px solid #f2c230; font-weight: 700; font-style: italic; line-height: 1.35; color: var(--texto); text-align: left; }
+.fim-frase { margin: -0.4rem 0 1.1rem; padding: 0.6rem 0.9rem; border-radius: 12px; background: color-mix(in srgb, #f2c230 12%, var(--fundo-alto)); border-left: 4px solid #f2c230; font-weight: 700; font-style: italic; line-height: 1.35; color: var(--texto); }
+.fim-frase:empty { display: none; }
 .festa-quiz-curiosidade { margin: -0.5rem 1.1rem 0.9rem; font-size: 0.85rem; color: var(--texto-fraco); line-height: 1.35; }
 .festa-quiz-barra { height: 5px; margin: 0 1.1rem; border-radius: 999px; background: var(--fundo-alto); overflow: hidden; }
 .festa-quiz-barra i { display: block; height: 100%; width: 100%; background: #f2c230; transform-origin: left; animation: festa-carrega var(--duracao, 3s) linear both; }
