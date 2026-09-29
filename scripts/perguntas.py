@@ -1,4 +1,4 @@
-"""Banco de perguntas do Tem Resposta em Casa.
+"""Banco de perguntas do Show do Dadão.
 
 A fonte legivel (perguntas.json) fica fora do site. O site so recebe
 dados/perguntas.js, com o JSON embaralhado (XOR + base64): nao e segredo,

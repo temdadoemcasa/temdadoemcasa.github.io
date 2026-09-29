@@ -1,4 +1,4 @@
-/* Tem Resposta em Casa: o quiz. Dourado de programa de auditorio, o resto e o site. */
+/* Show do Dadão: o quiz. Dourado de programa de auditorio, o resto e o site. */
 .quiz { --quiz: #f2c230; --quiz-texto: #f2c230; --certa: #3ddc84; --errada: #ff4d6d; padding-bottom: 3rem; }
 :root[data-tema="claro"] .quiz { --quiz-texto: #8a6a00; --certa: #13894a; --errada: #d42a4a; }
 .quiz .tela { border-top: 0; padding-top: clamp(1rem, 3vw, 2rem); }

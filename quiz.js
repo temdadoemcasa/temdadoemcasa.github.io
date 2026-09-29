@@ -1,4 +1,4 @@
-// Tem Resposta em Casa: quiz de futebol no formato do programa de TV.
+// Show do Dadão: quiz de futebol no formato do programa de TV.
 // 16 perguntas (5 faceis, 5 medias, 5 dificeis e a final). Cada acerto sobe a
 // carta um degrau na ESCADA_QUIZ (app.js). Parar leva a carta atual; errar leva
 // a metade do caminho; na final, errar zera. Ajudas: cartas, Golden Boys, O Enciclopedia,
@@ -454,7 +454,7 @@ function terminar(como) {
   $("fim-recorde").textContent = d > recordeAntes && recordeAntes > 0
     ? `Novo recorde! O anterior era ${ESCADA_QUIZ[recordeAntes].nome}.`
     : recordeAntes > d ? `Seu recorde: ${ESCADA_QUIZ[recordeAntes].nome} (${ESCADA_QUIZ[recordeAntes].ovr}).` : "";
-  Q.textoCompartilhar = `Tem Resposta em Casa: minha carta chegou em ${g.nome} (${g.ovr}), com ${acertos} de 16 acertos. Tenta aí: ${location.origin}${location.pathname}`;
+  Q.textoCompartilhar = `Show do Dadão: minha carta chegou em ${g.nome} (${g.ovr}), com ${acertos} de 16 acertos. Tenta aí: ${location.origin}${location.pathname}`;
   $("compartilhar").textContent = "Compartilhar resultado";
   desenharCarta($("fim-carta"), d, { acertos });
   const lista = $("fim-lista");
