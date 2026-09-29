@@ -1526,7 +1526,7 @@ function cartaDoQuiz(nome, posicao, d, { acertos = d } = {}) {
   const degrau = ESCADA_QUIZ[d];
   const jogador = {
     nome: nome || "Você", overall: degrau.ovr, posicao, eixos: eixosDoQuiz(degrau.ovr, posicao),
-    camisa: { G: 1, D: 4, M: 8, F: 10 }[posicao] || 10, jogos: 0, minutos: 0, player_id: -1,
+    camisa: { G: 1, D: 4, M: 10, F: 9 }[posicao] || 9, jogos: 0, minutos: 0, player_id: -1,
   };
   const r = { eixos: {}, indice: { porPosicao: { [posicao]: [jogador] } } };
   const carta = cartaDoJogador(jogador, { nome: degrau.nome, kit: kitDoDegrau(d) }, r, { estatica: true });

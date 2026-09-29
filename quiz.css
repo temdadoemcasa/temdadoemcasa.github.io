@@ -186,7 +186,7 @@
 /* trilha: as 16 perguntas em tracinhos, a final dourada */
 .trilha { display: grid; grid-template-columns: repeat(15, minmax(0, 1fr)) minmax(0, 1.6fr); gap: 3px; margin-top: -0.4rem; }
 .trilha i { height: 5px; border-radius: 3px; background: var(--fundo-alto); border: 1px solid var(--borda); }
-.trilha i:nth-child(5), .trilha i:nth-child(10), .trilha i:nth-child(15) { margin-right: 4px; }
+.trilha i:nth-child(15) { margin-right: 4px; }
 .trilha i.feita { background: var(--certa); border-color: var(--certa); }
 .trilha i.agora { background: var(--quiz); border-color: var(--quiz); }
 .trilha i.final:not(.agora) { border-color: color-mix(in srgb, var(--quiz) 60%, var(--borda)); }
