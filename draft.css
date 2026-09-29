@@ -263,11 +263,18 @@ a.marca { text-decoration: none; }
   .leque { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 42%; overflow-x: auto;
     scroll-snap-type: x mandatory; padding: 0.4rem 0.2rem 0.8rem; margin-inline: -0.2rem; scrollbar-width: thin; }
   .leque .opcao { scroll-snap-align: start; }
+  /* a melhor carta pode ser a 5a, fora da tela: a borda direita esmaece e a
+     dica avisa que tem mais pro lado (a carta cortada sozinha nao bastava) */
+  .leque { -webkit-mask-image: linear-gradient(90deg, #000 82%, transparent);
+           mask-image: linear-gradient(90deg, #000 82%, transparent); }
+  /* so no passo do leque: fora dele o paragrafo fica vazio e a dica sobrava solta */
+  #vaga-progresso:not(:empty)::after { content: " · arraste pro lado →"; color: var(--texto-fraco); }
   .placar-camisa svg { width: 54px; }
   .placar-numeros { font-size: 2.6rem; }
 }
 
 /* --- criacao do clube ---------------------------------------------------------------- */
+.chips + .nota { margin-top: 0.75rem; }
 .tela h3 { margin: 1.8rem 0 0.2rem; font-size: 1.1rem; }
 .criar { display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 1.5rem; align-items: center; margin: 1rem 0 0.5rem; }
 .criar-camisa { display: grid; place-items: center; aspect-ratio: 1; border-radius: 16px; background: radial-gradient(circle at 50% 40%, rgba(200, 255, 0, 0.12), transparent 70%), var(--fundo-cartao); border: 1px solid var(--borda); }
@@ -422,6 +429,21 @@ input[type="color"] { min-width: 0; width: 4.5rem; height: 2.5rem; padding: 0.2r
 .bl-res { font-weight: 700; white-space: nowrap; }
 .bl-res small { display: block; font-weight: 500; font-size: 0.7rem; color: var(--texto-fraco); }
 .bl-res.ouro { color: var(--canal); }
+@media (max-width: 520px) {
+  /* celular: a campanha cabe inteira (antes D e Gols ficavam escondidos na rolagem) */
+  .bl-bloco { padding: 1rem 1rem 1.1rem; }
+  .bl-campanha .tabela { font-size: 0.84rem; }
+  .bl-campanha .tabela th, .bl-campanha .tabela td { padding: 0.4rem 0.2rem; }
+  .bl-comp { white-space: normal; gap: 0.35rem; }
+  /* o resultado quebra linha ("Grupos (3o, foi pra Sul)"); o placar de gols nao */
+  .bl-res { white-space: normal; }
+  .bl-campanha .tabela td:last-child { white-space: nowrap; }
+}
+@media (max-width: 380px) {
+  .bl-bloco { padding-inline: 0.8rem; }
+  .bl-campanha .tabela { font-size: 0.78rem; }
+  .bl-campanha .tabela th, .bl-campanha .tabela td { padding-inline: 0.14rem; }
+}
 
 .bl-tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.9rem 1rem; margin: 0; }
 .bl-tiles div { display: flex; flex-direction: column-reverse; }
@@ -578,12 +600,95 @@ body.simulando .cal-dia { pointer-events: none; }
   .draft-grade .draft-lado { order: -1; }
 }
 
-/* muda o jogador de vaga (posicao secundaria): a de origem volta pro sorteio */
-.vaga-mover {
-  position: absolute; top: -0.35rem; right: 12%;
-  width: 1.55rem; height: 1.55rem; display: grid; place-items: center; padding: 0;
-  border-radius: 50%; border: 1px solid var(--canal); background: var(--fundo-cartao); color: var(--canal);
-  font-size: 0.85rem; font-weight: 800; line-height: 1; cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
+/* draft: vaga e botao (toque na vazia abre o leque; no jogador, escolhe quem
+   mover e o toque seguinte, o destino). Os destinos possiveis ficam marcados. */
+button.vaga { background: none; border: 0; padding: 0; margin: 0; color: inherit; font: inherit; cursor: pointer; }
+button.vaga:focus-visible { outline: 2px solid var(--canal); outline-offset: 3px; border-radius: 6px; }
+button.vaga:hover .vaga-vazia { border-color: var(--canal); color: var(--canal); }
+.vaga-movendo .vaga-camisa svg { filter: drop-shadow(0 0 6px var(--canal)) drop-shadow(0 3px 4px rgba(0,0,0,0.4)); }
+.vaga-movendo .vaga-nome { color: var(--canal); }
+.vaga-destino .vaga-vazia, .vaga-destino.vaga-cheia .vaga-camisa { outline: 2px dashed var(--canal); outline-offset: 3px; border-radius: 50%; }
+.vaga-destino .vaga-vazia { border-color: var(--canal); color: var(--canal); animation: pulsar 1.2s ease-in-out infinite; }
+.draft-aviso { color: var(--canal); margin: 0.2rem 0 0.4rem; }
+.banco-clicavel { cursor: pointer; }
+.banco-clicavel:hover .vaga-vazia, .banco-clicavel:focus-visible .vaga-vazia { color: var(--canal); border-color: var(--canal); }
+
+/* --- fase 2: encaixe, entrosamento, banco, postura, janela, dificuldade ------------ */
+.opcao-selos { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.25rem; min-height: 1.3rem; }
+.selo-encaixe, .selo-entrosa {
+  padding: 0.08rem 0.4rem;
+  border-radius: 4px;
+  font-family: var(--numeros);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+  color: #111;
+  white-space: nowrap;
 }
-.vaga-mover:hover, .vaga-mover:focus-visible { background: var(--canal); color: #111; }
+.encaixe-ok { background: var(--canal); }
+.encaixe-meio { background: #f2cc60; }
+.encaixe-ruim { background: #ff9f5a; }
+.encaixe-pessimo { background: #ff7d95; }
+.selo-entrosa { background: var(--rival); }
+
+.banco-lista { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.6rem 0 0; padding: 0; list-style: none; }
+.banco-vaga {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 2rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 8px;
+  background: var(--fundo-cartao);
+  border: 1px solid var(--borda);
+  font-size: 0.8rem;
+}
+.banco-vaga .vaga-nome { color: var(--texto); text-shadow: none; font-size: 0.78rem; }
+.banco-vaga .vaga-vazia { width: auto; height: auto; padding: 0.05rem 0.45rem; border-radius: 6px; border-width: 1px; color: var(--texto-fraco); background: none; border-color: var(--borda); }
+.banco-vaga.vaga-ativa { border-color: var(--canal); }
+.banco-vaga.vaga-ativa .vaga-vazia { color: var(--canal); border-color: var(--canal); animation: pulsar 1.2s ease-in-out infinite; }
+
+.resumo-campo { display: grid; gap: 0.2rem; }
+.resumo-chances { margin: 0.6rem 0 1rem; padding: 0.55rem 0.8rem; border-radius: 10px; background: var(--fundo-cartao); border: 1px solid var(--borda); font-weight: 600; }
+.seletor-esquema { display: inline-flex; align-items: center; gap: 0.45rem; margin: 0.2rem 0; font-size: 0.9rem; color: var(--texto-fraco); }
+.seletor-esquema select { font: inherit; color: var(--texto); background: var(--fundo-cartao); border: 1px solid var(--borda); border-radius: 8px; padding: 0.25rem 0.5rem; }
+.controles-tatica { display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; margin-top: 0.4rem; }
+
+.pd-contexto { font-size: 0.9rem; font-weight: 600; }
+.pd-posturas { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.pd-posturas .botao { flex: 1 1 8rem; text-align: center; }
+.pd-dica { grid-column: 1 / -1; margin: 0; color: var(--texto-fraco); font-size: 0.82rem; }
+
+.janela {
+  display: grid;
+  gap: 0.6rem;
+  margin-top: 1rem;
+  padding: 1rem 1.1rem;
+  border-radius: 14px;
+  background: linear-gradient(120deg, color-mix(in srgb, var(--rival) 22%, transparent), transparent 70%), var(--fundo);
+  border: 1px solid color-mix(in srgb, var(--rival) 55%, transparent);
+  animation: entrar 0.35s ease both;
+}
+.janela-lista { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.janela .botao { justify-self: start; }
+.leque-janela { margin-top: 0; }
+
+.status-dm { --comp: #ff9f5a; }
+.status-dm strong { font-size: 0.95rem; font-family: inherit; font-weight: 700; }
+.feed-extra { grid-column: 1 / -1; font-size: 0.75rem; color: var(--texto-fraco); }
+
+.desafio { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 1rem; margin: 0.6rem 0; }
+.desafio .nota { margin: 0; }
+#desafio-dia[aria-pressed="true"] { border-color: var(--canal); color: var(--canal); }
+
+@media (max-width: 640px) {
+  .selo-encaixe, .selo-entrosa { font-size: 0.66rem; }
+}
+
+/* resumo no celular: os tres numeros numa linha so (3 colunas iguais) */
+@media (max-width: 640px) {
+  .resumo-numeros { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.6rem; }
+  .resumo-numeros dd { font-size: 1.9rem; }
+  .resumo-numeros dt { font-size: 0.7rem; line-height: 1.2; }
+}

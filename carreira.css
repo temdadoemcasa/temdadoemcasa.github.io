@@ -611,6 +611,35 @@
 .tc-divisao.sobe { color: var(--canal); }
 .fase-aviso { margin: 0.2rem 0 0.4rem; padding: 0.4rem 0.7rem; border-radius: 10px; font-size: 0.82rem; background: rgba(92, 200, 255, 0.1); border: 1px solid rgba(92, 200, 255, 0.35); color: #5cc8ff; }
 
+/* --- bateria de 5.000 (27/09): simular em dois toques e valor da reputacao --- */
+/* "Simular o resto" longe das decisoes e discreto: um toque errado encerrava a carreira */
+#tela-carreira .controles-jogo { margin-top: 1.6rem; padding-top: 0.9rem; border-top: 1px solid var(--borda); }
+#tela-carreira #tudo { background: transparent; border-color: transparent; color: var(--texto-fraco); font-size: 0.85rem; text-decoration: underline; text-underline-offset: 3px; }
+#tela-carreira #tudo.tudo-armado { border-color: #ff7d95; color: #ff7d95; text-decoration: none; }
+/* pendurar (34+): linha propria, discreto como o simular; armado fica vermelho */
+#tela-carreira #pendurar { grid-column: 1 / -1; justify-self: center; background: transparent; border-color: var(--borda); color: var(--texto-fraco); font-size: 0.85rem; }
+#tela-carreira #pendurar.tudo-armado { border-color: #ff7d95; color: #ff7d95; }
+.rep-valor { margin-left: 0.2rem; font-size: 0.7rem; font-variant-numeric: tabular-nums; color: var(--texto-fraco); }
+.rep-valor.sobe { color: var(--canal); }
+.rep-valor.desce { color: #ff7d95; }
+.rep-barra::after { width: 2px; opacity: 0.9; } /* marca do centro mais visivel */
+.proposta-jogos { white-space: normal; } /* "(titular ou do banco)" deixou o texto mais longo */
+
+/* --- fase 2 (27/09): final nomeado, efeito da reputacao, janela no resumo do ano --- */
+.bl-final { margin: 0.4rem 0 0; font-family: "Barlow Condensed", sans-serif; font-weight: 800; font-size: 1.5rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--canal); }
+.bl-final-texto { margin: 0.1rem 0 0; font-size: 0.9rem; color: var(--texto-fraco); }
+.bl-final-depois { margin: 0.3rem 0 0; font-size: 0.85rem; font-style: italic; }
+.rep-efeito { display: block; margin-top: 0.3rem; font-size: 0.72rem; color: var(--texto-fraco); }
+.temporada-janela { margin: 0.6rem 0; padding: 0.5rem 0.7rem; border-left: 3px solid var(--canal); background: var(--fundo-cartao); border-radius: 6px; font-size: 0.85rem; }
+.temporada-janela p { margin: 0.15rem 0; }
+.temporada-janela-cab { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--texto-fraco); }
+
+/* --- contratos (27/09): prazo na proposta e bloco "Pede pra ser vendido" --- */
+.proposta-contrato { margin: 0.2rem 0 0; font-size: 0.76rem; font-weight: 600; color: var(--texto-fraco); }
+.proposta-ficar .proposta-contrato { color: var(--texto); }
+.mercado-barradas { display: grid; gap: 0.4rem; margin: 0.4rem 0 0.8rem; padding: 0.6rem 0.75rem; border: 1px dashed var(--borda); border-radius: 10px; }
+.mercado-barradas .botao { justify-self: start; display: grid; gap: 0.1rem; text-align: left; }
+
 /* --- montagem da carta: faixa (slider) com base, extra, tirado e zona cara --- */
 .atributo { grid-template-columns: minmax(9rem, 11rem) minmax(80px, 1fr) 2rem 2.4rem 2rem; }
 .atributo-nome { display: grid; gap: 0.05rem; }

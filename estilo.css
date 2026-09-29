@@ -54,6 +54,7 @@ a { color: inherit; }
 .menu { display: flex; gap: 1.2rem; font-size: 0.92rem; }
 .menu a { text-decoration: none; color: var(--texto-fraco); }
 .menu a:hover { color: var(--texto); }
+.menu a[aria-current="page"] { color: var(--canal); }
 
 main { max-width: 1180px; margin: 0 auto; padding: 0 clamp(1rem, 4vw, 3rem); }
 
@@ -853,7 +854,20 @@ select, input {
 }
 
 @media (max-width: 640px) {
-  .menu { display: none; }
+  /* no celular o menu desce pra uma segunda linha em vez de sumir: e o unico
+     caminho de um minigame pro outro (quem chega pelo Reels chega no celular) */
+  .topo { flex-wrap: wrap; row-gap: 0.45rem; }
+  .menu {
+    order: 3; flex: 1 1 100%; margin-left: 0; gap: 0.9rem; font-size: 0.82rem;
+    overflow-x: auto; white-space: nowrap; scrollbar-width: none;
+    /* na home sao 5 itens e nao cabem: a borda esmaece pra mostrar que rola */
+    -webkit-mask-image: linear-gradient(90deg, #000 88%, transparent);
+    mask-image: linear-gradient(90deg, #000 88%, transparent);
+  }
+  .menu::-webkit-scrollbar { display: none; }
+  /* na home, "Videos" e "Como funciona" sao secoes logo abaixo: saem do menu no
+     celular pra os dois minigames caberem sem rolar */
+  .menu a[href="#videos"], .menu a[href="#metodo"] { display: none; }
   .time-corpo { grid-template-columns: minmax(0, 1fr); }
   .campinho { position: static; max-width: 360px; margin: 0 auto; }
   .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.8rem 0.6rem; }

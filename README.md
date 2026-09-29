@@ -75,7 +75,10 @@ opcionais:   "numero": "#hex", "gola": "#hex"
 - **Casas (nível):** cortes vêm de `niveis` no retrato ou da posição na liga
   (ver o contrato acima); a legenda das cartas mostra os números da temporada.
 - **Envelope:** chance fixa por casa (palha 55%, madeira 38%, tijolo 6,5%,
-  concreto 1%), mostrada na página; `CHANCES` em `app.js`. O Tem Time em Casa usa a mesma.
+  concreto 1%), mostrada na página; `CHANCES` em `app.js`. O Tem Time em Casa usa chances
+  próprias, mais generosas (palha 20%, madeira 45%, tijolo 28%, concreto 7%;
+  `CHANCES_DO_LEQUE` em `draft.js`): com as do envelope, montar ao acaso caía na
+  maioria das temporadas.
 - **Link direto para uma carta:** `…/#jogador-{player_id}` (vai na descrição do vídeo).
 
 ## Atualizar os dados
@@ -102,7 +105,7 @@ parece um estouro lateral que não existe.
 
 ## Tem Time em Casa (`tem-time-em-casa.html`)
 
-Cria o clube (nome, camisa, esquema), escolhe quem sai da Série A e se joga
+Cria o clube (nome, camisa, esquema), entra na Série A no lugar da Chapecoense e escolhe se joga
 Libertadores ou Sul-Americana; abre 5 figurinhas por vaga (GOL, LD, ZAG, LE,
 VOL, MC, MEI, PD, PE, CA, alas) e joga a temporada em duas abas sincronizadas
 (jogo a jogo e calendário).
