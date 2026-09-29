@@ -1027,3 +1027,30 @@ select, input {
   .aba-mobile.novidade::after { content: ""; position: absolute; top: 0.3rem; right: calc(50% - 1.1rem); width: 0.5rem; height: 0.5rem; border-radius: 50%; background: #ff4d6d; }
 }
 @media (max-width: 760px) { .com-abas-mobile .abas-temporada { display: none; } }
+
+/* --- abertura: o quiz em destaque, largura cheia, antes dos outros dois --- */
+.jogo-quiz { --jogo-cor: #f2c230; grid-column: 1 / -1; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); grid-template-rows: none; }
+.jogo-quiz .botao-primario { background: #f2c230; border-color: #f2c230; color: #111; }
+.jogo-quiz .jogo-textos { justify-content: center; }
+.abertura .jogos .jogo-quiz .jogo-visual {
+  height: auto; min-height: clamp(230px, 22vw, 290px); align-items: center; gap: clamp(1rem, 3vw, 2rem);
+  padding: 1.2rem; border-bottom: 0; border-right: 1px solid var(--borda);
+  background:
+    radial-gradient(60% 80% at 30% 50%, rgba(242, 194, 48, 0.2), transparent 70%),
+    repeating-conic-gradient(from 0deg at 30% 50%, rgba(242, 194, 48, 0.06) 0deg 8deg, transparent 8deg 24deg),
+    var(--fundo-alto);
+}
+.quiz-vitrine-carta { width: clamp(120px, 12vw, 160px); flex: none; }
+.quiz-escadinha { list-style: none; margin: 0; padding: 0; display: grid; gap: 3px; min-width: 0; }
+.quiz-escadinha li { display: flex; gap: 0.6rem; align-items: baseline; padding: 0.2rem 0.7rem; border-radius: 7px; font-size: 0.85rem; color: var(--texto-fraco); white-space: nowrap; }
+.quiz-escadinha li:nth-child(n+3) { opacity: calc(1 - (var(--o, 0))); }
+.quiz-escadinha li:nth-child(4) { --o: 0.2; } .quiz-escadinha li:nth-child(5) { --o: 0.4; } .quiz-escadinha li:nth-child(6) { --o: 0.6; }
+.quiz-escadinha b { font-family: var(--numeros); width: 1.3rem; text-align: right; }
+.quiz-escadinha li.no-topo { background: #f2c230; color: #111; font-weight: 800; }
+@media (max-width: 760px) {
+  .jogo-quiz { grid-template-columns: 1fr; }
+  .abertura .jogos .jogo-quiz .jogo-visual { border-right: 0; border-bottom: 1px solid var(--borda); min-height: 0; }
+  .quiz-vitrine-carta { width: 118px; }
+  .quiz-escadinha li { font-size: 0.78rem; }
+}
+.carta-quiz .carta-clube { display: none; }
