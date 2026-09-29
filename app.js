@@ -1474,11 +1474,86 @@ function ligarChips(seletor, chave, aoMudar) {
   }
 }
 
+// --- Tem Resposta em Casa: a escada e a carta de quem joga ----------------------
+// 16 perguntas como no programa de TV. Cada degrau e uma prateleira do futebol
+// e da um OVR pra carta. O `valor` e a escala escondida do programa (em mil):
+// errar leva a metade do que ja tinha, e a metade cai no degrau desse valor.
+const ESCADA_QUIZ = [
+  { nome: "Pelada de rua", ovr: 40, valor: 0 },
+  { nome: "Várzea", ovr: 47, valor: 1 },
+  { nome: "Escolinha", ovr: 50, valor: 2 },
+  { nome: "Sub-15", ovr: 53, valor: 3 },
+  { nome: "Sub-17", ovr: 57, valor: 4 },
+  { nome: "Sub-20", ovr: 61, valor: 5 },
+  { nome: "Série D", ovr: 65, valor: 10 },
+  { nome: "Série C", ovr: 67, valor: 20 },
+  { nome: "Série B", ovr: 69, valor: 30 },
+  { nome: "Série A", ovr: 71, valor: 40 },
+  { nome: "Libertadores", ovr: 73, valor: 50 },
+  { nome: "Europa", ovr: 76, valor: 100 },
+  { nome: "Champions", ovr: 79, valor: 200 },
+  { nome: "Seleção", ovr: 82, valor: 300 },
+  { nome: "Copa do Mundo", ovr: 86, valor: 400 },
+  { nome: "Nível Messi e CR7", ovr: 92, valor: 500 },
+  { nome: "Nível Pelé", ovr: 99, valor: 1000 },
+];
+
+// a camisa muda conforme a prateleira: da branca da pelada a preta e lima das lendas
+function kitDoDegrau(d) {
+  if (d <= 2) return { padrao: "lisa", base: "#eeeeee", numero: "#222222" };
+  if (d <= 5) return { padrao: "lisa", base: "#1f8f4e", numero: "#ffffff" };
+  if (d <= 10) return { padrao: "lisa", base: "#1b3a8c", numero: "#ffffff" };
+  if (d <= 12) return { padrao: "lisa", base: "#f2f2f2", numero: "#1b2a5c", gola: "#1b2a5c" };
+  if (d <= 14) return { padrao: "lisa", base: "#f7d117", numero: "#0b7a3b", gola: "#0b7a3b" };
+  return { padrao: "lisa", base: "#111111", numero: "#c8ff00", gola: "#c8ff00" };
+}
+
+function eixosDoQuiz(o, posicao) {
+  const c = (v) => Math.max(15, Math.min(99, Math.round(v)));
+  if (posicao === "G") return { REF: c(o + 3), EVI: c(o + 1), MAO: c(o), PES: c(o - 12), SAI: c(o - 4) };
+  const perfil = {
+    F: { RIT: 1, FIN: 4, PAS: -7, DRI: 1, DEF: null, FIS: -4 },
+    M: { RIT: -2, FIN: -5, PAS: 4, DRI: 3, DEF: -18, FIS: -6 },
+    D: { RIT: -4, FIN: -30, PAS: -9, DRI: -14, DEF: 4, FIS: 3 },
+  }[posicao] || {};
+  const e = {};
+  for (const [k, d] of Object.entries(perfil)) e[k] = c(d === null ? 25 + o * 0.15 : o + d);
+  return e;
+}
+
+// carta de quem joga o quiz, no degrau `d` (0 a 16)
+function cartaDoQuiz(nome, posicao, d, { acertos = d } = {}) {
+  const degrau = ESCADA_QUIZ[d];
+  const jogador = {
+    nome: nome || "Você", overall: degrau.ovr, posicao, eixos: eixosDoQuiz(degrau.ovr, posicao),
+    camisa: { G: 1, D: 4, M: 8, F: 10 }[posicao] || 10, jogos: 0, minutos: 0, player_id: -1,
+  };
+  const r = { eixos: {}, indice: { porPosicao: { [posicao]: [jogador] } } };
+  const carta = cartaDoJogador(jogador, { nome: degrau.nome, kit: kitDoDegrau(d) }, r, { estatica: true });
+  carta.classList.add("carta-quiz");
+  const info = carta.querySelector(".carta-info");
+  if (info) info.replaceChildren(el("span", null, degrau.nome), el("span", null, `${acertos} de 16`));
+  return carta;
+}
+
 // --- abertura: os dois minigames ---------------------------------------------
 
 // Tem Time em Casa: um leque com tres cartas reais (as melhores de posicoes diferentes).
 // Carreira: a sua carta crescendo, de casa de palha aos 16 a casa de concreto aos 29.
 function mostrarAbertura(r) {
+  const vq = document.getElementById("visual-quiz");
+  if (vq) {
+    // a carta no topo da escada e os ultimos degraus, como no painel do programa
+    const escada = el("ol", "quiz-escadinha");
+    for (let d = 16; d >= 11; d--) {
+      const li = el("li", d === 16 ? "no-topo" : "");
+      li.append(el("b", null, String(d)), el("span", null, ESCADA_QUIZ[d].nome));
+      escada.append(li);
+    }
+    const w = el("div", "quiz-vitrine-carta");
+    w.append(cartaDoQuiz("Você", "F", 16));
+    vq.replaceChildren(w, escada);
+  }
   const vd = document.getElementById("visual-draft"), vc = document.getElementById("visual-carreira");
   if (!vd || !vc) return;
   // leque do tecnico: sempre os melhores da liga, girando a cada poucos segundos
