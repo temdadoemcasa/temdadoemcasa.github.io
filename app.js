@@ -1550,8 +1550,12 @@ function mostrarAbertura(r) {
       li.append(el("b", null, String(d)), el("span", null, ESCADA_QUIZ[d].nome));
       escada.append(li);
     }
+    // o Dadao, apresentador do quiz, ao lado da escada
     const w = el("div", "quiz-vitrine-carta");
-    w.append(cartaDoQuiz("Você", "F", 16));
+    const dadao = el("img", "dadao");
+    dadao.src = "img/dadao.svg";
+    dadao.alt = "";
+    w.append(dadao);
     vq.replaceChildren(w, escada);
   }
   const vd = document.getElementById("visual-draft"), vc = document.getElementById("visual-carreira");
