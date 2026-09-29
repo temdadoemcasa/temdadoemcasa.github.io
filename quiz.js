@@ -552,8 +552,6 @@ function iniciarQuiz() {
     const i = LETRAS.indexOf(e.key.toUpperCase());
     if (i >= 0) escolher(i);
   });
-  const total = Q.banco.f.length + Q.banco.m.length + Q.banco.d.length + Q.banco.p.length;
-  $("total-perguntas").textContent = String(total);
   atualizarPreviaInicio();
   const rec = lerRecorde();
   if (rec > 0) $("inicio-recorde").textContent = `Seu recorde: ${ESCADA_QUIZ[rec].nome} (${ESCADA_QUIZ[rec].ovr}).`;
