@@ -431,8 +431,8 @@ function parar() {
 
 
 // --- comemoracao a cada prateleira ---------------------------------------------------
-// Popup rapido por cima de tudo (nao mexe no layout): o seu jogador de costas,
-// com o nome e o numero na camisa, comemorando no cenario da prateleira.
+// Popup rapido por cima de tudo (nao mexe no layout): a sua camisa de costas,
+// com nome e numero, no cenario da prateleira, e o Dadao comemorando junto.
 // Some sozinho e nao bloqueia: da pra tocar em Proxima por baixo.
 const FESTA_DO_DEGRAU = [
   null,
@@ -458,54 +458,58 @@ function cenaDaFesta(d) {
   const kit = kitDoDegrau(d);
   const numero = { G: 1, D: 4, M: 8, F: 10 }[Q.pos] || 10;
   const nome = (Q.nome || "Você").toUpperCase().slice(0, 12);
+  const uid = `festa${++cenaDaFesta.n}`;
   const raiz = svg("svg", { viewBox: "0 0 240 200", class: "festa-cena-svg", "aria-hidden": "true" });
-  const ceu = { 16: ["#fff4c2", "#f2c230"], 15: ["#2a2350", "#0d1117"], 14: ["#3b2f0a", "#0d1117"], 13: ["#0b5d2a", "#0d1117"] }[d]
-    || (d >= 11 ? ["#1b2a5c", "#0d1117"] : d >= 6 ? ["#123a24", "#0d1117"] : ["#1f3a1a", "#0d1117"]);
-  const grad = svg("radialGradient", { id: "festa-ceu", cx: "50%", cy: "35%", r: "75%" }, [
-    svg("stop", { offset: "0", "stop-color": ceu[0] }), svg("stop", { offset: "1", "stop-color": ceu[1] }),
-  ]);
-  raiz.append(svg("defs", {}, [grad]), svg("rect", { width: 240, height: 200, fill: "url(#festa-ceu)" }));
-  // raios
-  const raios = svg("g", { class: "festa-raios-svg", opacity: d === 16 ? 0.55 : 0.18 });
-  for (let i = 0; i < 12; i++) raios.append(svg("path", { d: "M120 95 L112 -40 L128 -40 Z", fill: d === 16 ? "#ffffff" : "#f2c230", transform: `rotate(${i * 30} 120 95)` }));
+  const ceu = { 16: ["#fff1b8", "#e0a800"], 15: ["#3a2d6b", "#0d1117"], 14: ["#4a3a0c", "#0d1117"], 13: ["#0d6b33", "#0d1117"] }[d]
+    || (d >= 11 ? ["#1d3170", "#0d1117"] : d >= 6 ? ["#17482c", "#0d1117"] : ["#24401c", "#0d1117"]);
+  const claro = (hex, k) => {
+    const n = parseInt(hex.slice(1), 16), f = (c) => Math.max(0, Math.min(255, Math.round(c + (255 - c) * k)));
+    return `rgb(${f(n >> 16)},${f((n >> 8) & 255)},${f(n & 255)})`;
+  };
+  raiz.append(svg("defs", {}, [
+    svg("radialGradient", { id: `${uid}c`, cx: "50%", cy: "38%", r: "75%" }, [
+      svg("stop", { offset: "0", "stop-color": ceu[0] }), svg("stop", { offset: "1", "stop-color": ceu[1] })]),
+    svg("linearGradient", { id: `${uid}t`, x1: "0", y1: "0", x2: "1", y2: "1" }, [
+      svg("stop", { offset: "0", "stop-color": claro(kit.base, 0.18) }), svg("stop", { offset: "1", "stop-color": kit.base })]),
+    svg("path", { id: `${uid}a`, d: "M90 92 Q120 84 150 92" }),
+  ]));
+  raiz.append(svg("rect", { width: 240, height: 200, fill: `url(#${uid}c)` }));
+  // raios girando atras da camisa
+  const raios = svg("g", { class: "festa-raios-svg", opacity: d === 16 ? 0.5 : 0.16 });
+  for (let i = 0; i < 12; i++) raios.append(svg("path", { d: "M120 108 L110 -50 L130 -50 Z", fill: d === 16 ? "#ffffff" : "#f2c230", transform: `rotate(${i * 30} 120 108)` }));
   raiz.append(raios);
-  if (d === 16) {
-    // o ceu: nuvens e a coroa do Rei
-    for (const [x, y, r] of [[40, 160, 26], [70, 170, 30], [180, 165, 28], [210, 172, 24], [120, 182, 34]]) raiz.append(svg("circle", { cx: x, cy: y, r, fill: "#ffffff", opacity: 0.92 }));
-    raiz.append(svg("path", { d: "M96 30 L104 12 L114 26 L120 8 L126 26 L136 12 L144 30 Z", fill: "#f2c230", stroke: "#b88a00", "stroke-width": 2 }));
-  } else if (d === 15) {
-    for (const [x, y] of [[50, 50], [190, 50]]) raiz.append(svg("path", { d: estrela(x, y, 18, 8), fill: "#f2c230" }));
-  } else if (d === 14) {
-    // taca generica
-    raiz.append(svg("path", { d: "M104 20 H136 V40 Q136 58 120 62 Q104 58 104 40 Z M116 62 H124 V74 H116 Z M108 74 H132 V80 H108 Z", fill: "#f2c230", stroke: "#b88a00", "stroke-width": 1.5 }));
-  } else if (d >= 6) {
-    // refletores
-    for (const x of [30, 210]) raiz.append(svg("path", { d: `M${x - 12} 20 H${x + 12} V34 H${x - 12} Z`, fill: "#e6edf3", opacity: 0.8 }));
-  }
+  if (d === 16) for (const [x, y, r] of [[30, 188, 26], [62, 196, 30], [182, 192, 30], [214, 186, 24]]) raiz.append(svg("circle", { cx: x, cy: y, r, fill: "#ffffff", opacity: 0.95 }));
+  if (d === 15 || d === 12) for (const [x, y, t] of [[42, 70, 16], [198, 70, 16], [28, 130, 9], [212, 130, 9]]) raiz.append(svg("path", { d: estrela(x, y, t, t * 0.45), fill: "#f2c230" }));
+  if (d === 14) raiz.append(svg("path", { d: "M186 104 H212 V120 Q212 134 199 137 Q186 134 186 120 Z M195 137 H203 V146 H195 Z M189 146 H209 V152 H189 Z", fill: "#f2c230", stroke: "#b88a00", "stroke-width": 1.5 }));
   // confete
-  for (let i = 0; i < 18; i++) {
-    const cor = ["#f2c230", "#c8ff00", "#ff7d95", "#5cc8ff", "#ffffff"][i % 5];
-    raiz.append(svg("rect", { x: 10 + ((i * 53) % 220), y: 10 + ((i * 37) % 90), width: 5, height: 9, fill: cor, class: "confete", style: `animation-delay:${(i % 6) * 0.12}s`, transform: `rotate(${(i * 47) % 180} ${10 + ((i * 53) % 220)} ${10 + ((i * 37) % 90)})` }));
+  for (let i = 0; i < 16; i++) {
+    const x = 12 + ((i * 53) % 216), y = 8 + ((i * 37) % 80);
+    raiz.append(svg("rect", { x, y, width: 5, height: 9, rx: 1, fill: ["#f2c230", "#c8ff00", "#ff7d95", "#5cc8ff", "#ffffff"][i % 5], class: "confete", style: `animation-delay:${(i % 6) * 0.13}s`, transform: `rotate(${(i * 47) % 180} ${x} ${y})` }));
   }
-  // o jogador, de costas, bracos pra cima
-  const j = svg("g", { class: "festa-jogador" });
-  const base = kit.base, cor = kit.numero;
-  j.append(
-    svg("path", { d: "M92 112 L70 70", stroke: base, "stroke-width": 14, "stroke-linecap": "round" }),
-    svg("path", { d: "M148 112 L170 70", stroke: base, "stroke-width": 14, "stroke-linecap": "round" }),
-    svg("circle", { cx: 70, cy: 66, r: 8, fill: "#c9a27e" }), svg("circle", { cx: 170, cy: 66, r: 8, fill: "#c9a27e" }),
-    svg("rect", { x: 100, y: 176, width: 14, height: 24, fill: "#1b2330" }), svg("rect", { x: 126, y: 176, width: 14, height: 24, fill: "#1b2330" }),
-    svg("path", { d: "M90 104 Q120 94 150 104 L152 180 H88 Z", fill: base, stroke: "rgba(0,0,0,.25)", "stroke-width": 1.5 }),
-    svg("circle", { cx: 120, cy: 86, r: 17, fill: "#3a2a20" }),
+  // a camisa de costas, com nome e numero
+  const camisa = svg("g", { class: "festa-camisa" });
+  camisa.append(
+    svg("ellipse", { cx: 120, cy: 186, rx: 46, ry: 6, fill: "rgba(0,0,0,.28)" }),
+    svg("path", { d: "M82 62 L102 52 Q120 60 138 52 L158 62 L186 86 L170 110 L156 100 L156 172 Q120 180 84 172 L84 100 L70 110 L54 86 Z", fill: `url(#${uid}t)`, stroke: "rgba(0,0,0,.35)", "stroke-width": 1.5, "stroke-linejoin": "round" }),
+    svg("path", { d: "M120 58 L120 176", stroke: "rgba(0,0,0,.06)", "stroke-width": 36 }),
+    svg("path", { d: "M102 52 Q120 62 138 52", fill: "none", stroke: kit.gola || claro(kit.base, -0.2 + 0.2) , "stroke-width": 4, "stroke-linecap": "round" }),
+    svg("path", { d: "M60 94 L74 104 M180 94 L166 104", stroke: kit.numero, "stroke-width": 4, "stroke-linecap": "round", opacity: 0.85 }),
   );
-  const t1 = svg("text", { x: 120, y: 124, "text-anchor": "middle", fill: cor, "font-family": "Barlow Condensed, Arial Narrow, sans-serif", "font-weight": 800, "font-size": nome.length > 8 ? 11 : 14, "letter-spacing": "1" });
-  t1.textContent = nome;
-  const t2 = svg("text", { x: 120, y: 166, "text-anchor": "middle", fill: cor, "font-family": "Barlow Condensed, Arial Narrow, sans-serif", "font-weight": 800, "font-size": 40 });
-  t2.textContent = String(numero);
-  j.append(t1, t2);
-  raiz.append(j);
+  const nomeTxt = svg("text", { "text-anchor": "middle", fill: kit.numero, "font-family": "Barlow Condensed, Arial Narrow, sans-serif", "font-weight": 800, "font-size": nome.length > 9 ? 11 : 14, "letter-spacing": "1.5" });
+  const caminho = svg("textPath", { href: `#${uid}a`, startOffset: "50%" });
+  caminho.textContent = nome;
+  nomeTxt.append(caminho);
+  const num = svg("text", { x: 120, y: 156, "text-anchor": "middle", fill: kit.numero, stroke: "rgba(0,0,0,.25)", "stroke-width": 1.5, "paint-order": "stroke", "font-family": "Barlow Condensed, Arial Narrow, sans-serif", "font-weight": 800, "font-size": 58 });
+  num.textContent = String(numero);
+  camisa.append(nomeTxt, num);
+  if (d === 16) camisa.append(svg("path", { d: "M98 44 L106 24 L115 38 L120 18 L125 38 L134 24 L142 44 Z", fill: "#f2c230", stroke: "#b88a00", "stroke-width": 2, "stroke-linejoin": "round" }));
+  raiz.append(camisa);
+  // o Dadao aplaudindo no canto
+  raiz.append(svg("image", { href: "img/dadao.svg", x: 2, y: 116, width: 58, height: 70, class: "festa-dadao" }));
   return raiz;
 }
+
+cenaDaFesta.n = 0;
 
 function estrela(cx, cy, R, r) {
   const p = [];
