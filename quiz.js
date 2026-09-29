@@ -447,13 +447,13 @@ const FESTA_DO_DEGRAU = [
   ["Série C", "Série C! A torcida já tem musiquinha pra você."],
   ["Série B", "Série B. Agora o jogo passa na TV."],
   ["Série A", "Chegou na Série A. Figurinha no álbum!"],
-  ["Libertadores", "Noite de Libertadores: papel picado e catimba."],
+  ["Libertadores", "Campeão da Libertadores! Papel picado, catimba e taça na mão."],
   ["Europa", "Vendido pra Europa! Casaco novo e saudade do arroz com feijão."],
   ["Champions", "Ouviu o hino da Champions de dentro do campo."],
   ["Seleção", "Convocado! Camisa amarela no peito."],
   ["Copa do Mundo", "Campeão do mundo! A taça é sua."],
   ["Prateleira Messi e CR7", "Bola de Ouro na estante! Você sentou na mesa de Messi e Cristiano Ronaldo."],
-  ["Prateleira Rei Pelé", "Você chegou aos pés do nosso Rei Pelé. Parabéns, craque!"],
+  ["Prateleira Rei Pelé", "Você chegou aos pés do nosso Rei Pelé. Só Pelé, só Pelé… e agora você. Parabéns, craque!"],
 ];
 
 // Cada prateleira tem o seu cenario (props desenhados a mao, sem marca nem pessoa real).
@@ -471,13 +471,13 @@ const PROPS_DA_FESTA = {
   7: (g) => { g.append(gramado(), torcida()); g.append(refletor(28, 24), refletor(212, 24)); },
   8: (g) => { g.append(gramado()); g.append(refletor(28, 24), camera(200, 120)); },
   9: (g) => { g.append(gramado(), torcida()); g.append(figurinha(200, 104)); },
-  10: (g) => { g.append(gramado(), torcida("#ffffff")); for (let i = 0; i < 26; i++) g.append(svg("rect", { x: 8 + (i * 37) % 224, y: 20 + (i * 53) % 130, width: 6, height: 4, fill: "#ffffff", opacity: 0.85, transform: `rotate(${(i * 31) % 90} ${8 + (i * 37) % 224} ${20 + (i * 53) % 130})` })); g.append(sinalizador(212, 176)); },
+  10: (g, u) => { g.append(gramado(), torcida("#ffffff")); for (let i = 0; i < 18; i++) g.append(svg("rect", { x: 8 + (i * 37) % 224, y: 20 + (i * 53) % 130, width: 6, height: 4, fill: "#ffffff", opacity: 0.85, transform: `rotate(${(i * 31) % 90} ${8 + (i * 37) % 224} ${20 + (i * 53) % 130})` })); g.append(tacaPrata(204, 100, u), sinalizador(30, 176)); },
   11: (g) => g.append(aviao(196, 56), svg("path", { d: "M14 60 Q60 40 110 52", fill: "none", stroke: "rgba(255,255,255,.45)", "stroke-width": 2, "stroke-dasharray": "5 5" })),
   12: (g) => { g.append(gramado()); for (const [x, y, t] of [[196, 70, 12], [220, 110, 8], [182, 128, 7], [210, 150, 9], [36, 60, 9]]) g.append(svg("path", { d: estrela(x, y, t, t * 0.45), fill: "#ffffff" })); },
   13: (g) => g.append(bandeira(178, 58)),
-  14: (g) => { for (let i = 0; i < 10; i++) g.append(svg("rect", { x: 170 + (i * 13) % 60, y: 20 + (i * 29) % 70, width: 4, height: 8, fill: "#f2c230" })); g.append(taca(196, 104)); },
-  15: (g) => { g.append(bolaDeOuro(200, 112)); for (const [x, y, t] of [[176, 70, 7], [226, 84, 6], [40, 64, 8]]) g.append(svg("path", { d: estrela(x, y, t, t * 0.45), fill: "#f2c230" })); },
-  16: (g) => { for (const [x, y, r] of [[30, 188, 26], [62, 196, 30], [182, 192, 30], [214, 186, 24]]) g.append(svg("circle", { cx: x, cy: y, r, fill: "#ffffff", opacity: 0.95 })); },
+  14: (g, u) => { for (let i = 0; i < 10; i++) g.append(svg("rect", { x: 170 + (i * 13) % 60, y: 20 + (i * 29) % 70, width: 4, height: 8, fill: "#f2c230" })); g.append(taca(196, 104, u)); },
+  15: (g, u) => { g.append(bolaDeOuro(200, 110, u)); for (const [x, y, t] of [[176, 70, 7], [226, 84, 6], [40, 64, 8]]) g.append(svg("path", { d: estrela(x, y, t, t * 0.45), fill: "#f2c230" })); },
+  16: (g, u) => trono(g, u),
 };
 
 function bola(cx, cy, r) {
@@ -542,28 +542,74 @@ function bandeira(x, y) {
     svg("circle", { cx: x + 29, cy: y + 20, r: 9, fill: "#002776" }));
   return g;
 }
-function taca(x, y) {
-  // taca generica: bojo com alcas, haste fina e base em dois degraus
+function taca(x, y, u) {
+  // taca generica de ouro: bojo largo com alcas, haste torneada e base em degraus
+  const ouro = `url(#${u}ouro)`;
   const g = svg("g", { class: "festa-brilho" });
   g.append(
-    svg("path", { d: `M${x - 22} ${y - 34} C${x - 38} ${y - 34} ${x - 36} ${y - 10} ${x - 16} ${y - 8}`, fill: "none", stroke: "#e0a800", "stroke-width": 4.5, "stroke-linecap": "round" }),
-    svg("path", { d: `M${x + 22} ${y - 34} C${x + 38} ${y - 34} ${x + 36} ${y - 10} ${x + 16} ${y - 8}`, fill: "none", stroke: "#e0a800", "stroke-width": 4.5, "stroke-linecap": "round" }),
-    svg("path", { d: `M${x - 24} ${y - 40} H${x + 24} Q${x + 24} ${y + 2} ${x} ${y + 8} Q${x - 24} ${y + 2} ${x - 24} ${y - 40} Z`, fill: "#f7c948", stroke: "#b88a00", "stroke-width": 1.5 }),
-    svg("path", { d: `M${x - 14} ${y - 34} Q${x - 14} ${y - 8} ${x - 4} ${y}`, fill: "none", stroke: "#fff3b0", "stroke-width": 3, "stroke-linecap": "round", opacity: 0.8 }),
-    svg("path", { d: `M${x - 4} ${y + 8} H${x + 4} L${x + 6} ${y + 26} H${x - 6} Z`, fill: "#e0a800" }),
-    svg("rect", { x: x - 16, y: y + 26, width: 32, height: 8, rx: 2, fill: "#f7c948", stroke: "#b88a00", "stroke-width": 1.2 }),
-    svg("rect", { x: x - 20, y: y + 34, width: 40, height: 10, rx: 2, fill: "#2b3442", stroke: "#b88a00", "stroke-width": 1.2 }),
+    svg("path", { d: `M${x - 20} ${y - 30} C${x - 40} ${y - 32} ${x - 38} ${y - 6} ${x - 14} ${y - 6}`, fill: "none", stroke: ouro, "stroke-width": 5, "stroke-linecap": "round" }),
+    svg("path", { d: `M${x + 20} ${y - 30} C${x + 40} ${y - 32} ${x + 38} ${y - 6} ${x + 14} ${y - 6}`, fill: "none", stroke: ouro, "stroke-width": 5, "stroke-linecap": "round" }),
+    svg("path", { d: `M${x - 25} ${y - 42} H${x + 25} C${x + 25} ${y - 8} ${x + 12} ${y + 6} ${x} ${y + 8} C${x - 12} ${y + 6} ${x - 25} ${y - 8} ${x - 25} ${y - 42} Z`, fill: ouro, stroke: "#8a6400", "stroke-width": 1 }),
+    svg("ellipse", { cx: x, cy: y - 42, rx: 25, ry: 4, fill: "#fff1a8", stroke: "#8a6400", "stroke-width": 1 }),
+    svg("path", { d: `M${x - 13} ${y - 36} C${x - 14} ${y - 16} ${x - 8} ${y - 4} ${x - 3} ${y}`, fill: "none", stroke: "#fffbe6", "stroke-width": 3, "stroke-linecap": "round", opacity: 0.8 }),
+    svg("path", { d: `M${x - 4} ${y + 8} C${x - 4} ${y + 16} ${x - 8} ${y + 18} ${x - 8} ${y + 24} H${x + 8} C${x + 8} ${y + 18} ${x + 4} ${y + 16} ${x + 4} ${y + 8} Z`, fill: ouro }),
+    svg("rect", { x: x - 15, y: y + 24, width: 30, height: 7, rx: 2, fill: ouro, stroke: "#8a6400", "stroke-width": 1 }),
+    svg("rect", { x: x - 19, y: y + 31, width: 38, height: 11, rx: 2, fill: "#1b2330", stroke: "#b88a00", "stroke-width": 1.2 }),
+    svg("rect", { x: x - 19, y: y + 35, width: 38, height: 2.5, fill: "#f2c230", opacity: 0.8 }),
   );
   return g;
 }
-function bolaDeOuro(x, y) {
+function tacaPrata(x, y, u) {
+  // taca generica de prata, alta e fina, com base escura e faixas douradas
+  const prata = `url(#${u}prata)`;
   const g = svg("g", { class: "festa-brilho" });
-  g.append(svg("path", { d: `M${x - 18} ${y + 30} H${x + 18} L${x + 12} ${y + 42} H${x - 12} Z`, fill: "#2b3442", stroke: "#b88a00", "stroke-width": 1.2 }),
-    svg("circle", { cx: x, cy: y, r: 28, fill: "#f2c230", stroke: "#b88a00", "stroke-width": 2 }),
-    svg("path", { d: `M${x} ${y - 11} l10.5 7.6 l-4 12.3 h-13 l-4 -12.3 Z`, fill: "#d9a900", stroke: "#b88a00", "stroke-width": 1 }),
-    svg("path", { d: `M${x} ${y - 11} V${y - 27} M${x + 10.5} ${y - 3.4} L${x + 26} ${y - 9} M${x + 6.5} ${y + 8.9} L${x + 15} ${y + 22} M${x - 6.5} ${y + 8.9} L${x - 15} ${y + 22} M${x - 10.5} ${y - 3.4} L${x - 26} ${y - 9}`, stroke: "#b88a00", "stroke-width": 1.5 }),
-    svg("ellipse", { cx: x - 10, cy: y - 12, rx: 8, ry: 5, fill: "#fff6cc", opacity: 0.7, transform: `rotate(-30 ${x - 10} ${y - 12})` }));
+  g.append(
+    svg("path", { d: `M${x - 17} ${y - 34} C${x - 17} ${y - 10} ${x - 8} ${y - 2} ${x} ${y} C${x + 8} ${y - 2} ${x + 17} ${y - 10} ${x + 17} ${y - 34} Z`, fill: prata, stroke: "#5f6874", "stroke-width": 1 }),
+    svg("ellipse", { cx: x, cy: y - 34, rx: 17, ry: 3.5, fill: "#ffffff", stroke: "#5f6874", "stroke-width": 1 }),
+    svg("circle", { cx: x - 20, cy: y - 24, r: 4, fill: "none", stroke: prata, "stroke-width": 3 }),
+    svg("circle", { cx: x + 20, cy: y - 24, r: 4, fill: "none", stroke: prata, "stroke-width": 3 }),
+    svg("path", { d: `M${x - 3} ${y} H${x + 3} L${x + 4} ${y + 18} H${x - 4} Z`, fill: prata }),
+    svg("path", { d: `M${x - 13} ${y + 18} H${x + 13} L${x + 15} ${y + 52} H${x - 15} Z`, fill: "#1b2330", stroke: "#5f6874", "stroke-width": 1 }),
+    svg("path", { d: `M${x - 14} ${y + 26} H${x + 14} M${x - 14} ${y + 36} H${x + 14} M${x - 15} ${y + 46} H${x + 15}`, stroke: "#f2c230", "stroke-width": 1.5, opacity: 0.8 }),
+  );
   return g;
+}
+function bolaDeOuro(x, y, u) {
+  // bola dourada com gomos, num pedestal escuro em degraus
+  const g = svg("g", { class: "festa-brilho" });
+  const gomos = [];
+  for (let i = 0; i < 5; i++) {
+    const a = (Math.PI * 2 * i) / 5 - Math.PI / 2;
+    gomos.push(`M${(x + 10 * Math.cos(a)).toFixed(1)} ${(y + 10 * Math.sin(a)).toFixed(1)} L${(x + 22 * Math.cos(a)).toFixed(1)} ${(y + 22 * Math.sin(a)).toFixed(1)}`);
+  }
+  const penta = [...Array(5)].map((_, i) => { const a = (Math.PI * 2 * i) / 5 - Math.PI / 2; return `${(x + 10 * Math.cos(a)).toFixed(1)} ${(y + 10 * Math.sin(a)).toFixed(1)}`; });
+  g.append(
+    svg("path", { d: `M${x - 16} ${y + 26} H${x + 16} L${x + 20} ${y + 36} H${x - 20} Z`, fill: "#2b3442", stroke: "#b88a00", "stroke-width": 1 }),
+    svg("rect", { x: x - 24, y: y + 36, width: 48, height: 8, rx: 2, fill: "#1b2330", stroke: "#b88a00", "stroke-width": 1 }),
+    svg("circle", { cx: x, cy: y, r: 28, fill: `url(#${u}bola)`, stroke: "#6b4700", "stroke-width": 1.5 }),
+    svg("path", { d: `M${penta.join(" L")} Z`, fill: "none", stroke: "#7a5200", "stroke-width": 1.4 }),
+    svg("path", { d: gomos.join(" "), stroke: "#7a5200", "stroke-width": 1.4 }),
+    svg("path", { d: `M${x - 26} ${y + 6} Q${x} ${y + 30} ${x + 26} ${y + 6}`, fill: "none", stroke: "#7a5200", "stroke-width": 1.2, opacity: 0.7 }),
+    svg("ellipse", { cx: x - 11, cy: y - 13, rx: 9, ry: 5, fill: "#fffbe6", opacity: 0.75, transform: `rotate(-35 ${x - 11} ${y - 13})` }),
+  );
+  return g;
+}
+function trono(g, u) {
+  // sala do trono: colunas, tapete vermelho, trono dourado atras da camisa e bolas antigas no chao
+  const ouro = `url(#${u}ouro)`;
+  for (const x of [18, 222]) g.append(svg("rect", { x: x - 10, y: 0, width: 20, height: 176, fill: "#f4efe4", opacity: 0.9 }),
+    svg("rect", { x: x - 13, y: 0, width: 26, height: 8, fill: "#e6d9b8" }), svg("rect", { x: x - 13, y: 168, width: 26, height: 8, fill: "#e6d9b8" }));
+  g.append(svg("path", { d: "M0 176 H240 V200 H0 Z", fill: "#2a1a10" }), svg("path", { d: "M90 176 H150 L170 200 H70 Z", fill: "#a3162b" }));
+  g.append(
+    svg("path", { d: "M78 170 V52 Q120 -2 162 52 V170 Z", fill: ouro, stroke: "#8a6400", "stroke-width": 1.5 }),
+    svg("path", { d: "M88 160 V58 Q120 14 152 58 V160 Z", fill: "#5a1020" }),
+    svg("rect", { x: 70, y: 40, width: 10, height: 132, rx: 3, fill: ouro }), svg("rect", { x: 160, y: 40, width: 10, height: 132, rx: 3, fill: ouro }),
+    svg("circle", { cx: 75, cy: 36, r: 7, fill: ouro }), svg("circle", { cx: 165, cy: 36, r: 7, fill: ouro }),
+  );
+  for (const [x, y, r] of [[40, 184, 9], [200, 186, 10], [222, 190, 7], [58, 192, 7]]) {
+    g.append(svg("circle", { cx: x, cy: y, r, fill: "#8a5a2b", stroke: "#4a2e14", "stroke-width": 1 }),
+      svg("path", { d: `M${x - r} ${y} H${x + r} M${x} ${y - r} V${y + r}`, stroke: "#4a2e14", "stroke-width": 0.8, opacity: 0.7 }));
+  }
 }
 
 function cenaDaFesta(d) {
@@ -572,7 +618,7 @@ function cenaDaFesta(d) {
   const nome = (Q.nome || "Você").toUpperCase().slice(0, LIMITE_NOME);
   const uid = `festa${++cenaDaFesta.n}`;
   const raiz = svg("svg", { viewBox: "0 0 240 200", class: "festa-cena-svg", "aria-hidden": "true" });
-  const ceu = { 16: ["#fff1b8", "#e0a800"], 15: ["#3a2d6b", "#0d1117"], 14: ["#4a3a0c", "#0d1117"], 13: ["#0d6b33", "#0d1117"], 11: ["#5b7fb8", "#1b2a5c"] }[d]
+  const ceu = { 16: ["#6b4a1a", "#1a1008"], 15: ["#3a2d6b", "#0d1117"], 14: ["#4a3a0c", "#0d1117"], 13: ["#0d6b33", "#0d1117"], 11: ["#5b7fb8", "#1b2a5c"] }[d]
     || (d === 12 ? ["#1d3170", "#070b1f"] : d >= 6 ? ["#17482c", "#0d1117"] : d === 1 ? ["#6f8fb0", "#2b3a48"] : ["#24401c", "#0d1117"]);
   const claro = (hex, k) => {
     const n = parseInt(hex.slice(1), 16), f = (c) => Math.max(0, Math.min(255, Math.round(c + (255 - c) * k)));
@@ -584,13 +630,22 @@ function cenaDaFesta(d) {
     svg("linearGradient", { id: `${uid}t`, x1: "0", y1: "0", x2: "1", y2: "1" }, [
       svg("stop", { offset: "0", "stop-color": claro(kit.base, 0.18) }), svg("stop", { offset: "1", "stop-color": kit.base })]),
     svg("path", { id: `${uid}a`, d: "M72 96 Q120 84 168 96" }),
+    svg("linearGradient", { id: `${uid}ouro`, x1: "0", y1: "0", x2: "1", y2: "0" }, [
+      svg("stop", { offset: "0", "stop-color": "#b88a00" }), svg("stop", { offset: ".3", "stop-color": "#fff1a8" }),
+      svg("stop", { offset: ".55", "stop-color": "#f2c230" }), svg("stop", { offset: "1", "stop-color": "#8a6400" })]),
+    svg("radialGradient", { id: `${uid}bola`, cx: "35%", cy: "30%", r: "75%" }, [
+      svg("stop", { offset: "0", "stop-color": "#fff6cc" }), svg("stop", { offset: ".35", "stop-color": "#f2c230" }),
+      svg("stop", { offset: ".8", "stop-color": "#b07a00" }), svg("stop", { offset: "1", "stop-color": "#6b4700" })]),
+    svg("linearGradient", { id: `${uid}prata`, x1: "0", y1: "0", x2: "1", y2: "0" }, [
+      svg("stop", { offset: "0", "stop-color": "#7d8794" }), svg("stop", { offset: ".35", "stop-color": "#ffffff" }),
+      svg("stop", { offset: ".6", "stop-color": "#c9cfd8" }), svg("stop", { offset: "1", "stop-color": "#5f6874" })]),
   ]));
   raiz.append(svg("rect", { width: 240, height: 200, fill: `url(#${uid}c)` }));
-  const raios = svg("g", { class: "festa-raios-svg", opacity: d === 16 ? 0.5 : 0.13 });
-  for (let i = 0; i < 12; i++) raios.append(svg("path", { d: "M120 108 L110 -50 L130 -50 Z", fill: d === 16 ? "#ffffff" : "#f2c230", transform: `rotate(${i * 30} 120 108)` }));
+  const raios = svg("g", { class: "festa-raios-svg", opacity: d === 16 ? 0.22 : 0.13 });
+  for (let i = 0; i < 12; i++) raios.append(svg("path", { d: "M120 108 L110 -50 L130 -50 Z", fill: "#f2c230", transform: `rotate(${i * 30} 120 108)` }));
   raiz.append(raios);
   const cenario = svg("g", { class: "festa-props" });
-  (PROPS_DA_FESTA[d] || (() => {}))(cenario);
+  (PROPS_DA_FESTA[d] || (() => {}))(cenario, uid);
   raiz.append(cenario);
   for (let i = 0; i < 14; i++) {
     const x = 12 + ((i * 53) % 216), y = 8 + ((i * 37) % 70);
