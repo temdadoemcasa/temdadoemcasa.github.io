@@ -1,11 +1,11 @@
 // Show do Dadão: quiz de futebol no formato do programa de TV.
-// 16 perguntas (2 faceis, 6 medias, 7 dificeis e a final). Cada acerto sobe a
+// 16 perguntas (3 faceis, 6 medias, 6 dificeis e a final). Cada acerto sobe a
 // carta um degrau na ESCADA_QUIZ (app.js). Parar leva a carta atual; errar leva
 // a metade do caminho; na final, errar zera. Ajudas: cartas, Golden Boys, O Enciclopedia,
 // arquibancada (uma vez cada) e 3 pulos. Na final nao tem ajuda.
 
-// curva: 2 faceis, 6 medias, 7 dificeis e a final
-const NIVEL_DA_PERGUNTA = (n) => (n <= 2 ? "f" : n <= 8 ? "m" : n <= 15 ? "d" : "p");
+// curva: 3 faceis, 6 medias, 6 dificeis e a final
+const NIVEL_DA_PERGUNTA = (n) => (n <= 3 ? "f" : n <= 9 ? "m" : n <= 15 ? "d" : "p");
 const NOME_NIVEL = { f: "Fácil", m: "Médio", d: "Difícil", p: "Pergunta final" };
 const LETRAS = ["A", "B", "C", "D"];
 const CHAVE_VISTAS = "tem-resposta-vistas";
@@ -120,7 +120,7 @@ function desenharValores() {
 function desenharAjudas() {
   const final = Q.numero === 16;
   const a = Q.ajudas;
-  const trava = Q.travado || Q.escolhida !== null;
+  const trava = Q.travado;
   $("ajuda-cartas").disabled = final || !a.cartas || trava;
   $("ajuda-boys").disabled = final || !a.boys || trava;
   $("ajuda-enciclopedia").disabled = final || !a.enciclopedia || trava;
@@ -213,9 +213,18 @@ function desenharAlternativas() {
     }
     if (extras.childNodes.length) b.append(extras);
     if (Q.eliminadas.has(i)) { b.classList.add("eliminada"); b.disabled = true; }
-    if (Q.escolhida === i) b.classList.add("escolhida");
     b.addEventListener("click", () => escolher(i));
     li.append(b);
+    // escolheu: aparece o check no canto da propria alternativa; tocar nele confirma
+    if (Q.escolhida === i) {
+      b.classList.add("escolhida");
+      const ok = el("button", "confirmar-check", "✓");
+      ok.type = "button";
+      ok.id = "confirmar";
+      ok.setAttribute("aria-label", `Confirmar a resposta ${LETRAS[i]}`);
+      ok.addEventListener("click", (e) => { e.stopPropagation(); confirmar(); });
+      li.append(ok);
+    }
     return li;
   }));
 }
@@ -225,8 +234,7 @@ function escolher(i) {
   Q.escolhida = i;
   desenharAlternativas();
   desenharAjudas();
-  $("confirmar-texto").textContent = `Vai de ${LETRAS[i]}? Tá certo disso?`;
-  mostrarAcao("confirmar-caixa");
+  mostrarAcao("acao-padrao");
   $("confirmar").focus({ preventScroll: true });
 }
 
@@ -240,15 +248,15 @@ function desistirDaEscolha() {
 async function confirmar() {
   if (Q.escolhida === null || Q.travado) return;
   Q.travado = true;
-  $("confirmar-texto").textContent = "Valendo...";
-  for (const b of document.querySelectorAll("#confirmar-caixa button")) b.disabled = true;
+  $("confirmar").disabled = true;
+  $("confirmar").classList.add("valendo");
   desenharAjudas();
   const botoes = [...document.querySelectorAll("#alternativas .alternativa")];
   for (const b of botoes) b.disabled = true;
   const marcada = botoes[Q.escolhida];
   marcada.classList.add("suspense");
   await espera(movimentoReduzido ? 0 : 1100);
-  for (const b of document.querySelectorAll("#confirmar-caixa button")) b.disabled = false;
+  $("confirmar")?.remove();
   marcada.classList.remove("suspense");
   const certa = Q.opcoes.findIndex((o) => o.certa);
   const acertou = Q.escolhida === certa;
@@ -314,6 +322,7 @@ const indiceCerto = () => Q.opcoes.findIndex((o) => o.certa);
 // Cartas: quatro viradas pra baixo. Rei tira nenhuma, As tira uma, 2 tira duas, 3 tira tres.
 function ajudaCartas() {
   if (!Q.ajudas.cartas) return;
+  Q.escolhida = null;
   Q.ajudas.cartas = false;
   Q.travado = true;
   desenharAjudas();
@@ -365,6 +374,7 @@ function sortearGoldenBoys() {
 }
 function ajudaGoldenBoys() {
   if (!Q.ajudas.boys) return;
+  Q.escolhida = null;
   Q.ajudas.boys = false;
   const acerto = { f: 0.88, m: 0.7, d: 0.5 }[NIVEL_DA_PERGUNTA(Q.numero)];
   const certo = indiceCerto();
@@ -382,6 +392,7 @@ function ajudaGoldenBoys() {
 // O Enciclopedia: aquele que sabe tudo de bola. Nao erra, mas so da pra chamar uma vez.
 function ajudaEnciclopedia() {
   if (!Q.ajudas.enciclopedia) return;
+  Q.escolhida = null;
   Q.ajudas.enciclopedia = false;
   const certo = indiceCerto();
   Q.marcas.enciclopedia = certo;
@@ -393,6 +404,7 @@ function ajudaEnciclopedia() {
 // Arquibancada: a torcida vota. A certa leva mais voto quanto mais facil.
 function ajudaArquibancada() {
   if (!Q.ajudas.arquibancada) return;
+  Q.escolhida = null;
   Q.ajudas.arquibancada = false;
   const nv = NIVEL_DA_PERGUNTA(Q.numero);
   const certo = indiceCerto();
@@ -422,6 +434,7 @@ function ajudaPular() {
 
 function parar() {
   if (Q.travado) return;
+  if (Q.escolhida !== null) { Q.escolhida = null; desenharAlternativas(); }
   const g = ESCADA_QUIZ[Q.degrau];
   $("parar-texto").textContent = Q.degrau === 0
     ? "Parar agora? Você ainda não acertou nenhuma e sai com a carta da pelada de rua."
@@ -796,8 +809,6 @@ function iniciarQuiz() {
   }
   $("nome").addEventListener("input", () => { Q.nome = $("nome").value.trim() || "Você"; atualizarPreviaInicio(); });
   $("form-inicio").addEventListener("submit", (e) => { e.preventDefault(); comecar(); });
-  $("confirmar").addEventListener("click", confirmar);
-  $("voltar-escolha").addEventListener("click", desistirDaEscolha);
   $("proxima").addEventListener("click", proxima);
   $("ajuda-cartas").addEventListener("click", ajudaCartas);
   $("ajuda-boys").addEventListener("click", ajudaGoldenBoys);
@@ -825,7 +836,8 @@ function iniciarQuiz() {
   // teclado: A-D escolhe, Enter confirma
   document.addEventListener("keydown", (e) => {
     if ($("tela-jogo").hidden || e.target instanceof HTMLInputElement) return;
-    if (e.key === "Escape" && $("confirmar-caixa").classList.contains("ativa") && !Q.travado) return desistirDaEscolha();
+    if (e.key === "Escape" && Q.escolhida !== null && !Q.travado) return desistirDaEscolha();
+    if (e.key === "Enter" && Q.escolhida !== null && !Q.travado && document.activeElement?.id !== "confirmar") { e.preventDefault(); return confirmar(); }
     if (e.key.length !== 1 || e.ctrlKey || e.metaKey || e.altKey) return;
     const i = LETRAS.indexOf(e.key.toUpperCase());
     if (i >= 0) escolher(i);

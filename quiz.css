@@ -352,3 +352,19 @@
 .festa-brilho { animation: festa-brilha 1.4s ease-in-out infinite alternate; }
 @keyframes festa-brilha { from { filter: drop-shadow(0 0 0 rgba(242,194,48,0)); } to { filter: drop-shadow(0 0 8px rgba(242,194,48,.8)); } }
 @media (prefers-reduced-motion: reduce) { .festa-brilho { animation: none; } }
+
+/* confirmar: o check aparece no canto da alternativa escolhida */
+.alternativas li { position: relative; }
+.alternativa { padding-right: 3.2rem; }
+.confirmar-check {
+  position: absolute; right: 0.55rem; top: 50%; translate: 0 -50%; z-index: 2;
+  display: grid; place-items: center; width: 2.3rem; height: 2.3rem; padding: 0; border-radius: 50%;
+  border: 0; background: var(--quiz); color: #111; font-size: 1.15rem; font-weight: 900; cursor: pointer;
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--quiz) 60%, transparent); animation: check-pulsa 1.1s ease-in-out infinite;
+}
+.confirmar-check:hover { filter: brightness(1.08); }
+.confirmar-check:focus-visible { outline: 2px solid var(--texto); outline-offset: 2px; }
+.confirmar-check.valendo { animation: none; opacity: 0.6; }
+@keyframes check-pulsa { 50% { box-shadow: 0 0 0 6px color-mix(in srgb, var(--quiz) 0%, transparent); transform: scale(1.06); } }
+@media (prefers-reduced-motion: reduce) { .confirmar-check { animation: none; } }
+@media (max-width: 760px) { .confirmar-check { width: 2.1rem; height: 2.1rem; } }
