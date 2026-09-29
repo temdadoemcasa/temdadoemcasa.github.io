@@ -1544,19 +1544,28 @@ function mostrarAbertura(r) {
   const vq = document.getElementById("visual-quiz");
   if (vq) {
     // a carta no topo da escada e os ultimos degraus, como no painel do programa
+    // a escada sobe: degraus mais largos em cima, a Varzea la embaixo e uma seta de subida
     const escada = el("ol", "quiz-escadinha");
-    for (let d = 16; d >= 11; d--) {
-      const li = el("li", d === 16 ? "no-topo" : "");
+    const degraus = [16, 15, 14, 13, 12, 0, 1];
+    degraus.forEach((d, k) => {
+      if (d === 0) { escada.append(el("li", "reticencias", "⋮")); return; }
+      const li = el("li", d === 16 ? "no-topo" : d === 1 ? "no-chao" : "");
+      li.style.setProperty("--largura", `${d === 1 ? 52 : 100 - k * 9}%`);
       li.append(el("b", null, String(d)), el("span", null, ESCADA_QUIZ[d].nome));
+      if (d === 16) li.append(el("i", "coroa", "★"));
       escada.append(li);
-    }
+    });
+    const seta = el("div", "quiz-seta", "");
+    seta.append(el("span", null, "sobe"));
+    const coluna = el("div", "quiz-escada-coluna");
+    coluna.append(seta, escada);
     // o Dadao, apresentador do quiz, ao lado da escada
     const w = el("div", "quiz-vitrine-carta");
     const dadao = el("img", "dadao");
     dadao.src = "img/dadao.svg";
     dadao.alt = "";
     w.append(dadao);
-    vq.replaceChildren(w, escada);
+    vq.replaceChildren(w, coluna);
   }
   const vd = document.getElementById("visual-draft"), vc = document.getElementById("visual-carreira");
   if (!vd || !vc) return;
