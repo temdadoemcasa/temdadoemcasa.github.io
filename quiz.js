@@ -27,6 +27,20 @@ const Q = {
 
 const $ = (id) => document.getElementById(id);
 
+// traz pra tela sem pular: so rola se o elemento estiver fora (celular, sobretudo)
+function mostrarNaTela(no) {
+  if (!no) return;
+  const q = no.getBoundingClientRect();
+  const barra = document.querySelector(".abas-mobile");
+  const baixo = innerHeight - (barra && getComputedStyle(barra).display !== "none" ? barra.offsetHeight : 0);
+  if (q.top >= 70 && q.bottom <= baixo) return;
+  no.scrollIntoView({ block: q.height > baixo - 70 ? "start" : "center", behavior: movimentoReduzido ? "auto" : "smooth" });
+}
+
+const CHAVE_RECORDE = "tem-resposta-recorde";
+function lerRecorde() { try { return Number(localStorage.getItem(CHAVE_RECORDE)) || 0; } catch { return 0; } }
+function guardarRecorde(d) { try { if (d > lerRecorde()) localStorage.setItem(CHAVE_RECORDE, String(d)); } catch { /* ok */ } }
+
 // --- banco -------------------------------------------------------------------
 
 function carregarBanco() {
@@ -140,17 +154,29 @@ function novaPergunta() {
   $("ajuda-resultado").hidden = true;
   $("confirmar-caixa").hidden = true;
   $("retorno").hidden = true;
+  $("painel-pergunta").classList.remove("respondida");
 
   const cab = $("pergunta-cabeca");
   cab.dataset.nivel = nv;
   $("pergunta-numero").textContent = Q.numero === 16 ? "Pergunta final" : `Pergunta ${Q.numero} de 16`;
   $("pergunta-nivel").textContent = Q.numero === 16 ? "Vale a carta Nível Pelé" : NOME_NIVEL[nv];
   $("enunciado").textContent = p.q;
+  desenharTrilha();
   desenharAlternativas();
   desenharValores();
   desenharAjudas();
   desenharEscada();
   desenharCarta($("quiz-carta"), Q.degrau);
+}
+
+function desenharTrilha() {
+  const trilha = $("trilha");
+  trilha.replaceChildren();
+  for (let n = 1; n <= 16; n++) {
+    const i = el("i", n < Q.numero ? "feita" : n === Q.numero ? "agora" : "");
+    if (n === 16) i.classList.add("final");
+    trilha.append(i);
+  }
 }
 
 function desenharAlternativas() {
@@ -176,7 +202,9 @@ function escolher(i) {
   desenharAjudas();
   $("confirmar-texto").textContent = `Vai de ${LETRAS[i]}? Tá certo disso?`;
   $("confirmar-caixa").hidden = false;
+  $("parar-caixa").hidden = true;
   $("confirmar").focus({ preventScroll: true });
+  mostrarNaTela($("confirmar-caixa"));
 }
 
 function desistirDaEscolha() {
@@ -202,12 +230,22 @@ async function confirmar() {
   botoes[certa].classList.add("certa");
   if (!acertou) marcada.classList.add("errada");
   Q.historico.push({ numero: Q.numero, q: Q.pergunta.q, certa: Q.pergunta.a, marcada: Q.opcoes[Q.escolhida].texto, acertou });
+  // respondeu: some o painel de valores e ajudas, fica so o resultado
+  if (!(acertou && Q.numero === 16)) $("painel-pergunta").classList.add("respondida");
 
   if (!acertou) {
-    const caiu = degrauSeErrar();
-    Q.degrau = caiu;
-    await espera(movimentoReduzido ? 0 : 1300);
-    return terminar("errou");
+    Q.degrau = degrauSeErrar();
+    const g = ESCADA_QUIZ[Q.degrau];
+    $("retorno").classList.add("errou");
+    $("retorno-texto").textContent = `Errou! A certa era ${LETRAS[certa]}, ${Q.pergunta.a}.${Q.pergunta.x ? ` ${Q.pergunta.x}` : ""}`;
+    $("retorno-subiu").textContent = Q.numero === 16 ? "Na final, errar zera." : `Sua carta caiu pra ${g.nome} (${g.ovr}).`;
+    $("retorno-carta").replaceChildren();
+    $("proxima").textContent = "Ver o resultado";
+    $("proxima").dataset.fim = "errou";
+    $("retorno").hidden = false;
+    $("proxima").focus({ preventScroll: true });
+    mostrarNaTela($("retorno"));
+    return;
   }
   Q.degrau = Q.numero;
   subirCarta();
@@ -216,12 +254,15 @@ async function confirmar() {
     return terminar("campeao");
   }
   const retorno = $("retorno");
+  retorno.classList.remove("errou");
+  delete $("proxima").dataset.fim;
+  desenharCarta($("retorno-carta"), Q.degrau);
   $("retorno-texto").textContent = Q.pergunta.x ? `Certa! ${Q.pergunta.x}` : "Certa!";
   $("retorno-subiu").textContent = `Sua carta subiu pra ${ESCADA_QUIZ[Q.degrau].nome} (${ESCADA_QUIZ[Q.degrau].ovr}).`;
   retorno.hidden = false;
   $("proxima").textContent = Q.numero === 15 ? "Ir pra pergunta final" : "Próxima pergunta";
   $("proxima").focus({ preventScroll: true });
-  if (QUIZ_ABAS) QUIZ_ABAS.marcar("escada");
+  mostrarNaTela(retorno);
 }
 
 function subirCarta() {
@@ -234,6 +275,7 @@ function subirCarta() {
 }
 
 function proxima() {
+  if ($("proxima").dataset.fim) { delete $("proxima").dataset.fim; return terminar("errou"); }
   Q.numero += 1;
   novaPergunta();
   window.scrollTo({ top: 0, behavior: "auto" });
@@ -248,6 +290,8 @@ function caixaDeAjuda(titulo) {
   const caixa = $("ajuda-resultado");
   caixa.hidden = false;
   caixa.replaceChildren(el("p", "ajuda-titulo", titulo));
+  $("parar-caixa").hidden = true;
+  requestAnimationFrame(() => mostrarNaTela(caixa));
   return caixa;
 }
 
@@ -294,7 +338,7 @@ const GOLDEN_BOYS = [
   "Ethan Nwaneri", "Lewis-Skelly", "Mathys Tel", "Vitor Roque", "Savinho", "Gavi", "Musiala", "Wirtz",
   "Bellingham", "Xavi Simons", "Rodrigo Mora", "Geovany Quenda", "Kendry Páez", "Rayan",
 ];
-const CERTEZA = ["Tenho quase certeza.", "Acho que é essa.", "Vou no chute, hein.", "Essa eu sei!", "Não me cobra depois.", "Meu pai sabe essa, confia.", "Vi num vídeo, é essa."];
+const CERTEZA = ["Tenho quase certeza.", "Acho que é essa.", "No chute, hein.", "Essa eu sei!", "Não me cobra depois.", "Meu pai sabe essa, confia.", "Vi num vídeo, é essa."];
 function sortearGoldenBoys() {
   let anteriores = [];
   try { anteriores = JSON.parse(localStorage.getItem("tem-resposta-boys")) || []; } catch { /* ok */ }
@@ -375,17 +419,13 @@ function ajudaPular() {
 
 function parar() {
   if (Q.travado) return;
-  const caixa = caixaDeAjuda(`Parar agora e levar a carta ${ESCADA_QUIZ[Q.degrau].nome} (${ESCADA_QUIZ[Q.degrau].ovr})?`);
-  const botoes = el("div", "confirmar-botoes");
-  const sim = el("button", "botao botao-primario", "Parar e levar");
-  sim.type = "button";
-  sim.addEventListener("click", () => terminar("parou"));
-  const nao = el("button", "botao", "Continuar jogando");
-  nao.type = "button";
-  nao.addEventListener("click", () => { $("ajuda-resultado").hidden = true; });
-  botoes.append(sim, nao);
-  caixa.append(botoes);
-  sim.focus({ preventScroll: true });
+  const g = ESCADA_QUIZ[Q.degrau];
+  $("parar-texto").textContent = Q.degrau === 0
+    ? "Parar agora? Você ainda não acertou nenhuma e sai com a carta da pelada de rua."
+    : `Parar agora e levar a carta ${g.nome} (${g.ovr})?`;
+  $("parar-caixa").hidden = false;
+  $("parar-sim").focus({ preventScroll: true });
+  mostrarNaTela($("parar-caixa"));
 }
 
 // --- fim ----------------------------------------------------------------------
@@ -406,9 +446,17 @@ function terminar(como) {
   } else {
     titulo.textContent = `Errou a pergunta ${Q.numero}`;
     const caiu = Q.numero === 16 ? "Na final, errar zera: a carta voltou pra pelada de rua." : `A carta caiu pra ${g.nome} (${g.ovr}).`;
-    texto.textContent = `A certa era "${ultima.certa}". ${caiu}`;
+    texto.textContent = `A certa era ${ultima.certa}. ${caiu}`;
   }
-  desenharCarta($("fim-carta"), d, { acertos: Q.historico.filter((h) => h.acertou).length });
+  const acertos = Q.historico.filter((h) => h.acertou).length;
+  const recordeAntes = lerRecorde();
+  guardarRecorde(d);
+  $("fim-recorde").textContent = d > recordeAntes && recordeAntes > 0
+    ? `Novo recorde! O anterior era ${ESCADA_QUIZ[recordeAntes].nome}.`
+    : recordeAntes > d ? `Seu recorde: ${ESCADA_QUIZ[recordeAntes].nome} (${ESCADA_QUIZ[recordeAntes].ovr}).` : "";
+  Q.textoCompartilhar = `Tem Resposta em Casa: minha carta chegou em ${g.nome} (${g.ovr}), com ${acertos} de 16 acertos. Tenta aí: ${location.origin}${location.pathname}`;
+  $("compartilhar").textContent = "Compartilhar resultado";
+  desenharCarta($("fim-carta"), d, { acertos });
   const lista = $("fim-lista");
   lista.replaceChildren(...Q.historico.map((h) => {
     const li = el("li", h.acertou ? "acertou" : "errou");
@@ -436,6 +484,7 @@ function comecar() {
   Q.boys = sortearGoldenBoys();
   $("ajuda-boys").title = Q.boys.join(", ");
   $("fim-carta").classList.remove("festa-quiz");
+  $("parar-caixa").hidden = true;
   mostrarTela("tela-jogo");
   if (!QUIZ_ABAS) {
     QUIZ_ABAS = montarAbasMobile($("tela-jogo"), [
@@ -480,17 +529,36 @@ function iniciarQuiz() {
   $("ajuda-arquibancada").addEventListener("click", ajudaArquibancada);
   $("ajuda-pular").addEventListener("click", ajudaPular);
   $("parar").addEventListener("click", parar);
+  $("parar-sim").addEventListener("click", () => { $("parar-caixa").hidden = true; terminar("parou"); });
+  $("parar-nao").addEventListener("click", () => { $("parar-caixa").hidden = true; });
+  $("compartilhar").addEventListener("click", async () => {
+    const texto = Q.textoCompartilhar;
+    try {
+      if (navigator.share) { await navigator.share({ text: texto }); return; }
+      await navigator.clipboard.writeText(texto);
+      $("compartilhar").textContent = "Copiado!";
+    } catch { /* cancelou */ }
+  });
   $("de-novo").addEventListener("click", comecar);
-  $("trocar").addEventListener("click", () => { mostrarTela("tela-inicio"); atualizarPreviaInicio(); });
+  $("trocar").addEventListener("click", () => {
+    mostrarTela("tela-inicio");
+    atualizarPreviaInicio();
+    const rec = lerRecorde();
+    $("inicio-recorde").textContent = rec > 0 ? `Seu recorde: ${ESCADA_QUIZ[rec].nome} (${ESCADA_QUIZ[rec].ovr}).` : "";
+  });
   // teclado: A-D escolhe, Enter confirma
   document.addEventListener("keydown", (e) => {
     if ($("tela-jogo").hidden || e.target instanceof HTMLInputElement) return;
+    if (e.key === "Escape" && !$("confirmar-caixa").hidden) return desistirDaEscolha();
+    if (e.key.length !== 1 || e.ctrlKey || e.metaKey || e.altKey) return;
     const i = LETRAS.indexOf(e.key.toUpperCase());
-    if (i >= 0 && !e.ctrlKey && !e.metaKey) escolher(i);
+    if (i >= 0) escolher(i);
   });
   const total = Q.banco.f.length + Q.banco.m.length + Q.banco.d.length + Q.banco.p.length;
   $("total-perguntas").textContent = String(total);
   atualizarPreviaInicio();
+  const rec = lerRecorde();
+  if (rec > 0) $("inicio-recorde").textContent = `Seu recorde: ${ESCADA_QUIZ[rec].nome} (${ESCADA_QUIZ[rec].ovr}).`;
 }
 
 iniciarQuiz();
