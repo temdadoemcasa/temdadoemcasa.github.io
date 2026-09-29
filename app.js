@@ -1494,8 +1494,8 @@ const ESCADA_QUIZ = [
   { nome: "Champions", ovr: 79, valor: 200 },
   { nome: "Seleção", ovr: 82, valor: 300 },
   { nome: "Copa do Mundo", ovr: 86, valor: 400 },
-  { nome: "Nível Messi e CR7", ovr: 92, valor: 500 },
-  { nome: "Nível Pelé", ovr: 99, valor: 1000 },
+  { nome: "Prateleira Messi e CR7", curto: "Messi e CR7", ovr: 92, valor: 500 },
+  { nome: "Prateleira Rei Pelé", curto: "Rei Pelé", ovr: 99, valor: 1000 },
 ];
 
 // a camisa muda conforme a prateleira: da branca da pelada a preta e lima das lendas
@@ -1532,7 +1532,7 @@ function cartaDoQuiz(nome, posicao, d, { acertos = d } = {}) {
   const carta = cartaDoJogador(jogador, { nome: degrau.nome, kit: kitDoDegrau(d) }, r, { estatica: true });
   carta.classList.add("carta-quiz");
   const info = carta.querySelector(".carta-info");
-  if (info) info.replaceChildren(el("span", null, degrau.nome), el("span", null, `${acertos} de 16`));
+  if (info) info.replaceChildren(el("span", null, degrau.curto || degrau.nome), el("span", null, `${acertos} de 16`));
   return carta;
 }
 
@@ -1546,13 +1546,11 @@ function mostrarAbertura(r) {
     // a carta no topo da escada e os ultimos degraus, como no painel do programa
     // a escada sobe: degraus mais largos em cima, a Varzea la embaixo e uma seta de subida
     const escada = el("ol", "quiz-escadinha");
-    const degraus = [16, 15, 14, 13, 12, 0, 1];
-    degraus.forEach((d, k) => {
+    const degraus = [16, 15, 14, 13, 0, 1];
+    degraus.forEach((d) => {
       if (d === 0) { escada.append(el("li", "reticencias", "⋮")); return; }
       const li = el("li", d === 16 ? "no-topo" : d === 1 ? "no-chao" : "");
-      li.style.setProperty("--largura", `${d === 1 ? 52 : 100 - k * 9}%`);
-      li.append(el("b", null, String(d)), el("span", null, ESCADA_QUIZ[d].nome));
-      if (d === 16) li.append(el("i", "coroa", "★"));
+      li.append(el("b", null, String(d)), el("span", null, ESCADA_QUIZ[d].curto || ESCADA_QUIZ[d].nome), el("i", "coroa", d === 16 ? "★" : ""));
       escada.append(li);
     });
     const seta = el("div", "quiz-seta", "");

@@ -156,7 +156,7 @@ function novaPergunta() {
 
   $("pergunta-numero").textContent = Q.numero === 16 ? "Pergunta final" : `Pergunta ${Q.numero} de 16`;
   // sem rotulo de dificuldade: so a final ganha o selo do premio
-  $("pergunta-nivel").textContent = Q.numero === 16 ? "Vale a carta Nível Pelé" : "";
+  $("pergunta-nivel").textContent = Q.numero === 16 ? "Vale a Prateleira Rei Pelé" : "";
   $("pergunta-nivel").hidden = Q.numero !== 16;
   $("enunciado").textContent = p.q;
   desenharTrilha();
@@ -272,9 +272,10 @@ async function confirmar() {
   Q.degrau = Q.numero;
   subirCarta();
   if (Q.numero === 16) {
-    await espera(movimentoReduzido ? 0 : 900);
+    await comemorar(16);
     return terminar("campeao");
   }
+  comemorar(Q.degrau);
   retorno.classList.remove("errou");
   delete $("proxima").dataset.fim;
   desenharCarta($("retorno-carta"), Q.degrau);
@@ -295,6 +296,7 @@ function subirCarta() {
 }
 
 function proxima() {
+  document.querySelector(".festa-quiz-pop")?.remove();
   if ($("proxima").dataset.fim) { delete $("proxima").dataset.fim; return terminar("errou"); }
   Q.numero += 1;
   novaPergunta();
@@ -427,6 +429,109 @@ function parar() {
   $("parar-sim").focus({ preventScroll: true });
 }
 
+
+// --- comemoracao a cada prateleira ---------------------------------------------------
+// Popup rapido por cima de tudo (nao mexe no layout): o seu jogador de costas,
+// com o nome e o numero na camisa, comemorando no cenario da prateleira.
+// Some sozinho e nao bloqueia: da pra tocar em Proxima por baixo.
+const FESTA_DO_DEGRAU = [
+  null,
+  ["Várzea", "Primeiro gol na várzea. A resenha começou."],
+  ["Escolinha", "Entrou pra escolinha. O professor gostou do seu chute."],
+  ["Sub-15", "Chamado pro sub-15. Já tem empresário de olho."],
+  ["Sub-17", "Sub-17! A família já emoldurou a primeira camisa."],
+  ["Sub-20", "Sub-20. Tá batendo na porta do profissional."],
+  ["Série D", "Estreou no profissional. Campo ruim, coração grande."],
+  ["Série C", "Série C! A torcida já tem musiquinha pra você."],
+  ["Série B", "Série B. Agora o jogo passa na TV."],
+  ["Série A", "Chegou na Série A. Figurinha no álbum!"],
+  ["Libertadores", "Noite de Libertadores: papel picado e catimba."],
+  ["Europa", "Vendido pra Europa! Casaco novo e saudade do arroz com feijão."],
+  ["Champions", "Ouviu o hino da Champions de dentro do campo."],
+  ["Seleção", "Convocado! Camisa amarela no peito."],
+  ["Copa do Mundo", "Campeão do mundo! A taça é sua."],
+  ["Prateleira Messi e CR7", "Você sentou na mesa de Messi e Cristiano Ronaldo. Só gigante aqui."],
+  ["Prateleira Rei Pelé", "Você chegou aos pés do nosso Rei Pelé. Parabéns, craque!"],
+];
+
+function cenaDaFesta(d) {
+  const kit = kitDoDegrau(d);
+  const numero = { G: 1, D: 4, M: 8, F: 10 }[Q.pos] || 10;
+  const nome = (Q.nome || "Você").toUpperCase().slice(0, 12);
+  const raiz = svg("svg", { viewBox: "0 0 240 200", class: "festa-cena-svg", "aria-hidden": "true" });
+  const ceu = { 16: ["#fff4c2", "#f2c230"], 15: ["#2a2350", "#0d1117"], 14: ["#3b2f0a", "#0d1117"], 13: ["#0b5d2a", "#0d1117"] }[d]
+    || (d >= 11 ? ["#1b2a5c", "#0d1117"] : d >= 6 ? ["#123a24", "#0d1117"] : ["#1f3a1a", "#0d1117"]);
+  const grad = svg("radialGradient", { id: "festa-ceu", cx: "50%", cy: "35%", r: "75%" }, [
+    svg("stop", { offset: "0", "stop-color": ceu[0] }), svg("stop", { offset: "1", "stop-color": ceu[1] }),
+  ]);
+  raiz.append(svg("defs", {}, [grad]), svg("rect", { width: 240, height: 200, fill: "url(#festa-ceu)" }));
+  // raios
+  const raios = svg("g", { class: "festa-raios-svg", opacity: d === 16 ? 0.55 : 0.18 });
+  for (let i = 0; i < 12; i++) raios.append(svg("path", { d: "M120 95 L112 -40 L128 -40 Z", fill: d === 16 ? "#ffffff" : "#f2c230", transform: `rotate(${i * 30} 120 95)` }));
+  raiz.append(raios);
+  if (d === 16) {
+    // o ceu: nuvens e a coroa do Rei
+    for (const [x, y, r] of [[40, 160, 26], [70, 170, 30], [180, 165, 28], [210, 172, 24], [120, 182, 34]]) raiz.append(svg("circle", { cx: x, cy: y, r, fill: "#ffffff", opacity: 0.92 }));
+    raiz.append(svg("path", { d: "M96 30 L104 12 L114 26 L120 8 L126 26 L136 12 L144 30 Z", fill: "#f2c230", stroke: "#b88a00", "stroke-width": 2 }));
+  } else if (d === 15) {
+    for (const [x, y] of [[50, 50], [190, 50]]) raiz.append(svg("path", { d: estrela(x, y, 18, 8), fill: "#f2c230" }));
+  } else if (d === 14) {
+    // taca generica
+    raiz.append(svg("path", { d: "M104 20 H136 V40 Q136 58 120 62 Q104 58 104 40 Z M116 62 H124 V74 H116 Z M108 74 H132 V80 H108 Z", fill: "#f2c230", stroke: "#b88a00", "stroke-width": 1.5 }));
+  } else if (d >= 6) {
+    // refletores
+    for (const x of [30, 210]) raiz.append(svg("path", { d: `M${x - 12} 20 H${x + 12} V34 H${x - 12} Z`, fill: "#e6edf3", opacity: 0.8 }));
+  }
+  // confete
+  for (let i = 0; i < 18; i++) {
+    const cor = ["#f2c230", "#c8ff00", "#ff7d95", "#5cc8ff", "#ffffff"][i % 5];
+    raiz.append(svg("rect", { x: 10 + ((i * 53) % 220), y: 10 + ((i * 37) % 90), width: 5, height: 9, fill: cor, class: "confete", style: `animation-delay:${(i % 6) * 0.12}s`, transform: `rotate(${(i * 47) % 180} ${10 + ((i * 53) % 220)} ${10 + ((i * 37) % 90)})` }));
+  }
+  // o jogador, de costas, bracos pra cima
+  const j = svg("g", { class: "festa-jogador" });
+  const base = kit.base, cor = kit.numero;
+  j.append(
+    svg("path", { d: "M92 112 L70 70", stroke: base, "stroke-width": 14, "stroke-linecap": "round" }),
+    svg("path", { d: "M148 112 L170 70", stroke: base, "stroke-width": 14, "stroke-linecap": "round" }),
+    svg("circle", { cx: 70, cy: 66, r: 8, fill: "#c9a27e" }), svg("circle", { cx: 170, cy: 66, r: 8, fill: "#c9a27e" }),
+    svg("rect", { x: 100, y: 176, width: 14, height: 24, fill: "#1b2330" }), svg("rect", { x: 126, y: 176, width: 14, height: 24, fill: "#1b2330" }),
+    svg("path", { d: "M90 104 Q120 94 150 104 L152 180 H88 Z", fill: base, stroke: "rgba(0,0,0,.25)", "stroke-width": 1.5 }),
+    svg("circle", { cx: 120, cy: 86, r: 17, fill: "#3a2a20" }),
+  );
+  const t1 = svg("text", { x: 120, y: 124, "text-anchor": "middle", fill: cor, "font-family": "Barlow Condensed, Arial Narrow, sans-serif", "font-weight": 800, "font-size": nome.length > 8 ? 11 : 14, "letter-spacing": "1" });
+  t1.textContent = nome;
+  const t2 = svg("text", { x: 120, y: 166, "text-anchor": "middle", fill: cor, "font-family": "Barlow Condensed, Arial Narrow, sans-serif", "font-weight": 800, "font-size": 40 });
+  t2.textContent = String(numero);
+  j.append(t1, t2);
+  raiz.append(j);
+  return raiz;
+}
+
+function estrela(cx, cy, R, r) {
+  const p = [];
+  for (let i = 0; i < 10; i++) {
+    const a = (Math.PI / 5) * i - Math.PI / 2, raio = i % 2 ? r : R;
+    p.push(`${(cx + raio * Math.cos(a)).toFixed(1)} ${(cy + raio * Math.sin(a)).toFixed(1)}`);
+  }
+  return `M${p.join(" L")} Z`;
+}
+
+function comemorar(d) {
+  const info = FESTA_DO_DEGRAU[d];
+  if (!info) return Promise.resolve();
+  document.querySelector(".festa-quiz-pop")?.remove();
+  const pop = el("div", `festa-quiz-pop degrau-${d}${d >= 13 ? " grande" : ""}`);
+  pop.setAttribute("role", "status");
+  const caixa = el("div", "festa-quiz-caixa");
+  caixa.append(cenaDaFesta(d), el("p", "festa-quiz-nivel", `${d} · ${info[0]}`), el("p", "festa-quiz-texto", info[1]));
+  pop.append(caixa);
+  document.body.append(pop);
+  return new Promise((ok) => {
+    const fechar = () => { if (!pop.isConnected) return ok(); pop.classList.add("saindo"); setTimeout(() => { pop.remove(); ok(); }, movimentoReduzido ? 0 : 220); };
+    setTimeout(fechar, movimentoReduzido ? 1200 : d >= 13 ? 3000 : 1900);
+  });
+}
+
 // --- fim ----------------------------------------------------------------------
 
 function terminar(como) {
@@ -437,7 +542,7 @@ function terminar(como) {
   const ultima = Q.historico[Q.historico.length - 1];
   $("tela-fim").dataset.como = como;
   if (como === "campeao") {
-    titulo.textContent = "Nível Pelé!";
+    titulo.textContent = "Prateleira Rei Pelé!";
     texto.textContent = "Acertou as 16. A carta chegou no topo da escada.";
   } else if (como === "parou") {
     titulo.textContent = `Parou na pergunta ${Q.numero}`;
