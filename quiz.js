@@ -159,7 +159,9 @@ function novaPergunta() {
   const cab = $("pergunta-cabeca");
   cab.dataset.nivel = nv;
   $("pergunta-numero").textContent = Q.numero === 16 ? "Pergunta final" : `Pergunta ${Q.numero} de 16`;
-  $("pergunta-nivel").textContent = Q.numero === 16 ? "Vale a carta Nível Pelé" : NOME_NIVEL[nv];
+  // sem rotulo de dificuldade: so a final ganha o selo do premio
+  $("pergunta-nivel").textContent = Q.numero === 16 ? "Vale a carta Nível Pelé" : "";
+  $("pergunta-nivel").hidden = Q.numero !== 16;
   $("enunciado").textContent = p.q;
   desenharTrilha();
   desenharAlternativas();
