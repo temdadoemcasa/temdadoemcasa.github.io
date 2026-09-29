@@ -327,7 +327,7 @@
 }
 
 /* comemoracao da prateleira: por cima de tudo, some sozinha */
-.festa-quiz-pop { position: fixed; inset: 0; z-index: 80; display: grid; place-items: center; padding: 16px; background: rgba(5, 7, 10, 0.55); pointer-events: none; animation: festa-quiz-entra 0.22s ease both; }
+.festa-quiz-pop { position: fixed; inset: 0; z-index: 80; display: grid; place-items: center; padding: 16px; background: rgba(5, 7, 10, 0.6); cursor: pointer; animation: festa-quiz-entra 0.22s ease both; }
 .festa-quiz-pop.saindo { animation: festa-quiz-sai 0.22s ease both; }
 .festa-quiz-caixa { width: min(320px, 100%); border-radius: 18px; overflow: hidden; background: var(--fundo-cartao); border: 1px solid color-mix(in srgb, var(--quiz, #f2c230) 55%, var(--borda)); box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6); text-align: center; animation: festa-quiz-pulo 0.6s cubic-bezier(0.2, 1.5, 0.4, 1) both; }
 .festa-quiz-pop.grande .festa-quiz-caixa { width: min(380px, 100%); }
@@ -368,3 +368,13 @@
 @keyframes check-pulsa { 50% { box-shadow: 0 0 0 6px color-mix(in srgb, var(--quiz) 0%, transparent); transform: scale(1.06); } }
 @media (prefers-reduced-motion: reduce) { .confirmar-check { animation: none; } }
 @media (max-width: 760px) { .confirmar-check { width: 2.1rem; height: 2.1rem; } }
+
+/* comemoracao = tela de carregamento entre perguntas */
+.festa-quiz-acertou { margin: 0.8rem 1rem 0; font-size: 0.8rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--certa, #3ddc84); }
+.festa-quiz-caixa .festa-quiz-nivel { margin-top: 0.1rem; }
+.festa-quiz-curiosidade { margin: -0.5rem 1.1rem 0.9rem; font-size: 0.85rem; color: var(--texto-fraco); line-height: 1.35; }
+.festa-quiz-barra { height: 5px; margin: 0 1.1rem; border-radius: 999px; background: var(--fundo-alto); overflow: hidden; }
+.festa-quiz-barra i { display: block; height: 100%; width: 100%; background: #f2c230; transform-origin: left; animation: festa-carrega var(--duracao, 3s) linear both; }
+.festa-quiz-dica { margin: 0.45rem 1rem 0.8rem; font-size: 0.72rem; color: var(--texto-fraco); }
+.festa-quiz-dica:empty { display: none; }
+@keyframes festa-carrega { from { transform: scaleX(0); } to { transform: scaleX(1); } }

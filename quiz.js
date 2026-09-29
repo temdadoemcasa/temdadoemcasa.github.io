@@ -293,18 +293,20 @@ async function confirmar() {
   Q.degrau = Q.numero;
   subirCarta();
   if (Q.numero === 16) {
-    await comemorar(16);
+    await comemorar(16, { curiosidade: Q.pergunta.x || "" });
     return terminar("campeao");
   }
-  comemorar(Q.degrau);
+  // sem botao: a comemoracao segura ~3 s e a proxima pergunta entra sozinha
   retorno.classList.remove("errou");
   delete $("proxima").dataset.fim;
   desenharCarta($("retorno-carta"), Q.degrau);
-  $("retorno-texto").textContent = Q.pergunta.x ? `Certa! ${Q.pergunta.x}` : "Certa!";
+  $("retorno-texto").textContent = "Certa!";
   $("retorno-subiu").textContent = `Sua carta subiu pra ${ESCADA_QUIZ[Q.degrau].nome} (${ESCADA_QUIZ[Q.degrau].ovr}).`;
-  $("proxima").textContent = Q.numero === 15 ? "Ir pra pergunta final" : "Próxima pergunta";
+  $("proxima").hidden = true;
   mostrarAcao("retorno");
-  $("proxima").focus({ preventScroll: true });
+  await comemorar(Q.degrau, { curiosidade: Q.pergunta.x || "" });
+  $("proxima").hidden = false;
+  proxima();
 }
 
 function subirCarta() {
@@ -714,19 +716,41 @@ function estrela(cx, cy, R, r) {
   return `M${p.join(" L")} Z`;
 }
 
-function comemorar(d) {
+// Acertou: a comemoracao vira a tela de carregamento. Mostra onde a carta chegou,
+// a curiosidade da pergunta e uma barra de ~3 s; depois a proxima pergunta entra sozinha.
+// Um toque pula a espera.
+const ESPERA_ENTRE_PERGUNTAS = 3000;
+function comemorar(d, { curiosidade = "", duracao = ESPERA_ENTRE_PERGUNTAS } = {}) {
   const info = FESTA_DO_DEGRAU[d];
   if (!info) return Promise.resolve();
   document.querySelector(".festa-quiz-pop")?.remove();
   const pop = el("div", `festa-quiz-pop degrau-${d}${d >= 13 ? " grande" : ""}`);
   pop.setAttribute("role", "status");
   const caixa = el("div", "festa-quiz-caixa");
-  caixa.append(cenaDaFesta(d), el("p", "festa-quiz-nivel", `${d} · ${info[0]}`), el("p", "festa-quiz-texto", info[1]));
+  const g = ESCADA_QUIZ[d];
+  caixa.append(
+    cenaDaFesta(d),
+    el("p", "festa-quiz-acertou", "Você acertou!"),
+    el("p", "festa-quiz-nivel", `${info[0]} · ${g.ovr}`),
+    el("p", "festa-quiz-texto", info[1]),
+  );
+  if (curiosidade) caixa.append(el("p", "festa-quiz-curiosidade", curiosidade));
+  const barra = el("div", "festa-quiz-barra");
+  barra.style.setProperty("--duracao", `${duracao}ms`);
+  barra.append(el("i"));
+  caixa.append(barra, el("p", "festa-quiz-dica", d === 16 ? "" : "Próxima pergunta chegando… (toque pra pular)"));
   pop.append(caixa);
   document.body.append(pop);
   return new Promise((ok) => {
-    const fechar = () => { if (!pop.isConnected) return ok(); pop.classList.add("saindo"); setTimeout(() => { pop.remove(); ok(); }, movimentoReduzido ? 0 : 220); };
-    setTimeout(fechar, movimentoReduzido ? 1200 : d >= 13 ? 3000 : 1900);
+    let feito = false;
+    const fechar = () => {
+      if (feito) return;
+      feito = true;
+      pop.classList.add("saindo");
+      setTimeout(() => { pop.remove(); ok(); }, movimentoReduzido ? 0 : 200);
+    };
+    pop.addEventListener("click", fechar);
+    setTimeout(fechar, duracao);
   });
 }
 
