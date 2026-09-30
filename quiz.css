@@ -409,3 +409,14 @@
   .carta-baralho { width: 3.1rem; }
   .ajuda { min-height: 36px; }
 }
+
+/* desafio do dia: botao de duas linhas logo abaixo do Comecar */
+.botao-diario { display: grid; gap: 0.1rem; justify-self: start; text-align: left; padding: 0.6rem 1.1rem; border-color: color-mix(in srgb, var(--quiz, #f2c230) 60%, var(--borda)); }
+.botao-diario b { font-size: 0.98rem; }
+.botao-diario small { font-size: 0.76rem; font-weight: 500; color: var(--texto-fraco); }
+.botao-diario.feito b::after { content: " ✓"; color: var(--quiz-texto); }
+@media (max-width: 760px) { .botao-diario { justify-self: stretch; } }
+.fim-grade { margin: 0 0 0.6rem; font-family: inherit; font-size: 1.35rem; line-height: 1.15; letter-spacing: 0.08em; white-space: pre; }
+.fim-grade:empty { display: none; }
+.fim-diario { margin: 0 0 1.1rem; font-size: 0.85rem; color: var(--texto-fraco); }
+.fim-diario:empty { display: none; }

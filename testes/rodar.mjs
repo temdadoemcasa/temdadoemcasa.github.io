@@ -36,6 +36,15 @@ for (const nome of testes) {
   const r = await rodar(nome);
   const passou = r.codigo === 0 && !r.falhas.length && r.oks > 0;
   console.log(`${passou ? "✔" : "✘"} ${nome}: ${r.oks} ok, ${r.falhas.length} falha(s), ${r.s}s`);
-  if (!passou) { quebrou = true; console.log(r.saida.trim().split("\n").map((l) => "    " + l).join("\n")); }
+  if (!passou) {
+    quebrou = true;
+    console.log(r.saida.trim().split("\n").map((l) => "    " + l).join("\n"));
+    // no GitHub Actions a falha vira anotacao (aparece no PR, sem abrir o log)
+    if (process.env.GITHUB_ACTIONS) {
+      const linhas = r.falhas.length ? r.falhas : r.saida.trim().split("\n").slice(-6);
+      const msg = linhas.join(" / ").replace(/%/g, "%25").replace(/\r?\n/g, " ").slice(0, 900);
+      console.log(`::error file=testes/${nome}.mjs,title=${nome}::${msg}`);
+    }
+  }
 }
 process.exit(quebrou ? 1 : 0);

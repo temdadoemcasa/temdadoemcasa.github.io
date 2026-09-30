@@ -1738,3 +1738,8 @@ function montarAbasMobile(secao, abas, inicial) {
     atual: () => secao.dataset.abaMobile,
   };
 }
+
+// PWA: instalavel e abre offline (sw.js). Localhost fica de fora pra nao atrapalhar o desenvolvimento.
+if ("serviceWorker" in navigator && !/^(localhost|127\.)/.test(location.hostname)) {
+  window.addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));
+}
