@@ -1028,6 +1028,7 @@ function camisaDe(id, numero = null) {
 const nomeDe = (id) => (D.times && D.times[id] ? D.times[id].nome : id);
 
 function comecarTemporada() {
+  evento("tem-time/temporada");
   D.pedidoChances = (D.pedidoChances || 0) + 1; // chances pendentes nao escrevem mais
   const semente = D.desafio ? hashTexto(`${D.desafio.semente}|temporada`) : Math.floor(Math.random() * 1e9);
   const rngGrupo = D.desafio ? Motor.rngDe(hashTexto(`${D.desafio.semente}|grupo`)) : sorte;
@@ -1819,6 +1820,7 @@ function nomeDaFase(fase) {
 }
 
 function encerrar() {
+  evento("tem-time/fim");
   const t = D.temp, eu = t.usuario;
   for (const b of ["proximo", "ate-decisivo", "simular-tudo", "sim-ir"]) $(b).disabled = true;
   const tab = Motor.ordenar(t.bra.tabela);
