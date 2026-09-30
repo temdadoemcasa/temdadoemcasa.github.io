@@ -692,3 +692,6 @@ button.vaga:hover .vaga-vazia { border-color: var(--canal); color: var(--canal);
   .resumo-numeros dd { font-size: 1.9rem; }
   .resumo-numeros dt { font-size: 0.7rem; line-height: 1.2; }
 }
+
+/* celular: select com letra >= 16px (senao o iPhone da zoom ao tocar) e faixa com alvo maior */
+@media (max-width: 760px) { select { font-size: 16px !important; } }

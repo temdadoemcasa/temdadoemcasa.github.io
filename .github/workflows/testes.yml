@@ -1,0 +1,36 @@
+name: Testes
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  navegador:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Instala Playwright
+        run: |
+          npm install --no-audit --no-fund
+          npx playwright install --with-deps chromium
+      - name: Sobe o site
+        run: |
+          python3 -m http.server 8766 > /dev/null 2>&1 &
+          for i in $(seq 1 20); do curl -sf http://localhost:8766/ > /dev/null && break; sleep 0.5; done
+      - name: Roda os testes
+        env:
+          BASE: http://localhost:8766
+        run: node testes/rodar.mjs
+      - name: Guarda os prints
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: prints
+          path: testes/resultados/
+          retention-days: 7

@@ -20,8 +20,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
   <script src="tema.js?v=2026-09-27j"></script>
-  <link rel="stylesheet" href="estilo.css?v=2026-09-29videos">
-  <link rel="stylesheet" href="quiz.css?v=2026-09-29toque2">
+  <link rel="stylesheet" href="estilo.css?v=2026-09-30ux">
+  <link rel="stylesheet" href="quiz.css?v=2026-09-30dia">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
 </head>
 <body>
   <header class="topo">
@@ -60,6 +62,7 @@
               </div>
             </div>
             <button class="botao botao-primario botao-grande" type="submit">Começar</button>
+            <button class="botao botao-diario" id="diario" type="button"><b>Desafio do dia</b><small></small></button>
             <p class="inicio-recorde" id="inicio-recorde"></p>
           </form>
           <p class="inicio-ajudas">Ajudas: <b>cartas</b>, <b>Golden Boys</b>, <b>arquibancada</b> e <b>O Enciclopédia</b>, uma vez cada. E <b>3 pulos</b>.</p>
@@ -145,9 +148,12 @@
           <p id="fim-texto"></p>
           <p class="fim-frase" id="fim-frase"></p>
           <p class="fim-recorde" id="fim-recorde"></p>
+          <pre class="fim-grade" id="fim-grade" aria-label="Resumo em quadradinhos"></pre>
+          <p class="fim-diario" id="fim-diario"></p>
           <div class="confirmar-botoes">
             <button class="botao botao-primario" id="de-novo" type="button">Jogar de novo</button>
             <button class="botao" id="compartilhar" type="button">Compartilhar resultado</button>
+            <button class="botao" id="story" type="button">Imagem pros stories</button>
             <button class="botao" id="trocar" type="button">Trocar nome ou posição</button>
           </div>
           <details class="fim-resumo" id="fim-resumo">
@@ -171,9 +177,10 @@
     <p class="rodape-autor">Site, dados e minigames feitos por <a href="https://www.linkedin.com/in/breno-sayao/" target="_blank" rel="noopener">Breno Sayão</a>, engenheiro de dados · <a href="https://www.linkedin.com/in/breno-sayao/" target="_blank" rel="noopener">LinkedIn</a></p>
   </footer>
 
-  <script src="app.js?v=2026-09-30og"></script>
-  <script src="dados/perguntas.js?v=2026-09-29frases"></script>
-  <script src="quiz.js?v=2026-09-30og"></script>
+  <script src="app.js?v=2026-09-30pwa"></script>
+  <script src="story.js?v=2026-09-30pwa"></script>
+  <script src="dados/perguntas.js?v=2026-09-30rot"></script>
+  <script src="quiz.js?v=2026-09-30pwa"></script>
   <script data-goatcounter="https://temdadoemcasa.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>
 </html>

@@ -34,11 +34,19 @@ function guardarRecorde(d) { try { if (d > lerRecorde()) localStorage.setItem(CH
 
 // --- banco -------------------------------------------------------------------
 
+const rot13 = (s) => s.replace(/[a-z]/gi, (c) => {
+  const base = c <= "Z" ? 65 : 97;
+  return String.fromCharCode(((c.charCodeAt(0) - base + 13) % 26) + base);
+});
 function carregarBanco() {
-  const chave = new TextEncoder().encode("temdadoemcasa");
-  const bin = Uint8Array.from(atob(PERGUNTAS_CODIFICADAS), (c) => c.charCodeAt(0));
-  for (let i = 0; i < bin.length; i++) bin[i] ^= chave[i % chave.length];
-  const todas = JSON.parse(new TextDecoder().decode(bin));
+  let todas;
+  if (typeof PERGUNTAS_ROT13 !== "undefined") todas = JSON.parse(rot13(PERGUNTAS_ROT13));
+  else { // formato antigo (XOR + base64)
+    const chave = new TextEncoder().encode("temdadoemcasa");
+    const bin = Uint8Array.from(atob(PERGUNTAS_CODIFICADAS), (c) => c.charCodeAt(0));
+    for (let i = 0; i < bin.length; i++) bin[i] ^= chave[i % chave.length];
+    todas = JSON.parse(new TextDecoder().decode(bin));
+  }
   const banco = { f: [], m: [], d: [], p: [] };
   for (const p of todas) banco[p.n].push(p);
   return banco;
@@ -55,11 +63,81 @@ function guardarVista(id) {
   } catch { /* sem storage, repete mais cedo */ }
 }
 
-const embaralhar = (lista) => {
+const embaralhar = (lista, rng = Math.random) => {
   const a = [...lista];
-  for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+  for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(rng() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
   return a;
 };
+
+// --- desafio do dia ---------------------------------------------------------------
+// As mesmas 16 perguntas (e na mesma ordem de alternativas) pra todo mundo no dia,
+// sorteadas por uma semente tirada da data. Uma tentativa por dia; o resultado vira
+// uma grade de quadradinhos pra compartilhar.
+const CHAVE_DIARIO = "dadao-diario";
+const INICIO_DIARIO = "2026-09-30"; // desafio #1
+
+function hashTexto(texto) {
+  let h = 2166136261;
+  for (const b of new TextEncoder().encode(texto)) h = Math.imul(h ^ b, 16777619) >>> 0;
+  return h;
+}
+// mulberry32: pequeno, rapido e igual em todo navegador
+function sementeRng(semente) {
+  let a = semente >>> 0;
+  return () => {
+    a = (a + 0x6d2b79f5) >>> 0;
+    let x = Math.imul(a ^ (a >>> 15), 1 | a);
+    x = (x + Math.imul(x ^ (x >>> 7), 61 | x)) ^ x;
+    return ((x ^ (x >>> 14)) >>> 0) / 4294967296;
+  };
+}
+function hojeLocal(d = new Date()) {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}
+function numeroDoDesafio(data) {
+  const dia = (s) => Date.UTC(...s.split("-").map((x, i) => Number(x) - (i === 1 ? 1 : 0)));
+  return Math.round((dia(data) - dia(INICIO_DIARIO)) / 86400000) + 1;
+}
+// pra cada pergunta, a titular e 3 reservas (os pulos): tudo fixo pela data
+function montarDiario(data) {
+  const rng = sementeRng(hashTexto(`dadao-${data}`));
+  const todas = [...Q.banco.f, ...Q.banco.m, ...Q.banco.d, ...Q.banco.p].sort((x, y) => (x.id < y.id ? -1 : 1));
+  const usados = new Set();
+  const fila = [];
+  for (let n = 1; n <= 16; n++) {
+    const alvo = NOTA_DA_PERGUNTA[n];
+    const cand = [];
+    for (const nota of [alvo, alvo - 1, alvo + 1]) {
+      const pool = todas.filter((p) => p.s === nota && !usados.has(p.id));
+      while (cand.length < 4 && pool.length) {
+        const [p] = pool.splice(Math.floor(rng() * pool.length), 1);
+        cand.push(p);
+        usados.add(p.id);
+      }
+      if (cand.length >= 4) break;
+    }
+    fila.push(cand);
+  }
+  return { data, numero: numeroDoDesafio(data), fila };
+}
+function lerDiario() {
+  try { return JSON.parse(localStorage.getItem(CHAVE_DIARIO)) || null; } catch { return null; }
+}
+const diarioDeHoje = () => { const d = lerDiario(); return d && d.data === hojeLocal() ? d : null; };
+
+// 16 quadradinhos em 4 linhas: acertou, errou, parou aqui, nao chegou
+function gradeDoJogo(historico, como) {
+  const q = historico.map((h) => (h.acertou ? "🟩" : "🟥"));
+  if (como === "parou") q.push("🟨");
+  while (q.length < 16) q.push("⬜");
+  return [0, 4, 8, 12].map((i) => q.slice(i, i + 4).join("")).join("\n");
+}
+function ateAmanha() {
+  const agora = new Date();
+  const amanha = new Date(agora.getFullYear(), agora.getMonth(), agora.getDate() + 1);
+  const min = Math.max(1, Math.round((amanha - agora) / 60000));
+  return min >= 60 ? `${Math.floor(min / 60)}h${String(min % 60).padStart(2, "0")}` : `${min} min`;
+}
 
 // pergunta do nivel que nao saiu nesta partida; prefere as que a pessoa ainda nao viu
 // Cada pergunta tem uma nota de dificuldade (s, de 1 a 10) e cada numero da
@@ -69,6 +147,10 @@ const embaralhar = (lista) => {
 const NOTA_DA_PERGUNTA = [null, 1, 2, 3, 4, 4, 5, 5, 6, 7, 7, 8, 8, 9, 9, 9, 10];
 
 function sortearPergunta(numero) {
+  if (Q.diario) {
+    const p = Q.diario.fila[numero - 1].find((c) => !Q.usadas.has(c.id));
+    if (p) return p;
+  }
   const alvo = NOTA_DA_PERGUNTA[numero];
   const todas = [...Q.banco.f, ...Q.banco.m, ...Q.banco.d, ...Q.banco.p];
   const vistas = lerVistas();
@@ -160,7 +242,8 @@ function novaPergunta() {
   Q.pergunta = p;
   Q.usadas.add(p.id);
   guardarVista(p.id);
-  Q.opcoes = embaralhar([{ texto: p.a, certa: true }, ...p.e.map((t) => ({ texto: t, certa: false }))]);
+  const rngOpcoes = Q.diario ? sementeRng(hashTexto(`${Q.diario.data}-${p.id}`)) : Math.random;
+  Q.opcoes = embaralhar([{ texto: p.a, certa: true }, ...p.e.map((t) => ({ texto: t, certa: false }))], rngOpcoes);
   Q.eliminadas = new Set();
   Q.escolhida = null;
   Q.travado = false;
@@ -201,6 +284,8 @@ const iniciais = (nome) => {
 function desenharAlternativas() {
   const lista = $("alternativas");
   const m = Q.marcas;
+  // alternativa comprida (top 3 da Bola de Ouro...) quebra linha: letra menor pra caber sem rolar
+  lista.classList.toggle("longas", Q.opcoes.some((o) => o.texto.length > 26));
   lista.replaceChildren(...Q.opcoes.map((o, i) => {
     const li = el("li");
     const b = el("button", "alternativa");
@@ -764,8 +849,9 @@ function comemorar(d, { curiosidade = "", frase = "", duracao = esperaDaFrase(fr
 
 // --- fim ----------------------------------------------------------------------
 
-function terminar(como) {
-  evento(`dadao/${como}-${Q.degrau}`);
+// revisao: reabre o resultado do desafio de hoje (ja jogado) sem contar de novo
+function terminar(como, { revisao = false } = {}) {
+  if (!revisao) evento(`dadao/${Q.diario ? "diario-" : ""}${como}-${Q.degrau}`);
   const d = Q.degrau;
   const g = ESCADA_QUIZ[d];
   const titulo = $("fim-titulo");
@@ -787,12 +873,30 @@ function terminar(como) {
   $("fim-frase").textContent = como === "errou" && ultima?.frase ? ultima.frase : "";
   const acertos = Q.historico.filter((h) => h.acertou).length;
   const recordeAntes = lerRecorde();
-  guardarRecorde(d);
-  $("fim-recorde").textContent = d > recordeAntes && recordeAntes > 0
+  if (!revisao) guardarRecorde(d);
+  $("fim-recorde").textContent = revisao ? "" : d > recordeAntes && recordeAntes > 0
     ? `Novo recorde! O anterior era ${ESCADA_QUIZ[recordeAntes].nome}.`
     : recordeAntes > d ? `Seu recorde: ${ESCADA_QUIZ[recordeAntes].nome} (${ESCADA_QUIZ[recordeAntes].ovr}).` : "";
-  Q.textoCompartilhar = `Show do Dadão: minha carta chegou em ${g.nome} (${g.ovr}), com ${acertos} de 16 acertos. Tenta aí: ${location.origin}${location.pathname}`;
+  const grade = gradeDoJogo(Q.historico, como);
+  const link = `${location.origin}${location.pathname}`;
+  const carta = `Carta: ${g.nome} (${g.ovr})`;
+  if (Q.diario) {
+    if (!revisao) {
+      try {
+        localStorage.setItem(CHAVE_DIARIO, JSON.stringify({ data: Q.diario.data, numero: Q.diario.numero, como, degrau: d, pergunta: Q.numero, historico: Q.historico }));
+      } catch { /* sem storage: nao trava o desafio */ }
+    }
+    Q.textoCompartilhar = `Show do Dadão · Desafio #${Q.diario.numero}\n${grade}\n${carta}\n${link}#desafio`;
+    $("fim-diario").textContent = `Desafio #${Q.diario.numero}. O próximo sai em ${ateAmanha()}.`;
+  } else {
+    Q.textoCompartilhar = `Show do Dadão\n${grade}\n${carta}\n${link}`;
+    $("fim-diario").textContent = "";
+  }
+  $("fim-grade").textContent = grade;
+  Q.comoFim = como;
+  $("story").textContent = "Imagem pros stories";
   $("compartilhar").textContent = "Compartilhar resultado";
+  $("de-novo").textContent = Q.diario ? "Jogar partida livre" : "Jogar de novo";
   desenharCarta($("fim-carta"), d, { acertos });
   const lista = $("fim-lista");
   lista.replaceChildren(...Q.historico.map((h) => {
@@ -810,8 +914,13 @@ function terminar(como) {
 
 let QUIZ_ABAS = null;
 
-function comecar() {
-  evento("dadao/inicio");
+function comecar({ diario = false } = {}) {
+  if (diario) {
+    const feito = diarioDeHoje();
+    if (feito) return reverDiario(feito);
+    Q.diario = montarDiario(hojeLocal());
+  } else Q.diario = null;
+  evento(diario ? "dadao/diario" : "dadao/inicio");
   Q.nome = ($("nome").value || "").trim().slice(0, LIMITE_NOME) || "Você";
   try { localStorage.setItem("tem-resposta-nome", Q.nome); localStorage.setItem("tem-resposta-pos", Q.pos); } catch { /* ok */ }
   Q.degrau = 0;
@@ -832,6 +941,27 @@ function comecar() {
     QUIZ_ABAS.abrir("pergunta", { rolar: false });
   }
   novaPergunta();
+}
+
+// desafio de hoje ja jogado: mostra o resultado de novo (pra compartilhar), sem jogar
+function reverDiario(feito) {
+  Q.diario = { data: feito.data, numero: feito.numero, fila: [] };
+  Q.historico = feito.historico || [];
+  Q.degrau = feito.degrau || 0;
+  Q.numero = feito.pergunta || Q.historico.length || 1;
+  $("fim-carta").classList.remove("festa-quiz");
+  terminar(feito.como, { revisao: true });
+}
+
+function atualizarBotaoDiario() {
+  const hoje = hojeLocal();
+  const feito = diarioDeHoje();
+  const b = $("diario");
+  b.querySelector("b").textContent = `Desafio do dia #${numeroDoDesafio(hoje)}`;
+  b.querySelector("small").textContent = feito
+    ? `Já jogou hoje: ${ESCADA_QUIZ[feito.degrau].curto || ESCADA_QUIZ[feito.degrau].nome}. Ver resultado`
+    : "As mesmas perguntas pra todo mundo hoje. Uma chance.";
+  b.classList.toggle("feito", !!feito);
 }
 
 function atualizarPreviaInicio() {
@@ -857,6 +987,8 @@ function iniciarQuiz() {
   }
   $("nome").addEventListener("input", () => { Q.nome = $("nome").value.trim() || "Você"; atualizarPreviaInicio(); });
   $("form-inicio").addEventListener("submit", (e) => { e.preventDefault(); comecar(); });
+  atualizarBotaoDiario();
+  if (location.hash === "#desafio") $("diario").focus({ preventScroll: true });
   $("proxima").addEventListener("click", proxima);
   $("ajuda-cartas").addEventListener("click", ajudaCartas);
   $("ajuda-boys").addEventListener("click", ajudaGoldenBoys);
@@ -874,9 +1006,20 @@ function iniciarQuiz() {
       $("compartilhar").textContent = "Copiado!";
     } catch { /* cancelou */ }
   });
-  $("de-novo").addEventListener("click", comecar);
+  $("story").addEventListener("click", async () => {
+    const b = $("story");
+    b.disabled = true;
+    b.textContent = "Gerando a imagem...";
+    const r = await compartilharStory({ nome: Q.nome, pos: Q.pos, degrau: Q.degrau, historico: Q.historico, como: Q.comoFim, desafio: Q.diario && Q.diario.numero });
+    evento(`dadao/story-${r}`);
+    b.disabled = false;
+    b.textContent = r === "baixou" ? "Imagem baixada!" : r === "erro" ? "Não deu pra gerar agora" : "Imagem pros stories";
+  });
+  $("de-novo").addEventListener("click", () => comecar());
+  $("diario").addEventListener("click", () => comecar({ diario: true }));
   $("trocar").addEventListener("click", () => {
     mostrarTela("tela-inicio");
+    atualizarBotaoDiario();
     atualizarPreviaInicio();
     const rec = lerRecorde();
     $("inicio-recorde").textContent = rec > 0 ? `Seu recorde: ${ESCADA_QUIZ[rec].nome} (${ESCADA_QUIZ[rec].ovr}).` : "";
