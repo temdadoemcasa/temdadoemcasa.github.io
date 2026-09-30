@@ -201,6 +201,8 @@ const iniciais = (nome) => {
 function desenharAlternativas() {
   const lista = $("alternativas");
   const m = Q.marcas;
+  // alternativa comprida (top 3 da Bola de Ouro...) quebra linha: letra menor pra caber sem rolar
+  lista.classList.toggle("longas", Q.opcoes.some((o) => o.texto.length > 26));
   lista.replaceChildren(...Q.opcoes.map((o, i) => {
     const li = el("li");
     const b = el("button", "alternativa");

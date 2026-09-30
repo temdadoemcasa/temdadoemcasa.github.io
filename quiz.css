@@ -393,3 +393,19 @@
 .toque-de-novo.valendo { animation: none; opacity: 0.55; }
 @keyframes toque-pisca { 50% { box-shadow: 0 0 0 4px color-mix(in srgb, var(--quiz) 30%, transparent); } }
 @media (prefers-reduced-motion: reduce) { .toque-de-novo { animation: none; } }
+
+/* alternativas compridas: letra um pouco menor (no celular quebravam em 2 linhas e empurravam o palco) */
+@media (max-width: 760px) { .alternativas.longas .alternativa-texto { font-size: 0.9rem; line-height: 1.2; } }
+/* celular bem baixinho (iPhone SE 375x667 e parecidos): durante o jogo o menu do site sai
+   (a marca continua levando pra home) e tudo aperta mais um pouco pra caber sem rolar */
+@media (max-width: 760px) and (max-height: 700px) {
+  body:has(#tela-jogo:not([hidden])) .topo .menu { display: none; }
+  .painel-pergunta { gap: 0.4rem; }
+  .enunciado { min-height: calc(3 * 1.25em + 1rem); padding: 0.5rem 0.8rem; font-size: 0.96rem; line-height: 1.25; }
+  .alternativa { min-height: 2.3rem; padding: 0.3rem 0.7rem; }
+  .alternativa-letra { width: 1.5rem; height: 1.5rem; font-size: 0.9rem; }
+  .alternativas { gap: 0.45rem; }
+  .palco-acao { min-height: 11.2rem; }
+  .carta-baralho { width: 3.1rem; }
+  .ajuda { min-height: 36px; }
+}
