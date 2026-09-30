@@ -1158,3 +1158,32 @@ select, input {
 .menu a { padding-block: 6px; }
 /* iPhone da zoom ao tocar em campo com letra < 16px */
 @media (max-width: 760px) { select, textarea, input[type="text"], input[type="number"], input[type="search"] { font-size: max(16px, 1em); } }
+
+/* --- Quem Ta em Casa?: a carta misteriosa (no jogo e na home) --------------- */
+/* a carta antes do overall: fosca, cor da lupa */
+.nivel-misterio {
+  --tom: var(--quem, #4cc9f0);
+  --papel: linear-gradient(170deg, #12242b 0%, #0b1114 100%);
+  --tinta: #d9f3fb;
+  --destaque: var(--quem, #4cc9f0);
+  --brilho: 0.25;
+  --aro: 1cqw;
+  --telha: 5;
+  --aura: rgba(76, 201, 240, 0.25);
+}
+.carta-misterio { cursor: default; animation: none; }
+.carta-misterio .oculto dd, .carta-misterio strong.oculto { color: var(--quem, #4cc9f0); opacity: 0.8; }
+.carta-misterio .carta-nome.oculto { letter-spacing: 0.3em; opacity: 0.6; }
+.carta-misterio .carta-eixos div.oculto::after { background: color-mix(in srgb, var(--tinta) 12%, transparent); }
+
+.interrogacao { display: grid; place-items: center; flex: 1; font-family: var(--numeros); font-weight: 800; font-size: 60cqw; color: var(--tom); opacity: 0.85; }
+.jogo-quem { --jogo-cor: #4cc9f0; }
+.jogo-quem .botao-primario { background: #4cc9f0; border-color: #4cc9f0; color: #111; }
+.jogo-quem .jogo-visual { gap: 0.8rem; }
+.quem-vitrine-carta { width: clamp(96px, 8.5vw, 118px); margin-bottom: -6%; flex: none; }
+.quem-vitrine-chutes { list-style: none; margin: 0 0 1.2rem; padding: 0; display: grid; gap: 0.35rem; }
+.quem-vitrine-chutes li { display: flex; gap: 0.3rem; padding: 0.3rem 0.5rem; border-radius: 8px; background: rgba(255, 255, 255, 0.05); border-left: 3px solid #ff4d6d; font-size: 0.72rem; font-weight: 700; white-space: nowrap; color: var(--texto-fraco); }
+.quem-vitrine-chutes li.certo { border-left-color: #3ddc84; color: var(--texto); }
+/* home com quatro jogos: 2 x 2 (em 4 colunas a escada e as cartas nao cabem) */
+.abertura .jogos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 760px) { .abertura .jogos { grid-template-columns: 1fr; } }

@@ -1,0 +1,520 @@
+// Quem Tá em Casa?: adivinhe o jogador pela carta. 6 chutes; cada erro libera
+// uma dica, da mais vaga pra mais entregue, e mostra como o chute se compara
+// com o jogador certo. Usa as cartas do site (app.js): so numero calculado,
+// nada inventado. Vale acertar o jogador, em qualquer temporada.
+"use strict";
+
+const CHUTES = 6;
+// minutos pra entrar no sorteio: menos que isso sorteia reserva que ninguem lembra
+const PISO_SORTEIO = 1500;
+// o desafio do dia so sorteia temporada fechada: o retrato de uma temporada em
+// andamento muda toda semana, e o jogador do dia mudaria junto
+const ANOS_DO_DESAFIO = [2024, 2025];
+const INICIO_DIARIO = "2026-09-30"; // desafio #1
+const CHAVE_DIARIO = "quem-ta-diario";
+const CHAVE_SERIE = "quem-ta-serie";
+
+// dica que aparece ANTES de cada chute: o chute n ve as dicas 0..n-1
+const DICAS = [
+  "Ano da carta e posição",
+  "Os 2 atributos mais altos",
+  "O resto dos atributos",
+  "O overall",
+  "Número da camisa e jogos na temporada",
+  "A camisa do clube",
+];
+
+const J = {
+  retratos: [], // [r], mais novo primeiro
+  cartasDe: new Map(), // player_id -> [{ ano, j, time }] (mais nova primeiro)
+  opcoes: [], // uma por jogador, pra busca
+  alvo: null, // { ano, j, time, r }
+  chutes: [], // [{ id, carta, clube, pos, overall }]
+  fim: null, // "acertou" | "errou" | "desistiu"
+  diario: null, // { data, numero }
+};
+
+const $ = (id) => document.getElementById(id);
+
+// --- sorteio e desafio do dia ------------------------------------------------
+
+function hashTexto(texto) {
+  let h = 2166136261;
+  for (const b of new TextEncoder().encode(texto)) h = Math.imul(h ^ b, 16777619) >>> 0;
+  return h;
+}
+// mulberry32: pequeno, rapido e igual em todo navegador
+function sementeRng(semente) {
+  let a = semente >>> 0;
+  return () => {
+    a = (a + 0x6d2b79f5) >>> 0;
+    let x = Math.imul(a ^ (a >>> 15), 1 | a);
+    x = (x + Math.imul(x ^ (x >>> 7), 61 | x)) ^ x;
+    return ((x ^ (x >>> 14)) >>> 0) / 4294967296;
+  };
+}
+function hojeLocal(d = new Date()) {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}
+function numeroDoDesafio(data) {
+  const dia = (s) => Date.UTC(...s.split("-").map((x, i) => Number(x) - (i === 1 ? 1 : 0)));
+  return Math.round((dia(data) - dia(INICIO_DIARIO)) / 86400000) + 1;
+}
+
+const sorteavel = (j) => j.overall !== null && typeof j.minutos === "number" && j.minutos >= PISO_SORTEIO;
+
+function candidatos(anos) {
+  const lista = [];
+  for (const r of J.retratos) {
+    if (anos && !anos.includes(r.temporada)) continue;
+    for (const time of r.times) {
+      for (const j of time.jogadores) if (sorteavel(j)) lista.push({ ano: r.temporada, j, time, r });
+    }
+  }
+  // ordem estavel, independente da ordem do JSON
+  return lista.sort((a, b) => a.ano - b.ano || a.j.player_id - b.j.player_id);
+}
+
+// Uma volta inteira sem repetir: embaralha o pool uma vez (semente fixa) e o
+// desafio N pega a posicao N. So repete depois de passar por todos.
+function alvoDoDia(data) {
+  const pool = candidatos(ANOS_DO_DESAFIO);
+  const rng = sementeRng(hashTexto("quem-ta-v1"));
+  for (let i = pool.length - 1; i > 0; i--) {
+    const k = Math.floor(rng() * (i + 1));
+    [pool[i], pool[k]] = [pool[k], pool[i]];
+  }
+  const n = numeroDoDesafio(data);
+  return pool[(((n - 1) % pool.length) + pool.length) % pool.length];
+}
+
+function alvoLivre() {
+  const pool = candidatos(null);
+  const recentes = new Set(lerVistos());
+  const frescos = pool.filter((c) => !recentes.has(`${c.ano}-${c.j.player_id}`));
+  const escolha = (frescos.length ? frescos : pool)[Math.floor(Math.random() * (frescos.length || pool.length))];
+  guardarVisto(`${escolha.ano}-${escolha.j.player_id}`);
+  return escolha;
+}
+
+function lerVistos() { try { return JSON.parse(localStorage.getItem("quem-ta-vistos")) || []; } catch { return []; } }
+function guardarVisto(chave) {
+  try { localStorage.setItem("quem-ta-vistos", JSON.stringify([...lerVistos(), chave].slice(-120))); } catch { /* ok */ }
+}
+function lerDiario() { try { return JSON.parse(localStorage.getItem(CHAVE_DIARIO)) || null; } catch { return null; } }
+const diarioDeHoje = () => { const d = lerDiario(); return d && d.data === hojeLocal() ? d : null; };
+function lerSerie() { try { return JSON.parse(localStorage.getItem(CHAVE_SERIE)) || { atual: 0, melhor: 0 }; } catch { return { atual: 0, melhor: 0 }; } }
+
+// --- indice de jogadores -----------------------------------------------------
+
+function indexarJogadores() {
+  const porId = new Map();
+  for (const r of J.retratos) {
+    for (const time of r.times) {
+      for (const j of [...time.jogadores, ...(time.sairam || [])]) {
+        if (!porId.has(j.player_id)) porId.set(j.player_id, []);
+        porId.get(j.player_id).push({ ano: r.temporada, j, time });
+      }
+    }
+  }
+  for (const [id, cartas] of porId) {
+    cartas.sort((a, b) => b.ano - a.ano);
+    J.cartasDe.set(id, cartas);
+    const clubes = [...new Set(cartas.map((c) => c.time.nome))];
+    const base = cartas[0].j;
+    J.opcoes.push({
+      id, nome: base.nome, nome_completo: base.nome_completo,
+      detalhe: `${POSICAO[base.posicao] || ""} · ${clubes.slice(0, 3).join(", ")}`,
+    });
+  }
+  J.opcoes.sort((a, b) => a.nome.localeCompare(b.nome, "pt-BR"));
+}
+
+// a carta do chute que conversa com o alvo: a do mesmo ano se existir, senao a mais nova
+function cartaDoChute(id) {
+  const cartas = J.cartasDe.get(id) || [];
+  return cartas.find((c) => c.ano === J.alvo.ano) || cartas[0];
+}
+
+// --- a carta misteriosa ------------------------------------------------------
+
+const dicasAbertas = () => Math.min(CHUTES, J.chutes.length + 1) + (J.fim ? CHUTES : 0);
+
+function atributosOrdenados(j) {
+  return eixosDaCarta(j, J.alvo.r.eixos)
+    .map(([sigla, titulo, valor], i) => ({ sigla, titulo, valor, i }))
+    .filter((a) => a.valor !== null)
+    .sort((a, b) => b.valor - a.valor || a.i - b.i);
+}
+
+function cartaMisteriosa() {
+  const { j, time, ano } = J.alvo;
+  const abertas = dicasAbertas();
+  const temOverall = abertas >= 4;
+  const t = nivel(j.overall);
+  const carta = el("article", `carta carta-misterio ${temOverall ? `nivel-${t.id}` : "nivel-misterio"}`);
+  carta.setAttribute("aria-label", "Carta misteriosa");
+
+  const telhado = svg("svg", { class: "carta-telhado", viewBox: "0 0 100 30", "aria-hidden": "true" });
+  telhado.append(svg("path", { d: "M4 26.5 L50 3.5 L96 26.5", class: "carta-telhado-traco" }));
+  const rotulo = svg("text", { x: 50, y: 21.5, "text-anchor": "middle", class: "carta-telhado-nivel" });
+  rotulo.textContent = temOverall ? `Casa de ${t.nome}` : "Quem tá em casa?";
+  telhado.append(rotulo);
+  carta.append(telhado);
+
+  const corpo = el("div", "carta-corpo");
+  const topo = el("div", "carta-topo");
+  const nota = el("div", "carta-nota");
+  nota.append(el("strong", temOverall ? "" : "oculto", temOverall ? String(j.overall) : "?"), el("span", "carta-pos", SIGLA[j.posicao] || ""));
+  const boneco = el("div", "carta-figura");
+  if (abertas >= 6) boneco.append(figura(time, j.camisa, { cabeca: false }));
+  else boneco.append(figura({ kit: { padrao: "lisa", base: "#2b313a", numero: "#8b949e" } }, abertas >= 5 ? j.camisa : "?", { cabeca: false }));
+  topo.append(nota, boneco);
+
+  const nome = el("h4", "carta-nome oculto", J.fim ? j.nome : "? ? ?");
+  if (J.fim && j.nome.length > 12) nome.classList.add("nome-longo");
+  if (J.fim) nome.classList.remove("oculto");
+
+  const ordem = atributosOrdenados(j);
+  const top2 = new Set(ordem.slice(0, 2).map((a) => a.sigla));
+  const eixos = el("dl", "carta-eixos");
+  const lista = eixosDaCarta(j, J.alvo.r.eixos);
+  eixos.style.setProperty("--n", lista.length);
+  for (const [sigla, titulo, valor] of lista) {
+    const aberto = abertas >= 3 || (abertas >= 2 && top2.has(sigla));
+    const celula = el("div", valor === null ? "sem-dado" : aberto ? "" : "oculto");
+    celula.title = !aberto ? `${titulo}: ainda escondido` : valor === null ? `${titulo}: sem dado` : `${titulo}: ${valor}`;
+    if (aberto && valor !== null) {
+      celula.style.setProperty("--cor", calor(valor));
+      celula.style.setProperty("--v", valor);
+    }
+    celula.append(el("dt", null, sigla), el("dd", null, !aberto ? "?" : valor === null ? "—" : String(valor)));
+    eixos.append(celula);
+  }
+
+  const info = el("div", "carta-info");
+  info.append(
+    el("span", null, `Brasileirão ${ano}`),
+    el("span", null, abertas >= 5 ? `${j.jogos} J` : "? J"),
+  );
+  corpo.append(topo, nome, eixos, info);
+  carta.append(corpo);
+  return carta;
+}
+
+function listaDeDicas() {
+  const abertas = dicasAbertas();
+  const ol = $("dicas");
+  ol.replaceChildren();
+  const { j, time, ano } = J.alvo;
+  const ordem = atributosOrdenados(j);
+  const textos = [
+    `Brasileirão ${ano} · ${POSICAO[j.posicao]}`,
+    ordem.slice(0, 2).map((a) => `${a.titulo} ${a.valor}`).join(" e ") || "sem atributo calculado",
+    ordem.slice(2).map((a) => `${a.sigla} ${a.valor}`).join(" · ") || "sem mais atributos",
+    `Overall ${j.overall} (${nivel(j.overall).nome})`,
+    `Camisa ${j.camisa ?? "—"} · ${j.jogos} jogos`,
+    `Camisa do clube: ${nomeDoKit(time)}`,
+  ];
+  DICAS.forEach((titulo, i) => {
+    const li = el("li", i < abertas ? "aberta" : "fechada");
+    li.append(el("span", "dica-titulo", titulo));
+    li.append(el("span", "dica-valor", i < abertas ? textos[i] : i === 0 ? "" : `libera no ${i}º erro`));
+    ol.append(li);
+  });
+}
+
+// a dica da camisa fala as cores, nunca o clube
+function nomeDoKit(time) {
+  const kit = kitDoTime(time);
+  const cores = kit.faixas && kit.faixas.length ? kit.faixas.map((f) => f[0]) : [kit.base];
+  const unicas = [...new Set(cores.map(nomeDaCor))];
+  const padrao = { vertical: "listrada", horizontal: "listrada na horizontal", "faixa-peito": "com faixa no peito", diagonal: "com faixa diagonal" }[kit.padrao];
+  return `${unicas.join(" e ")}${padrao ? `, ${padrao}` : ""}`;
+}
+function nomeDaCor(hex) {
+  const m = /^#?([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec(hex || "");
+  if (!m) return "sem cor";
+  const [r, g, b] = m.slice(1).map((x) => parseInt(x, 16) / 255);
+  const max = Math.max(r, g, b), min = Math.min(r, g, b), l = (max + min) / 2, d = max - min;
+  if (d < 0.12) return l > 0.8 ? "branca" : l < 0.22 ? "preta" : "cinza";
+  let h = max === r ? ((g - b) / d) % 6 : max === g ? (b - r) / d + 2 : (r - g) / d + 4;
+  h = (h * 60 + 360) % 360;
+  if (h < 15 || h >= 340) return l < 0.3 ? "vinho" : "vermelha";
+  if (h < 45) return l < 0.35 ? "marrom" : "laranja";
+  if (h < 70) return l < 0.4 ? "dourada" : "amarela";
+  if (h < 170) return "verde";
+  if (h < 200) return "azul-clara";
+  if (h < 260) return l < 0.3 ? "azul-marinho" : "azul";
+  if (h < 300) return "roxa";
+  return "rosa";
+}
+
+// --- chutes ------------------------------------------------------------------
+
+function comparar(id) {
+  const c = cartaDoChute(id);
+  const alvo = J.alvo;
+  const overall = c.j.overall;
+  return {
+    id,
+    nome: c.j.nome,
+    carta: c,
+    clube: c.time.nome === alvo.time.nome,
+    pos: c.j.posicao === alvo.j.posicao,
+    // ausencia nunca e zero: chute sem nota nao compara overall
+    overall: overall === null ? null : overall === alvo.j.overall ? "=" : alvo.j.overall > overall ? "sobe" : "desce",
+    certo: id === alvo.j.player_id,
+  };
+}
+
+function linhaDoChute(ch) {
+  const li = el("li", `chute ${ch.certo ? "chute-certo" : ""}`);
+  li.append(el("span", "chute-nome", ch.nome));
+  const sub = el("span", "chute-sub", `${ch.carta.time.nome} · ${ch.carta.ano}`);
+  li.append(sub);
+  if (!ch.certo) {
+    const selos = el("span", "chute-selos");
+    const selo = (ok, texto, titulo) => {
+      const s = el("span", `selo ${ok === null ? "selo-nulo" : ok ? "selo-sim" : "selo-nao"}`, texto);
+      s.title = titulo;
+      return s;
+    };
+    selos.append(
+      selo(ch.clube, `${ch.clube ? "✅" : "❌"} Clube`, ch.clube ? "Mesmo clube" : "Outro clube"),
+      selo(ch.pos, `${ch.pos ? "✅" : "❌"} Posição`, ch.pos ? "Mesma posição" : "Outra posição"),
+      ch.overall === null
+        ? selo(null, "— OVR", "Esse chute não tem nota nessa temporada")
+        : selo(ch.overall === "=", `${ch.overall === "sobe" ? "⬆️" : ch.overall === "desce" ? "⬇️" : "✅"} OVR`,
+          ch.overall === "sobe" ? "O certo tem overall maior" : ch.overall === "desce" ? "O certo tem overall menor" : "Mesmo overall"),
+    );
+    li.append(selos);
+  }
+  return li;
+}
+
+function chutar(id) {
+  if (J.fim || J.chutes.some((c) => c.id === id)) return;
+  const ch = comparar(id);
+  J.chutes.push(ch);
+  evento(`quem/${J.diario ? "diario-" : ""}chute-${J.chutes.length}`);
+  $("busca").value = "";
+  fecharSugestoes();
+  if (ch.certo) return terminar("acertou");
+  if (J.chutes.length >= CHUTES) return terminar("errou");
+  $("aviso").textContent = `Não é ${ch.nome}. Nova dica: ${DICAS[J.chutes.length].toLowerCase()}.`;
+  desenhar();
+  $("busca").focus();
+}
+
+// --- busca com autocompletar -------------------------------------------------
+
+let sugestoes = [];
+let destaque = -1;
+
+function buscar(termo) {
+  if (normalizarBusca(termo).trim().length < 2) return [];
+  const ja = new Set(J.chutes.map((c) => c.id));
+  const n = normalizarBusca(termo).trim();
+  return J.opcoes
+    .filter((o) => !ja.has(o.id) && casaComBusca(o, termo))
+    // quem comeca com o termo vem antes
+    .sort((a, b) => Number(!normalizarBusca(a.nome).startsWith(n)) - Number(!normalizarBusca(b.nome).startsWith(n)))
+    .slice(0, 8);
+}
+
+function mostrarSugestoes() {
+  sugestoes = buscar($("busca").value);
+  destaque = sugestoes.length ? 0 : -1;
+  const ul = $("sugestoes");
+  ul.replaceChildren();
+  sugestoes.forEach((o, i) => {
+    const li = el("li", "sugestao");
+    li.id = `sug-${i}`;
+    li.setAttribute("role", "option");
+    const nome = el("b", null, o.nome);
+    // nome curto abreviado demais ("J. P. B. d. O. Lo"): o completo ajuda a reconhecer
+    if (o.nome_completo && normalizarBusca(o.nome_completo) !== normalizarBusca(o.nome)) nome.append(el("span", "completo", ` · ${o.nome_completo}`));
+    li.append(nome, el("small", null, o.detalhe));
+    // pointerdown antes do blur do campo, senao a lista fecha antes do clique
+    li.addEventListener("pointerdown", (e) => { e.preventDefault(); chutar(o.id); });
+    ul.append(li);
+  });
+  const vazio = $("busca").value.trim().length >= 2 && !sugestoes.length;
+  $("sem-sugestao").hidden = !vazio;
+  ul.hidden = !sugestoes.length;
+  $("busca").setAttribute("aria-expanded", String(!!sugestoes.length));
+  marcarDestaque();
+}
+function marcarDestaque() {
+  [...$("sugestoes").children].forEach((li, i) => li.setAttribute("aria-selected", String(i === destaque)));
+  $("busca").setAttribute("aria-activedescendant", destaque >= 0 ? `sug-${destaque}` : "");
+}
+function fecharSugestoes() {
+  sugestoes = [];
+  destaque = -1;
+  $("sugestoes").hidden = true;
+  $("sugestoes").replaceChildren();
+  $("sem-sugestao").hidden = true;
+  $("busca").setAttribute("aria-expanded", "false");
+}
+
+// --- telas -------------------------------------------------------------------
+
+function mostrarTela(id) {
+  for (const t of document.querySelectorAll(".quem .tela")) t.hidden = t.id !== id;
+}
+
+function desenhar() {
+  $("carta-misterio").replaceChildren(cartaMisteriosa());
+  listaDeDicas();
+  const lista = $("chutes");
+  lista.replaceChildren(...J.chutes.map(linhaDoChute));
+  const faltam = CHUTES - J.chutes.length;
+  $("contador").textContent = J.fim ? "" : `Chute ${J.chutes.length + 1} de ${CHUTES}`;
+  $("contador").dataset.ultimo = String(faltam === 1);
+  $("modo").textContent = J.diario ? `Desafio #${J.diario.numero}` : "Partida livre";
+}
+
+function comecar({ diario = false } = {}) {
+  J.chutes = [];
+  J.fim = null;
+  if (diario) {
+    const feito = diarioDeHoje();
+    if (feito) return reverDiario(feito);
+    J.diario = { data: hojeLocal(), numero: numeroDoDesafio(hojeLocal()) };
+    J.alvo = alvoDoDia(J.diario.data);
+  } else {
+    J.diario = null;
+    J.alvo = alvoLivre();
+  }
+  evento(diario ? "quem/diario" : "quem/inicio");
+  $("aviso").textContent = "";
+  mostrarTela("tela-jogo");
+  desenhar();
+  $("busca").value = "";
+  $("busca").focus({ preventScroll: true });
+}
+
+function grade() {
+  const q = J.chutes.map((c) => (c.certo ? "🟩" : c.clube && c.pos ? "🟨" : "🟥"));
+  while (q.length < CHUTES) q.push("⬜");
+  return q.join("");
+}
+
+function terminar(como, { revisao = false } = {}) {
+  J.fim = como;
+  const n = J.chutes.length;
+  const { j, time, ano } = J.alvo;
+  if (!revisao) evento(`quem/${J.diario ? "diario-" : ""}${como}-${n}`);
+  fecharSugestoes();
+  $("aviso").textContent = "";
+
+  const carta = cartaDoJogador(j, time, J.alvo.r, { estatica: true });
+  carta.classList.add("revelando");
+  $("fim-carta").replaceChildren(carta);
+  $("fim-titulo").textContent = como === "acertou"
+    ? (n === 1 ? "De primeira! Tá em casa." : `Acertou no ${n}º chute.`)
+    : "Não foi dessa vez.";
+  $("fim-texto").textContent = `${j.nome_completo || j.nome}, ${time.nome}, Brasileirão ${ano}. Overall ${j.overall}.`;
+  $("fim-grade").textContent = grade();
+  $("fim-chutes").replaceChildren(...J.chutes.map(linhaDoChute));
+
+  const serie = lerSerie();
+  if (!revisao) {
+    if (como === "acertou") serie.atual += 1; else serie.atual = 0;
+    serie.melhor = Math.max(serie.melhor, serie.atual);
+    try { localStorage.setItem(CHAVE_SERIE, JSON.stringify(serie)); } catch { /* ok */ }
+  }
+  $("fim-serie").textContent = serie.atual > 1 ? `${serie.atual} acertos seguidos (seu melhor: ${serie.melhor}).` : serie.melhor > 1 ? `Seu melhor: ${serie.melhor} seguidos.` : "";
+
+  const link = "temdadoemcasa.github.io/quem-ta-em-casa.html";
+  const placar = como === "acertou" ? `${n}/${CHUTES}` : `X/${CHUTES}`;
+  if (J.diario) {
+    if (!revisao) try {
+      localStorage.setItem(CHAVE_DIARIO, JSON.stringify({
+        data: J.diario.data, numero: J.diario.numero, como, ano, id: j.player_id, chutes: J.chutes.map((c) => c.id),
+      }));
+    } catch { /* ok */ }
+    J.textoCompartilhar = `Quem Tá em Casa? · Desafio #${J.diario.numero} · ${placar}\n${grade()}\n${link}#desafio`;
+    $("fim-diario").textContent = `Desafio #${J.diario.numero}. O próximo sai amanhã.`;
+  } else {
+    J.textoCompartilhar = `Quem Tá em Casa? · ${placar}\n${grade()}\n${link}`;
+    $("fim-diario").textContent = "";
+  }
+  $("compartilhar").textContent = "Compartilhar resultado";
+  $("de-novo").textContent = J.diario ? "Jogar partida livre" : "Jogar de novo";
+  mostrarTela("tela-fim");
+  $("fim-titulo").focus({ preventScroll: true });
+  window.scrollTo({ top: 0, behavior: "auto" });
+}
+
+// desafio de hoje ja jogado: so mostra o resultado, sem jogar de novo
+function reverDiario(feito) {
+  const cartas = J.cartasDe.get(feito.id) || [];
+  const c = cartas.find((x) => x.ano === feito.ano);
+  const r = J.retratos.find((x) => x.temporada === feito.ano);
+  if (!c || !r) { try { localStorage.removeItem(CHAVE_DIARIO); } catch { /* ok */ } return comecar({ diario: true }); }
+  J.diario = { data: feito.data, numero: feito.numero };
+  J.alvo = { ano: c.ano, j: c.j, time: c.time, r };
+  J.chutes = feito.chutes.filter((id) => J.cartasDe.has(id)).map(comparar);
+  // rever nao conta de novo na serie nem no contador
+  terminar(feito.como, { revisao: true });
+  $("fim-serie").textContent = "";
+}
+
+function atualizarBotaoDiario() {
+  const feito = diarioDeHoje();
+  const numero = numeroDoDesafio(hojeLocal());
+  $("diario").querySelector("small").textContent = feito
+    ? `#${feito.numero} feito: ${feito.como === "acertou" ? `${feito.chutes.length}/${CHUTES}` : `X/${CHUTES}`}. Ver resultado.`
+    : `#${numero} · o mesmo jogador pra todo mundo hoje`;
+}
+
+async function iniciarQuem() {
+  const [uniformes, anos] = await Promise.all([
+    json("dados/uniformes.json").catch(() => ({})),
+    json("dados/temporadas.json"),
+  ]);
+  UNIFORMES = uniformes;
+  J.retratos = await Promise.all(anos.map((a) => retrato(String(a))));
+  indexarJogadores();
+  $("carregando").hidden = true;
+  $("form-inicio").hidden = false;
+  atualizarBotaoDiario();
+
+  $("diario").addEventListener("click", () => comecar({ diario: true }));
+  $("livre").addEventListener("click", () => comecar());
+  $("de-novo").addEventListener("click", () => { atualizarBotaoDiario(); comecar(); });
+  $("voltar").addEventListener("click", () => { atualizarBotaoDiario(); mostrarTela("tela-inicio"); });
+  $("desistir").addEventListener("click", () => { if (!J.fim) terminar("desistiu"); });
+  $("compartilhar").addEventListener("click", async () => {
+    const texto = J.textoCompartilhar;
+    try {
+      if (navigator.share) { await navigator.share({ text: texto }); return; }
+      await navigator.clipboard.writeText(texto);
+      $("compartilhar").textContent = "Copiado!";
+    } catch { /* cancelou */ }
+  });
+
+  const busca = $("busca");
+  busca.addEventListener("input", mostrarSugestoes);
+  // no celular o teclado cobre metade da tela: sobe o campo pra lista caber embaixo
+  busca.addEventListener("click", () => {
+    if (matchMedia("(max-width: 760px)").matches) setTimeout(() => busca.parentElement.scrollIntoView({ block: "start", behavior: "smooth" }), 250);
+  });
+  busca.addEventListener("blur", () => setTimeout(fecharSugestoes, 120));
+  busca.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowDown" && sugestoes.length) { e.preventDefault(); destaque = (destaque + 1) % sugestoes.length; marcarDestaque(); }
+    else if (e.key === "ArrowUp" && sugestoes.length) { e.preventDefault(); destaque = (destaque - 1 + sugestoes.length) % sugestoes.length; marcarDestaque(); }
+    else if (e.key === "Enter") { e.preventDefault(); if (destaque >= 0) chutar(sugestoes[destaque].id); }
+    else if (e.key === "Escape") fecharSugestoes();
+  });
+
+  if (location.hash === "#desafio") $("diario").focus({ preventScroll: true });
+}
+
+iniciarQuem().catch((erro) => {
+  $("carregando").textContent = "Não deu pra carregar as cartas agora. Tenta recarregar a página.";
+  console.error(erro);
+});

@@ -16,6 +16,7 @@ base bruta do Sofascore nem ratings do EA.
 | `index.html` | home: topo (seleção), vídeos, cartas, "de onde vem" |
 | `app.js` | lógica da home e peças comuns (carta, camisa, níveis, envelope); texto dos dados entra por `textContent`, nunca `innerHTML` |
 | `tem-time-em-casa.html`, `draft.js`, `draft.css` | minigame Draft: monta o time com figurinhas e joga a temporada 2026 |
+| `quem-ta-em-casa.html`, `quem-ta.js`, `quem-ta.css` | minigame Quem Tá em Casa?: adivinha o jogador pela carta, 6 chutes, desafio do dia |
 | `motor.js` | simulação de jogos e temporada, sem DOM (roda no navegador e no node) |
 | `dados/competicoes-2026.json` | regulamento e calendário (Brasileirão, Copa do Brasil, Libertadores, Sul-Americana) e força **estimada** dos estrangeiros; editado à mão |
 | `estilo.css` | tokens em `:root`, tema escuro |
@@ -132,3 +133,14 @@ Cada jogador pode trazer `numeros`, com o total da temporada no Brasileirão. To
 ```
 
 Na carta, o rodapé troca os minutos pelos dois números da função do jogador: gols e assistências (centroavante, ponta, meia e meio-campo), desarmes e % de passes certos (volante), desarmes e assistências (lateral), desarmes e interceptações (zagueiro), jogos sem sofrer gol e defesas (goleiro). Na ficha aparecem todos os que vierem. São totais calculados, nunca a base bruta.
+
+## Quem Tá em Casa? (`quem-ta-em-casa.html`)
+
+Uma carta misteriosa e 6 chutes. Usa só as cartas de `dados/overalls-{ano}.json`: nenhum número novo.
+
+- **Sorteio:** carta com nota calculada e 1.500 minutos ou mais na temporada (menos que isso sorteia reserva).
+- **Dicas, uma por erro:** ano e posição (desde o início) → 2 maiores atributos → o resto → overall → camisa e jogos → cores da camisa do clube (sem escudo).
+- **Cada chute errado** compara com o certo: mesmo clube, mesma posição, overall maior ou menor. Chute sem nota naquela temporada mostra "— OVR", nunca seta: ausência não é zero.
+- **Vale o jogador**, em qualquer temporada. A carta do chute usada na comparação é a do mesmo ano do alvo, se existir; senão a mais nova.
+- **Desafio do dia:** só sorteia temporada fechada (`ANOS_DO_DESAFIO`, hoje 2024 e 2025), porque o retrato da temporada em andamento muda toda semana e o jogador do dia mudaria junto. O pool é embaralhado uma vez com semente fixa e o desafio N pega a posição N: não repete até passar por todos. Uma tentativa por dia (`localStorage`); compartilhar sai em quadradinhos (🟩 acertou, 🟨 mesmo clube e posição, 🟥 errou, ⬜ não usou).
+- **Testes:** `node testes/rodar.mjs quem-ta`.

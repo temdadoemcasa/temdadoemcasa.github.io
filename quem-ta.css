@@ -1,0 +1,107 @@
+/* Quem Tá em Casa?: adivinhe o jogador pela carta. Ciano de lupa, o resto e o site. */
+.quem { --quem: #4cc9f0; --quem-texto: #4cc9f0; --certa: #3ddc84; --errada: #ff4d6d; --perto: #f2c230; padding-bottom: 3rem; }
+:root[data-tema="claro"] .quem { --quem-texto: #0a6f8f; --certa: #13894a; --errada: #d42a4a; --perto: #8a6a00; }
+.quem .tela { border-top: 0; padding-top: clamp(1rem, 3vw, 2rem); }
+.quem h1 { font-family: var(--numeros); text-transform: uppercase; font-size: clamp(2.2rem, 6vw, 3.6rem); line-height: 1; letter-spacing: 0; max-width: none; }
+.quem .hero-sobretitulo { color: var(--quem-texto); margin-bottom: 0.4rem; }
+.quem .botao-primario { background: var(--quem); border-color: var(--quem); color: #111; }
+.quem .botao-primario:hover { filter: brightness(1.06); border-color: var(--quem); }
+.botao-grande { padding: 0.9rem 2rem; font-size: 1.05rem; }
+
+/* --- inicio --- */
+.quem .inicio { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: clamp(1.5rem, 5vw, 4rem); align-items: center; }
+.quem .inicio-regras { color: var(--texto-fraco); max-width: 54ch; margin: 1rem 0 1.4rem; font-size: 1.02rem; }
+.quem .inicio-regras b { color: var(--texto); }
+.quem .inicio-form { display: grid; gap: 0.7rem; max-width: 26rem; }
+.quem .inicio-nota { margin: 1.2rem 0 0; font-size: 0.85rem; color: var(--texto-fraco); max-width: 54ch; }
+.quem .carregando { color: var(--texto-fraco); }
+.botao-diario { display: grid; gap: 0.15rem; text-align: left; }
+.botao-diario small { font-weight: 600; font-size: 0.8rem; opacity: 0.8; }
+.quem .inicio-carta { width: min(240px, 60vw); justify-self: center; }
+@media (max-width: 760px) {
+  .quem .inicio { grid-template-columns: 1fr; }
+  .quem .inicio-palco { order: -1; }
+  .quem .inicio-carta { width: min(105px, 30vw); }
+  .quem .inicio-form { max-width: none; }
+}
+
+/* --- mesa: carta a esquerda, chutes a direita --- */
+.quem .mesa { display: grid; grid-template-columns: minmax(220px, 300px) minmax(0, 1fr); gap: clamp(1rem, 4vw, 2.5rem); align-items: start; }
+.mesa-carta { position: sticky; top: 5rem; }
+.carta-misterio-caixa { width: 100%; }
+.mesa-jogo { display: grid; gap: 0.9rem; min-width: 0; }
+.jogo-cabeca { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; }
+.modo { font-family: var(--numeros); font-weight: 800; font-size: 1.4rem; text-transform: uppercase; }
+.contador { padding: 0.15rem 0.7rem; border-radius: 999px; font-size: 0.8rem; font-weight: 700; border: 1px solid var(--quem); color: var(--quem-texto); }
+.contador[data-ultimo="true"] { background: var(--errada); border-color: var(--errada); color: #fff; }
+
+.busca-caixa { position: relative; display: grid; gap: 0.35rem; }
+.busca-caixa .rotulo { font-size: 0.8rem; color: var(--texto-fraco); }
+/* 16px no minimo: menos que isso o iPhone da zoom ao tocar */
+.busca-caixa input { font-size: 1.05rem; padding: 0.8rem 1rem; border-radius: 12px; border: 1px solid color-mix(in srgb, var(--quem) 55%, var(--borda)); }
+.busca-caixa input:focus { outline: 2px solid var(--quem); outline-offset: 1px; }
+.sugestoes {
+  position: absolute; z-index: 5; top: 100%; left: 0; right: 0; margin: 0.3rem 0 0; padding: 0.3rem; list-style: none;
+  border-radius: 12px; border: 1px solid var(--borda); background: var(--fundo-cartao); box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+  max-height: min(22rem, 55vh); overflow-y: auto;
+}
+.sugestao { display: grid; gap: 0.1rem; padding: 0.6rem 0.8rem; min-height: 44px; border-radius: 8px; cursor: pointer; }
+.sugestao small { color: var(--texto-fraco); font-size: 0.8rem; }
+.sugestao[aria-selected="true"] { background: color-mix(in srgb, var(--quem) 16%, var(--fundo-cartao)); }
+@media (hover: hover) { .sugestao:hover { background: color-mix(in srgb, var(--quem) 16%, var(--fundo-cartao)); } }
+.sugestao b small, .sugestao .completo { font-weight: 500; color: var(--texto-fraco); }
+.sem-sugestao { margin: 0; font-size: 0.85rem; color: var(--texto-fraco); }
+.aviso { margin: 0; min-height: 1.4em; font-weight: 700; }
+
+.chutes { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
+.chute {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0.2rem 0.8rem; align-items: center;
+  padding: 0.6rem 0.9rem; border-radius: 12px; border: 1px solid var(--borda); background: var(--fundo-cartao);
+  border-left: 4px solid var(--errada); animation: subir 0.22s ease both;
+}
+.chute-certo { border-left-color: var(--certa); background: color-mix(in srgb, var(--certa) 14%, var(--fundo-cartao)); }
+.chute-nome { font-weight: 700; }
+.chute-sub { grid-column: 1; font-size: 0.8rem; color: var(--texto-fraco); }
+.chute-selos { grid-column: 2; grid-row: 1 / span 2; display: flex; flex-wrap: wrap; gap: 0.35rem; justify-content: flex-end; }
+.selo { padding: 0.2rem 0.5rem; border-radius: 999px; font-size: 0.78rem; font-weight: 700; border: 1px solid var(--borda); white-space: nowrap; }
+.selo-sim { border-color: var(--certa); color: var(--certa); }
+.selo-nao { color: var(--texto-fraco); }
+.selo-nulo { color: var(--texto-fraco); opacity: 0.7; }
+@media (max-width: 520px) {
+  .chute { grid-template-columns: 1fr; }
+  .chute-selos { grid-column: 1; grid-row: auto; justify-content: flex-start; }
+}
+
+.dicas-caixa summary { cursor: pointer; font-weight: 700; color: var(--quem-texto); min-height: 44px; display: flex; align-items: center; }
+.dicas { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.35rem; counter-reset: dica; }
+.dicas li { counter-increment: dica; display: grid; grid-template-columns: 1.6rem minmax(0, 1fr); gap: 0 0.6rem; padding: 0.45rem 0.7rem; border-radius: 10px; border: 1px solid var(--borda); }
+.dicas li::before { content: counter(dica); grid-row: 1 / span 2; display: grid; place-items: center; width: 1.6rem; height: 1.6rem; border-radius: 50%; font-family: var(--numeros); font-weight: 800; background: var(--fundo-alto); color: var(--quem-texto); }
+.dicas li.aberta { border-color: color-mix(in srgb, var(--quem) 45%, var(--borda)); }
+.dicas li.aberta::before { background: var(--quem); color: #111; }
+.dica-titulo { font-size: 0.78rem; color: var(--texto-fraco); }
+.dica-valor { font-weight: 700; }
+.dicas li.fechada .dica-valor { font-weight: 600; color: var(--texto-fraco); font-size: 0.85rem; }
+.botao-discreto { justify-self: start; background: transparent; color: var(--texto-fraco); }
+
+@media (max-width: 760px) {
+  .quem .mesa { grid-template-columns: 1fr; }
+  .mesa-carta { position: static; }
+  .carta-misterio-caixa { width: min(165px, 44vw); margin: 0 auto; }
+  .busca-caixa { scroll-margin-top: 6.5rem; }
+}
+
+/* --- fim --- */
+.quem .fim { display: grid; grid-template-columns: minmax(200px, 280px) minmax(0, 1fr); gap: clamp(1rem, 4vw, 2.5rem); align-items: start; }
+.quem .fim h2 { margin: 0 0 0.5rem; font-family: var(--numeros); text-transform: uppercase; font-size: clamp(1.8rem, 5vw, 2.6rem); line-height: 1.05; }
+.quem .fim h2:focus { outline: none; }
+.fim-textos { display: grid; gap: 0.7rem; min-width: 0; }
+.fim-textos p { margin: 0; }
+.fim-grade { margin: 0; font-size: 1.6rem; letter-spacing: 0.1em; font-family: inherit; }
+.fim-serie, .fim-diario { color: var(--texto-fraco); }
+.confirmar-botoes { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+@media (max-width: 760px) {
+  .quem .fim { grid-template-columns: 1fr; }
+  .fim-carta { width: min(210px, 56vw); margin: 0 auto; }
+}
+@keyframes subir { from { opacity: 0; transform: translateY(6px); } }
+@media (prefers-reduced-motion: reduce) { .chute { animation: none; } }

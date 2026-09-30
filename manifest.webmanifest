@@ -1,7 +1,7 @@
 {
   "name": "Tem dado em casa",
   "short_name": "Tem dado",
-  "description": "Resenha futebolística com dados: Show do Dadão, Tem Time em Casa e Prata da Casa.",
+  "description": "Resenha futebolística com dados: Show do Dadão, Quem Tá em Casa?, Tem Time em Casa e Prata da Casa.",
   "lang": "pt-BR",
   "start_url": "./?origem=app",
   "scope": "./",
@@ -16,6 +16,7 @@
   "shortcuts": [
     { "name": "Show do Dadão", "url": "./show-do-dadao.html", "icons": [{ "src": "img/icone-192.png", "sizes": "192x192" }] },
     { "name": "Desafio do dia", "url": "./show-do-dadao.html#desafio", "icons": [{ "src": "img/icone-192.png", "sizes": "192x192" }] },
+    { "name": "Quem Tá em Casa?", "url": "./quem-ta-em-casa.html#desafio", "icons": [{ "src": "img/icone-192.png", "sizes": "192x192" }] },
     { "name": "Tem Time em Casa", "url": "./tem-time-em-casa.html", "icons": [{ "src": "img/icone-192.png", "sizes": "192x192" }] },
     { "name": "Prata da Casa", "url": "./prata-da-casa.html", "icons": [{ "src": "img/icone-192.png", "sizes": "192x192" }] }
   ]

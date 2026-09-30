@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quem Tá em Casa? · Tem dado em casa</title>
+  <meta name="description" content="Adivinhe o jogador do Brasileirão pela carta: 6 chutes, e cada erro libera uma dica. Desafio do dia com o mesmo jogador pra todo mundo.">
+  <meta property="og:title" content="Quem Tá em Casa? · Tem dado em casa">
+  <meta property="og:description" content="Uma carta misteriosa, 6 chutes. Cada erro libera uma dica. Você acerta quem tá em casa?">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://temdadoemcasa.github.io/quem-ta-em-casa.html">
+  <meta property="og:image" content="https://temdadoemcasa.github.io/img/og-quem-ta.png?v=2026-10-01">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Quem Tá em Casa?: adivinhe o jogador pela carta">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#0b0b0c">
+  <link rel="icon" type="image/svg+xml" href="img/simbolo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script src="tema.js?v=2026-09-27j"></script>
+  <link rel="stylesheet" href="estilo.css?v=2026-10-01quem">
+  <link rel="stylesheet" href="quem-ta.css?v=2026-10-01">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+</head>
+<body>
+  <header class="topo">
+    <a class="marca" href="index.html">
+      <img class="avatar" src="img/simbolo.svg" alt="" width="36" height="36">
+      <span class="marca-nome">Tem dado em casa</span>
+    </a>
+    <nav class="menu" aria-label="Seções">
+      <a href="index.html#overalls">Cartas</a>
+      <a href="show-do-dadao.html">Show do Dadão</a>
+      <a href="quem-ta-em-casa.html" aria-current="page">Quem Tá em Casa?</a>
+      <a href="tem-time-em-casa.html">Tem Time em Casa</a>
+      <a href="prata-da-casa.html">Prata da Casa</a>
+    </nav>
+  </header>
+
+  <main class="quem">
+    <!-- 1. inicio -->
+    <section class="tela" id="tela-inicio" aria-labelledby="t-inicio">
+      <div class="inicio">
+        <div class="inicio-textos">
+          <p class="hero-sobretitulo">Minigame · adivinhe o jogador</p>
+          <h1 id="t-inicio">Quem Tá em Casa?</h1>
+          <p class="inicio-regras">Uma carta misteriosa do Brasileirão e <b>6 chutes</b>. Cada erro libera uma dica, da mais vaga pra mais entregue, e mostra se o seu chute é do mesmo clube, da mesma posição e se o overall do certo é maior ou menor. Vale acertar o jogador, não o ano.</p>
+          <p class="carregando" id="carregando">Carregando as cartas...</p>
+          <div class="inicio-form" id="form-inicio" hidden>
+            <button class="botao botao-primario botao-grande botao-diario" id="diario" type="button"><b>Desafio do dia</b><small></small></button>
+            <button class="botao" id="livre" type="button">Partida livre</button>
+          </div>
+          <p class="inicio-nota">Só entra no sorteio quem jogou 1.500 minutos ou mais na temporada. As cartas são as do site, calculadas dos jogos.</p>
+        </div>
+        <div class="inicio-palco" aria-hidden="true">
+          <div class="inicio-carta"><article class="carta nivel-misterio carta-misterio"><svg class="carta-telhado" viewBox="0 0 100 30"><path d="M4 26.5 L50 3.5 L96 26.5" class="carta-telhado-traco"/><text x="50" y="21.5" text-anchor="middle" class="carta-telhado-nivel">Quem tá em casa?</text></svg><div class="carta-corpo"><div class="interrogacao">?</div></div></article></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. o jogo -->
+    <section class="tela" id="tela-jogo" aria-label="Partida" hidden>
+      <div class="mesa">
+        <div class="mesa-carta">
+          <div class="carta-misterio-caixa" id="carta-misterio"></div>
+        </div>
+        <div class="mesa-jogo">
+          <div class="jogo-cabeca">
+            <span class="modo" id="modo"></span>
+            <span class="contador" id="contador"></span>
+          </div>
+          <div class="busca-caixa">
+            <label for="busca" class="rotulo">Quem é?</label>
+            <input id="busca" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Digite o nome do jogador"
+              role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="sugestoes">
+            <ul class="sugestoes" id="sugestoes" role="listbox" hidden></ul>
+            <p class="sem-sugestao" id="sem-sugestao" hidden>Nenhum jogador com esse nome nas cartas de 2024 a 2026.</p>
+          </div>
+          <p class="aviso" id="aviso" aria-live="polite"></p>
+          <ol class="chutes" id="chutes" aria-label="Seus chutes"></ol>
+          <details class="dicas-caixa" open>
+            <summary>Dicas</summary>
+            <ol class="dicas" id="dicas"></ol>
+          </details>
+          <button class="botao botao-discreto" id="desistir" type="button">Desistir e ver quem é</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. fim -->
+    <section class="tela" id="tela-fim" aria-labelledby="fim-titulo" hidden>
+      <div class="fim">
+        <div class="fim-carta" id="fim-carta"></div>
+        <div class="fim-textos">
+          <h2 id="fim-titulo" tabindex="-1"></h2>
+          <p id="fim-texto"></p>
+          <pre class="fim-grade" id="fim-grade" aria-label="Resumo em quadradinhos"></pre>
+          <p class="fim-serie" id="fim-serie"></p>
+          <p class="fim-diario" id="fim-diario"></p>
+          <div class="confirmar-botoes">
+            <button class="botao botao-primario" id="compartilhar" type="button">Compartilhar resultado</button>
+            <button class="botao" id="de-novo" type="button">Jogar de novo</button>
+            <button class="botao" id="voltar" type="button">Início</button>
+          </div>
+          <ol class="chutes" id="fim-chutes" aria-label="Seus chutes"></ol>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <div class="rodape-linha">
+      <span class="rodape-marca">Tem dado em casa · resenha futebolística com dados</span>
+      <nav class="rodape-redes" aria-label="Redes do Tem dado em casa">
+        <a href="https://www.youtube.com/@temdadoemcasafc" target="_blank" rel="noopener">YouTube</a>
+        <a href="https://www.instagram.com/temdadoemcasafc/" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://www.tiktok.com/@temdadoemcasafc" target="_blank" rel="noopener">TikTok</a>
+      </nav>
+    </div>
+    <p class="rodape-autor">Site, dados e minigames feitos por <a href="https://www.linkedin.com/in/breno-sayao/" target="_blank" rel="noopener">Breno Sayão</a>, engenheiro de dados · <a href="https://www.linkedin.com/in/breno-sayao/" target="_blank" rel="noopener">LinkedIn</a></p>
+  </footer>
+
+  <script src="app.js?v=2026-09-30pwa"></script>
+  <script src="quem-ta.js?v=2026-10-01"></script>
+  <script data-goatcounter="https://temdadoemcasa.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>
