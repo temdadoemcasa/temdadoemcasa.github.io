@@ -745,3 +745,9 @@
 }
 @media (prefers-reduced-motion: reduce) { .festa-raios, .taca-festa, .festa-cena { animation: none; } }
 .temporada-base { margin: -0.3rem 0 0.6rem; font-size: 0.78rem; color: var(--texto-fraco); }
+
+/* faixa do atributo: alvo de toque de 28px no celular (o desenho continua o mesmo) */
+@media (pointer: coarse) {
+  .atributo-faixa, .atributo-faixa::-webkit-slider-runnable-track { height: 1.75rem; }
+  .atributo-faixa::-webkit-slider-thumb { margin-top: 0.42rem; }
+}

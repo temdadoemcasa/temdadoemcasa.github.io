@@ -1151,3 +1151,10 @@ select, input {
   .abertura .jogos .quiz-escada-coluna { width: clamp(150px, 14vw, 180px); }
   .abertura .jogos .quiz-vitrine-carta { width: clamp(90px, 8vw, 112px); }
 }
+
+/* area de toque do menu: 20px de altura era pouco pro dedo. O padding aumenta o alvo
+   e a margem negativa devolve o espaco, entao o layout nao muda */
+.menu { margin-block: -6px; }
+.menu a { padding-block: 6px; }
+/* iPhone da zoom ao tocar em campo com letra < 16px */
+@media (max-width: 760px) { select, textarea, input[type="text"], input[type="number"], input[type="search"] { font-size: max(16px, 1em); } }

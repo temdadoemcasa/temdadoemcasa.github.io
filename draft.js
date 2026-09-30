@@ -2023,9 +2023,9 @@ function ligarDificuldadeEDesafio() {
 }
 
 async function iniciarDraft() {
-  UNIFORMES = await json("dados/uniformes.json").catch(() => ({}));
-  const [r, regras, elencos] = await Promise.all([retrato("2026"), json("dados/competicoes-2026.json"),
-    json("dados/elencos-fora.json").catch(() => ({}))]);
+  const [uniformes, r, regras, elencos] = await Promise.all([json("dados/uniformes.json").catch(() => ({})),
+    retrato("2026"), json("dados/competicoes-2026.json"), json("dados/elencos-fora.json").catch(() => ({}))]);
+  UNIFORMES = uniformes;
   Motor.ELENCOS = elencos.times || {};
   D.r = r;
   D.regras = regras;

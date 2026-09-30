@@ -8,7 +8,10 @@ const rodarTemporada = async (escolher = () => 0) => {
     await p.waitForFunction(() => !document.getElementById('proxima').hidden || document.querySelector('.evento-opcao:not([disabled])'), null, { timeout: 30000 });
     if (!(await p.evaluate(() => document.getElementById('proxima').hidden))) break;
     const ops = p.locator('.evento-opcao:not([disabled])');
-    await ops.nth(escolher(await ops.count())).click(); n++;
+    // rolagem suave as vezes deixa o Playwright achando que o botao 'mexe': forca depois de 5 s
+    const alvo = ops.nth(escolher(await ops.count()));
+    await alvo.click({ timeout: 5000 }).catch(() => alvo.click({ force: true }));
+    n++;
   }
   return n;
 };
@@ -33,7 +36,7 @@ for (let ano = 0; ano < 30; ano++) {
     if (await pedir.count() && Math.random() < 0.5) { await pedir.click(); pedidos++; }
     if (!(await p.locator('#proxima').isEnabled())) {
       const assinar = p.locator('#mercado .proposta .botao-primario:not([disabled])').first();
-      if (await assinar.count()) { await assinar.click(); trocas++; } else await p.locator('#mercado .proposta-ficar .botao').click();
+      if (await assinar.count()) { await assinar.click(); trocas++; } else await p.locator('#mercado .proposta-ficar .botao:not(.renova-opcao)').first().click();
     }
   } else {
     const botao = p.locator('#mercado .proposta-ficar .botao, #mercado > .botao-primario').first();

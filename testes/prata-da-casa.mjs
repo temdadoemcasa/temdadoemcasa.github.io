@@ -9,7 +9,10 @@ const rodarTemporada = async (escolher = () => 0) => {
     await p.waitForFunction(() => !document.getElementById('proxima').hidden || document.querySelector('.evento-opcao:not([disabled])'), null, { timeout: 30000 });
     if (!(await p.evaluate(() => document.getElementById('proxima').hidden))) break;
     const ops = p.locator('.evento-opcao:not([disabled])');
-    await ops.nth(escolher(await ops.count())).click(); n++;
+    // rolagem suave as vezes deixa o Playwright achando que o botao 'mexe': forca depois de 5 s
+    const alvo = ops.nth(escolher(await ops.count()));
+    await alvo.click({ timeout: 5000 }).catch(() => alvo.click({ force: true }));
+    n++;
   }
   return n;
 };

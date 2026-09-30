@@ -34,11 +34,19 @@ function guardarRecorde(d) { try { if (d > lerRecorde()) localStorage.setItem(CH
 
 // --- banco -------------------------------------------------------------------
 
+const rot13 = (s) => s.replace(/[a-z]/gi, (c) => {
+  const base = c <= "Z" ? 65 : 97;
+  return String.fromCharCode(((c.charCodeAt(0) - base + 13) % 26) + base);
+});
 function carregarBanco() {
-  const chave = new TextEncoder().encode("temdadoemcasa");
-  const bin = Uint8Array.from(atob(PERGUNTAS_CODIFICADAS), (c) => c.charCodeAt(0));
-  for (let i = 0; i < bin.length; i++) bin[i] ^= chave[i % chave.length];
-  const todas = JSON.parse(new TextDecoder().decode(bin));
+  let todas;
+  if (typeof PERGUNTAS_ROT13 !== "undefined") todas = JSON.parse(rot13(PERGUNTAS_ROT13));
+  else { // formato antigo (XOR + base64)
+    const chave = new TextEncoder().encode("temdadoemcasa");
+    const bin = Uint8Array.from(atob(PERGUNTAS_CODIFICADAS), (c) => c.charCodeAt(0));
+    for (let i = 0; i < bin.length; i++) bin[i] ^= chave[i % chave.length];
+    todas = JSON.parse(new TextDecoder().decode(bin));
+  }
   const banco = { f: [], m: [], d: [], p: [] };
   for (const p of todas) banco[p.n].push(p);
   return banco;

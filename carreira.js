@@ -4063,12 +4063,13 @@ function criarJogador() {
 }
 
 async function iniciarCarreiraPagina() {
-  UNIFORMES = await json("dados/uniformes.json").catch(() => ({}));
-  await Escudos.carregar();
-  Motor.ELENCOS = (await json("dados/elencos-fora.json").catch(() => ({}))).times || {};
-  const [r, regras, exterior, inferiores] = await Promise.all([
+  // tudo em paralelo: em fila eram 3 idas e voltas a mais antes de a tela ficar pronta
+  const [uniformes, , elencos, r, regras, exterior, inferiores] = await Promise.all([
+    json("dados/uniformes.json").catch(() => ({})), Escudos.carregar(), json("dados/elencos-fora.json").catch(() => ({})),
     retrato("2026"), json("dados/competicoes-2026.json"), json("dados/clubes-exterior.json"), json("dados/clubes-brasil-inferiores.json"),
   ]);
+  UNIFORMES = uniformes;
+  Motor.ELENCOS = elencos.times || {};
   C.r = r; C.regras = regras; C.exterior = exterior; C.inferiores = inferiores;
   estado.r = r;
   usarCortes(r);

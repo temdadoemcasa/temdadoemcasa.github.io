@@ -1,8 +1,10 @@
 """Banco de perguntas do Show do Dadão.
 
 A fonte legivel (perguntas.json) fica fora do site. O site so recebe
-dados/perguntas.js, com o JSON embaralhado (XOR + base64): nao e segredo,
-so evita que a resposta apareca de cara pra quem abrir o arquivo.
+dados/perguntas.js, com o JSON em rot13 (letras trocadas): nao e segredo,
+so evita que a resposta apareca de cara pra quem abrir o arquivo. Rot13 (e nao
+XOR + base64, o formato antigo) porque continua comprimindo bem no gzip do
+GitHub Pages: ~50 KB em vez de ~125 KB pro celular baixar.
 
     python3 scripts/perguntas.py codificar caminho/perguntas.json
     python3 scripts/perguntas.py decodificar caminho/saida.json
@@ -15,6 +17,7 @@ s: nota de dificuldade de 1 a 10 (f: 1-3, m: 4-6, d: 7-9, p: 10). O jogo puxa a 
    de cada numero pela nota: 1, 2, 3, 4, 4, 5, 5, 6, 7, 7, 8, 8, 9, 9, 9, 10.
 """
 import base64
+import codecs
 import json
 import sys
 from pathlib import Path
@@ -51,11 +54,11 @@ def codificar(fonte: Path):
     # id estavel pelo texto: o jogo lembra quais ja saiu (sem repetir tao cedo)
     for p in perguntas:
         p["id"] = format(abs(hash_estavel(p["q"])) % 16**8, "08x")
-    compacto = json.dumps(perguntas, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
-    texto = base64.b64encode(xor(compacto)).decode("ascii")
+    compacto = json.dumps(perguntas, ensure_ascii=False, separators=(",", ":"))
+    literal = json.dumps(codecs.encode(compacto, "rot13"), ensure_ascii=False)
     SAIDA.write_text(
         "// Gerado por scripts/perguntas.py. Nao edite a mao.\n"
-        f'const PERGUNTAS_CODIFICADAS = "{texto}";\n',
+        f"const PERGUNTAS_ROT13 = {literal};\n",
         encoding="utf-8",
     )
     contagem = {n: sum(p["n"] == n for p in perguntas) for n in "fmdp"}
@@ -71,8 +74,12 @@ def hash_estavel(texto: str) -> int:
 
 def decodificar(destino: Path):
     js = SAIDA.read_text(encoding="utf-8")
-    texto = js.split('"')[1]
-    perguntas = json.loads(xor(base64.b64decode(texto)).decode("utf-8"))
+    if "PERGUNTAS_ROT13" in js:
+        literal = js.split("=", 1)[1].strip().rstrip(";")
+        perguntas = json.loads(codecs.decode(json.loads(literal), "rot13"))
+    else:  # formato antigo (XOR + base64)
+        texto = js.split('"')[1]
+        perguntas = json.loads(xor(base64.b64decode(texto)).decode("utf-8"))
     for p in perguntas:
         p.pop("id", None)
     linhas = ",\n".join(json.dumps(p, ensure_ascii=False) for p in perguntas)
