@@ -3925,6 +3925,7 @@ function nomeDoFinal(J) {
 }
 
 function mostrarAposentadoria() {
+  evento("prata/aposentou");
   const J = C.J;
   const alvo = $("relatorio");
   alvo.replaceChildren();
@@ -4044,6 +4045,7 @@ function sortearPotencial(ovr, f) {
 }
 
 function criarJogador() {
+  evento("prata/criou");
   const f = funcaoDe(C.pos);
   const ovr = ovrDe(C.attrs, f);
   C.J = {

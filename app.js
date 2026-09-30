@@ -28,6 +28,14 @@ function dataCurta(iso) {
 
 const espera = (ms) => new Promise((ok) => setTimeout(ok, ms));
 
+// Contador de visitas sem cookie (GoatCounter). Os jogos contam eventos
+// ("dadao/inicio", "prata/aposentou"...) pra saber o que o povo joga e onde para.
+function evento(nome) {
+  try {
+    if (window.goatcounter && window.goatcounter.count) window.goatcounter.count({ path: `jogo/${nome}`, title: nome, event: true });
+  } catch { /* contador fora do ar nao pode quebrar o jogo */ }
+}
+
 // --- videos ---------------------------------------------------------------
 
 function mostrarVideos(videos) {

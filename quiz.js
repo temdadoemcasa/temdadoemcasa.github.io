@@ -765,6 +765,7 @@ function comemorar(d, { curiosidade = "", frase = "", duracao = esperaDaFrase(fr
 // --- fim ----------------------------------------------------------------------
 
 function terminar(como) {
+  evento(`dadao/${como}-${Q.degrau}`);
   const d = Q.degrau;
   const g = ESCADA_QUIZ[d];
   const titulo = $("fim-titulo");
@@ -810,6 +811,7 @@ function terminar(como) {
 let QUIZ_ABAS = null;
 
 function comecar() {
+  evento("dadao/inicio");
   Q.nome = ($("nome").value || "").trim().slice(0, LIMITE_NOME) || "Você";
   try { localStorage.setItem("tem-resposta-nome", Q.nome); localStorage.setItem("tem-resposta-pos", Q.pos); } catch { /* ok */ }
   Q.degrau = 0;
