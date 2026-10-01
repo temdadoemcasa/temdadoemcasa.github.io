@@ -19,6 +19,8 @@ const PISO_SORTEIO_POR_TORNEIO = { 7: 900 };
 const FASES_DO_DESAFIO = [
   { desde: "2026-09-30", retratos: ["2024", "2025", "premier-league-2025", "champions-2025"] },
   { desde: "2026-10-01", retratos: ["2024", "2025", "premier-league-2025", "laliga-2025", "champions-2025"] },
+  // uma carta por jogador: o mesmo jogador (2024 e 2025) caia duas vezes no mes
+  { desde: "2026-10-02", retratos: ["2024", "2025", "premier-league-2025", "laliga-2025", "champions-2025"], umPorJogador: true },
 ];
 const faseDoDia = (data) => FASES_DO_DESAFIO.filter((f) => f.desde <= data).pop() || FASES_DO_DESAFIO[0];
 // os retratos do desafio de hoje (o teste confere que so tem temporada fechada)
@@ -131,7 +133,13 @@ function candidatos(filtro) {
 // desafio N pega a posicao N. So repete depois de passar por todos.
 function alvoDoDia(data) {
   const fase = faseDoDia(data);
-  const pool = candidatos(fase.retratos);
+  let pool = candidatos(fase.retratos);
+  if (fase.umPorJogador) {
+    // fica a carta com mais minutos de cada jogador (a temporada em que ele mais apareceu)
+    const melhor = new Map();
+    for (const c of pool) { const m = melhor.get(c.j.player_id); if (!m || c.j.minutos > m.j.minutos) melhor.set(c.j.player_id, c); }
+    pool = pool.filter((c) => melhor.get(c.j.player_id) === c);
+  }
   const rng = sementeRng(hashTexto(`quem-ta-v2-${fase.desde}`));
   for (let i = pool.length - 1; i > 0; i--) {
     const k = Math.floor(rng() * (i + 1));
@@ -263,13 +271,10 @@ function cartaMisteriosa() {
   return carta;
 }
 
-function listaDeDicas() {
-  const abertas = dicasAbertas();
-  const ol = $("dicas");
-  ol.replaceChildren();
-  const { j, time, ano } = J.alvo;
+function textosDasDicas() {
+  const { j, time } = J.alvo;
   const ordem = atributosOrdenados(j);
-  const textos = [
+  return [
     `${J.alvo.r.rotulo} · ${POSICAO[j.posicao]}`,
     ordem.slice(0, 2).map((a) => `${a.titulo} ${a.valor}`).join(" e ") || "sem atributo calculado",
     `${ordem.slice(2).map((a) => `${a.sigla} ${a.valor}`).join(" · ") || "sem mais atributos"} · Seleção: ${textoDaSelecao(j.player_id)}`,
@@ -277,6 +282,13 @@ function listaDeDicas() {
     `Camisa ${j.camisa ?? "—"} · ${j.jogos} jogos`,
     `Camisa do clube: ${nomeDoKit(time)}`,
   ];
+}
+
+function listaDeDicas() {
+  const abertas = dicasAbertas();
+  const ol = $("dicas");
+  ol.replaceChildren();
+  const textos = textosDasDicas();
   DICAS.forEach((titulo, i) => {
     const li = el("li", i < abertas ? "aberta" : "fechada");
     li.append(el("span", "dica-titulo", titulo));
@@ -363,7 +375,8 @@ function chutar(id) {
   fecharSugestoes();
   if (ch.certo) return terminar("acertou");
   if (J.chutes.length >= CHUTES) return terminar("errou");
-  $("aviso").textContent = `Não é ${ch.nome}. Nova dica: ${DICAS[J.chutes.length].toLowerCase()}.`;
+  // o valor junto: no celular a lista de dicas fica embaixo dos chutes, fora da tela
+  $("aviso").textContent = `Não é ${ch.nome}. Dica ${J.chutes.length + 1}: ${textosDasDicas()[J.chutes.length]}.`;
   desenhar();
   $("busca").focus();
 }
@@ -430,7 +443,8 @@ function desenhar() {
   $("carta-misterio").replaceChildren(cartaMisteriosa());
   listaDeDicas();
   const lista = $("chutes");
-  lista.replaceChildren(...J.chutes.map(linhaDoChute));
+  // o mais novo em cima, colado no campo de busca e no aviso
+  lista.replaceChildren(...[...J.chutes].reverse().map(linhaDoChute));
   const faltam = CHUTES - J.chutes.length;
   $("contador").textContent = J.fim ? "" : `Chute ${J.chutes.length + 1} de ${CHUTES}`;
   $("contador").dataset.ultimo = String(faltam === 1);
@@ -454,6 +468,7 @@ function comecar({ diario = false } = {}) {
   mostrarTela("tela-jogo");
   desenhar();
   $("busca").value = "";
+  window.scrollTo({ top: 0 });
   $("busca").focus({ preventScroll: true });
 }
 
