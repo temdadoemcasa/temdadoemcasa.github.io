@@ -88,8 +88,14 @@ const cartaEstado = (p) => p.evaluate(() => {
   });
   if (mesmo) {
     await chutarId(p, mesmo);
-    const selos = await p.textContent('#chutes li:last-child');
+    const selos = await p.textContent('#chutes li:first-child');
     ok(selos.includes('✅ Clube') && selos.includes('✅ Posição'), `companheiro de clube e posição: ✅ ✅ (${selos.trim()})`);
+  }
+  // o aviso traz o valor da dica nova (no celular a lista de dicas fica fora da tela)
+  if (mesmo) {
+    const aviso = await p.textContent('#aviso');
+    const esperado = await p.evaluate(() => textosDasDicas()[J.chutes.length]);
+    ok(aviso.includes(`Dica ${await p.evaluate(() => J.chutes.length + 1)}: ${esperado}`), `aviso mostra a dica nova com o valor (${aviso})`);
   }
   // chute sem nota na temporada do alvo: nunca seta de overall
   const semNota = await p.evaluate(() => {
@@ -102,7 +108,7 @@ const cartaEstado = (p) => p.evaluate(() => {
   });
   ok(semNota !== null, 'existe chute sem nota pra testar');
   await chutarId(p, semNota);
-  const linha = await p.textContent('#chutes li:last-child');
+  const linha = await p.textContent('#chutes li:first-child');
   ok(linha.includes('— OVR') && !/[⬆⬇]/.test(linha), `chute sem nota mostra "— OVR", sem seta (${linha.trim()})`);
   // sem pais no mapa: "sem dado", nunca um pais inventado
   const semPais = await p.evaluate(() => { const antes = J.paises; J.paises = {}; const t = textoDaSelecao(J.alvo.j.player_id); J.paises = antes; return t; });
