@@ -230,3 +230,25 @@
   .dica-valor { font-size: 0.76rem; }
 }
 @media (max-width: 760px) { .dica-titulo { font-size: 0.64rem; letter-spacing: 0.02em; } }
+
+/* dica surpresa: o cartao fechado tem um dado; ao abrir, os icones giram e param no sorteado */
+.dicas li.fechada .dica-icone { filter: none; }
+.dicas li.rolando { border-style: solid; border-color: var(--perto); background: color-mix(in srgb, var(--perto) 12%, var(--fundo-cartao)); }
+.dicas li.rolando .dica-valor { opacity: 0; }
+.dicas li.rolando .dica-icone { animation: dado-gira 0.14s linear infinite; }
+.dicas li.parou { animation: parou 0.5s cubic-bezier(0.3, 1.6, 0.5, 1) both; }
+.dicas li.parou .dica-valor { animation: surgir 0.4s ease both; }
+@keyframes dado-gira { 50% { transform: rotate(18deg) scale(1.15); } }
+@keyframes parou { 0% { transform: scale(0.92); box-shadow: 0 0 0 0 color-mix(in srgb, var(--quem) 70%, transparent); } 50% { transform: scale(1.05); } 100% { transform: none; box-shadow: 0 0 0 10px transparent; } }
+@media (prefers-reduced-motion: reduce) { .dicas li.rolando .dica-icone, .dicas li.parou, .dicas li.parou .dica-valor { animation: none; } }
+/* a carta reage depois que o dado do cartao para (~0,7 s) */
+.carta-misterio.pulso { animation-delay: 0.7s; }
+.carta-misterio .nova { animation-delay: 0.8s; }
+.carta-misterio .carta-bandeira.nova { animation-delay: 0.85s; }
+.carta-misterio strong.nova { animation-delay: 0.75s; }
+.carta-misterio.trocou-nivel { animation-delay: 0.7s, 0.75s; }
+/* cartao fechado: so o dado e quando sai */
+.dicas li.fechada { grid-template-columns: auto; justify-items: center; align-content: center; text-align: center; gap: 0.1rem; }
+.dicas li.fechada .dica-icone { position: static; grid-row: auto; font-size: 1.05rem; opacity: 0.8; }
+.dicas li.fechada .dica-valor { justify-content: center; font-size: 0.7rem; }
+@media (max-width: 760px) { .dicas li.fechada { min-height: 2.9rem; } }
