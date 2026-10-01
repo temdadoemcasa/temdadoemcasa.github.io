@@ -54,8 +54,11 @@ const cartaEstado = (p) => p.evaluate(() => {
     return Math.min(...abertos) >= todos[1];
   });
   ok(top2, '1 erro: os abertos são mesmo os 2 maiores');
+  ok(!(await p.textContent('#dicas')).includes('Seleção:'), '1 erro: seleção ainda escondida');
   e = await passo();
   ok(e.ocultos === 0 && e.overall === '?', `2 erros: todos os atributos, overall ainda escondido (${e.overall})`);
+  const selecao = await p.evaluate(() => ({ dica: document.querySelector('#dicas li:nth-child(3) .dica-valor').textContent, pais: paisDe(J.alvo.j.player_id), nome: J.alvo.j.pais }));
+  ok(selecao.pais && selecao.dica.includes('Seleção: ') && !selecao.dica.includes('sem dado'), `2 erros: seleção aparece (${selecao.dica})`);
   e = await passo();
   ok(/^\d+$/.test(e.overall), `3 erros: overall aparece (${e.overall})`);
   ok(/\? J/.test(e.info), '3 erros: jogos ainda escondidos');
@@ -101,6 +104,11 @@ const cartaEstado = (p) => p.evaluate(() => {
   await chutarId(p, semNota);
   const linha = await p.textContent('#chutes li:last-child');
   ok(linha.includes('— OVR') && !/[⬆⬇]/.test(linha), `chute sem nota mostra "— OVR", sem seta (${linha.trim()})`);
+  // sem pais no mapa: "sem dado", nunca um pais inventado
+  const semPais = await p.evaluate(() => { const antes = J.paises; J.paises = {}; const t = textoDaSelecao(J.alvo.j.player_id); J.paises = antes; return t; });
+  ok(semPais === 'sem dado', `seleção sem dado diz "sem dado" (${semPais})`);
+  const reino = await p.evaluate(() => [nomeDoPais('EN'), nomeDoPais('SX'), nomeDoPais('BR')]);
+  ok(reino.join('|') === 'Inglaterra|Escócia|Brasil', `nomes dos países em português (${reino})`);
   // busca: acha pelo nome e o alvo aparece na lista
   const nome = await p.evaluate(() => J.alvo.j.nome);
   await p.fill('#busca', nome);

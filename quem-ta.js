@@ -29,7 +29,7 @@ const CHAVE_SERIE = "quem-ta-serie";
 const DICAS = [
   "Ano da carta e posição",
   "Os 2 atributos mais altos",
-  "O resto dos atributos",
+  "O resto dos atributos e a seleção",
   "O overall",
   "Número da camisa e jogos na temporada",
   "A camisa do clube",
@@ -47,6 +47,34 @@ const J = {
 };
 
 const $ = (id) => document.getElementById(id);
+
+// --- selecao: dados/paises.json (futdata export-paises, do bruto de escalacoes) ---
+// o SofaScore usa codigos proprios pras nacoes do Reino Unido
+const PAISES_DO_REINO_UNIDO = {
+  EN: ["Inglaterra", "\u{1F3F4}\u{E0067}\u{E0062}\u{E0065}\u{E006E}\u{E0067}\u{E007F}"],
+  SX: ["Escócia", "\u{1F3F4}\u{E0067}\u{E0062}\u{E0073}\u{E0063}\u{E0074}\u{E007F}"],
+  WA: ["País de Gales", "\u{1F3F4}\u{E0067}\u{E0062}\u{E0077}\u{E006C}\u{E0073}\u{E007F}"],
+  NX: ["Irlanda do Norte", ""],
+};
+let nomesDePais = null;
+function nomeDoPais(codigo) {
+  if (PAISES_DO_REINO_UNIDO[codigo]) return PAISES_DO_REINO_UNIDO[codigo][0];
+  try {
+    nomesDePais = nomesDePais || new Intl.DisplayNames(["pt-BR"], { type: "region" });
+    return nomesDePais.of(codigo) || codigo;
+  } catch { return codigo; }
+}
+function bandeira(codigo) {
+  if (PAISES_DO_REINO_UNIDO[codigo]) return PAISES_DO_REINO_UNIDO[codigo][1];
+  if (!/^[A-Z]{2}$/.test(codigo)) return "";
+  return String.fromCodePoint(...[...codigo].map((c) => 0x1f1e6 + c.charCodeAt(0) - 65));
+}
+// ausencia nunca e zero: sem pais no bruto, a dica diz "sem dado"
+const paisDe = (id) => (J.paises && J.paises[String(id)]) || null;
+function textoDaSelecao(id) {
+  const c = paisDe(id);
+  return c ? `${bandeira(c)} ${nomeDoPais(c)}`.trim() : "sem dado";
+}
 
 // --- sorteio e desafio do dia ------------------------------------------------
 
@@ -183,6 +211,12 @@ function cartaMisteriosa() {
   const topo = el("div", "carta-topo");
   const nota = el("div", "carta-nota");
   nota.append(el("strong", temOverall ? "" : "oculto", temOverall ? String(j.overall) : "?"), el("span", "carta-pos", SIGLA[j.posicao] || ""));
+  // a bandeira aparece junto da dica 3
+  if (abertas >= 3 && paisDe(j.player_id)) {
+    const b = el("span", "carta-bandeira", bandeira(paisDe(j.player_id)) || paisDe(j.player_id));
+    b.title = nomeDoPais(paisDe(j.player_id));
+    nota.append(b);
+  }
   const boneco = el("div", "carta-figura");
   if (abertas >= 6) boneco.append(figura(time, j.camisa, { cabeca: false }));
   else boneco.append(figura({ kit: { padrao: "lisa", base: "#2b313a", numero: "#8b949e" } }, abertas >= 5 ? j.camisa : "?", { cabeca: false }));
@@ -228,7 +262,7 @@ function listaDeDicas() {
   const textos = [
     `${J.alvo.r.rotulo} · ${POSICAO[j.posicao]}`,
     ordem.slice(0, 2).map((a) => `${a.titulo} ${a.valor}`).join(" e ") || "sem atributo calculado",
-    ordem.slice(2).map((a) => `${a.sigla} ${a.valor}`).join(" · ") || "sem mais atributos",
+    `${ordem.slice(2).map((a) => `${a.sigla} ${a.valor}`).join(" · ") || "sem mais atributos"} · Seleção: ${textoDaSelecao(j.player_id)}`,
     `Overall ${j.overall} (${nivel(j.overall).nome})`,
     `Camisa ${j.camisa ?? "—"} · ${j.jogos} jogos`,
     `Camisa do clube: ${nomeDoKit(time)}`,
@@ -489,12 +523,15 @@ function atualizarBotaoDiario() {
 }
 
 async function iniciarQuem() {
-  const [uniformes, anos, europa] = await Promise.all([
+  const [uniformes, anos, europa, paises] = await Promise.all([
     json("dados/uniformes.json").catch(() => ({})),
     json("dados/temporadas.json"),
     // Premier League e Champions: so este jogo carrega (o resto do site e Brasileirao)
     json("dados/retratos-europa.json").catch(() => []),
+    // a selecao e so uma dica: sem o arquivo, o jogo segue com "sem dado"
+    json("dados/paises.json").catch(() => ({})),
   ]);
+  J.paises = paises;
   UNIFORMES = uniformes;
   const chaves = [...anos.map(String), ...europa];
   J.retratos = await Promise.all(chaves.map(async (chave) => {

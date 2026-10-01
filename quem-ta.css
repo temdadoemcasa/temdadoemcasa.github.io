@@ -27,6 +27,8 @@
   .quem .inicio-form { max-width: none; }
 }
 
+.carta-bandeira { font-size: 9cqw; line-height: 1; margin-top: 1cqw; }
+
 /* --- mesa: carta a esquerda, chutes a direita --- */
 .quem .mesa { display: grid; grid-template-columns: minmax(220px, 300px) minmax(0, 1fr); gap: clamp(1rem, 4vw, 2.5rem); align-items: start; }
 .mesa-carta { position: sticky; top: 5rem; }
