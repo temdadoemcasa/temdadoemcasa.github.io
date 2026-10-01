@@ -56,7 +56,7 @@ const cartaEstado = (p) => p.evaluate(() => {
     camisa: aberto ? !/\? J/.test(e.info) : /\? J/.test(e.info),
     cores: aberto ? !e.svg.includes('#2b313a') : e.svg.includes('#2b313a'),
     selecao: aberto ? e.bandeira : !e.bandeira,
-    lado: true,
+    ranking: true,
   })[tipo];
   const ordem = await p.evaluate(() => J.ordem);
   ok(ordem[0] === 'liga' && new Set(ordem).size === 7, `ordem: liga fixa + 6 sorteadas (${ordem.join(', ')})`);
@@ -68,7 +68,7 @@ const cartaEstado = (p) => p.evaluate(() => {
     const certos = ordem.slice(1).every((t, i) => conferir(e, t, i < n));
     ok(certos, `${n} erro(s): a carta mostra só o que já saiu`);
     if (tipo === 'selecao') ok((await p.textContent('#dicas li[data-tipo="selecao"] .dica-valor')).includes(await p.evaluate(() => nomeDoPais(paisDe(J.alvo.j.player_id)))), 'seleção: nome do país no cartão');
-    if (tipo === 'lado') ok((await p.textContent('#dicas li[data-tipo="lado"] .dica-valor')).length > 0, 'função em campo no cartão');
+    if (tipo === 'ranking') ok(/^\d+º .+ \(de \d+\)$/.test(await p.textContent('#dicas li[data-tipo="ranking"] .dica-valor')), 'ranking na posição no cartão');
   }
   ok(e.nome === '? ? ?', `5 erros: nome continua escondido (${e.nome})`);
   ok(!(await p.textContent('#dicas')).includes(alvoNome), 'nome do alvo não aparece nas dicas');

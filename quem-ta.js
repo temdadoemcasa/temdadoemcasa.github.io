@@ -50,13 +50,13 @@ const CHAVE_SERIE = "quem-ta-serie";
 const TIPOS_DE_DICA = {
   liga: { icone: "🏟️", titulo: "Liga e posição", curto: "Liga" },
   selecao: { icone: "🌎", titulo: "Seleção", curto: "Seleção" },
-  lado: { icone: "🧭", titulo: "Função em campo", curto: "Função" },
+  ranking: { icone: "🏆", titulo: "Ranking na posição", curto: "Ranking" },
   atributos: { icone: "📊", titulo: "Os 2 maiores atributos", curto: "Top 2 atributos" },
   overall: { icone: "⭐", titulo: "Overall", curto: "Overall" },
   camisa: { icone: "🔢", titulo: "Número e jogos", curto: "Nº e jogos" },
   cores: { icone: "🎨", titulo: "Cores do clube", curto: "Cores" },
 };
-const SORTEAVEIS = ["selecao", "lado", "atributos", "overall", "camisa", "cores"];
+const SORTEAVEIS = ["selecao", "ranking", "atributos", "overall", "camisa", "cores"];
 
 const J = {
   retratos: [], // [r] (r.chave = arquivo, r.curto = "Premier 25/26")
@@ -314,21 +314,11 @@ function cartaMisteriosa(novas = new Set()) {
   return carta;
 }
 
-// lado medio em campo (x_medio: 0 = esquerda, 1 = direita), dito como funcao de futebol
-function ladoDoCampo(j) {
-  if (j.posicao === "G") return "no gol";
-  const x = j.x_medio;
-  if (typeof x !== "number") return "sem dado";
-  return x < 0.38 ? "pela esquerda" : x > 0.62 ? "pela direita" : "pelo centro";
-}
-const FUNCOES = {
-  D: { "pela esquerda": "Lateral-esquerdo", "pelo centro": "Zagueiro", "pela direita": "Lateral-direito" },
-  M: { "pela esquerda": "Meia pela esquerda", "pelo centro": "Meio-campo central", "pela direita": "Meia pela direita" },
-  F: { "pela esquerda": "Ponta-esquerda", "pelo centro": "Centroavante", "pela direita": "Ponta-direita" },
-};
-function funcaoEmCampo(j) {
-  if (j.posicao === "G") return "Goleiro";
-  return (FUNCOES[j.posicao] || {})[ladoDoCampo(j)] || "sem dado";
+// ranking do alvo entre os da mesma posicao no mesmo retrato (liga e ano), pelo overall
+function rankingNaPosicao() {
+  const { j, r } = J.alvo;
+  const notas = r.times.flatMap((tm) => tm.jogadores).filter((x) => x.posicao === j.posicao && typeof x.overall === "number").map((x) => x.overall);
+  return { pos: notas.filter((v) => v > j.overall).length + 1, total: notas.length };
 }
 
 // texto longo (aviso) e curto (cartao) de cada tipo de dica
@@ -338,7 +328,11 @@ function textoDaDica(tipo, curto = false) {
   switch (tipo) {
     case "liga": return curto ? `${J.alvo.r.curto} · ${POSICAO[j.posicao]}` : `${J.alvo.r.rotulo} · ${POSICAO[j.posicao]}`;
     case "selecao": return curto ? textoDaSelecao(j.player_id) : `Seleção: ${textoDaSelecao(j.player_id)}`;
-    case "lado": return curto ? funcaoEmCampo(j) : `Função em campo: ${funcaoEmCampo(j)}${j.posicao === "G" || ladoDoCampo(j) === "sem dado" ? "" : ` (joga ${ladoDoCampo(j)})`}`;
+    case "ranking": {
+      const { pos, total } = rankingNaPosicao();
+      const quem = { G: "goleiro", D: "defensor", M: "meio-campista", F: "atacante" }[j.posicao] || "jogador";
+      return curto ? `${pos}º ${quem} (de ${total})` : `${pos === 1 ? "O melhor" : `${pos}º melhor`} ${quem} pelo overall em ${J.alvo.r.rotulo}, entre ${total}`;
+    }
     case "atributos": {
       const top = ordem.slice(0, 2);
       return curto ? (top.map((a) => `${a.sigla} ${a.valor}`).join(" · ") || "sem dado")
