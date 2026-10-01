@@ -15,8 +15,12 @@ Atualizado em **2026-09-27 (noite)**. Branch `prata-evolucao-e-caminho` (saiu de
   mutações pegas na 1ª versão).
 - **Pacote de craque** (home, à esquerda do campinho): uma carta 83+ do Brasileirão ou da Europa. `testes/pacote-craque.mjs`.
 - **Home:** os 4 minigames em grade 2x2; depois vídeos; depois seleção (pacote + campinho).
-- **Próximo:** quando a Ligue 1/Bundesliga/Serie A ITA forem coletadas no futdata, exportar, pôr em
-  `retratos-europa.json`, rodar `export-paises` e criar uma fase nova (data futura) em `FASES_DO_DESAFIO`.
+- **Desafio desde 02/10:** uma carta por jogador, Europa só de clube grande (`GRANDES_DA_EUROPA`) ou carta 84+, 3 de 5
+  dias do Brasileirão (`PADRAO_DO_DESAFIO`).
+- **Ligue 1 25/26 (01/10):** só na partida livre (`retratos-europa.json`); fora do desafio até o dono decidir as cartas
+  (Lens acima do PSG campeão) e a recalibração da Série A pela EA. Entrar no desafio = fase nova com data futura.
+- **Próximo:** Bundesliga e Serie A ITA quando o futdata coletar: exportar, pôr em `retratos-europa.json`, rodar
+  `export-paises`; no desafio, só por fase nova (data futura) em `FASES_DO_DESAFIO`.
 - **Pendente com o dono:** Champions tem notas espremidas (máx. 17 jogos; Kairat média 73,6 > Wolves 67,6); sorteio da
   Champions usa piso de 900 min (76 cartas).
 
