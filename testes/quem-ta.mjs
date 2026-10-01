@@ -51,7 +51,7 @@ const cartaEstado = (p) => p.evaluate(() => {
   const passo = async () => { const id = await errado(p, usados); usados.push(id); await chutarId(p, id); return cartaEstado(p); };
   // o que cada tipo de dica mostra na carta; os ainda fechados seguem escondidos
   const conferir = (e, tipo, aberto) => ({
-    atributos: aberto ? e.ocultos === 0 : e.ocultos === 6,
+    atributos: aberto ? e.ocultos === 4 : e.ocultos === 6, // abre so os 2 maiores
     overall: aberto ? /^\d+$/.test(e.overall) : e.overall === '?',
     camisa: aberto ? !/\? J/.test(e.info) : /\? J/.test(e.info),
     cores: aberto ? !e.svg.includes('#2b313a') : e.svg.includes('#2b313a'),
@@ -68,7 +68,7 @@ const cartaEstado = (p) => p.evaluate(() => {
     const certos = ordem.slice(1).every((t, i) => conferir(e, t, i < n));
     ok(certos, `${n} erro(s): a carta mostra só o que já saiu`);
     if (tipo === 'selecao') ok((await p.textContent('#dicas li[data-tipo="selecao"] .dica-valor')).includes(await p.evaluate(() => nomeDoPais(paisDe(J.alvo.j.player_id)))), 'seleção: nome do país no cartão');
-    if (tipo === 'lado') ok((await p.textContent('#dicas li[data-tipo="lado"] .dica-valor')).length > 0, 'lado do campo no cartão');
+    if (tipo === 'lado') ok((await p.textContent('#dicas li[data-tipo="lado"] .dica-valor')).length > 0, 'função em campo no cartão');
   }
   ok(e.nome === '? ? ?', `5 erros: nome continua escondido (${e.nome})`);
   ok(!(await p.textContent('#dicas')).includes(alvoNome), 'nome do alvo não aparece nas dicas');
@@ -123,6 +123,11 @@ const cartaEstado = (p) => p.evaluate(() => {
   await p.fill('#busca', nome);
   const achou = await p.evaluate(() => sugestoes.some((o) => o.id === J.alvo.j.player_id));
   ok(achou, `autocompletar acha o alvo digitando "${nome}"`);
+  // encostar (comeco de rolagem) nao chuta; so o toque completo (click) chuta
+  const antesToque = await p.evaluate(() => J.chutes.length);
+  await p.dispatchEvent('#sugestoes .sugestao >> nth=0', 'pointerdown', { pointerType: 'touch' });
+  await p.dispatchEvent('#sugestoes .sugestao >> nth=0', 'touchstart');
+  ok((await p.evaluate(() => J.chutes.length)) === antesToque, 'encostar numa sugestão (rolando a lista) não chuta');
   await p.evaluate(() => chutar(J.alvo.j.player_id));
   const grade = await p.textContent('#fim-grade');
   const n = await p.evaluate(() => J.chutes.length);
