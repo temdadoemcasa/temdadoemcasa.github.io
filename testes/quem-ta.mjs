@@ -55,11 +55,14 @@ const cartaEstado = (p) => p.evaluate(() => {
     return Math.min(...abertos) >= todos[1];
   });
   ok(top2, '1 erro: os abertos são mesmo os 2 maiores');
-  ok(await p.evaluate(() => document.querySelector('#dicas li:nth-child(3)').classList.contains('fechada') && !document.querySelector('#dicas li:nth-child(3)').textContent.includes(nomeDoPais(paisDe(J.alvo.j.player_id)))), '1 erro: seleção ainda escondida');
+  // a selecao vem junto dos 2 maiores atributos (dica 2); o lado do campo, na dica 3
+  const selecao = await p.evaluate(() => ({ dica: document.querySelector('#dicas li:nth-child(2) .dica-valor').textContent, pais: paisDe(J.alvo.j.player_id), bandeira: !!document.querySelector('#carta-misterio .carta-bandeira') }));
+  ok(selecao.pais && selecao.dica.includes(await p.evaluate(() => nomeDoPais(paisDe(J.alvo.j.player_id)))) && !selecao.dica.includes('sem dado') && selecao.bandeira, `1 erro: seleção aparece com a bandeira na carta (${selecao.dica})`);
+  ok(await p.evaluate(() => document.querySelector('#dicas li:nth-child(3)').classList.contains('fechada')), '1 erro: lado do campo ainda escondido');
   e = await passo();
   ok(e.ocultos === 0 && e.overall === '?', `2 erros: todos os atributos, overall ainda escondido (${e.overall})`);
-  const selecao = await p.evaluate(() => ({ dica: document.querySelector('#dicas li:nth-child(3) .dica-valor').textContent, pais: paisDe(J.alvo.j.player_id), nome: J.alvo.j.pais }));
-  ok(selecao.pais && selecao.dica.includes(await p.evaluate(() => nomeDoPais(paisDe(J.alvo.j.player_id)))) && !selecao.dica.includes('sem dado'), `2 erros: seleção aparece (${selecao.dica})`);
+  const lado = await p.evaluate(() => ({ dica: document.querySelector('#dicas li:nth-child(3) .dica-valor').textContent, esperado: ladoDoCampo(J.alvo.j) }));
+  ok(lado.dica.toLowerCase() === lado.esperado.toLowerCase(), `2 erros: lado do campo aparece (${lado.dica})`);
   e = await passo();
   ok(/^\d+$/.test(e.overall), `3 erros: overall aparece (${e.overall})`);
   ok(/\? J/.test(e.info), '3 erros: jogos ainda escondidos');
