@@ -420,3 +420,5 @@
 .fim-grade:empty { display: none; }
 .fim-diario { margin: 0 0 1.1rem; font-size: 0.85rem; color: var(--texto-fraco); }
 .fim-diario:empty { display: none; }
+/* toque duplo pra confirmar: sem o zoom de toque duplo do navegador e sem atraso de toque */
+.alternativa, .toque-de-novo { touch-action: manipulation; }

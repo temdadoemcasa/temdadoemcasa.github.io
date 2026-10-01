@@ -328,9 +328,10 @@ function desenharAlternativas() {
 
 function escolher(i) {
   if (Q.travado || Q.eliminadas.has(i)) return;
-  // segundo toque na mesma alternativa confirma (com uma folguinha contra toque duplo sem querer)
+  // segundo toque na mesma alternativa confirma. A trava de 60 ms so barra evento
+  // duplicado do navegador; 280 ms engolia o toque de quem confirma rapido (tinha que tocar 3x)
   if (Q.escolhida === i) {
-    if (Date.now() - (Q.escolhidaEm || 0) > 280) confirmar();
+    if (Date.now() - (Q.escolhidaEm || 0) > 60) confirmar();
     return;
   }
   Q.escolhida = i;
