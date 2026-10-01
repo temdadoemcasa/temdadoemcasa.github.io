@@ -45,17 +45,18 @@ const INICIO_DIARIO = "2026-09-30"; // desafio #1
 const CHAVE_DIARIO = "quem-ta-diario";
 const CHAVE_SERIE = "quem-ta-serie";
 
-// dica que aparece ANTES de cada chute: o chute n ve as dicas 0..n-1
-const ICONES_DAS_DICAS = ["🏟️", "🌎", "🧭", "⭐", "👕", "🎨"];
-const TITULOS_CURTOS = ["Liga e posição", "Seleção", "Lado do campo", "Overall", "Camisa", "Cores do clube"];
-const DICAS = [
-  "Ano da carta e posição",
-  "A seleção e os 2 atributos mais altos",
-  "O lado do campo e o resto dos atributos",
-  "O overall",
-  "Número da camisa e jogos na temporada",
-  "A camisa do clube",
-];
+// Dicas: "liga, ano e posicao" ja vem aberta; cada erro SORTEIA uma das outras 6 (no
+// desafio do dia o sorteio e o mesmo pra todo mundo). 5 erros abrem 5 das 6.
+const TIPOS_DE_DICA = {
+  liga: { icone: "🏟️", titulo: "Liga e posição", curto: "Liga" },
+  selecao: { icone: "🌎", titulo: "Seleção", curto: "Seleção" },
+  lado: { icone: "🧭", titulo: "Lado do campo", curto: "Lado" },
+  atributos: { icone: "📊", titulo: "Atributos", curto: "Atributos" },
+  overall: { icone: "⭐", titulo: "Overall", curto: "Overall" },
+  camisa: { icone: "🔢", titulo: "Número e jogos", curto: "Nº e jogos" },
+  cores: { icone: "🎨", titulo: "Cores do clube", curto: "Cores" },
+};
+const SORTEAVEIS = ["selecao", "lado", "atributos", "overall", "camisa", "cores"];
 
 const J = {
   retratos: [], // [r] (r.chave = arquivo, r.curto = "Premier 25/26")
@@ -66,6 +67,7 @@ const J = {
   chutes: [], // [{ id, carta, clube, pos, overall }]
   fim: null, // "acertou" | "errou" | "desistiu"
   diario: null, // { data, numero }
+  ordem: [], // ["liga", ...as 6 sorteadas]: a dica n abre no erro n
 };
 
 const $ = (id) => document.getElementById(id);
@@ -232,7 +234,16 @@ function cartaDoChute(id) {
 
 // --- a carta misteriosa ------------------------------------------------------
 
-const dicasAbertas = () => Math.min(CHUTES, J.chutes.length + 1) + (J.fim ? CHUTES : 0);
+const dicasAbertas = () => (J.fim ? J.ordem.length : Math.min(CHUTES, J.chutes.length + 1));
+const aberta = (tipo) => { const i = J.ordem.indexOf(tipo); return i >= 0 && i < dicasAbertas(); };
+
+// a ordem das dicas: no desafio, semente do dia (todo mundo ve a mesma sequencia)
+function sortearOrdem(rng = Math.random) {
+  const s = [...SORTEAVEIS];
+  for (let i = s.length - 1; i > 0; i--) { const k = Math.floor(rng() * (i + 1)); [s[i], s[k]] = [s[k], s[i]]; }
+  return ["liga", ...s];
+}
+const ordemDoDia = (data) => sortearOrdem(sementeRng(hashTexto(`quem-ta-dicas-${data}`)));
 
 function atributosOrdenados(j) {
   return eixosDaCarta(j, J.alvo.r.eixos)
@@ -241,13 +252,12 @@ function atributosOrdenados(j) {
     .sort((a, b) => b.valor - a.valor || a.i - b.i);
 }
 
-// novas: indices das dicas que abriram AGORA (0..5) -> o que entra animado na carta
+// novas: tipos de dica que abriram AGORA -> o que entra animado na carta
 function cartaMisteriosa(novas = new Set()) {
   const { j, time, ano } = J.alvo;
-  const abertas = dicasAbertas();
-  const temOverall = abertas >= 4;
+  const temOverall = aberta("overall");
   const t = nivel(j.overall);
-  const carta = el("article", `carta carta-misterio ${temOverall ? `nivel-${t.id}` : "nivel-misterio"}${novas.has(3) ? " trocou-nivel" : ""}`);
+  const carta = el("article", `carta carta-misterio ${temOverall ? `nivel-${t.id}` : "nivel-misterio"}${novas.has("overall") ? " trocou-nivel" : ""}`);
   carta.setAttribute("aria-label", "Carta misteriosa");
 
   const telhado = svg("svg", { class: "carta-telhado", viewBox: "0 0 100 30", "aria-hidden": "true" });
@@ -260,31 +270,28 @@ function cartaMisteriosa(novas = new Set()) {
   const corpo = el("div", "carta-corpo");
   const topo = el("div", "carta-topo");
   const nota = el("div", "carta-nota");
-  nota.append(el("strong", temOverall ? (novas.has(3) ? "nova conta" : "") : "oculto", temOverall ? String(j.overall) : "?"), el("span", "carta-pos", SIGLA[j.posicao] || ""));
-  // a bandeira aparece junto da dica 2
-  if (abertas >= 2 && paisDe(j.player_id)) {
-    const b = el("span", `carta-bandeira${novas.has(1) ? " nova" : ""}`, bandeira(paisDe(j.player_id)) || paisDe(j.player_id));
+  nota.append(el("strong", temOverall ? (novas.has("overall") ? "nova conta" : "") : "oculto", temOverall ? String(j.overall) : "?"), el("span", "carta-pos", SIGLA[j.posicao] || ""));
+  if (aberta("selecao") && paisDe(j.player_id)) {
+    const b = el("span", `carta-bandeira${novas.has("selecao") ? " nova" : ""}`, bandeira(paisDe(j.player_id)) || paisDe(j.player_id));
     b.title = nomeDoPais(paisDe(j.player_id));
     nota.append(b);
   }
-  const boneco = el("div", `carta-figura${novas.has(4) || novas.has(5) ? " nova" : ""}`);
-  if (abertas >= 6) boneco.append(figura(time, j.camisa, { cabeca: false }));
-  else boneco.append(figura({ kit: { padrao: "lisa", base: "#2b313a", numero: "#8b949e" } }, abertas >= 5 ? j.camisa : "?", { cabeca: false }));
+  const boneco = el("div", `carta-figura${novas.has("camisa") || novas.has("cores") ? " nova" : ""}`);
+  const numero = aberta("camisa") ? j.camisa : "?";
+  if (aberta("cores")) boneco.append(figura(time, numero, { cabeca: false }));
+  else boneco.append(figura({ kit: { padrao: "lisa", base: "#2b313a", numero: "#8b949e" } }, numero, { cabeca: false }));
   topo.append(nota, boneco);
 
   const nome = el("h4", "carta-nome oculto", J.fim ? j.nome : "? ? ?");
   if (J.fim && j.nome.length > 12) nome.classList.add("nome-longo");
   if (J.fim) nome.classList.remove("oculto");
 
-  const ordem = atributosOrdenados(j);
-  const top2 = new Set(ordem.slice(0, 2).map((a) => a.sigla));
   const eixos = el("dl", "carta-eixos");
   const lista = eixosDaCarta(j, J.alvo.r.eixos);
   eixos.style.setProperty("--n", lista.length);
   for (const [sigla, titulo, valor] of lista) {
-    const aberto = abertas >= 3 || (abertas >= 2 && top2.has(sigla));
-    // abriu agora: na dica 2 os dois maiores, na 3 o resto
-    const abriuAgora = aberto && valor !== null && ((novas.has(1) && top2.has(sigla)) || (novas.has(2) && !top2.has(sigla)));
+    const aberto = aberta("atributos");
+    const abriuAgora = aberto && valor !== null && novas.has("atributos");
     const celula = el("div", valor === null ? "sem-dado" : aberto ? (abriuAgora ? "nova conta" : "") : "oculto");
     celula.title = !aberto ? `${titulo}: ainda escondido` : valor === null ? `${titulo}: sem dado` : `${titulo}: ${valor}`;
     if (aberto && valor !== null) {
@@ -298,7 +305,7 @@ function cartaMisteriosa(novas = new Set()) {
   const info = el("div", "carta-info");
   info.append(
     el("span", null, J.alvo.r.curto),
-    el("span", null, abertas >= 5 ? `${j.jogos} J` : "? J"),
+    el("span", null, aberta("camisa") ? `${j.jogos} J` : "? J"),
   );
   corpo.append(topo, nome, eixos, info);
   carta.append(corpo);
@@ -312,32 +319,26 @@ function ladoDoCampo(j) {
   return x < 0.38 ? "pela esquerda" : x > 0.62 ? "pela direita" : "pelo meio";
 }
 
-function textosDasDicas() {
+// texto longo (aviso) e curto (cartao) de cada tipo de dica
+function textoDaDica(tipo, curto = false) {
   const { j, time } = J.alvo;
   const ordem = atributosOrdenados(j);
-  return [
-    `${J.alvo.r.rotulo} · ${POSICAO[j.posicao]}`,
-    `Seleção: ${textoDaSelecao(j.player_id)} · ${ordem.slice(0, 2).map((a) => `${a.titulo} ${a.valor}`).join(" e ") || "sem atributo calculado"}`,
-    `Joga ${ladoDoCampo(j)} · ${ordem.slice(2).map((a) => `${a.sigla} ${a.valor}`).join(" · ") || "sem mais atributos"}`,
-    `Overall ${j.overall} (${nivel(j.overall).nome})`,
-    `Camisa ${j.camisa ?? "—"} · ${j.jogos} jogos`,
-    `Camisa do clube: ${nomeDoKit(time)}`,
-  ];
+  switch (tipo) {
+    case "liga": return curto ? `${J.alvo.r.curto} · ${POSICAO[j.posicao]}` : `${J.alvo.r.rotulo} · ${POSICAO[j.posicao]}`;
+    case "selecao": return curto ? textoDaSelecao(j.player_id) : `Seleção: ${textoDaSelecao(j.player_id)}`;
+    case "lado": return curto ? ladoDoCampo(j).replace(/^(pel[ao]|no) /, "").replace(/^./, (c) => c.toUpperCase()) : `Joga ${ladoDoCampo(j)}`;
+    case "atributos": {
+      const lista = ordem.map((a) => `${a.sigla} ${a.valor}`);
+      return curto ? (ordem.slice(0, 2).map((a) => `${a.sigla} ${a.valor}`).join(" · ") || "sem dado") : `Atributos: ${lista.join(" · ") || "sem dado"}`;
+    }
+    case "overall": return curto ? `${j.overall} · ${nivel(j.overall).nome}` : `Overall ${j.overall} (${nivel(j.overall).nome})`;
+    case "camisa": return curto ? `Nº ${j.camisa ?? "—"} · ${j.jogos} J` : `Camisa ${j.camisa ?? "—"} · ${j.jogos} jogos na temporada`;
+    case "cores": return curto ? nomeDoKit(time) : `Camisa do clube: ${nomeDoKit(time)}`;
+    default: return "";
+  }
 }
-
-// versao curta pros cartoes de dica (cabem 2 por linha no celular); a longa vai no aviso
-function dicasCurtas() {
-  const { j, time } = J.alvo;
-  const ordem = atributosOrdenados(j);
-  return [
-    `${J.alvo.r.curto} · ${POSICAO[j.posicao]}`,
-    textoDaSelecao(j.player_id),
-    ladoDoCampo(j).replace(/^pel[ao] /, (m) => m[0].toUpperCase() + m.slice(1)),
-    `${j.overall} · ${nivel(j.overall).nome}`,
-    `Nº ${j.camisa ?? "—"} · ${j.jogos} jogos`,
-    nomeDoKit(time),
-  ];
-}
+// compatibilidade: o texto longo da dica n (na ordem sorteada desta partida)
+const textosDasDicas = () => J.ordem.map((tipo) => textoDaDica(tipo));
 
 function amostrasDoKit(time) {
   const kit = kitDoTime(time);
@@ -347,23 +348,50 @@ function amostrasDoKit(time) {
   return caixa;
 }
 
+// 6 cartoes: o 1o fixo (liga e posicao) e 5 de "dica surpresa", que viram no erro
 function listaDeDicas(novas = new Set()) {
   const abertas = dicasAbertas();
   const ol = $("dicas");
   ol.replaceChildren();
-  const textos = dicasCurtas();
-  DICAS.forEach((titulo, i) => {
-    const aberta = i < abertas;
-    const li = el("li", `${aberta ? "aberta" : "fechada"}${novas.has(i) ? " revelando" : ""}`);
-    li.title = titulo;
-    li.style.setProperty("--atraso", `${novas.has(i) ? 0.25 : 0}s`);
-    li.append(el("span", "dica-icone", aberta ? ICONES_DAS_DICAS[i] : "🔒"));
-    li.append(el("span", "dica-titulo", TITULOS_CURTOS[i]));
-    const valor = el("span", "dica-valor", aberta ? textos[i] : `no ${i}º erro`);
-    if (aberta && i === 5) valor.prepend(amostrasDoKit(J.alvo.time));
-    li.append(valor);
+  for (let i = 0; i < CHUTES; i++) {
+    const tipo = J.ordem[i];
+    const ok = i < abertas;
+    const li = el("li", `${ok ? "aberta" : "fechada"}${novas.has(tipo) ? " revelando" : ""}`);
+    li.dataset.tipo = ok ? tipo : "";
+    if (ok) {
+      li.title = textoDaDica(tipo);
+      li.append(el("span", "dica-icone", TIPOS_DE_DICA[tipo].icone), el("span", "dica-titulo", TIPOS_DE_DICA[tipo].curto));
+      const valor = el("span", "dica-valor", textoDaDica(tipo, true));
+      if (tipo === "cores") valor.prepend(amostrasDoKit(J.alvo.time));
+      li.append(valor);
+      if (novas.has(tipo)) rolarDado(li);
+    } else {
+      li.title = `Dica surpresa: sai no ${i}º erro`;
+      li.append(el("span", "dica-icone", "🎲"), el("span", "dica-valor", `${i}º erro`));
+    }
     ol.append(li);
-  });
+  }
+}
+
+// o cartao "rola o dado": passa por varios icones antes de parar no sorteado
+function rolarDado(li) {
+  if (movimentoReduzido) return;
+  const icone = li.querySelector(".dica-icone"), titulo = li.querySelector(".dica-titulo");
+  const final = [icone.textContent, titulo.textContent];
+  const tipos = Object.values(TIPOS_DE_DICA);
+  li.classList.add("rolando");
+  let n = 0;
+  const giro = setInterval(() => {
+    const t = tipos[n++ % tipos.length];
+    icone.textContent = t.icone;
+    titulo.textContent = t.curto;
+    if (n >= 9) {
+      clearInterval(giro);
+      [icone.textContent, titulo.textContent] = final;
+      li.classList.remove("rolando");
+      li.classList.add("parou");
+    }
+  }, 70);
 }
 
 // a dica da camisa fala as cores, nunca o clube
@@ -409,6 +437,9 @@ function comparar(id) {
     carta: c,
     clube: c.time.nome === alvo.time.nome,
     pos: c.j.posicao === alvo.j.posicao,
+    // sem pais no dado: nao compara (ausencia nunca e "outra selecao")
+    selecao: paisDe(id) && paisDe(alvo.j.player_id) ? paisDe(id) === paisDe(alvo.j.player_id) : null,
+    bandeira: paisDe(id) ? bandeira(paisDe(id)) : "",
     // ausencia nunca e zero: chute sem nota nao compara overall
     overall: overall === null ? null : overall === alvo.j.overall ? "=" : alvo.j.overall > overall ? "sobe" : "desce",
     certo: id === alvo.j.player_id,
@@ -430,6 +461,9 @@ function linhaDoChute(ch) {
     selos.append(
       selo(ch.clube, `${ch.clube ? "✅" : "❌"} Clube`, ch.clube ? "Mesmo clube" : "Outro clube"),
       selo(ch.pos, `${ch.pos ? "✅" : "❌"} Posição`, ch.pos ? "Mesma posição" : "Outra posição"),
+      ch.selecao === null
+        ? selo(null, `${ch.bandeira || "—"} Seleção`, "Sem dado de seleção")
+        : selo(ch.selecao, `${ch.selecao ? "✅" : "❌"} ${ch.bandeira} Seleção`.replace(/\s+/g, " "), ch.selecao ? "Mesma seleção" : "Outra seleção"),
       ch.overall === null
         ? selo(null, "— OVR", "Esse chute não tem nota nessa temporada")
         : selo(ch.overall === "=", `${ch.overall === "sobe" ? "⬆️" : ch.overall === "desce" ? "⬇️" : "✅"} OVR`,
@@ -450,7 +484,8 @@ function chutar(id) {
   if (ch.certo) return terminar("acertou");
   if (J.chutes.length >= CHUTES) return terminar("errou");
   // o valor junto: no celular a lista de dicas fica embaixo dos chutes, fora da tela
-  $("aviso").textContent = `Não é ${ch.nome}. Dica ${J.chutes.length + 1}: ${textosDasDicas()[J.chutes.length]}.`;
+  const nova = J.ordem[J.chutes.length];
+  $("aviso").textContent = `Não é ${ch.nome}. 🎲 Saiu a dica ${TIPOS_DE_DICA[nova].titulo.toLowerCase()}: ${textoDaDica(nova).replace(/^[^:]*: /, "")}.`;
   $("aviso").classList.remove("aviso-novo"); void $("aviso").offsetWidth; $("aviso").classList.add("aviso-novo");
   tremer($("busca-caixa"));
   desenhar();
@@ -490,7 +525,8 @@ function mostrarSugestoes() {
     const nome = el("b", null, o.nome);
     // nome curto abreviado demais ("J. P. B. d. O. Lo"): o completo ajuda a reconhecer
     if (o.nome_completo && normalizarBusca(o.nome_completo) !== normalizarBusca(o.nome)) nome.append(el("span", "completo", ` · ${o.nome_completo}`));
-    li.append(nome, el("small", null, o.detalhe));
+    const pais = paisDe(o.id);
+    li.append(nome, el("small", null, `${pais ? `${bandeira(pais)} ` : ""}${o.detalhe}`));
     // pointerdown antes do blur do campo, senao a lista fecha antes do clique
     li.addEventListener("pointerdown", (e) => { e.preventDefault(); chutar(o.id); });
     ul.append(li);
@@ -527,7 +563,7 @@ function desenhar() {
   const antes = J.abertasAntes ?? abertas;
   J.abertasAntes = abertas;
   const novas = new Set();
-  for (let i = antes; i < abertas; i++) novas.add(i);
+  for (let i = antes; i < abertas; i++) novas.add(J.ordem[i]);
 
   const carta = cartaMisteriosa(novas);
   if (novas.size) carta.classList.add("pulso");
@@ -560,7 +596,7 @@ function contarNumeros(raiz) {
   for (const n of raiz.querySelectorAll(".conta dd, strong.conta")) {
     const alvo = Number(n.textContent);
     if (!Number.isFinite(alvo)) continue;
-    const inicio = performance.now() + 250, dur = 650;
+    const inicio = performance.now() + 800, dur = 650;
     n.textContent = "0";
     const passo = (agora) => {
       const f = Math.min(1, Math.max(0, (agora - inicio) / dur));
@@ -590,9 +626,11 @@ function comecar({ diario = false } = {}) {
     if (feito) return reverDiario(feito);
     J.diario = { data: hojeLocal(), numero: numeroDoDesafio(hojeLocal()) };
     J.alvo = alvoDoDia(J.diario.data);
+    J.ordem = ordemDoDia(J.diario.data);
   } else {
     J.diario = null;
     J.alvo = alvoLivre();
+    J.ordem = sortearOrdem();
   }
   evento(diario ? "quem/diario" : "quem/inicio");
   $("aviso").textContent = "";
@@ -683,6 +721,7 @@ function reverDiario(feito) {
   if (!c || !r) { try { localStorage.removeItem(CHAVE_DIARIO); } catch { /* ok */ } return comecar({ diario: true }); }
   J.diario = { data: feito.data, numero: feito.numero };
   J.alvo = { ano: c.ano, chave: c.chave, j: c.j, time: c.time, r };
+  J.ordem = ordemDoDia(feito.data);
   J.chutes = feito.chutes.filter((id) => J.cartasDe.has(id)).map(comparar);
   // rever nao conta de novo na serie nem no contador
   terminar(feito.como, { revisao: true });

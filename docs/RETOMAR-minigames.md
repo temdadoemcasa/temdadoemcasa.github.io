@@ -4,8 +4,11 @@ Atualizado em **2026-09-27 (noite)**. Branch `prata-evolucao-e-caminho` (saiu de
 
 ## Quem Tá em Casa? e pacote de craque (30/09) -- no ar
 
-- **Quem Tá em Casa?** (`quem-ta-em-casa.html`, `quem-ta.js`, `quem-ta.css`): carta misteriosa, 6 chutes, uma dica por
-  erro (liga/ano/posição → 2 maiores atributos → resto + seleção → overall → camisa e jogos → cores do clube). Chute
+- **Quem Tá em Casa?** (`quem-ta-em-casa.html`, `quem-ta.js`, `quem-ta.css`): carta misteriosa, 6 chutes. Liga/ano/posição
+  abre desde o início; cada erro SORTEIA uma de 6 dicas (seleção, lado do campo pelo x médio, atributos, overall,
+  número e jogos, cores do clube com a cor do número), com animação de dado no cartão. No desafio do dia a ordem
+  vem da semente da data (`ordemDoDia`), igual pra todo mundo. Desafio a partir de 02/10: 3 de 5 dias Brasileirão,
+  Europa só `GRANDES_DA_EUROPA` ou 84+, uma carta por jogador. Chute compara clube, posição, seleção e overall (01/10). Chute
   errado compara clube, posição e overall (sem nota = "— OVR"). Desafio do dia (só temporada fechada, liga nova entra
   por data em `FASES_DO_DESAFIO`), partida livre com filtro Tudo/Brasileirão/Europa. Cartas: Brasileirão 2024-2026,
   Premier, LaLiga e Champions 25/26 (`dados/retratos-europa.json`). Teste: `testes/quem-ta.mjs` (45 checagens; 9

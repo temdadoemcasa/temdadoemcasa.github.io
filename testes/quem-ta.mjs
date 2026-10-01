@@ -28,6 +28,8 @@ const cartaEstado = (p) => p.evaluate(() => {
     nome: c.querySelector('.carta-nome').textContent,
     info: c.querySelector('.carta-info').textContent,
     kitReal: !c.querySelector('.carta-figura text') || c.querySelector('.carta-figura text').textContent !== '?',
+    svg: c.querySelector('.carta-figura svg').innerHTML,
+    bandeira: !!c.querySelector('.carta-bandeira'),
   };
 });
 
@@ -38,8 +40,8 @@ const cartaEstado = (p) => p.evaluate(() => {
   await p.click('#livre');
   // alvo de linha com 6 atributos calculados, pra contagem ser exata
   await p.evaluate(() => {
-    const c = candidatos(null).find((x) => x.j.posicao !== 'G' && Object.values(x.j.eixos).filter((v) => typeof v === 'number').length === 6);
-    J.alvo = c; J.chutes = []; J.fim = null; desenhar();
+    const c = candidatos(null).find((x) => x.j.posicao !== 'G' && paisDe(x.j.player_id) && Object.values(x.j.eixos).filter((v) => typeof v === 'number').length === 6);
+    J.alvo = c; J.chutes = []; J.fim = null; J.abertasAntes = null; desenhar();
   });
   let e = await cartaEstado(p);
   ok(e.ocultos === 6 && e.overall === '?' && e.nome === '? ? ?', `antes do 1º chute: 6 atributos, overall e nome escondidos (${e.ocultos}, ${e.overall}, ${e.nome})`);
@@ -47,30 +49,27 @@ const cartaEstado = (p) => p.evaluate(() => {
   const alvoNome = await p.evaluate(() => J.alvo.j.nome);
   const usados = [];
   const passo = async () => { const id = await errado(p, usados); usados.push(id); await chutarId(p, id); return cartaEstado(p); };
-  e = await passo();
-  ok(e.ocultos === 4, `1 erro: só os 2 maiores atributos abertos (${6 - e.ocultos} abertos)`);
-  const top2 = await p.evaluate(() => {
-    const abertos = [...document.querySelectorAll('#carta-misterio .carta-eixos div:not(.oculto) dd')].map((d) => Number(d.textContent));
-    const todos = Object.values(J.alvo.j.eixos).filter((v) => typeof v === 'number').sort((a, b) => b - a);
-    return Math.min(...abertos) >= todos[1];
-  });
-  ok(top2, '1 erro: os abertos são mesmo os 2 maiores');
-  // a selecao vem junto dos 2 maiores atributos (dica 2); o lado do campo, na dica 3
-  const selecao = await p.evaluate(() => ({ dica: document.querySelector('#dicas li:nth-child(2) .dica-valor').textContent, pais: paisDe(J.alvo.j.player_id), bandeira: !!document.querySelector('#carta-misterio .carta-bandeira') }));
-  ok(selecao.pais && selecao.dica.includes(await p.evaluate(() => nomeDoPais(paisDe(J.alvo.j.player_id)))) && !selecao.dica.includes('sem dado') && selecao.bandeira, `1 erro: seleção aparece com a bandeira na carta (${selecao.dica})`);
-  ok(await p.evaluate(() => document.querySelector('#dicas li:nth-child(3)').classList.contains('fechada')), '1 erro: lado do campo ainda escondido');
-  e = await passo();
-  ok(e.ocultos === 0 && e.overall === '?', `2 erros: todos os atributos, overall ainda escondido (${e.overall})`);
-  const lado = await p.evaluate(() => ({ dica: document.querySelector('#dicas li:nth-child(3) .dica-valor').textContent, esperado: ladoDoCampo(J.alvo.j) }));
-  ok(lado.dica.toLowerCase() === lado.esperado.toLowerCase(), `2 erros: lado do campo aparece (${lado.dica})`);
-  e = await passo();
-  ok(/^\d+$/.test(e.overall), `3 erros: overall aparece (${e.overall})`);
-  ok(/\? J/.test(e.info), '3 erros: jogos ainda escondidos');
-  e = await passo();
-  ok(!/\? J/.test(e.info), '4 erros: jogos aparecem');
-  ok(await p.evaluate(() => document.querySelector('#carta-misterio .carta-figura svg').innerHTML.includes('#2b313a')), '4 erros: camisa ainda neutra (sem cor do clube)');
-  e = await passo();
-  ok(await p.evaluate(() => !document.querySelector('#carta-misterio .carta-figura svg').innerHTML.includes('#2b313a')), '5 erros: camisa com a cor do clube');
+  // o que cada tipo de dica mostra na carta; os ainda fechados seguem escondidos
+  const conferir = (e, tipo, aberto) => ({
+    atributos: aberto ? e.ocultos === 0 : e.ocultos === 6,
+    overall: aberto ? /^\d+$/.test(e.overall) : e.overall === '?',
+    camisa: aberto ? !/\? J/.test(e.info) : /\? J/.test(e.info),
+    cores: aberto ? !e.svg.includes('#2b313a') : e.svg.includes('#2b313a'),
+    selecao: aberto ? e.bandeira : !e.bandeira,
+    lado: true,
+  })[tipo];
+  const ordem = await p.evaluate(() => J.ordem);
+  ok(ordem[0] === 'liga' && new Set(ordem).size === 7, `ordem: liga fixa + 6 sorteadas (${ordem.join(', ')})`);
+  for (let n = 1; n <= 5; n++) {
+    e = await passo();
+    const abertos = await p.evaluate(() => document.querySelectorAll('#dicas li.aberta').length);
+    const tipo = ordem[n];
+    ok(abertos === n + 1 && (await p.evaluate((n) => document.querySelector(`#dicas li:nth-child(${n + 1})`).dataset.tipo, n)) === tipo, `${n} erro(s): abriu a dica ${n + 1} (${tipo})`);
+    const certos = ordem.slice(1).every((t, i) => conferir(e, t, i < n));
+    ok(certos, `${n} erro(s): a carta mostra só o que já saiu`);
+    if (tipo === 'selecao') ok((await p.textContent('#dicas li[data-tipo="selecao"] .dica-valor')).includes(await p.evaluate(() => nomeDoPais(paisDe(J.alvo.j.player_id)))), 'seleção: nome do país no cartão');
+    if (tipo === 'lado') ok((await p.textContent('#dicas li[data-tipo="lado"] .dica-valor')).length > 0, 'lado do campo no cartão');
+  }
   ok(e.nome === '? ? ?', `5 erros: nome continua escondido (${e.nome})`);
   ok(!(await p.textContent('#dicas')).includes(alvoNome), 'nome do alvo não aparece nas dicas');
   await passo();
@@ -98,8 +97,8 @@ const cartaEstado = (p) => p.evaluate(() => {
   // o aviso traz o valor da dica nova (no celular a lista de dicas fica fora da tela)
   if (mesmo) {
     const aviso = await p.textContent('#aviso');
-    const esperado = await p.evaluate(() => textosDasDicas()[J.chutes.length]);
-    ok(aviso.includes(`Dica ${await p.evaluate(() => J.chutes.length + 1)}: ${esperado}`), `aviso mostra a dica nova com o valor (${aviso})`);
+    const esperado = await p.evaluate(() => { const t = J.ordem[J.chutes.length]; return [TIPOS_DE_DICA[t].titulo.toLowerCase(), textoDaDica(t).replace(/^[^:]*: /, '')]; });
+    ok(aviso.includes(esperado[0]) && aviso.includes(esperado[1]), `aviso mostra a dica sorteada com o valor (${aviso})`);
   }
   // chute sem nota na temporada do alvo: nunca seta de overall
   const semNota = await p.evaluate(() => {
@@ -132,6 +131,16 @@ const cartaEstado = (p) => p.evaluate(() => {
   await ctx.close();
 }
 
+// 2b. partida livre: a ordem das dicas muda de partida pra partida
+{
+  const ctx = await b.newContext();
+  const p = await abrir(ctx);
+  const ordens = new Set();
+  for (let i = 0; i < 6; i++) { await p.evaluate(() => comecar()); ordens.add(await p.evaluate(() => J.ordem.join(','))); }
+  ok(ordens.size > 1, `partida livre sorteia as dicas (${ordens.size} ordens diferentes em 6 partidas)`);
+  await ctx.close();
+}
+
 // 3. desafio do dia: igual em dois navegadores, uma vez so, compartilhar em quadradinhos
 {
   const nomes = [];
@@ -139,7 +148,8 @@ const cartaEstado = (p) => p.evaluate(() => {
     const ctx = await b.newContext();
     const p = await abrir(ctx);
     await p.click('#diario');
-    nomes.push(await p.evaluate(() => `${J.alvo.ano}-${J.alvo.j.player_id}`));
+    // mesmo jogador E mesma sequencia de dicas sorteadas pra todo mundo
+    nomes.push(await p.evaluate(() => `${J.alvo.ano}-${J.alvo.j.player_id}-${J.ordem.join(',')}`));
     if (i === 0) {
       const id = await errado(p);
       await chutarId(p, id);
