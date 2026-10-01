@@ -50,8 +50,8 @@ const CHAVE_SERIE = "quem-ta-serie";
 const TIPOS_DE_DICA = {
   liga: { icone: "🏟️", titulo: "Liga e posição", curto: "Liga" },
   selecao: { icone: "🌎", titulo: "Seleção", curto: "Seleção" },
-  lado: { icone: "🧭", titulo: "Lado do campo", curto: "Lado" },
-  atributos: { icone: "📊", titulo: "Atributos", curto: "Atributos" },
+  lado: { icone: "🧭", titulo: "Função em campo", curto: "Função" },
+  atributos: { icone: "📊", titulo: "Os 2 maiores atributos", curto: "Top 2 atributos" },
   overall: { icone: "⭐", titulo: "Overall", curto: "Overall" },
   camisa: { icone: "🔢", titulo: "Número e jogos", curto: "Nº e jogos" },
   cores: { icone: "🎨", titulo: "Cores do clube", curto: "Cores" },
@@ -286,11 +286,13 @@ function cartaMisteriosa(novas = new Set()) {
   if (J.fim && j.nome.length > 12) nome.classList.add("nome-longo");
   if (J.fim) nome.classList.remove("oculto");
 
+  const top2 = new Set(atributosOrdenados(j).slice(0, 2).map((a) => a.sigla));
   const eixos = el("dl", "carta-eixos");
   const lista = eixosDaCarta(j, J.alvo.r.eixos);
   eixos.style.setProperty("--n", lista.length);
   for (const [sigla, titulo, valor] of lista) {
-    const aberto = aberta("atributos");
+    // a dica de atributos abre os 2 maiores (o cartao mostra os mesmos); o resto, so no fim
+    const aberto = J.fim ? true : aberta("atributos") && top2.has(sigla);
     const abriuAgora = aberto && valor !== null && novas.has("atributos");
     const celula = el("div", valor === null ? "sem-dado" : aberto ? (abriuAgora ? "nova conta" : "") : "oculto");
     celula.title = !aberto ? `${titulo}: ainda escondido` : valor === null ? `${titulo}: sem dado` : `${titulo}: ${valor}`;
@@ -312,11 +314,21 @@ function cartaMisteriosa(novas = new Set()) {
   return carta;
 }
 
+// lado medio em campo (x_medio: 0 = esquerda, 1 = direita), dito como funcao de futebol
 function ladoDoCampo(j) {
   if (j.posicao === "G") return "no gol";
   const x = j.x_medio;
   if (typeof x !== "number") return "sem dado";
-  return x < 0.38 ? "pela esquerda" : x > 0.62 ? "pela direita" : "pelo meio";
+  return x < 0.38 ? "pela esquerda" : x > 0.62 ? "pela direita" : "pelo centro";
+}
+const FUNCOES = {
+  D: { "pela esquerda": "Lateral-esquerdo", "pelo centro": "Zagueiro", "pela direita": "Lateral-direito" },
+  M: { "pela esquerda": "Meia pela esquerda", "pelo centro": "Meio-campo central", "pela direita": "Meia pela direita" },
+  F: { "pela esquerda": "Ponta-esquerda", "pelo centro": "Centroavante", "pela direita": "Ponta-direita" },
+};
+function funcaoEmCampo(j) {
+  if (j.posicao === "G") return "Goleiro";
+  return (FUNCOES[j.posicao] || {})[ladoDoCampo(j)] || "sem dado";
 }
 
 // texto longo (aviso) e curto (cartao) de cada tipo de dica
@@ -326,10 +338,11 @@ function textoDaDica(tipo, curto = false) {
   switch (tipo) {
     case "liga": return curto ? `${J.alvo.r.curto} · ${POSICAO[j.posicao]}` : `${J.alvo.r.rotulo} · ${POSICAO[j.posicao]}`;
     case "selecao": return curto ? textoDaSelecao(j.player_id) : `Seleção: ${textoDaSelecao(j.player_id)}`;
-    case "lado": return curto ? ladoDoCampo(j).replace(/^(pel[ao]|no) /, "").replace(/^./, (c) => c.toUpperCase()) : `Joga ${ladoDoCampo(j)}`;
+    case "lado": return curto ? funcaoEmCampo(j) : `Função em campo: ${funcaoEmCampo(j)}${j.posicao === "G" || ladoDoCampo(j) === "sem dado" ? "" : ` (joga ${ladoDoCampo(j)})`}`;
     case "atributos": {
-      const lista = ordem.map((a) => `${a.sigla} ${a.valor}`);
-      return curto ? (ordem.slice(0, 2).map((a) => `${a.sigla} ${a.valor}`).join(" · ") || "sem dado") : `Atributos: ${lista.join(" · ") || "sem dado"}`;
+      const top = ordem.slice(0, 2);
+      return curto ? (top.map((a) => `${a.sigla} ${a.valor}`).join(" · ") || "sem dado")
+        : `Os 2 maiores atributos: ${top.map((a) => `${a.titulo} ${a.valor}`).join(" e ") || "sem dado"}`;
     }
     case "overall": return curto ? `${j.overall} · ${nivel(j.overall).nome}` : `Overall ${j.overall} (${nivel(j.overall).nome})`;
     case "camisa": return curto ? `Nº ${j.camisa ?? "—"} · ${j.jogos} J` : `Camisa ${j.camisa ?? "—"} · ${j.jogos} jogos na temporada`;
@@ -527,8 +540,10 @@ function mostrarSugestoes() {
     if (o.nome_completo && normalizarBusca(o.nome_completo) !== normalizarBusca(o.nome)) nome.append(el("span", "completo", ` · ${o.nome_completo}`));
     const pais = paisDe(o.id);
     li.append(nome, el("small", null, `${pais ? `${bandeira(pais)} ` : ""}${o.detalhe}`));
-    // pointerdown antes do blur do campo, senao a lista fecha antes do clique
-    li.addEventListener("pointerdown", (e) => { e.preventDefault(); chutar(o.id); });
+    // escolhe no "click", que so dispara num toque parado: rolar a lista com o dedo em cima
+    // de um nome nao chuta mais. O mousedown sem padrao segura o foco no campo (no computador)
+    li.addEventListener("mousedown", (e) => e.preventDefault());
+    li.addEventListener("click", () => chutar(o.id));
     ul.append(li);
   });
   const vazio = $("busca").value.trim().length >= 2 && !sugestoes.length;
@@ -788,7 +803,7 @@ async function iniciarQuem() {
   busca.addEventListener("click", () => {
     if (matchMedia("(max-width: 760px)").matches) setTimeout(() => busca.parentElement.scrollIntoView({ block: "start", behavior: "smooth" }), 250);
   });
-  busca.addEventListener("blur", () => setTimeout(fecharSugestoes, 120));
+  busca.addEventListener("blur", () => setTimeout(fecharSugestoes, 250));
   busca.addEventListener("keydown", (e) => {
     if (e.key === "ArrowDown" && sugestoes.length) { e.preventDefault(); destaque = (destaque + 1) % sugestoes.length; marcarDestaque(); }
     else if (e.key === "ArrowUp" && sugestoes.length) { e.preventDefault(); destaque = (destaque - 1 + sugestoes.length) % sugestoes.length; marcarDestaque(); }
