@@ -21,7 +21,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
   <script src="tema.js?v=2026-09-27j"></script>
   <link rel="stylesheet" href="estilo.css?v=2026-10-01home5">
-  <link rel="stylesheet" href="quem-ta.css?v=2026-10-01pais">
+  <link rel="stylesheet" href="quem-ta.css?v=2026-10-01v2">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
 </head>
@@ -68,30 +68,26 @@
 
     <!-- 2. o jogo -->
     <section class="tela" id="tela-jogo" aria-label="Partida" hidden>
-      <div class="mesa">
-        <div class="mesa-carta">
+      <div class="jogo-quem">
+        <div class="jogo-topo">
+          <span class="modo" id="modo"></span>
+          <div class="vidas" id="contador" role="img"></div>
+        </div>
+        <!-- a carta e as 6 dicas lado a lado: tudo que foi liberado fica sempre na tela -->
+        <div class="palco-quem">
           <div class="carta-misterio-caixa" id="carta-misterio"></div>
+          <ol class="dicas" id="dicas" aria-label="Dicas"></ol>
         </div>
-        <div class="mesa-jogo">
-          <div class="jogo-cabeca">
-            <span class="modo" id="modo"></span>
-            <span class="contador" id="contador"></span>
-          </div>
-          <div class="busca-caixa">
-            <label for="busca" class="rotulo">Quem é?</label>
-            <input id="busca" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Digite o nome do jogador"
-              role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="sugestoes">
-            <ul class="sugestoes" id="sugestoes" role="listbox" hidden></ul>
-            <p class="sem-sugestao" id="sem-sugestao" hidden>Nenhum jogador com esse nome nas cartas do site.</p>
-          </div>
-          <p class="aviso" id="aviso" aria-live="polite"></p>
-          <ol class="chutes" id="chutes" aria-label="Seus chutes"></ol>
-          <details class="dicas-caixa" open>
-            <summary>Dicas</summary>
-            <ol class="dicas" id="dicas"></ol>
-          </details>
-          <button class="botao botao-discreto" id="desistir" type="button">Desistir e ver quem é</button>
+        <div class="busca-caixa" id="busca-caixa">
+          <label for="busca" class="rotulo">Quem é?</label>
+          <input id="busca" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Chute um jogador"
+            role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="sugestoes">
+          <ul class="sugestoes" id="sugestoes" role="listbox" hidden></ul>
+          <p class="sem-sugestao" id="sem-sugestao" hidden>Nenhum jogador com esse nome nas cartas do site.</p>
         </div>
+        <p class="aviso" id="aviso" aria-live="polite"></p>
+        <ol class="chutes" id="chutes" aria-label="Seus chutes"></ol>
+        <button class="botao botao-discreto" id="desistir" type="button">Desistir e ver quem é</button>
       </div>
     </section>
 
@@ -129,7 +125,7 @@
   </footer>
 
   <script src="app.js?v=2026-10-01craque"></script>
-  <script src="quem-ta.js?v=2026-10-01ajustes"></script>
+  <script src="quem-ta.js?v=2026-10-01v2"></script>
   <script data-goatcounter="https://temdadoemcasa.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>
 </html>

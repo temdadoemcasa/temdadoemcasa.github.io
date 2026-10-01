@@ -9,6 +9,7 @@ const erros = [];
 
 async function abrir(ctx, viewport) {
   const p = await ctx.newPage(viewport ? { viewport } : undefined);
+  await p.emulateMedia({ reducedMotion: 'reduce' }); // a contagem animada dos numeros comeca em 0
   p.on('pageerror', (e) => erros.push(e.message));
   await p.goto(BASE + '/quem-ta-em-casa.html');
   await p.waitForSelector('#form-inicio:not([hidden])');
@@ -54,11 +55,11 @@ const cartaEstado = (p) => p.evaluate(() => {
     return Math.min(...abertos) >= todos[1];
   });
   ok(top2, '1 erro: os abertos são mesmo os 2 maiores');
-  ok(!(await p.textContent('#dicas')).includes('Seleção:'), '1 erro: seleção ainda escondida');
+  ok(await p.evaluate(() => document.querySelector('#dicas li:nth-child(3)').classList.contains('fechada') && !document.querySelector('#dicas li:nth-child(3)').textContent.includes(nomeDoPais(paisDe(J.alvo.j.player_id)))), '1 erro: seleção ainda escondida');
   e = await passo();
   ok(e.ocultos === 0 && e.overall === '?', `2 erros: todos os atributos, overall ainda escondido (${e.overall})`);
   const selecao = await p.evaluate(() => ({ dica: document.querySelector('#dicas li:nth-child(3) .dica-valor').textContent, pais: paisDe(J.alvo.j.player_id), nome: J.alvo.j.pais }));
-  ok(selecao.pais && selecao.dica.includes('Seleção: ') && !selecao.dica.includes('sem dado'), `2 erros: seleção aparece (${selecao.dica})`);
+  ok(selecao.pais && selecao.dica.includes(await p.evaluate(() => nomeDoPais(paisDe(J.alvo.j.player_id)))) && !selecao.dica.includes('sem dado'), `2 erros: seleção aparece (${selecao.dica})`);
   e = await passo();
   ok(/^\d+$/.test(e.overall), `3 erros: overall aparece (${e.overall})`);
   ok(/\? J/.test(e.info), '3 erros: jogos ainda escondidos');
