@@ -20,8 +20,17 @@ const FASES_DO_DESAFIO = [
   { desde: "2026-09-30", retratos: ["2024", "2025", "premier-league-2025", "champions-2025"] },
   { desde: "2026-10-01", retratos: ["2024", "2025", "premier-league-2025", "laliga-2025", "champions-2025"] },
   // uma carta por jogador: o mesmo jogador (2024 e 2025) caia duas vezes no mes
-  { desde: "2026-10-02", retratos: ["2024", "2025", "premier-league-2025", "laliga-2025", "champions-2025"], umPorJogador: true },
+  // uma carta por jogador; Europa so de clube grande ou craque (84+); 3 de 5 dias do Brasileirao
+  { desde: "2026-10-02", retratos: ["2024", "2025", "premier-league-2025", "laliga-2025", "champions-2025"], umPorJogador: true, conhecidos: true },
 ];
+// clubes da Europa que o torcedor brasileiro acompanha (fora deles, so carta 84+ entra no desafio)
+const GRANDES_DA_EUROPA = new Set([
+  "Arsenal", "Chelsea", "Liverpool", "Man City", "Man Utd", "Tottenham", "Newcastle", "Aston Villa",
+  "Real Madrid", "Barcelona", "Atlético Madrid", "Athletic Club", "Real Betis", "Sevilla", "Villarreal", "Real Sociedad",
+  "PSG", "Bayern", "Dortmund", "Leverkusen", "Inter", "Juventus", "Napoli", "Atalanta", "Benfica", "Sporting",
+  "Ajax", "PSV", "Marseille", "Galatasaray", "AS Monaco",
+]);
+const PADRAO_DO_DESAFIO = ["brasil", "europa", "brasil", "europa", "brasil"]; // 60% Brasileirao
 const faseDoDia = (data) => FASES_DO_DESAFIO.filter((f) => f.desde <= data).pop() || FASES_DO_DESAFIO[0];
 // os retratos do desafio de hoje (o teste confere que so tem temporada fechada)
 const RETRATOS_DO_DESAFIO = faseDoDia(hojeLocal()).retratos;
@@ -37,12 +46,12 @@ const CHAVE_DIARIO = "quem-ta-diario";
 const CHAVE_SERIE = "quem-ta-serie";
 
 // dica que aparece ANTES de cada chute: o chute n ve as dicas 0..n-1
-const ICONES_DAS_DICAS = ["🏟️", "📊", "🌎", "⭐", "👕", "🎨"];
-const TITULOS_CURTOS = ["Liga e posição", "Atributos", "Seleção", "Overall", "Camisa", "Cores do clube"];
+const ICONES_DAS_DICAS = ["🏟️", "🌎", "🧭", "⭐", "👕", "🎨"];
+const TITULOS_CURTOS = ["Liga e posição", "Seleção", "Lado do campo", "Overall", "Camisa", "Cores do clube"];
 const DICAS = [
   "Ano da carta e posição",
-  "Os 2 atributos mais altos",
-  "O resto dos atributos e a seleção",
+  "A seleção e os 2 atributos mais altos",
+  "O lado do campo e o resto dos atributos",
   "O overall",
   "Número da camisa e jogos na temporada",
   "A camisa do clube",
@@ -143,11 +152,31 @@ function alvoDoDia(data) {
     pool = pool.filter((c) => melhor.get(c.j.player_id) === c);
   }
   const rng = sementeRng(hashTexto(`quem-ta-v2-${fase.desde}`));
-  for (let i = pool.length - 1; i > 0; i--) {
-    const k = Math.floor(rng() * (i + 1));
-    [pool[i], pool[k]] = [pool[k], pool[i]];
-  }
+  const embaralhar = (lista) => {
+    for (let i = lista.length - 1; i > 0; i--) {
+      const k = Math.floor(rng() * (i + 1));
+      [lista[i], lista[k]] = [lista[k], lista[i]];
+    }
+    return lista;
+  };
   const n = numeroDoDesafio(data);
+  if (fase.conhecidos) {
+    // conta a partir do 1o dia da fase: a fase nova comeca do inicio das duas filas
+    const dia = n - numeroDoDesafio(fase.desde);
+    const conhecido = (c) => LIGAS.brasil(c.r) || GRANDES_DA_EUROPA.has(c.time.nome) || c.j.overall >= 84;
+    const filas = {
+      brasil: embaralhar(pool.filter((c) => LIGAS.brasil(c.r))),
+      europa: embaralhar(pool.filter((c) => LIGAS.europa(c.r) && conhecido(c))),
+    };
+    const qual = PADRAO_DO_DESAFIO[((dia % PADRAO_DO_DESAFIO.length) + PADRAO_DO_DESAFIO.length) % PADRAO_DO_DESAFIO.length];
+    // quantos dias dessa fila ja passaram antes de hoje
+    const volta = Math.floor(dia / PADRAO_DO_DESAFIO.length);
+    const antes = PADRAO_DO_DESAFIO.slice(0, ((dia % 5) + 5) % 5).filter((q) => q === qual).length;
+    const naFila = volta * PADRAO_DO_DESAFIO.filter((q) => q === qual).length + antes;
+    const fila = filas[qual];
+    return fila[((naFila % fila.length) + fila.length) % fila.length];
+  }
+  embaralhar(pool);
   return pool[(((n - 1) % pool.length) + pool.length) % pool.length];
 }
 
@@ -232,9 +261,9 @@ function cartaMisteriosa(novas = new Set()) {
   const topo = el("div", "carta-topo");
   const nota = el("div", "carta-nota");
   nota.append(el("strong", temOverall ? (novas.has(3) ? "nova conta" : "") : "oculto", temOverall ? String(j.overall) : "?"), el("span", "carta-pos", SIGLA[j.posicao] || ""));
-  // a bandeira aparece junto da dica 3
-  if (abertas >= 3 && paisDe(j.player_id)) {
-    const b = el("span", `carta-bandeira${novas.has(2) ? " nova" : ""}`, bandeira(paisDe(j.player_id)) || paisDe(j.player_id));
+  // a bandeira aparece junto da dica 2
+  if (abertas >= 2 && paisDe(j.player_id)) {
+    const b = el("span", `carta-bandeira${novas.has(1) ? " nova" : ""}`, bandeira(paisDe(j.player_id)) || paisDe(j.player_id));
     b.title = nomeDoPais(paisDe(j.player_id));
     nota.append(b);
   }
@@ -276,13 +305,20 @@ function cartaMisteriosa(novas = new Set()) {
   return carta;
 }
 
+function ladoDoCampo(j) {
+  if (j.posicao === "G") return "no gol";
+  const x = j.x_medio;
+  if (typeof x !== "number") return "sem dado";
+  return x < 0.38 ? "pela esquerda" : x > 0.62 ? "pela direita" : "pelo meio";
+}
+
 function textosDasDicas() {
   const { j, time } = J.alvo;
   const ordem = atributosOrdenados(j);
   return [
     `${J.alvo.r.rotulo} · ${POSICAO[j.posicao]}`,
-    ordem.slice(0, 2).map((a) => `${a.titulo} ${a.valor}`).join(" e ") || "sem atributo calculado",
-    `${ordem.slice(2).map((a) => `${a.sigla} ${a.valor}`).join(" · ") || "sem mais atributos"} · Seleção: ${textoDaSelecao(j.player_id)}`,
+    `Seleção: ${textoDaSelecao(j.player_id)} · ${ordem.slice(0, 2).map((a) => `${a.titulo} ${a.valor}`).join(" e ") || "sem atributo calculado"}`,
+    `Joga ${ladoDoCampo(j)} · ${ordem.slice(2).map((a) => `${a.sigla} ${a.valor}`).join(" · ") || "sem mais atributos"}`,
     `Overall ${j.overall} (${nivel(j.overall).nome})`,
     `Camisa ${j.camisa ?? "—"} · ${j.jogos} jogos`,
     `Camisa do clube: ${nomeDoKit(time)}`,
@@ -295,8 +331,8 @@ function dicasCurtas() {
   const ordem = atributosOrdenados(j);
   return [
     `${J.alvo.r.curto} · ${POSICAO[j.posicao]}`,
-    ordem.slice(0, 2).map((a) => `${a.sigla} ${a.valor}`).join(" · ") || "sem atributo",
     textoDaSelecao(j.player_id),
+    ladoDoCampo(j).replace(/^pel[ao] /, (m) => m[0].toUpperCase() + m.slice(1)),
     `${j.overall} · ${nivel(j.overall).nome}`,
     `Nº ${j.camisa ?? "—"} · ${j.jogos} jogos`,
     nomeDoKit(time),
@@ -336,8 +372,13 @@ function nomeDoKit(time) {
   const cores = kit.faixas && kit.faixas.length ? kit.faixas.map((f) => f[0]) : [kit.base];
   const unicas = [...new Set(cores.map(nomeDaCor))];
   const padrao = { vertical: "listrada", horizontal: "listrada na horizontal", "faixa-peito": "com faixa no peito", diagonal: "com faixa diagonal" }[kit.padrao];
-  return `${unicas.join(" e ")}${padrao ? `, ${padrao}` : ""}`;
+  const numero = nomeDaCor(kit.numero || (time.uniforme && time.uniforme.numero));
+  // a cor do numero separa os iguais (branca de numero preto x branca de numero azul)
+  const comNumero = numero !== "sem cor" && !unicas.includes(numero) ? `, número ${masculino(numero)}` : "";
+  return `${unicas.join(" e ")}${padrao ? `, ${padrao}` : ""}${comNumero}`;
 }
+// "camisa branca" mas "numero branco" (rosa, laranja, cinza e vinho nao mudam)
+const masculino = (cor) => (/(rosa|laranja|cinza|vinho)$/.test(cor) ? cor : cor.replace(/a$/, "o"));
 function nomeDaCor(hex) {
   const m = /^#?([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec(hex || "");
   if (!m) return "sem cor";
