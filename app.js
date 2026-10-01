@@ -1362,6 +1362,85 @@ function iniciarVitrine() {
   botao.addEventListener("click", novoEnvelope);
 }
 
+// --- pacote de craque: uma carta 83+ do Brasileirao ou da Europa ---------------
+// So pela resenha, ao lado do campinho. Chance igual pra cada craque (a melhor
+// carta de cada um), e o pool aparece escrito embaixo. Os retratos da Europa so
+// carregam no primeiro clique.
+const PISO_DO_CRAQUE = 83;
+
+async function poolDeCraques() {
+  const [anos, europa] = await Promise.all([json("dados/temporadas.json"), json("dados/retratos-europa.json").catch(() => [])]);
+  const retratos = await Promise.all([...anos.map(String), ...europa].map((k) => retrato(k).catch(() => null)));
+  const melhor = new Map();
+  for (const r of retratos.filter(Boolean)) {
+    for (const j of r.indice.comNota) {
+      if (j.overall < PISO_DO_CRAQUE || !r.indice.ranqueavel(j)) continue;
+      const atual = melhor.get(j.player_id);
+      if (!atual || j.overall > atual.j.overall) melhor.set(j.player_id, { j, r });
+    }
+  }
+  return [...melhor.values()];
+}
+
+function iniciarPacoteDeCraque() {
+  const palco = document.getElementById("palco-craque");
+  if (!palco) return;
+  const legenda = document.getElementById("craque-legenda");
+  const outro = document.getElementById("craque-outro");
+  const chances = document.getElementById("craque-chances");
+  let pool = null;
+  const carregar = () => (pool ||= poolDeCraques().then((p) => {
+    const br = p.filter(({ r }) => !r.torneio || r.torneio === 325).length;
+    chances.textContent = `Só craque ${PISO_DO_CRAQUE}+: ${br} do Brasileirão e ${p.length - br} da Europa, chance igual pra cada um.`;
+    return p;
+  }));
+
+  const novo = () => {
+    const envelope = montarEnvelope("83+");
+    envelope.querySelector(".envelope-titulo").textContent = "Craque";
+    envelope.setAttribute("aria-label", "Rasgar o pacote de craque");
+    palco.className = "palco";
+    palco.replaceChildren(envelope);
+    legenda.textContent = "Clica no pacote pra rasgar. Vem um craque do Brasil ou do mundo.";
+    outro.hidden = true;
+    let cliques = 0;
+    let sorteado = null;
+    envelope.addEventListener("click", async () => {
+      if (cliques >= 3) return;
+      cliques += 1;
+      envelope.dataset.cliques = String(cliques);
+      envelope.classList.remove("tremendo");
+      void envelope.offsetWidth;
+      envelope.classList.add("tremendo");
+      if (cliques === 1) {
+        legenda.textContent = "Mais forte…";
+        carregar().then((p) => { if (p.length) sorteado = p[Math.floor(Math.random() * p.length)]; }).catch(() => {});
+      }
+      if (cliques === 2) legenda.textContent = "Último puxão.";
+      if (cliques < 3) return;
+      const p = await carregar().catch(() => []);
+      if (!sorteado && p.length) sorteado = p[Math.floor(Math.random() * p.length)];
+      if (!sorteado) { legenda.textContent = "O pacote não abriu agora. Tenta de novo daqui a pouco."; outro.hidden = false; return; }
+      const { j, r } = sorteado;
+      const t = nivel(j.overall);
+      envelope.classList.add("rasgando");
+      palco.className = `palco nivel-${t.id} clarao`;
+      evento(`craque/${r.torneio && r.torneio !== 325 ? "europa" : "brasil"}`);
+      await espera(movimentoReduzido ? 0 : 450);
+      const time = TIME_DE.get(j);
+      const carta = cartaDoJogador(j, time, r, { estatica: true });
+      carta.classList.add("revelando");
+      palco.replaceChildren(carta);
+      legenda.textContent = `${j.nome} (${time.nome}, ${r.populacao} ${r.temporada_rotulo || r.temporada}), ${j.overall} ${SIGLA[j.posicao]}. ${FALAS[t.id]}`;
+      await espera(movimentoReduzido ? 0 : 1200);
+      palco.classList.remove("clarao");
+      outro.hidden = false;
+    });
+  };
+  outro.addEventListener("click", novo);
+  novo();
+}
+
 // --- controles ------------------------------------------------------------
 
 // "Sao Paulo" acha "são paulo", "gremio" acha "Grêmio"
@@ -1653,6 +1732,7 @@ async function iniciarOveralls() {
   const primeiro = await trocarTemporada();
   mostrarAbertura(primeiro);
   iniciarVitrine();
+  iniciarPacoteDeCraque();
   ligarBuscaDoTopo();
   selTemporada.addEventListener("change", trocarTemporada);
   selTime.addEventListener("change", mostrarElenco);

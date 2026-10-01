@@ -1187,3 +1187,14 @@ select, input {
 /* home com quatro jogos: 2 x 2 (em 4 colunas a escada e as cartas nao cabem) */
 .abertura .jogos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 @media (max-width: 760px) { .abertura .jogos { grid-template-columns: 1fr; } }
+
+/* --- selecao do Brasileirao com o pacote de craque a esquerda do campinho ----- */
+.secao-selecao { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); align-items: start; }
+.secao-selecao .selecao-textos { grid-column: 1 / -1; }
+.selecao-links { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 1.2rem; }
+.pacote-craque { display: flex; flex-direction: column; align-items: center; gap: 0.8rem; align-self: center; overflow-x: clip; overflow-y: visible; }
+.pacote-craque h3 { margin: 0; font-family: var(--numeros); font-size: 1.4rem; text-transform: uppercase; letter-spacing: 0.03em; }
+.pacote-craque .palco { width: min(240px, 64vw); }
+@media (max-width: 760px) {
+  .secao-selecao { grid-template-columns: 1fr; }
+}

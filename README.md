@@ -136,11 +136,15 @@ Na carta, o rodapé troca os minutos pelos dois números da função do jogador:
 
 ## Quem Tá em Casa? (`quem-ta-em-casa.html`)
 
-Uma carta misteriosa e 6 chutes. Usa só as cartas de `dados/overalls-{ano}.json` e as da Europa listadas em `dados/retratos-europa.json` (`overalls-premier-league-2025.json`, `overalls-champions-2025.json`, geradas por `futdata export-site --torneio 17|7`, na mesma régua do Brasileirão): nenhum número novo. Só esta página carrega os arquivos da Europa.
+Uma carta misteriosa e 6 chutes. Usa só as cartas de `dados/overalls-{ano}.json` e as da Europa listadas em `dados/retratos-europa.json` (`overalls-premier-league-2025.json`, `overalls-laliga-2025.json`, `overalls-champions-2025.json`, geradas por `futdata export-site --torneio 17|8|7`, na mesma régua do Brasileirão): nenhum número novo. Só esta página carrega os arquivos da Europa.
 
-- **Sorteio:** carta com nota calculada e 1.500 minutos ou mais na temporada (menos que isso sorteia reserva); 900 na Champions, que tem no máximo 17 jogos. A partida livre filtra por liga (Tudo, Brasileirão, Premier e Champions).
+- **Sorteio:** carta com nota calculada e 1.500 minutos ou mais na temporada (menos que isso sorteia reserva); 900 na Champions, que tem no máximo 17 jogos. A partida livre filtra por liga (Tudo, Brasileirão, Europa).
 - **Dicas, uma por erro:** liga, ano e posição (desde o início) → 2 maiores atributos → o resto e a seleção → overall → camisa e jogos → cores da camisa do clube (sem escudo). A seleção vem de `dados/paises.json` (`futdata export-paises`, do bruto de escalações do SofaScore, um mapa só pra todas as ligas); sem país no bruto, a dica diz "sem dado".
 - **Cada chute errado** compara com o certo: mesmo clube, mesma posição, overall maior ou menor. Chute sem nota naquela temporada mostra "— OVR", nunca seta: ausência não é zero.
 - **Vale o jogador**, em qualquer temporada ou liga. A carta do chute usada na comparação é a do mesmo retrato do alvo (liga e ano), senão a do mesmo ano, senão a mais nova.
-- **Desafio do dia:** só sorteia temporada fechada (`RETRATOS_DO_DESAFIO`, hoje Brasileirão 2024 e 2025, Premier e Champions 25/26), porque o retrato da temporada em andamento muda toda semana e o jogador do dia mudaria junto. O pool é embaralhado uma vez com semente fixa e o desafio N pega a posição N: não repete até passar por todos. Uma tentativa por dia (`localStorage`); compartilhar sai em quadradinhos (🟩 acertou, 🟨 mesmo clube e posição, 🟥 errou, ⬜ não usou).
+- **Desafio do dia:** só sorteia temporada fechada (`FASES_DO_DESAFIO`: liga nova entra a partir de uma data, nunca no meio do dia; desde 01/10 Brasileirão 2024 e 2025, Premier, LaLiga e Champions 25/26), porque o retrato da temporada em andamento muda toda semana e o jogador do dia mudaria junto. O pool é embaralhado uma vez com semente fixa e o desafio N pega a posição N: não repete até passar por todos. Uma tentativa por dia (`localStorage`); compartilhar sai em quadradinhos (🟩 acertou, 🟨 mesmo clube e posição, 🟥 errou, ⬜ não usou).
 - **Testes:** `node testes/rodar.mjs quem-ta`.
+
+## Pacote de craque (home, ao lado do campinho)
+
+Só pela resenha: três cliques rasgam o pacote e sai UMA carta 83+, do Brasileirão (2024 a 2026) ou da Europa (`dados/retratos-europa.json`, carregado no primeiro clique). Só quem passou do piso de minutos da liga; a melhor carta de cada jogador, chance igual pra cada um, e o pool aparece escrito embaixo. Teste: `node testes/rodar.mjs pacote-craque`.

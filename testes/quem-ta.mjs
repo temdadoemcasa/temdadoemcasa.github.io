@@ -153,14 +153,19 @@ const cartaEstado = (p) => p.evaluate(() => {
   const p = await abrir(ctx);
   const dias = await p.evaluate(() => ['2026-10-01', '2026-10-02', '2026-10-03'].map((d) => { const a = alvoDoDia(d); return `${a.chave}-${a.j.player_id}`; }));
   ok(new Set(dias).size === 3, `três dias, três jogadores (${dias.join(', ')})`);
-  const pool = await p.evaluate(() => [...new Set(candidatos(RETRATOS_DO_DESAFIO).map((c) => c.chave))].sort());
-  ok(JSON.stringify(pool) === JSON.stringify(['2024', '2025', 'champions-2025', 'premier-league-2025']), `desafio só sorteia temporada fechada (${pool})`);
+  const fechadas = ['2024', '2025', 'premier-league-2025', 'laliga-2025', 'champions-2025'];
+  const fases = await p.evaluate(() => FASES_DO_DESAFIO.map((f) => [...new Set(candidatos(f.retratos).map((c) => c.chave))].sort()));
+  ok(fases.every((f) => f.length && f.every((k) => fechadas.includes(k))), `desafio só sorteia temporada fechada (${JSON.stringify(fases)})`);
+  // liga nova entra a partir de uma data: o desafio de um dia que ja passou nao muda
+  const dia1 = await p.evaluate(() => faseDoDia('2026-09-30').retratos.includes('laliga-2025'));
+  const dia2 = await p.evaluate(() => faseDoDia('2026-10-02').retratos.includes('laliga-2025'));
+  ok(!dia1 && dia2, 'LaLiga entra no desafio só a partir de 01/10');
   ok(!dias.some((d) => d.startsWith('2026-')), 'desafio nunca sorteia 2026 (em andamento)');
   const pisoOk = await p.evaluate(() => candidatos(null).every((c) => c.j.minutos >= (c.r.torneio === 7 ? 900 : 1500) && c.j.overall !== null));
   ok(pisoOk, 'sorteio só com nota calculada e 1.500+ minutos (900 na Champions)');
   const ligas = await p.evaluate(() => [...new Set(candidatos(null).map((c) => c.r.populacao))].sort());
-  ok(ligas.length === 3, `partida livre tem as três ligas (${ligas})`);
-  const soEuropa = await p.evaluate(() => candidatos(LIGAS.europa).every((c) => c.r.torneio === 17 || c.r.torneio === 7));
+  ok(ligas.includes('Brasileirão') && ligas.length >= 3, `partida livre tem o Brasileirão e as ligas da Europa (${ligas})`);
+  const soEuropa = await p.evaluate(() => candidatos(LIGAS.europa).every((c) => c.r.populacao !== 'Brasileirão'));
   const soBrasil = await p.evaluate(() => candidatos(LIGAS.brasil).every((c) => c.r.populacao === 'Brasileirão'));
   ok(soEuropa && soBrasil, 'filtro de liga separa Brasileirão e Europa');
   await ctx.close();

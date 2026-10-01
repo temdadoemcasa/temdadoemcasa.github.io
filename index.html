@@ -22,7 +22,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
   <script src="tema.js?v=2026-09-27j"></script>
-  <link rel="stylesheet" href="estilo.css?v=2026-10-01quem">
+  <link rel="stylesheet" href="estilo.css?v=2026-10-01craque">
   <link rel="manifest" href="manifest.webmanifest">
 </head>
 <body>
@@ -77,7 +77,7 @@
           <div class="jogo-textos">
             <p class="jogo-papel">Novo · adivinhe o jogador</p>
             <h2>Quem Tá em Casa?</h2>
-            <p>Uma carta misteriosa do Brasileirão, da Premier League ou da Champions e 6 chutes. Cada erro libera uma dica. Tem desafio do dia.</p>
+            <p>Uma carta misteriosa do Brasileirão ou da Europa e 6 chutes. Cada erro libera uma dica. Tem desafio do dia.</p>
             <span class="botao botao-primario">Adivinhar</span>
           </div>
         </a>
@@ -111,8 +111,18 @@
       <div class="selecao-textos">
         <h2 id="selecao-titulo">A seleção do Brasileirão</h2>
         <p class="nota" id="selecao-regra">Sem opinião, só planilha: o maior overall de cada posição.</p>
-        <a class="botao" href="#overalls">Ver todas as cartas</a>
-        <button class="link-envelope" id="abrir-vitrine" type="button" hidden>Abrir um envelope com 5 figurinhas (só pela resenha)</button>
+        <div class="selecao-links">
+          <a class="botao" href="#overalls">Ver todas as cartas</a>
+          <button class="link-envelope" id="abrir-vitrine" type="button" hidden>Abrir um envelope com 5 figurinhas (só pela resenha)</button>
+        </div>
+      </div>
+      <!-- pacote de craque: so pela resenha, uma carta 83+ do Brasileirao ou da Europa -->
+      <div class="pacote-craque" aria-labelledby="craque-titulo">
+        <h3 id="craque-titulo">Pacote de craque</h3>
+        <div class="palco" id="palco-craque"></div>
+        <p class="vitrine-legenda" id="craque-legenda" aria-live="polite"></p>
+        <button class="botao botao-envelope" id="craque-outro" type="button" hidden>Abrir outro pacote</button>
+        <p class="chances" id="craque-chances">Só craque 83+, do Brasileirão e da Europa.</p>
       </div>
       <figure class="selecao" id="selecao" aria-live="polite"></figure>
     </section>
@@ -219,7 +229,7 @@
     <p class="rodape-autor">Site, dados e minigames feitos por <a href="https://www.linkedin.com/in/breno-sayao/" target="_blank" rel="noopener">Breno Sayão</a>, engenheiro de dados · <a href="https://www.linkedin.com/in/breno-sayao/" target="_blank" rel="noopener">LinkedIn</a></p>
   </footer>
 
-  <script src="app.js?v=2026-09-30pwa"></script>
+  <script src="app.js?v=2026-10-01craque"></script>
   <script data-goatcounter="https://temdadoemcasa.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>
 </html>

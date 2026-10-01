@@ -13,7 +13,16 @@ const PISO_SORTEIO_POR_TORNEIO = { 7: 900 };
 // o desafio do dia so sorteia temporada fechada: o retrato de uma temporada em
 // andamento muda toda semana, e o jogador do dia mudaria junto. Chave = nome
 // do arquivo (dados/overalls-<chave>.json).
-const RETRATOS_DO_DESAFIO = ["2024", "2025", "premier-league-2025", "champions-2025"];
+// Liga nova entra no desafio a partir de uma DATA (nunca no meio do dia: o
+// jogador de hoje nao pode mudar pra quem ainda nao jogou). Cada fase tem a
+// propria semente.
+const FASES_DO_DESAFIO = [
+  { desde: "2026-09-30", retratos: ["2024", "2025", "premier-league-2025", "champions-2025"] },
+  { desde: "2026-10-01", retratos: ["2024", "2025", "premier-league-2025", "laliga-2025", "champions-2025"] },
+];
+const faseDoDia = (data) => FASES_DO_DESAFIO.filter((f) => f.desde <= data).pop() || FASES_DO_DESAFIO[0];
+// os retratos do desafio de hoje (o teste confere que so tem temporada fechada)
+const RETRATOS_DO_DESAFIO = faseDoDia(hojeLocal()).retratos;
 // as ligas da partida livre: chave -> o que entra
 const LIGAS = {
   tudo: () => true,
@@ -121,8 +130,9 @@ function candidatos(filtro) {
 // Uma volta inteira sem repetir: embaralha o pool uma vez (semente fixa) e o
 // desafio N pega a posicao N. So repete depois de passar por todos.
 function alvoDoDia(data) {
-  const pool = candidatos(RETRATOS_DO_DESAFIO);
-  const rng = sementeRng(hashTexto("quem-ta-v2"));
+  const fase = faseDoDia(data);
+  const pool = candidatos(fase.retratos);
+  const rng = sementeRng(hashTexto(`quem-ta-v2-${fase.desde}`));
   for (let i = pool.length - 1; i > 0; i--) {
     const k = Math.floor(rng() * (i + 1));
     [pool[i], pool[k]] = [pool[k], pool[i]];

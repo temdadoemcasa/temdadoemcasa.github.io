@@ -16,7 +16,7 @@ await p.mouse.click(20, 450); await p.waitForTimeout(200);
 ok(await p.evaluate(() => !document.getElementById('ficha').open), 'clicar fora fecha a ficha');
 await p.click('#abrir-vitrine'); await p.waitForTimeout(300);
 ok(/Palha 25%/.test(await p.locator('#chances').textContent()), 'chances aparecem');
-for (let i=0;i<3;i++){ await p.click('.envelope'); await p.waitForTimeout(350); } await p.waitForTimeout(900);
+for (let i=0;i<3;i++){ await p.click('#palco .envelope'); await p.waitForTimeout(350); } await p.waitForTimeout(900);
 ok(await p.locator('#palco .carta').count() === 5, 'envelope abre 5 em 3 cliques');
 await p.waitForTimeout(2600); await p.screenshot({ path: `testes/resultados/home-envelope.png` });
 await p.click('#vitrine-fechar');
