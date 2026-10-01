@@ -1,15 +1,26 @@
 // Quem Tá em Casa?: adivinhe o jogador pela carta. 6 chutes; cada erro libera
 // uma dica, da mais vaga pra mais entregue, e mostra como o chute se compara
 // com o jogador certo. Usa as cartas do site (app.js): so numero calculado,
-// nada inventado. Vale acertar o jogador, em qualquer temporada.
+// nada inventado. Cartas do Brasileirao, da Premier League e da Champions,
+// na mesma regua. Vale acertar o jogador, em qualquer temporada ou liga.
 "use strict";
 
 const CHUTES = 6;
-// minutos pra entrar no sorteio: menos que isso sorteia reserva que ninguem lembra
+// minutos pra entrar no sorteio: menos que isso sorteia reserva que ninguem lembra.
+// A Champions tem no maximo 17 jogos (1.560 min o que mais jogou em 25/26): la o piso e menor.
 const PISO_SORTEIO = 1500;
+const PISO_SORTEIO_POR_TORNEIO = { 7: 900 };
 // o desafio do dia so sorteia temporada fechada: o retrato de uma temporada em
-// andamento muda toda semana, e o jogador do dia mudaria junto
-const ANOS_DO_DESAFIO = [2024, 2025];
+// andamento muda toda semana, e o jogador do dia mudaria junto. Chave = nome
+// do arquivo (dados/overalls-<chave>.json).
+const RETRATOS_DO_DESAFIO = ["2024", "2025", "premier-league-2025", "champions-2025"];
+// as ligas da partida livre: chave -> o que entra
+const LIGAS = {
+  tudo: () => true,
+  brasil: (r) => !r.torneio || r.torneio === 325,
+  europa: (r) => r.torneio && r.torneio !== 325,
+};
+const CHAVE_LIGA = "quem-ta-liga";
 const INICIO_DIARIO = "2026-09-30"; // desafio #1
 const CHAVE_DIARIO = "quem-ta-diario";
 const CHAVE_SERIE = "quem-ta-serie";
@@ -25,10 +36,11 @@ const DICAS = [
 ];
 
 const J = {
-  retratos: [], // [r], mais novo primeiro
-  cartasDe: new Map(), // player_id -> [{ ano, j, time }] (mais nova primeiro)
+  retratos: [], // [r] (r.chave = arquivo, r.curto = "Premier 25/26")
+  cartasDe: new Map(), // player_id -> [{ ano, chave, r, j, time }] (mais nova primeiro)
+  liga: "tudo",
   opcoes: [], // uma por jogador, pra busca
-  alvo: null, // { ano, j, time, r }
+  alvo: null, // { ano, chave, r, j, time }
   chutes: [], // [{ id, carta, clube, pos, overall }]
   fim: null, // "acertou" | "errou" | "desistiu"
   diario: null, // { data, numero }
@@ -61,25 +73,28 @@ function numeroDoDesafio(data) {
   return Math.round((dia(data) - dia(INICIO_DIARIO)) / 86400000) + 1;
 }
 
-const sorteavel = (j) => j.overall !== null && typeof j.minutos === "number" && j.minutos >= PISO_SORTEIO;
+const pisoDoSorteio = (r) => PISO_SORTEIO_POR_TORNEIO[r.torneio] ?? PISO_SORTEIO;
+const sorteavel = (j, r) => j.overall !== null && typeof j.minutos === "number" && j.minutos >= pisoDoSorteio(r);
 
-function candidatos(anos) {
+// filtro: lista de chaves de retrato, ou funcao (r) => bool, ou null (todos)
+function candidatos(filtro) {
+  const entra = Array.isArray(filtro) ? (r) => filtro.includes(r.chave) : filtro || (() => true);
   const lista = [];
   for (const r of J.retratos) {
-    if (anos && !anos.includes(r.temporada)) continue;
+    if (!entra(r)) continue;
     for (const time of r.times) {
-      for (const j of time.jogadores) if (sorteavel(j)) lista.push({ ano: r.temporada, j, time, r });
+      for (const j of time.jogadores) if (sorteavel(j, r)) lista.push({ ano: r.temporada, chave: r.chave, j, time, r });
     }
   }
-  // ordem estavel, independente da ordem do JSON
-  return lista.sort((a, b) => a.ano - b.ano || a.j.player_id - b.j.player_id);
+  // ordem estavel, independente da ordem do JSON e da ordem de carga
+  return lista.sort((a, b) => (a.chave < b.chave ? -1 : a.chave > b.chave ? 1 : 0) || a.j.player_id - b.j.player_id);
 }
 
 // Uma volta inteira sem repetir: embaralha o pool uma vez (semente fixa) e o
 // desafio N pega a posicao N. So repete depois de passar por todos.
 function alvoDoDia(data) {
-  const pool = candidatos(ANOS_DO_DESAFIO);
-  const rng = sementeRng(hashTexto("quem-ta-v1"));
+  const pool = candidatos(RETRATOS_DO_DESAFIO);
+  const rng = sementeRng(hashTexto("quem-ta-v2"));
   for (let i = pool.length - 1; i > 0; i--) {
     const k = Math.floor(rng() * (i + 1));
     [pool[i], pool[k]] = [pool[k], pool[i]];
@@ -89,11 +104,11 @@ function alvoDoDia(data) {
 }
 
 function alvoLivre() {
-  const pool = candidatos(null);
+  const pool = candidatos(LIGAS[J.liga] || LIGAS.tudo);
   const recentes = new Set(lerVistos());
-  const frescos = pool.filter((c) => !recentes.has(`${c.ano}-${c.j.player_id}`));
+  const frescos = pool.filter((c) => !recentes.has(`${c.chave}-${c.j.player_id}`));
   const escolha = (frescos.length ? frescos : pool)[Math.floor(Math.random() * (frescos.length || pool.length))];
-  guardarVisto(`${escolha.ano}-${escolha.j.player_id}`);
+  guardarVisto(`${escolha.chave}-${escolha.j.player_id}`);
   return escolha;
 }
 
@@ -113,12 +128,13 @@ function indexarJogadores() {
     for (const time of r.times) {
       for (const j of [...time.jogadores, ...(time.sairam || [])]) {
         if (!porId.has(j.player_id)) porId.set(j.player_id, []);
-        porId.get(j.player_id).push({ ano: r.temporada, j, time });
+        porId.get(j.player_id).push({ ano: r.temporada, chave: r.chave, r, j, time });
       }
     }
   }
   for (const [id, cartas] of porId) {
-    cartas.sort((a, b) => b.ano - a.ano);
+    // mais nova primeiro; no mesmo ano, o Brasileirao antes da Europa
+    cartas.sort((a, b) => b.ano - a.ano || Number(LIGAS.europa(a.r)) - Number(LIGAS.europa(b.r)));
     J.cartasDe.set(id, cartas);
     const clubes = [...new Set(cartas.map((c) => c.time.nome))];
     const base = cartas[0].j;
@@ -130,10 +146,11 @@ function indexarJogadores() {
   J.opcoes.sort((a, b) => a.nome.localeCompare(b.nome, "pt-BR"));
 }
 
-// a carta do chute que conversa com o alvo: a do mesmo ano se existir, senao a mais nova
+// a carta do chute que conversa com o alvo: a do mesmo retrato (liga e ano) se
+// existir, senao a do mesmo ano, senao a mais nova
 function cartaDoChute(id) {
   const cartas = J.cartasDe.get(id) || [];
-  return cartas.find((c) => c.ano === J.alvo.ano) || cartas[0];
+  return cartas.find((c) => c.chave === J.alvo.chave) || cartas.find((c) => c.ano === J.alvo.ano) || cartas[0];
 }
 
 // --- a carta misteriosa ------------------------------------------------------
@@ -194,7 +211,7 @@ function cartaMisteriosa() {
 
   const info = el("div", "carta-info");
   info.append(
-    el("span", null, `Brasileirão ${ano}`),
+    el("span", null, J.alvo.r.curto),
     el("span", null, abertas >= 5 ? `${j.jogos} J` : "? J"),
   );
   corpo.append(topo, nome, eixos, info);
@@ -209,7 +226,7 @@ function listaDeDicas() {
   const { j, time, ano } = J.alvo;
   const ordem = atributosOrdenados(j);
   const textos = [
-    `Brasileirão ${ano} · ${POSICAO[j.posicao]}`,
+    `${J.alvo.r.rotulo} · ${POSICAO[j.posicao]}`,
     ordem.slice(0, 2).map((a) => `${a.titulo} ${a.valor}`).join(" e ") || "sem atributo calculado",
     ordem.slice(2).map((a) => `${a.sigla} ${a.valor}`).join(" · ") || "sem mais atributos",
     `Overall ${j.overall} (${nivel(j.overall).nome})`,
@@ -271,7 +288,7 @@ function comparar(id) {
 function linhaDoChute(ch) {
   const li = el("li", `chute ${ch.certo ? "chute-certo" : ""}`);
   li.append(el("span", "chute-nome", ch.nome));
-  const sub = el("span", "chute-sub", `${ch.carta.time.nome} · ${ch.carta.ano}`);
+  const sub = el("span", "chute-sub", `${ch.carta.time.nome} · ${ch.carta.r.curto}`);
   li.append(sub);
   if (!ch.certo) {
     const selos = el("span", "chute-selos");
@@ -416,7 +433,7 @@ function terminar(como, { revisao = false } = {}) {
   $("fim-titulo").textContent = como === "acertou"
     ? (n === 1 ? "De primeira! Tá em casa." : `Acertou no ${n}º chute.`)
     : "Não foi dessa vez.";
-  $("fim-texto").textContent = `${j.nome_completo || j.nome}, ${time.nome}, Brasileirão ${ano}. Overall ${j.overall}.`;
+  $("fim-texto").textContent = `${j.nome_completo || j.nome}, ${time.nome}, ${J.alvo.r.rotulo}. Overall ${j.overall}.`;
   $("fim-grade").textContent = grade();
   $("fim-chutes").replaceChildren(...J.chutes.map(linhaDoChute));
 
@@ -433,7 +450,7 @@ function terminar(como, { revisao = false } = {}) {
   if (J.diario) {
     if (!revisao) try {
       localStorage.setItem(CHAVE_DIARIO, JSON.stringify({
-        data: J.diario.data, numero: J.diario.numero, como, ano, id: j.player_id, chutes: J.chutes.map((c) => c.id),
+        data: J.diario.data, numero: J.diario.numero, como, chave: J.alvo.chave, id: j.player_id, chutes: J.chutes.map((c) => c.id),
       }));
     } catch { /* ok */ }
     J.textoCompartilhar = `Quem Tá em Casa? · Desafio #${J.diario.numero} · ${placar}\n${grade()}\n${link}#desafio`;
@@ -452,11 +469,11 @@ function terminar(como, { revisao = false } = {}) {
 // desafio de hoje ja jogado: so mostra o resultado, sem jogar de novo
 function reverDiario(feito) {
   const cartas = J.cartasDe.get(feito.id) || [];
-  const c = cartas.find((x) => x.ano === feito.ano);
-  const r = J.retratos.find((x) => x.temporada === feito.ano);
+  const c = cartas.find((x) => x.chave === feito.chave);
+  const r = c && c.r;
   if (!c || !r) { try { localStorage.removeItem(CHAVE_DIARIO); } catch { /* ok */ } return comecar({ diario: true }); }
   J.diario = { data: feito.data, numero: feito.numero };
-  J.alvo = { ano: c.ano, j: c.j, time: c.time, r };
+  J.alvo = { ano: c.ano, chave: c.chave, j: c.j, time: c.time, r };
   J.chutes = feito.chutes.filter((id) => J.cartasDe.has(id)).map(comparar);
   // rever nao conta de novo na serie nem no contador
   terminar(feito.como, { revisao: true });
@@ -472,12 +489,29 @@ function atualizarBotaoDiario() {
 }
 
 async function iniciarQuem() {
-  const [uniformes, anos] = await Promise.all([
+  const [uniformes, anos, europa] = await Promise.all([
     json("dados/uniformes.json").catch(() => ({})),
     json("dados/temporadas.json"),
+    // Premier League e Champions: so este jogo carrega (o resto do site e Brasileirao)
+    json("dados/retratos-europa.json").catch(() => []),
   ]);
   UNIFORMES = uniformes;
-  J.retratos = await Promise.all(anos.map((a) => retrato(String(a))));
+  const chaves = [...anos.map(String), ...europa];
+  J.retratos = await Promise.all(chaves.map(async (chave) => {
+    const r = await retrato(chave);
+    r.chave = chave;
+    r.rotulo = `${r.populacao} ${r.temporada_rotulo || r.temporada}`;
+    r.curto = `${r.populacao.replace(/ League$/, "")} ${r.temporada_rotulo || r.temporada}`;
+    return r;
+  }));
+  try { if (LIGAS[localStorage.getItem(CHAVE_LIGA)]) J.liga = localStorage.getItem(CHAVE_LIGA); } catch { /* ok */ }
+  const marcarLiga = () => document.querySelectorAll("#ligas .chip").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.liga === J.liga)));
+  marcarLiga();
+  document.querySelectorAll("#ligas .chip").forEach((b) => b.addEventListener("click", () => {
+    J.liga = b.dataset.liga;
+    try { localStorage.setItem(CHAVE_LIGA, J.liga); } catch { /* ok */ }
+    marcarLiga();
+  }));
   indexarJogadores();
   $("carregando").hidden = true;
   $("form-inicio").hidden = false;

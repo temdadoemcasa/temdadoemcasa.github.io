@@ -15,6 +15,8 @@
 .quem .inicio-form { display: grid; gap: 0.7rem; max-width: 26rem; }
 .quem .inicio-nota { margin: 1.2rem 0 0; font-size: 0.85rem; color: var(--texto-fraco); max-width: 54ch; }
 .quem .carregando { color: var(--texto-fraco); }
+.quem .chip[aria-pressed="true"] { background: var(--quem); border-color: var(--quem); color: #111; }
+#ligas { margin-top: 0.1rem; }
 .botao-diario { display: grid; gap: 0.15rem; text-align: left; }
 .botao-diario small { font-weight: 600; font-size: 0.8rem; opacity: 0.8; }
 .quem .inicio-carta { width: min(240px, 60vw); justify-self: center; }

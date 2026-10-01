@@ -42,7 +42,7 @@ const cartaEstado = (p) => p.evaluate(() => {
   });
   let e = await cartaEstado(p);
   ok(e.ocultos === 6 && e.overall === '?' && e.nome === '? ? ?', `antes do 1º chute: 6 atributos, overall e nome escondidos (${e.ocultos}, ${e.overall}, ${e.nome})`);
-  ok(/Brasileirão 20\d\d/.test(e.info), 'dica 1 (ano) aparece desde o início');
+  ok(/(Brasileirão 20\d\d|Premier \d\d\/\d\d|Champions \d\d\/\d\d)/.test(e.info), `dica 1 (liga e ano) aparece desde o início (${e.info})`);
   const alvoNome = await p.evaluate(() => J.alvo.j.nome);
   const usados = [];
   const passo = async () => { const id = await errado(p, usados); usados.push(id); await chutarId(p, id); return cartaEstado(p); };
@@ -143,11 +143,18 @@ const cartaEstado = (p) => p.evaluate(() => {
   // desafio so de temporada fechada, e muda de um dia pro outro
   const ctx = await b.newContext();
   const p = await abrir(ctx);
-  const dias = await p.evaluate(() => ['2026-10-01', '2026-10-02', '2026-10-03'].map((d) => { const a = alvoDoDia(d); return `${a.ano}-${a.j.player_id}`; }));
+  const dias = await p.evaluate(() => ['2026-10-01', '2026-10-02', '2026-10-03'].map((d) => { const a = alvoDoDia(d); return `${a.chave}-${a.j.player_id}`; }));
   ok(new Set(dias).size === 3, `três dias, três jogadores (${dias.join(', ')})`);
-  ok(dias.every((d) => /^202[45]-/.test(d)), 'desafio só sorteia 2024 e 2025');
-  const pisoOk = await p.evaluate(() => candidatos(null).every((c) => c.j.minutos >= 1500 && c.j.overall !== null));
-  ok(pisoOk, 'sorteio só com 1.500+ minutos e nota calculada');
+  const pool = await p.evaluate(() => [...new Set(candidatos(RETRATOS_DO_DESAFIO).map((c) => c.chave))].sort());
+  ok(JSON.stringify(pool) === JSON.stringify(['2024', '2025', 'champions-2025', 'premier-league-2025']), `desafio só sorteia temporada fechada (${pool})`);
+  ok(!dias.some((d) => d.startsWith('2026-')), 'desafio nunca sorteia 2026 (em andamento)');
+  const pisoOk = await p.evaluate(() => candidatos(null).every((c) => c.j.minutos >= (c.r.torneio === 7 ? 900 : 1500) && c.j.overall !== null));
+  ok(pisoOk, 'sorteio só com nota calculada e 1.500+ minutos (900 na Champions)');
+  const ligas = await p.evaluate(() => [...new Set(candidatos(null).map((c) => c.r.populacao))].sort());
+  ok(ligas.length === 3, `partida livre tem as três ligas (${ligas})`);
+  const soEuropa = await p.evaluate(() => candidatos(LIGAS.europa).every((c) => c.r.torneio === 17 || c.r.torneio === 7));
+  const soBrasil = await p.evaluate(() => candidatos(LIGAS.brasil).every((c) => c.r.populacao === 'Brasileirão'));
+  ok(soEuropa && soBrasil, 'filtro de liga separa Brasileirão e Europa');
   await ctx.close();
 }
 

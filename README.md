@@ -136,11 +136,11 @@ Na carta, o rodapé troca os minutos pelos dois números da função do jogador:
 
 ## Quem Tá em Casa? (`quem-ta-em-casa.html`)
 
-Uma carta misteriosa e 6 chutes. Usa só as cartas de `dados/overalls-{ano}.json`: nenhum número novo.
+Uma carta misteriosa e 6 chutes. Usa só as cartas de `dados/overalls-{ano}.json` e as da Europa listadas em `dados/retratos-europa.json` (`overalls-premier-league-2025.json`, `overalls-champions-2025.json`, geradas por `futdata export-site --torneio 17|7`, na mesma régua do Brasileirão): nenhum número novo. Só esta página carrega os arquivos da Europa.
 
-- **Sorteio:** carta com nota calculada e 1.500 minutos ou mais na temporada (menos que isso sorteia reserva).
+- **Sorteio:** carta com nota calculada e 1.500 minutos ou mais na temporada (menos que isso sorteia reserva); 900 na Champions, que tem no máximo 17 jogos. A partida livre filtra por liga (Tudo, Brasileirão, Premier e Champions).
 - **Dicas, uma por erro:** ano e posição (desde o início) → 2 maiores atributos → o resto → overall → camisa e jogos → cores da camisa do clube (sem escudo).
 - **Cada chute errado** compara com o certo: mesmo clube, mesma posição, overall maior ou menor. Chute sem nota naquela temporada mostra "— OVR", nunca seta: ausência não é zero.
-- **Vale o jogador**, em qualquer temporada. A carta do chute usada na comparação é a do mesmo ano do alvo, se existir; senão a mais nova.
-- **Desafio do dia:** só sorteia temporada fechada (`ANOS_DO_DESAFIO`, hoje 2024 e 2025), porque o retrato da temporada em andamento muda toda semana e o jogador do dia mudaria junto. O pool é embaralhado uma vez com semente fixa e o desafio N pega a posição N: não repete até passar por todos. Uma tentativa por dia (`localStorage`); compartilhar sai em quadradinhos (🟩 acertou, 🟨 mesmo clube e posição, 🟥 errou, ⬜ não usou).
+- **Vale o jogador**, em qualquer temporada ou liga. A carta do chute usada na comparação é a do mesmo retrato do alvo (liga e ano), senão a do mesmo ano, senão a mais nova.
+- **Desafio do dia:** só sorteia temporada fechada (`RETRATOS_DO_DESAFIO`, hoje Brasileirão 2024 e 2025, Premier e Champions 25/26), porque o retrato da temporada em andamento muda toda semana e o jogador do dia mudaria junto. O pool é embaralhado uma vez com semente fixa e o desafio N pega a posição N: não repete até passar por todos. Uma tentativa por dia (`localStorage`); compartilhar sai em quadradinhos (🟩 acertou, 🟨 mesmo clube e posição, 🟥 errou, ⬜ não usou).
 - **Testes:** `node testes/rodar.mjs quem-ta`.
