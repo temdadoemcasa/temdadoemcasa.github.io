@@ -2,6 +2,21 @@
 
 Atualizado em **2026-09-27 (noite)**. Branch `prata-evolucao-e-caminho` (saiu de `integracao-main`), no GitHub, **não está no `main`**.
 
+## Quem Tá em Casa? e pacote de craque (30/09) -- no ar
+
+- **Quem Tá em Casa?** (`quem-ta-em-casa.html`, `quem-ta.js`, `quem-ta.css`): carta misteriosa, 6 chutes, uma dica por
+  erro (liga/ano/posição → 2 maiores atributos → resto + seleção → overall → camisa e jogos → cores do clube). Chute
+  errado compara clube, posição e overall (sem nota = "— OVR"). Desafio do dia (só temporada fechada, liga nova entra
+  por data em `FASES_DO_DESAFIO`), partida livre com filtro Tudo/Brasileirão/Europa. Cartas: Brasileirão 2024-2026,
+  Premier, LaLiga e Champions 25/26 (`dados/retratos-europa.json`). Teste: `testes/quem-ta.mjs` (45 checagens; 9
+  mutações pegas na 1ª versão).
+- **Pacote de craque** (home, à esquerda do campinho): uma carta 83+ do Brasileirão ou da Europa. `testes/pacote-craque.mjs`.
+- **Home:** os 4 minigames em grade 2x2; depois vídeos; depois seleção (pacote + campinho).
+- **Próximo:** quando a Ligue 1/Bundesliga/Serie A ITA forem coletadas no futdata, exportar, pôr em
+  `retratos-europa.json`, rodar `export-paises` e criar uma fase nova (data futura) em `FASES_DO_DESAFIO`.
+- **Pendente com o dono:** Champions tem notas espremidas (máx. 17 jogos; Kairat média 73,6 > Wolves 67,6); sorteio da
+  Champions usa piso de 900 min (76 cartas).
+
 ## Show do Dadão: frase da resposta (29/09)
 
 - Cada pergunta tem o campo `r`: uma frase de resenha sobre a resposta certa (aparece no carregamento se acertou e na tela final se errou; a curiosidade `x` continua embaixo).
