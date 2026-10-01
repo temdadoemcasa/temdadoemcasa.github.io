@@ -37,6 +37,8 @@ const CHAVE_DIARIO = "quem-ta-diario";
 const CHAVE_SERIE = "quem-ta-serie";
 
 // dica que aparece ANTES de cada chute: o chute n ve as dicas 0..n-1
+const ICONES_DAS_DICAS = ["🏟️", "📊", "🌎", "⭐", "👕", "🎨"];
+const TITULOS_CURTOS = ["Liga e posição", "Atributos", "Seleção", "Overall", "Camisa", "Cores do clube"];
 const DICAS = [
   "Ano da carta e posição",
   "Os 2 atributos mais altos",
@@ -210,12 +212,13 @@ function atributosOrdenados(j) {
     .sort((a, b) => b.valor - a.valor || a.i - b.i);
 }
 
-function cartaMisteriosa() {
+// novas: indices das dicas que abriram AGORA (0..5) -> o que entra animado na carta
+function cartaMisteriosa(novas = new Set()) {
   const { j, time, ano } = J.alvo;
   const abertas = dicasAbertas();
   const temOverall = abertas >= 4;
   const t = nivel(j.overall);
-  const carta = el("article", `carta carta-misterio ${temOverall ? `nivel-${t.id}` : "nivel-misterio"}`);
+  const carta = el("article", `carta carta-misterio ${temOverall ? `nivel-${t.id}` : "nivel-misterio"}${novas.has(3) ? " trocou-nivel" : ""}`);
   carta.setAttribute("aria-label", "Carta misteriosa");
 
   const telhado = svg("svg", { class: "carta-telhado", viewBox: "0 0 100 30", "aria-hidden": "true" });
@@ -228,14 +231,14 @@ function cartaMisteriosa() {
   const corpo = el("div", "carta-corpo");
   const topo = el("div", "carta-topo");
   const nota = el("div", "carta-nota");
-  nota.append(el("strong", temOverall ? "" : "oculto", temOverall ? String(j.overall) : "?"), el("span", "carta-pos", SIGLA[j.posicao] || ""));
+  nota.append(el("strong", temOverall ? (novas.has(3) ? "nova conta" : "") : "oculto", temOverall ? String(j.overall) : "?"), el("span", "carta-pos", SIGLA[j.posicao] || ""));
   // a bandeira aparece junto da dica 3
   if (abertas >= 3 && paisDe(j.player_id)) {
-    const b = el("span", "carta-bandeira", bandeira(paisDe(j.player_id)) || paisDe(j.player_id));
+    const b = el("span", `carta-bandeira${novas.has(2) ? " nova" : ""}`, bandeira(paisDe(j.player_id)) || paisDe(j.player_id));
     b.title = nomeDoPais(paisDe(j.player_id));
     nota.append(b);
   }
-  const boneco = el("div", "carta-figura");
+  const boneco = el("div", `carta-figura${novas.has(4) || novas.has(5) ? " nova" : ""}`);
   if (abertas >= 6) boneco.append(figura(time, j.camisa, { cabeca: false }));
   else boneco.append(figura({ kit: { padrao: "lisa", base: "#2b313a", numero: "#8b949e" } }, abertas >= 5 ? j.camisa : "?", { cabeca: false }));
   topo.append(nota, boneco);
@@ -251,7 +254,9 @@ function cartaMisteriosa() {
   eixos.style.setProperty("--n", lista.length);
   for (const [sigla, titulo, valor] of lista) {
     const aberto = abertas >= 3 || (abertas >= 2 && top2.has(sigla));
-    const celula = el("div", valor === null ? "sem-dado" : aberto ? "" : "oculto");
+    // abriu agora: na dica 2 os dois maiores, na 3 o resto
+    const abriuAgora = aberto && valor !== null && ((novas.has(1) && top2.has(sigla)) || (novas.has(2) && !top2.has(sigla)));
+    const celula = el("div", valor === null ? "sem-dado" : aberto ? (abriuAgora ? "nova conta" : "") : "oculto");
     celula.title = !aberto ? `${titulo}: ainda escondido` : valor === null ? `${titulo}: sem dado` : `${titulo}: ${valor}`;
     if (aberto && valor !== null) {
       celula.style.setProperty("--cor", calor(valor));
@@ -284,15 +289,43 @@ function textosDasDicas() {
   ];
 }
 
-function listaDeDicas() {
+// versao curta pros cartoes de dica (cabem 2 por linha no celular); a longa vai no aviso
+function dicasCurtas() {
+  const { j, time } = J.alvo;
+  const ordem = atributosOrdenados(j);
+  return [
+    `${J.alvo.r.curto} · ${POSICAO[j.posicao]}`,
+    ordem.slice(0, 2).map((a) => `${a.sigla} ${a.valor}`).join(" · ") || "sem atributo",
+    textoDaSelecao(j.player_id),
+    `${j.overall} · ${nivel(j.overall).nome}`,
+    `Nº ${j.camisa ?? "—"} · ${j.jogos} jogos`,
+    nomeDoKit(time),
+  ];
+}
+
+function amostrasDoKit(time) {
+  const kit = kitDoTime(time);
+  const cores = kit.faixas && kit.faixas.length ? kit.faixas.map((f) => f[0]) : [kit.base];
+  const caixa = el("span", "kit-cores");
+  for (const c of [...new Set(cores)]) { const s = el("i"); s.style.background = c; caixa.append(s); }
+  return caixa;
+}
+
+function listaDeDicas(novas = new Set()) {
   const abertas = dicasAbertas();
   const ol = $("dicas");
   ol.replaceChildren();
-  const textos = textosDasDicas();
+  const textos = dicasCurtas();
   DICAS.forEach((titulo, i) => {
-    const li = el("li", i < abertas ? "aberta" : "fechada");
-    li.append(el("span", "dica-titulo", titulo));
-    li.append(el("span", "dica-valor", i < abertas ? textos[i] : i === 0 ? "" : `libera no ${i}º erro`));
+    const aberta = i < abertas;
+    const li = el("li", `${aberta ? "aberta" : "fechada"}${novas.has(i) ? " revelando" : ""}`);
+    li.title = titulo;
+    li.style.setProperty("--atraso", `${novas.has(i) ? 0.25 : 0}s`);
+    li.append(el("span", "dica-icone", aberta ? ICONES_DAS_DICAS[i] : "🔒"));
+    li.append(el("span", "dica-titulo", TITULOS_CURTOS[i]));
+    const valor = el("span", "dica-valor", aberta ? textos[i] : `no ${i}º erro`);
+    if (aberta && i === 5) valor.prepend(amostrasDoKit(J.alvo.time));
+    li.append(valor);
     ol.append(li);
   });
 }
@@ -377,8 +410,15 @@ function chutar(id) {
   if (J.chutes.length >= CHUTES) return terminar("errou");
   // o valor junto: no celular a lista de dicas fica embaixo dos chutes, fora da tela
   $("aviso").textContent = `Não é ${ch.nome}. Dica ${J.chutes.length + 1}: ${textosDasDicas()[J.chutes.length]}.`;
+  $("aviso").classList.remove("aviso-novo"); void $("aviso").offsetWidth; $("aviso").classList.add("aviso-novo");
+  tremer($("busca-caixa"));
   desenhar();
-  $("busca").focus();
+  // celular: fecha o teclado e volta pro topo pra ver a dica abrindo na carta;
+  // no computador o cursor fica no campo pro proximo chute
+  if (matchMedia("(max-width: 760px)").matches) {
+    $("busca").blur();
+    window.scrollTo({ top: 0, behavior: movimentoReduzido ? "auto" : "smooth" });
+  } else $("busca").focus();
 }
 
 // --- busca com autocompletar -------------------------------------------------
@@ -439,21 +479,71 @@ function mostrarTela(id) {
   for (const t of document.querySelectorAll(".quem .tela")) t.hidden = t.id !== id;
 }
 
+
 function desenhar() {
-  $("carta-misterio").replaceChildren(cartaMisteriosa());
-  listaDeDicas();
+  // o que abriu desde o ultimo desenho entra animado (na 1a vez, nada anima)
+  const abertas = dicasAbertas();
+  const antes = J.abertasAntes ?? abertas;
+  J.abertasAntes = abertas;
+  const novas = new Set();
+  for (let i = antes; i < abertas; i++) novas.add(i);
+
+  const carta = cartaMisteriosa(novas);
+  if (novas.size) carta.classList.add("pulso");
+  $("carta-misterio").replaceChildren(carta);
+  listaDeDicas(novas);
+  contarNumeros(carta);
   const lista = $("chutes");
-  // o mais novo em cima, colado no campo de busca e no aviso
-  lista.replaceChildren(...[...J.chutes].reverse().map(linhaDoChute));
+  // o mais novo em cima, colado no campo de busca e no aviso; so ele entra animado
+  lista.replaceChildren(...[...J.chutes].reverse().map((ch, i) => {
+    const li = linhaDoChute(ch);
+    if (i === 0 && novas.size) li.classList.add("novo");
+    return li;
+  }));
   const faltam = CHUTES - J.chutes.length;
-  $("contador").textContent = J.fim ? "" : `Chute ${J.chutes.length + 1} de ${CHUTES}`;
-  $("contador").dataset.ultimo = String(faltam === 1);
+  const vidas = $("contador");
+  vidas.replaceChildren(...Array.from({ length: CHUTES }, (_, i) => {
+    const ch = J.chutes[i];
+    const b = el("i", ch ? (ch.certo ? "vida certa" : "vida errada") : i === J.chutes.length ? "vida atual" : "vida");
+    if (ch && i === J.chutes.length - 1 && novas.size) b.classList.add("acabou");
+    return b;
+  }), el("span", "vidas-texto", J.fim ? "" : `Chute ${J.chutes.length + 1} de ${CHUTES}`));
+  vidas.setAttribute("aria-label", `Chute ${J.chutes.length + 1} de ${CHUTES}`);
+  vidas.dataset.ultimo = String(faltam === 1);
   $("modo").textContent = J.diario ? `Desafio #${J.diario.numero}` : "Partida livre";
+}
+
+// numero que acabou de aparecer conta de 0 ate o valor (overall e atributos)
+function contarNumeros(raiz) {
+  if (movimentoReduzido) return;
+  for (const n of raiz.querySelectorAll(".conta dd, strong.conta")) {
+    const alvo = Number(n.textContent);
+    if (!Number.isFinite(alvo)) continue;
+    const inicio = performance.now() + 250, dur = 650;
+    n.textContent = "0";
+    const passo = (agora) => {
+      const f = Math.min(1, Math.max(0, (agora - inicio) / dur));
+      n.textContent = String(Math.round(alvo * (1 - Math.pow(1 - f, 3))));
+      if (f < 1) requestAnimationFrame(passo);
+    };
+    requestAnimationFrame(passo);
+  }
+}
+
+// tremidinha no campo quando erra
+function tremer(elem) {
+  if (movimentoReduzido) return;
+  elem.classList.remove("tremendo");
+  void elem.offsetWidth;
+  elem.classList.add("tremendo");
+  clearTimeout(elem.tremidaFim);
+  elem.tremidaFim = setTimeout(() => elem.classList.remove("tremendo"), 450);
 }
 
 function comecar({ diario = false } = {}) {
   J.chutes = [];
   J.fim = null;
+  J.abertasAntes = null;
   if (diario) {
     const feito = diarioDeHoje();
     if (feito) return reverDiario(feito);
@@ -521,8 +611,27 @@ function terminar(como, { revisao = false } = {}) {
   $("compartilhar").textContent = "Compartilhar resultado";
   $("de-novo").textContent = J.diario ? "Jogar partida livre" : "Jogar de novo";
   mostrarTela("tela-fim");
+  if (como === "acertou" && !revisao) confete($("fim-carta"));
   $("fim-titulo").focus({ preventScroll: true });
   window.scrollTo({ top: 0, behavior: "auto" });
+}
+
+function confete(alvo) {
+  if (movimentoReduzido) return;
+  const cores = ["#4cc9f0", "#3ddc84", "#f2c230", "#ff4d6d", "#c8ff00", "#ffffff"];
+  const caixa = el("div", "confete-caixa");
+  caixa.setAttribute("aria-hidden", "true");
+  for (let i = 0; i < 36; i++) {
+    const c = el("i", "confete");
+    c.style.setProperty("--x", `${(Math.random() * 2 - 1) * 160}px`);
+    c.style.setProperty("--y", `${-80 - Math.random() * 160}px`);
+    c.style.setProperty("--r", `${Math.random() * 720 - 360}deg`);
+    c.style.setProperty("--d", `${Math.random() * 0.15}s`);
+    c.style.background = cores[i % cores.length];
+    caixa.append(c);
+  }
+  alvo.append(caixa);
+  setTimeout(() => caixa.remove(), 1800);
 }
 
 // desafio de hoje ja jogado: so mostra o resultado, sem jogar de novo
