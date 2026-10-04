@@ -246,6 +246,8 @@ function degrauSeErrar() {
 
 function mostrarTela(id) {
   for (const t of document.querySelectorAll(".quiz .tela")) t.hidden = t.id !== id;
+  // quem comecou apertando Enter no nome deixa o foco no campo escondido, e o teclado A-D ignora tecla vinda de input
+  if (id === "tela-jogo" && document.activeElement instanceof HTMLInputElement) document.activeElement.blur();
   window.scrollTo({ top: 0, behavior: "auto" });
 }
 
