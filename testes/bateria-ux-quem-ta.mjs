@@ -169,9 +169,9 @@ async function auditar(onde) {
 const tocar = async (sel) => { const o = { timeout: Number(process.env.T_ACAO || 8000) }; if (cfgAtual.toque) await p.tap(sel, o); else await p.click(sel, o); };
 // toque duplo de verdade: o 2o toque cai no mesmo ponto, no que estiver la depois do 1o
 const duplo = async (sel) => {
-  await p.locator(sel).scrollIntoViewIfNeeded({ timeout: 3000 });
   // a pagina pode estar rolando (o campo sobe no celular 250 ms depois do toque): espera a posicao parar
   await p.waitForTimeout(300);
+  await p.locator(sel).scrollIntoViewIfNeeded({ timeout: 3000 });
   let q = await p.locator(sel).boundingBox({ timeout: 3000 });
   for (let t = 0; t < 20; t++) {
     await p.waitForTimeout(40);
@@ -245,7 +245,8 @@ async function conferirJogo(n, ultimoAviso, retomou = false) {
       erradas: vidas.filter((v) => v.classList.contains('errada')).length, vidas: vidas.length,
       atual: vidas.findIndex((v) => v.classList.contains('atual')),
       tiposOk: tiposAbertos.every((t, i) => t === ordem[i]),
-      nulos, semDado: semDado.length, semDadoTexto: semDado.every((d) => d.textContent === '—'),
+      // atributo sem dado: "—" quando aberto, "?" enquanto escondido; nunca um numero
+      nulos, semDado: semDado.length, semDadoTexto: semDado.every((d) => d.textContent === '—' || d.textContent === '?'),
       semNotaOk: semNota.every(([sem, t]) => !sem || (t.includes('— OVR') && !/[⬆⬇]/.test(t))),
       aviso: document.getElementById('aviso').textContent,
       modo: document.getElementById('modo').textContent,
@@ -498,6 +499,7 @@ async function caso(i) {
     await chutarPelaTela(s, id, politica, rapido);
     marca(`confere depois do erro ${k + 1}`);
     if (k + 1 >= 6) break;
+    if (ultimoFoiDuplo && !checar('toque duplo numa sugestão errada não desiste nem termina sozinho', (await tela()) === 'tela-jogo', await tela())) return;
     const r = await conferirJogo(k + 1, ultimoAviso);
     ultimoAviso = r.aviso;
     if (s.chance(0.25)) await auditar(`jogo depois de ${k + 1} erro(s)`);
@@ -535,6 +537,8 @@ async function caso(i) {
     como = 'acertou';
   } else if (plano.fim === 'desiste' && n0 < 6) {
     marca(`desiste depois de ${n0} chute(s)`);
+    // desistir de proposito vem depois de um respiro (o "Desistir" ignora toque colado no chute: toque fantasma)
+    await p.evaluate(() => { J.acaoDesde = -1e9; });
     ultimoFoiDuplo = false;
     if (politica === 'teclado') { await p.focus('#desistir'); await p.keyboard.press('Enter'); }
     else if (politica === 'apressada') { await duplo('#desistir'); ultimoFoiDuplo = true; }

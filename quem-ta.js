@@ -502,6 +502,7 @@ function chutar(id) {
   if (J.fim || J.chutes.some((c) => c.id === id)) return;
   const ch = comparar(id);
   J.chutes.push(ch);
+  J.acaoDesde = performance.now();
   if (J.diario && !ch.certo && J.chutes.length < CHUTES) guardarAndamento();
   evento(`quem/${J.diario ? "diario-" : ""}chute-${J.chutes.length}`);
   $("busca").value = "";
@@ -533,14 +534,23 @@ let destaque = -1;
 let fecharDepois = null;
 const SEM_SUGESTAO = "Nenhum jogador com esse nome nas cartas do site. Tenta o sobrenome ou o apelido.";
 
+// letras que o NFD nao desmonta: "Qurbanlı" (i sem ponto), "Ødegaard", "Đorđević"... ninguem
+// digita isso no teclado brasileiro, entao "qurbanli" tem que achar
+const LETRAS_ESTRANGEIRAS = { "ı": "i", "ø": "o", "æ": "ae", "ß": "ss", "đ": "d", "ə": "e", "ł": "l", "’": "'", "\u00a0": " " };
+const dobrarBusca = (t) => normalizarBusca(t).replace(/[ıøæßđəł’\u00a0]/g, (c) => LETRAS_ESTRANGEIRAS[c]);
+function casaNaBusca(o, termo) {
+  const alvo = dobrarBusca(`${o.nome} ${o.nome_completo || ""}`);
+  return dobrarBusca(termo).split(/\s+/).filter(Boolean).every((p) => alvo.includes(p));
+}
+
 function buscar(termo) {
-  if (normalizarBusca(termo).trim().length < 2) return [];
+  if (dobrarBusca(termo).trim().length < 2) return [];
   const ja = new Set(J.chutes.map((c) => c.id));
-  const n = normalizarBusca(termo).trim();
+  const n = dobrarBusca(termo).trim();
   return J.opcoes
-    .filter((o) => !ja.has(o.id) && casaComBusca(o, termo))
+    .filter((o) => !ja.has(o.id) && casaNaBusca(o, termo))
     // quem comeca com o termo vem antes
-    .sort((a, b) => Number(!normalizarBusca(a.nome).startsWith(n)) - Number(!normalizarBusca(b.nome).startsWith(n)))
+    .sort((a, b) => Number(!dobrarBusca(a.nome).startsWith(n)) - Number(!dobrarBusca(b.nome).startsWith(n)))
     .slice(0, 8);
 }
 
@@ -665,6 +675,7 @@ function retomarAndamento() {
 }
 
 function comecar({ diario = false } = {}) {
+  J.acaoDesde = performance.now();
   J.chutes = [];
   J.fim = null;
   J.abertasAntes = null;
@@ -698,10 +709,13 @@ function grade() {
   return q.join("");
 }
 
-// toque duplo em "Desistir" ou na sugestao certa: o 2o toque cai no botao que aparece
-// no mesmo lugar da tela do fim ("Jogar de novo"), e o jogador nem via quem era
+// Toque fantasma: no toque duplo, o 2o toque cai no botao que acabou de aparecer no mesmo
+// lugar. Duplo em "Desistir" ou na sugestao certa caia no "Jogar de novo" da tela do fim (o
+// jogador nem via quem era); duplo numa sugestao errada (ou no "Partida livre") caia no
+// "Desistir" quando a tela rola pro topo. O 2o clique de um duplo tem detail 2; no toque, o
+// que chega colado na troca de tela tambem nao vale. Mouse e teclado seguem valendo na hora.
 const TOQUE_FANTASMA_MS = 450;
-const toqueFantasma = () => performance.now() - (J.fimDesde || 0) < TOQUE_FANTASMA_MS;
+const toqueFantasma = (e, desde) => !!e && (e.detail > 1 || (e.pointerType === "touch" && performance.now() - (desde || 0) < TOQUE_FANTASMA_MS));
 
 const TITULOS_DO_ACERTO = [null, "De primeira! Tá em casa.", "Acertou no 2º chute. Matou no peito!", "Acertou no 3º chute. Faro de artilheiro!",
   "Acertou no 4º chute. Bateu ponto!", "Acertou no 5º chute. Na raça!", "Acertou no 6º chute! No apagar das luzes."];
@@ -870,11 +884,11 @@ async function iniciarQuem() {
 
   $("diario").addEventListener("click", () => comecar({ diario: true }));
   $("livre").addEventListener("click", () => comecar());
-  $("de-novo").addEventListener("click", () => { if (toqueFantasma()) return; atualizarBotaoDiario(); comecar(); });
-  $("voltar").addEventListener("click", () => { if (toqueFantasma()) return; atualizarBotaoDiario(); mostrarInicio(); });
-  $("desistir").addEventListener("click", () => { if (!J.fim) terminar("desistiu"); });
-  $("compartilhar").addEventListener("click", async () => {
-    if (toqueFantasma()) return;
+  $("de-novo").addEventListener("click", (e) => { if (toqueFantasma(e, J.fimDesde)) return; atualizarBotaoDiario(); comecar(); });
+  $("voltar").addEventListener("click", (e) => { if (toqueFantasma(e, J.fimDesde)) return; atualizarBotaoDiario(); mostrarInicio(); });
+  $("desistir").addEventListener("click", (e) => { if (!J.fim && !toqueFantasma(e, J.acaoDesde)) terminar("desistiu"); });
+  $("compartilhar").addEventListener("click", async (e) => {
+    if (toqueFantasma(e, J.fimDesde)) return;
     const texto = J.textoCompartilhar;
     const botao = $("compartilhar");
     if (navigator.share) {
