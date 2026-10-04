@@ -167,6 +167,11 @@ async function auditar(onde) {
   return r;
 }
 const tocar = async (sel) => { const o = { timeout: Number(process.env.T_ACAO || 8000) }; if (cfgAtual.toque) await p.tap(sel, o); else await p.click(sel, o); };
+// toque de gente: o navegador junta dois toques no mesmo ponto em menos de ~500 ms num "duplo" (detail 2, 3...), e o jogo
+// ignora de proposito (protecao de toque fantasma; o campo de busca fica perto de Inicio/Compartilhar). Quem aperta
+// Compartilhar/Inicio/Jogar de novo depois de ler o fim nao toca colado no ultimo toque (nem sempre feito por `tocar`: campo
+// de busca, sugestao). A espera so existe aqui; os testes de toque duplo seguem com `duplo`.
+const tocarHumano = async (sel) => { await p.waitForTimeout(650); await tocar(sel); };
 // toque duplo de verdade: o 2o toque cai no mesmo ponto, no que estiver la depois do 1o
 const duplo = async (sel) => {
   // a pagina pode estar rolando (o campo sobe no celular 250 ms depois do toque): espera a posicao parar
@@ -334,7 +339,7 @@ async function compartilhar(s, esperado) {
     else if (via === 'clipboard') navigator.clipboard.writeText = async (t) => { window.__compartilhados.push(t); };
   }, via);
   const antes = await p.evaluate(() => document.getElementById('tela-fim').innerText);
-  await tocar('#compartilhar');
+  await tocarHumano('#compartilhar');
   await p.waitForTimeout(30);
   const r = await p.evaluate(() => ({ feitos: window.__compartilhados, texto: document.getElementById('tela-fim').innerText, botao: document.getElementById('compartilhar').textContent }));
   if (via === 'share' || via === 'clipboard') checar('compartilhar: entrega o texto do resultado', r.feitos.length === 1 && r.feitos[0] === esperado, JSON.stringify(r.feitos));
@@ -567,10 +572,10 @@ async function caso(i) {
   const saida = s.um(['de-novo', 'voltar', 'recarrega', 'nada']);
   marca(`sai do fim por ${saida}`);
   if (saida === 'de-novo') {
-    await tocar('#de-novo');
+    await tocarHumano('#de-novo');
     checar('fim: "jogar de novo" abre uma partida livre nova', (await tela()) === 'tela-jogo' && (await p.evaluate(() => J.chutes.length === 0 && !J.diario && !J.fim)));
   } else if (saida === 'voltar') {
-    await tocar('#voltar');
+    await tocarHumano('#voltar');
     checar('fim: "Início" volta pro início', (await tela()) === 'tela-inicio');
     if (modo === 'diario') checar('início: botão do desafio diz se já foi feito hoje', (await p.textContent('#diario small')).includes('feito'));
   } else if (saida === 'recarrega') {
