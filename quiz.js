@@ -942,7 +942,8 @@ function comemorar(d, { curiosidade = "", frase = "", duracao = esperaDaFrase(fr
     const nasceu = performance.now();
     let cedo = false;
     pop.addEventListener("pointerdown", (e) => { cedo = e.pointerType === "touch" && performance.now() - nasceu < 350; });
-    pop.addEventListener("click", () => { if (cedo) { cedo = false; return; } fechar(); });
+    // (o toque que comecou antes da festa nascer termina em cima dela: o click chega sem pointerdown, entao o toque tambem vale pelo relogio)
+    pop.addEventListener("click", (e) => { if (cedo || (e.pointerType === "touch" && performance.now() - nasceu < 350)) { cedo = false; return; } fechar(); });
     setTimeout(fechar, duracao);
   });
 }
