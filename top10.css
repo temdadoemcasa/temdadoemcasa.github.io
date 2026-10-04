@@ -1,0 +1,65 @@
+/* Top 10 em Casa: barras escondidas que se abrem a cada acerto. Verde do canal; o resto e o site. */
+.top10 { --acerto: var(--canal); --vida: #ff4d6d; --barra: #2a313a; padding-bottom: 3rem; max-width: 40rem; margin-inline: auto; }
+:root[data-tema="claro"] .top10 { --acerto: #3f6b00; --vida: #d42a4a; --barra: #d8dde3; }
+.top10 .tela { border-top: 0; padding-top: clamp(1rem, 3vw, 2rem); }
+.top10 h1 { font-family: var(--numeros); text-transform: uppercase; font-size: clamp(2.2rem, 6vw, 3.6rem); line-height: 1; letter-spacing: 0; max-width: none; }
+.top10 .botao-primario { background: var(--canal); border-color: var(--canal); color: #111; }
+.top10 .botao-primario:hover { filter: brightness(1.06); border-color: var(--canal); }
+.botao-grande { padding: 0.9rem 2rem; font-size: 1.05rem; }
+.top10 .carregando { color: var(--texto-fraco); }
+
+/* --- inicio --- */
+.top10 .inicio-regras { color: var(--texto-fraco); max-width: 54ch; margin: 1rem 0 1.4rem; font-size: 1.02rem; }
+.top10 .inicio-regras b { color: var(--texto); }
+.top10 .inicio-form { display: grid; gap: 0.7rem; max-width: 26rem; }
+.card-dia { display: grid; gap: 0.4rem; padding: 1rem 1.1rem; border: 1px solid var(--borda); border-radius: var(--raio); background: var(--fundo-cartao); }
+.card-dia-rotulo { color: var(--texto-fraco); font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+.ranking-info { display: grid; gap: 0.15rem; }
+.ranking-titulo { font-family: var(--numeros); font-size: 1.7rem; line-height: 1.05; text-transform: uppercase; }
+.ranking-sub { color: var(--texto); }
+.ranking-recorte { color: var(--texto-fraco); font-size: 0.85rem; }
+.top10 .serie { margin: 0.3rem 0 0; font-size: 0.9rem; color: var(--texto-fraco); }
+
+/* --- jogo --- */
+.top10 .jogo { display: grid; gap: 0.9rem; }
+.cabeca h2 { font-family: var(--numeros); text-transform: uppercase; font-size: clamp(1.8rem, 5vw, 2.6rem); line-height: 1; margin: 0; }
+.cabeca-sub { margin: 0.2rem 0 0; font-weight: 600; }
+.cabeca-recorte { margin: 0.1rem 0 0; font-size: 0.85rem; color: var(--texto-fraco); }
+.vidas { display: flex; gap: 0.4rem; }
+.vida { width: 1.4rem; height: 1.4rem; border-radius: 50%; border: 2px solid var(--vida); background: transparent; }
+.vida.cheia { background: var(--vida); }
+
+.barras { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.4rem; }
+.barra { display: grid; grid-template-columns: 2.2rem minmax(0, 1fr); align-items: center; gap: 0.6rem; min-height: 44px; }
+.barra-pos { font-family: var(--numeros); font-weight: 800; font-size: 1.7rem; line-height: 1; text-align: right; color: var(--texto-fraco); }
+.barra-corpo { min-height: 44px; border-radius: 8px; background: var(--barra); display: flex; align-items: center; justify-content: space-between; gap: 0.8rem; padding: 0.25rem 0.8rem; border-left: 4px solid transparent; }
+.barra.aberta .barra-corpo { background: var(--fundo-alto); border: 1px solid var(--borda); border-left: 4px solid var(--borda); }
+.barra-nomes { display: grid; min-width: 0; }
+.barra-nome { color: #fff; font-size: 1.02rem; overflow-wrap: anywhere; }
+:root[data-tema="claro"] .top10 .barra-nome { color: var(--texto); }
+.barra-clube { color: var(--texto-fraco); font-size: 0.8rem; }
+.barra-valor { font-family: var(--numeros); font-weight: 800; font-size: 1.6rem; color: var(--acerto); white-space: nowrap; }
+
+.busca-caixa { position: relative; display: grid; gap: 0.35rem; }
+.busca-caixa .rotulo { font-size: 0.8rem; color: var(--texto-fraco); }
+/* 16px no minimo: menos que isso o iPhone da zoom ao tocar */
+.busca-caixa input { font-size: 16px; padding: 0.8rem 1rem; border-radius: 12px; border: 1px solid color-mix(in srgb, var(--canal) 55%, var(--borda)); }
+.busca-caixa input:focus { outline: 2px solid var(--canal); outline-offset: 1px; }
+.sugestoes {
+  position: absolute; z-index: 5; top: 100%; left: 0; right: 0; margin: 0.3rem 0 0; padding: 0.3rem; list-style: none;
+  border-radius: 12px; border: 1px solid var(--borda); background: var(--fundo-cartao); box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+  max-height: min(22rem, 55vh); overflow-y: auto;
+}
+.sugestao { display: grid; gap: 0.1rem; padding: 0.6rem 0.8rem; min-height: 44px; border-radius: 8px; cursor: pointer; }
+.sugestao small { color: var(--texto-fraco); font-size: 0.8rem; }
+.sugestao[aria-selected="true"] { background: color-mix(in srgb, var(--canal) 16%, var(--fundo-cartao)); }
+@media (hover: hover) { .sugestao:hover { background: color-mix(in srgb, var(--canal) 16%, var(--fundo-cartao)); } }
+.sugestao .completo { font-weight: 500; color: var(--texto-fraco); }
+.sem-sugestao { margin: 0; font-size: 0.85rem; color: var(--texto-fraco); }
+.aviso { margin: 0; min-height: 1.4em; font-weight: 700; }
+
+/* --- fim --- */
+.top10 .fim { display: grid; gap: 0.8rem; }
+.fim h2 { font-family: var(--numeros); text-transform: uppercase; font-size: 2.2rem; margin: 0; }
+.placar { font-family: var(--numeros); font-size: 2.4rem; font-weight: 800; color: var(--acerto); margin: 0; }
+.fim-botoes { display: flex; flex-wrap: wrap; gap: 0.6rem; }

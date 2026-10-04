@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Top 10 em Casa · Tem dado em casa</title>
+  <meta name="description" content="Acerte os 10 de um ranking do canal: 3 vidas, um desafio por dia.">
+  <meta property="og:title" content="Top 10 em Casa · Tem dado em casa">
+  <meta property="og:description" content="Acerte os 10 de um ranking do canal: 3 vidas, um desafio por dia.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://temdadoemcasa.github.io/top10-em-casa.html">
+  <meta property="og:image" content="https://temdadoemcasa.github.io/img/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Top 10 em Casa: acerte os 10 do ranking">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#0b0b0c">
+  <link rel="icon" type="image/svg+xml" href="img/simbolo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script src="tema.js?v=2026-09-27j"></script>
+  <link rel="stylesheet" href="estilo.css?v=2026-10-01home5">
+  <link rel="stylesheet" href="top10.css?v=2026-10-04top10">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+</head>
+<body>
+  <header class="topo">
+    <a class="marca" href="index.html">
+      <img class="avatar" src="img/simbolo.svg" alt="" width="36" height="36">
+      <span class="marca-nome">Tem dado em casa</span>
+    </a>
+    <nav class="menu" aria-label="Seções">
+      <a href="index.html#overalls">Cartas</a>
+      <a href="show-do-dadao.html">Show do Dadão</a>
+      <a href="quem-ta-em-casa.html">Quem Tá em Casa?</a>
+      <a href="tem-time-em-casa.html">Tem Time em Casa</a>
+      <a href="prata-da-casa.html">Prata da Casa</a>
+      <a href="top10-em-casa.html" aria-current="page">Top 10 em Casa</a>
+    </nav>
+  </header>
+
+  <main class="top10">
+    <!-- 1. inicio -->
+    <section class="tela" id="tela-inicio" aria-labelledby="t-inicio">
+      <p class="hero-sobretitulo">Minigame · ranking do canal</p>
+      <h1 id="t-inicio">Top 10 em Casa</h1>
+      <p class="inicio-regras">Um ranking, 10 posições escondidas e <b>3 vidas</b>. Chute um jogador: se ele está no top 10, a barra dele aparece no lugar certo; se não está, perde uma vida. Tem desafio novo todo dia.</p>
+      <p class="carregando" id="carregando">Carregando os rankings...</p>
+      <form class="inicio-form" id="form-inicio" hidden onsubmit="return false">
+        <div class="card-dia" id="card-dia"></div>
+        <button class="botao botao-primario botao-grande" id="jogar-dia" type="button">Jogar o desafio do dia</button>
+        <button class="botao" id="jogar-livre" type="button">Partida livre</button>
+        <p class="serie" id="serie"></p>
+      </form>
+    </section>
+
+    <!-- 2. o jogo -->
+    <section class="tela" id="tela-jogo" aria-label="Partida" hidden>
+      <div class="jogo">
+        <div class="cabeca" id="cabeca">
+          <h2 id="cabeca-titulo"></h2>
+          <p class="cabeca-sub" id="cabeca-sub"></p>
+          <p class="cabeca-recorte" id="cabeca-recorte"></p>
+        </div>
+        <div class="vidas" id="vidas" role="img" aria-label="3 vidas">
+          <span class="vida cheia"></span><span class="vida cheia"></span><span class="vida cheia"></span>
+        </div>
+        <ol class="barras" id="barras" aria-label="Top 10"></ol>
+        <div class="busca-caixa" id="busca-caixa">
+          <label for="busca" class="rotulo">Quem tá no top 10?</label>
+          <input id="busca" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Chute um jogador"
+            role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="sugestoes">
+          <ul class="sugestoes" id="sugestoes" role="listbox" hidden></ul>
+          <p class="sem-sugestao" id="sem-sugestao" hidden>Nenhum jogador com esse nome nas cartas do site.</p>
+        </div>
+        <p class="aviso" id="aviso" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <!-- 3. fim -->
+    <section class="tela" id="tela-fim" aria-labelledby="fim-titulo" hidden>
+      <div class="fim">
+        <h2 id="fim-titulo" tabindex="-1">Fim de papo</h2>
+        <p class="placar" id="placar"></p>
+        <p id="frase"></p>
+        <div class="fim-botoes">
+          <button class="botao botao-primario" id="compartilhar" type="button">Compartilhar resultado</button>
+          <button class="botao" id="outro" type="button">Outro ranking</button>
+          <button class="botao" id="voltar" type="button">Início</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <div class="rodape-linha">
+      <span class="rodape-marca">Tem dado em casa · resenha futebolística com dados</span>
+      <nav class="rodape-redes" aria-label="Redes do Tem dado em casa">
+        <a href="https://www.youtube.com/@temdadoemcasafc" target="_blank" rel="noopener">YouTube</a>
+        <a href="https://www.instagram.com/temdadoemcasafc/" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://www.tiktok.com/@temdadoemcasafc" target="_blank" rel="noopener">TikTok</a>
+      </nav>
+    </div>
+    <p class="rodape-autor">Site, dados e minigames feitos por <a href="https://www.linkedin.com/in/breno-sayao/" target="_blank" rel="noopener">Breno Sayão</a>, engenheiro de dados · <a href="https://www.linkedin.com/in/breno-sayao/" target="_blank" rel="noopener">LinkedIn</a></p>
+  </footer>
+
+  <script src="app.js?v=2026-10-01craque"></script>
+  <script src="top10.js?v=2026-10-04top10"></script>
+  <script data-goatcounter="https://temdadoemcasa.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>
