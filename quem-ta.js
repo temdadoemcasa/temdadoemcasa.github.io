@@ -16,12 +16,16 @@ const PISO_SORTEIO_POR_TORNEIO = { 7: 900 };
 // Liga nova entra no desafio a partir de uma DATA (nunca no meio do dia: o
 // jogador de hoje nao pode mudar pra quem ainda nao jogou). Cada fase tem a
 // propria semente.
+// overall minimo da carta sorteada (desafio a partir de 05/10 e partida livre): 83+ e jogador conhecido
+const OVERALL_MINIMO = 83;
 const FASES_DO_DESAFIO = [
   { desde: "2026-09-30", retratos: ["2024", "2025", "premier-league-2025", "champions-2025"] },
   { desde: "2026-10-01", retratos: ["2024", "2025", "premier-league-2025", "laliga-2025", "champions-2025"] },
   // uma carta por jogador: o mesmo jogador (2024 e 2025) caia duas vezes no mes
   // uma carta por jogador; Europa so de clube grande ou craque (84+); 3 de 5 dias do Brasileirao
   { desde: "2026-10-02", retratos: ["2024", "2025", "premier-league-2025", "laliga-2025", "champions-2025"], umPorJogador: true, conhecidos: true },
+  // so carta 83+ (jogador conhecido): com 79 caia meia que ninguem lembra
+  { desde: "2026-10-05", retratos: ["2024", "2025", "premier-league-2025", "laliga-2025", "champions-2025"], umPorJogador: true, conhecidos: true, minimo: OVERALL_MINIMO },
 ];
 // clubes da Europa que o torcedor brasileiro acompanha (fora deles, so carta 84+ entra no desafio)
 const GRANDES_DA_EUROPA = new Set([
@@ -165,9 +169,11 @@ function alvoDoDia(data) {
   if (fase.conhecidos) {
     // conta a partir do 1o dia da fase: a fase nova comeca do inicio das duas filas
     const dia = n - numeroDoDesafio(fase.desde);
-    const conhecido = (c) => LIGAS.brasil(c.r) || GRANDES_DA_EUROPA.has(c.time.nome) || c.j.overall >= 84;
+    const conhecido = fase.minimo
+      ? (c) => c.j.overall >= fase.minimo
+      : (c) => LIGAS.brasil(c.r) || GRANDES_DA_EUROPA.has(c.time.nome) || c.j.overall >= 84;
     const filas = {
-      brasil: embaralhar(pool.filter((c) => LIGAS.brasil(c.r))),
+      brasil: embaralhar(pool.filter((c) => LIGAS.brasil(c.r) && conhecido(c))),
       europa: embaralhar(pool.filter((c) => LIGAS.europa(c.r) && conhecido(c))),
     };
     const qual = PADRAO_DO_DESAFIO[((dia % PADRAO_DO_DESAFIO.length) + PADRAO_DO_DESAFIO.length) % PADRAO_DO_DESAFIO.length];
@@ -183,7 +189,9 @@ function alvoDoDia(data) {
 }
 
 function alvoLivre() {
-  const pool = candidatos(LIGAS[J.liga] || LIGAS.tudo);
+  const todos = candidatos(LIGAS[J.liga] || LIGAS.tudo);
+  const fortes = todos.filter((c) => c.j.overall >= OVERALL_MINIMO);
+  const pool = fortes.length ? fortes : todos;
   const recentes = new Set(lerVistos());
   const frescos = pool.filter((c) => !recentes.has(`${c.chave}-${c.j.player_id}`));
   const escolha = (frescos.length ? frescos : pool)[Math.floor(Math.random() * (frescos.length || pool.length))];
