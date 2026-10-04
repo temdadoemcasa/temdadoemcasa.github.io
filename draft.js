@@ -1319,6 +1319,12 @@ function travar(sim) {
   $("proximo").textContent = sim ? "Pular animação" : "Próximo jogo";
 }
 
+// trava curta depois que um jogo acaba: o segundo toque de um toque duplo (ou o
+// "Pular animação" que chega quando o jogo ja acabou) jogava o jogo seguinte sem
+// a pessoa ver o resultado do anterior
+const TRAVA_PROXIMO_MS = 250;
+let travaProximoAte = 0;
+
 // joga ate o proximo jogo do usuario e anima
 async function proximoJogo() {
   if (D.simulando) return;
@@ -1345,6 +1351,7 @@ async function proximoJogo() {
   seguirCalendario();
   atualizarPaineis();
   travar(false);
+  travaProximoAte = performance.now() + TRAVA_PROXIMO_MS;
   if (Motor.terminou(D.temp)) $("proximo").textContent = "Ver o balanço";
 }
 
@@ -2070,6 +2077,8 @@ async function iniciarDraft() {
   });
   $("comecar-temporada").addEventListener("click", comecarTemporada);
   $("proximo").addEventListener("click", () => {
+    // toque que chega logo depois do fim do jogo e o segundo de um toque duplo: ignora
+    if (!D.animando && performance.now() < travaProximoAte) return;
     if (Motor.terminou(D.temp) && !D.animando) encerrar();
     else proximoJogo();
   });
