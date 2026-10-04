@@ -1809,7 +1809,13 @@ function desenharAcao(meus, hoje) {
     alvo.append(el("span", null, `${x.etapa.rotulo}: ${D.nome} ${m} × ${deles} ${nomeDe(rival)}${casa ? "" : " (fora)"}`));
     const ver = el("button", "botao", "Ver o jogo");
     ver.type = "button";
-    ver.addEventListener("click", () => { mudarVisao("jogo"); mostrarPlacarPronto(x); mostrarRodada(x); mostrarJogoSeEscondido(); });
+    ver.addEventListener("click", () => {
+      // rever um jogo antigo nao pode engolir o cartao aberto (postura do decisivo / janela): ele volta embaixo
+      const pendente = D.cartao ? document.querySelector("#jogo .proximo-decisivo, #jogo .janela") : null;
+      mudarVisao("jogo"); mostrarPlacarPronto(x); mostrarRodada(x);
+      if (pendente) $("jogo").append(pendente);
+      mostrarJogoSeEscondido();
+    });
     alvo.append(ver);
     return;
   }
