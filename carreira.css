@@ -497,7 +497,7 @@
 .mercado .proposta-chance { grid-area: barra; height: 0.3rem; margin: 0.2rem 0 0.1rem; }
 .mercado .proposta-adapta { grid-area: adapta; }
 .mercado .proposta-acoes { grid-area: acoes; display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 0.4rem; margin-top: 0.25rem; }
-.mercado .proposta-acoes .botao { margin: 0; width: 100%; padding: 0.45rem 0.7rem; font-size: 0.84rem; }
+.mercado .proposta-acoes .botao { margin: 0; width: 100%; padding: 0.45rem 0.7rem; font-size: 0.84rem; min-height: 2.5rem; }
 .mercado .proposta-resposta { grid-area: resp; }
 .mercado-titulo { margin: 0 0 0.2rem; }
 .mercado > .nota { margin: 0 0 0.6rem; font-size: 0.82rem; }
