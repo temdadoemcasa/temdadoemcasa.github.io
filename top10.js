@@ -1,11 +1,11 @@
 // Top 10 em Casa: acerte os 10 de um ranking do canal, com 3 vidas.
 // Os rankings vem prontos de dados/top10.json (futdata export-top10): so numero
 // calculado, nada inventado. Aqui: carregamento, desafio do dia, partida livre,
-// tela inicial, barras escondidas e a busca por nome. O chute em si e a tela
-// final entram na proxima tarefa (chutar, terminar).
+// tela inicial, barras escondidas, a busca por nome, o chute com 3 vidas, o fim,
+// o compartilhar e a persistencia (desafio do dia + sequencia) no localStorage.
 "use strict";
 
-const CHAVE = "top10:v1"; // { serie: { atual, melhor }, diario: {...} }
+const CHAVE = "top10:v1"; // { serie: { atual, melhor, ultimo }, diario: { data, id, acertos, erros, fim } }
 const CHAVE_VISTOS = "top10:vistos";
 const INICIO = "2026-10-05"; // desafio #1
 const VIDAS = 3;
@@ -78,8 +78,37 @@ function rankingLivre() {
   return lista[Math.floor(Math.random() * lista.length)];
 }
 
+// o armazenamento pode estar vazio, corrompido ou de uma versao velha: nunca quebra a pagina
+function lerArmazem() {
+  try {
+    const dado = JSON.parse(localStorage.getItem(CHAVE));
+    return dado && typeof dado === "object" && !Array.isArray(dado) ? dado : {};
+  } catch { return {}; }
+}
+function gravarArmazem(parcial) {
+  try { localStorage.setItem(CHAVE, JSON.stringify({ ...lerArmazem(), ...parcial })); } catch { /* ok */ }
+}
 function lerSerie() {
-  try { return JSON.parse(localStorage.getItem(CHAVE))?.serie || { atual: 0, melhor: 0 }; } catch { return { atual: 0, melhor: 0 }; }
+  const s = lerArmazem().serie;
+  const n = (x) => (Number.isFinite(x) && x >= 0 ? x : 0);
+  return s && typeof s === "object" ? { atual: n(s.atual), melhor: n(s.melhor), ultimo: typeof s.ultimo === "string" ? s.ultimo : "" } : { atual: 0, melhor: 0, ultimo: "" };
+}
+function ontemDe(data) {
+  const [a, m, d] = data.split("-").map(Number);
+  return hojeLocal(new Date(a, m - 1, d - 1));
+}
+// o diario guardado so vale se for de hoje, do mesmo ranking e com a forma certa
+function lerDiario(ranking) {
+  const d = lerArmazem().diario;
+  if (!d || d.data !== hojeLocal() || d.id !== ranking.id || !Array.isArray(d.acertos) || !Array.isArray(d.erros)) return null;
+  const no = new Set(ranking.top.map((t) => t.player_id));
+  const acertos = [...new Set(d.acertos.filter((id) => no.has(id)))];
+  const erros = [...new Set(d.erros.filter((id) => Number.isFinite(id) && !no.has(id)))];
+  return { acertos, erros, fim: d.fim === true };
+}
+function guardarDiario() {
+  if (!T.diario) return;
+  gravarArmazem({ diario: { data: T.diario.data, id: T.ranking.id, acertos: [...T.acertos], erros: T.erros.map((e) => e.player_id), fim: T.fim } });
 }
 
 // --- dados -------------------------------------------------------------------
@@ -116,6 +145,8 @@ function atualizarInicio() {
   const card = $("card-dia");
   card.replaceChildren(el("small", "card-dia-rotulo", `Desafio do dia · nº ${Math.max(numeroDoDia(hojeLocal()), 1)}`), descricaoDoRanking(r));
   const serie = lerSerie();
+  const viva = serie.ultimo === hojeLocal() || serie.ultimo === ontemDe(hojeLocal());
+  if (!viva) serie.atual = 0;
   $("serie").textContent = serie.atual
     ? `Sequência: ${serie.atual} ${serie.atual === 1 ? "dia" : "dias"} seguidos (melhor: ${serie.melhor}).`
     : "Acerte o desafio do dia pra começar uma sequência.";
@@ -133,6 +164,13 @@ function linhaDaBarra(item, pos) {
   if (item && T.acertos.has(item.player_id)) {
     li.classList.add("aberta");
     corpo.style.borderLeftColor = item.cor || "";
+    const nomes = el("div", "barra-nomes");
+    nomes.append(el("b", "barra-nome", item.nome), el("small", "barra-clube", item.clube));
+    corpo.append(nomes, el("span", "barra-valor", item.valor == null ? "sem dado" : String(item.valor)));
+  }
+  else if (item && T.fim) {
+    // o que ficou de fora: aparece em cinza, sem o verde do acerto
+    li.classList.add("revelada");
     const nomes = el("div", "barra-nomes");
     nomes.append(el("b", "barra-nome", item.nome), el("small", "barra-clube", item.clube));
     corpo.append(nomes, el("span", "barra-valor", item.valor == null ? "sem dado" : String(item.valor)));
@@ -159,16 +197,127 @@ async function comecar({ diario = false } = {}) {
   $("cabeca-recorte").textContent = ranking.recorte;
   $("busca").value = "";
   $("aviso").textContent = "";
+  $("busca-caixa").hidden = false;
+  $("compartilhar").textContent = "Compartilhar resultado";
+  $("festa")?.remove();
   fecharSugestoes();
+  const salvo = diario ? lerDiario(ranking) : null;
+  if (salvo) {
+    T.acertos = new Set(salvo.acertos);
+    T.erros = salvo.erros.map((id) => ({ player_id: id, tipo: ranking.quase.some((q) => q.player_id === id) ? "quase" : "fora" }));
+    T.vidas = VIDAS - T.erros.length;
+    T.fim = salvo.fim || T.vidas <= 0 || T.acertos.size >= 10;
+  }
   desenharVidas();
   desenharBarras();
   mostrarTela("tela-jogo");
-  $("busca").focus({ preventScroll: true });
+  if (T.fim) mostrarFim({ contarSerie: false });
+  else $("busca").focus({ preventScroll: true });
 }
 
-// o chute e a regra de vidas entram na proxima tarefa
-function chutar(player_id) { // eslint-disable-line no-unused-vars
-  throw new Error("chutar: ainda nao implementado");
+const reduzMovimento = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
+const avisar = (texto) => { $("aviso").textContent = texto; };
+
+// devolve "acerto" | "quase" | "fora" | "repetido" (ou undefined com a partida acabada)
+function chutar(player_id) {
+  if (T.fim) return undefined;
+  let resultado;
+  if (T.acertos.has(player_id) || T.erros.some((e) => e.player_id === player_id)) {
+    avisar("Esse já foi 😉");
+    resultado = "repetido";
+  } else {
+    const i = T.ranking.top.findIndex((t) => t.player_id === player_id);
+    const quase = T.ranking.quase.find((q) => q.player_id === player_id);
+    if (i >= 0) {
+      T.acertos.add(player_id);
+      const item = T.ranking.top[i];
+      const nova = linhaDaBarra(item, item.pos);
+      if (!reduzMovimento()) nova.classList.add("nova");
+      $("barras").children[i].replaceWith(nova);
+      avisar(T.acertos.size === 5 ? "Metade do top, tá voando!" : T.acertos.size === 9 ? "Falta um! Respira…" : `Boa! ${item.nome} é o ${item.pos}º.`);
+      resultado = "acerto";
+    } else {
+      T.vidas--;
+      if (quase) {
+        T.erros.push({ player_id, tipo: "quase", pos: quase.pos, valor: quase.valor });
+        avisar(`Quase! Ficou em ${quase.pos}º${quase.valor == null ? "" : ` (${quase.valor} ${T.ranking.unidade})`}`);
+        resultado = "quase";
+      } else {
+        T.erros.push({ player_id, tipo: "fora" });
+        avisar("Fora do top 20 nesse recorte");
+        resultado = "fora";
+      }
+      desenharVidas();
+    }
+  }
+  const acabou = T.acertos.size >= 10 || T.vidas <= 0;
+  if (acabou) T.fim = true;
+  guardarDiario();
+  $("busca").value = "";
+  fecharSugestoes();
+  if (acabou) terminar();
+  else $("busca").focus({ preventScroll: true });
+  return resultado;
+}
+
+const FRASES = [
+  [10, "Gabaritou! Dado tem em casa e na sua cabeça."],
+  [7, "Jogou muito! Quase o top inteiro."],
+  [4, "Bom jogo! Metade do top é de quem acompanha."],
+  [1, "Valeu o chute! Amanhã tem outro top pra você."],
+  [0, "Esse top era casca grossa. Bora no próximo?"],
+];
+
+function terminar() {
+  T.fim = true;
+  guardarDiario();
+  mostrarFim({ contarSerie: true });
+}
+
+function atualizarSerie() {
+  const s = lerSerie();
+  const hoje = hojeLocal();
+  if (s.ultimo === hoje) return; // o diario so conta uma vez por dia
+  if (T.acertos.size >= 1) {
+    const atual = s.ultimo === ontemDe(hoje) ? s.atual + 1 : 1;
+    gravarArmazem({ serie: { atual, melhor: Math.max(s.melhor, atual), ultimo: hoje } });
+  } else {
+    gravarArmazem({ serie: { atual: 0, melhor: s.melhor, ultimo: s.ultimo } }); // zerou: sem acerto nao tem sequencia
+  }
+}
+
+function confete() {
+  const festa = el("div", "festa");
+  festa.id = "festa";
+  festa.setAttribute("aria-hidden", "true");
+  for (let i = 0; i < 12; i++) {
+    const c = el("i");
+    c.style.setProperty("--x", `${(i - 5.5) * 24}px`);
+    c.style.setProperty("--d", `${(i % 4) * 0.05}s`);
+    festa.append(c);
+  }
+  $("tela-fim").prepend(festa);
+}
+
+// o fim fica na mesma tela, embaixo das barras
+function mostrarFim({ contarSerie }) {
+  const n = T.acertos.size;
+  desenharBarras();
+  $("busca-caixa").hidden = true;
+  $("placar").textContent = `${n}/10`;
+  $("frase").textContent = FRASES.find(([min]) => n >= min)[1];
+  $("tela-fim").hidden = false;
+  if (T.diario && contarSerie) atualizarSerie();
+  if (n === 10 && !reduzMovimento() && !$("festa")) confete();
+  $("tela-fim").scrollIntoView({ block: "start", behavior: reduzMovimento() ? "auto" : "smooth" });
+}
+
+function textoCompartilhar() {
+  const n = T.acertos.size;
+  const quadrados = T.ranking.top.map((t) => (T.acertos.has(t.player_id) ? "🟩" : "⬛")).join("");
+  const numero = T.diario ? ` #${Math.max(T.diario.numero, 1)}` : "";
+  const restantes = `${T.vidas} ${T.vidas === 1 ? "vida restante" : "vidas restantes"}`;
+  return `Top 10 em Casa${numero} · ${T.ranking.titulo}\n${quadrados}\n${n}/10 · ❤️ ${restantes}\nhttps://temdadoemcasa.github.io/top10-em-casa.html`;
 }
 
 // --- busca com autocompletar (do Quem Ta em Casa) ----------------------------
@@ -237,6 +386,14 @@ async function iniciarTop10() {
   $("jogar-dia").addEventListener("click", () => comecar({ diario: true }).catch(falhou));
   $("jogar-livre").addEventListener("click", () => comecar().catch(falhou));
   $("outro").addEventListener("click", () => comecar().catch(falhou));
+  $("compartilhar").addEventListener("click", async () => {
+    const texto = textoCompartilhar();
+    try {
+      if (navigator.share) { await navigator.share({ text: texto }); return; }
+      await navigator.clipboard.writeText(texto);
+      $("compartilhar").textContent = "Copiado!";
+    } catch { /* cancelou */ }
+  });
   $("voltar").addEventListener("click", () => { atualizarInicio(); mostrarTela("tela-inicio"); });
 
   const busca = $("busca");

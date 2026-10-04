@@ -63,3 +63,14 @@
 .fim h2 { font-family: var(--numeros); text-transform: uppercase; font-size: 2.2rem; margin: 0; }
 .placar { font-family: var(--numeros); font-size: 2.4rem; font-weight: 800; color: var(--acerto); margin: 0; }
 .fim-botoes { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+.barra.nova .barra-corpo { transform-origin: left center; animation: abre 250ms ease-out both; }
+@keyframes abre { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.barra.revelada .barra-corpo { background: transparent; border: 1px dashed var(--borda); }
+.barra.revelada .barra-nome, .barra.revelada .barra-valor { color: var(--texto-fraco); font-weight: 600; }
+.top10 #tela-fim { position: relative; }
+.festa { position: absolute; left: 50%; top: 0; width: 0; height: 0; pointer-events: none; z-index: 3; }
+.festa i { position: absolute; width: 8px; height: 12px; border-radius: 2px; background: var(--canal); opacity: 0; animation: festa 1.2s cubic-bezier(0.2, 0.7, 0.4, 1) var(--d) 1 both; }
+.festa i:nth-child(3n) { background: #ffd23f; }
+.festa i:nth-child(3n + 1) { background: #ff4d6d; }
+@keyframes festa { 0% { opacity: 1; transform: translate(0, 0) rotate(0); } 100% { opacity: 0; transform: translate(var(--x), 260px) rotate(540deg); } }
+@media (prefers-reduced-motion: reduce) { .barra.nova .barra-corpo, .festa i { animation: none; } }
