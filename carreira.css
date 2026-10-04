@@ -270,7 +270,7 @@
 .galeria li { display: flex; align-items: center; gap: 0.4rem; }
 .tc-titulos { white-space: nowrap; }
 .tc-titulos .taca { margin: 0 1px; }
-.tc-titulos small { font-size: 0.7rem; color: #f2c230; margin-left: 2px; }
+.tc-titulos .tc-mais { font-size: 0.7rem; font-weight: 800; color: #f2c230; margin-left: 1px; }
 .carreira .bl-campeoes li.com-taca { grid-template-columns: 1.9rem 2.2rem minmax(0, 1fr); border-left: 0; padding-left: 0; }
 
 /* --- escudo generico e estilo ------------------------------------------------------- */
@@ -361,6 +361,7 @@
 .carreira-lateral th:nth-child(1), .carreira-lateral td:nth-child(1) { width: 2.5rem; }
 .carreira-lateral th:nth-child(n+3), .carreira-lateral td:nth-child(n+3) { width: 1.9rem; }
 .carreira-lateral th:nth-child(3), .carreira-lateral td:nth-child(3) { width: 2.6rem; }
+.carreira-lateral th:nth-child(7), .carreira-lateral td:nth-child(7) { width: 2.7rem; }
 .carreira-lateral td:nth-child(2) { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .carreira-lateral thead th { position: sticky; top: 0; z-index: 1; background: var(--fundo-cartao); }
 .carreira-lateral td, .carreira-lateral th { padding: 0.22rem 0.3rem; line-height: 1.15; }

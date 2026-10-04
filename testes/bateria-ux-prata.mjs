@@ -84,6 +84,12 @@ const CHECAR_TELA = () => {
     if (r.width < 1) continue;
     if ((r.right > vw + 1 || r.left < -1) && !rolaX(e)) P.push(["nada cortado na lateral", `${e.tagName.toLowerCase()}.${[...e.classList].join(".")} ${Math.round(r.left)}..${Math.round(r.right)} (vw ${vw}) "${e.textContent.trim().slice(0, 40)}"`]);
   }
+  // 2b. tabela da carreira: nada passa da propria celula (tacas empilhadas vazavam)
+  for (const td of document.querySelectorAll("#tabela-carreira td:not(.tc-clube)")) {
+    if (!visivel(td)) continue;
+    const r = td.getBoundingClientRect();
+    for (const f of td.children) { const q = f.getBoundingClientRect(); if (q.width && q.right > r.right + 1) { P.push(["tabela sem coluna vazando", `${td.className} "${td.textContent.trim()}" ${Math.round(q.right - r.right)}px`]); break; } }
+  }
   // 3. botoes: nome acessivel e tamanho de toque
   for (const b of document.querySelectorAll("main button, .festa button")) {
     if (!visivel(b)) continue;
@@ -167,7 +173,7 @@ async function verificarTela(p, onde) {
   const P = await p.evaluate(CHECAR_TELA);
   const porNome = {};
   for (const [nome, det] of P) (porNome[nome] ||= []).push(det);
-  for (const nome of ["texto quebrado", "ausência virou zero", "sem rolagem lateral", "nada cortado na lateral", "botão com nome acessível", "botão tocável (≥24px)", "botão principal ≥40px", "input ≥16px"]) {
+  for (const nome of ["texto quebrado", "ausência virou zero", "sem rolagem lateral", "nada cortado na lateral", "tabela sem coluna vazando", "botão com nome acessível", "botão tocável (≥24px)", "botão principal ≥40px", "input ≥16px"]) {
     checar(nome, !porNome[nome], (porNome[nome] || []).slice(0, 3).join(" | "));
   }
   const e = await p.evaluate(ESTADO);

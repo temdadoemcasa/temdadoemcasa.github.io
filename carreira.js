@@ -3023,8 +3023,9 @@ function desenharTabelaCarreira() {
       el("td", "tc-titulos"), el("td", "tc-premios", h.premios.length ? `${h.premios.length}` : ""));
     const tits = [...h.titulos, ...(h.selecao ? h.selecao.titulos : [])];
     const tdT = tr.querySelector(".tc-titulos");
-    for (const nome of tits.slice(0, 3)) tdT.append(taca(nome, { tamanho: "p" }));
-    if (tits.length > 3) tdT.append(el("small", null, `+${tits.length - 3}`));
+    // uma taca e a conta: tres tacas lado a lado vazavam a coluna (e a tela, no tablet)
+    if (tits.length) tdT.append(taca(tits[0], { tamanho: "p" }));
+    if (tits.length > 1) tdT.append(el("span", "tc-mais", `×${tits.length}`));
     if (tits.length) tdT.title = tits.join(", ");
     if (h.premios.length) tr.querySelector(".tc-premios").title = h.premios.join(", ");
     tbody.append(tr);
