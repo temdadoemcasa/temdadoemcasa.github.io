@@ -206,6 +206,8 @@ async function resetar(p, semente) {
     for (const f of document.querySelectorAll(".festa")) f.remove();
     document.getElementById("mercado").hidden = true;
     mostrarTela("criar");
+    // o campo mostra o que vale (criarPelasFuncoes mexe no C.nome por fora da tela)
+    document.getElementById("nome-camisa").value = C.nome;
     window.scrollTo(0, 0);
   }, semente);
 }
