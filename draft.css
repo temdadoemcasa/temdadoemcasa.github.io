@@ -699,3 +699,30 @@ button.vaga:hover .vaga-vazia { border-color: var(--canal); color: var(--canal);
 /* toque (celular e tablet, inclusive iPad deitado): campo com letra >= 16px,
    senao o Safari da zoom ao tocar no esquema/postura */
 @media (pointer: coarse) { .draft select, .draft input[type="text"] { font-size: 16px; } }
+
+/* --- temporada salva, recorde e comemoracao ------------------------------------------ */
+.retomar {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.6rem 1rem;
+  margin: 0 0 1.2rem; padding: 0.9rem 1.1rem; border-radius: 14px;
+  background: linear-gradient(120deg, rgba(200, 255, 0, 0.12), transparent 70%), var(--fundo-cartao);
+  border: 1px solid color-mix(in srgb, var(--canal) 55%, transparent);
+}
+.retomar-textos { display: grid; gap: 0.15rem; min-width: 0; }
+.retomar-textos .nota { margin: 0; overflow-wrap: anywhere; }
+.retomar-erro { color: #ff9f5a; }
+.recorde-nota { color: var(--canal); font-weight: 600; }
+.bl-resenha { margin: 0.35rem 0 0; font-weight: 600; }
+.bl-recorde { margin: 0.1rem 0 0; font-size: 0.85rem; color: var(--texto-fraco); }
+.bl-recorde.novo { color: var(--canal); font-weight: 700; }
+.bl-topo { position: relative; overflow: hidden; }
+.bl-confete { position: absolute; inset: 0; pointer-events: none; }
+.bl-confete i {
+  position: absolute; top: -12px; width: 7px; height: 11px; border-radius: 2px; opacity: 0;
+  animation: confete-cai 1.9s cubic-bezier(0.3, 0.6, 0.5, 1) both;
+}
+@keyframes confete-cai {
+  0% { opacity: 1; transform: translateY(0) rotate(0); }
+  85% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(240px) rotate(var(--giro, 360deg)); }
+}
+@media (prefers-reduced-motion: reduce) { .bl-confete { display: none; } }
