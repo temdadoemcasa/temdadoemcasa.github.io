@@ -16,8 +16,12 @@ const PISO_SORTEIO_POR_TORNEIO = { 7: 900 };
 // Liga nova entra no desafio a partir de uma DATA (nunca no meio do dia: o
 // jogador de hoje nao pode mudar pra quem ainda nao jogou). Cada fase tem a
 // propria semente.
-// overall minimo da carta sorteada (desafio a partir de 05/10 e partida livre): 83+ e jogador conhecido
+// overall minimo da carta sorteada (desafio a partir de 05/10 e partida livre): 83+ e jogador conhecido.
+// No Brasileirao o piso e 78 desde 04/10: a regua da liga tira 5 do topo (86 -> 81), entao o 83 de antes
+// la e 78 hoje (o mesmo corte do pacote de craque, app.js PISO_DO_CRAQUE_BRASIL).
 const OVERALL_MINIMO = 83;
+const OVERALL_MINIMO_BRASIL = 78;
+const minimoDaCarta = (c, minimo = OVERALL_MINIMO) => (LIGAS.brasil(c.r) ? minimo - (OVERALL_MINIMO - OVERALL_MINIMO_BRASIL) : minimo);
 const FASES_DO_DESAFIO = [
   { desde: "2026-09-30", retratos: ["2024", "2025", "premier-league-2025", "champions-2025"] },
   { desde: "2026-10-01", retratos: ["2024", "2025", "premier-league-2025", "laliga-2025", "champions-2025"] },
@@ -170,7 +174,7 @@ function alvoDoDia(data) {
     // conta a partir do 1o dia da fase: a fase nova comeca do inicio das duas filas
     const dia = n - numeroDoDesafio(fase.desde);
     const conhecido = fase.minimo
-      ? (c) => c.j.overall >= fase.minimo
+      ? (c) => c.j.overall >= minimoDaCarta(c, fase.minimo)
       : (c) => LIGAS.brasil(c.r) || GRANDES_DA_EUROPA.has(c.time.nome) || c.j.overall >= 84;
     const filas = {
       brasil: embaralhar(pool.filter((c) => LIGAS.brasil(c.r) && conhecido(c))),
@@ -190,7 +194,7 @@ function alvoDoDia(data) {
 
 function alvoLivre() {
   const todos = candidatos(LIGAS[J.liga] || LIGAS.tudo);
-  const fortes = todos.filter((c) => c.j.overall >= OVERALL_MINIMO);
+  const fortes = todos.filter((c) => c.j.overall >= minimoDaCarta(c));
   const pool = fortes.length ? fortes : todos;
   const recentes = new Set(lerVistos());
   const frescos = pool.filter((c) => !recentes.has(`${c.chave}-${c.j.player_id}`));
