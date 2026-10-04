@@ -27,6 +27,7 @@ const sementeDo = (i) => (SEMENTE * 1000003 + i * 7919) >>> 0;
 // --- registro das invariantes --------------------------------------------------------
 const INV = new Map(); // nome -> { n, falhas: [] }
 const conta = (nome) => { if (!INV.has(nome)) INV.set(nome, { n: 0, falhas: [] }); return INV.get(nome); };
+const CLIQUES = { casos: 0, efetivos: 0 }; // casos de clique x chutes que de fato foram por clique
 const atual = new AsyncLocalStorage(); // o caso em andamento de cada trabalhador
 const checar = (nome, cond, detalhe = "") => {
   const caso = atual.getStore();
@@ -92,6 +93,7 @@ const CORROMPIDOS = [
   '{"serie":null,"diario":{"data":"HOJE","id":"x","acertos":"a","erros":null,"fim":"sim"}}',
   '{"diario":{"data":"HOJE","id":"INEXISTENTE","acertos":[1,2,3],"erros":[4],"fim":true}}',
 ];
+const LIXOS = { n: 0 };
 const DATAS = ["2026-10-05", "2026-10-06", "2026-12-31", "2027-02-28", "2028-02-29", "2026-10-01", "2026-09-01", "2030-07-15", "2027-01-01"];
 
 const b = await chromium.launch();
@@ -133,7 +135,7 @@ async function jogarCaso(ctx, c) {
     await p.evaluate(() => localStorage.clear());
     if (c.politica === "corrompido") {
       const hoje = await p.evaluate(() => hojeLocal());
-      const lixo = CORROMPIDOS[Math.floor(c.rnd() * CORROMPIDOS.length)];
+      const lixo = CORROMPIDOS[LIXOS.n++ % CORROMPIDOS.length]; // em rodizio: toda forma de lixo aparece em qualquer rodada
       await p.evaluate(([l, h]) => { localStorage.setItem("top10:v1", l.replaceAll("HOJE", h)); localStorage.setItem("top10:vistos", "{lixo"); }, [lixo, hoje]);
       c.desc += ` lixo=${lixo.slice(0, 30)}`;
       await p.reload(); await p.waitForSelector("#form-inicio:not([hidden])");
@@ -141,35 +143,40 @@ async function jogarCaso(ctx, c) {
     await auditar(p); // tela inicial
     checar("inicio mostra o ranking e a sequência", (await p.textContent("#card-dia")).trim().length > 10 && (await p.textContent("#serie")).trim().length > 0, "card ou sequencia vazios");
     await entrar();
+    if (c.cliques) CLIQUES.casos++;
 
-    // o que o teste sabe do ranking, independente do estado do jogo
-    const R = await p.evaluate(() => ({
-      top: T.ranking.top.map((t) => t.player_id), quase: T.ranking.quase.map((q) => q.player_id),
-      fora: (() => { const no = new Set([...T.ranking.top, ...T.ranking.quase].map((x) => x.player_id)); return T.opcoes.filter((o) => !no.has(o.id)).map((o) => o.id); })(),
-      id: T.ranking.id, nomes: Object.fromEntries(T.opcoes.map((o) => [o.id, o.nome])),
-    }));
+    // o que o teste sabe do ranking, independente do estado do jogo (refeito se a livre trocar de ranking)
+    let R, top, quase, sequencia;
     const embaralha = (a) => { a = [...a]; for (let k = a.length - 1; k > 0; k--) { const j = Math.floor(c.rnd() * (k + 1)); [a[k], a[j]] = [a[j], a[k]]; } return a; };
-    const top = new Set(R.top), quase = new Set(R.quase);
-    let fila;
-    switch (c.politica) {
-      case "otima": fila = embaralha(R.top); break;
-      case "pessima": fila = embaralha(R.fora); break;
-      case "quase": fila = embaralha(R.quase); break;
-      default: { // mista, repetidos, recarrega, corrompido: mistura sorteada
-        const t = embaralha(R.top), q = embaralha(R.quase), f = embaralha(R.fora);
-        const pa = c.rnd() * 0.8 + 0.1;
-        fila = [];
-        for (let k = 0; k < 40; k++) { const x = c.rnd(); fila.push(x < pa ? (t.shift() ?? f.shift()) : x < pa + (1 - pa) / 2 ? (q.shift() ?? f.shift()) : (f.shift() ?? q.shift())); }
-        fila = fila.filter((x) => x != null);
+    const lerRanking = async () => {
+      R = await p.evaluate(() => ({
+        top: T.ranking.top.map((t) => t.player_id), quase: T.ranking.quase.map((q) => q.player_id),
+        fora: (() => { const no = new Set([...T.ranking.top, ...T.ranking.quase].map((x) => x.player_id)); return T.opcoes.filter((o) => !no.has(o.id)).map((o) => o.id); })(),
+        id: T.ranking.id, nomes: Object.fromEntries(T.opcoes.map((o) => [o.id, o.nome])),
+      }));
+      top = new Set(R.top); quase = new Set(R.quase);
+      let fila;
+      switch (c.politica) {
+        case "otima": fila = embaralha(R.top); break;
+        case "pessima": fila = embaralha(R.fora); break;
+        case "quase": fila = embaralha(R.quase); break;
+        default: { // mista, repetidos, recarrega, corrompido: mistura sorteada
+          const t = embaralha(R.top), q = embaralha(R.quase), f = embaralha(R.fora);
+          const pa = c.rnd() * 0.8 + 0.1;
+          fila = [];
+          for (let k = 0; k < 40; k++) { const x = c.rnd(); fila.push(x < pa ? (t.shift() ?? f.shift()) : x < pa + (1 - pa) / 2 ? (q.shift() ?? f.shift()) : (f.shift() ?? q.shift())); }
+          fila = fila.filter((x) => x != null);
+        }
       }
-    }
-    // rajada de repetidos: cada chute pode vir 1-4 vezes seguidas
-    const sequencia = [];
-    for (const id of fila) { sequencia.push(id); if (c.politica === "repetidos") for (let r = c.rnd() * 4 | 0; r > 0; r--) sequencia.push(id); }
+      // rajada de repetidos: cada chute pode vir 1-4 vezes seguidas
+      sequencia = [];
+      for (const id of fila) { sequencia.push(id); if (c.politica === "repetidos") for (let r = c.rnd() * 4 | 0; r > 0; r--) sequencia.push(id); }
+    };
+    await lerRanking();
     const recarregarEm = c.politica === "recarrega" ? 1 + (c.rnd() * 5 | 0) : -1;
 
     // estado independente do teste
-    const feitos = new Set();
+    const jaChutados = new Set();
     let acertos = 0, erros_validos = 0, validos = 0;
     const conferirPlacar = async (rotulo) => {
       const e = await p.evaluate(() => ({ abertas: document.querySelectorAll(".barra.aberta").length, cheias: document.querySelectorAll(".vida.cheia").length, acertos: T.acertos.size, vidas: T.vidas, fim: T.fim, tela: !document.getElementById("tela-fim").hidden, placar: document.getElementById("placar").textContent }));
@@ -179,7 +186,7 @@ async function jogarCaso(ctx, c) {
     };
     // jogada: devolve true se a partida acabou
     const jogar = async (id, porClique) => {
-      const repetido = feitos.has(id);
+      const repetido = jaChutados.has(id);
       const esperado = repetido ? "repetido" : top.has(id) ? "acerto" : quase.has(id) ? "quase" : "fora";
       let obtido = null;
       if (porClique && !repetido) {
@@ -198,13 +205,13 @@ async function jogarCaso(ctx, c) {
           if (!sugestoesAuditadas) { sugestoesAuditadas = true; await auditar(p); } // lista de sugestoes aberta
           const li = p.locator(".sugestao").nth(ind);
           if (c.toque) await li.tap(); else await li.click();
-          obtido = "clique";
+          obtido = "clique"; CLIQUES.efetivos++;
         }
       }
       if (obtido == null) obtido = await p.evaluate((x) => chutar(x), id);
       if (obtido !== "clique") checar("chutar() devolve o resultado certo", obtido === esperado, `id ${id}: esperado ${esperado}, veio ${obtido}`);
       if (!repetido) {
-        feitos.add(id); validos++;
+        jaChutados.add(id); validos++;
         if (esperado === "acerto") acertos++; else erros_validos++;
       }
       const fim = acertos >= 10 || erros_validos >= 3;
@@ -216,39 +223,46 @@ async function jogarCaso(ctx, c) {
       return fim;
     };
 
-    let acabou = false, n = 0, sugestoesAuditadas = false;
-    for (const id of sequencia) {
-      if (acabou) break;
-      acabou = await jogar(id, c.cliques);
+    let modeloFim = false, n = 0, sugestoesAuditadas = false, recarregou = false;
+    // quem manda e a pagina: joga ate T.fim (ou a fila acabar); o modelo do teste so serve de comparacao
+    const paginaFim = () => p.evaluate(() => T.fim && !document.getElementById("tela-fim").hidden);
+    for (let idx = 0; idx < sequencia.length;) {
+      modeloFim = await jogar(sequencia[idx++], c.cliques);
       n++; c.passo = n;
       await conferirPlacar(`após ${n} chutes`);
-      if (n === recarregarEm && !acabou) {
+      const fimPagina = await paginaFim();
+      checar("fim da página = fim do modelo", fimPagina === modeloFim, `página ${fimPagina}, modelo ${modeloFim} (${acertos} acertos, ${erros_validos} erros)`);
+      if (fimPagina) break;
+      if (n === recarregarEm && !recarregou) {
+        recarregou = true;
         await p.reload(); await p.waitForSelector("#form-inicio:not([hidden])");
         if (c.diario) {
           await entrar();
           const e = await conferirPlacar("após recarregar (diário guarda)");
           checar("recarregar no diário mantém o progresso", e.acertos === acertos, `acertos ${e.acertos} x ${acertos}`);
         } else {
-          // partida livre nao e guardada: recomeca do zero, com outro estado limpo
+          // partida livre nao e guardada: recomeca do zero e joga ate o fim com a fila do ranking novo
           await entrar();
-          const R2 = await p.evaluate(() => ({ id: T.ranking.id, top: T.ranking.top.map((t) => t.player_id), quase: T.ranking.quase.map((q) => q.player_id), a: T.acertos.size, v: T.vidas }));
-          checar("livre recarregada recomeça limpa", R2.a === 0 && R2.v === 3, `acertos ${R2.a}, vidas ${R2.v}`);
-          feitos.clear(); acertos = 0; erros_validos = 0; validos = 0;
-          if (R2.id !== R.id) break; // outro ranking: o resto da fila nao vale mais
+          const z = await p.evaluate(() => ({ a: T.acertos.size, v: T.vidas, f: T.fim }));
+          checar("livre recarregada recomeça limpa", z.a === 0 && z.v === 3 && !z.f, `acertos ${z.a}, vidas ${z.v}, fim ${z.f}`);
+          jaChutados.clear(); acertos = 0; erros_validos = 0; validos = 0; idx = 0;
+          await lerRanking();
         }
       }
     }
-    // o fim: chega em <= 13 chutes validos, so se a fila deu pra isso
+    // o fim: a pagina tem que ter terminado a partida, em <= 13 chutes validos
     const e = await conferirPlacar("no fim");
-    if (acabou) {
-      checar("o fim chega em ≤ 13 chutes válidos", validos <= 13 && e.fim && e.tela, `validos ${validos}, fim ${e.fim}, tela ${e.tela}`);
+    const terminou = await paginaFim();
+    checar("a fila de chutes terminou a partida", terminou, `fila esgotada sem fim da página (${acertos} acertos, ${erros_validos} erros, ${n} passos)`);
+    checar("o fim chega em ≤ 13 chutes válidos", terminou && validos <= 13, `válidos ${validos}, fim da página ${terminou}`);
+    if (terminou) {
       checar("placar = acertos", new RegExp(`^${acertos}\\s*/\\s*10$`).test(e.placar.trim()), `placar "${e.placar}", acertos ${acertos}`);
       checar("fim revela as 10 barras", await p.locator(".barra.aberta, .barra.revelada").count() === 10, "barras abertas+reveladas != 10");
       const txt = await p.evaluate(() => textoCompartilhar());
       const quad = [...txt.matchAll(/🟩|⬛/gu)].map((m) => m[0]);
       checar("compartilhar com 10 quadradinhos e o link", quad.length === 10 && quad.filter((q) => q === "🟩").length === acertos && txt.includes("temdadoemcasa.github.io/top10-em-casa.html") && !/undefined|null|NaN|\[object/.test(txt), txt.slice(0, 200));
       if (c.cliques) {
-        // o botao de verdade: copia o mesmo texto (sem Web Share no desktop; com ele o teste so confere que nao quebra)
+        // o botao de verdade: copia o mesmo texto (sem Web Share no desktop)
         const temShare = await p.evaluate(() => !!navigator.share);
         if (!temShare) {
           if (c.toque) await p.tap("#compartilhar"); else await p.click("#compartilhar");
@@ -257,12 +271,11 @@ async function jogarCaso(ctx, c) {
         }
       }
       await auditar(p); // tela do fim
-    } else {
-      checar("a fila de chutes terminou a partida", sequencia.length < 3 || recarregarEm > 0, `fila esgotada sem fim (${acertos} acertos, ${erros_validos} erros)`);
     }
     checar("sem pageerror/console.error", erros.length === 0, erros.join(" | "));
+    checar("o caso rodou até o fim", true);
   } catch (err) {
-    checar("o caso rodou até o fim", false, err.message.split("\n")[0]);
+    checar("o caso rodou até o fim", false, `${err.message.split("\n")[0]}${erros.length ? " | página: " + erros.join(" | ") : ""}`);
   } finally {
     await p.close();
   }
@@ -285,7 +298,7 @@ await b.close();
 
 // --- resumo -----------------------------------------------------------------------------------------
 let falhou = false;
-const resumo = { casos: lista.length, semente: SEMENTE, segundos: Math.round((Date.now() - inicio) / 1000), invariantes: {} };
+const resumo = { cliques: CLIQUES, casos: lista.length, semente: SEMENTE, segundos: Math.round((Date.now() - inicio) / 1000), invariantes: {} };
 for (const [nome, r] of [...INV].sort(([a], [z]) => a.localeCompare(z, "pt-BR"))) {
   resumo.invariantes[nome] = { n: r.n, falhas: r.falhas.length, exemplos: r.falhas.slice(0, 5) };
   if (r.falhas.length) { falhou = true; console.log(`FALHA ${nome} (${r.falhas.length} de ${r.n}): ${r.falhas.slice(0, 5).join("\n      ")}`); }
@@ -293,5 +306,6 @@ for (const [nome, r] of [...INV].sort(([a], [z]) => a.localeCompare(z, "pt-BR"))
 }
 mkdirSync(new URL("./resultados/", import.meta.url), { recursive: true });
 writeFileSync(new URL("./resultados/bateria-ux-top10.json", import.meta.url), JSON.stringify(resumo, null, 2) + "\n");
+console.log(`cliques efetivos: ${CLIQUES.efetivos} chutes em ${CLIQUES.casos} casos de clique`);
 console.log(`${falhou ? "FALHOU" : "LIMPO"}: ${lista.length} casos em ${resumo.segundos}s`);
 process.exit(falhou ? 1 : 0);
