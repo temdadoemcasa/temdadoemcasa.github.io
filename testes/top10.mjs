@@ -55,9 +55,62 @@ const abriu = await p.waitForSelector('#form-inicio:not([hidden])', { timeout: 3
 ok(abriu && (await p.textContent('#serie')).trim().length > 0 && await p.locator('#jogar-dia').isEnabled(), 'abre com storage corrompido');
 await p.click('#jogar-dia').catch(() => {}); await p.waitForSelector('#tela-jogo:not([hidden])', { timeout: 3000 }).catch(() => {});
 ok(await p.locator('#tela-jogo:not([hidden])').count() === 1 && await p.locator('.vida.cheia').count() === 3, 'joga com storage corrompido');
-// homonimos: o chute e por id
-const homonimo = await p.evaluate(() => { const vistos = new Map(); for (const o of T.opcoes) { const k = o.nome; if (vistos.has(k)) return [vistos.get(k), o.id]; vistos.set(k, o.id); } return null; });
-ok(homonimo === null || homonimo[0] !== homonimo[1], 'homonimos tem ids distintos nas opcoes');
+
+// --- fix round: homonimos, empate no top, sequencia ---
+const abrir = async (modo, semente) => {
+  const cx = await b.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' });
+  const q = await cx.newPage(); q.on('pageerror', (e) => erros.push(e.message));
+  await q.goto(BASE + '/top10-em-casa.html'); await q.waitForSelector('#form-inicio:not([hidden])');
+  if (semente) { await q.evaluate(semente); await q.reload(); await q.waitForSelector('#form-inicio:not([hidden])'); }
+  await q.click(modo); await q.waitForSelector('#tela-jogo:not([hidden])');
+  return [cx, q];
+};
+// homonimos: dois jogadores com o mesmo nome, so um no top; o chute e por id
+{
+  const [cx, q] = await abrir('#jogar-livre');
+  await q.evaluate(() => {
+    T.ranking.top[5].player_id = 9000001; T.ranking.top[5].nome = 'Fulano Homonimo';
+    T.opcoes.push({ id: 9000001, nome: 'Fulano Homonimo', nome_completo: 'Fulano A', clube: 'X' }, { id: 9000002, nome: 'Fulano Homonimo', nome_completo: 'Fulano B', clube: 'Y' });
+  });
+  const f = await q.evaluate(() => chutar(9000002));
+  ok(f !== 'acerto' && await q.locator('.barra.aberta').count() === 0, `homonimo fora do top nao abre barra (${f})`);
+  ok(await q.evaluate(() => chutar(9000001)) === 'acerto' && await q.locator('.barra.aberta').count() === 1 && (await q.locator('.barra').nth(5).textContent()).includes('Fulano Homonimo'), 'homonimo do top abre so a barra dele');
+  await cx.close();
+}
+// empate no top: a barra aberta e a do indice do jogador, nao a primeira da mesma posicao
+{
+  const [cx, q] = await abrir('#jogar-livre');
+  const nome3 = await q.evaluate(() => { const t = T.ranking.top; t[2].pos = t[3].pos; t[2].valor = t[3].valor; chutar(t[3].player_id); return t[3].nome; });
+  ok((await q.locator('.barra').nth(3).textContent()).includes(nome3) && !(await q.locator('.barra').nth(2).getAttribute('class')).includes('aberta'), 'empate: abre a barra do indice 3, nao a 2');
+  await cx.close();
+}
+// sequencia do diario
+const acabarDiario = (acertos) => `(() => { const no = new Set([...T.ranking.top, ...T.ranking.quase].map((x) => x.player_id)); const fora = T.opcoes.filter((o) => !no.has(o.id)); for (let i = 0; i < ${acertos}; i++) chutar(T.ranking.top[i].player_id); for (let i = 0; i < 3; i++) chutar(fora[i].id); })()`;
+const semear = (dias, atual, melhor) => `(() => { const d = new Date(); d.setDate(d.getDate() - ${dias}); localStorage.setItem('top10:v1', JSON.stringify({ serie: { atual: ${atual}, melhor: ${melhor}, ultimo: hojeLocal(d) } })); })()`;
+const serieDepois = (q) => q.evaluate(() => ({ ...JSON.parse(localStorage.getItem('top10:v1')).serie, hoje: hojeLocal(), ontem: ontemDe(hojeLocal()) }));
+{
+  let [cx, q] = await abrir('#jogar-dia', semear(1, 2, 5));
+  await q.evaluate(acabarDiario(1)); let s = await serieDepois(q);
+  ok(s.atual === 3 && s.melhor === 5 && s.ultimo === s.hoje, `ontem + acerto: atual 3, melhor 5 mantido (${JSON.stringify(s)})`);
+  await cx.close();
+  [cx, q] = await abrir('#jogar-dia', semear(1, 4, 4));
+  await q.evaluate(acabarDiario(1)); s = await serieDepois(q);
+  ok(s.atual === 5 && s.melhor === 5, 'melhor sobe junto com a sequencia');
+  await cx.close();
+  [cx, q] = await abrir('#jogar-dia', semear(2, 2, 2));
+  await q.evaluate(acabarDiario(1)); s = await serieDepois(q);
+  ok(s.atual === 1 && s.ultimo === s.hoje, `anteontem + acerto: recomeca em 1 (${JSON.stringify(s)})`);
+  await cx.close();
+  [cx, q] = await abrir('#jogar-dia', semear(1, 2, 7));
+  const antes = await serieDepois(q);
+  await q.evaluate(acabarDiario(0)); s = await serieDepois(q);
+  ok(s.atual === 0 && s.melhor === 7 && s.ultimo === antes.ultimo, `0 acertos: atual 0, melhor mantido, ultimo igual (${JSON.stringify(s)})`);
+  await cx.close();
+  [cx, q] = await abrir('#jogar-dia');
+  const m = await q.evaluate(() => [ontemDe('2026-11-01'), ontemDe('2028-03-01'), ontemDe('2027-01-01')]);
+  ok(m.join() === '2026-10-31,2028-02-29,2026-12-31', `ontemDe na virada de mes/ano: ${m}`);
+  await cx.close();
+}
 ok(!erros.length, 'sem erro de JS na partida ' + erros.join(' | '));
 
 // 10/10 no livre: frase, placar e confete (so sem reduced-motion)

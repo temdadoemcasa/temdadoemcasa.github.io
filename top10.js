@@ -205,7 +205,7 @@ async function comecar({ diario = false } = {}) {
   if (salvo) {
     T.acertos = new Set(salvo.acertos);
     T.erros = salvo.erros.map((id) => ({ player_id: id, tipo: ranking.quase.some((q) => q.player_id === id) ? "quase" : "fora" }));
-    T.vidas = VIDAS - T.erros.length;
+    T.vidas = Math.max(0, VIDAS - T.erros.length);
     T.fim = salvo.fim || T.vidas <= 0 || T.acertos.size >= 10;
   }
   desenharVidas();
@@ -276,7 +276,7 @@ function terminar() {
 
 function atualizarSerie() {
   const s = lerSerie();
-  const hoje = hojeLocal();
+  const hoje = T.diario.data; // o dia em que a partida comecou, mesmo se virou a meia-noite
   if (s.ultimo === hoje) return; // o diario so conta uma vez por dia
   if (T.acertos.size >= 1) {
     const atual = s.ultimo === ontemDe(hoje) ? s.atual + 1 : 1;
@@ -308,7 +308,7 @@ function mostrarFim({ contarSerie }) {
   $("frase").textContent = FRASES.find(([min]) => n >= min)[1];
   $("tela-fim").hidden = false;
   if (T.diario && contarSerie) atualizarSerie();
-  if (n === 10 && !reduzMovimento() && !$("festa")) confete();
+  if (contarSerie && n === 10 && !reduzMovimento() && !$("festa")) confete();
   $("tela-fim").scrollIntoView({ block: "start", behavior: reduzMovimento() ? "auto" : "smooth" });
 }
 
