@@ -3,7 +3,7 @@
 //
 //   python3 -m http.server 8766 &                       (na raiz do repo)
 //   node testes/bateria-ux-dadao.mjs                   (CI: 120 casos + o banco inteiro, ~3-4 min)
-//   CASOS=4000 node testes/bateria-ux-dadao.mjs        (bateria cheia, ~30-40 min)
+//   CASOS=4000 node testes/bateria-ux-dadao.mjs        (bateria cheia, ~2-3 h na máquina dividida)
 //   CASO=1234 node testes/bateria-ux-dadao.mjs         (repete so o caso 1234, mesma semente)
 //   SEMENTE=7 muda a semente-base (default 1). DETALHE=1 imprime os passos dos casos que falharem.
 //
