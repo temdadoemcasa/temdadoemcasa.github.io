@@ -11,6 +11,9 @@ ok(titulo && !/undefined|null|NaN/.test(titulo), `card do dia mostra o ranking: 
 const a = await p.evaluate(() => rankingDoDia('2026-10-05').id), a2 = await p.evaluate(() => rankingDoDia('2026-10-05').id), c = await p.evaluate(() => rankingDoDia('2026-10-06').id);
 ok(a === a2, 'mesmo dia, mesmo ranking'); ok(a !== c, 'dia seguinte, outro ranking');
 await p.click('#jogar-dia'); await p.waitForSelector('#tela-jogo:not([hidden])');
+const nomes = await p.evaluate(() => T.ranking.top.map((i) => i.nome)), barras = await p.textContent('#barras');
+ok(await p.locator('.barra.aberta').count() === 0, 'barras comecam fechadas'); ok(nomes.length === 10 && nomes.every((n) => !barras.includes(n)), 'nenhum nome do ranking aparece antes do chute');
+const tj = await p.textContent('#tela-jogo'); ok(!/undefined|null|NaN/.test(tj), 'tela do jogo sem undefined/null/NaN');
 ok(await p.locator('.barra').count() === 10, '10 barras'); ok(await p.locator('.vida.cheia').count() === 3, '3 vidas');
 ok(!erros.length, 'sem erro de JS ' + erros.join(' | '));
 await b.close();

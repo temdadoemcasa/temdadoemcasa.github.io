@@ -84,12 +84,6 @@ function lerSerie() {
 
 // --- dados -------------------------------------------------------------------
 
-async function json(url) {
-  const r = await fetch(url);
-  if (!r.ok) throw new Error(`${url}: ${r.status}`);
-  return r.json();
-}
-
 // a lista da busca: todo jogador das cartas do retrato (em campo + os que sairam)
 async function opcoesDe(busca) {
   if (opcoesPorBusca.has(busca)) return opcoesPorBusca.get(busca);
@@ -141,7 +135,7 @@ function linhaDaBarra(item, pos) {
     corpo.style.borderLeftColor = item.cor || "";
     const nomes = el("div", "barra-nomes");
     nomes.append(el("b", "barra-nome", item.nome), el("small", "barra-clube", item.clube));
-    corpo.append(nomes, el("span", "barra-valor", String(item.valor)));
+    corpo.append(nomes, el("span", "barra-valor", item.valor == null ? "sem dado" : String(item.valor)));
   }
   li.append(corpo);
   return li;
@@ -249,7 +243,7 @@ async function iniciarTop10() {
   busca.addEventListener("input", mostrarSugestoes);
   // no celular o teclado cobre metade da tela: sobe o campo pra lista caber embaixo
   busca.addEventListener("click", () => {
-    if (matchMedia("(max-width: 760px)").matches) setTimeout(() => busca.parentElement.scrollIntoView({ block: "start", behavior: "smooth" }), 250);
+    if (matchMedia("(max-width: 760px)").matches) setTimeout(() => busca.parentElement.scrollIntoView({ block: "start", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" }), 250);
   });
   busca.addEventListener("blur", () => setTimeout(fecharSugestoes, 250));
   busca.addEventListener("keydown", (e) => {
