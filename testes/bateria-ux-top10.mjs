@@ -159,7 +159,8 @@ async function jogarCaso(ctx, c) {
       switch (c.politica) {
         case "otima": fila = embaralha(R.top); break;
         case "pessima": fila = embaralha(R.fora); break;
-        case "quase": fila = embaralha(R.quase); break;
+        // o quase pode ter menos de 3 (ou nenhum: zeros e empate cortado no 20o ficam fora); completa com fora
+        case "quase": fila = [...embaralha(R.quase), ...embaralha(R.fora)]; break;
         default: { // mista, repetidos, recarrega, corrompido: mistura sorteada
           const t = embaralha(R.top), q = embaralha(R.quase), f = embaralha(R.fora);
           const pa = c.rnd() * 0.8 + 0.1;
