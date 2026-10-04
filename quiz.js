@@ -255,6 +255,7 @@ function desenharCarta(alvo, d, opcoes) {
 
 function desenharEscada() {
   const lista = $("escada");
+  const recorde = lerRecorde();
   lista.replaceChildren();
   for (let d = 16; d >= 1; d--) {
     const g = ESCADA_QUIZ[d];
@@ -262,6 +263,7 @@ function desenharEscada() {
     if (d <= Q.degrau) li.classList.add("feito");
     if (d === Q.numero) li.classList.add("agora");
     if (d === 16) li.classList.add("final");
+    if (d === recorde && d > 0) { li.classList.add("recorde"); li.title = "Seu recorde"; }
     li.append(el("b", null, String(d)), el("span", "degrau-nome", g.nome), el("span", "degrau-ovr", String(g.ovr)));
     lista.append(li);
   }
@@ -454,8 +456,10 @@ async function confirmar() {
     fecharPartida("errou");
     const g = ESCADA_QUIZ[Q.degrau];
     retorno.classList.add("errou");
-    $("retorno-texto").textContent = `Errou! A certa era ${LETRAS[certa]}, ${Q.pergunta.a}.${Q.pergunta.x ? ` ${Q.pergunta.x}` : ""}`;
-    $("retorno-subiu").textContent = Q.numero === 16 ? "Na final, errar zera." : `Sua carta caiu pra ${g.nome} (${g.ovr}).`;
+    $("retorno-texto").textContent = textoDoErro(Q.pergunta, LETRAS[certa]);
+    $("retorno-subiu").textContent = Q.numero === 16 ? "Na final, errar zera. Doeu, mas chegar na final já é resenha garantida."
+      : Q.numero === 1 ? "Primeira é aquecimento: bora de novo, que a próxima é sua!"
+        : `A carta volta pra ${g.nome} (${g.ovr}). Bola pra frente!`;
     $("retorno-carta").replaceChildren();
     $("proxima").textContent = "Ver o resultado";
     $("proxima").dataset.fim = "errou";
@@ -943,6 +947,27 @@ function comemorar(d, { curiosidade = "", frase = "", duracao = esperaDaFrase(fr
 
 // --- fim ----------------------------------------------------------------------
 
+// errou: sem bronca. A certa, a explicacao, e segue o jogo
+const textoDoErro = (p, letra) => `Quase! A certa era ${letra}, ${p.a}.${p.x ? ` ${p.x}` : ""}`;
+
+// o que a pessoa fez de bom, mesmo quando perde (tom de resenha, sem humilhar)
+function destaqueDoFim(como, acertos) {
+  const s = acertos === 1 ? "" : "s";
+  const g = ESCADA_QUIZ[acertos] || ESCADA_QUIZ[0];
+  if (como === "campeao") return "16 de 16! Zerou o Show do Dadão e sentou na Prateleira Rei Pelé. Pode pedir música!";
+  if (como === "parou") {
+    if (acertos === 0) return "Nem entrou em campo! Bora pro aquecimento: a primeira é a mais tranquila.";
+    if (acertos === 15) return "Parou com 15 e levou a Prateleira Messi e CR7. Frieza de camisa 10.";
+    return `Saiu por cima: ${acertos} acerto${s} e a carta ${g.nome} (${g.ovr}) garantida no bolso. Malandragem de quem conhece o jogo.`;
+  }
+  if (acertos === 0) return "A primeira foi casca de banana. Acontece com qualquer um: a próxima é sua!";
+  if (acertos === 15) return "15 acertos seguidos e só a final escapou. Isso é coisa de craque: a resenha vai lembrar.";
+  if (acertos <= 3) return `${acertos} acerto${s} e já saiu da pelada. Aquecimento feito, agora é pra valer!`;
+  if (acertos <= 7) return `${acertos} acertos seguidos! Chegou a bater na ${g.nome} antes de tropeçar. Tá batendo ponto no Show.`;
+  if (acertos <= 11) return `${acertos} acertos seguidos e carta de ${g.nome} no caminho. Bagre não chega aqui, não!`;
+  return `${acertos} acertos! Você foi até a ${g.nome}. Pouca gente chega nesse degrau.`;
+}
+
 // revisao: reabre o resultado do desafio de hoje (ja jogado) sem contar de novo
 function terminar(como, { revisao = false } = {}) {
   if (!revisao) evento(`dadao/${Q.diario ? "diario-" : ""}${como}-${Q.degrau}`);
@@ -966,6 +991,7 @@ function terminar(como, { revisao = false } = {}) {
   // errou: a frase da resposta aparece aqui, na volta pra tela principal do jogo
   $("fim-frase").textContent = como === "errou" && ultima?.frase ? ultima.frase : "";
   const acertos = Q.historico.filter((h) => h.acertou).length;
+  $("fim-destaque").textContent = destaqueDoFim(como, acertos);
   if (!revisao) fecharPartida(como);
   const recordeAntes = revisao ? lerRecorde() : Q.recordeAntes;
   $("fim-recorde").textContent = revisao ? "" : d > recordeAntes && recordeAntes > 0

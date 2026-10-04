@@ -431,3 +431,14 @@
 /* celular baixinho (360x640): a cena da comemoracao encolhe (cortando so ceu e chao) pra
    caixa inteira, com a frase e a curiosidade, caber sem cortar */
 @media (max-height: 700px) { .festa-cena-svg { height: 36vh; } }
+
+/* fim: o que a pessoa fez de bom, sempre em destaque (mesmo quando perde) */
+.fim-textos .fim-destaque { margin: -0.6rem 0 1.1rem; color: var(--certa, #3ddc84); font-weight: 700; line-height: 1.35; }
+.fim-destaque:empty { display: none; }
+/* escada: o seu recorde marcado com estrela (da pra ver o que falta pra bater) */
+.degrau.recorde .degrau-nome::after { content: " ★"; color: var(--quiz-texto, #f2c230); }
+.degrau.agora.recorde .degrau-nome::after { color: #111; }
+/* toque na alternativa responde na hora (afunda de leve) */
+.alternativa { transition: border-color 0.15s ease, background 0.15s ease, transform 0.08s ease; }
+.alternativa:active:not(:disabled) { transform: scale(0.985); }
+@media (prefers-reduced-motion: reduce) { .alternativa { transition: none; } .alternativa:active:not(:disabled) { transform: none; } }
