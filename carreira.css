@@ -270,7 +270,7 @@
 .galeria li { display: flex; align-items: center; gap: 0.4rem; }
 .tc-titulos { white-space: nowrap; }
 .tc-titulos .taca { margin: 0 1px; }
-.tc-titulos small { font-size: 0.7rem; color: #f2c230; margin-left: 2px; }
+.tc-titulos .tc-mais { font-size: 0.7rem; font-weight: 800; color: #f2c230; margin-left: 1px; }
 .carreira .bl-campeoes li.com-taca { grid-template-columns: 1.9rem 2.2rem minmax(0, 1fr); border-left: 0; padding-left: 0; }
 
 /* --- escudo generico e estilo ------------------------------------------------------- */
@@ -361,6 +361,7 @@
 .carreira-lateral th:nth-child(1), .carreira-lateral td:nth-child(1) { width: 2.5rem; }
 .carreira-lateral th:nth-child(n+3), .carreira-lateral td:nth-child(n+3) { width: 1.9rem; }
 .carreira-lateral th:nth-child(3), .carreira-lateral td:nth-child(3) { width: 2.6rem; }
+.carreira-lateral th:nth-child(7), .carreira-lateral td:nth-child(7) { width: 2.7rem; }
 .carreira-lateral td:nth-child(2) { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .carreira-lateral thead th { position: sticky; top: 0; z-index: 1; background: var(--fundo-cartao); }
 .carreira-lateral td, .carreira-lateral th { padding: 0.22rem 0.3rem; line-height: 1.15; }
@@ -496,7 +497,7 @@
 .mercado .proposta-chance { grid-area: barra; height: 0.3rem; margin: 0.2rem 0 0.1rem; }
 .mercado .proposta-adapta { grid-area: adapta; }
 .mercado .proposta-acoes { grid-area: acoes; display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 0.4rem; margin-top: 0.25rem; }
-.mercado .proposta-acoes .botao { margin: 0; width: 100%; padding: 0.45rem 0.7rem; font-size: 0.84rem; }
+.mercado .proposta-acoes .botao { margin: 0; width: 100%; padding: 0.45rem 0.7rem; font-size: 0.84rem; min-height: 2.5rem; }
 .mercado .proposta-resposta { grid-area: resp; }
 .mercado-titulo { margin: 0 0 0.2rem; }
 .mercado > .nota { margin: 0 0 0.6rem; font-size: 0.82rem; }
@@ -750,4 +751,27 @@
 @media (pointer: coarse) {
   .atributo-faixa, .atributo-faixa::-webkit-slider-runnable-track { height: 1.75rem; }
   .atributo-faixa::-webkit-slider-thumb { margin-top: 0.42rem; }
+}
+
+/* --- 04/10: mais resenha e mais positivo ------------------------------------------------ */
+/* recorde pessoal na abertura (some se nunca jogou) */
+.recorde-prata { margin: 0.5rem auto 0; font-size: 0.85rem; color: var(--texto-fraco); }
+.recorde-prata b { color: var(--canal); font-weight: 800; }
+.draft-cabecalho.compacto .recorde-prata { display: none; }
+/* destaque do ano: uma frase de resenha logo abaixo do cabecalho do resumo */
+.temporada-destaque { margin: 0.35rem 0 0.6rem; padding: 0.45rem 0.7rem; border-radius: 8px; font-weight: 700; font-size: 0.92rem;
+  color: var(--texto); background: color-mix(in srgb, var(--canal) 14%, transparent); border-left: 3px solid var(--canal);
+  animation: destaque-entra 0.35s ease both; }
+@keyframes destaque-entra { from { opacity: 0; transform: translateY(4px); } }
+/* tela final: o rotulo da carreira entra com um pulinho; recorde em destaque */
+.bl-final { animation: final-pulo 0.5s cubic-bezier(0.2, 1.5, 0.4, 1) 0.15s both; transform-origin: left center; }
+@keyframes final-pulo { from { opacity: 0; transform: scale(0.7); } }
+.bl-recorde { margin: 0.45rem 0 0; font-size: 0.85rem; font-weight: 700; color: var(--texto-fraco); }
+.bl-recorde.novo { display: inline-block; padding: 0.25rem 0.6rem; border-radius: 999px; color: #111; background: #f2c230; }
+.bl-texto { flex-basis: 100%; width: 100%; font: inherit; font-size: 16px; padding: 0.5rem; border-radius: 8px; border: 1px solid var(--borda); background: var(--fundo-cartao); color: var(--texto); }
+/* toque com resposta: o botao afunda um pouco */
+.evento-opcao:active:not([disabled]), .proposta .botao:active:not([disabled]), #proxima:active:not([disabled]) { transform: scale(0.97); }
+@media (prefers-reduced-motion: reduce) {
+  .temporada-destaque, .bl-final { animation: none; }
+  .evento-opcao:active, .proposta .botao:active, #proxima:active { transform: none; }
 }

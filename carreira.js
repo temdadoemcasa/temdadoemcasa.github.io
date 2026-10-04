@@ -2905,6 +2905,9 @@ function iniciarTelaCarreira() {
     el("h3", "temporada-titulo", `Aprovado na peneira: ${C.J.clube.nome}, ${C.J.clube.liga}`),
     el("p", "nota", "Agora é com você. Os minutos dependem de passar o titular da posição; jogando bem, clube maior aparece com proposta. Um olheiro na arquibancada certa também ajuda."),
   );
+  // "Nova carreira" depois de uma aposentadoria: o botao ainda dizia "Ver a aposentadoria"
+  $("proxima").textContent = "Jogar a temporada";
+  $("proxima").hidden = false;
   $("proxima").disabled = false;
   $("tudo").disabled = false;
   desenharPainelJogador();
@@ -3020,8 +3023,9 @@ function desenharTabelaCarreira() {
       el("td", "tc-titulos"), el("td", "tc-premios", h.premios.length ? `${h.premios.length}` : ""));
     const tits = [...h.titulos, ...(h.selecao ? h.selecao.titulos : [])];
     const tdT = tr.querySelector(".tc-titulos");
-    for (const nome of tits.slice(0, 3)) tdT.append(taca(nome, { tamanho: "p" }));
-    if (tits.length > 3) tdT.append(el("small", null, `+${tits.length - 3}`));
+    // uma taca e a conta: tres tacas lado a lado vazavam a coluna (e a tela, no tablet)
+    if (tits.length) tdT.append(taca(tits[0], { tamanho: "p" }));
+    if (tits.length > 1) tdT.append(el("span", "tc-mais", `×${tits.length}`));
     if (tits.length) tdT.title = tits.join(", ");
     if (h.premios.length) tr.querySelector(".tc-premios").title = h.premios.join(", ");
     tbody.append(tr);
@@ -3128,6 +3132,34 @@ function mostrarLinha(linha) {
   if (linha.voltaDeEmprestimo) avisos.push(`Fim do empréstimo: volta pro ${linha.voltaDeEmprestimo}.`);
   if (linha.fim) avisos.push(`${linha.fim} aos ${linha.idade + 1} anos.`);
   for (const a of avisos) alvo.append(el("p", "temporada-aviso", a));
+  const dest = destaqueDoAno(linha);
+  if (dest) alvo.children[0].after(el("p", "temporada-destaque", dest));
+}
+
+// Uma frase de resenha sobre o melhor do ano, logo abaixo do cabecalho. Ano
+// ruim tambem ganha a sua: nunca culpa, sempre "bora pra proxima". So usa
+// numero que existe (nada de "0 gols").
+function destaqueDoAno(linha) {
+  const n = (v) => (typeof v === "number" && Number.isFinite(v) ? v : null);
+  const gols = n(linha.gols), assist = n(linha.assist), craque = n(linha.craqueDoJogo), nota = n(linha.nota);
+  const ev = linha.evolucao || {};
+  const subiu = n(ev.depois) !== null && n(ev.antes) !== null ? ev.depois - ev.antes : null;
+  const tits = [...(linha.titulos || []), ...((linha.selecao && linha.selecao.titulos) || [])];
+  if (tits.length) return tits.length > 1 ? `${tits.length} taças no mesmo ano. Abre espaço na estante!` : `Campeão! ${tits[0]} pro currículo.`;
+  if (linha.premios && linha.premios.length) return `Prêmio na estante: ${linha.premios[0]}.`;
+  if (linha.selecao && linha.selecao.estreia) return "Primeira convocação! A família inteira chorou na sala.";
+  if (linha.mudouDivisao && linha.mudouDivisao.sobe) return `Acesso! O ${linha.clube} subiu e você estava lá.`;
+  if (gols !== null && gols >= 15) return `${gols} gols: bateu ponto na área o ano inteiro.`;
+  if (assist !== null && assist >= 10) return `${assist} assistências: garçom de respeito.`;
+  if (craque !== null && craque >= 3) return `Craque do jogo ${craque} vezes. A torcida já sabe seu nome.`;
+  if (subiu !== null && subiu >= 3) return `+${subiu} de OVR: o treino tá pagando.`;
+  if (nota !== null && nota >= 7.2) return `Nota ${nota.toFixed(1).replace(".", ",")} na média: temporada de gente grande.`;
+  if (linha.lesao) return "Ano de departamento médico. Volta mais forte.";
+  if (gols !== null && gols >= 1 && gols <= 2 && linha.jogos <= 15) return gols === 1 ? "Pouco minuto, mas deixou o seu: gol marcado!" : "Pouco minuto, mas deixou dois gols.";
+  if (subiu !== null && subiu > 0) return `+${subiu} de OVR. Devagar e sempre.`;
+  if (linha.idade <= 19) return "Ano de aprendizado: banco também ensina. Bora pra próxima.";
+  if (linha.idade >= 34) return "O corpo cobra, mas a experiência paga. Ainda tem lenha.";
+  return "Ano discreto. Todo craque teve um desses. Bora pra próxima.";
 }
 
 function proximaTemporada() {
@@ -3550,7 +3582,7 @@ function roleta(chance, ok) {
   }));
   setTimeout(() => {
     caixa.classList.add(ok ? "deu-certo" : "deu-errado");
-    centro.textContent = ok ? "Deu certo" : "Deu errado";
+    centro.textContent = ok ? "Deu certo!" : "Não rolou";
   }, movimentoReduzido ? 100 : 3100);
   return caixa;
 }
@@ -3913,7 +3945,7 @@ function nomeDoFinal(J) {
   else if (tituloSelecao || jogosSelecao >= 50) r = ["Camisa da seleção", `${jogosSelecao} jogos pela seleção${tituloSelecao ? " e taça levantada" : ""}.`];
   else if (dados.n >= 8) r = [`Ídolo do ${clubeMaior}`, `${dados.n} temporadas no mesmo clube. O nome já está no muro do estádio.`];
   else if (Object.keys(porClube).length >= 7) r = ["Andarilho", `${Object.keys(porClube).length} clubes. A mala sempre pronta no canto do quarto.`];
-  else if (J.potencialSorteado >= 88 && auge <= J.potencialSorteado - 5) r = ["A promessa que não vingou", "O talento era de seleção. A carreira ficou no meio do caminho."];
+  else if (J.potencialSorteado >= 88 && auge <= J.potencialSorteado - 5) r = ["A promessa que não vingou", "O talento era de seleção. O resto da história fica pra próxima carreira."];
   else if (serieA >= H.length / 2 && premios <= 3) r = ["Operário da Série A", "Sem holofote, mas sempre no time. Todo elenco precisa de um."];
   else if (serieA >= H.length / 2) r = ["Craque da Série A", "Anos de Brasileirão e prêmio na estante."];
   else if (inf >= H.length / 2) r = ["Guerreiro do acesso", "Série B, C e D: onde o futebol é no barro, você foi titular."];
@@ -3970,12 +4002,14 @@ function mostrarAposentadoria() {
   add("Melhor temporada", `${melhor.ano} · ${melhor.clube} · ${melhor.gols} G, ${melhor.assist} A`);
   add("Auge", `${auge.ovr} de OVR aos ${auge.idade} (${auge.clube})`);
   add("Trajetória", clubes.join(" → "));
-  if (J.transferencias.length) add("Maior venda", dinheiro(Math.max(...J.historico.filter((h) => h.transferencia).map((h) => h.transferencia.valor), 0)));
+  // so transferencia paga: saida de graca (fim de contrato) nao e venda de 0 euro
+  const maiorVenda = Math.max(0, ...J.historico.filter((h) => h.transferencia && h.transferencia.valor > 0).map((h) => h.transferencia.valor));
+  if (maiorVenda > 0) add("Maior venda", dinheiro(maiorVenda));
   sDest.append(dl);
   esquerda.append(sNum, blocoSelecao(J), sDest, blocoHistoria(J));
   const sGal = el("section", "bl-bloco");
   sGal.append(el("h4", null, `Títulos pelos clubes · ${titulosClube.length}`));
-  if (!titulosClube.length) sGal.append(el("p", "nota", "Nenhum título. O lobo soprou forte."));
+  if (!titulosClube.length) sGal.append(el("p", "nota", "Sem taça na estante, mas com história de sobra pra contar na resenha."));
   else {
     const cont = {};
     for (const t of titulosClube) cont[t.nome.replace(/ \d{4}$/, "")] = (cont[t.nome.replace(/ \d{4}$/, "")] || 0) + 1;
@@ -3989,7 +4023,7 @@ function mostrarAposentadoria() {
   }
   const sPre = el("section", "bl-bloco");
   sPre.append(el("h4", null, `Prêmios individuais · ${premiosClube.length}`));
-  if (!premiosClube.length) sPre.append(el("p", "nota", "Nenhum prêmio individual. Carreira de operário, que também faz falta."));
+  if (!premiosClube.length) sPre.append(el("p", "nota", "Sem prêmio individual: o tipo de jogador que todo técnico quer no elenco."));
   else {
     const cont = {};
     for (const t of premiosClube) (cont[t.nome] ||= []).push(t.ano);
@@ -4014,19 +4048,78 @@ function mostrarAposentadoria() {
     `Clubes: ${clubes.join(" → ")}`,
     "temdadoemcasa.github.io/prata-da-casa.html",
   ].join("\n");
+  const reg = registrarCarreira(J, final);
+  if (reg.novo) textos.append(el("p", "bl-recorde novo", reg.anterior ? `Novo recorde pessoal! Passou o ${reg.anterior.auge} de auge do ${reg.anterior.nome}.` : "Primeira carreira no currículo. Agora é bater esse recorde!"));
+  else if (reg.recorde) textos.append(el("p", "bl-recorde", `Seu recorde segue com ${reg.recorde.nome}, ${reg.recorde.auge} de auge. Dá pra bater!`));
   const rod = el("footer", "bl-rodape");
   const copiar = el("button", "botao", "Copiar resumo");
   copiar.type = "button";
+  // sem area de transferencia (http, permissao negada): o texto aparece
+  // selecionado pra copiar na mao, em vez de um "nao deu" sem saida
+  const caixaTexto = el("textarea", "bl-texto");
+  caixaTexto.value = texto; caixaTexto.readOnly = true; caixaTexto.rows = 5; caixaTexto.hidden = true;
+  caixaTexto.setAttribute("aria-label", "Resumo da carreira pra copiar");
   copiar.addEventListener("click", async () => {
-    try { await navigator.clipboard.writeText(texto); copiar.textContent = "Copiado"; }
-    catch (_) { copiar.textContent = "Não deu pra copiar"; }
+    try { await navigator.clipboard.writeText(texto); copiar.textContent = "Copiado! Cola no grupo da resenha"; }
+    catch (_) { caixaTexto.hidden = false; caixaTexto.focus(); caixaTexto.select(); copiar.textContent = "Texto selecionado: é só copiar"; }
   });
   const denovo = el("button", "botao botao-primario", "Nova carreira");
   denovo.type = "button";
-  denovo.addEventListener("click", () => { C.J = null; mostrarTela("criar"); });
-  rod.append(copiar, denovo);
+  denovo.addEventListener("click", () => { C.J = null; mostrarRecorde(); mostrarTela("criar"); });
+  rod.append(copiar, denovo, caixaTexto);
   alvo.append(topo, corpo, rod);
   mostrarTela("fim");
+}
+
+// --- recorde pessoal: o que fica salvo no aparelho ------------------------------------
+// Só o placar de quem joga (carreiras jogadas, melhor carreira) e as escolhas da
+// última criação. A carreira em andamento NÃO é salva: recarregar volta pro começo.
+const CHAVE_SALVO = "prata-da-casa";
+function lerSalvo() {
+  let d = null;
+  try { d = JSON.parse(localStorage.getItem(CHAVE_SALVO) || "null"); } catch (_) { d = null; }
+  if (!d || typeof d !== "object") d = {};
+  const inteiro = (v, a, b) => (Number.isInteger(v) && v >= a && v <= b ? v : null);
+  const texto = (v, max) => (typeof v === "string" && v.trim() ? v.slice(0, max) : null);
+  const r = d.recorde && typeof d.recorde === "object" ? d.recorde : null;
+  const recorde = r && inteiro(r.auge, 1, 99) && texto(r.nome, 14)
+    ? { nome: texto(r.nome, 14), auge: r.auge, titulos: inteiro(r.titulos, 0, 999) ?? 0, premios: inteiro(r.premios, 0, 999) ?? 0, final: texto(r.final, 40) }
+    : null;
+  const u = d.ultimo && typeof d.ultimo === "object" ? d.ultimo : {};
+  const ultimo = {
+    nome: texto(u.nome, 14), numero: inteiro(u.numero, 1, 99), pos: typeof u.pos === "string" && POSICOES[u.pos] ? u.pos : null,
+    pais: typeof u.pais === "string" && PAISES.some((p) => p.id === u.pais) ? u.pais : null,
+    pe: ["Direito", "Esquerdo", "Ambidestro"].includes(u.pe) ? u.pe : null, modo: ["rapido", "completo"].includes(u.modo) ? u.modo : null,
+  };
+  return { carreiras: inteiro(d.carreiras, 0, 1e6) ?? 0, recorde, ultimo };
+}
+function gravarSalvo(d) { try { localStorage.setItem(CHAVE_SALVO, JSON.stringify({ v: 1, ...d })); } catch (_) {} }
+// melhor carreira: maior auge; empate, mais taça e prêmio
+const placarDe = (r) => (r ? r.auge * 1000 + r.titulos + r.premios : -1);
+function registrarCarreira(J, final) {
+  if (J.registrada) return J.registrada;
+  const d = lerSalvo();
+  const atual = { nome: J.nome, auge: Math.max(...J.historico.map((h) => h.ovr)), titulos: J.titulos.length, premios: J.premios.length, final: final.titulo };
+  const anterior = d.recorde;
+  const novo = placarDe(atual) > placarDe(anterior);
+  d.carreiras += 1;
+  if (novo) d.recorde = atual;
+  gravarSalvo(d);
+  J.registrada = { novo, anterior, carreiras: d.carreiras, recorde: d.recorde };
+  return J.registrada;
+}
+// linha da tela de criacao: quantas carreiras e a melhor
+function mostrarRecorde() {
+  const alvo = $("recorde-prata");
+  if (!alvo) return;
+  const d = lerSalvo();
+  if (!d.carreiras || !d.recorde) { alvo.hidden = true; return; }
+  alvo.hidden = false;
+  alvo.replaceChildren(
+    el("span", null, `${d.carreiras} ${d.carreiras === 1 ? "carreira jogada" : "carreiras jogadas"} · seu recorde: `),
+    el("b", null, `${d.recorde.nome}, ${d.recorde.auge} de auge`),
+    ...(d.recorde.final ? [el("span", null, ` (${d.recorde.final})`)] : []),
+  );
 }
 
 // --- liga tudo ------------------------------------------------------------------------
@@ -4094,9 +4187,19 @@ async function iniciarCarreiraPagina() {
       for (const o of document.querySelectorAll("[data-modo]")) o.setAttribute("aria-pressed", String(o === b));
     });
   }
+  // a ultima criacao volta preenchida (jogar de novo sem redigitar tudo)
+  const salvo = lerSalvo().ultimo;
+  if (salvo.nome) { C.nome = salvo.nome.replace(/[^\p{L} .'-]/gu, "").slice(0, 14); nome.value = C.nome; }
+  if (salvo.numero) { C.numero = salvo.numero; numero.value = String(C.numero); }
+  if (salvo.pos) C.pos = salvo.pos;
+  if (salvo.pais) C.pais = salvo.pais;
+  if (salvo.pe) { C.pe = salvo.pe; for (const o of document.querySelectorAll("[data-pe]")) o.setAttribute("aria-pressed", String(o.dataset.pe === C.pe)); }
+  if (salvo.modo) { C.modo = salvo.modo; for (const o of document.querySelectorAll("[data-modo]")) o.setAttribute("aria-pressed", String(o.dataset.modo === C.modo)); }
+  mostrarRecorde();
   $("confirmar-jogador").addEventListener("click", () => {
     if (!C.nome.trim()) { nome.focus(); $("aviso-nome").hidden = false; return; }
     $("aviso-nome").hidden = true;
+    gravarSalvo({ ...lerSalvo(), ultimo: { nome: C.nome, numero: C.numero, pos: C.pos, pais: C.pais, pe: C.pe, modo: C.modo } });
     iniciarCarta();
     mostrarTela("carta");
   });
