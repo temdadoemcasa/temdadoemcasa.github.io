@@ -1,0 +1,51 @@
+# Baterias de UX dos minigames com muitos casos, fora do PR (no PR elas rodam so com 20 casos).
+# Toda madrugada com 1000 casos por jogo; na mao da pra escolher (4000 = a bateria cheia).
+name: Bateria cheia
+
+on:
+  schedule:
+    - cron: "37 6 * * *" # 03h37 em Brasilia
+  workflow_dispatch:
+    inputs:
+      casos:
+        description: Casos por bateria
+        default: "1000"
+
+jobs:
+  bateria:
+    runs-on: ubuntu-latest
+    timeout-minutes: 340
+    strategy:
+      fail-fast: false
+      matrix:
+        jogo: [prata, draft, quem-ta, dadao, top10]
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - name: Instala Playwright
+        run: |
+          npm install --no-audit --no-fund
+          npx playwright install --with-deps chromium
+      - name: Sobe o site
+        run: |
+          python3 -m http.server 8766 > /dev/null 2>&1 &
+          for i in $(seq 1 20); do curl -sf http://localhost:8766/ > /dev/null && break; sleep 0.5; done
+      - name: Roda a bateria
+        env:
+          BASE: http://localhost:8766
+          CASOS: ${{ github.event.inputs.casos || '1000' }}
+        # direto, sem o rodar.mjs (que mata teste com mais de 8 min); FALHA no texto derruba o job
+        run: |
+          node testes/bateria-ux-${{ matrix.jogo }}.mjs | tee saida.txt
+          ! grep -q '^FALHA' saida.txt
+      - name: Guarda o resultado
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bateria-${{ matrix.jogo }}
+          path: |
+            saida.txt
+            testes/resultados/
+          retention-days: 14
