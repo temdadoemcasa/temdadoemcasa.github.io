@@ -691,7 +691,7 @@ function mostrarResumo() {
   }
   info.append(numeros);
   info.append(el("p", "nota", `A média é a nota das cartas. Força de ataque e de defesa é outra escala, a dos clubes: média da Série A ${mediaLiga}, o mais forte ${maisForte}, já com o efeito do ${D.esquema}.`));
-  info.append(el("p", "resumo-frase", `No papel, seria o ${pos}º time mais forte da Série A 2026.`));
+  info.append(el("p", "resumo-frase", `No papel, seria o ${pos}º time mais forte da Série A 2026. ${vereditoDoPapel(pos)}`));
   const ent = eu.entrosamento;
   const clubes = [...ent.porClube].filter(([, n]) => n > 1).sort((a, b) => b[1] - a[1]).map(([c, n]) => `${n} do ${c}`);
   info.append(el("p", "nota", `Entrosamento: ${textoEntrosamento(ent)}${clubes.length ? ` · ${clubes.join(", ")}` : " · ninguém do mesmo clube"}. Improvisados: ${D.onze.filter((s) => encaixeNaVaga(s.jogador, s.pos) < ENCAIXE.principal).length}.`));
@@ -716,6 +716,15 @@ function mostrarResumo() {
   });
 }
 
+// uma frase de resenha pro lugar no papel (papel nao entra em campo)
+function vereditoDoPapel(pos) {
+  if (pos <= 2) return "Candidato ao título: já pode ensaiar a volta olímpica.";
+  if (pos <= 6) return "Cara de G6 e de Libertadores.";
+  if (pos <= 12) return "Time pra brigar na metade de cima.";
+  if (pos <= 16) return "Vai ter que suar, mas é bola na rede que conta.";
+  return "No papel é Z4, mas papel não entra em campo.";
+}
+
 // select de esquema (resumo e temporada): reescala o elenco no esquema novo
 function seletorDeEsquema(depois) {
   const rot = el("label", "seletor-esquema", "Esquema ");
@@ -732,7 +741,13 @@ function seletorDePostura() {
   const sel = el("select");
   for (const [id, p] of Object.entries(POSTURAS)) sel.append(new Option(p.nome, id, false, id === (D.temp ? D.temp.ttc.posturaPadrao : "equilibrado")));
   sel.title = "Pra cima rende em casa contra time menor; Fechadinho, fora contra time maior. Fora disso, custa.";
-  sel.addEventListener("change", () => { if (D.temp) { D.temp.ttc.posturaPadrao = sel.value; mostrarDicaDoProximo(); } });
+  sel.addEventListener("change", () => {
+    if (!D.temp) return;
+    D.temp.ttc.posturaPadrao = sel.value;
+    if (D.log) D.log.push({ i: D.temp.i, t: "pp", v: sel.value });
+    mostrarDicaDoProximo();
+    salvarTemporada();
+  });
   rot.append(sel);
   return rot;
 }
@@ -759,9 +774,11 @@ function trocarEsquema(esquema) {
   D.banco = r.banco;
   atualizarTimeDoUsuario();
 }
-// depois de mexer no elenco durante a temporada, a forca base acompanha
+// depois de mexer no elenco durante a temporada, a forca base acompanha (e o
+// diario da temporada salva lembra quando mexeu, pra retomar igual)
 function atualizarTimeDoUsuario() {
   if (!D.temp) return;
+  if (D.log && !D.repetindo) D.log.push({ i: D.temp.i, t: "elenco", ...fotoDoElenco() });
   const t = timeDoUsuario();
   Object.assign(D.temp.times[D.temp.usuario], { atq: t.atq, def: t.def, onze: t.onze, formacao: t.formacao, artilheiros: t.artilheiros, entrosamento: t.entrosamento });
 }
@@ -1027,13 +1044,19 @@ function camisaDe(id, numero = null) {
 }
 const nomeDe = (id) => (D.times && D.times[id] ? D.times[id].nome : id);
 
-function comecarTemporada() {
-  evento("tem-time/temporada");
+// semente e sementeGrupo vem dados quando a temporada e retomada (a mesma
+// semente refaz a mesma temporada); senao, sorteia
+function comecarTemporada({ semente: sementeDada = null, sementeGrupo: grupoDado = null } = {}) {
+  if (!D.repetindo) evento("tem-time/temporada");
   D.pedidoChances = (D.pedidoChances || 0) + 1; // chances pendentes nao escrevem mais
-  const semente = D.desafio ? hashTexto(`${D.desafio.semente}|temporada`) : Math.floor(Math.random() * 1e9);
-  const rngGrupo = D.desafio ? Motor.rngDe(hashTexto(`${D.desafio.semente}|grupo`)) : sorte;
+  const semente = sementeDada ?? (D.desafio ? hashTexto(`${D.desafio.semente}|temporada`) : Math.floor(Math.random() * 1e9));
+  const sementeGrupo = grupoDado ?? Math.floor(Math.random() * 1e9);
+  const rngGrupo = Motor.rngDe(D.desafio ? hashTexto(`${D.desafio.semente}|grupo`) : sementeGrupo);
   D.temp = montarTemporada({ semente, rngGrupo });
   D.semente = semente;
+  D.sementeGrupo = sementeGrupo;
+  D.elenco0 = fotoDoElenco();
+  D.log = [];
   D.times = D.temp.times;
   D.regrasTemp = D.temp.ttc.regras;
   D.grupo = D.temp.ttc.grupo;
@@ -1066,9 +1089,128 @@ function comecarTemporada() {
     el("p", "jogo-etapa", "Temporada 2026"),
     el("p", "jogo-dica", `Sorteio: ${D.nome} cai no grupo ${D.grupo.letra} da ${COMP[D.continental]}, no lugar do ${D.grupo.sai}. ${oTime(D.sai)} foi pra Série B.`),
     el("p", "jogo-dica", "Antes de cada jogo decisivo você escolhe a postura. Na pausa da Copa abre a janela: 1 troca no elenco."),
+    el("p", "jogo-dica", "A temporada fica salva neste aparelho: fechou a aba, volta de onde parou."),
   );
   delete jogo.dataset.resultado;
   atualizarPaineis();
+}
+
+// --- temporada salva (localStorage): recarregou a pagina, volta de onde parou ---------
+// Nao guarda a temporada inteira: guarda as sementes, o elenco do inicio e o que a
+// pessoa mudou (elenco, postura do painel, posturas dos decisivos). O motor e
+// determinista com a semente, entao refazer da o mesmo resultado; o numero de
+// jogos e um resumo dos gols conferem.
+const CHAVE_TEMPORADA = "tem-time-temporada";
+const fotoDoElenco = () => ({
+  esquema: D.esquema,
+  onze: D.onze.map((s) => [s.pos, s.x, s.y, s.jogador ? s.jogador.player_id : null]),
+  banco: D.banco.map((s) => [s.pos, s.jogador ? s.jogador.player_id : null]),
+});
+const somaDosGols = (meus) => meus.reduce((s, h) => s + h.doUsuario.gc * 31 + h.doUsuario.gf, 0);
+function salvarTemporada() {
+  if (!D.temp || !D.log || D.repetindo) return;
+  const t = D.temp;
+  const meus = t.historico.filter((h) => h.doUsuario);
+  const dados = {
+    v: 1, salvoEm: Date.now(), nome: D.nome, padrao: D.padrao, cor1: D.cor1, cor2: D.cor2, continental: D.continental,
+    dificuldade: D.dificuldade, desafio: D.desafio, sai: D.sai, semente: D.semente, sementeGrupo: D.sementeGrupo,
+    elenco0: D.elenco0, log: D.log, posturas: [...t.ttc.posturas].map(([e, v]) => [t.etapas.indexOf(e), v]),
+    i: t.i, janelaUsada: t.ttc.janelaUsada, meus: meus.length, gols: somaDosGols(meus),
+  };
+  try { localStorage.setItem(CHAVE_TEMPORADA, JSON.stringify(dados)); } catch { /* sem espaco ou modo privado: segue sem salvar */ }
+}
+function apagarTemporadaSalva() {
+  try { localStorage.removeItem(CHAVE_TEMPORADA); } catch { /* sem storage */ }
+}
+// le e confere o formato; salvo velho ou corrompido vira "nao tem" (e sai do aparelho)
+function lerTemporadaSalva() {
+  let s = null;
+  try { s = JSON.parse(localStorage.getItem(CHAVE_TEMPORADA) || "null"); } catch { s = undefined; }
+  const foto = (f) => f && typeof f.esquema === "string" && Array.isArray(f.onze) && Array.isArray(f.banco);
+  const valido = s && s.v === 1 && Number.isInteger(s.semente) && Number.isInteger(s.sementeGrupo) && Number.isInteger(s.i) && s.i > 0
+    && Number.isInteger(s.meus) && Number.isInteger(s.gols) && typeof s.nome === "string" && foto(s.elenco0)
+    && Array.isArray(s.log) && s.log.every((e) => e && Number.isInteger(e.i) && (e.t !== "elenco" || foto(e)))
+    && Array.isArray(s.posturas) && COMP[s.continental] && DIFICULDADES[s.dificuldade];
+  if (valido) return s;
+  if (s !== null) apagarTemporadaSalva();
+  return null;
+}
+
+// refaz a temporada salva: mesmo elenco, mesmas sementes, as mudancas no mesmo ponto
+function retomarTemporada(s) {
+  const porId = new Map(D.r.indice.comNota.map((j) => [j.player_id, j]));
+  const aplicar = (f) => {
+    if (!ESQUEMAS[f.esquema]) return false;
+    D.esquema = f.esquema;
+    D.onze = f.onze.map(([pos, x, y, id]) => ({ pos, x, y, jogador: porId.get(id) || null }));
+    D.banco = f.banco.map(([pos, id]) => ({ pos, jogador: porId.get(id) || null }));
+    return D.onze.length === 11 && [...D.onze, ...D.banco].every((x) => x.jogador && VAGAS[x.pos]);
+  };
+  Object.assign(D, { nome: s.nome || "Tem Dado FC", padrao: s.padrao || D.padrao, cor1: s.cor1 || D.cor1, cor2: s.cor2 || D.cor2,
+    continental: s.continental, dificuldade: s.dificuldade, desafio: s.desafio || null, sai: s.sai || D.sai, vaga: -1, movendo: null, leques: {} });
+  if (!aplicar(s.elenco0)) throw new Error("elenco salvo nao bate com a base");
+  D.repetindo = true;
+  try {
+    comecarTemporada({ semente: s.semente, sementeGrupo: s.sementeGrupo });
+    const t = D.temp;
+    for (const [k, v] of s.posturas) if (t.etapas[k] && POSTURAS[v]) t.ttc.posturas.set(t.etapas[k], v);
+    for (const e of s.log) {
+      while (t.i < e.i && !Motor.terminou(t)) Motor.avancar(t);
+      if (e.t === "elenco") { if (!aplicar(e)) throw new Error("elenco salvo nao bate com a base"); atualizarTimeDoUsuario(); }
+      else if (e.t === "pp" && POSTURAS[e.v]) t.ttc.posturaPadrao = e.v;
+    }
+    while (t.i < s.i && !Motor.terminou(t)) Motor.avancar(t);
+    t.ttc.janelaUsada = Boolean(s.janelaUsada);
+    t.ttc.janelaVista = t.ttc.janelaUsada;
+    const meus = t.historico.filter((h) => h.doUsuario);
+    if (t.i !== s.i || meus.length !== s.meus || somaDosGols(meus) !== s.gols) throw new Error("a temporada refeita nao bateu com a salva");
+    D.log = s.log;
+  } finally {
+    D.repetindo = false;
+  }
+  // a tela: formulario do clube, feed, ultimo jogo, paineis
+  $("nome-time").value = D.nome;
+  $("cor1").value = D.cor1; $("cor2").value = D.cor2;
+  for (const o of $("continental").children) { o.setAttribute("aria-pressed", String(o.dataset.valor === D.continental)); o.setAttribute("aria-checked", String(o.dataset.valor === D.continental)); }
+  const meus = D.temp.historico.filter((h) => h.doUsuario);
+  for (const h of meus) adicionarFeed(h);
+  const tatica = $("tatica-temporada");
+  if (tatica) tatica.replaceChildren(seletorDeEsquema(() => atualizarPaineis()), seletorDePostura());
+  const ultimo = meus[meus.length - 1];
+  if (ultimo) { mostrarPlacarPronto(ultimo); mostrarRodada(ultimo); }
+  $("jogo").append(el("p", "jogo-dica", `Temporada retomada: ${meus.length} ${meus.length === 1 ? "jogo" : "jogos"} já disputados. Bora!`));
+  seguirCalendario();
+  atualizarPaineis();
+  if (Motor.terminou(D.temp)) encerrar();
+}
+
+// aviso na tela do clube: tem temporada salva? continua com um toque
+function mostrarRetomar() {
+  for (const v of document.querySelectorAll(".retomar")) v.remove();
+  const s = lerTemporadaSalva();
+  if (!s) return;
+  const caixa = el("div", "retomar");
+  caixa.setAttribute("role", "region");
+  caixa.setAttribute("aria-label", "Temporada em andamento");
+  const textos = el("div", "retomar-textos");
+  const quando = s.desafio && typeof s.desafio.data === "string" ? ` · desafio de ${s.desafio.data.split("-").reverse().slice(0, 2).join("/")}` : "";
+  textos.append(el("strong", null, "Tem temporada rolando"),
+    el("span", "nota", `${s.nome} · ${s.meus} ${s.meus === 1 ? "jogo disputado" : "jogos disputados"}${quando}`));
+  const ir = el("button", "botao botao-primario", "Continuar a temporada");
+  ir.type = "button";
+  ir.id = "retomar-temporada";
+  ir.addEventListener("click", () => {
+    try { retomarTemporada(s); }
+    catch (erro) {
+      apagarTemporadaSalva();
+      D.repetindo = false;
+      mostrar("clube");
+      mostrarRetomar();
+      $("tela-clube").prepend(el("p", "nota retomar-erro", "Essa temporada salva não deu pra retomar (o jogo mudou desde então). Bora montar um time novo?"));
+    }
+  });
+  caixa.append(textos, ir);
+  $("tela-clube").prepend(caixa);
 }
 
 // placar do ponto de vista do usuario
@@ -1174,7 +1316,7 @@ function rodapeDoJogo(x) {
   // agregado vem do ponto de vista de quem decide em casa (mandante da volta)
   if (j.agregado) extras.push(`Agregado ${nomeDe(j.casa)} ${j.agregado[0]} × ${j.agregado[1]} ${nomeDe(j.fora)}`);
   if (j.penaltis) extras.push(`Pênaltis ${j.penaltis[0]} × ${j.penaltis[1]}`);
-  if (j.classificado) extras.push(j.classificado === D.temp.usuario ? (x.etapa.final ? "CAMPEÃO!" : "Classificado!") : "Eliminado.");
+  if (j.classificado) extras.push(j.classificado === D.temp.usuario ? (x.etapa.final ? "CAMPEÃO!" : "Classificado!") : "Eliminado. Faz parte: bola pra frente.");
   return extras.join(" · ");
 }
 
@@ -1319,6 +1461,12 @@ function travar(sim) {
   $("proximo").textContent = sim ? "Pular animação" : "Próximo jogo";
 }
 
+// trava curta depois que um jogo acaba: o segundo toque de um toque duplo (ou o
+// "Pular animação" que chega quando o jogo ja acabou) jogava o jogo seguinte sem
+// a pessoa ver o resultado do anterior
+const TRAVA_PROXIMO_MS = 250;
+let travaProximoAte = 0;
+
 // joga ate o proximo jogo do usuario e anima
 async function proximoJogo() {
   if (D.simulando) return;
@@ -1345,6 +1493,7 @@ async function proximoJogo() {
   seguirCalendario();
   atualizarPaineis();
   travar(false);
+  travaProximoAte = performance.now() + TRAVA_PROXIMO_MS;
   if (Motor.terminou(D.temp)) $("proximo").textContent = "Ver o balanço";
 }
 
@@ -1491,7 +1640,7 @@ function mostrarLequeDaJanela(card, k) {
     b.addEventListener("click", () => {
       const saiu = slot.jogador;
       if (aplicarJanela(k, j)) {
-        card.replaceChildren(el("strong", "pd-titulo", "Negócio fechado"), el("p", "pd-dica", `Sai ${saiu.nome}, chega ${j.nome} (${TIME_DE.get(j).nome}).`));
+        card.replaceChildren(el("strong", "pd-titulo", "Negócio fechado!"), el("p", "pd-dica", `Sai ${saiu.nome}, chega ${j.nome} (${TIME_DE.get(j).nome}). Chegou chegando: já joga o próximo.`));
         atualizarPaineis();
       }
     });
@@ -1660,7 +1809,13 @@ function desenharAcao(meus, hoje) {
     alvo.append(el("span", null, `${x.etapa.rotulo}: ${D.nome} ${m} × ${deles} ${nomeDe(rival)}${casa ? "" : " (fora)"}`));
     const ver = el("button", "botao", "Ver o jogo");
     ver.type = "button";
-    ver.addEventListener("click", () => { mudarVisao("jogo"); mostrarPlacarPronto(x); mostrarRodada(x); mostrarJogoSeEscondido(); });
+    ver.addEventListener("click", () => {
+      // rever um jogo antigo nao pode engolir o cartao aberto (postura do decisivo / janela): ele volta embaixo
+      const pendente = D.cartao ? document.querySelector("#jogo .proximo-decisivo, #jogo .janela") : null;
+      mudarVisao("jogo"); mostrarPlacarPronto(x); mostrarRodada(x);
+      if (pendente) $("jogo").append(pendente);
+      mostrarJogoSeEscondido();
+    });
     alvo.append(ver);
     return;
   }
@@ -1738,6 +1893,7 @@ function mostrarDicaDoProximo() {
 }
 
 function atualizarPaineis() {
+  salvarTemporada();
   mostrarDicaDoProximo();
   const status = $("status");
   status.replaceChildren();
@@ -1851,11 +2007,15 @@ function encerrar() {
   const camisa = el("span", "bl-camisa"); camisa.append(figuraUsuario());
   const textos = el("div", "bl-textos");
   const manchete = titulos.length ? `Campeão ${titulos.map((c) => (c === "bra" ? "brasileiro" : `da ${COMP[c]}`)).join(" e ")}!`
-    : pos >= 17 ? "Rebaixado. O lobo soprou."
+    : pos >= 17 ? "Rebaixado. Todo gigante já caiu um dia."
     : zona && zona.nome === "Libertadores" ? "Vaga na Libertadores. Prepara o passaporte."
     : zona && zona.nome === "Sul-Americana" ? "Vaga na Sul-Americana. Dá pra sonhar."
     : pos >= 14 ? `Escapou do Z4 no sufoco: ${pos}º no Brasileirão.`
     : `${pos}º no Brasileirão. Nem fede, nem cheira.`;
+  apagarTemporadaSalva();
+  D.log = null;
+  // conta uma vez por temporada (o balanco pode ser redesenhado)
+  const recorde = t.ttc.recorde || (t.ttc.recorde = registrarTemporada(titulos.length ? `Campeão ${titulos.map((c) => (c === "bra" ? "brasileiro" : `da ${COMP[c]}`)).join(" e ")}` : `${pos}º no Brasileirão`, titulos.length * 100 + (21 - pos)));
   textos.append(
     el("p", "bl-sobre", `${D.esquema} · no lugar ${doTime(D.sai)} · temporada 2026`),
     el("h3", "bl-nome", D.nome),
@@ -1866,7 +2026,11 @@ function encerrar() {
     for (const c of titulos) trofeus.append(el("span", `bl-trofeu comp-${c}`, COMP[c]));
     textos.append(trofeus);
   }
+  // o ponto alto da temporada (tem sempre um, ate no rebaixamento) e o recorde
+  textos.append(el("p", "bl-resenha", pontoAlto(t, { titulos, pos, campanha }) + (pos >= 14 && !titulos.length ? " Bora de novo? Com outro leque o papo é outro." : "")));
+  textos.append(el("p", `bl-recorde${recorde.novo && recorde.antes ? " novo" : ""}`, textoDoRecorde(recorde)));
   topo.append(camisa, textos);
+  if (titulos.length && !movimentoReduzido) topo.append(confete());
 
   // campanha por competicao
   const secCampanha = el("section", "bl-bloco bl-campanha");
@@ -1963,9 +2127,93 @@ function encerrar() {
   const novo = el("button", "botao botao-primario", "Jogar de novo");
   novo.type = "button";
   novo.addEventListener("click", () => $("de-novo").click());
-  rodape.append(copiar, novo);
+  rodape.append(copiar);
+  // mesma escalacao do draft, temporada nova (no desafio a temporada e a mesma pra todo mundo)
+  if (!D.desafio && D.elenco0) {
+    const rejogar = el("button", "botao", "Mesmo time, nova temporada");
+    rejogar.type = "button";
+    rejogar.id = "rejogar";
+    rejogar.addEventListener("click", () => {
+      const f = D.elenco0, porId = new Map(D.r.indice.comNota.map((j) => [j.player_id, j]));
+      D.esquema = f.esquema;
+      D.onze = f.onze.map(([pos, x, y, id]) => ({ pos, x, y, jogador: porId.get(id) || null }));
+      D.banco = f.banco.map(([pos, id]) => ({ pos, jogador: porId.get(id) || null }));
+      comecarTemporada();
+    });
+    rodape.append(rejogar);
+  }
+  rodape.append(novo);
   alvo.append(topo, corpo, rodape);
   mostrar("fim");
+}
+
+// o ponto alto da temporada: titulo, campanha funda numa copa, artilheiro que
+// bateu ponto, sequencia invicta, goleada; e sempre tem algo bom pra contar
+function pontoAlto(t, { titulos, campanha }) {
+  const eu = t.usuario;
+  if (titulos.length) return "Volta olímpica! Pode printar e mandar no grupo.";
+  const fundo = compsDoUsuario().filter((c) => c !== "bra").map((c) => [c, t.eliminado[c] || ""])
+    .find(([, fase]) => /^(Final|Semifinal)$/.test(fase));
+  if (fundo) return `${fundo[1] === "Final" ? "Vice" : "Semifinal"} da ${COMP[fundo[0]]}: campanha de respeito.`;
+  const art = Motor.artilharia(t, (a) => a.time === eu)[0];
+  if (art && art.gols >= 15) return `${art.nome} fez ${art.gols} gols: esse bateu ponto.`;
+  const jogos = t.historico.filter((h) => h.doUsuario);
+  let seq = 0, melhor = 0;
+  for (const h of jogos) { seq = resultado(h.doUsuario) === "d" ? 0 : seq + 1; melhor = Math.max(melhor, seq); }
+  if (melhor >= 6) return `${melhor} jogos sem perder no melhor momento.`;
+  const goleada = jogos.map((h) => lado(h.doUsuario)).filter((l) => l.meus - l.deles >= 3).sort((a, b) => (b.meus - b.deles) - (a.meus - a.deles))[0];
+  if (goleada) return `Teve até ${goleada.meus}×${goleada.deles} no ${nomeDe(goleada.rival)} pra contar no grupo.`;
+  if (art) return `${art.nome} foi o artilheiro, com ${art.gols} ${art.gols === 1 ? "gol" : "gols"}.`;
+  void campanha;
+  return "Temporada jogada até o último apito.";
+}
+
+// recorde pessoal neste aparelho: temporadas jogadas e a melhor campanha
+// (titulos valem mais que posicao). Sem nada salvo, nao mostra numero nenhum.
+const CHAVE_RECORDES = "tem-time-recordes";
+function lerRecordes() {
+  try {
+    const r = JSON.parse(localStorage.getItem(CHAVE_RECORDES) || "null");
+    if (r && r.v === 1 && Number.isInteger(r.temporadas) && r.temporadas > 0 && r.melhor
+      && typeof r.melhor.texto === "string" && r.melhor.texto && Number.isFinite(r.melhor.pontos) && typeof r.melhor.nome === "string") return r;
+  } catch { /* corrompido: como se nao tivesse */ }
+  return null;
+}
+function registrarTemporada(texto, pontos) {
+  const antes = lerRecordes();
+  const novo = !antes || pontos > antes.melhor.pontos;
+  const r = { v: 1, temporadas: (antes ? antes.temporadas : 0) + 1, melhor: novo ? { texto, pontos, nome: D.nome } : antes.melhor };
+  try { localStorage.setItem(CHAVE_RECORDES, JSON.stringify(r)); } catch { /* sem storage: so nao lembra */ }
+  return { antes, novo, r };
+}
+function textoDoRecorde({ antes, novo, r }) {
+  if (!antes) return "Primeira temporada por aqui: já virou seu recorde.";
+  if (novo) return `Novo recorde pessoal! O melhor antes era: ${antes.melhor.texto}.`;
+  return `Seu recorde segue: ${r.melhor.texto}, com o ${r.melhor.nome}. Temporada nº ${r.temporadas} por aqui.`;
+}
+function mostrarRecordeNoClube() {
+  const r = lerRecordes();
+  let p = $("recorde-nota");
+  if (!r) { if (p) p.remove(); return; }
+  if (!p) { p = el("p", "nota recorde-nota"); p.id = "recorde-nota"; $("comecar-draft").before(p); }
+  p.textContent = `Seu melhor até aqui: ${r.melhor.texto}, com o ${r.melhor.nome} (${r.temporadas} ${r.temporadas === 1 ? "temporada jogada" : "temporadas jogadas"}).`;
+}
+
+// chuva curta de papel picado no titulo (uma vez; sem movimento reduzido nem aparece)
+function confete() {
+  const caixa = el("div", "bl-confete");
+  caixa.setAttribute("aria-hidden", "true");
+  const cores = ["var(--canal)", "#ffffff", "#5cc8ff", "#f2cc60", "#ff7d95"];
+  for (let k = 0; k < 28; k++) {
+    const p = el("i");
+    p.style.left = `${(k * 37) % 100}%`;
+    p.style.background = cores[k % cores.length];
+    p.style.animationDelay = `${(k % 7) * 70}ms`;
+    p.style.setProperty("--giro", `${(k % 2 ? 1 : -1) * (180 + (k * 53) % 360)}deg`);
+    caixa.append(p);
+  }
+  setTimeout(() => caixa.remove(), 2600);
+  return caixa;
 }
 
 // uma linha pra comparar o desafio: "Desafio 27/09: 6º no BR, campeão da Copa do Brasil — e você?"
@@ -1979,6 +2227,8 @@ function linhaDoDesafio(pos, titulos) {
 // --- liga tudo -----------------------------------------------------------------------
 
 // dificuldade (chips) e desafio do dia (mesmos leques pra todo mundo no dia)
+// redesenha os chips a partir do D (a temporada retomada pode ter trazido um desafio)
+let redesenharDificuldade = () => {};
 function ligarDificuldadeEDesafio() {
   const caixa = $("dificuldade");
   const nota = $("dificuldade-nota");
@@ -2019,10 +2269,14 @@ function ligarDificuldadeEDesafio() {
       desenhar();
     });
   }
+  redesenharDificuldade = desenhar;
   desenhar();
 }
 
 async function iniciarDraft() {
+  // recarregar no meio da temporada nao volta rolado pro meio da tela do clube:
+  // o "Continuar a temporada" fica no topo, a vista
+  try { if ("scrollRestoration" in history) history.scrollRestoration = "manual"; } catch { /* navegador antigo */ }
   const [uniformes, r, regras, elencos] = await Promise.all([json("dados/uniformes.json").catch(() => ({})),
     retrato("2026"), json("dados/competicoes-2026.json"), json("dados/elencos-fora.json").catch(() => ({}))]);
   UNIFORMES = uniformes;
@@ -2062,6 +2316,7 @@ async function iniciarDraft() {
     D.trocasUsadas = 0;
     D.leques = {};
     D.movendo = null;
+    D.log = null; // a temporada salva (se tiver) so e trocada quando a nova comecar
     mostrar("draft");
     abrirLeque();
   });
@@ -2070,6 +2325,8 @@ async function iniciarDraft() {
   });
   $("comecar-temporada").addEventListener("click", comecarTemporada);
   $("proximo").addEventListener("click", () => {
+    // toque que chega logo depois do fim do jogo e o segundo de um toque duplo: ignora
+    if (!D.animando && performance.now() < travaProximoAte) return;
     if (Motor.terminou(D.temp) && !D.animando) encerrar();
     else proximoJogo();
   });
@@ -2081,8 +2338,13 @@ async function iniciarDraft() {
   $("sim-ir").addEventListener("click", simularAlvo);
   $("de-novo").addEventListener("click", () => {
     definirQuemSai();
+    redesenharDificuldade();
     mostrar("clube");
+    mostrarRecordeNoClube();
+    mostrarRetomar();
   });
+  mostrarRecordeNoClube();
+  mostrarRetomar();
 }
 
 iniciarDraft().catch((erro) => {
