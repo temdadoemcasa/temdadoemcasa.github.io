@@ -1,7 +1,7 @@
 // Bateria de UX do Tem Time em Casa (draft + temporada), com cliques de verdade.
 //
 //   python3 -m http.server 8766 &            (na raiz do repo)
-//   node testes/bateria-ux-draft.mjs         (300 casos: o padrao do CI, ~5 min)
+//   node testes/bateria-ux-draft.mjs         (100 casos: o padrao do CI, cabe nos 8 min do rodar.mjs)
 //   CASOS=4000 node testes/bateria-ux-draft.mjs   (a bateria cheia, ~1 h)
 //   CASOS=50 SEMENTE=1234 node testes/bateria-ux-draft.mjs   (reproduz a partir da semente 1234)
 //   SO=1234 node testes/bateria-ux-draft.mjs  (roda so o caso da semente 1234, com o mesmo contexto)
@@ -23,7 +23,7 @@ import { chromium } from 'playwright';
 import { mkdirSync, writeFileSync } from 'node:fs';
 
 const BASE = process.env.BASE || 'http://localhost:8766';
-const CASOS = Number(process.env.CASOS || 300);
+const CASOS = Number(process.env.CASOS || 100);
 const SEMENTE0 = Number(process.env.SEMENTE || 1);
 const SO = process.env.SO ? Number(process.env.SO) : null;
 const WORKERS = Math.max(1, Math.min(2, Number(process.env.WORKERS || 2)));

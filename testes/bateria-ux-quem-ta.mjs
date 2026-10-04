@@ -1,7 +1,7 @@
 // Bateria de UX do Quem Tá em Casa?: milhares de partidas jogadas de verdade no navegador,
 // cada uma com semente propria, conferindo invariantes de tela a cada passo.
 //
-//   node testes/bateria-ux-quem-ta.mjs                 (300 casos: o default do CI, ~6-9 min)
+//   node testes/bateria-ux-quem-ta.mjs                 (150 casos: o default do CI, ~4-5 min)
 //   CASOS=4000 node testes/bateria-ux-quem-ta.mjs      (bateria cheia, ~1h a 1h30)
 //   CASO=1234 node testes/bateria-ux-quem-ta.mjs       (reproduz so o caso 1234, com o mesmo contexto)
 //   DE=40 CASOS=60 ...                                 (so os casos 40..59, na mesma sequencia)
@@ -29,7 +29,7 @@ import { chromium } from 'playwright';
 import { mkdirSync, writeFileSync } from 'node:fs';
 
 const BASE = process.env.BASE || 'http://localhost:8766';
-const CASOS = Number(process.env.CASOS || 300);
+const CASOS = Number(process.env.CASOS || 150);
 const SEMENTE = Number(process.env.SEMENTE || 1);
 const SO = process.env.CASO !== undefined ? Number(process.env.CASO) : null;
 const POR_CONTEXTO = 40;
