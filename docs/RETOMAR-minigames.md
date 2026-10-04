@@ -8,7 +8,7 @@ Atualizado em **2026-09-27 (noite)**. Branch `prata-evolucao-e-caminho` (saiu de
   abre desde o início; cada erro SORTEIA uma de 6 dicas (seleção, ranking na posição (pelo overall, na liga e ano da carta), 2 maiores atributos, overall,
   número e jogos, cores do clube com a cor do número), com animação de dado no cartão. No desafio do dia a ordem
   vem da semente da data (`ordemDoDia`), igual pra todo mundo. Desafio a partir de 02/10: 3 de 5 dias Brasileirão,
-  Europa só `GRANDES_DA_EUROPA` ou 84+, uma carta por jogador. Chute compara clube, posição, seleção e overall (01/10). Chute
+  Europa só `GRANDES_DA_EUROPA` ou 84+, uma carta por jogador. A partir de 05/10: só carta 83+ (`OVERALL_MINIMO`), no desafio e na partida livre. Chute compara clube, posição, seleção e overall (01/10). Chute
   errado compara clube, posição e overall (sem nota = "— OVR"). Desafio do dia (só temporada fechada, liga nova entra
   por data em `FASES_DO_DESAFIO`), partida livre com filtro Tudo/Brasileirão/Europa. Cartas: Brasileirão 2024-2026,
   Premier, LaLiga e Champions 25/26 (`dados/retratos-europa.json`). Teste: `testes/quem-ta.mjs` (45 checagens; 9
