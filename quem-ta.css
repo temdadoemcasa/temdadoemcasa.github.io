@@ -252,3 +252,14 @@
 .dicas li.fechada .dica-icone { position: static; grid-row: auto; font-size: 1.05rem; opacity: 0.8; }
 .dicas li.fechada .dica-valor { justify-content: center; font-size: 0.7rem; }
 @media (max-width: 760px) { .dicas li.fechada { min-height: 2.9rem; } }
+
+/* positivo: sequencia na tela de inicio, o que foi bom no fim, comemoracao curta no acerto */
+.quem .inicio-serie { margin: 0.2rem 0 0; font-size: 0.9rem; font-weight: 700; color: var(--quem-texto); }
+.quem .inicio-serie:empty { display: none; }
+.fim-destaque { font-weight: 600; }
+.fim-destaque:empty { display: none; }
+.quem .fim h2.fim-festa { color: var(--certa); animation: festa-titulo 0.5s cubic-bezier(0.2, 0.9, 0.3, 1) both; transform-origin: left center; }
+.sem-sugestao { color: var(--perto); }
+/* sem passar de scale(1): no celular o titulo ocupa a largura toda e vazaria pro lado */
+@keyframes festa-titulo { 0% { transform: translateY(10px) scale(0.8); opacity: 0; } 100% { transform: none; opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .quem .fim h2.fim-festa { animation: none; } }

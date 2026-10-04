@@ -510,7 +510,11 @@ function chutar(id) {
   if (J.chutes.length >= CHUTES) return terminar("errou");
   // o valor junto: no celular a lista de dicas fica embaixo dos chutes, fora da tela
   const nova = J.ordem[J.chutes.length];
-  $("aviso").textContent = `Não é ${ch.nome}. 🎲 Saiu a dica ${TIPOS_DE_DICA[nova].titulo.toLowerCase()}: ${textoDaDica(nova).replace(/^[^:]*: /, "")}.`;
+  // o que o chute acertou vem antes do "nao e": errar perto tambem e resenha
+  const perto = ch.clube && ch.pos ? "Quase! Mesmo clube e mesma posição, mas não é" : ch.clube ? "Esquentou: mesmo clube, mas não é"
+    : ch.pos ? "Mesma posição, mas não é" : "Não é";
+  const ultimo = CHUTES - J.chutes.length === 1 ? " Último chute: capricha!" : "";
+  $("aviso").textContent = `${perto} ${ch.nome}. 🎲 Saiu a dica ${TIPOS_DE_DICA[nova].titulo.toLowerCase()}: ${textoDaDica(nova).replace(/^[^:]*: /, "")}.${ultimo}`;
   $("aviso").classList.remove("aviso-novo"); void $("aviso").offsetWidth; $("aviso").classList.add("aviso-novo");
   tremer($("busca-caixa"));
   desenhar();
@@ -527,6 +531,7 @@ function chutar(id) {
 let sugestoes = [];
 let destaque = -1;
 let fecharDepois = null;
+const SEM_SUGESTAO = "Nenhum jogador com esse nome nas cartas do site. Tenta o sobrenome ou o apelido.";
 
 function buscar(termo) {
   if (normalizarBusca(termo).trim().length < 2) return [];
@@ -560,6 +565,7 @@ function mostrarSugestoes() {
     ul.append(li);
   });
   const vazio = $("busca").value.trim().length >= 2 && !sugestoes.length;
+  $("sem-sugestao").textContent = SEM_SUGESTAO;
   $("sem-sugestao").hidden = !vazio;
   ul.hidden = !sugestoes.length;
   $("busca").setAttribute("aria-expanded", String(!!sugestoes.length));
@@ -697,6 +703,17 @@ function grade() {
 const TOQUE_FANTASMA_MS = 450;
 const toqueFantasma = () => performance.now() - (J.fimDesde || 0) < TOQUE_FANTASMA_MS;
 
+const TITULOS_DO_ACERTO = [null, "De primeira! Tá em casa.", "Acertou no 2º chute. Matou no peito!", "Acertou no 3º chute. Faro de artilheiro!",
+  "Acertou no 4º chute. Bateu ponto!", "Acertou no 5º chute. Na raça!", "Acertou no 6º chute! No apagar das luzes."];
+// o que o jogador fez de bom, mesmo quando nao acertou
+function destaqueDoFim(como, n) {
+  if (como === "acertou") return n <= 2 ? "Isso é resenha pronta: manda pro grupo e vê quem acerta mais rápido." : "Foi no detalhe, mas foi. Tá valendo!";
+  const quente = J.chutes.find((c) => c.clube && c.pos) || J.chutes.find((c) => c.clube) || J.chutes.find((c) => c.pos);
+  if (quente) return `Seu chute mais quente: ${quente.nome} (${quente.clube && quente.pos ? "mesmo clube e posição" : quente.clube ? "mesmo clube" : "mesma posição"}). Passou perto!`;
+  if (!J.chutes.length) return "Na próxima, arrisca um nome: cada erro abre uma dica nova.";
+  return "Não passou perto dessa vez, mas agora você conhece mais um. Na próxima ele não escapa.";
+}
+
 function terminar(como, { revisao = false } = {}) {
   J.fim = como;
   J.fimDesde = performance.now();
@@ -709,20 +726,22 @@ function terminar(como, { revisao = false } = {}) {
   const carta = cartaDoJogador(j, time, J.alvo.r, { estatica: true });
   carta.classList.add("revelando");
   $("fim-carta").replaceChildren(carta);
-  $("fim-titulo").textContent = como === "acertou"
-    ? (n === 1 ? "De primeira! Tá em casa." : `Acertou no ${n}º chute.`)
-    : "Não foi dessa vez.";
+  $("fim-titulo").textContent = como === "acertou" ? TITULOS_DO_ACERTO[n] || `Acertou no ${n}º chute.`
+    : como === "desistiu" ? "Sem crise: era ele aqui." : "Bateu na trave! Era ele.";
+  $("fim-titulo").classList.toggle("fim-festa", como === "acertou" && !revisao);
+  $("fim-destaque").textContent = destaqueDoFim(como, n);
   $("fim-texto").textContent = `${j.nome_completo || j.nome}, ${time.nome}, ${J.alvo.r.rotulo}. Overall ${j.overall}.`;
   $("fim-grade").textContent = grade();
   $("fim-chutes").replaceChildren(...J.chutes.map(linhaDoChute));
 
   const serie = lerSerie();
+  const recordeAntes = serie.melhor;
   if (!revisao) {
     if (como === "acertou") serie.atual += 1; else serie.atual = 0;
     serie.melhor = Math.max(serie.melhor, serie.atual);
     try { localStorage.setItem(CHAVE_SERIE, JSON.stringify(serie)); } catch { /* ok */ }
   }
-  $("fim-serie").textContent = serie.atual > 1 ? `${serie.atual} acertos seguidos (seu melhor: ${serie.melhor}).` : serie.melhor > 1 ? `Seu melhor: ${serie.melhor} seguidos.` : "";
+  $("fim-serie").textContent = textoDaSerie(serie, { recorde: !revisao && serie.atual > 1 && serie.atual > recordeAntes, perdeu: como !== "acertou" });
 
   const link = "temdadoemcasa.github.io/quem-ta-em-casa.html";
   const placar = como === "acertou" ? `${n}/${CHUTES}` : `X/${CHUTES}`;
@@ -734,7 +753,7 @@ function terminar(como, { revisao = false } = {}) {
       }));
     } catch { /* ok */ }
     J.textoCompartilhar = `Quem Tá em Casa? · Desafio #${J.diario.numero} · ${placar}\n${grade()}\n${link}#desafio`;
-    $("fim-diario").textContent = `Desafio #${J.diario.numero}. O próximo sai amanhã.`;
+    $("fim-diario").textContent = `Desafio #${J.diario.numero} fechado. Amanhã tem jogador novo; até lá, a partida livre tá liberada.`;
   } else {
     J.textoCompartilhar = `Quem Tá em Casa? · ${placar}\n${grade()}\n${link}`;
     $("fim-diario").textContent = "";
@@ -759,6 +778,20 @@ function copiarNaMao(texto) {
   area.remove();
   $("compartilhar").focus({ preventScroll: true });
   return deu;
+}
+
+// sequencia de acertos: no fim e na tela de inicio
+function textoDaSerie(serie, { recorde = false, perdeu = false } = {}) {
+  if (recorde) return `🔥 Novo recorde: ${serie.atual} acertos seguidos!`;
+  if (serie.atual > 1) return `🔥 ${serie.atual} acertos seguidos (seu recorde: ${serie.melhor}).`;
+  if (perdeu && serie.melhor > 1) return `Seu recorde: ${serie.melhor} seguidos. Bora começar outra sequência?`;
+  if (serie.melhor > 1) return `Seu recorde: ${serie.melhor} acertos seguidos.`;
+  return "";
+}
+function mostrarInicio() {
+  mostrarTela("tela-inicio");
+  const serie = lerSerie();
+  $("inicio-serie").textContent = serie.atual > 1 || serie.melhor > 1 ? textoDaSerie(serie) : "Acerte em sequência e monte seu recorde: ele fica guardado aqui.";
 }
 
 function confete(alvo) {
@@ -833,11 +866,12 @@ async function iniciarQuem() {
   $("carregando").hidden = true;
   $("form-inicio").hidden = false;
   atualizarBotaoDiario();
+  mostrarInicio();
 
   $("diario").addEventListener("click", () => comecar({ diario: true }));
   $("livre").addEventListener("click", () => comecar());
   $("de-novo").addEventListener("click", () => { if (toqueFantasma()) return; atualizarBotaoDiario(); comecar(); });
-  $("voltar").addEventListener("click", () => { if (toqueFantasma()) return; atualizarBotaoDiario(); mostrarTela("tela-inicio"); });
+  $("voltar").addEventListener("click", () => { if (toqueFantasma()) return; atualizarBotaoDiario(); mostrarInicio(); });
   $("desistir").addEventListener("click", () => { if (!J.fim) terminar("desistiu"); });
   $("compartilhar").addEventListener("click", async () => {
     if (toqueFantasma()) return;
@@ -848,10 +882,10 @@ async function iniciarQuem() {
     }
     try {
       await navigator.clipboard.writeText(texto);
-      botao.textContent = "Copiado!";
+      botao.textContent = "Copiado! Cola no grupo 📋";
     } catch {
       // sem permissao de area de transferencia: o jeito antigo, e se nem ele der, diz como fazer
-      botao.textContent = copiarNaMao(texto) ? "Copiado!" : "Não deu pra copiar: seleciona os quadradinhos";
+      botao.textContent = copiarNaMao(texto) ? "Copiado! Cola no grupo 📋" : "Não deu pra copiar: seleciona os quadradinhos";
     }
   });
 
@@ -868,7 +902,15 @@ async function iniciarQuem() {
   busca.addEventListener("keydown", (e) => {
     if (e.key === "ArrowDown" && sugestoes.length) { e.preventDefault(); destaque = (destaque + 1) % sugestoes.length; marcarDestaque(); }
     else if (e.key === "ArrowUp" && sugestoes.length) { e.preventDefault(); destaque = (destaque - 1 + sugestoes.length) % sugestoes.length; marcarDestaque(); }
-    else if (e.key === "Enter") { e.preventDefault(); if (destaque >= 0) chutar(sugestoes[destaque].id); }
+    else if (e.key === "Enter") {
+      e.preventDefault();
+      if (destaque >= 0) chutar(sugestoes[destaque].id);
+      else {
+        // Enter sem nome na lista: diz o que fazer em vez de nao responder
+        $("sem-sugestao").textContent = busca.value.trim().length < 2 ? "Digita pelo menos 2 letras do nome e escolhe na lista." : SEM_SUGESTAO;
+        $("sem-sugestao").hidden = false;
+      }
+    }
     else if (e.key === "Escape") fecharSugestoes();
   });
 

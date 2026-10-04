@@ -57,6 +57,7 @@
               <button class="chip" type="button" data-liga="brasil" aria-pressed="false">Brasileirão</button>
               <button class="chip" type="button" data-liga="europa" aria-pressed="false">Europa</button>
             </div>
+            <p class="inicio-serie" id="inicio-serie"></p>
           </div>
           <p class="inicio-nota">Só entra no sorteio quem jogou 1.500 minutos ou mais na temporada (900 na Champions, que tem menos jogos). As cartas são calculadas dos jogos, na mesma régua em todas as ligas.</p>
         </div>
@@ -83,7 +84,7 @@
           <input id="busca" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Chute um jogador"
             role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="sugestoes">
           <ul class="sugestoes" id="sugestoes" role="listbox" hidden></ul>
-          <p class="sem-sugestao" id="sem-sugestao" hidden>Nenhum jogador com esse nome nas cartas do site.</p>
+          <p class="sem-sugestao" id="sem-sugestao" hidden aria-live="polite">Nenhum jogador com esse nome nas cartas do site. Tenta o sobrenome ou o apelido.</p>
         </div>
         <p class="aviso" id="aviso" aria-live="polite"></p>
         <ol class="chutes" id="chutes" aria-label="Seus chutes"></ol>
@@ -98,6 +99,7 @@
         <div class="fim-textos">
           <h2 id="fim-titulo" tabindex="-1"></h2>
           <p id="fim-texto"></p>
+          <p class="fim-destaque" id="fim-destaque"></p>
           <pre class="fim-grade" id="fim-grade" aria-label="Resumo em quadradinhos"></pre>
           <p class="fim-serie" id="fim-serie"></p>
           <p class="fim-diario" id="fim-diario"></p>
