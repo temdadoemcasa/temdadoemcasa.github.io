@@ -9,6 +9,7 @@ ok(await p.locator('#elenco .carta').count() > 5, 'cartas do elenco');
 ok(await p.locator('#elenco .carta .carta-figura svg circle').count() === 0, 'carta so com a camisa (sem boneco)');
 ok(await p.evaluate(() => getComputedStyle(document.querySelector('#elenco .carta-eixos div')).backgroundColor === 'rgba(0, 0, 0, 0)'), 'stats em barrinha (sem caixinha colorida)');
 ok(await p.locator('.campinho .no-campo').count() > 5, 'campinho do time com jogadores clicaveis');
+ok(await p.locator('a.jogo-card[href="top10-em-casa.html"]').count() === 1, 'card do Top 10 na home');
 await p.locator('#elenco .carta').first().click(); await p.waitForTimeout(300);
 ok(await p.evaluate(() => document.getElementById('ficha').open), 'ficha abre');
 ok(await p.evaluate(() => getComputedStyle(document.getElementById('ficha')).backgroundColor.includes('0.72')), 'ficha em vidro');
