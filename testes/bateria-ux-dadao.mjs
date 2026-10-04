@@ -2,7 +2,7 @@
 // semente, jogadas com cliques/toques/teclas de verdade no DOM.
 //
 //   python3 -m http.server 8766 &                       (na raiz do repo)
-//   node testes/bateria-ux-dadao.mjs                   (CI: 300 casos, ~3 min)
+//   node testes/bateria-ux-dadao.mjs                   (CI: 120 casos + o banco inteiro, ~3-4 min)
 //   CASOS=4000 node testes/bateria-ux-dadao.mjs        (bateria cheia, ~30-40 min)
 //   CASO=1234 node testes/bateria-ux-dadao.mjs         (repete so o caso 1234, mesma semente)
 //   SEMENTE=7 muda a semente-base (default 1). DETALHE=1 imprime os passos dos casos que falharem.
@@ -26,7 +26,7 @@ import { fileURLToPath } from "node:url";
 import path from "node:path";
 
 const BASE = process.env.BASE || "http://localhost:8766";
-const CASOS = Number(process.env.CASOS || 300);
+const CASOS = Number(process.env.CASOS || 120); // o rodar.mjs mata teste com mais de 8 min
 const SEMENTE = Number(process.env.SEMENTE || 1);
 const SO = process.env.CASO ? process.env.CASO.split(",").map(Number) : null; // um ou mais casos (na ordem dada)
 const DETALHE = !!process.env.DETALHE;
