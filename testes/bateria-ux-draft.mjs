@@ -436,10 +436,17 @@ async function caso(p, semente, cfg, registro) {
       const meus0 = s.meus;
       // toque duplo no Proximo jogo (sem animacao pra pular) nao pode jogar 2 jogos
       await parado();
-      // a pessoa rola ate ver o botao (no celular ele pode estar atras da barra de abas de baixo)
-      await p.evaluate(() => document.getElementById('proximo').scrollIntoView({ block: 'center', behavior: 'instant' }));
-      await parado();
-      if (mobile) confere('Proximo jogo alcancavel no celular (nao fica preso atras da barra de abas)', await p.evaluate(() => { const b = document.getElementById('proximo'); const q = b.getBoundingClientRect(); return document.elementFromPoint(q.x + q.width / 2, q.y + q.height / 2) === b; }));
+      // a pessoa rola ate ver o botao (no celular ele pode estar atras da barra de abas de baixo).
+      // Se a animacao do jogo anterior (penaltis) puxa a rolagem de volta, ela rola de novo: ate 4 tentativas.
+      const alcancavel = () => p.evaluate(() => { const b = document.getElementById('proximo'); const q = b.getBoundingClientRect(); return document.elementFromPoint(q.x + q.width / 2, q.y + q.height / 2) === b; });
+      let alcancou = false;
+      for (let t = 0; t < 4 && !alcancou; t++) {
+        await p.evaluate(() => document.getElementById('proximo').scrollIntoView({ block: 'center', behavior: 'instant' }));
+        await parado();
+        alcancou = await alcancavel();
+        if (!alcancou) await p.waitForTimeout(700);
+      }
+      if (mobile) confere('Proximo jogo alcancavel no celular (nao fica preso atras da barra de abas)', alcancou);
       await p.waitForTimeout(260); // tempo de ler o placar anterior (toque colado no fim do jogo conta como toque duplo)
       const duplo = politica === 'duplo' || rng() < 0.15;
       if (duplo) await p.locator('#proximo').dblclick({ delay: 40 });
