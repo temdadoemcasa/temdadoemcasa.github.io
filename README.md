@@ -147,4 +147,4 @@ Uma carta misteriosa e 6 chutes. Usa só as cartas de `dados/overalls-{ano}.json
 
 ## Pacote de craque (home, ao lado do campinho)
 
-Só pela resenha: três cliques rasgam o pacote e sai UMA carta 83+, do Brasileirão (2024 a 2026) ou da Europa (`dados/retratos-europa.json`, carregado no primeiro clique). Só quem passou do piso de minutos da liga; a melhor carta de cada jogador, chance igual pra cada um, e o pool aparece escrito embaixo. Teste: `node testes/rodar.mjs pacote-craque`.
+Só pela resenha: três cliques rasgam o pacote e sai UMA carta de craque, 78+ do Brasileirão (2024 a 2026; o 83 de antes da régua da liga) ou 83+ da Europa (`dados/retratos-europa.json`, carregado no primeiro clique). Só quem passou do piso de minutos da liga; a melhor carta de cada jogador, chance igual pra cada um, e o pool aparece escrito embaixo. Teste: `node testes/rodar.mjs pacote-craque`.
