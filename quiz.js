@@ -29,7 +29,11 @@ const Q = {
 const $ = (id) => document.getElementById(id);
 
 const CHAVE_RECORDE = "tem-resposta-recorde";
-function lerRecorde() { try { return Number(localStorage.getItem(CHAVE_RECORDE)) || 0; } catch { return 0; } }
+// storage antigo ou mexido a mao nao pode quebrar a pagina: so vale degrau inteiro da escada
+const degrauValido = (d) => Number.isInteger(d) && d >= 0 && d < ESCADA_QUIZ.length;
+function lerRecorde() {
+  try { const d = Number(localStorage.getItem(CHAVE_RECORDE)); return degrauValido(d) ? d : 0; } catch { return 0; }
+}
 function guardarRecorde(d) { try { if (d > lerRecorde()) localStorage.setItem(CHAVE_RECORDE, String(d)); } catch { /* ok */ } }
 
 // --- banco -------------------------------------------------------------------
@@ -53,7 +57,10 @@ function carregarBanco() {
 }
 
 function lerVistas() {
-  try { return JSON.parse(localStorage.getItem(CHAVE_VISTAS)) || []; } catch { return []; }
+  try {
+    const v = JSON.parse(localStorage.getItem(CHAVE_VISTAS));
+    return Array.isArray(v) ? v.filter((x) => typeof x === "string") : [];
+  } catch { return []; }
 }
 function guardarVista(id) {
   try {
@@ -96,7 +103,8 @@ function hojeLocal(d = new Date()) {
 }
 function numeroDoDesafio(data) {
   const dia = (s) => Date.UTC(...s.split("-").map((x, i) => Number(x) - (i === 1 ? 1 : 0)));
-  return Math.round((dia(data) - dia(INICIO_DIARIO)) / 86400000) + 1;
+  // relogio do aparelho antes da estreia: fica no #1 (nada de "Desafio #-1")
+  return Math.max(1, Math.round((dia(data) - dia(INICIO_DIARIO)) / 86400000) + 1);
 }
 // pra cada pergunta, a titular e 3 reservas (os pulos): tudo fixo pela data
 function montarDiario(data) {
@@ -121,9 +129,65 @@ function montarDiario(data) {
   return { data, numero: numeroDoDesafio(data), fila };
 }
 function lerDiario() {
-  try { return JSON.parse(localStorage.getItem(CHAVE_DIARIO)) || null; } catch { return null; }
+  try {
+    const d = JSON.parse(localStorage.getItem(CHAVE_DIARIO));
+    const ok = d && typeof d === "object" && typeof d.data === "string" && degrauValido(d.degrau)
+      && ["errou", "parou", "campeao"].includes(d.como) && Array.isArray(d.historico) && d.historico.length <= 16;
+    return ok ? d : null;
+  } catch { return null; }
 }
 const diarioDeHoje = () => { const d = lerDiario(); return d && d.data === hojeLocal() ? d : null; };
+
+// --- partida em andamento ------------------------------------------------------------
+// Recarregou a pagina (ou o celular matou a aba) no meio do jogo? A partida fica salva e o
+// inicio oferece continuar de onde parou: mesma pergunta, mesmas alternativas, mesmas ajudas.
+// Uma chave pra partida livre e outra pro desafio (um nao apaga o outro). Errou, parou ou
+// zerou: a partida fecha na hora (no desafio, o resultado ja vale; nada de recarregar e tentar de novo).
+const CHAVE_PARTIDA = { livre: "dadao-partida-livre", diario: "dadao-partida-diario" };
+const modoDaPartida = () => (Q.diario ? "diario" : "livre");
+function limparPartida(modo) { try { localStorage.removeItem(CHAVE_PARTIDA[modo]); } catch { /* ok */ } }
+// proxima: acabou de acertar; quem voltar ja cai na pergunta seguinte
+function salvarPartida({ proxima = false } = {}) {
+  if (!Q.ajudas || Q.fechada) return;
+  const atual = proxima || !Q.pergunta ? null : Q.pergunta.id;
+  const dados = {
+    v: 1, modo: modoDaPartida(), data: Q.diario ? Q.diario.data : null,
+    numero: proxima ? Q.numero + 1 : Q.numero, degrau: Q.degrau, historico: Q.historico,
+    ajudas: Q.ajudas, boys: Q.boys, usadas: [...Q.usadas].filter((id) => id !== atual), atual,
+    ordem: atual ? Q.opcoes.map((o) => o.texto) : null, eliminadas: atual ? [...Q.eliminadas] : [],
+    marcas: atual ? Q.marcas : null, fala: atual ? $("ajuda-linha").textContent : "",
+  };
+  try { localStorage.setItem(CHAVE_PARTIDA[dados.modo], JSON.stringify(dados)); } catch { /* sem storage: so nao retoma */ }
+}
+function lerPartida(modo) {
+  let p = null;
+  try { p = JSON.parse(localStorage.getItem(CHAVE_PARTIDA[modo])); } catch { /* lixo */ }
+  if (!p) return null;
+  const aj = p.ajudas;
+  const ok = typeof p === "object" && p.modo === modo && Number.isInteger(p.numero) && p.numero >= 1 && p.numero <= 16
+    && p.degrau === p.numero - 1 && Array.isArray(p.historico) && p.historico.length === p.numero - 1
+    && p.historico.every((h) => h && h.acertou === true)
+    && aj && typeof aj === "object" && Number.isInteger(aj.pulos) && aj.pulos >= 0 && aj.pulos <= 3
+    && Array.isArray(p.usadas) && p.usadas.every((x) => typeof x === "string")
+    && Array.isArray(p.boys) && p.boys.length === 3 && p.boys.every((x) => typeof x === "string")
+    && (modo === "livre" || (p.data === hojeLocal() && !diarioDeHoje()));
+  if (ok) return p;
+  limparPartida(modo);
+  return null;
+}
+// a partida acabou (errou, parou ou zerou): recorde e desafio gravados ja, antes da tela final
+function fecharPartida(como) {
+  if (Q.fechada) return;
+  Q.fechada = true;
+  Q.recordeAntes = lerRecorde();
+  guardarRecorde(Q.degrau);
+  limparPartida(modoDaPartida());
+  if (Q.diario) {
+    try {
+      localStorage.setItem(CHAVE_DIARIO, JSON.stringify({ data: Q.diario.data, numero: Q.diario.numero, como, degrau: Q.degrau, pergunta: Q.numero, historico: Q.historico }));
+    } catch { /* sem storage: nao trava o desafio */ }
+  }
+}
 
 // 16 quadradinhos em 4 linhas: acertou, errou, parou aqui, nao chegou
 function gradeDoJogo(historico, como) {
@@ -182,6 +246,8 @@ function degrauSeErrar() {
 
 function mostrarTela(id) {
   for (const t of document.querySelectorAll(".quiz .tela")) t.hidden = t.id !== id;
+  // quem comecou apertando Enter no nome deixa o foco no campo escondido, e o teclado A-D ignora tecla vinda de input
+  if (id === "tela-jogo" && document.activeElement instanceof HTMLInputElement) document.activeElement.blur();
   window.scrollTo({ top: 0, behavior: "auto" });
 }
 
@@ -191,6 +257,7 @@ function desenharCarta(alvo, d, opcoes) {
 
 function desenharEscada() {
   const lista = $("escada");
+  const recorde = lerRecorde();
   lista.replaceChildren();
   for (let d = 16; d >= 1; d--) {
     const g = ESCADA_QUIZ[d];
@@ -198,6 +265,7 @@ function desenharEscada() {
     if (d <= Q.degrau) li.classList.add("feito");
     if (d === Q.numero) li.classList.add("agora");
     if (d === 16) li.classList.add("final");
+    if (d === recorde && d > 0) { li.classList.add("recorde"); li.title = "Seu recorde"; }
     li.append(el("b", null, String(d)), el("span", "degrau-nome", g.nome), el("span", "degrau-ovr", String(g.ovr)));
     lista.append(li);
   }
@@ -236,20 +304,35 @@ function mostrarAcao(id) {
 
 function falar(texto) { $("ajuda-linha").textContent = texto; }
 
-function novaPergunta() {
-  const nv = NIVEL_DA_PERGUNTA(Q.numero);
-  const p = sortearPergunta(Q.numero);
+// salva (opcional): a pergunta de uma partida retomada, com a ordem das alternativas e as ajudas ja usadas nela
+function novaPergunta(salva = null) {
+  const p = (salva && salva.atual && Object.values(Q.banco).flat().find((x) => x.id === salva.atual)) || sortearPergunta(Q.numero);
   Q.pergunta = p;
   Q.usadas.add(p.id);
   guardarVista(p.id);
   const rngOpcoes = Q.diario ? sementeRng(hashTexto(`${Q.diario.data}-${p.id}`)) : Math.random;
-  Q.opcoes = embaralhar([{ texto: p.a, certa: true }, ...p.e.map((t) => ({ texto: t, certa: false }))], rngOpcoes);
-  Q.eliminadas = new Set();
+  const opcoes = [{ texto: p.a, certa: true }, ...p.e.map((t) => ({ texto: t, certa: false }))];
+  const ordem = salva && salva.atual === p.id && Array.isArray(salva.ordem) ? salva.ordem : null;
+  const mesma = ordem && ordem.length === 4 && opcoes.every((o) => ordem.includes(o.texto));
+  Q.opcoes = mesma ? ordem.map((t) => opcoes.find((o) => o.texto === t)) : embaralhar(opcoes, rngOpcoes);
+  Q.eliminadas = new Set(mesma && Array.isArray(salva.eliminadas) ? salva.eliminadas.filter((i) => Q.opcoes[i] && !Q.opcoes[i].certa) : []);
   Q.escolhida = null;
   Q.travado = false;
   Q.marcas = { votos: null, boys: [[], [], [], []], enciclopedia: null };
+  const m = mesma && salva.marcas;
+  if (m && typeof m === "object") {
+    if (Array.isArray(m.votos) && m.votos.length === 4 && m.votos.every((v) => Number.isFinite(v))) Q.marcas.votos = m.votos;
+    if (Array.isArray(m.boys) && m.boys.length === 4 && m.boys.every(Array.isArray)) Q.marcas.boys = m.boys.map((l) => l.filter((x) => typeof x === "string"));
+    if (Number.isInteger(m.enciclopedia) && Q.opcoes[m.enciclopedia]) Q.marcas.enciclopedia = m.enciclopedia;
+  }
+  // o resultado da pergunta anterior sai do palco escondido: texto velho comprido (e a carta)
+  // esticava o palco e empurrava as ajudas pra baixo da barra no celular baixinho
+  $("retorno-texto").textContent = "";
+  $("retorno-subiu").textContent = "";
+  $("retorno-carta").replaceChildren();
   mostrarAcao("acao-padrao");
-  falar(Q.numero === 16 ? "Pergunta final: sem ajuda. Se parar, leva a carta de 15 acertos. Errar zera." : "");
+  falar(mesma && typeof salva.fala === "string" ? salva.fala
+    : Q.numero === 16 ? "Pergunta final: sem ajuda. Se parar, leva a carta de 15 acertos. Errar zera." : "");
 
   $("pergunta-numero").textContent = Q.numero === 16 ? "Pergunta final" : `Pergunta ${Q.numero} de 16`;
   // sem rotulo de dificuldade: so a final ganha o selo do premio
@@ -262,6 +345,7 @@ function novaPergunta() {
   desenharAjudas();
   desenharEscada();
   desenharCarta($("quiz-carta"), Q.degrau);
+  salvarPartida();
 }
 
 function desenharTrilha() {
@@ -371,10 +455,13 @@ async function confirmar() {
   const retorno = $("retorno");
   if (!acertou) {
     Q.degrau = degrauSeErrar();
+    fecharPartida("errou");
     const g = ESCADA_QUIZ[Q.degrau];
     retorno.classList.add("errou");
-    $("retorno-texto").textContent = `Errou! A certa era ${LETRAS[certa]}, ${Q.pergunta.a}.${Q.pergunta.x ? ` ${Q.pergunta.x}` : ""}`;
-    $("retorno-subiu").textContent = Q.numero === 16 ? "Na final, errar zera." : `Sua carta caiu pra ${g.nome} (${g.ovr}).`;
+    $("retorno-texto").textContent = textoDoErro(Q.pergunta, LETRAS[certa]);
+    $("retorno-subiu").textContent = Q.numero === 16 ? "Na final, errar zera. Doeu, mas chegar na final já é resenha garantida."
+      : Q.numero === 1 ? "Primeira é aquecimento: bora de novo, que a próxima é sua!"
+        : `A carta volta pra ${g.nome} (${g.ovr}). Bola pra frente!`;
     $("retorno-carta").replaceChildren();
     $("proxima").textContent = "Ver o resultado";
     $("proxima").dataset.fim = "errou";
@@ -383,6 +470,8 @@ async function confirmar() {
     return;
   }
   Q.degrau = Q.numero;
+  if (Q.numero === 16) fecharPartida("campeao");
+  else salvarPartida({ proxima: true });
   subirCarta();
   if (Q.numero === 16) {
     await comemorar(16, { curiosidade: Q.pergunta.x || "", frase: Q.pergunta.r || "" });
@@ -455,6 +544,7 @@ function ajudaCartas() {
       mostrarAcao("acao-padrao");
       desenharAlternativas();
       desenharAjudas();
+      salvarPartida();
     });
     return b;
   });
@@ -473,6 +563,7 @@ const GOLDEN_BOYS = [
 function sortearGoldenBoys() {
   let anteriores = [];
   try { anteriores = JSON.parse(localStorage.getItem("tem-resposta-boys")) || []; } catch { /* ok */ }
+  if (!Array.isArray(anteriores)) anteriores = [];
   const livres = GOLDEN_BOYS.filter((n) => !anteriores.includes(n));
   const trio = embaralhar(livres.length >= 3 ? livres : GOLDEN_BOYS).slice(0, 3);
   try { localStorage.setItem("tem-resposta-boys", JSON.stringify(trio)); } catch { /* ok */ }
@@ -493,6 +584,7 @@ function ajudaGoldenBoys() {
   falar(`Golden Boys: ${falas.join(" · ")}`);
   desenharAlternativas();
   desenharAjudas();
+  salvarPartida();
 }
 
 // O Enciclopedia: aquele que sabe tudo de bola. Nao erra, mas so da pra chamar uma vez.
@@ -505,6 +597,7 @@ function ajudaEnciclopedia() {
   falar(`O Enciclopédia: pode marcar ${LETRAS[certo]}. Tá no meu caderno desde sempre.`);
   desenharAlternativas();
   desenharAjudas();
+  salvarPartida();
 }
 
 // Arquibancada: a torcida vota. A certa leva mais voto quanto mais facil.
@@ -529,6 +622,7 @@ function ajudaArquibancada() {
   falar(`Arquibancada: a maioria foi de ${LETRAS[maior]}.`);
   desenharAlternativas();
   desenharAjudas();
+  salvarPartida();
 }
 
 function ajudaPular() {
@@ -536,6 +630,7 @@ function ajudaPular() {
   Q.ajudas.pulos -= 1;
   novaPergunta();
   falar(`Pulou. ${Q.ajudas.pulos === 0 ? "Acabaram os pulos." : `Ainda tem ${Q.ajudas.pulos}.`}`);
+  salvarPartida();
 }
 
 function parar() {
@@ -737,7 +832,7 @@ function cenaDaFesta(d) {
   const numero = { G: 1, D: 4, M: 10, F: 9 }[Q.pos] || 9;
   const nome = (Q.nome || "Você").toUpperCase().slice(0, LIMITE_NOME);
   const uid = `festa${++cenaDaFesta.n}`;
-  const raiz = svg("svg", { viewBox: "0 0 240 200", class: "festa-cena-svg", "aria-hidden": "true" });
+  const raiz = svg("svg", { viewBox: "0 0 240 200", preserveAspectRatio: "xMidYMid slice", class: "festa-cena-svg", "aria-hidden": "true" });
   const ceu = { 16: ["#6b4a1a", "#1a1008"], 15: ["#3a2d6b", "#0d1117"], 14: ["#4a3a0c", "#0d1117"], 13: ["#0d6b33", "#0d1117"], 11: ["#5b7fb8", "#1b2a5c"] }[d]
     || (d === 12 ? ["#1d3170", "#070b1f"] : d >= 6 ? ["#17482c", "#0d1117"] : d === 1 ? ["#6f8fb0", "#2b3a48"] : ["#24401c", "#0d1117"]);
   const claro = (hex, k) => {
@@ -843,12 +938,38 @@ function comemorar(d, { curiosidade = "", frase = "", duracao = esperaDaFrase(fr
       pop.classList.add("saindo");
       setTimeout(() => { pop.remove(); ok(); }, movimentoReduzido ? 0 : 200);
     };
-    pop.addEventListener("click", fechar);
+    // toque colado no que confirmou (quem toca 3x rapido) nao pula a festa antes de dar pra ver
+    const nasceu = performance.now();
+    let cedo = false;
+    pop.addEventListener("pointerdown", (e) => { cedo = e.pointerType === "touch" && performance.now() - nasceu < 350; });
+    // (o toque que comecou antes da festa nascer termina em cima dela: o click chega sem pointerdown, entao o toque tambem vale pelo relogio)
+    pop.addEventListener("click", (e) => { if (cedo || (e.pointerType === "touch" && performance.now() - nasceu < 350)) { cedo = false; return; } fechar(); });
     setTimeout(fechar, duracao);
   });
 }
 
 // --- fim ----------------------------------------------------------------------
+
+// errou: sem bronca. A certa, a explicacao, e segue o jogo
+const textoDoErro = (p, letra) => `Quase! A certa era ${letra}, ${p.a}.${p.x ? ` ${p.x}` : ""}`;
+
+// o que a pessoa fez de bom, mesmo quando perde (tom de resenha, sem humilhar)
+function destaqueDoFim(como, acertos) {
+  const s = acertos === 1 ? "" : "s";
+  const g = ESCADA_QUIZ[acertos] || ESCADA_QUIZ[0];
+  if (como === "campeao") return "16 de 16! Zerou o Show do Dadão e sentou na Prateleira Rei Pelé. Pode pedir música!";
+  if (como === "parou") {
+    if (acertos === 0) return "Nem entrou em campo! Bora pro aquecimento: a primeira é a mais tranquila.";
+    if (acertos === 15) return "Parou com 15 e levou a Prateleira Messi e CR7. Frieza de camisa 10.";
+    return `Saiu por cima: ${acertos} acerto${s} e a carta ${g.nome} (${g.ovr}) garantida no bolso. Malandragem de quem conhece o jogo.`;
+  }
+  if (acertos === 0) return "A primeira foi casca de banana. Acontece com qualquer um: a próxima é sua!";
+  if (acertos === 15) return "15 acertos seguidos e só a final escapou. Isso é coisa de craque: a resenha vai lembrar.";
+  if (acertos <= 3) return `${acertos} acerto${s} e já saiu da pelada. Aquecimento feito, agora é pra valer!`;
+  if (acertos <= 7) return `${acertos} acertos seguidos! Chegou a bater na ${g.nome} antes de tropeçar. Tá batendo ponto no Show.`;
+  if (acertos <= 11) return `${acertos} acertos seguidos e carta de ${g.nome} no caminho. Bagre não chega aqui, não!`;
+  return `${acertos} acertos! Você foi até a ${g.nome}. Pouca gente chega nesse degrau.`;
+}
 
 // revisao: reabre o resultado do desafio de hoje (ja jogado) sem contar de novo
 function terminar(como, { revisao = false } = {}) {
@@ -873,8 +994,9 @@ function terminar(como, { revisao = false } = {}) {
   // errou: a frase da resposta aparece aqui, na volta pra tela principal do jogo
   $("fim-frase").textContent = como === "errou" && ultima?.frase ? ultima.frase : "";
   const acertos = Q.historico.filter((h) => h.acertou).length;
-  const recordeAntes = lerRecorde();
-  if (!revisao) guardarRecorde(d);
+  $("fim-destaque").textContent = destaqueDoFim(como, acertos);
+  if (!revisao) fecharPartida(como);
+  const recordeAntes = revisao ? lerRecorde() : Q.recordeAntes;
   $("fim-recorde").textContent = revisao ? "" : d > recordeAntes && recordeAntes > 0
     ? `Novo recorde! O anterior era ${ESCADA_QUIZ[recordeAntes].nome}.`
     : recordeAntes > d ? `Seu recorde: ${ESCADA_QUIZ[recordeAntes].nome} (${ESCADA_QUIZ[recordeAntes].ovr}).` : "";
@@ -882,11 +1004,6 @@ function terminar(como, { revisao = false } = {}) {
   const link = `${location.origin}${location.pathname}`;
   const carta = `Carta: ${g.nome} (${g.ovr})`;
   if (Q.diario) {
-    if (!revisao) {
-      try {
-        localStorage.setItem(CHAVE_DIARIO, JSON.stringify({ data: Q.diario.data, numero: Q.diario.numero, como, degrau: d, pergunta: Q.numero, historico: Q.historico }));
-      } catch { /* sem storage: nao trava o desafio */ }
-    }
     Q.textoCompartilhar = `Show do Dadão · Desafio #${Q.diario.numero}\n${grade}\n${carta}\n${link}#desafio`;
     $("fim-diario").textContent = `Desafio #${Q.diario.numero}. O próximo sai em ${ateAmanha()}.`;
   } else {
@@ -919,17 +1036,40 @@ function comecar({ diario = false } = {}) {
   if (diario) {
     const feito = diarioDeHoje();
     if (feito) return reverDiario(feito);
+    const andamento = lerPartida("diario");
+    if (andamento) return retomar(andamento);
     Q.diario = montarDiario(hojeLocal());
   } else Q.diario = null;
   evento(diario ? "dadao/diario" : "dadao/inicio");
-  Q.nome = ($("nome").value || "").trim().slice(0, LIMITE_NOME) || "Você";
-  try { localStorage.setItem("tem-resposta-nome", Q.nome); localStorage.setItem("tem-resposta-pos", Q.pos); } catch { /* ok */ }
   Q.degrau = 0;
   Q.numero = 1;
   Q.usadas = new Set();
   Q.historico = [];
   Q.ajudas = { cartas: true, boys: true, enciclopedia: true, arquibancada: true, pulos: 3 };
   Q.boys = sortearGoldenBoys();
+  abrirMesa();
+  novaPergunta();
+}
+
+// volta pra partida salva (recarregou no meio): mesmo ponto, mesmas ajudas
+function retomar(p) {
+  Q.diario = p.modo === "diario" ? montarDiario(p.data) : null;
+  evento(`dadao/retomou-${p.modo}`);
+  Q.degrau = p.degrau;
+  Q.numero = p.numero;
+  Q.historico = p.historico;
+  const aj = p.ajudas;
+  Q.ajudas = { cartas: aj.cartas !== false, boys: aj.boys !== false, enciclopedia: aj.enciclopedia !== false, arquibancada: aj.arquibancada !== false, pulos: aj.pulos };
+  Q.usadas = new Set(p.usadas);
+  Q.boys = p.boys;
+  abrirMesa();
+  novaPergunta(p);
+}
+
+function abrirMesa() {
+  Q.nome = ($("nome").value || "").trim().slice(0, LIMITE_NOME) || "Você";
+  try { localStorage.setItem("tem-resposta-nome", Q.nome); localStorage.setItem("tem-resposta-pos", Q.pos); } catch { /* ok */ }
+  Q.fechada = false;
   $("ajuda-boys").title = Q.boys.join(", ");
   $("fim-carta").classList.remove("festa-quiz");
   mostrarTela("tela-jogo");
@@ -941,15 +1081,15 @@ function comecar({ diario = false } = {}) {
   } else {
     QUIZ_ABAS.abrir("pergunta", { rolar: false });
   }
-  novaPergunta();
 }
 
 // desafio de hoje ja jogado: mostra o resultado de novo (pra compartilhar), sem jogar
 function reverDiario(feito) {
-  Q.diario = { data: feito.data, numero: feito.numero, fila: [] };
-  Q.historico = feito.historico || [];
-  Q.degrau = feito.degrau || 0;
-  Q.numero = feito.pergunta || Q.historico.length || 1;
+  Q.diario = { data: feito.data, numero: Number.isInteger(feito.numero) ? feito.numero : numeroDoDesafio(feito.data), fila: [] };
+  Q.historico = feito.historico.filter((h) => h && typeof h === "object");
+  Q.degrau = feito.degrau;
+  const n = Number(feito.pergunta);
+  Q.numero = Number.isInteger(n) && n >= 1 && n <= 16 ? n : Math.max(1, Q.historico.length);
   $("fim-carta").classList.remove("festa-quiz");
   terminar(feito.como, { revisao: true });
 }
@@ -959,10 +1099,26 @@ function atualizarBotaoDiario() {
   const feito = diarioDeHoje();
   const b = $("diario");
   b.querySelector("b").textContent = `Desafio do dia #${numeroDoDesafio(hoje)}`;
+  const andamento = !feito && lerPartida("diario");
   b.querySelector("small").textContent = feito
     ? `Já jogou hoje: ${ESCADA_QUIZ[feito.degrau].curto || ESCADA_QUIZ[feito.degrau].nome}. Ver resultado`
-    : "As mesmas perguntas pra todo mundo hoje. Uma chance.";
+    : andamento ? `Continuar de onde parou: pergunta ${andamento.numero} de 16`
+      : "As mesmas perguntas pra todo mundo hoje. Uma chance.";
   b.classList.toggle("feito", !!feito);
+}
+
+// tela inicial: desafio, partida livre pela metade e recorde
+function atualizarInicio() {
+  atualizarBotaoDiario();
+  const p = lerPartida("livre");
+  const b = $("continuar");
+  b.hidden = !p;
+  if (p) {
+    const g = ESCADA_QUIZ[p.degrau];
+    b.querySelector("small").textContent = `Pergunta ${p.numero} de 16 · carta ${g.curto || g.nome} (${g.ovr})`;
+  }
+  const rec = lerRecorde();
+  $("inicio-recorde").textContent = rec > 0 ? `Seu recorde: ${ESCADA_QUIZ[rec].nome} (${ESCADA_QUIZ[rec].ovr}).` : "";
 }
 
 function atualizarPreviaInicio() {
@@ -975,7 +1131,7 @@ function iniciarQuiz() {
     const n = localStorage.getItem("tem-resposta-nome");
     const p = localStorage.getItem("tem-resposta-pos");
     if (n) $("nome").value = n;
-    if (p && "GDMF".includes(p)) Q.pos = p;
+    if (p && p.length === 1 && "GDMF".includes(p)) Q.pos = p;
   } catch { /* ok */ }
   Q.nome = $("nome").value.trim() || "Você";
   for (const b of document.querySelectorAll("#posicoes .chip")) {
@@ -988,7 +1144,6 @@ function iniciarQuiz() {
   }
   $("nome").addEventListener("input", () => { Q.nome = $("nome").value.trim() || "Você"; atualizarPreviaInicio(); });
   $("form-inicio").addEventListener("submit", (e) => { e.preventDefault(); comecar(); });
-  atualizarBotaoDiario();
   if (location.hash === "#desafio") $("diario").focus({ preventScroll: true });
   $("proxima").addEventListener("click", proxima);
   $("ajuda-cartas").addEventListener("click", ajudaCartas);
@@ -1001,11 +1156,24 @@ function iniciarQuiz() {
   $("parar-nao").addEventListener("click", () => mostrarAcao("acao-padrao"));
   $("compartilhar").addEventListener("click", async () => {
     const texto = Q.textoCompartilhar;
+    const b = $("compartilhar");
     try {
       if (navigator.share) { await navigator.share({ text: texto }); return; }
+    } catch (e) {
+      if (e && e.name === "AbortError") return; // fechou a janela de compartilhar: tudo bem
+    }
+    try {
       await navigator.clipboard.writeText(texto);
-      $("compartilhar").textContent = "Copiado!";
-    } catch { /* cancelou */ }
+      b.textContent = "Copiado! É só colar no grupo";
+    } catch {
+      // sem permissao pra copiar: deixa a grade selecionada pra pessoa copiar na mao
+      const sel = getSelection();
+      const r = document.createRange();
+      r.selectNodeContents($("fim-grade"));
+      sel.removeAllRanges();
+      sel.addRange(r);
+      b.textContent = "Não deu pra copiar sozinho: a grade tá selecionada, é só copiar";
+    }
   });
   $("story").addEventListener("click", async () => {
     const b = $("story");
@@ -1018,12 +1186,11 @@ function iniciarQuiz() {
   });
   $("de-novo").addEventListener("click", () => comecar());
   $("diario").addEventListener("click", () => comecar({ diario: true }));
+  $("continuar").addEventListener("click", () => { const p = lerPartida("livre"); if (p) retomar(p); else comecar(); });
   $("trocar").addEventListener("click", () => {
     mostrarTela("tela-inicio");
-    atualizarBotaoDiario();
+    atualizarInicio();
     atualizarPreviaInicio();
-    const rec = lerRecorde();
-    $("inicio-recorde").textContent = rec > 0 ? `Seu recorde: ${ESCADA_QUIZ[rec].nome} (${ESCADA_QUIZ[rec].ovr}).` : "";
   });
   // teclado: A-D escolhe, Enter confirma
   document.addEventListener("keydown", (e) => {
@@ -1037,8 +1204,7 @@ function iniciarQuiz() {
     if (i >= 0) escolher(i);
   });
   atualizarPreviaInicio();
-  const rec = lerRecorde();
-  if (rec > 0) $("inicio-recorde").textContent = `Seu recorde: ${ESCADA_QUIZ[rec].nome} (${ESCADA_QUIZ[rec].ovr}).`;
+  atualizarInicio();
 }
 
 iniciarQuiz();
