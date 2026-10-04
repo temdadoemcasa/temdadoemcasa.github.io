@@ -3970,7 +3970,9 @@ function mostrarAposentadoria() {
   add("Melhor temporada", `${melhor.ano} · ${melhor.clube} · ${melhor.gols} G, ${melhor.assist} A`);
   add("Auge", `${auge.ovr} de OVR aos ${auge.idade} (${auge.clube})`);
   add("Trajetória", clubes.join(" → "));
-  if (J.transferencias.length) add("Maior venda", dinheiro(Math.max(...J.historico.filter((h) => h.transferencia).map((h) => h.transferencia.valor), 0)));
+  // so transferencia paga: saida de graca (fim de contrato) nao e venda de 0 euro
+  const maiorVenda = Math.max(0, ...J.historico.filter((h) => h.transferencia && h.transferencia.valor > 0).map((h) => h.transferencia.valor));
+  if (maiorVenda > 0) add("Maior venda", dinheiro(maiorVenda));
   sDest.append(dl);
   esquerda.append(sNum, blocoSelecao(J), sDest, blocoHistoria(J));
   const sGal = el("section", "bl-bloco");
