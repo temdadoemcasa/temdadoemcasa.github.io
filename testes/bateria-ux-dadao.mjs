@@ -847,22 +847,27 @@ async function validarBanco(browser) {
 
 // --- execucao -----------------------------------------------------------------------
 const inicio = Date.now();
-const browser = await chromium.launch();
+let browser = await chromium.launch();
 const nPerguntas = SO === null && !process.env.SEM_BANCO ? await validarBanco(browser) : 0;
 console.error(`   banco validado em ${((Date.now() - inicio) / 1000).toFixed(0)}s`);
 const casos = (SO !== null ? SO : [...Array(CASOS).keys()]).map(sortearCaso);
 // agrupa por tipo de contexto (toque/mouse x movimento): um contexto e uma pagina por vez
 const grupos = new Map();
 for (const c of casos) { const k = `${c.toque}|${c.movimento}`; if (!grupos.has(k)) grupos.set(k, []); grupos.get(k).push(c); }
-let feitos = 0, comFalha = 0;
+let feitos = 0, comFalha = 0, quedas = 0;
 const porPolitica = {};
 for (const [k, lista] of grupos) {
   const [toque, mov] = k.split("|").map((x) => x === "true");
-  const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: toque, hasTouch: toque, reducedMotion: mov ? "no-preference" : "reduce", acceptDownloads: true });
-  await ctx.addInitScript(INIT);
-  await ctx.route("**/*", (rota) => (rota.request().url().startsWith(BASE) ? rota.continue() : rota.abort()));
+  let ctx = null;
   let reabrir = false;
+  // abre contexto e pagina; se o chromium caiu (falta de memoria na maquina), sobe outro
   const abrir = async () => {
+    if (!browser.isConnected()) { quedas += 1; browser = await chromium.launch(); ctx = null; }
+    if (!ctx) {
+      ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: toque, hasTouch: toque, reducedMotion: mov ? "no-preference" : "reduce", acceptDownloads: true });
+      await ctx.addInitScript(INIT);
+      await ctx.route("**/*", (rota) => (rota.request().url().startsWith(BASE) ? rota.continue() : rota.abort()));
+    }
     pg = await ctx.newPage();
     pg.on("pageerror", (e) => errosJS.push(e.message));
     pg.on("console", (msg) => { if (msg.type() === "error" && !/Failed to load resource|net::ERR/.test(msg.text())) errosJS.push(msg.text()); });
@@ -873,26 +878,35 @@ for (const [k, lista] of grupos) {
   };
   await abrir();
   for (const c of lista) {
-    casoAtual = { ...c, passos: [], falhou: false };
-    const tCaso = Date.now();
-    errosJS = [];
-    try {
-      await Promise.race([
-        jogarCaso(casoAtual, reabrir),
-        espera(c.movimento ? 90000 : 30000).then(() => { throw new Error("tempo esgotado (travou?)"); }),
-      ]);
-      if (errosJS.length) checa("sem-erro-js", false, errosJS.join(" | ").slice(0, 300));
-      checa("saida", true);
-      reabrir = true;
-    } catch (e) {
-      checa("saida", false, `exceção: ${String(e.message || e).split("\n")[0].slice(0, 200)}`);
-      await pg.close().catch(() => {});
-      await abrir();
+    for (let tentativa = 0; tentativa < 2; tentativa++) {
+      const salvo = JSON.stringify(Object.fromEntries(Object.entries(contagem).map(([n, v]) => [n, { n: v.n, f: v.falhas.length }])));
+      casoAtual = { ...sortearCaso(c.i), passos: [], falhou: false }; // sorteio novo: repetir o caso e igual
+      const tCaso = Date.now();
+      errosJS = [];
+      try {
+        await Promise.race([
+          jogarCaso(casoAtual, reabrir),
+          espera(c.movimento ? 90000 : 30000).then(() => { throw new Error("tempo esgotado (travou?)"); }),
+        ]);
+        if (errosJS.length) checa("sem-erro-js", false, errosJS.join(" | ").slice(0, 300));
+        checa("saida", true);
+        reabrir = true;
+      } catch (e) {
+        if (!browser.isConnected()) {
+          // o navegador morreu (nao foi o jogo): desfaz as checagens do caso e repete do zero
+          for (const [n, v] of Object.entries(JSON.parse(salvo))) { contagem[n].n = v.n; contagem[n].falhas.length = v.f; }
+          await abrir();
+          if (tentativa === 0) continue;
+        }
+        checa("saida", false, `exceção: ${String(e.message || e).split("\n")[0].slice(0, 200)}`);
+        await pg.close().catch(() => {});
+        await abrir();
+      }
+      const dur = Date.now() - tCaso;
+      if (DETALHE) console.error(`   dur caso ${c.i} ${c.politica} ${c.movimento} ${dur}ms passos ${casoAtual.passos.length}`);
+      break;
     }
     feitos += 1;
-    const dur = Date.now() - tCaso;
-    if (DETALHE) console.error(`   dur caso ${c.i} ${c.politica} ${c.movimento} ${dur}ms passos ${casoAtual.passos.length}`);
-    if (DETALHE && dur > 6000) console.error(`   lento: caso ${c.i} ${dur}ms ${c.movimento ? "(com animação)" : ""} ${casoAtual.passos.slice(-3).join(" → ")}`);
     porPolitica[c.politica] = (porPolitica[c.politica] || 0) + 1;
     if (casoAtual.falhou) {
       comFalha += 1;
@@ -901,7 +915,7 @@ for (const [k, lista] of grupos) {
     if (feitos % 250 === 0) console.error(`   ... ${feitos}/${casos.length} casos, ${((Date.now() - inicio) / 1000).toFixed(0)}s`);
   }
   await pg.close().catch(() => {});
-  await ctx.close();
+  await ctx.close().catch(() => {});
 }
 await browser.close();
 async function ESCADA(p) { if (!ESC) ESC = await p.evaluate(() => ESCADA_QUIZ.map((g) => ({ nome: g.nome, ovr: g.ovr, valor: g.valor }))); }
@@ -917,7 +931,7 @@ for (const [inv, { n, falhas }] of Object.entries(contagem)) {
   } else linhas.push(`OK   ${inv}: ${n} checagens (${INVARIANTES[inv]})`);
 }
 const seg = ((Date.now() - inicio) / 1000).toFixed(0);
-linhas.push(`${comFalha ? "FALHA" : "OK  "} ${feitos} casos independentes (${comFalha} com falha), ${nPerguntas} perguntas validadas, ${seg}s; políticas ${JSON.stringify(porPolitica)}`);
+linhas.push(`${comFalha ? "FALHA" : "OK  "} ${feitos} casos independentes (${comFalha} com falha), ${nPerguntas} perguntas validadas, ${seg}s${quedas ? `, navegador caiu ${quedas}x (caso repetido)` : ""}; políticas ${JSON.stringify(porPolitica)}`);
 console.log(linhas.join("\n"));
 if (SO === null) {
   mkdirSync(path.join(pasta, "resultados"), { recursive: true });
