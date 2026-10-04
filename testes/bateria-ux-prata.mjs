@@ -4,8 +4,8 @@
 // final, copiar o resumo, nova carreira, recarregar no meio).
 //
 //   python3 -m http.server 8766 &                       (na raiz do repo)
-//   node testes/bateria-ux-prata.mjs                    (CI: 300 casos, ~5 min)
-//   CASOS=4000 node testes/bateria-ux-prata.mjs         (bateria cheia, ~1 h)
+//   node testes/bateria-ux-prata.mjs                    (CI: 120 casos, ~4 min; rodar.mjs corta em 8 min)
+//   CASOS=4000 node testes/bateria-ux-prata.mjs         (bateria cheia, ~2-3 h)
 //   SO=1234 node testes/bateria-ux-prata.mjs            (repete so o caso 1234; SO=57,58 repete os dois em sequencia)
 //   SEMENTE=7 muda o conjunto de sementes; ACELERA=5 divide os setTimeout da
 //   pagina (as esperas de animacao) por 5 -- so no teste, a regra do jogo nao muda.
@@ -18,7 +18,7 @@ import { chromium } from "playwright";
 import { mkdirSync, writeFileSync } from "node:fs";
 
 const BASE = process.env.BASE || "http://localhost:8766";
-const CASOS = Number(process.env.CASOS || 300);
+const CASOS = Number(process.env.CASOS || 120); // rodar.mjs mata teste com 8 min: 120 casos cabem
 const SEMENTE = Number(process.env.SEMENTE || 1);
 const SO = process.env.SO ? process.env.SO.split(",").map(Number) : null; // SO=57,58 repete esses casos em sequencia
 const ACELERA = Number(process.env.ACELERA || 5);
