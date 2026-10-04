@@ -815,8 +815,8 @@ async function validarBanco(browser) {
         document.getElementById("enunciado").textContent = pg.q; desenharAlternativas();
         // erro com a explicacao, como o confirmar desenha
         document.getElementById("retorno").classList.add("errou");
-        document.getElementById("retorno-texto").textContent = `Errou! A certa era A, ${pg.a}.${pg.x ? ` ${pg.x}` : ""}`;
-        document.getElementById("retorno-subiu").textContent = "Sua carta caiu pra Prateleira Messi e CR7 (92).";
+        document.getElementById("retorno-texto").textContent = typeof textoDoErro === "function" ? textoDoErro(pg, "A") : `Errou! A certa era A, ${pg.a}.${pg.x ? ` ${pg.x}` : ""}`;
+        document.getElementById("retorno-subiu").textContent = "A carta volta pra Prateleira Messi e CR7 (92). Bola pra frente!";
         document.getElementById("proxima").hidden = false;
         mostrarAcao("retorno");
         const b = document.getElementById("proxima").getBoundingClientRect().bottom + scrollY;
