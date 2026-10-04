@@ -425,3 +425,9 @@
 /* errou: o jogo nao avanca sozinho, entao a explicacao aparece inteira (cortava em "O...") */
 .retorno.errou .retorno-textos p { display: block; -webkit-line-clamp: unset; overflow: visible; }
 .retorno.errou .retorno-textos p:first-child { font-size: 0.95em; line-height: 1.35; }
+/* continuar a partida (recarregou no meio): aparece acima do Comecar so quando tem partida salva */
+.botao-continuar[hidden] { display: none; }
+.botao-continuar { border-color: var(--quiz, #f2c230); }
+/* celular baixinho (360x640): a cena da comemoracao encolhe (cortando so ceu e chao) pra
+   caixa inteira, com a frase e a curiosidade, caber sem cortar */
+@media (max-height: 700px) { .festa-cena-svg { height: 36vh; } }
