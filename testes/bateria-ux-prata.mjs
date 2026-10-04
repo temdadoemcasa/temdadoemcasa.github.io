@@ -309,6 +309,8 @@ async function jogarTemporadaClicando(p, r, pol) {
   // resumo do ano coerente com a linha da tabela
   const resumo = await p.evaluate(() => { const dl = document.querySelector("#temporada-atual .temporada-numeros"); return dl ? [...dl.querySelectorAll("div")].map((d) => [d.querySelector("dt").textContent, d.querySelector("dd").textContent]) : null; });
   checar("resumo do ano aparece", !!resumo, "sem .temporada-numeros");
+  const destaque = (await p.locator("#temporada-atual .temporada-destaque").allTextContents()).join("");
+  checar("todo ano tem um destaque de resenha", destaque.trim().length > 8, `"${destaque}"`);
   if (resumo) {
     const jogos = Number((resumo.find(([k]) => /^Jogos/.test(k)) || [])[1]);
     checar("resumo do ano bate com o histórico", jogos === depois.linha.jogos, `tela ${jogos} x histórico ${depois.linha.jogos}`);
@@ -361,10 +363,17 @@ async function conferirFim(p, r, sempreNova = false) {
     await p.waitForTimeout(80);
     const txt = await p.evaluate(() => navigator.clipboard.readText()).catch(() => "");
     const rot = (await copiar.textContent()).trim();
-    checar("copiar dá resposta na tela", /Copiad|Não deu|copiad/i.test(rot), `rótulo "${rot}"`);
+    checar("copiar dá resposta na tela", /Copiado|selecionado/i.test(rot), `rótulo "${rot}"`);
     const ok = txt.includes(d.nome) && txt.includes("temdadoemcasa.github.io/prata-da-casa.html") && !/undefined|null|NaN|\[object/.test(txt) && txt.length <= 700 && txt.includes(`${d.anos} temporadas`) && txt.includes(`${d.tot.j} jogos`) && txt.includes(`${d.auge} de OVR`);
     checar("texto de compartilhar coerente", ok, JSON.stringify(txt).slice(0, 300));
   } else checar("texto de compartilhar coerente", false, "sem botão de copiar");
+  // recorde pessoal: a carreira conta uma vez so (rever a aposentadoria nao conta de novo)
+  const reg = await p.evaluate((auge) => {
+    const ler = () => { try { return JSON.parse(localStorage.getItem("prata-da-casa")); } catch (_) { return null; } };
+    const a = ler(); mostrarAposentadoria(); const b = ler();
+    return { a: a && a.carreiras, b: b && b.carreiras, auge: b && b.recorde && b.recorde.auge, ok: !!(b && b.recorde && b.recorde.auge >= auge) };
+  }, d.auge);
+  checar("carreira entra no recorde uma vez só", Number.isInteger(reg.a) && reg.a >= 1 && reg.a === reg.b && reg.ok, JSON.stringify(reg));
   // nova carreira volta pro comeco
   if (sempreNova || r() < 0.6) {
     const nova = p.locator("#relatorio button", { hasText: /Nova carreira|Jogar de novo|Outra carreira/ }).first();
@@ -373,6 +382,8 @@ async function conferirFim(p, r, sempreNova = false) {
       await tocar(p, nova);
       const t = await p.evaluate(ESTADO);
       checar("'Nova carreira' volta pra criação", t.tela === "criar", t.tela);
+      const linhaRec = await p.locator("#recorde-prata").textContent();
+      checar("criação mostra o recorde salvo", (await p.locator("#recorde-prata").isVisible()) && linhaRec.includes(`${reg.auge} de auge`), `"${linhaRec}" (recorde ${reg.auge})`);
       // e a carreira seguinte comeca limpa
       if (sempreNova || r() < 0.5) {
         await criarPelasFuncoes(p, r);
