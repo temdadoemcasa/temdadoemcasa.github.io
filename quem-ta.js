@@ -44,6 +44,9 @@ const CHAVE_LIGA = "quem-ta-liga";
 const INICIO_DIARIO = "2026-09-30"; // desafio #1
 const CHAVE_DIARIO = "quem-ta-diario";
 const CHAVE_SERIE = "quem-ta-serie";
+// desafio do dia pela metade: recarregar (ou o celular matar a aba) nao zera os chutes,
+// senao da pra ver as dicas, recarregar e "acertar de primeira"
+const CHAVE_ANDAMENTO = "quem-ta-diario-andamento";
 
 // Dicas: "liga, ano e posicao" ja vem aberta; cada erro SORTEIA uma das outras 6 (no
 // desafio do dia o sorteio e o mesmo pra todo mundo). 5 erros abrem 5 das 6.
@@ -191,13 +194,27 @@ function alvoLivre() {
   return escolha;
 }
 
-function lerVistos() { try { return JSON.parse(localStorage.getItem("quem-ta-vistos")) || []; } catch { return []; } }
+// o localStorage pode vir de versao antiga, de outra aba no meio da escrita ou mexido na mao:
+// tudo que se le dele passa pela forma esperada, e o que nao bate vira "nada guardado"
+function lerGuardado(chave) { try { return JSON.parse(localStorage.getItem(chave)); } catch { return null; } }
+function lerVistos() { const v = lerGuardado("quem-ta-vistos"); return Array.isArray(v) ? v.filter((x) => typeof x === "string") : []; }
 function guardarVisto(chave) {
   try { localStorage.setItem("quem-ta-vistos", JSON.stringify([...lerVistos(), chave].slice(-120))); } catch { /* ok */ }
 }
-function lerDiario() { try { return JSON.parse(localStorage.getItem(CHAVE_DIARIO)) || null; } catch { return null; } }
+const COMO_TERMINOU = new Set(["acertou", "errou", "desistiu"]);
+function lerDiario() {
+  const d = lerGuardado(CHAVE_DIARIO);
+  const ok = d && typeof d === "object" && typeof d.data === "string" && COMO_TERMINOU.has(d.como) && typeof d.chave === "string"
+    && Number.isInteger(d.id) && Number.isInteger(d.numero) && Array.isArray(d.chutes) && d.chutes.every(Number.isInteger);
+  return ok ? d : null;
+}
 const diarioDeHoje = () => { const d = lerDiario(); return d && d.data === hojeLocal() ? d : null; };
-function lerSerie() { try { return JSON.parse(localStorage.getItem(CHAVE_SERIE)) || { atual: 0, melhor: 0 }; } catch { return { atual: 0, melhor: 0 }; } }
+function lerSerie() {
+  const s = lerGuardado(CHAVE_SERIE);
+  const n = (x) => (Number.isInteger(x) && x >= 0 ? x : 0);
+  const atual = n(s && s.atual);
+  return { atual, melhor: Math.max(n(s && s.melhor), atual) };
+}
 
 // --- indice de jogadores -----------------------------------------------------
 
@@ -485,6 +502,7 @@ function chutar(id) {
   if (J.fim || J.chutes.some((c) => c.id === id)) return;
   const ch = comparar(id);
   J.chutes.push(ch);
+  if (J.diario && !ch.certo && J.chutes.length < CHUTES) guardarAndamento();
   evento(`quem/${J.diario ? "diario-" : ""}chute-${J.chutes.length}`);
   $("busca").value = "";
   fecharSugestoes();
@@ -508,6 +526,7 @@ function chutar(id) {
 
 let sugestoes = [];
 let destaque = -1;
+let fecharDepois = null;
 
 function buscar(termo) {
   if (normalizarBusca(termo).trim().length < 2) return [];
@@ -626,6 +645,19 @@ function tremer(elem) {
   elem.tremidaFim = setTimeout(() => elem.classList.remove("tremendo"), 450);
 }
 
+function guardarAndamento() {
+  try {
+    localStorage.setItem(CHAVE_ANDAMENTO, JSON.stringify({ data: J.diario.data, chave: J.alvo.chave, id: J.alvo.j.player_id, chutes: J.chutes.map((c) => c.id) }));
+  } catch { /* ok */ }
+}
+// os chutes ja feitos no desafio de hoje (so se for o mesmo dia e o mesmo jogador)
+function retomarAndamento() {
+  const a = lerGuardado(CHAVE_ANDAMENTO);
+  if (!a || a.data !== J.diario.data || a.chave !== J.alvo.chave || a.id !== J.alvo.j.player_id || !Array.isArray(a.chutes)) return [];
+  const ids = [...new Set(a.chutes)].filter((id) => Number.isInteger(id) && id !== a.id && J.cartasDe.has(id));
+  return ids.slice(0, CHUTES - 1);
+}
+
 function comecar({ diario = false } = {}) {
   J.chutes = [];
   J.fim = null;
@@ -643,6 +675,10 @@ function comecar({ diario = false } = {}) {
   }
   evento(diario ? "quem/diario" : "quem/inicio");
   $("aviso").textContent = "";
+  if (diario) {
+    J.chutes = retomarAndamento().map(comparar);
+    if (J.chutes.length) $("aviso").textContent = `De volta ao desafio #${J.diario.numero}: ${J.chutes.length === 1 ? "1 chute já foi" : `${J.chutes.length} chutes já foram`}, as dicas continuam abertas.`;
+  }
   mostrarTela("tela-jogo");
   desenhar();
   $("busca").value = "";
@@ -656,8 +692,14 @@ function grade() {
   return q.join("");
 }
 
+// toque duplo em "Desistir" ou na sugestao certa: o 2o toque cai no botao que aparece
+// no mesmo lugar da tela do fim ("Jogar de novo"), e o jogador nem via quem era
+const TOQUE_FANTASMA_MS = 450;
+const toqueFantasma = () => performance.now() - (J.fimDesde || 0) < TOQUE_FANTASMA_MS;
+
 function terminar(como, { revisao = false } = {}) {
   J.fim = como;
+  J.fimDesde = performance.now();
   const n = J.chutes.length;
   const { j, time, ano } = J.alvo;
   if (!revisao) evento(`quem/${J.diario ? "diario-" : ""}${como}-${n}`);
@@ -685,6 +727,7 @@ function terminar(como, { revisao = false } = {}) {
   const link = "temdadoemcasa.github.io/quem-ta-em-casa.html";
   const placar = como === "acertou" ? `${n}/${CHUTES}` : `X/${CHUTES}`;
   if (J.diario) {
+    try { localStorage.removeItem(CHAVE_ANDAMENTO); } catch { /* ok */ }
     if (!revisao) try {
       localStorage.setItem(CHAVE_DIARIO, JSON.stringify({
         data: J.diario.data, numero: J.diario.numero, como, chave: J.alvo.chave, id: j.player_id, chutes: J.chutes.map((c) => c.id),
@@ -702,6 +745,20 @@ function terminar(como, { revisao = false } = {}) {
   if (como === "acertou" && !revisao) confete($("fim-carta"));
   $("fim-titulo").focus({ preventScroll: true });
   window.scrollTo({ top: 0, behavior: "auto" });
+}
+
+function copiarNaMao(texto) {
+  const area = el("textarea");
+  area.value = texto;
+  area.setAttribute("readonly", "");
+  area.style.cssText = "position:fixed;top:0;left:0;opacity:0;pointer-events:none";
+  document.body.append(area);
+  area.select();
+  let deu = false;
+  try { deu = document.execCommand("copy"); } catch { deu = false; }
+  area.remove();
+  $("compartilhar").focus({ preventScroll: true });
+  return deu;
 }
 
 function confete(alvo) {
@@ -779,25 +836,35 @@ async function iniciarQuem() {
 
   $("diario").addEventListener("click", () => comecar({ diario: true }));
   $("livre").addEventListener("click", () => comecar());
-  $("de-novo").addEventListener("click", () => { atualizarBotaoDiario(); comecar(); });
-  $("voltar").addEventListener("click", () => { atualizarBotaoDiario(); mostrarTela("tela-inicio"); });
+  $("de-novo").addEventListener("click", () => { if (toqueFantasma()) return; atualizarBotaoDiario(); comecar(); });
+  $("voltar").addEventListener("click", () => { if (toqueFantasma()) return; atualizarBotaoDiario(); mostrarTela("tela-inicio"); });
   $("desistir").addEventListener("click", () => { if (!J.fim) terminar("desistiu"); });
   $("compartilhar").addEventListener("click", async () => {
+    if (toqueFantasma()) return;
     const texto = J.textoCompartilhar;
+    const botao = $("compartilhar");
+    if (navigator.share) {
+      try { await navigator.share({ text: texto }); return; } catch (e) { if (e && e.name === "AbortError") return; /* sem share: tenta copiar */ }
+    }
     try {
-      if (navigator.share) { await navigator.share({ text: texto }); return; }
       await navigator.clipboard.writeText(texto);
-      $("compartilhar").textContent = "Copiado!";
-    } catch { /* cancelou */ }
+      botao.textContent = "Copiado!";
+    } catch {
+      // sem permissao de area de transferencia: o jeito antigo, e se nem ele der, diz como fazer
+      botao.textContent = copiarNaMao(texto) ? "Copiado!" : "Não deu pra copiar: seleciona os quadradinhos";
+    }
   });
 
   const busca = $("busca");
-  busca.addEventListener("input", mostrarSugestoes);
+  busca.addEventListener("input", () => { clearTimeout(fecharDepois); mostrarSugestoes(); });
+  // o blur fecha a lista um pouco depois (da tempo do toque na sugestao chegar); se o campo
+  // voltou a ter foco nesse meio tempo, o fechamento atrasado nao pode apagar a lista nova
+  busca.addEventListener("focus", () => clearTimeout(fecharDepois));
   // no celular o teclado cobre metade da tela: sobe o campo pra lista caber embaixo
   busca.addEventListener("click", () => {
     if (matchMedia("(max-width: 760px)").matches) setTimeout(() => busca.parentElement.scrollIntoView({ block: "start", behavior: "smooth" }), 250);
   });
-  busca.addEventListener("blur", () => setTimeout(fecharSugestoes, 250));
+  busca.addEventListener("blur", () => { clearTimeout(fecharDepois); fecharDepois = setTimeout(fecharSugestoes, 250); });
   busca.addEventListener("keydown", (e) => {
     if (e.key === "ArrowDown" && sugestoes.length) { e.preventDefault(); destaque = (destaque + 1) % sugestoes.length; marcarDestaque(); }
     else if (e.key === "ArrowUp" && sugestoes.length) { e.preventDefault(); destaque = (destaque - 1 + sugestoes.length) % sugestoes.length; marcarDestaque(); }
