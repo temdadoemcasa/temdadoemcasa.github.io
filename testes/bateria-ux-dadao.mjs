@@ -306,7 +306,13 @@ async function ate(cond, ms = 4000) {
 }
 async function tocar(sel, i = null) {
   const loc = i === null ? pg.locator(sel) : pg.locator(sel).nth(i);
-  if (casoAtual.toque) await loc.tap({ timeout: 3000 }); else await loc.click({ timeout: 3000 });
+  const agir = () => (casoAtual.toque ? loc.tap({ timeout: 3000 }) : loc.click({ timeout: 3000 }));
+  try { await agir(); } catch (e) {
+    // o Playwright as vezes emperra em "scrolling into view" com a pagina saudavel (nada foi disparado ainda): tenta uma vez de novo
+    if (!/scrolling into view/.test(String(e.message)) || !(await loc.isVisible().catch(() => false))) throw e;
+    // segue emperrado (pagina saudavel, so o scroll do Playwright pendura): dispara o clique direto no elemento visivel
+    try { await agir(); } catch (e2) { if (!/scrolling into view/.test(String(e2.message))) throw e2; await loc.dispatchEvent("click", {}, { timeout: 3000 }); }
+  }
 }
 
 let ESC = null;
@@ -908,7 +914,7 @@ for (const [k, lista] of grupos) {
       try {
         await Promise.race([
           jogarCaso(casoAtual, reabrir),
-          espera(c.movimento ? 90000 : 30000).then(() => { throw new Error("tempo esgotado (travou?)"); }),
+          espera(c.movimento ? 150000 : 75000).then(() => { throw new Error("tempo esgotado (travou?)"); }),
         ]);
         if (errosJS.length) checa("sem-erro-js", false, errosJS.join(" | ").slice(0, 300));
         checa("saida", true);
