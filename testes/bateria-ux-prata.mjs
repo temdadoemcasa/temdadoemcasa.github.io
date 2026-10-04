@@ -6,7 +6,7 @@
 //   python3 -m http.server 8766 &                       (na raiz do repo)
 //   node testes/bateria-ux-prata.mjs                    (CI: 300 casos, ~5 min)
 //   CASOS=4000 node testes/bateria-ux-prata.mjs         (bateria cheia, ~1 h)
-//   CASOS=1 SO=1234 node testes/bateria-ux-prata.mjs    (repete so o caso 1234)
+//   SO=1234 node testes/bateria-ux-prata.mjs            (repete so o caso 1234; SO=57,58 repete os dois em sequencia)
 //   SEMENTE=7 muda o conjunto de sementes; ACELERA=5 divide os setTimeout da
 //   pagina (as esperas de animacao) por 5 -- so no teste, a regra do jogo nao muda.
 //
@@ -20,7 +20,7 @@ import { mkdirSync, writeFileSync } from "node:fs";
 const BASE = process.env.BASE || "http://localhost:8766";
 const CASOS = Number(process.env.CASOS || 300);
 const SEMENTE = Number(process.env.SEMENTE || 1);
-const SO = process.env.SO ? Number(process.env.SO) : null;
+const SO = process.env.SO ? process.env.SO.split(",").map(Number) : null; // SO=57,58 repete esses casos em sequencia
 const ACELERA = Number(process.env.ACELERA || 5);
 const PAGINA = BASE + "/prata-da-casa.html";
 
@@ -333,7 +333,7 @@ async function jogarTemporadaClicando(p, r, pol) {
 }
 
 // tela final: numeros coerentes, compartilhar e "Nova carreira"
-async function conferirFim(p, r) {
+async function conferirFim(p, r, sempreNova = false) {
   await p.waitForSelector("#tela-fim:not([hidden])", { timeout: 10000 }).catch(() => {});
   const e = await verificarTela(p, "tela final");
   if (!checar("aposentadoria chega na tela final", e.tela === "fim", `tela ${e.tela}`)) return;
@@ -358,7 +358,7 @@ async function conferirFim(p, r) {
     checar("texto de compartilhar coerente", ok, JSON.stringify(txt).slice(0, 300));
   } else checar("texto de compartilhar coerente", false, "sem botão de copiar");
   // nova carreira volta pro comeco
-  if (r() < 0.6) {
+  if (sempreNova || r() < 0.6) {
     const nova = p.locator("#relatorio button", { hasText: /Nova carreira|Jogar de novo|Outra carreira/ }).first();
     checar("tela final tem 'jogar de novo'", (await nova.count()) === 1, "sem botão de nova carreira");
     if (await nova.count()) {
@@ -366,7 +366,7 @@ async function conferirFim(p, r) {
       const t = await p.evaluate(ESTADO);
       checar("'Nova carreira' volta pra criação", t.tela === "criar", t.tela);
       // e a carreira seguinte comeca limpa
-      if (r() < 0.5) {
+      if (sempreNova || r() < 0.5) {
         await criarPelasFuncoes(p, r);
         const e3 = await verificarTela(p, "carreira depois de 'Nova carreira'");
         checar("carreira nova começa do zero", e3.anos === 0 && e3.linhas === 1, JSON.stringify(e3));
@@ -479,11 +479,25 @@ async function casoTemporada(p, r) {
 async function casoFim(p, r) {
   await criarPelasFuncoes(p, r);
   const goleiro = await p.evaluate(() => funcaoDe(C.pos) === "GOL");
-  const alvo = (goleiro ? 36 : 34) - 16 + Math.floor(r() * 5) - 1; // perto da idade de pendurar
+  // perto da idade de pendurar; um quarto vai direto pro ultimo ano (40, goleiro 42),
+  // que acaba sozinho com "Ver a aposentadoria"
+  const ultimo = r() < 0.25;
+  const alvo = ultimo ? (goleiro ? 42 : 40) - 17 : (goleiro ? 36 : 34) - 16 + Math.floor(r() * 5) - 1;
   await avancar(p, alvo);
   const e = await verificarTela(p, `veterano (${alvo} anos de carreira)`);
   const x = r();
   if (e.aposentado) { await tocar(p, p.locator("#proxima")); return conferirFim(p, r); }
+  if (ultimo) {
+    casoAtual.passo = "último ano";
+    const res = await jogarTemporadaClicando(p, r, ["aleatoria", "primeira", "maiorChance"][Math.floor(r() * 3)]);
+    if (res === "aposentado") {
+      const rot = (await p.evaluate(ESTADO)).proxima;
+      checar("último ano termina em 'Ver a aposentadoria'", /aposentadoria/i.test(rot || ""), `botão "${rot}"`);
+      await tocar(p, p.locator("#proxima"));
+      return conferirFim(p, r, true);
+    }
+    return;
+  }
   if (x < 0.4 && e.pendurar) {
     casoAtual.passo = "pendurar";
     await tocar(p, p.locator("#pendurar"));
@@ -600,7 +614,7 @@ async function casoPaginaNova(r, semente) {
 // --- roda --------------------------------------------------------------------------------
 const inicio = Date.now();
 const tipos = {};
-const lista = SO !== null ? [SO] : Array.from({ length: CASOS }, (_, i) => i);
+const lista = SO !== null ? SO : Array.from({ length: CASOS }, (_, i) => i);
 for (const i of lista) {
   const semente = sementeDo(i);
   const r = prng(semente);

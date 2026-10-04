@@ -2905,6 +2905,9 @@ function iniciarTelaCarreira() {
     el("h3", "temporada-titulo", `Aprovado na peneira: ${C.J.clube.nome}, ${C.J.clube.liga}`),
     el("p", "nota", "Agora é com você. Os minutos dependem de passar o titular da posição; jogando bem, clube maior aparece com proposta. Um olheiro na arquibancada certa também ajuda."),
   );
+  // "Nova carreira" depois de uma aposentadoria: o botao ainda dizia "Ver a aposentadoria"
+  $("proxima").textContent = "Jogar a temporada";
+  $("proxima").hidden = false;
   $("proxima").disabled = false;
   $("tudo").disabled = false;
   desenharPainelJogador();
