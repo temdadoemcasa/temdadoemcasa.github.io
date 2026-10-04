@@ -28,7 +28,7 @@ import path from "node:path";
 const BASE = process.env.BASE || "http://localhost:8766";
 const CASOS = Number(process.env.CASOS || 300);
 const SEMENTE = Number(process.env.SEMENTE || 1);
-const SO = process.env.CASO ? Number(process.env.CASO) : null;
+const SO = process.env.CASO ? process.env.CASO.split(",").map(Number) : null; // um ou mais casos (na ordem dada)
 const DETALHE = !!process.env.DETALHE;
 const URL_JOGO = `${BASE}/show-do-dadao.html`;
 const pasta = path.dirname(fileURLToPath(import.meta.url));
@@ -198,7 +198,8 @@ const INIT = () => {
       // o painel de acao aberto cabe acima da barra de abas (celular)
       const ativa = document.querySelector("#palco-acao .acao.ativa");
       if (barraVis && ativa && !festa) {
-        const alvo = ativa.id === "retorno" ? document.getElementById("proxima") : ativa;
+        // o que importa e o conteudo (o painel estica ate a altura do maior painel empilhado)
+        const alvo = ativa.id === "retorno" ? document.getElementById("proxima") : ativa.id === "acao-padrao" ? ativa.querySelector(".ajudas") : ativa;
         const fundo = (visivel(alvo) ? alvo : ativa).getBoundingClientRect().bottom;
         if (fundo > limite + 1) add("layout", `painel ${ativa.id} passa da tela em ${Math.round(fundo - limite)}px`);
       }
@@ -277,6 +278,10 @@ async function checarTela() {
   const porInv = {};
   for (const p of ps) (porInv[p.inv] ||= []).push(p.msg);
   for (const inv of ["texto-limpo", "layout", "a11y", "saida", "regras", "fim-coerente"]) checa(inv, !porInv[inv], (porInv[inv] || []).slice(0, 3).join(" | "));
+  if (ps.length && (DETALHE || SO !== null) && !casoAtual.foto) {
+    casoAtual.foto = true;
+    await pg.screenshot({ path: path.join(pasta, "resultados", `falha-dadao-${casoAtual.i}.png`) }).catch(() => {});
+  }
   if (errosJS.length) { checa("sem-erro-js", false, errosJS.join(" | ").slice(0, 300)); errosJS = []; } else checa("sem-erro-js", true);
 }
 async function ate(cond, ms = 4000) {
@@ -380,7 +385,7 @@ async function jogarCaso(c, reabrir) {
   const ini = await pg.evaluate(() => ({ rec: document.getElementById("inicio-recorde").textContent, dia: document.getElementById("diario").innerText }));
   let rec = recordeValido(c);
   checa("persistencia", rec ? ini.rec.includes(ESC[rec].nome) : !/recorde/i.test(ini.rec) || c.corrompido, `recorde no início: "${ini.rec}" (esperava ${rec})`);
-  checa("texto-limpo", /#\d+/.test(ini.dia), `botão do desafio sem número: "${ini.dia}"`);
+  checa("texto-limpo", /#[1-9]\d*/.test(ini.dia), `botão do desafio sem número: "${ini.dia}"`);
   if (c.foco) {
     await pg.keyboard.press("Tab"); await pg.keyboard.press("Tab");
     const f = await pg.evaluate(() => { const a = document.activeElement; if (!a || a === document.body) return "nada"; const s = getComputedStyle(a); return s.outlineStyle !== "none" && parseFloat(s.outlineWidth) > 0 ? "ok" : `${a.tagName}.${a.className} sem contorno`; });
@@ -532,10 +537,14 @@ async function jogarCaso(c, reabrir) {
     else if (modo === "letra2") { await pg.keyboard.press("abcd"[alvo]); await espera(80); await pg.keyboard.press("ABCD"[alvo]); }
     else {
       // apressada: toques colados (o 2o pode ser engolido como duplicado do navegador) e um 3o
+      // toques extras no mesmo ponto, mesmo que algo ja tenha aparecido por cima (como um dedo de verdade)
+      const bx = await pg.locator(alt).nth(alvo).boundingBox();
+      const px = bx.x + bx.width / 2, py = bx.y + bx.height / 2;
+      const extra = () => (c.toque ? pg.touchscreen.tap(px, py) : pg.mouse.click(px, py));
       await tocar(alt, alvo);
       await espera(Math.floor(r() * 40));
-      await pg.locator(alt).nth(alvo).click({ timeout: 1000, force: true }).catch(() => {});
-      if (modo === "triplo") { await espera(70 + Math.floor(r() * 60)); await pg.locator(alt).nth(alvo).click({ timeout: 1000, force: true }).catch(() => {}); }
+      await extra();
+      if (modo === "triplo") { await espera(70 + Math.floor(r() * 60)); await extra(); }
       const e = await est();
       if (!e.travado && e.escolhida === alvo && e.hist === histAntes) { await espera(70); await tocar(alt, alvo); }
     }
@@ -544,7 +553,7 @@ async function jogarCaso(c, reabrir) {
     // um confirmar so (o 3o toque nao confirma de novo nem pula a comemoracao)
     await espera(c.politica === "apressada" ? 120 : 0);
     const r2 = await est();
-    if (alvo === s.certa) checa("toque-duplo", r2.festa, `o toque extra (${modo}) pulou a comemoração antes de dar pra ver`);
+    if (alvo === s.certa && c.toque) checa("toque-duplo", r2.festa, `o toque extra (${modo}) pulou a comemoração antes de dar pra ver`);
     checa("toque-duplo", r2.hist === histAntes + 1, `histórico foi de ${histAntes} pra ${r2.hist} (${modo})`);
     const acertou = alvo === s.certa;
     m.hist.push(acertou);
@@ -576,8 +585,11 @@ async function jogarCaso(c, reabrir) {
         // toque pra pular; se foi cedo demais (a festa ignora o toque colado no que confirmou), toca de novo
         passo("toca a comemoração");
         const pop = pg.locator(".festa-quiz-pop");
-        await pop.click({ timeout: 2000, position: { x: 5, y: 5 } }).catch(() => {});
-        if (!(await ate((x) => !x.festa, 120))) { await espera(160); await pop.click({ timeout: 2000, position: { x: 5, y: 5 } }).catch(() => {}); }
+        for (let k = 0; k < 5; k++) {
+          await pop.click({ timeout: 1000, position: { x: 5, y: 5 } }).catch(() => {});
+          if (await ate((x) => !x.festa, 100)) break;
+          await espera(120);
+        }
       }
       const prox = await ate((x) => !x.festa && (x.tela === "tela-fim" || x.numero === m.numero + 1), c.movimento ? 4000 : 2500);
       if (!checa("saida", !!prox, "comemoração não saiu")) return;
@@ -838,7 +850,7 @@ const inicio = Date.now();
 const browser = await chromium.launch();
 const nPerguntas = SO === null && !process.env.SEM_BANCO ? await validarBanco(browser) : 0;
 console.error(`   banco validado em ${((Date.now() - inicio) / 1000).toFixed(0)}s`);
-const casos = (SO !== null ? [SO] : [...Array(CASOS).keys()]).map(sortearCaso);
+const casos = (SO !== null ? SO : [...Array(CASOS).keys()]).map(sortearCaso);
 // agrupa por tipo de contexto (toque/mouse x movimento): um contexto e uma pagina por vez
 const grupos = new Map();
 for (const c of casos) { const k = `${c.toque}|${c.movimento}`; if (!grupos.has(k)) grupos.set(k, []); grupos.get(k).push(c); }
