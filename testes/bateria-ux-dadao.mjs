@@ -149,6 +149,17 @@ const INIT = () => {
     return true;
   };
   window.__visivel = visivel;
+  // por que um elemento nao esta visivel (pra mensagem de falha dizer a causa)
+  window.__porque = (e) => {
+    if (!e) return "não existe";
+    const r = e.getBoundingClientRect();
+    if (r.width < 1 || r.height < 1) return `tamanho ${Math.round(r.width)}x${Math.round(r.height)}`;
+    for (let n = e; n && n.nodeType === 1; n = n.parentElement) {
+      const st = getComputedStyle(n);
+      if (st.display === "none" || st.visibility === "hidden" || Number(st.opacity) < 0.02 || n.hidden) return `${n.id || n.className || n.tagName} display=${st.display} visibility=${st.visibility} opacity=${st.opacity} hidden=${n.hidden}`;
+    }
+    return "ok";
+  };
   // problemas genericos da tela: [{ inv, msg }]
   window.__checar = () => {
     const P = [];
@@ -441,8 +452,10 @@ async function jogarCaso(c, reabrir) {
     if (c.abaCarta && r() < 0.3 && await pg.locator(".abas-mobile").isVisible()) {
       passo("aba Sua carta");
       await tocar(".aba-mobile", 1);
-      const ok = await pg.evaluate(() => window.__visivel(document.querySelector("#quiz-carta .carta")) && window.__visivel(document.getElementById("escada")));
-      checa("feedback", ok, "aba Sua carta não mostrou carta e escada");
+      // a carta entra com um fade de 0,45s: espera as animacoes acabarem antes de medir
+      await pg.evaluate(() => Promise.all(document.getAnimations().map((a) => a.finished.catch(() => {})))).catch(() => {});
+      const por = await pg.evaluate(() => `carta: ${window.__porque(document.querySelector("#quiz-carta .carta"))}; escada: ${window.__porque(document.getElementById("escada"))}`);
+      checa("feedback", por === "carta: ok; escada: ok", `aba Sua carta não mostrou carta e escada (${por})`);
       await checarTela();
       await tocar(".aba-mobile", 0);
     }
@@ -898,7 +911,7 @@ for (const [k, lista] of grupos) {
           await abrir();
           if (tentativa === 0) continue;
         }
-        checa("saida", false, `exceção: ${String(e.message || e).split("\n")[0].slice(0, 200)}`);
+        checa("saida", false, `exceção: ${String(e.message || e).split("\n").map((l) => l.trim()).filter(Boolean).slice(0, 8).join(" | ").slice(0, 600)}`);
         await pg.close().catch(() => {});
         await abrir();
       }
