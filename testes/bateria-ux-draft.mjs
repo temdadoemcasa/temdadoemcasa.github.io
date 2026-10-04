@@ -117,7 +117,9 @@ async function caso(p, semente, cfg, registro) {
   const tMarca = Date.now();
   const marcar = (o) => { passo++; ondeEstou = o; if (process.env.TEMPOS) console.error(`  [${semente}] ${Date.now() - tMarca} ms ${o}`); };
   const auditar = async (onde) => {
+    const t0 = Date.now();
     const a = await p.evaluate(() => window.__auditar());
+    if (process.env.TEMPOS) console.error(`  [${semente}] auditar ${onde}: ${Date.now() - t0} ms`);
     confere('texto sem undefined/null/NaN/[object/Infinity', !a.podre.length, `${onde}: ${a.podre.join(', ')}`);
     confere('sem numero negativo absurdo', !a.negativo.length, `${onde}: ${a.negativo.join(', ')}`);
     confere('nome/numero que devia estar la nao vem vazio', !a.vazios.length, `${onde}: ${a.vazios.join(', ')}`);
@@ -149,7 +151,7 @@ async function caso(p, semente, cfg, registro) {
     await loc.click(opcoes);
   };
   // (parado) espera a rolagem suave parar (gente nao acerta botao que esta passando embaixo do dedo)
-  const parado = () => p.evaluate(() => new Promise((ok) => { let y = scrollY, n = 0, t = 0; const f = () => { if (scrollY === y) { if (++n > 2) return ok(); } else { n = 0; y = scrollY; } if (++t > 90) return ok(); requestAnimationFrame(f); }; requestAnimationFrame(f); }));
+  const parado = () => p.evaluate(() => new Promise((ok) => { let y = scrollY, n = 0, t = 0; const f = () => { if (scrollY === y) { if (++n > 1) return ok(); } else { n = 0; y = scrollY; } if (++t > 90) return ok(); requestAnimationFrame(f); }; requestAnimationFrame(f); }));
 
   await p.evaluate((s) => window.__semear(s), semente);
   await p.evaluate(() => window.__erros.splice(0));
@@ -195,7 +197,7 @@ async function caso(p, semente, cfg, registro) {
   // ---- 2. draft
   const politica = cfg.politicaDraft;
   const desistirEm = politica === 'desiste' ? 1 + Math.floor(rng() * 14) : -1;
-  let escolhas = 0, toques = 0;
+  let escolhas = 0, toques = 0, ultimaTela = null;
   const lequesVistos = new Map();
   if (desafio && registro.primeiroLeque && registro.primeiroLeque[esquema]) {
     const l = await p.evaluate(() => D.leques[D.vaga].map((j) => j.player_id).join(','));
@@ -214,18 +216,21 @@ async function caso(p, semente, cfg, registro) {
       await erros('recarga no draft');
       return 'desistiu';
     }
-    const s0 = await st();
-    const leque = await p.evaluate(() => {
+    // uma ida a pagina so: estado, leque e a conferencia dele
+    const { s0, leque, nCartas, semRepetir } = await p.evaluate(() => {
       const slot = [...D.onze, ...D.banco][D.vaga];
-      return D.leques[D.vaga].map((j, i) => ({ i, id: j.player_id, ovr: j.overall, enc: encaixeNaVaga(j, slot.pos), val: valorNaVaga(j, slot.pos) }));
+      const no = new Set([...D.onze, ...D.banco].map((x) => x.jogador).filter(Boolean));
+      return {
+        s0: window.__estado(), nCartas: document.querySelectorAll('#leque .opcao').length, semRepetir: D.leques[D.vaga].every((j) => !no.has(j)),
+        leque: D.leques[D.vaga].map((j, i) => ({ i, id: j.player_id, ovr: j.overall, enc: encaixeNaVaga(j, slot.pos), val: valorNaVaga(j, slot.pos) })),
+      };
     });
-    const nCartas = await p.locator('#leque .opcao').count();
-    confere('leque mostra as cartas da vaga (1 a 5, sem repetir quem ja esta no time)', nCartas === leque.length && nCartas >= 1 && nCartas <= 5
-      && await p.evaluate(() => { const no = new Set([...D.onze, ...D.banco].map((s) => s.jogador).filter(Boolean)); return D.leques[D.vaga].every((j) => !no.has(j)); }), `${nCartas} cartas`);
+    confere('leque mostra as cartas da vaga (1 a 5, sem repetir quem ja esta no time)', nCartas === leque.length && nCartas >= 1 && nCartas <= 5 && semRepetir, `${nCartas} cartas`);
     if (!lequesVistos.has(s0.vaga)) lequesVistos.set(s0.vaga, new Set(leque.map((x) => x.id)));
     const r = rng();
     // acoes que nao sao escolher: mexer de vaga, tocar outra vaga vazia, trocar o leque
     if ((politica === 'mexe' && r < 0.45) || (politica !== 'mexe' && r < 0.06)) {
+      ultimaTela = null;
       const cheias = await p.locator('#gramado .vaga.vaga-cheia').count();
       if (cheias && rng() < 0.7) {
         marcar('toca jogador pra mudar de posicao');
@@ -282,8 +287,10 @@ async function caso(p, semente, cfg, registro) {
     else i = Math.floor(rng() * leque.length);
     marcar(`escolhe carta ${i + 1} (${politica})`);
     const vagaAntes = s0.vaga;
-    await parado();
-    const antes = await impressao();
+    // a tela de antes: a do fim da escolha anterior (se nada mexeu desde entao)
+    if (!ultimaTela) await parado();
+    const antes = ultimaTela || await impressao();
+    ultimaTela = null;
     if (politica === 'teclado') {
       // foco por teclado de verdade (Tab), senao o navegador nao mostra o :focus-visible
       await p.locator('#leque .opcao').nth(i).focus();
@@ -300,19 +307,22 @@ async function caso(p, semente, cfg, registro) {
       await p.locator('#leque .opcao').nth(i).click({ force: !cfg.reduzido && rng() < 0.6 });
     }
     escolhas++;
-    const s1 = await st();
     const id = leque[i].id;
-    const entrou = await p.evaluate(([k, id]) => [...D.onze, ...D.banco][k].jogador?.player_id === id, [vagaAntes, id]);
-    confere('escolher carta: o jogador entra na vaga certa', entrou, `vaga ${vagaAntes}`);
-    if (politica === 'duplo') {
-      const quantas = await p.evaluate(() => [...D.onze, ...D.banco].filter((s) => s.jogador).length);
-      confere('toque duplo nao escolhe duas cartas', quantas === escolhas, `${quantas} vagas cheias com ${escolhas} escolhas`);
-    }
-    confere('feedback imediato a cada escolha', (await impressao()) !== antes);
-    // o "tempo de ver" a carta: a trava de toque duplo (350 ms) ja passou
-    await p.evaluate(() => { travaEscolhaAte = 0; });
-    if (rng() < 0.2) await auditar(`draft (vaga ${s1.vaga})`);
-    void s1;
+    // depois do toque, numa ida so: entrou?, quantas vagas cheias, a tela mudou?; e
+    // o "tempo de ver" a carta (a trava de toque duplo de 350 ms ja passou)
+    const depois = await p.evaluate(([k, id]) => {
+      const todas = [...D.onze, ...D.banco];
+      const m = document.querySelector('main');
+      const r = { entrou: todas[k].jogador?.player_id === id, quantas: todas.filter((x) => x.jogador).length,
+        tela: m.innerText.length + '|' + m.innerText.slice(0, 4000) + '|' + [...m.querySelectorAll('[aria-pressed=true],[aria-selected=true],.vaga-ativa,.vaga-movendo,.vaga-destino')].length + '|' + window.scrollY };
+      travaEscolhaAte = 0;
+      return r;
+    }, [vagaAntes, id]);
+    confere('escolher carta: o jogador entra na vaga certa', depois.entrou, `vaga ${vagaAntes}`);
+    if (politica === 'duplo') confere('toque duplo nao escolhe duas cartas', depois.quantas === escolhas, `${depois.quantas} vagas cheias com ${escolhas} escolhas`);
+    confere('feedback imediato a cada escolha', depois.tela !== antes);
+    ultimaTela = depois.tela;
+    if (rng() < 0.12) { await auditar(`draft (escolha ${escolhas})`); }
   }
 
   // ---- 3. resumo
