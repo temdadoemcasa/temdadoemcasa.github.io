@@ -1,4 +1,15 @@
-# RETOMAR — minigames (Prata da Casa e Tem Time em Casa)
+# RETOMAR — minigames
+
+## 04/10 -- bateria de UX de 4.000 casos por jogo + 5º minigame (Top 10 em Casa)
+
+Contexto completo no `RETOMAR.md` do futdata (seção 04/10). Resumo:
+- Branch base `bateria-ux-4k` (= main cc62578). Branches por jogo (locais, worktrees em /tmp): `ux4k-prata`, `ux4k-dadao`,
+  `ux4k-draft`, `ux4k-quemta`. Cada uma cria `testes/bateria-ux-<jogo>.mjs` (`CASOS=4000` = cheia; default curto pro CI),
+  corrige o que achou (com prova por mutação) e deixa o jogo mais positivo, sem mexer em balanceamento.
+- Próximo passo: juntar as 4 em `bateria-ux-4k`, trocar os `?v=`, `node testes/rodar.mjs` verde, PR pro main (conta temdadoemcasa).
+- Top 10 em Casa: dados gerados no futdata (`futdata export-top10` → `dados/top10.json`); páginas `top10-em-casa.html`,
+  `top10.js`, `top10.css` ainda por fazer (Tasks 5–8 do plano no futdata).
+
 
 Atualizado em **2026-09-27 (noite)**. Branch `prata-evolucao-e-caminho` (saiu de `integracao-main`), no GitHub, **não está no `main`**.
 
