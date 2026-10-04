@@ -2221,6 +2221,8 @@ function linhaDoDesafio(pos, titulos) {
 // --- liga tudo -----------------------------------------------------------------------
 
 // dificuldade (chips) e desafio do dia (mesmos leques pra todo mundo no dia)
+// redesenha os chips a partir do D (a temporada retomada pode ter trazido um desafio)
+let redesenharDificuldade = () => {};
 function ligarDificuldadeEDesafio() {
   const caixa = $("dificuldade");
   const nota = $("dificuldade-nota");
@@ -2261,6 +2263,7 @@ function ligarDificuldadeEDesafio() {
       desenhar();
     });
   }
+  redesenharDificuldade = desenhar;
   desenhar();
 }
 
@@ -2329,6 +2332,7 @@ async function iniciarDraft() {
   $("sim-ir").addEventListener("click", simularAlvo);
   $("de-novo").addEventListener("click", () => {
     definirQuemSai();
+    redesenharDificuldade();
     mostrar("clube");
     mostrarRecordeNoClube();
     mostrarRetomar();
