@@ -874,7 +874,16 @@ for (const [k, lista] of grupos) {
   let ctx = null;
   let reabrir = false;
   // abre contexto e pagina; se o chromium caiu (falta de memoria na maquina), sobe outro
-  const abrir = async () => {
+  const abrir = async (tentativa = 0) => {
+    try { await abrir1(); } catch (e) {
+      if (tentativa >= 3) throw e;
+      quedas += 1;
+      await browser.close().catch(() => {});
+      browser = await chromium.launch(); ctx = null;
+      await abrir(tentativa + 1);
+    }
+  };
+  const abrir1 = async () => {
     if (!browser.isConnected()) { quedas += 1; browser = await chromium.launch(); ctx = null; }
     if (!ctx) {
       ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: toque, hasTouch: toque, reducedMotion: mov ? "no-preference" : "reduce", acceptDownloads: true });
@@ -905,7 +914,7 @@ for (const [k, lista] of grupos) {
         checa("saida", true);
         reabrir = true;
       } catch (e) {
-        if (!browser.isConnected()) {
+        if (!browser.isConnected() || /has been closed|Target closed|crashed/i.test(String(e.message))) {
           // o navegador morreu (nao foi o jogo): desfaz as checagens do caso e repete do zero
           for (const [n, v] of Object.entries(JSON.parse(salvo))) { contagem[n].n = v.n; contagem[n].falhas.length = v.f; }
           await abrir();
