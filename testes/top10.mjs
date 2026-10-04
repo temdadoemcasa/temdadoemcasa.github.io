@@ -125,4 +125,63 @@ for (const [rm, esperaFesta] of [['no-preference', 1], ['reduce', 0]]) {
   ok(!/#\d/.test(await q.evaluate(() => textoCompartilhar())), 'livre: compartilhar sem numero do dia');
   await c2.close();
 }
+
+// --- revisao final: sorteio por rendezvous, diario jogado, recorte no compartilhar, antes do #1, vistos ---
+const comRelogio = async (quando) => {
+  const cx = await b.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' });
+  await cx.clock.setFixedTime(new Date(quando));
+  const q = await cx.newPage(); q.on('pageerror', (e) => erros.push(e.message));
+  await q.goto(BASE + '/top10-em-casa.html'); await q.waitForSelector('#form-inicio:not([hidden])');
+  return [cx, q];
+};
+{
+  // tirar um ranking que nao e o vencedor nao muda o dia de ninguem (30 dias)
+  const [cx, q] = await comRelogio('2026-10-07T12:00:00');
+  const r = await q.evaluate(() => {
+    const dias = Array.from({ length: 30 }, (_, i) => hojeLocal(new Date(2026, 9, 5 + i)));
+    const antes = dias.map((d) => rankingDoDia(d).id);
+    const vencedores = new Set(antes);
+    const tirado = T.rankings.map((x) => x.id).find((id) => !vencedores.has(id));
+    T.rankings = T.rankings.filter((x) => x.id !== tirado);
+    const depois = dias.map((d) => rankingDoDia(d).id);
+    return { antes, depois, tirado, distintos: vencedores.size };
+  });
+  ok(r.tirado && r.antes.join() === r.depois.join(), `tirar ${r.tirado} nao muda nenhum dos 30 dias`);
+  ok(r.distintos > 20, `30 dias com rankings variados (${r.distintos} distintos)`);
+  // o vencedor e o menor hash de data|id
+  const certo = await q.evaluate(() => {
+    const d = '2026-10-09';
+    const min = T.rankings.map((x) => x.id).sort().reduce((m, id) => (hashTexto(`${d}|${id}`) < hashTexto(`${d}|${m}`) ? id : m));
+    return rankingDoDia(d).id === min;
+  });
+  ok(certo, 'desafio do dia = menor hashTexto(data|id)');
+  // S4/S3: depois do #1 tem numero, e o compartilhar leva o recorte
+  ok(/nº 3(?!\d)/.test(await q.textContent('#card-dia')), 'card do dia em 07/10 mostra nº 3');
+  await q.click('#jogar-dia'); await q.waitForSelector('#tela-jogo:not([hidden])');
+  const linha1 = await q.evaluate(() => textoCompartilhar().split('\n')[0]);
+  const esperado = await q.evaluate(() => `Top 10 em Casa #3 · ${T.ranking.titulo} (${T.ranking.recorte})`);
+  ok(linha1 === esperado, `compartilhar com numero e recorte: ${linha1}`);
+  // S5: jogar o diario marca como visto para a partida livre
+  const hoje = await q.evaluate(() => T.ranking.id);
+  ok(await q.evaluate((id) => (JSON.parse(localStorage.getItem('top10:vistos')) || []).includes(id), hoje), 'diario jogado entra nos vistos');
+  // S2: diario terminado -> o inicio mostra o resultado e "Ver de novo"
+  ok((await q.textContent('#jogar-dia')).trim() === 'Jogar o desafio do dia', 'antes de terminar: botao de jogar');
+  await q.evaluate(acabarDiario(7)); await q.waitForSelector('#tela-fim:not([hidden])');
+  await q.click('#voltar'); await q.waitForSelector('#tela-inicio:not([hidden])');
+  ok(/7\/10 hoje/.test(await q.textContent('#card-dia')) && (await q.textContent('#jogar-dia')).trim() === 'Ver de novo', `inicio com o diario jogado: ${(await q.textContent('#card-dia')).trim().slice(0, 80)}`);
+  await q.reload(); await q.waitForSelector('#form-inicio:not([hidden])');
+  ok(/7\/10 hoje/.test(await q.textContent('#card-dia')) && (await q.textContent('#jogar-dia')).trim() === 'Ver de novo', 'continua depois de recarregar');
+  await cx.close();
+}
+{
+  // S4: antes do INICIO nao existe numero (nem nº 1 forcado)
+  const [cx, q] = await comRelogio('2026-10-03T12:00:00');
+  const card = await q.textContent('#card-dia');
+  ok(!/nº|#\d/.test(card) && /Desafio do dia/.test(card), `antes do #1 o card nao tem numero: ${card.trim().slice(0, 50)}`);
+  await q.click('#jogar-dia'); await q.waitForSelector('#tela-jogo:not([hidden])');
+  const linha1 = await q.evaluate(() => textoCompartilhar().split('\n')[0]);
+  ok(!/#/.test(linha1) && linha1.includes(`(${await q.evaluate(() => T.ranking.recorte)})`), `antes do #1 o compartilhar nao tem numero: ${linha1}`);
+  await cx.close();
+}
+ok(!erros.length, 'sem erro de JS na revisao final ' + erros.join(' | '));
 await b.close();

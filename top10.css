@@ -14,6 +14,7 @@
 .top10 .inicio-form { display: grid; gap: 0.7rem; max-width: 26rem; }
 .card-dia { display: grid; gap: 0.4rem; padding: 1rem 1.1rem; border: 1px solid var(--borda); border-radius: var(--raio); background: var(--fundo-cartao); }
 .card-dia-rotulo { color: var(--texto-fraco); font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+.card-dia-feito { color: var(--acerto); font-family: var(--numeros); font-size: 1.1rem; }
 .ranking-info { display: grid; gap: 0.15rem; }
 .ranking-titulo { font-family: var(--numeros); font-size: 1.7rem; line-height: 1.05; text-transform: uppercase; }
 .ranking-sub { color: var(--texto); }

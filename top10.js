@@ -32,16 +32,6 @@ function hashTexto(texto) {
   for (const b of new TextEncoder().encode(texto)) h = Math.imul(h ^ b, 16777619) >>> 0;
   return h;
 }
-// mulberry32: pequeno, rapido e igual em todo navegador
-function sementeRng(semente) {
-  let a = semente >>> 0;
-  return () => {
-    a = (a + 0x6d2b79f5) >>> 0;
-    let x = Math.imul(a ^ (a >>> 15), 1 | a);
-    x = (x + Math.imul(x ^ (x >>> 7), 61 | x)) ^ x;
-    return ((x ^ (x >>> 14)) >>> 0) / 4294967296;
-  };
-}
 function hojeLocal(d = new Date()) {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 }
@@ -50,22 +40,18 @@ function numeroDoDia(data) {
   return Math.round((dia(data) - dia(INICIO)) / 86400000) + 1;
 }
 
-// a fila do desafio: os ids embaralhados uma vez, sempre na mesma ordem
-function filaDoDesafio() {
-  const ids = T.rankings.map((r) => r.id).sort();
-  const rng = sementeRng(hashTexto("top10-v1"));
-  for (let i = ids.length - 1; i > 0; i--) {
-    const j = Math.floor(rng() * (i + 1));
-    [ids[i], ids[j]] = [ids[j], ids[i]];
-  }
-  return ids;
-}
+// rendezvous: o desafio do dia D e o id de menor hashTexto("D|id") (empate: o
+// menor id). Entrar ou sair um ranking so muda os dias que ele venceria
 function rankingDoDia(data) {
-  const fila = filaDoDesafio();
-  // antes do desafio #1 o modulo continua valendo (indice nunca negativo)
-  const i = (((numeroDoDia(data) - 1) % fila.length) + fila.length) % fila.length;
-  return T.rankings.find((r) => r.id === fila[i]);
+  let melhor = null, menor = Infinity;
+  for (const r of T.rankings) {
+    const h = hashTexto(`${data}|${r.id}`);
+    if (h < menor || (h === menor && r.id < melhor.id)) { melhor = r; menor = h; }
+  }
+  return melhor;
 }
+// o diario ja acabou (guardado com fim, sem vidas ou com os 10)
+const diarioAcabou = (salvo) => salvo.fim || salvo.erros.length >= VIDAS || salvo.acertos.length >= 10;
 
 function lerVistos() { try { return JSON.parse(localStorage.getItem(CHAVE_VISTOS)) || []; } catch { return []; } }
 function guardarVisto(id) {
@@ -143,7 +129,13 @@ function descricaoDoRanking(r) {
 function atualizarInicio() {
   const r = rankingDoDia(hojeLocal());
   const card = $("card-dia");
-  card.replaceChildren(el("small", "card-dia-rotulo", `Desafio do dia · nº ${Math.max(numeroDoDia(hojeLocal()), 1)}`), descricaoDoRanking(r));
+  // antes do #1 nao existe numero (nada de "nº 1" forcado)
+  const numero = numeroDoDia(hojeLocal());
+  card.replaceChildren(el("small", "card-dia-rotulo", numero >= 1 ? `Desafio do dia · nº ${numero}` : "Desafio do dia"), descricaoDoRanking(r));
+  const salvo = lerDiario(r);
+  const jogado = salvo && diarioAcabou(salvo);
+  if (jogado) card.append(el("b", "card-dia-feito", `${salvo.acertos.length}/10 hoje`));
+  $("jogar-dia").textContent = jogado ? "Ver de novo" : "Jogar o desafio do dia";
   const serie = lerSerie();
   const viva = serie.ultimo === hojeLocal() || serie.ultimo === ontemDe(hojeLocal());
   if (!viva) serie.atual = 0;
@@ -191,7 +183,7 @@ async function comecar({ diario = false } = {}) {
   T.vidas = VIDAS;
   T.fim = false;
   T.diario = diario ? { data: hojeLocal(), numero: numeroDoDia(hojeLocal()) } : null;
-  if (!diario) guardarVisto(ranking.id);
+  guardarVisto(ranking.id); // o diario tambem: a livre nao serve o de hoje logo depois
   $("cabeca-titulo").textContent = ranking.titulo;
   $("cabeca-sub").textContent = ranking.sub;
   $("cabeca-recorte").textContent = ranking.recorte;
@@ -206,7 +198,7 @@ async function comecar({ diario = false } = {}) {
     T.acertos = new Set(salvo.acertos);
     T.erros = salvo.erros.map((id) => ({ player_id: id, tipo: ranking.quase.some((q) => q.player_id === id) ? "quase" : "fora" }));
     T.vidas = Math.max(0, VIDAS - T.erros.length);
-    T.fim = salvo.fim || T.vidas <= 0 || T.acertos.size >= 10;
+    T.fim = diarioAcabou(salvo);
   }
   desenharVidas();
   desenharBarras();
@@ -315,9 +307,9 @@ function mostrarFim({ contarSerie }) {
 function textoCompartilhar() {
   const n = T.acertos.size;
   const quadrados = T.ranking.top.map((t) => (T.acertos.has(t.player_id) ? "🟩" : "⬛")).join("");
-  const numero = T.diario ? ` #${Math.max(T.diario.numero, 1)}` : "";
+  const numero = T.diario && T.diario.numero >= 1 ? ` #${T.diario.numero}` : "";
   const restantes = `${T.vidas} ${T.vidas === 1 ? "vida restante" : "vidas restantes"}`;
-  return `Top 10 em Casa${numero} · ${T.ranking.titulo}\n${quadrados}\n${n}/10 · ❤️ ${restantes}\nhttps://temdadoemcasa.github.io/top10-em-casa.html`;
+  return `Top 10 em Casa${numero} · ${T.ranking.titulo} (${T.ranking.recorte})\n${quadrados}\n${n}/10 · ❤️ ${restantes}\nhttps://temdadoemcasa.github.io/top10-em-casa.html`;
 }
 
 // --- busca com autocompletar (do Quem Ta em Casa) ----------------------------
