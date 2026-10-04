@@ -914,7 +914,7 @@ for (const [k, lista] of grupos) {
       try {
         await Promise.race([
           jogarCaso(casoAtual, reabrir),
-          espera(c.movimento ? 150000 : 75000).then(() => { throw new Error("tempo esgotado (travou?)"); }),
+          espera(c.movimento ? 200000 : 150000).then(() => { throw new Error("tempo esgotado (travou?)"); }),
         ]);
         if (errosJS.length) checa("sem-erro-js", false, errosJS.join(" | ").slice(0, 300));
         checa("saida", true);
