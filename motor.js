@@ -60,8 +60,11 @@
     const c = calib || {};
     const k = c.K ?? K;
     const base = neutro ? (c.neutro ?? MEDIA_NEUTRO) : null;
-    let mc = (base ?? c.casa ?? MEDIA_CASA) * Math.exp((casa.atq - fora.def) / k);
-    let mf = (base ?? c.fora ?? MEDIA_FORA) * Math.exp((fora.atq - casa.def) / k);
+    // satura (opcional): a diferenca de forca cresce cada vez menos (tanh). Entre times
+    // parecidos quase nada muda; gigante x time da Serie D nao vira 6 a 0 toda hora.
+    const dif = (d) => (c.satura ? c.satura * Math.tanh(d / c.satura) : d);
+    let mc = (base ?? c.casa ?? MEDIA_CASA) * Math.exp(dif(casa.atq - fora.def) / k);
+    let mf = (base ?? c.fora ?? MEDIA_FORA) * Math.exp(dif(fora.atq - casa.def) / k);
     const [am, av] = c.altitude || [1.25, 0.85];
     if (!neutro && casa.altitude && !fora.altitude) { mc *= am; mf *= av; }
     return [mc, mf];
@@ -138,6 +141,24 @@
       placar[lado] += 1;
     }
     eventos.sort((x, y) => x.min - y.min);
+    // calib.folga = [vantagem, fica]: quem ja ganha por `vantagem` gols tira o pe; cada gol a
+    // mais so acontece com chance `fica` (o placar de 6 a 0 em todo jogo contra time pequeno
+    // virava agregado de 12 a 0). Entre times parecidos quase nunca entra em jogo.
+    if (calib && calib.folga) {
+      const [vantagem, fica] = calib.folga;
+      const corrente = { casa: 0, fora: 0 };
+      for (let i = 0; i < eventos.length; i++) {
+        const e = eventos[i];
+        if (e.tipo !== "gol") continue;
+        const outro = e.lado === "casa" ? "fora" : "casa";
+        if (corrente[e.lado] - corrente[outro] >= vantagem && rng() >= fica) {
+          eventos.splice(i--, 1);
+          placar[e.lado] -= 1;
+          continue;
+        }
+        corrente[e.lado] += 1;
+      }
+    }
     return { gc: placar.casa, gf: placar.fora, eventos };
   }
   Motor.jogar = jogar;

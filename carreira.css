@@ -751,3 +751,5 @@
   .atributo-faixa, .atributo-faixa::-webkit-slider-runnable-track { height: 1.75rem; }
   .atributo-faixa::-webkit-slider-thumb { margin-top: 0.42rem; }
 }
+/* os raios da festa (520px) vazavam pro lado no celular de 360: a camada corta o que passa */
+.festa { overflow: hidden; }

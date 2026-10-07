@@ -695,3 +695,41 @@ button.vaga:hover .vaga-vazia { border-color: var(--canal); color: var(--canal);
 
 /* celular: select com letra >= 16px (senao o iPhone da zoom ao tocar) e faixa com alvo maior */
 @media (max-width: 760px) { select { font-size: 16px !important; } }
+
+/* janela de transferencias v2: grade alinhada em vez de pilulas soltas */
+.janela-lista { display: grid; gap: 0.8rem; }
+.janela-grupo { display: grid; gap: 0.4rem; }
+.janela-grupo-titulo { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--texto-fraco); }
+.janela-grade { display: grid; grid-template-columns: repeat(auto-fill, minmax(10.5rem, 1fr)); gap: 0.4rem; }
+.janela-jogador {
+  position: relative; display: grid; grid-template-columns: 2.6rem minmax(0, 1fr) auto; align-items: center; gap: 0.5rem;
+  min-height: 44px; padding: 0.4rem 0.6rem; border-radius: 10px; border: 1px solid var(--borda); background: var(--fundo-cartao);
+  color: var(--texto); font: inherit; text-align: left; cursor: pointer; transition: border-color 0.15s, transform 0.15s;
+}
+.janela-jogador:hover { border-color: var(--canal); }
+.janela-jogador.escolhido { border-color: var(--canal); background: color-mix(in srgb, var(--canal) 12%, var(--fundo-cartao)); }
+.janela-jogador.mais-fraco { border-style: dashed; border-color: color-mix(in srgb, #f2c230 70%, var(--borda)); }
+.janela-jogador.lesionado { border-color: color-mix(in srgb, #ff4d6d 60%, var(--borda)); }
+.jj-pos { display: grid; place-items: center; height: 1.6rem; border-radius: 6px; font-family: var(--numeros); font-weight: 800; font-size: 0.8rem; letter-spacing: 0.02em; color: #111; background: #8b949e; }
+.jj-pos.setor-g { background: #f2c230; }
+.jj-pos.setor-d { background: #4cc9f0; }
+.jj-pos.setor-m { background: #3ddc84; }
+.jj-pos.setor-f { background: #ff7d95; }
+.jj-nome { font-weight: 700; font-size: 0.92rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.jj-ovr { font-family: var(--numeros); font-weight: 800; font-size: 1.15rem; }
+.jj-selo { grid-column: 2 / span 2; margin-top: -0.2rem; font-size: 0.68rem; font-weight: 700; color: #f2c230; }
+.janela-jogador.lesionado .jj-selo { color: #ff7d95; }
+.janela-pra-vaga { scroll-margin-top: 7rem; }
+@media (max-width: 760px) {
+  .janela-grade { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .janela-jogador { grid-template-columns: 2.3rem minmax(0, 1fr) auto; gap: 0.4rem; padding: 0.35rem 0.5rem; }
+  .jj-pos { font-size: 0.72rem; }
+  .jj-nome { font-size: 0.85rem; }
+}
+@media (max-width: 760px) {
+  .janela-jogador { grid-template-columns: 1.95rem minmax(0, 1fr) auto; gap: 0.3rem; padding: 0.35rem 0.4rem; }
+  .jj-pos { height: 1.4rem; font-size: 0.64rem; border-radius: 5px; }
+  .jj-nome { font-size: 0.82rem; letter-spacing: -0.01em; }
+  .jj-ovr { font-size: 1rem; }
+  .janela { padding: 0.9rem 0.8rem; }
+}

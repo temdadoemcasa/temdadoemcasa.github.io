@@ -1825,6 +1825,7 @@ function montarAbasMobile(secao, abas, inicial) {
 }
 
 // PWA: instalavel e abre offline (sw.js). Localhost fica de fora pra nao atrapalhar o desenvolvimento.
-if ("serviceWorker" in navigator && !/^(localhost|127\.)/.test(location.hostname)) {
+// (fora do navegador, como na bateria do node, nao tem navigator: nao faz nada)
+if (typeof navigator !== "undefined" && "serviceWorker" in navigator && typeof location !== "undefined" && !/^(localhost|127\.)/.test(location.hostname || "")) {
   window.addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));
 }

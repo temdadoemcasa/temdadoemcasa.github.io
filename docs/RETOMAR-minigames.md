@@ -60,6 +60,16 @@ Depois do merge: bateria do Prata com todas as metas PASSA; auge aleatório 13,3
 - Você escolhe a vaga: toque na vaga vazia abre o leque dela; toque no jogador e no destino muda de posição (ou troca dois que cabem na vaga um do outro).
 - **Fim do roubo** (ir e voltar com o ⇄ refazia o leque): cada vaga sorteia UMA vez no draft; a vaga que esvazia volta com o que sobrou do leque dela. Teste em `testes-ui.js` (falha com o código antigo).
 
+### Tem Time em Casa: placar crível (06/10)
+- Dono reclamou de agregado de 12 a 0 e 13 a 0 contra Criciúma e Puerto Cabello. `motor_ttc.folga = [3, 0.5]`: quem já
+  ganha por 3 tira o pé (cada gol a mais sai com 50%); `casa`/`fora` subiram (1,32 / 1,015) pra manter ~2,38 gols/jogo.
+  `scripts/bateria/draft/goleadas.js`: saldo 8+ num mata-mata 11,7% → ~7% das temporadas; 5+ de diferença 1,5% → 0,6%.
+  Metas: mesmas 7 FAIL de antes em número (fácil e difícil passaram; normal/inteligente 28,4 → 27,8%, na borda).
+- `motor.js` também aceita `satura` (tanh na diferença de força), testado e NÃO usado (tirava gol demais contra time fraco).
+- Janela de transferências no celular: grade alinhada (titulares/banco), setor colorido, selo no titular mais fraco.
+- `scripts/bateria/package.json` = commonjs (o `package.json` da raiz é module, dos testes Playwright) e o registro do
+  service worker no `app.js` checa `navigator`: as duas coisas tinham quebrado a bateria no node.
+
 ## Decisões com o dono (pendentes)
 
 1. **Freios do time montado** (`draft.js:611`): um onze de média 85 empata com Palmeiras (83,7) e Flamengo (84,1) porque (a) time novo −1,4 de entrosamento, (b) o que passa do elenco mais forte da CPU rende 25%, (c) teto ~+3 sobre o clube mais forte. Proposta: rende 50% e teto +6 → quem monta bem vai de ~31% pra ~40–45% de título brasileiro. Dono disse "show" — confirmar antes de mexer.
