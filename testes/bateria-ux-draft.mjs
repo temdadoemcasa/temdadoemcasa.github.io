@@ -417,9 +417,9 @@ async function caso(p, semente, cfg, registro) {
       await ocioso();
       const c = (await st()).cartao;
       if (c === 'decisivo') { marcar('roteiro: postura do decisivo'); await clicar(p.locator('#jogo .pd-posturas .botao', { hasText: rng() < 0.5 ? 'Pra cima' : 'Fechadinho' })); if ((await st()).animando) await clicar('#proximo'); await ocioso(); }
-      else if (c === 'janela' && await p.locator('#jogo .janela-lista .chip').count()) {
+      else if (c === 'janela' && await p.locator('#jogo .janela-lista .janela-jogador').count()) {
         marcar('roteiro: janela');
-        await clicar(p.locator('#jogo .janela-lista .chip').nth(Math.floor(rng() * 16)));
+        await clicar(p.locator('#jogo .janela-lista .janela-jogador').nth(Math.floor(rng() * 16)));
         await clicar(p.locator('#jogo .leque-janela .opcao').first());
       }
     }
@@ -522,10 +522,10 @@ async function caso(p, semente, cfg, registro) {
           await clicar(p.locator('#jogo .janela .botao', { hasText: 'Seguir sem trocar' }));
           confere('"Seguir sem trocar" fecha a janela', (await st()).cartao == null && await p.locator('#jogo .janela').count() === 0);
         } else {
-          const chips = await p.locator('#jogo .janela-lista .chip').count();
+          const chips = await p.locator('#jogo .janela-lista .janela-jogador').count();
           confere('janela lista os 16 do elenco', chips === 16, `${chips}`);
           marcar('janela: escolhe quem sai');
-          await clicar(p.locator('#jogo .janela-lista .chip').nth(Math.floor(rng() * chips)));
+          await clicar(p.locator('#jogo .janela-lista .janela-jogador').nth(Math.floor(rng() * chips)));
           const cartas = await p.locator('#jogo .leque-janela .opcao').count();
           confere('janela mostra cartas pra vaga escolhida', cartas >= 1, `${cartas}`);
           if (cartas) {

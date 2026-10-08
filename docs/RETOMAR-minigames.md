@@ -19,15 +19,19 @@ Atualizado em **2026-09-27 (noite)**. Branch `prata-evolucao-e-caminho` (saiu de
   abre desde o início; cada erro SORTEIA uma de 6 dicas (seleção, ranking na posição (pelo overall, na liga e ano da carta), 2 maiores atributos, overall,
   número e jogos, cores do clube com a cor do número), com animação de dado no cartão. No desafio do dia a ordem
   vem da semente da data (`ordemDoDia`), igual pra todo mundo. Desafio a partir de 02/10: 3 de 5 dias Brasileirão,
-  Europa só `GRANDES_DA_EUROPA` ou 84+, uma carta por jogador. Chute compara clube, posição, seleção e overall (01/10). Chute
+  Europa só `GRANDES_DA_EUROPA` ou 84+, uma carta por jogador. A partir de 05/10: só carta 83+ (`OVERALL_MINIMO`), no desafio e na partida livre. Chute compara clube, posição, seleção e overall (01/10). Chute
   errado compara clube, posição e overall (sem nota = "— OVR"). Desafio do dia (só temporada fechada, liga nova entra
   por data em `FASES_DO_DESAFIO`), partida livre com filtro Tudo/Brasileirão/Europa. Cartas: Brasileirão 2024-2026,
   Premier, LaLiga e Champions 25/26 (`dados/retratos-europa.json`). Teste: `testes/quem-ta.mjs` (45 checagens; 9
   mutações pegas na 1ª versão).
 - **Pacote de craque** (home, à esquerda do campinho): uma carta 83+ do Brasileirão ou da Europa. `testes/pacote-craque.mjs`.
 - **Home:** os 4 minigames em grade 2x2; depois vídeos; depois seleção (pacote + campinho).
-- **Próximo:** quando a Ligue 1/Bundesliga/Serie A ITA forem coletadas no futdata, exportar, pôr em
-  `retratos-europa.json`, rodar `export-paises` e criar uma fase nova (data futura) em `FASES_DO_DESAFIO`.
+- **Desafio desde 02/10:** uma carta por jogador, Europa só de clube grande (`GRANDES_DA_EUROPA`) ou carta 84+, 3 de 5
+  dias do Brasileirão (`PADRAO_DO_DESAFIO`).
+- **Ligue 1 25/26 (01/10):** só na partida livre (`retratos-europa.json`); fora do desafio até o dono decidir as cartas
+  (Lens acima do PSG campeão) e a recalibração da Série A pela EA. Entrar no desafio = fase nova com data futura.
+- **Próximo:** Bundesliga e Serie A ITA quando o futdata coletar: exportar, pôr em `retratos-europa.json`, rodar
+  `export-paises`; no desafio, só por fase nova (data futura) em `FASES_DO_DESAFIO`.
 - **Pendente com o dono:** Champions tem notas espremidas (máx. 17 jogos; Kairat média 73,6 > Wolves 67,6); sorteio da
   Champions usa piso de 900 min (76 cartas).
 
@@ -66,6 +70,16 @@ Depois do merge: bateria do Prata com todas as metas PASSA; auge aleatório 13,3
 ### Tem Time em Casa (draft)
 - Você escolhe a vaga: toque na vaga vazia abre o leque dela; toque no jogador e no destino muda de posição (ou troca dois que cabem na vaga um do outro).
 - **Fim do roubo** (ir e voltar com o ⇄ refazia o leque): cada vaga sorteia UMA vez no draft; a vaga que esvazia volta com o que sobrou do leque dela. Teste em `testes-ui.js` (falha com o código antigo).
+
+### Tem Time em Casa: placar crível (06/10)
+- Dono reclamou de agregado de 12 a 0 e 13 a 0 contra Criciúma e Puerto Cabello. `motor_ttc.folga = [3, 0.5]`: quem já
+  ganha por 3 tira o pé (cada gol a mais sai com 50%); `casa`/`fora` subiram (1,32 / 1,015) pra manter ~2,38 gols/jogo.
+  `scripts/bateria/draft/goleadas.js`: saldo 8+ num mata-mata 11,7% → ~7% das temporadas; 5+ de diferença 1,5% → 0,6%.
+  Metas: mesmas 7 FAIL de antes em número (fácil e difícil passaram; normal/inteligente 28,4 → 27,8%, na borda).
+- `motor.js` também aceita `satura` (tanh na diferença de força), testado e NÃO usado (tirava gol demais contra time fraco).
+- Janela de transferências no celular: grade alinhada (titulares/banco), setor colorido, selo no titular mais fraco.
+- `scripts/bateria/package.json` = commonjs (o `package.json` da raiz é module, dos testes Playwright) e o registro do
+  service worker no `app.js` checa `navigator`: as duas coisas tinham quebrado a bateria no node.
 
 ## Decisões com o dono (pendentes)
 

@@ -775,3 +775,5 @@
   .temporada-destaque, .bl-final { animation: none; }
   .evento-opcao:active, .proposta .botao:active, #proxima:active { transform: none; }
 }
+/* os raios da festa (520px) vazavam pro lado no celular de 360: a camada corta o que passa */
+.festa { overflow: hidden; }

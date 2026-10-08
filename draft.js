@@ -1611,16 +1611,36 @@ function cartaoJanela() {
   const card = el("div", "janela");
   card.append(el("strong", "pd-titulo", "Janela de transferências aberta"),
     el("p", "pd-dica", "Pausa da Copa do Mundo: você pode trocar 1 jogador do elenco. Quem sai? Aparecem 5 cartas pra vaga dele."));
+  // grade alinhada (titulares e banco), setor colorido e o overall a direita; o titular
+  // mais fraco ganha um selo: e o candidato natural a sair
   const lista = el("div", "janela-lista");
-  todasVagas().forEach((slot, k) => {
-    if (!slot.jogador) return;
-    const j = slot.jogador;
-    const lesao = D.temp.ttc.lesoes.get(j);
-    const b = el("button", "chip", `${VAGAS[slot.pos][1]} ${sobrenome(j.nome)} ${j.overall}${lesao ? ` · lesionado (${lesao})` : ""}`);
-    b.type = "button";
-    b.addEventListener("click", () => mostrarLequeDaJanela(card, k));
-    lista.append(b);
-  });
+  const setor = (pos) => (/GOL/.test(pos) ? "g" : /^(LD|LE|ALD|ALE|ZAG|RDEF)$/.test(pos) ? "d" : /^(VOL|MC|MEI|RMEI)$/.test(pos) ? "m" : /^(PD|PE|MD|ME|CA|RATA)$/.test(pos) ? "f" : "r");
+  const titulares = D.onze.filter((s) => s.jogador);
+  const maisFraco = titulares.length ? titulares.reduce((a, b) => (b.jogador.overall < a.jogador.overall ? b : a)).jogador : null;
+  const grupo = (titulo, de, ate) => {
+    const sec = el("div", "janela-grupo");
+    sec.append(el("span", "janela-grupo-titulo", titulo));
+    const grade = el("div", "janela-grade");
+    todasVagas().forEach((slot, k) => {
+      if (k < de || k >= ate || !slot.jogador) return;
+      const j = slot.jogador;
+      const lesao = D.temp.ttc.lesoes.get(j);
+      const b = el("button", `janela-jogador${j === maisFraco ? " mais-fraco" : ""}${lesao ? " lesionado" : ""}`);
+      b.type = "button";
+      b.title = `${j.nome} · ${VAGAS[slot.pos][2]}${lesao ? ` · lesionado (${lesao})` : ""}`;
+      b.append(el("span", `jj-pos setor-${setor(slot.pos)}`, VAGAS[slot.pos][1]), el("span", "jj-nome", sobrenome(j.nome)), el("b", "jj-ovr", String(j.overall)));
+      if (lesao) b.append(el("small", "jj-selo", "🚑 lesionado"));
+      else if (j === maisFraco) b.append(el("small", "jj-selo", "o mais fraco"));
+      b.addEventListener("click", () => {
+        for (const x of lista.querySelectorAll(".janela-jogador")) x.classList.toggle("escolhido", x === b);
+        mostrarLequeDaJanela(card, k);
+      });
+      grade.append(b);
+    });
+    sec.append(grade);
+    return sec;
+  };
+  lista.append(grupo("Titulares", 0, D.onze.length), grupo("Banco", D.onze.length, Infinity));
   const seguir = el("button", "botao", "Seguir sem trocar");
   seguir.type = "button";
   seguir.addEventListener("click", () => { D.temp.ttc.janelaUsada = true; fecharCartao(); atualizarPaineis(); });
@@ -1647,7 +1667,11 @@ function mostrarLequeDaJanela(card, k) {
     leque.append(b);
   }
   for (const v of card.querySelectorAll(".leque-janela")) v.remove();
-  card.append(el("p", "pd-dica", `Pra vaga de ${sobrenome(slot.jogador.nome)} (${VAGAS[slot.pos][2]}):`), leque);
+  for (const v of card.querySelectorAll(".janela-pra-vaga")) v.remove();
+  const rotulo = el("p", "pd-dica janela-pra-vaga", `Pra vaga de ${sobrenome(slot.jogador.nome)} (${VAGAS[slot.pos][2]}):`);
+  card.append(rotulo, leque);
+  // no celular as cartas ficam la embaixo: rola ate elas
+  if (matchMedia("(max-width: 760px)").matches) rotulo.scrollIntoView({ block: "start", behavior: movimentoReduzido ? "auto" : "smooth" });
 }
 
 const simularAteDecisivo = () => simular(() => false, { botao: $("ate-decisivo") });

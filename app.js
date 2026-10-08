@@ -1362,11 +1362,16 @@ function iniciarVitrine() {
   botao.addEventListener("click", novoEnvelope);
 }
 
-// --- pacote de craque: uma carta 83+ do Brasileirao ou da Europa ---------------
+// --- pacote de craque: uma carta de craque do Brasileirao ou da Europa ---------
 // So pela resenha, ao lado do campinho. Chance igual pra cada craque (a melhor
 // carta de cada um), e o pool aparece escrito embaixo. Os retratos da Europa so
-// carregam no primeiro clique.
+// carregam no primeiro clique. Piso por liga desde 04/10: a regua da liga tira
+// 5 do topo do Brasileirao (86 -> 81), entao o 83 de antes la e 78 hoje; na
+// Europa segue 83.
 const PISO_DO_CRAQUE = 83;
+const PISO_DO_CRAQUE_BRASIL = 78;
+const doBrasileirao = (r) => !r.torneio || r.torneio === 325;
+const pisoDoCraque = (r) => (doBrasileirao(r) ? PISO_DO_CRAQUE_BRASIL : PISO_DO_CRAQUE);
 
 async function poolDeCraques() {
   const [anos, europa] = await Promise.all([json("dados/temporadas.json"), json("dados/retratos-europa.json").catch(() => [])]);
@@ -1374,7 +1379,7 @@ async function poolDeCraques() {
   const melhor = new Map();
   for (const r of retratos.filter(Boolean)) {
     for (const j of r.indice.comNota) {
-      if (j.overall < PISO_DO_CRAQUE || !r.indice.ranqueavel(j)) continue;
+      if (j.overall < pisoDoCraque(r) || !r.indice.ranqueavel(j)) continue;
       const atual = melhor.get(j.player_id);
       if (!atual || j.overall > atual.j.overall) melhor.set(j.player_id, { j, r });
     }
@@ -1390,13 +1395,13 @@ function iniciarPacoteDeCraque() {
   const chances = document.getElementById("craque-chances");
   let pool = null;
   const carregar = () => (pool ||= poolDeCraques().then((p) => {
-    const br = p.filter(({ r }) => !r.torneio || r.torneio === 325).length;
-    chances.textContent = `Só craque ${PISO_DO_CRAQUE}+: ${br} do Brasileirão e ${p.length - br} da Europa, chance igual pra cada um.`;
+    const br = p.filter(({ r }) => doBrasileirao(r)).length;
+    chances.textContent = `Só craque: ${br} do Brasileirão (${PISO_DO_CRAQUE_BRASIL}+) e ${p.length - br} da Europa (${PISO_DO_CRAQUE}+), chance igual pra cada um.`;
     return p;
   }));
 
   const novo = () => {
-    const envelope = montarEnvelope("83+");
+    const envelope = montarEnvelope("78+ / 83+");
     envelope.querySelector(".envelope-titulo").textContent = "Craque";
     envelope.setAttribute("aria-label", "Rasgar o pacote de craque");
     palco.className = "palco";
@@ -1820,6 +1825,7 @@ function montarAbasMobile(secao, abas, inicial) {
 }
 
 // PWA: instalavel e abre offline (sw.js). Localhost fica de fora pra nao atrapalhar o desenvolvimento.
-if ("serviceWorker" in navigator && !/^(localhost|127\.)/.test(location.hostname)) {
+// (fora do navegador, como na bateria do node, nao tem navigator: nao faz nada)
+if (typeof navigator !== "undefined" && "serviceWorker" in navigator && typeof location !== "undefined" && !/^(localhost|127\.)/.test(location.hostname || "")) {
   window.addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));
 }

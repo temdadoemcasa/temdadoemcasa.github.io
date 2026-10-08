@@ -22,6 +22,7 @@ node scripts/bateria/draft/estrela.js 40 50           # um concreto no lugar de 
 node scripts/bateria/draft/decisivos.js 300 humano    # paradas "Até o próximo decisivo" por temporada, por competição e por mês
 node scripts/bateria/draft/libertadores-prata.js 600   # Libertadores no mundo do Prata (calibragem padrão do motor)
 node scripts/bateria/draft/emocao.js <tudo.jsonl>     # drafts com 2+ concretos e leques com tijolo+ (também sai no metas.js, grupo [E])
+node scripts/bateria/draft/goleadas.js 300 melhor     # goleadas: % de jogos 6+ gols e 5+ de diferença, gols contra time 10+ mais fraco, maior saldo num mata-mata
 ```
 
 - A saída vai para `${TMPDIR:-/tmp}/bateria-draft/`, fora do repo. O `.jsonl` tem uns 5 MB. Para mudar a pasta, use `SAIDA=<pasta>`.

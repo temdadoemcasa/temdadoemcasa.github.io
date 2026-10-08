@@ -45,7 +45,7 @@ const cartaEstado = (p) => p.evaluate(() => {
   });
   let e = await cartaEstado(p);
   ok(e.ocultos === 6 && e.overall === '?' && e.nome === '? ? ?', `antes do 1º chute: 6 atributos, overall e nome escondidos (${e.ocultos}, ${e.overall}, ${e.nome})`);
-  ok(/(Brasileirão 20\d\d|Premier \d\d\/\d\d|Champions \d\d\/\d\d)/.test(e.info), `dica 1 (liga e ano) aparece desde o início (${e.info})`);
+  ok(/(Brasileirão 20\d\d|Premier \d\d\/\d\d|LaLiga \d\d\/\d\d|Ligue 1 \d\d\/\d\d|Champions \d\d\/\d\d)/.test(e.info), `dica 1 (liga e ano) aparece desde o início (${e.info})`);
   const alvoNome = await p.evaluate(() => J.alvo.j.nome);
   const usados = [];
   const passo = async () => { const id = await errado(p, usados); usados.push(id); await chutarId(p, id); return cartaEstado(p); };
@@ -178,13 +178,17 @@ const cartaEstado = (p) => p.evaluate(() => {
   const p = await abrir(ctx);
   const dias = await p.evaluate(() => ['2026-10-01', '2026-10-02', '2026-10-03'].map((d) => { const a = alvoDoDia(d); return `${a.chave}-${a.j.player_id}`; }));
   ok(new Set(dias).size === 3, `três dias, três jogadores (${dias.join(', ')})`);
-  const fechadas = ['2024', '2025', 'premier-league-2025', 'laliga-2025', 'champions-2025'];
+  const fechadas = ['2024', '2025', 'premier-league-2025', 'laliga-2025', 'ligue1-2025', 'champions-2025'];
   const fases = await p.evaluate(() => FASES_DO_DESAFIO.map((f) => [...new Set(candidatos(f.retratos).map((c) => c.chave))].sort()));
   ok(fases.every((f) => f.length && f.every((k) => fechadas.includes(k))), `desafio só sorteia temporada fechada (${JSON.stringify(fases)})`);
   // liga nova entra a partir de uma data: o desafio de um dia que ja passou nao muda
   const dia1 = await p.evaluate(() => faseDoDia('2026-09-30').retratos.includes('laliga-2025'));
   const dia2 = await p.evaluate(() => faseDoDia('2026-10-02').retratos.includes('laliga-2025'));
   ok(!dia1 && dia2, 'LaLiga entra no desafio só a partir de 01/10');
+  // Ligue 1 so na partida livre por enquanto: o desafio de 02/10 em diante ja foi anunciado
+  const ligueNoDesafio = await p.evaluate(() => FASES_DO_DESAFIO.some((f) => f.retratos.includes('ligue1-2025')));
+  const ligueNaLivre = await p.evaluate(() => candidatos(null).some((c) => c.chave === 'ligue1-2025'));
+  ok(!ligueNoDesafio && ligueNaLivre, 'Ligue 1 na partida livre e fora do desafio do dia');
   ok(!dias.some((d) => d.startsWith('2026-')), 'desafio nunca sorteia 2026 (em andamento)');
   const pisoOk = await p.evaluate(() => candidatos(null).every((c) => c.j.minutos >= (c.r.torneio === 7 ? 900 : 1500) && c.j.overall !== null));
   ok(pisoOk, 'sorteio só com nota calculada e 1.500+ minutos (900 na Champions)');
