@@ -12,7 +12,7 @@
   "altitude": [1.03, 0.97],
   "menos_zero": 0.2,
   "regua_dp": 4.0,
-  "estrangeiros": 3.1,
+  "estrangeiros": 1.2,
   "estrangeiros_pais": { "ARG": -0.6 },
   "estrangeiros_teto": 56
  },

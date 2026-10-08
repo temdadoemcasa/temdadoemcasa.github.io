@@ -96,8 +96,8 @@ const TETO_ESTRELAS = 0.1;
 // joelho do elenco (pontos em relacao ao elenco mais forte da CPU, antes de
 // entrosamento e esquema) e quanto cada ponto rende acima dele
 const JOELHO_ELENCO = -8.5;
-const RENDE_ACIMA_DO_JOELHO = 0.25;
-const TETO_FOLGA = 3; // o time pronto pode passar o clube mais forte por ate 3 pontos cheios
+const RENDE_ACIMA_DO_JOELHO = 0.5; // 0,25 ate 08/10: quem montava bem empatava com Palmeiras/Flamengo (decisao do dono)
+const TETO_FOLGA = 6; // o time pronto pode passar o clube mais forte por ate 6 pontos cheios (3 ate 08/10)
 // lesao por jogador por jogo (so no seu clube; a CPU ja entra com a media do elenco)
 const TAXA_LESAO = 0.006;
 // Chances do leque: abrir figurinha de craque e a graca. Com estas, ~78% dos
@@ -209,6 +209,9 @@ const LADO_DA_VAGA = { LD: "D", ALD: "D", LE: "E", ALE: "E" };
 // brasileiro e o "inteligente" (encaixe, entrosamento e eixos) ~31% (G6 ~92%),
 // com ~3 pontos a mais que a maior nota; sempre a pior cai em ~71%. Facil:
 // inteligente campeao ~43%; Dificil: ~18%.
+// 08/10 (dono): freios mais leves (RENDE_ACIMA_DO_JOELHO 0,5, TETO_FOLGA 6). Bateria de 5.000 no
+// Normal: inteligente campeao ~44% (era ~28%), maior nota ~31%, ao acaso igual (mediana 9o);
+// Facil ~59%, Dificil ~28%.
 const chancesDoLeque = () => (DIFICULDADES[D.dificuldade] || DIFICULDADES.normal).chances;
 
 // todas as vagas: o onze e depois o banco (D.vaga indexa essa lista)
