@@ -456,3 +456,12 @@
   .retorno.errou .retorno-textos p, .retorno.errou .retorno-textos p:first-child { font-size: 0.86rem; line-height: 1.3; }
   .retorno.errou .botao { padding-block: 0.45rem; }
 }
+
+/* tela final no celular: a regra "lado a lado" acima e do painel de parar; aqui sao 4 botoes.
+   Jogar de novo em cima, largo; compartilhar e stories lado a lado; trocar nome discreto */
+@media (max-width: 760px) {
+  .fim-textos .confirmar-botoes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem; }
+  .fim-textos .confirmar-botoes .botao { min-width: 0; padding: 0.75rem 0.6rem; font-size: 0.92rem; line-height: 1.2; text-align: center; justify-content: center; white-space: normal; }
+  .fim-textos .confirmar-botoes .botao-primario { grid-column: 1 / -1; font-size: 1rem; }
+  .fim-textos .confirmar-botoes #trocar { grid-column: 1 / -1; background: transparent; border-color: transparent; color: var(--texto-fraco); padding-block: 0.4rem; text-decoration: underline; text-underline-offset: 3px; }
+}
