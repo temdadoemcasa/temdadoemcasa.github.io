@@ -6,10 +6,14 @@ import { chromium } from 'playwright';
 const BASE = process.env.BASE || 'http://localhost:8766';
 const ok = (c, m) => console.log(c ? 'OK  ' : 'FALHA', m);
 const b = await chromium.launch();
-for (const semJson of [false, true]) {
+// sem o arquivo (404) e com o arquivo incompleto: nos dois o jogo abre com as formulas de antes
+for (const caso of ['com', '404', 'incompleto']) {
+  const semJson = caso !== 'com';
   const p = await b.newPage();
   const erros = []; p.on('pageerror', (e) => erros.push(e.message));
-  if (semJson) await p.route('**/dados/mercado.json', (r) => r.fulfill({ status: 404, body: '' }));
+  if (caso === '404') await p.route('**/dados/mercado.json', (r) => r.fulfill({ status: 404, body: '' }));
+  if (caso === 'incompleto') await p.route('**/dados/mercado.json', (r) => r.fulfill({ status: 200, contentType: 'application/json',
+    body: JSON.stringify({ valor: { coef: [1, 2] }, escada: {}, preco: { BRA1: [1, 'x'] } }) }));
   await p.goto(BASE + '/prata-da-casa.html');
   await p.waitForFunction(() => typeof C !== 'undefined' && C.r && C.inferiores, null, { timeout: 30000 });
   const r = await p.evaluate(() => {
@@ -30,7 +34,7 @@ for (const semJson of [false, true]) {
       topoB: Math.max(...ultimaB), nivelA,
     };
   });
-  const rot = semJson ? 'sem mercado.json' : 'com mercado.json';
+  const rot = caso === 'com' ? 'com mercado.json' : caso === '404' ? 'sem mercado.json' : 'mercado.json incompleto';
   ok(r.temMercado === !semJson, `${rot}: C.mercado ${r.temMercado}`);
   ok(r.v80 > r.v70 && r.v80velho < r.v80, `${rot}: valor sobe com o overall e cai depois dos 30 (${r.v70}, ${r.v80}, ${r.v80velho})`);
   ok(Number.isFinite(r.v16) && Number.isFinite(r.v41) && r.v16 > 0, `${rot}: idade 16 e 41 dão valor finito (${r.v16}, ${r.v41})`);

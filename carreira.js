@@ -4202,6 +4202,16 @@ function criarJogador() {
   C.J.valor = valorDeMercado(C.J);
 }
 
+// mercado.json so vale inteiro: cada numero que o jogo usa tem que existir e ser
+// finito; um campo faltando faria o valor sair NaN (ou a carreira nao abrir)
+function mercadoValido(m) {
+  const finitos = (a, n) => Array.isArray(a) && a.length === n && a.every(Number.isFinite);
+  const v = m && m.valor, e = m && m.escada, p = m && m.preco;
+  return !!(v && finitos(v.coef, 6) && Number.isFinite(v.idade_min) && Number.isFinite(v.idade_max)
+    && e && ["B", "C", "D"].every((d) => Array.isArray(e[d]) && e[d].length > 1 && e[d].every(Number.isFinite))
+    && p && ["BRA1", "europa", "outras"].every((g) => finitos(p[g], 5)));
+}
+
 async function iniciarCarreiraPagina() {
   // tudo em paralelo: em fila eram 3 idas e voltas a mais antes de a tela ficar pronta
   const [uniformes, , elencos, r, regras, exterior, inferiores, mercado] = await Promise.all([
@@ -4214,7 +4224,7 @@ async function iniciarCarreiraPagina() {
   C.r = r; C.regras = regras; C.exterior = exterior; C.inferiores = inferiores;
   // mercado do futdata (valor do Transfermarkt, preco real, escada das divisoes,
   // recordes); sem ele, ou incompleto, o jogo segue com as formulas de antes
-  C.mercado = mercado && mercado.valor && mercado.escada && mercado.preco ? mercado : null;
+  C.mercado = mercadoValido(mercado) ? mercado : null;
   estado.r = r;
   usarCortes(r);
   inferirFuncoes(r);
