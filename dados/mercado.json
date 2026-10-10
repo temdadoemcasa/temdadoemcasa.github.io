@@ -1,0 +1,335 @@
+{
+ "gerado_em": "2026-10-10T22:41:08+00:00",
+ "fonte": "Transfermarkt (dcaribou, valores até 06/2026) + cartas futdata",
+ "valor": {
+  "coef": [
+   1.7471541264279258,
+   0.04666186516678274,
+   0.1671460242997031,
+   -0.004223080129659183,
+   -0.5082734937947774,
+   0.01067998937739674
+  ],
+  "idade_min": 17,
+  "idade_max": 38,
+  "r2": 0.7225943337717351,
+  "n": 1840,
+  "fator_liga": {
+   "BE1": 0.6666666666666666,
+   "ES1": 1.3333333333333333,
+   "UKR1": 0.2,
+   "BRA1": 1.0,
+   "C1": 0.4,
+   "ARG1": 0.3,
+   "PL1": 0.26666666666666666,
+   "SA1": 0.23333333333333334,
+   "FR1": 1.9333333333333333,
+   "DK1": 0.3333333333333333,
+   "SER1": 0.26666666666666666,
+   "MEX1": 1.0,
+   "PO1": 0.4,
+   "GR1": 0.26666666666666666,
+   "L1": 2.0,
+   "SC1": 0.2,
+   "RU1": 0.5,
+   "SE1": 0.26666666666666666,
+   "IT1": 1.6666666666666667,
+   "RO1": 0.23333333333333334,
+   "GB1": 5.333333333333333,
+   "MLS1": 0.6666666666666666,
+   "TR1": 0.4,
+   "TS1": 0.25,
+   "KR1": 0.26666666666666666,
+   "NL1": 0.4,
+   "COL1": 0.2,
+   "RSK1": 0.18333333333333332,
+   "AUS1": 0.2,
+   "JAP1": 0.25,
+   "NO1": 0.3333333333333333,
+   "A1": 0.3333333333333333
+  }
+ },
+ "escada": {
+  "degrau": 1.0,
+  "medido": -3.44,
+  "A": [
+   78.36,
+   77.84,
+   77.32,
+   76.81,
+   76.29,
+   75.77,
+   75.25,
+   74.74,
+   74.22,
+   73.7,
+   73.19,
+   72.67,
+   72.15,
+   71.63,
+   71.12,
+   70.6,
+   70.08,
+   69.56,
+   69.05,
+   68.53
+  ],
+  "B": [
+   67.53,
+   67.08,
+   66.64,
+   66.19,
+   65.75,
+   65.3,
+   64.86,
+   64.41,
+   63.96,
+   63.52,
+   63.07,
+   62.63,
+   62.18,
+   61.74,
+   61.29,
+   60.84,
+   60.4,
+   59.95,
+   59.51,
+   59.06
+  ],
+  "C": [
+   58.06,
+   57.68,
+   57.29,
+   56.91,
+   56.53,
+   56.14,
+   55.76,
+   55.38,
+   54.99,
+   54.61,
+   54.23,
+   53.85,
+   53.46,
+   53.08,
+   52.7,
+   52.31,
+   51.93,
+   51.55,
+   51.16,
+   50.78
+  ],
+  "D": [
+   49.78,
+   49.51,
+   49.24,
+   48.96,
+   48.69,
+   48.42,
+   48.15,
+   47.88,
+   47.61,
+   47.34,
+   47.06,
+   46.79,
+   46.52,
+   46.25,
+   45.98,
+   45.71,
+   45.44,
+   45.16,
+   44.89,
+   44.62,
+   44.35,
+   44.08,
+   43.81,
+   43.54
+  ]
+ },
+ "preco": {
+  "BRA1": [
+   0.375,
+   0.6243055555555556,
+   1.0,
+   1.6666666666666667,
+   2.8
+  ],
+  "europa": [
+   0.35,
+   0.6,
+   0.9712698412698413,
+   1.3804166666666666,
+   2.1480000000000032
+  ],
+  "outras": [
+   0.25,
+   0.48,
+   0.8333333333333334,
+   1.3483333333333334,
+   2.3700000000000045
+  ]
+ },
+ "recordes": {
+  "Athletico": {
+   "jogador": "Vitor Roque",
+   "destino": "Barcelona",
+   "ano": 2024,
+   "valor": 30000000.0
+  },
+  "Atlético-GO": {
+   "jogador": "Alix",
+   "destino": "RB Bragantino",
+   "ano": 2026,
+   "valor": 1900000.0
+  },
+  "Atlético-MG": {
+   "jogador": "Bernard",
+   "destino": "Shakhtar D.",
+   "ano": 2013,
+   "valor": 25000000.0
+  },
+  "Bahia": {
+   "jogador": "Luciano Rodríguez",
+   "destino": "NEOM SC",
+   "ano": 2025,
+   "valor": 20000000.0
+  },
+  "Botafogo": {
+   "jogador": "Luiz Henrique",
+   "destino": "Zenit S-Pb",
+   "ano": 2025,
+   "valor": 33000000.0
+  },
+  "Ceará": {
+   "jogador": "Erick Pulga",
+   "destino": "EC Bahia",
+   "ano": 2025,
+   "valor": 3000000.0
+  },
+  "Chapecoense": {
+   "jogador": "Fabiano",
+   "destino": "Cruzeiro",
+   "ano": 2015,
+   "valor": 1400000.0
+  },
+  "Corinthians": {
+   "jogador": "Gabriel Moscardo",
+   "destino": "PSG",
+   "ano": 2024,
+   "valor": 20000000.0
+  },
+  "Coritiba": {
+   "jogador": "Yan Couto",
+   "destino": "Man City",
+   "ano": 2020,
+   "valor": 6000000.0
+  },
+  "Criciúma": {
+   "jogador": "Nino",
+   "destino": "Fluminense",
+   "ano": 2020,
+   "valor": 1000000.0
+  },
+  "Cruzeiro": {
+   "jogador": "Everton Ribeiro",
+   "destino": "Al-Ahli (UAE)",
+   "ano": 2015,
+   "valor": 15000000.0
+  },
+  "Cuiabá": {
+   "jogador": "Isidro Pitta",
+   "destino": "RB Bragantino",
+   "ano": 2025,
+   "valor": 4350000.0
+  },
+  "Flamengo": {
+   "jogador": "Vinicius Junior",
+   "destino": "Real Madrid",
+   "ano": 2018,
+   "valor": 45000000.0
+  },
+  "Fluminense": {
+   "jogador": "André",
+   "destino": "Wolves",
+   "ano": 2024,
+   "valor": 22000000.0
+  },
+  "Fortaleza": {
+   "jogador": "Hércules",
+   "destino": "Fluminense",
+   "ano": 2025,
+   "valor": 4550000.0
+  },
+  "Grêmio": {
+   "jogador": "Arthur Melo",
+   "destino": "Barcelona",
+   "ano": 2018,
+   "valor": 31000000.0
+  },
+  "Internacional": {
+   "jogador": "Yuri Alberto",
+   "destino": "Zenit S-Pb",
+   "ano": 2022,
+   "valor": 25000000.0
+  },
+  "Juventude": {
+   "jogador": "Thiago Silva",
+   "destino": "Porto",
+   "ano": 2004,
+   "valor": 2500000.0
+  },
+  "Mirassol": {
+   "jogador": "Jemmes",
+   "destino": "Fluminense",
+   "ano": 2026,
+   "valor": 3600000.0
+  },
+  "Palmeiras": {
+   "jogador": "Endrick",
+   "destino": "Real Madrid",
+   "ano": 2024,
+   "valor": 47500000.0
+  },
+  "RB Bragantino": {
+   "jogador": "Jhon Jhon",
+   "destino": "Zenit S-Pb",
+   "ano": 2026,
+   "valor": 18000000.0
+  },
+  "Remo": {
+   "jogador": "Rony",
+   "destino": "Cruzeiro U20",
+   "ano": 2015,
+   "valor": 100000.0
+  },
+  "Santos": {
+   "jogador": "Neymar",
+   "destino": "Barcelona",
+   "ano": 2013,
+   "valor": 88000000.0
+  },
+  "Sport Recife": {
+   "jogador": "Pedro Lima",
+   "destino": "Wolves",
+   "ano": 2024,
+   "valor": 10000000.0
+  },
+  "São Paulo": {
+   "jogador": "Lucas Moura",
+   "destino": "PSG",
+   "ano": 2013,
+   "valor": 40000000.0
+  },
+  "Vasco": {
+   "jogador": "Rayan",
+   "destino": "Bournemouth",
+   "ano": 2026,
+   "valor": 28500000.0
+  },
+  "Vitória": {
+   "jogador": "Marinho",
+   "destino": "CC Yatai",
+   "ano": 2017,
+   "valor": 5000000.0
+  }
+ }
+}

@@ -747,8 +747,19 @@ function clubeInferior(nome) {
   return {
     tipo: "inf", id: nome, nome, uf: d.uf, divisao, liga: divisao === "A" ? "Brasileirão" : `Série ${divisao}`, ligaId: divisao,
     continente: "america", prestigio: PRESTIGIO_DIV[divisao], forca: d.forca, kit: d.uniforme, time: d.time,
-    titular: tit, nivel: tit ? tit.overall : C.nivelDeForca(d.forca),
+    titular: tit, nivel: tit ? tit.overall : nivelNaEscada(nome, divisao) ?? C.nivelDeForca(d.forca),
   };
+}
+
+// Escada das divisoes (mercado.json, ideia do dono): o campeao da B tem quase o
+// time do ultimo da A e o ultimo da B fica abaixo do campeao na mesma proporcao
+// da A; C encadeia na B, D na C. A posicao do clube na divisao e a ordem da forca.
+function nivelNaEscada(nome, div) {
+  const e = C.mercado && C.mercado.escada && C.mercado.escada[div];
+  if (!e || div === "A" || !C.div[div]) return null;
+  const ordem = [...C.div[div]].sort((a, b) => (C.inf.get(b)?.forca ?? 0) - (C.inf.get(a)?.forca ?? 0));
+  const i = ordem.indexOf(nome);
+  return i < 0 ? null : e[Math.round(i * (e.length - 1) / Math.max(1, ordem.length - 1))];
 }
 
 // quem e o titular real da sua funcao nesse clube da Serie A
@@ -921,8 +932,20 @@ function anosDeContrato(J, c) {
   return limitar(n, 1, 5);
 }
 const anosRestantes = (J) => (J.contratoAte ? J.contratoAte - J.ano + 1 : 0);
-// no ultimo ano o passe sai pela metade; livre, de graca
-const valorDaVenda = (J) => { const r = anosRestantes(J); return r <= 0 ? 0 : r === 1 ? Math.round(J.valor * 5) / 10 : J.valor; };
+// Preco da transferencia: com o mercado.json, o valor vezes um multiplo sorteado
+// da distribuicao real preco/valor (p10..p90) da liga do clube que VENDE. Por
+// cima, as regras do jogo: no ultimo ano o passe sai pela metade; livre, de graca.
+function precoDaVenda(J) {
+  const r = anosRestantes(J);
+  if (r <= 0) return 0;
+  const p = C.mercado && C.mercado.preco, clube = J.clube || {};
+  const q = p && (p[clube.continente === "europa" ? "europa" : clube.tipo === "ext" ? "outras" : "BRA1"] || p.outras);
+  let mult = 1;
+  if (q) { const u = C.rng() * (q.length - 1), i = Math.min(Math.floor(u), q.length - 2); mult = q[i] + (q[i + 1] - q[i]) * (u - i); }
+  const preco = (J.valor || 0) * mult;
+  return Math.max(0.1, Math.round((r === 1 ? preco / 2 : preco) * 10) / 10);
+}
+const valorDaVenda = precoDaVenda;
 // quem garante o contrato depois da janela: ficou sem renovar e estava livre -> contrato padrao
 function garantirContrato(J) {
   if (J.contratoAte && J.ano <= J.contratoAte) return 0;
@@ -1424,9 +1447,25 @@ function evoluir(J, p, rng) {
   return { antes, depois: J.ovr, mudou, foco };
 }
 
+// liga do jogo -> liga do Transfermarkt, pro fator de liga do exterior fora da Europa
+const LIGA_TM = { arg: "ARG1", ara: "SA1", rus: "RU1" };
+
+// Valor de mercado em EUR milhoes. Com o mercado.json: log10(valor) = overall,
+// idade (limitada a faixa da amostra), Europa e Europa x overall, ajustado nas
+// cartas casadas com o Transfermarkt; fora da Europa, o exterior leva o fator
+// da liga (mediana da liga / mediana do Brasileirao). B, C e D usam o mesmo
+// coeficiente do Brasileirao: o nivel da divisao ja esta no overall.
 function valorDeMercado(J) {
-  const idade = J.idade <= 21 ? 1.6 : J.idade <= 24 ? 1.4 : J.idade <= 27 ? 1.1 : J.idade <= 30 ? 0.8 : J.idade <= 32 ? 0.5 : 0.25;
-  return Math.round(0.35 * Math.pow(1.19, J.ovr - 60) * idade * 10) / 10;
+  const m = C.mercado && C.mercado.valor;
+  if (!m) {
+    const idade = J.idade <= 21 ? 1.6 : J.idade <= 24 ? 1.4 : J.idade <= 27 ? 1.1 : J.idade <= 30 ? 0.8 : J.idade <= 32 ? 0.5 : 0.25;
+    return Math.round(0.35 * Math.pow(1.19, J.ovr - 60) * idade * 10) / 10;
+  }
+  const c = m.coef, idade = limitar(J.idade, m.idade_min, m.idade_max), clube = J.clube || {};
+  const eu = clube.continente === "europa" ? 1 : 0;
+  const fator = (!eu && clube.tipo === "ext" && (m.fator_liga || {})[LIGA_TM[clube.ligaId]]) || 1;
+  const log = c[0] + c[1] * J.ovr + c[2] * idade + c[3] * idade * idade + c[4] * eu + c[5] * eu * J.ovr;
+  return Math.max(0.1, Math.round(Math.pow(10, log) * fator / 1e5) / 10);
 }
 
 // --- premios individuais -------------------------------------------------------------
@@ -1619,6 +1658,12 @@ function decidirTransferencia(J, ofertas, rebaixado) {
   return melhor && nota(melhor) > atual + 1.2 ? melhor : null;
 }
 
+// recorde real de venda do clube (Transfermarkt) que a venda passou, ou null
+function recordeBatido(t) {
+  const rec = C.mercado && C.mercado.recordes && t.de && C.mercado.recordes[t.de];
+  return rec && t.valor * 1e6 > rec.valor ? rec : null;
+}
+
 // --- avancar um ano --------------------------------------------------------------
 
 function jogarTemporada({ decidir = true } = {}) {
@@ -1758,7 +1803,7 @@ function jogarTemporada({ decidir = true } = {}) {
   const destino = decidirTransferencia(J, ofertas, t.rebaixado)
     || (veteranoNaEuropa(J) && anosRestantes(J) <= 0 ? ofertas.find((c) => c.pedida) || ofertas[0] || null : null);
   if (destino) {
-    linha.transferencia = { para: destino.nome, liga: destino.liga, valor: valorDaVenda(J) };
+    linha.transferencia = { de: J.clube.nome, para: destino.nome, liga: destino.liga, valor: valorDaVenda(J) };
     assinar(destino, "mercado");
   }
   garantirContrato(J);
@@ -3128,6 +3173,8 @@ function mostrarLinha(linha) {
   if (linha.olheiro && linha.ofertas && linha.ofertas.length) avisos.push("Tinha olheiro na arquibancada.");
   if (linha.ofertas && linha.ofertas.length && !linha.transferencia && linha.automatica) avisos.push(`Sondado por ${linha.ofertas.join(", ")}; ficou.`);
   if (linha.transferencia) avisos.push(`Transferido pro ${linha.transferencia.para} (${linha.transferencia.liga}) ${linha.transferencia.valor ? `por ${dinheiro(linha.transferencia.valor)}` : "de graça, em fim de contrato"}.`);
+  const recorde = linha.transferencia && recordeBatido(linha.transferencia);
+  if (recorde) avisos.push(`Maior venda da história do ${linha.transferencia.de} (antes: ${recorde.jogador}, ${dinheiro(recorde.valor / 1e6)}, ${recorde.ano}).`);
   if (linha.ofertasBarradas && linha.ofertasBarradas.length) avisos.push(`O ${linha.clube} recusou ${linha.ofertasBarradas.length === 1 ? "a proposta" : "as propostas"} do ${linha.ofertasBarradas.join(", do ")}: você tem contrato.`);
   if (linha.voltaDeEmprestimo) avisos.push(`Fim do empréstimo: volta pro ${linha.voltaDeEmprestimo}.`);
   if (linha.fim) avisos.push(`${linha.fim} aos ${linha.idade + 1} anos.`);
@@ -3706,7 +3753,7 @@ function mostrarMercado(linha, { so = null, aviso = null } = {}) {
   for (const c of ofertas) {
     const assinarAqui = (garantia) => {
       const valor = valorDaVenda(J);
-      linha.transferencia = { para: c.nome, liga: c.liga, valor };
+      linha.transferencia = { de: J.clube.nome, para: c.nome, liga: c.liga, valor };
       assinar(c, "mercado");
       if (garantia) J.efeito.titular = true; // promessa de titular: joga a maior parte do ano
       const n = anosRestantes(J);
@@ -4157,13 +4204,17 @@ function criarJogador() {
 
 async function iniciarCarreiraPagina() {
   // tudo em paralelo: em fila eram 3 idas e voltas a mais antes de a tela ficar pronta
-  const [uniformes, , elencos, r, regras, exterior, inferiores] = await Promise.all([
+  const [uniformes, , elencos, r, regras, exterior, inferiores, mercado] = await Promise.all([
     json("dados/uniformes.json").catch(() => ({})), Escudos.carregar(), json("dados/elencos-fora.json").catch(() => ({})),
     retrato("2026"), json("dados/competicoes-2026.json"), json("dados/clubes-exterior.json"), json("dados/clubes-brasil-inferiores.json"),
+    json("dados/mercado.json").catch(() => null),
   ]);
   UNIFORMES = uniformes;
   Motor.ELENCOS = elencos.times || {};
   C.r = r; C.regras = regras; C.exterior = exterior; C.inferiores = inferiores;
+  // mercado do futdata (valor do Transfermarkt, preco real, escada das divisoes,
+  // recordes); sem ele, ou incompleto, o jogo segue com as formulas de antes
+  C.mercado = mercado && mercado.valor && mercado.escada && mercado.preco ? mercado : null;
   estado.r = r;
   usarCortes(r);
   inferirFuncoes(r);

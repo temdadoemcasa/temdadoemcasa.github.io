@@ -1,0 +1,49 @@
+// Prata da Casa com o mercado do futdata (dados/mercado.json): valor ajustado no
+// Transfermarkt, preço da transferência sorteado da distribuição real, escada
+// das divisões encadeada na Série A e recorde de venda do clube. Sem o JSON, o
+// jogo abre com a fórmula antiga.
+import { chromium } from 'playwright';
+const BASE = process.env.BASE || 'http://localhost:8766';
+const ok = (c, m) => console.log(c ? 'OK  ' : 'FALHA', m);
+const b = await chromium.launch();
+for (const semJson of [false, true]) {
+  const p = await b.newPage();
+  const erros = []; p.on('pageerror', (e) => erros.push(e.message));
+  if (semJson) await p.route('**/dados/mercado.json', (r) => r.fulfill({ status: 404, body: '' }));
+  await p.goto(BASE + '/prata-da-casa.html');
+  await p.waitForFunction(() => typeof C !== 'undefined' && C.r && C.inferiores, null, { timeout: 30000 });
+  const r = await p.evaluate(() => {
+    reiniciarMundo();
+    const a = { tipo: 'br', divisao: 'A', nome: 'Grêmio', continente: 'america', ligaId: 'bra' };
+    const J = (ovr, idade, clube = a, contratoAte = 2030) => ({ ovr, idade, clube, contratoAte, ano: 2026 });
+    const comValor = (j) => ({ ...j, valor: valorDeMercado(j) });
+    const precos = Array.from({ length: 20 }, () => precoDaVenda(comValor(J(80, 24))));
+    const ultimaB = C.div.B.map((n) => clubeInferior(n).nivel);
+    const nivelA = Math.min(...Object.values(Motor.timesDaSerieA(C.r)).map((t) => {
+      const o = t.onze.filter((j) => j.overall !== null).map((j) => j.overall); return o.reduce((s, x) => s + x, 0) / o.length;
+    }));
+    return {
+      temMercado: !!C.mercado,
+      v70: valorDeMercado(J(70, 24)), v80: valorDeMercado(J(80, 24)), v80velho: valorDeMercado(J(80, 33)),
+      v16: valorDeMercado(J(75, 16)), v41: valorDeMercado(J(75, 41)),
+      precos, livre: precoDaVenda(comValor(J(80, 24, a, 2025))),
+      topoB: Math.max(...ultimaB), nivelA,
+    };
+  });
+  const rot = semJson ? 'sem mercado.json' : 'com mercado.json';
+  ok(r.temMercado === !semJson, `${rot}: C.mercado ${r.temMercado}`);
+  ok(r.v80 > r.v70 && r.v80velho < r.v80, `${rot}: valor sobe com o overall e cai depois dos 30 (${r.v70}, ${r.v80}, ${r.v80velho})`);
+  ok(Number.isFinite(r.v16) && Number.isFinite(r.v41) && r.v16 > 0, `${rot}: idade 16 e 41 dão valor finito (${r.v16}, ${r.v41})`);
+  ok(r.precos.every((x) => x > 0), `${rot}: com contrato o preço é > 0`);
+  ok(r.livre === 0, `${rot}: livre sai de graça`);
+  if (!semJson) {
+    ok(new Set(r.precos).size > 3, `com mercado.json: o preço varia (${[...new Set(r.precos)].slice(0, 6).join(', ')})`);
+    // a escada ancora no ultimo da A medio de 2024-2026 (68,5) menos 1; o pior time da A de hoje pode estar abaixo
+    // dessa media, entao a regra do dono ("o campeao da B tem quase o time do ultimo da A") vira: no maximo 1 acima
+    ok(r.topoB < r.nivelA + 1, `com mercado.json: o melhor da Série B (${r.topoB.toFixed(1)}) tem quase o time do pior da A (${r.nivelA.toFixed(1)})`);
+    ok(r.topoB > r.nivelA - 4, `com mercado.json: e não fica muito abaixo (antes a B começava em ~62)`);
+  }
+  ok(!erros.length, `${rot}: sem erro de página ${erros.join(' | ')}`);
+  await p.close();
+}
+await b.close();
