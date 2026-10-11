@@ -47,6 +47,27 @@ for (const caso of ['com', '404', 'incompleto']) {
     ok(r.topoB < r.nivelA + 1, `com mercado.json: o melhor da Série B (${r.topoB.toFixed(1)}) tem quase o time do pior da A (${r.nivelA.toFixed(1)})`);
     ok(r.topoB > r.nivelA - 4, `com mercado.json: e não fica muito abaixo (antes a B começava em ~62)`);
   }
+  if (caso === 'com') {
+    const x = await p.evaluate(() => {
+      const rec = C.mercado.recordes['Grêmio'];
+      const J = (clube) => ({ ovr: 80, idade: 24, clube, contratoAte: 2030, ano: 2026, valor: 10 });
+      const rng = C.rng; C.rng = () => 0.999999;   // o topo do sorteio = o p90 do grupo
+      const br = precoDaVenda(J({ tipo: 'br', nome: 'Grêmio', continente: 'america', ligaId: 'bra' }));
+      const eu = precoDaVenda(J({ tipo: 'ext', nome: 'Arsenal', continente: 'europa', ligaId: 'eng' }));
+      const pt = precoDaVenda(J({ tipo: 'ext', nome: 'Benfica', continente: 'europa', ligaId: 'por' }));
+      const ar = precoDaVenda(J({ tipo: 'ext', nome: 'Boca', continente: 'america', ligaId: 'arg' }));
+      C.rng = rng;
+      const p90 = (g) => Math.round(10 * C.mercado.preco[g][4] * 10) / 10;
+      return { rec, br, eu, pt, ar, p90: { BRA1: p90('BRA1'), europa: p90('europa'), outras: p90('outras') },
+        acima: recordeBatido({ de: 'Grêmio', valor: rec.valor / 1e6 + 1 }), abaixo: recordeBatido({ de: 'Grêmio', valor: rec.valor / 1e6 - 1 }),
+        semClube: recordeBatido({ de: 'Clube Que Não Existe', valor: 999 }) };
+    });
+    ok(x.br === x.p90.BRA1 && x.eu === x.p90.europa && x.ar === x.p90.outras,
+      `preço sai do grupo da liga de quem VENDE (BRA1 ${x.br}/${x.p90.BRA1}, europa ${x.eu}/${x.p90.europa}, outras ${x.ar}/${x.p90.outras})`);
+    ok(x.pt === x.p90.outras, `Portugal/Holanda vendem no grupo "outras" (spec: europa = só as 5 grandes) (${x.pt}/${x.p90.outras})`);
+    ok(x.acima && x.acima.jogador === x.rec.jogador && !x.abaixo && !x.semClube,
+      `recorde do Grêmio (${x.rec.jogador}, €${x.rec.valor / 1e6} mi): batido só acima dele, em milhões; clube sem recorde não acusa`);
+  }
   ok(!erros.length, `${rot}: sem erro de página ${erros.join(' | ')}`);
   await p.close();
 }

@@ -935,11 +935,14 @@ const anosRestantes = (J) => (J.contratoAte ? J.contratoAte - J.ano + 1 : 0);
 // Preco da transferencia: com o mercado.json, o valor vezes um multiplo sorteado
 // da distribuicao real preco/valor (p10..p90) da liga do clube que VENDE. Por
 // cima, as regras do jogo: no ultimo ano o passe sai pela metade; livre, de graca.
+const EUROPA_5 = new Set(["eng", "esp", "ita", "ale", "fra"]);
 function precoDaVenda(J) {
   const r = anosRestantes(J);
   if (r <= 0) return 0;
   const p = C.mercado && C.mercado.preco, clube = J.clube || {};
-  const q = p && (p[clube.continente === "europa" ? "europa" : clube.tipo === "ext" ? "outras" : "BRA1"] || p.outras);
+  // "europa" do Transfermarkt sao as 5 grandes (como no futdata); Portugal e Holanda vendem como "outras"
+  const grupo = EUROPA_5.has(clube.ligaId) ? "europa" : clube.tipo === "ext" ? "outras" : "BRA1";
+  const q = p && (p[grupo] || p.outras);
   let mult = 1;
   if (q) { const u = C.rng() * (q.length - 1), i = Math.min(Math.floor(u), q.length - 2); mult = q[i] + (q[i + 1] - q[i]) * (u - i); }
   const preco = (J.valor || 0) * mult;
