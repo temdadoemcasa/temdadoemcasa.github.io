@@ -678,7 +678,7 @@ function calibrarNivel() {
 // --- divisoes: quem esta onde --------------------------------------------------------
 
 function reiniciarMundo() {
-  C.div = {}; C.inf = new Map(); C.naA = new Set(); C.fora = new Set();
+  C.div = {}; C.inf = new Map(); C.naA = new Set(); C.fora = new Set(); C.ordemNaEscada = {};
   for (const d of C.inferiores.divisoes) {
     C.div[d.id] = d.clubes.map((c) => c.nome);
     for (const c of d.clubes) C.inf.set(c.nome, { nome: c.nome, uf: c.uf, forca: c.forca, uniforme: c.uniforme, time: null });
@@ -737,6 +737,7 @@ function trocarDivisao(nome, de, para) {
     C.div[para].push(nome);
     C.div[de].push(outro);
   }
+  C.ordemNaEscada = {}; // o mundo mudou: a ordem de cada divisao e refeita na proxima consulta
 }
 
 function clubeInferior(nome) {
@@ -754,10 +755,14 @@ function clubeInferior(nome) {
 // Escada das divisoes (mercado.json, ideia do dono): o campeao da B tem quase o
 // time do ultimo da A e o ultimo da B fica abaixo do campeao na mesma proporcao
 // da A; C encadeia na B, D na C. A posicao do clube na divisao e a ordem da forca.
+// Clube sem forca fica fora da escada (ausencia nunca e zero) e cai no fallback.
+// A ordem fica em cache por divisao; reiniciarMundo e trocarDivisao a invalidam.
 function nivelNaEscada(nome, div) {
   const e = C.mercado && C.mercado.escada && C.mercado.escada[div];
   if (!e || div === "A" || !C.div[div]) return null;
-  const ordem = [...C.div[div]].sort((a, b) => (C.inf.get(b)?.forca ?? 0) - (C.inf.get(a)?.forca ?? 0));
+  C.ordemNaEscada = C.ordemNaEscada || {};
+  const forca = (n) => C.inf.get(n)?.forca;
+  const ordem = C.ordemNaEscada[div] ??= C.div[div].filter((n) => Number.isFinite(forca(n))).sort((a, b) => forca(b) - forca(a));
   const i = ordem.indexOf(nome);
   return i < 0 ? null : e[Math.round(i * (e.length - 1) / Math.max(1, ordem.length - 1))];
 }
@@ -933,9 +938,18 @@ function anosDeContrato(J, c) {
 }
 const anosRestantes = (J) => (J.contratoAte ? J.contratoAte - J.ano + 1 : 0);
 // Preco da transferencia: com o mercado.json, o valor vezes um multiplo sorteado
-// da distribuicao real preco/valor (p10..p90) da liga do clube que VENDE. Por
+// da distribuicao real preco/valor (p10..p90) da liga do clube que VENDE: u
+// uniforme em [0,10; 0,90] interpolado pelos niveis reais dos quantis, entao
+// p10-p25 e p75-p90 saem 15% das vezes e p25-p50 e p50-p75, 25%. Por
 // cima, as regras do jogo: no ultimo ano o passe sai pela metade; livre, de graca.
 const EUROPA_5 = new Set(["eng", "esp", "ita", "ale", "fra"]);
+const NIVEIS_DO_PRECO = [0.10, 0.25, 0.50, 0.75, 0.90]; // = _QUANTIS do futdata.mercado
+function multiploDoPreco(q, sorteio) {
+  const u = 0.10 + 0.80 * sorteio, n = NIVEIS_DO_PRECO;
+  let i = 0;
+  while (i < n.length - 2 && u > n[i + 1]) i++;
+  return q[i] + (q[i + 1] - q[i]) * (u - n[i]) / (n[i + 1] - n[i]);
+}
 function precoDaVenda(J) {
   const r = anosRestantes(J);
   if (r <= 0) return 0;
@@ -944,7 +958,7 @@ function precoDaVenda(J) {
   const grupo = EUROPA_5.has(clube.ligaId) ? "europa" : clube.tipo === "ext" ? "outras" : "BRA1";
   const q = p && (p[grupo] || p.outras);
   let mult = 1;
-  if (q) { const u = C.rng() * (q.length - 1), i = Math.min(Math.floor(u), q.length - 2); mult = q[i] + (q[i + 1] - q[i]) * (u - i); }
+  if (q) mult = multiploDoPreco(q, C.rng());
   const preco = (J.valor || 0) * mult;
   return Math.max(0.1, Math.round((r === 1 ? preco / 2 : preco) * 10) / 10);
 }
