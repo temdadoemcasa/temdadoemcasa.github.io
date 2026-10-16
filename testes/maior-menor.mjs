@@ -90,16 +90,19 @@ for (const deck of ['brasileirao', 'europa']) {
     novaPartida({ deck, diario: false });
     const vistos = new Set([M.esquerda.player_id, M.direita.player_id]);
     const rep = [];
-    for (let i = 0; i < 250; i++) { // 250 < jogadores distintos do deck (307 e 405)
+    // ate esgotar os jogadores distintos do deck (209 no Brasileirao e 400 na Europa com o pool de 10/10), nenhum repete
+    // no fim do deck sobra pouca carta que combine com a stat e o sorteio aceita repetir: folga de 20%, como os 250 de 307 de antes
+    const n = Math.min(250, Math.floor(total * 0.8));
+    for (let i = 0; i < n; i++) {
       M.esquerda = M.direita; M.seq = i % 40; sortearPar();
       if (M.esquerda.player_id !== M.direita.player_id && vistos.has(M.direita.player_id)) rep.push([i, M.direita.player_id, M.direita.id]);
       vistos.add(M.direita.player_id);
     }
     // alem de esgotar os jogadores o jogo nao trava: limpa o conjunto e segue
     for (let i = 0; i < 400; i++) { M.esquerda = M.direita; M.seq = i % 40; sortearPar(); }
-    return { total, rep: rep.slice(0, 5) };
+    return { total, n, rep: rep.slice(0, 5) };
   }, deck);
-  ok(r.rep.length === 0, `${deck}: 250 pares sem jogador repetido (${r.total} jogadores) ${JSON.stringify(r.rep)}`);
+  ok(r.rep.length === 0 && r.n >= 150, `${deck}: ${r.n} pares sem jogador repetido (${r.total} jogadores) ${JSON.stringify(r.rep)}`);
 }
 
 // --- Task 5: a partida ---
