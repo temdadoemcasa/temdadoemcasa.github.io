@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Maior ou Menor · Tem dado em casa</title>
+  <meta name="description" content="Quem tem mais: gols, desarmes, nota da casa. Acerte em sequência.">
+  <meta property="og:title" content="Maior ou Menor · Tem dado em casa">
+  <meta property="og:description" content="Quem tem mais: gols, desarmes, nota da casa. Acerte em sequência.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://temdadoemcasa.github.io/maior-ou-menor.html">
+  <meta property="og:image" content="https://temdadoemcasa.github.io/img/og-maior-ou-menor.png?v=2026-10-16">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Maior ou Menor: quem tem mais, em sequência">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#0b0b0c">
+  <link rel="icon" type="image/svg+xml" href="img/simbolo.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script src="tema.js?v=2026-09-27j"></script>
+  <link rel="stylesheet" href="estilo.css?v=2026-10-16mm">
+  <link rel="stylesheet" href="maior-menor.css?v=2026-10-16pub">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+</head>
+<body>
+  <header class="topo">
+    <a class="marca" href="index.html">
+      <img class="avatar" src="img/simbolo.svg" alt="" width="36" height="36">
+      <span class="marca-nome">Tem dado em casa</span>
+    </a>
+    <nav class="menu" aria-label="Seções">
+      <a href="index.html#overalls">Cartas</a>
+      <a href="show-do-dadao.html">Show do Dadão</a>
+      <a href="tem-time-em-casa.html">Tem Time em Casa</a>
+      <a href="prata-da-casa.html">Prata da Casa</a>
+      <a href="top10-em-casa.html">Top 10 em Casa</a>
+      <a href="maior-ou-menor.html" aria-current="page">Maior ou Menor</a>
+    </nav>
+  </header>
+
+  <main class="mm">
+    <!-- 1. inicio -->
+    <section class="tela" id="tela-inicio" aria-labelledby="t-inicio">
+      <p class="hero-sobretitulo">Minigame · quem tem mais</p>
+      <h1 id="t-inicio">Maior ou Menor</h1>
+      <p class="inicio-regras">Duas cartas, um número: <b>quem tem mais?</b> Acertou, a carta vira a próxima da mesa. Errou, acabou. Vale dar a sequência mais longa do dia.</p>
+      <p class="carregando" id="carregando">Carregando as cartas...</p>
+      <div class="decks" role="group" aria-label="Escolha o campeonato">
+        <button class="botao deck" id="deck-brasileirao" type="button" aria-pressed="true">Brasileirão</button>
+        <button class="botao deck" id="deck-europa" type="button" aria-pressed="false">Europa</button>
+      </div>
+      <p class="recorde" id="recorde"></p>
+      <div class="inicio-form">
+        <button class="botao botao-primario botao-grande" id="jogar-dia" type="button" disabled>Jogar o desafio do dia</button>
+        <button class="botao" id="jogar-livre" type="button" disabled>Partida livre</button>
+      </div>
+    </section>
+
+    <!-- 2. o jogo -->
+    <section class="tela" id="tela-jogo" aria-label="Partida" hidden>
+      <div class="jogo-topo">
+        <p class="pergunta" id="pergunta"></p>
+        <p class="seq" aria-live="polite"><span class="seq-rotulo">Sequência</span> <b id="seq">0</b></p>
+      </div>
+      <div class="mesa">
+        <article class="carta esq">
+          <p class="clube"><i class="bolinha" aria-hidden="true"></i><span class="clube-nome"></span></p>
+          <h2 class="nome"></h2>
+          <p class="posicao"></p>
+          <p class="jogos"></p>
+          <p class="recorte"></p>
+          <p class="valor-bloco"><span class="valor"></span><span class="unidade"></span></p>
+        </article>
+        <span class="vs" aria-hidden="true">vs</span>
+        <article class="carta dir">
+          <p class="clube"><i class="bolinha" aria-hidden="true"></i><span class="clube-nome"></span></p>
+          <h2 class="nome"></h2>
+          <p class="posicao"></p>
+          <p class="jogos"></p>
+          <p class="recorte"></p>
+          <p class="valor-bloco"><span class="valor">?</span><span class="unidade"></span></p>
+        </article>
+      </div>
+      <div class="escolha" role="group" aria-label="A carta da direita tem...">
+        <button class="botao botao-escolha mais" id="mais" type="button">▲ Mais</button>
+        <button class="botao botao-escolha menos" id="menos" type="button">▼ Menos</button>
+      </div>
+    </section>
+
+    <!-- 3. o fim -->
+    <section class="tela" id="tela-fim" aria-label="Fim da partida" hidden>
+      <p class="hero-sobretitulo" id="fim-rotulo">Acabou</p>
+      <p class="placar" id="placar"></p>
+      <p class="fim-detalhe" id="fim-detalhe"></p>
+      <p class="recorde" id="fim-recorde"></p>
+      <div class="fim-acoes">
+        <button class="botao botao-primario botao-grande" id="compartilhar" type="button">Compartilhar</button>
+        <button class="botao" id="de-novo" type="button">Jogar livre</button>
+        <button class="botao" id="voltar" type="button">Voltar</button>
+      </div>
+    </section>
+  </main>
+
+  <script data-goatcounter="https://temdadoemcasa.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+  <script src="maior-menor.js?v=2026-10-16pub" defer></script>
+</body>
+</html>

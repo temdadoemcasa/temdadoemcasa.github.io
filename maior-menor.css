@@ -1,0 +1,88 @@
+/* Maior ou Menor: inicio, mesa de jogo e fim. Gravado em tela: numero grande. */
+.mm { max-width: 40rem; margin-inline: auto; padding-bottom: 3rem; }
+.mm .tela { border-top: 0; padding-top: clamp(1rem, 3vw, 2rem); }
+.mm h1 { font-family: var(--numeros); text-transform: uppercase; font-size: clamp(2.2rem, 6vw, 3.6rem); line-height: 1; letter-spacing: 0; max-width: none; }
+.mm .botao-grande { padding: 0.9rem 2rem; font-size: 1.05rem; }
+.mm .carregando { color: var(--texto-fraco); }
+.mm .inicio-regras { color: var(--texto-fraco); max-width: 54ch; margin: 1rem 0 1.4rem; font-size: 1.02rem; }
+.mm .inicio-regras b { color: var(--texto); }
+.mm .decks { display: flex; gap: 0.5rem; margin: 0 0 1rem; }
+.mm .deck { min-height: 44px; flex: 1 1 0; max-width: 13rem; }
+.mm .deck[aria-pressed="true"] { background: var(--canal-vivo, #c8ff00); border-color: var(--canal-vivo, #c8ff00); color: #111; }
+.mm .recorde { margin: 0 0 1rem; font-size: 0.9rem; color: var(--texto-fraco); }
+.mm .inicio-form { display: grid; gap: 0.7rem; max-width: 26rem; }
+.mm .tela[hidden] { display: none; }
+
+/* mesa */
+.mm .jogo-topo { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-bottom: 0.9rem; }
+.mm .pergunta { margin: 0; font-family: var(--numeros); font-weight: 700; text-transform: uppercase; font-size: clamp(1.15rem, 4vw, 1.6rem); line-height: 1.1; }
+.mm .seq { margin: 0; white-space: nowrap; color: var(--texto-fraco); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.04em; }
+.mm .seq b { font-family: var(--numeros); font-weight: 800; font-size: 2rem; line-height: 1; color: var(--canal); vertical-align: -0.1em; }
+.mm .mesa { display: grid; gap: 0.5rem; align-items: stretch; }
+.mm .carta { position: static; container-type: normal; aspect-ratio: auto; cursor: default; transform: none; filter: none; animation: none; width: auto; background: var(--fundo-cartao); border: 2px solid var(--borda); border-radius: var(--raio); padding: 0.8rem 1rem; text-align: center; min-width: 0; transition: border-color 0.2s, background 0.2s; }
+.mm .carta .clube { display: flex; align-items: center; justify-content: center; gap: 0.45rem; margin: 0; font-size: 0.85rem; color: var(--texto-fraco); }
+.mm .carta .bolinha { width: 0.8rem; height: 0.8rem; border-radius: 50%; flex: none; border: 1px solid rgba(255, 255, 255, 0.35); }
+.mm .carta .nome { margin: 0.2rem 0 0; font-family: var(--numeros); font-weight: 800; text-transform: uppercase; font-size: clamp(1.4rem, 5vw, 2rem); line-height: 1.05; overflow-wrap: anywhere; }
+.mm .carta .posicao, .mm .carta .jogos, .mm .carta .recorte { display: block; grid-template-columns: none; margin: 0; font-size: 0.82rem; color: var(--texto-fraco); }
+.mm .carta .valor-bloco { margin: 0.3rem 0 0; display: flex; align-items: baseline; justify-content: center; gap: 0.4rem; }
+.mm .carta .valor { font-family: var(--numeros); font-weight: 800; font-size: clamp(3.4rem, 14vw, 6.5rem); line-height: 1; font-variant-numeric: tabular-nums; }
+.mm .carta .unidade { font-size: 0.85rem; color: var(--texto-fraco); }
+.mm .carta.dir .valor { color: var(--canal); }
+.mm .carta.acerto { border-color: var(--canal); background: color-mix(in srgb, var(--canal) 12%, var(--fundo-cartao)); }
+.mm .carta.erro { border-color: #ff4d6d; background: color-mix(in srgb, #ff4d6d 14%, var(--fundo-cartao)); }
+.mm .carta.erro .valor { color: #ff7d95; }
+.mm .vs { display: none; font-family: var(--numeros); font-weight: 800; font-size: 1.6rem; text-transform: uppercase; color: var(--texto-fraco); align-self: center; }
+.mm .escolha { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-top: 0.6rem; }
+.mm .botao-escolha { min-height: 56px; font-family: var(--numeros); font-weight: 800; font-size: 1.6rem; text-transform: uppercase; letter-spacing: 0.02em; }
+.mm .botao-escolha { background: var(--fundo-alto); border-color: var(--borda); color: var(--texto); }
+.mm .botao-escolha:hover { border-color: var(--texto-fraco); }
+.mm .botao-escolha:disabled { opacity: 0.45; }
+@media (min-width: 600px) {
+  .mm { max-width: 56rem; }
+  .mm .mesa { grid-template-columns: 1fr auto 1fr; gap: 1rem; }
+  .mm .vs { display: block; }
+  .mm .carta { padding: 1.2rem 1.2rem 1rem; }
+}
+/* celular baixo (360x640): cartas mais compactas pra caber os botoes */
+@media (max-width: 599px) {
+  .mm .carta .valor { font-size: clamp(2.6rem, 11vw, 3.4rem); }
+  .mm .carta { padding: 0.55rem 0.8rem; }
+  .mm .carta .nome { font-size: 1.35rem; }
+  .mm .jogo-topo { margin-bottom: 0.4rem; gap: 0.6rem; }
+  .mm .pergunta { font-size: clamp(1rem, 4.4vw, 1.3rem); }
+  .mm .seq { font-size: 0.75rem; }
+  .mm .seq b { font-size: 1.6rem; }
+  .mm .escolha { margin-top: 0.5rem; }
+  .mm .botao-escolha { min-height: 48px; padding: 0.4rem 0.5rem; font-size: 1.35rem; white-space: nowrap; }
+}
+
+/* fim */
+.mm .placar { margin: 0.2rem 0 0.6rem; font-family: var(--numeros); font-weight: 800; text-transform: uppercase; font-size: clamp(3.6rem, 16vw, 7rem); line-height: 1; color: var(--canal); }
+.mm .fim-detalhe { color: var(--texto-fraco); margin: 0 0 0.6rem; max-width: 46ch; }
+.mm .fim-acoes { display: grid; gap: 0.7rem; max-width: 26rem; margin-top: 1.2rem; }
+
+/* tela de gravacao (>= 1200 px): mesa larga, tipo grande, texto secundario legivel.
+   Os tamanhos dependem tambem da altura (vh): em 1280x720 e 1366x768 os botoes ficam
+   na tela; em 1080p os tetos (rem) valem e o tipo fica grande. */
+@media (min-width: 1200px) {
+  .mm { max-width: 92rem; padding-inline: 3rem; padding-bottom: 1rem; }
+  .mm .tela { padding-top: min(2.5rem, 2.5vh); }
+  .mm .pergunta { font-size: min(3rem, 5vh); }
+  .mm .seq { font-size: 1.2rem; }
+  .mm .seq b { font-size: min(4rem, 6vh); }
+  .mm .jogo-topo { margin-bottom: min(1.6rem, 2vh); }
+  .mm .mesa { gap: 2rem; }
+  .mm .carta { padding: min(2.2rem, 2.4vh) 2rem min(2rem, 2vh); border-width: 3px; }
+  .mm .carta .clube { font-size: 1.5rem; color: var(--texto); gap: 0.7rem; }
+  .mm .carta .bolinha { width: 1.4rem; height: 1.4rem; }
+  .mm .carta .nome { font-size: min(4.2rem, 6.5vh); margin-top: 0.5rem; }
+  .mm .carta .posicao, .mm .carta .jogos, .mm .carta .recorte { font-size: 1.3rem; line-height: 1.5; color: var(--texto); opacity: 0.8; }
+  .mm .carta .valor-bloco { margin-top: min(1.6rem, 1.5vh); gap: 1rem; }
+  .mm .carta .valor { font-size: min(12rem, 18vh); }
+  .mm .carta .unidade { font-size: 1.6rem; color: var(--texto); opacity: 0.8; }
+  .mm .vs { font-size: 3.4rem; }
+  .mm .escolha { margin-top: min(1.6rem, 2vh); gap: 2rem; }
+  .mm .botao-escolha { min-height: min(96px, 11vh); font-size: min(3rem, 5vh); }
+}
+/* o botao escolhido fica marcado durante a revelacao (quem assiste ve o que foi pedido) */
+.mm .botao-escolha.escolhido, .mm .botao-escolha.escolhido:disabled { opacity: 1; border-color: var(--canal); box-shadow: 0 0 0 3px var(--canal); }

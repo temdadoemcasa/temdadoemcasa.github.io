@@ -9,6 +9,7 @@ const JOGOS = [
   { id: 'visual-draft', saida: 'img/og-tem-time-em-casa.png', cor: '#c8ff00', nome: 'Tem Time em Casa', sub: 'Monte seu time com as cartas do Brasileirão e jogue a temporada 2026.', papel: 'Minigame · você é o técnico' },
   { id: 'visual-carreira', saida: 'img/og-prata-da-casa.png', cor: '#ff7d95', nome: 'Prata da Casa', sub: 'Da peneira aos 16 até pendurar a chuteira. Sua carreira, carta a carta.', papel: 'Minigame · você é o jogador' },
   { id: 'visual-top10', saida: 'img/og-top10.png', cor: '#c8ff00', nome: 'Top 10 em Casa', sub: 'Bola de Ouro, artilheiros, mais valiosos. A bandeira de cada um, 3 vidas e 3 dicas.', papel: 'Minigame · desafio do dia' },
+  { id: 'visual-mm', saida: 'img/og-maior-ou-menor.png', cor: '#5cc8ff', nome: 'Maior ou Menor', sub: 'Duas cartas, um número escondido: gols, desarmes, nota da casa. Acerte em sequência.', papel: 'Minigame · desafio do dia' },
 ];
 
 const b = await chromium.launch();

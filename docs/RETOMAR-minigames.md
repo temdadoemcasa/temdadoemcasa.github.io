@@ -1,5 +1,7 @@
 # RETOMAR — minigames
 
+## 16/10 -- Maior ou Menor PUBLICADO (dados regerados em 16/10, desafio #1 = 16/10), ao lado do Top 10 refeito. Home: Dadão, Tem Time e Prata em destaque; Top 10 e Maior ou Menor menores (`.jogo-compacto`).
+
 ## 04/10 -- bateria de UX de 4.000 casos por jogo + 5º minigame (Top 10 em Casa) -- Top 10 REFEITO em 16/10: 52 rankings conhecidos (Wikipedia + Transfermarkt), bandeira em cada barra, 3 dicas; ver README
 
 Contexto completo no `RETOMAR.md` do futdata (seção 04/10). Resumo:

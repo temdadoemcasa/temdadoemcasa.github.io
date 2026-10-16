@@ -2,7 +2,7 @@
 import { chromium } from 'playwright';
 const BASE = process.env.BASE || 'http://localhost:8766';
 const ok = (c, m) => console.log(c ? 'OK  ' : 'FALHA', m);
-const JOGOS = ['show-do-dadao.html', 'tem-time-em-casa.html', 'prata-da-casa.html', 'top10-em-casa.html'];
+const JOGOS = ['show-do-dadao.html', 'tem-time-em-casa.html', 'prata-da-casa.html', 'top10-em-casa.html', 'maior-ou-menor.html'];
 const b = await chromium.launch(); const p = await b.newPage({ viewport: { width: 1280, height: 900 } });
 for (const pagina of ['index.html', ...JOGOS]) {
   await p.goto(`${BASE}/${pagina}`); await p.waitForTimeout(300);
