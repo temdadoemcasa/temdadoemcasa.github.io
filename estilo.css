@@ -358,7 +358,7 @@ h1 {
 .secao-cabecalho { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0.5rem 2rem; }
 .nota { color: var(--texto-fraco); font-size: 0.9rem; margin: 0 0 1.5rem; }
 
-.videos { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.2rem; }
+.videos { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.2rem; }
 
 /* cartao de video com cara de YouTube: capa como player, avatar do canal embaixo */
 .video { display: block; text-decoration: none; color: var(--texto); border-radius: var(--raio); }

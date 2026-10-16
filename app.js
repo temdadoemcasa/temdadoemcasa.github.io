@@ -62,7 +62,12 @@ function mostrarVideos(videos) {
     // a capa imita o player do YouTube: botao vermelho no meio, barra de progresso e controles
     const player = el("div", "video-player");
     const img = el("img");
-    img.src = video.thumb;
+    // a capa do RSS (hqdefault) e 480x360 com tarja preta: esticada fica borrada. A
+    // maxresdefault e 1280x720; video sem ela vem com um cinza de 120x90 (ou erro): volta pra do RSS
+    img.src = video.id ? `https://i.ytimg.com/vi/${video.id}/maxresdefault.jpg` : video.thumb;
+    const voltar = () => { if (img.src !== video.thumb) img.src = video.thumb; };
+    img.addEventListener("error", voltar, { once: true });
+    img.addEventListener("load", () => { if (img.naturalWidth < 200) voltar(); });
     img.alt = "";
     img.loading = "lazy";
     player.append(img);
