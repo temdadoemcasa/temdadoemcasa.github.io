@@ -15,7 +15,7 @@ const SEM_REPETIR = 30; // a partida livre evita os ultimos 30 vistos
 
 const T = {
   rankings: [],
-  jogadores: [], // a busca: [{ id, nome, pais }]
+  jogadores: [], // a busca: [{ id, nome, pais, extra? }]
   ranking: null,
   acertos: new Set(), // id
   erros: [], // id
@@ -370,6 +370,7 @@ function mostrarSugestoes() {
     li.id = `sug-${i}`;
     li.setAttribute("role", "option");
     li.append(bandeira(o.pais), el("b", null, o.nome));
+    if (o.extra) li.append(el("small", "sugestao-extra", o.extra)); // homonimo com a mesma bandeira
     // escolhe no "click", que so dispara num toque parado: rolar a lista com o dedo em cima
     // de um nome nao chuta mais. O mousedown sem padrao segura o foco no campo (no computador)
     li.addEventListener("mousedown", (e) => e.preventDefault());

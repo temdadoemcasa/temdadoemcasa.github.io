@@ -91,3 +91,4 @@
 .acoes-jogo #dica { border-color: #ffd23f; }
 .acoes-jogo #dica:disabled { opacity: 0.5; cursor: default; }
 .botao-discreto { background: transparent; color: var(--texto-fraco); }
+.sugestao-extra { margin-left: auto; color: var(--texto-fraco); font-size: 0.78rem; white-space: nowrap; }

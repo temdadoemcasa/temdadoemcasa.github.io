@@ -325,8 +325,35 @@ def montar(tm: TM, cache: Path):
     for p, j in tm.jog.items():
         if (j[6] or 0) >= 15_000_000 and p not in pool:
             pool[p] = {"id": p, "nome": j[1], "pais": tm.pais(p)}
+    desempatar_homonimos(tm, pool, rankings)
     jogadores = sorted(pool.values(), key=lambda j: normalizar(j["nome"]))
     return rankings, jogadores
+
+
+POSICOES = {"Goalkeeper": "goleiro", "Defender": "defensor", "Midfield": "meio-campo", "Attack": "atacante"}
+
+
+def desempatar_homonimos(tm: TM, pool: dict, rankings: list):
+    """Mesmo nome e mesma bandeira na busca ("Ederson" goleiro x "Ederson" volante): a
+    sugestao ganha posicao e ano de nascimento (ou o clube da tabela, pra quem so esta
+    na Wikipedia), senao o jogador chutaria no escuro."""
+    grupos = {}
+    for j in pool.values():
+        grupos.setdefault((normalizar(j["nome"]), j["pais"]), []).append(j)
+    clube_wiki = {x["id"]: x["clube"] for r in rankings for x in r["top"] if isinstance(x["id"], str)}
+    for grupo in grupos.values():
+        if len(grupo) < 2:
+            continue
+        for j in grupo:
+            if isinstance(j["id"], str):
+                j["extra"] = clube_wiki.get(j["id"]) or "Brasileirão"
+            else:
+                _, _, _, pos, _, nasc, _ = tm.jog[j["id"]]
+                partes = [POSICOES.get(pos)] + ([f"nasc. {str(nasc)[:4]}"] if nasc else [])
+                j["extra"] = " · ".join(x for x in partes if x)
+        extras = [j.get("extra") for j in grupo]
+        if len(set(extras)) != len(extras) or not all(extras):
+            raise SystemExit(f"homonimos que nem posicao/ano separam: {[(j['nome'], j['id'], j.get('extra')) for j in grupo]}")
 
 
 def baixar_bandeiras(codigos, pasta: Path):

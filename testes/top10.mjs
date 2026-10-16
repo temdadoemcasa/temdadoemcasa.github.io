@@ -26,6 +26,11 @@ for (const r of dados.rankings) {
 }
 ok(!ruins.length, 'todo ranking: 10 a 12 barras, posicao em ordem, bandeira, valor e todo nome achavel na busca ' + ruins.slice(0, 5).join(' | '));
 ok(dados.jogadores.filter((j) => j.pais).every((j) => existsSync(`img/bandeiras/${j.pais}.svg`)), 'toda bandeira da busca existe em img/bandeiras');
+// homonimo com a mesma bandeira precisa de algo que separe na sugestao (Ederson goleiro x Ederson volante)
+const norm = (s) => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+const vistos = new Map(); const iguais = [];
+for (const j of dados.jogadores) { const k = `${norm(j.nome)}|${j.pais}|${j.extra || ''}`; if (vistos.has(k)) iguais.push(j.nome); vistos.set(k, j.id); }
+ok(!iguais.length, 'nenhuma sugestao identica (nome + bandeira + extra) pra jogadores diferentes ' + iguais.slice(0, 5).join(', '));
 
 // --- fluxo no navegador ---------------------------------------------------------
 const b = await chromium.launch(); const erros = [];
@@ -83,6 +88,11 @@ await p.fill('#busca', nomeBusca); await p.waitForTimeout(100);
 const sug = await p.$$eval('#sugestoes .sugestao', (ls) => ls.map((l) => ({ t: l.textContent, img: !!l.querySelector('img.bandeira, .bandeira-vazia') })));
 ok(sug.some((s) => s.t.includes(nomeBusca)) && sug.every((s) => s.img), `busca acha "${nomeBusca}" e mostra bandeira`);
 await p.locator('#sugestoes .sugestao', { hasText: nomeBusca }).first().click();
+const homo = await p.evaluate(() => { const c = new Map(); for (const j of T.jogadores) { const k = j.nome + j.pais; c.set(k, (c.get(k) || 0) + 1); } return T.jogadores.find((j) => c.get(j.nome + j.pais) > 1 && !T.acertos.has(j.id) && !T.erros.includes(j.id)); });
+await p.fill('#busca', homo.nome); await p.waitForTimeout(100);
+const extras = await p.$$eval('#sugestoes .sugestao', (ls, n) => ls.filter((l) => l.querySelector('b').textContent === n).map((l) => l.querySelector('.sugestao-extra')?.textContent || ''), homo.nome);
+ok(extras.length >= 2 && extras.every(Boolean) && new Set(extras).size === extras.length, `homonimo "${homo.nome}" aparece separado na busca: ${extras.join(' / ')}`);
+await p.fill('#busca', '');
 ok(await p.locator('.barra').nth(4).evaluate((li) => li.classList.contains('aberta')), 'chute pela lista abre a barra');
 
 // fim: duas vidas a mais acabam e revelam tudo
