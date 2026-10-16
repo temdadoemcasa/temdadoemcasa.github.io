@@ -428,7 +428,9 @@ async function iniciarTop10() {
   busca.addEventListener("click", () => {
     if (matchMedia("(max-width: 760px)").matches) setTimeout(() => busca.parentElement.scrollIntoView({ block: "start", behavior: reduzMovimento() ? "auto" : "smooth" }), 250);
   });
-  busca.addEventListener("blur", () => setTimeout(fecharSugestoes, 250));
+  // fecha a lista um pouco depois de sair do campo (da tempo do toque na sugestao), mas so se o
+  // foco nao voltou: a dica devolve o foco pro campo, e quem digita logo depois perdia a lista
+  busca.addEventListener("blur", () => setTimeout(() => { if (document.activeElement !== busca) fecharSugestoes(); }, 250));
   busca.addEventListener("keydown", (e) => {
     if (e.key === "ArrowDown" && sugestoes.length) { e.preventDefault(); destaque = (destaque + 1) % sugestoes.length; marcarDestaque(); }
     else if (e.key === "ArrowUp" && sugestoes.length) { e.preventDefault(); destaque = (destaque - 1 + sugestoes.length) % sugestoes.length; marcarDestaque(); }

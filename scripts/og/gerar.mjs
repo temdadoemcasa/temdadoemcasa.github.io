@@ -8,6 +8,7 @@ const JOGOS = [
   { id: 'visual-quiz', saida: 'img/og-show-do-dadao.png', cor: '#f2c230', nome: 'Show do Dadão', sub: '16 perguntas de futebol. Da pelada de rua à Prateleira Rei Pelé.', papel: 'Quiz de futebol' },
   { id: 'visual-draft', saida: 'img/og-tem-time-em-casa.png', cor: '#c8ff00', nome: 'Tem Time em Casa', sub: 'Monte seu time com as cartas do Brasileirão e jogue a temporada 2026.', papel: 'Minigame · você é o técnico' },
   { id: 'visual-carreira', saida: 'img/og-prata-da-casa.png', cor: '#ff7d95', nome: 'Prata da Casa', sub: 'Da peneira aos 16 até pendurar a chuteira. Sua carreira, carta a carta.', papel: 'Minigame · você é o jogador' },
+  { id: 'visual-top10', saida: 'img/og-top10.png', cor: '#c8ff00', nome: 'Top 10 em Casa', sub: 'Bola de Ouro, artilheiros, mais valiosos. A bandeira de cada um, 3 vidas e 3 dicas.', papel: 'Minigame · desafio do dia' },
 ];
 
 const b = await chromium.launch();
@@ -38,6 +39,21 @@ for (const j of JOGOS.filter((x) => !pedidos.length || pedidos.includes(x.id))) 
     // a escadinha do quiz mede em vw: no clone, largura fixa pra nao cortar os nomes
     const col = clone.querySelector('.quiz-escada-coluna');
     if (col) { col.style.width = '205px'; clone.querySelectorAll('.quiz-escadinha li').forEach((li) => { li.style.fontSize = '13px'; }); clone.querySelector('.quiz-vitrine-carta').style.width = '130px'; }
+    // Top 10: na home as barras saem pela borda do card; na arte, as 5 inteiras e maiores
+    const vit = clone.querySelector('.top10-vitrine');
+    if (vit) {
+      vit.style.cssText = 'display:grid;gap:12px;justify-items:center;width:470px';
+      vit.querySelector('.top10-vidas').style.fontSize = '24px';
+      vit.querySelectorAll('.top10-barras li').forEach((li) => { li.style.cssText += ';font-size:22px;padding:8px 16px;gap:14px;border-radius:10px'; li.style.display = 'flex'; });
+      vit.querySelectorAll('.top10-barras img').forEach((img) => { img.style.width = '38px'; });
+      vit.querySelector('.top10-barras').style.gap = '10px';
+      clone.style.overflow = 'visible';
+      palco.append(vit);
+      arte.append(textos, palco);
+      document.body.append(arte);
+      window.scrollTo(0, 0);
+      return;
+    }
     const q = origem.getBoundingClientRect();
     clone.style.cssText = `width:${q.width}px;height:${q.height}px;transform:scale(${Math.min(600 / q.width, 560 / q.height)});background:none;border:0;transform-origin:center`;
     palco.append(clone);

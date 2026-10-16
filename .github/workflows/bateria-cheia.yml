@@ -18,7 +18,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        jogo: [prata, draft, dadao]
+        jogo: [prata, draft, dadao, top10]
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
