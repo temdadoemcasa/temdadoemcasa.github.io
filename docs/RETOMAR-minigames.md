@@ -13,7 +13,7 @@ Contexto completo no `RETOMAR.md` do futdata (seção 04/10). Resumo:
 
 Atualizado em **2026-09-27 (noite)**. Branch `prata-evolucao-e-caminho` (saiu de `integracao-main`), no GitHub, **não está no `main`**.
 
-## Quem Tá em Casa? e pacote de craque (30/09) -- no ar
+## Quem Tá em Casa? e pacote de craque (30/09) -- Quem Tá REMOVIDO em 16/10 (dono: "ficou muito ruim"); pacote de craque segue no ar
 
 - **Quem Tá em Casa?** (`quem-ta-em-casa.html`, `quem-ta.js`, `quem-ta.css`): carta misteriosa, 6 chutes. Liga/ano/posição
   abre desde o início; cada erro SORTEIA uma de 6 dicas (seleção, ranking na posição (pelo overall, na liga e ano da carta), 2 maiores atributos, overall,

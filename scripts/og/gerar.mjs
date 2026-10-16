@@ -1,12 +1,11 @@
 // Gera as imagens de previa de link (1200x630) de cada minigame a partir da
 // propria home: clona o visual do card e monta a arte com o nome do jogo.
 //   python3 -m http.server 8766   (na raiz do site)
-//   node scripts/og/gerar.mjs            (ou so um: node scripts/og/gerar.mjs visual-quem)
+//   node scripts/og/gerar.mjs            (ou so um: node scripts/og/gerar.mjs visual-quiz)
 import { chromium } from 'playwright';
 
 const JOGOS = [
   { id: 'visual-quiz', saida: 'img/og-show-do-dadao.png', cor: '#f2c230', nome: 'Show do Dadão', sub: '16 perguntas de futebol. Da pelada de rua à Prateleira Rei Pelé.', papel: 'Quiz de futebol' },
-  { id: 'visual-quem', saida: 'img/og-quem-ta.png', cor: '#4cc9f0', nome: 'Quem Tá em Casa?', sub: 'Brasileirão, Premier League e Champions. Uma carta misteriosa, 6 chutes, uma dica por erro.', papel: 'Minigame · adivinhe o jogador' },
   { id: 'visual-draft', saida: 'img/og-tem-time-em-casa.png', cor: '#c8ff00', nome: 'Tem Time em Casa', sub: 'Monte seu time com as cartas do Brasileirão e jogue a temporada 2026.', papel: 'Minigame · você é o técnico' },
   { id: 'visual-carreira', saida: 'img/og-prata-da-casa.png', cor: '#ff7d95', nome: 'Prata da Casa', sub: 'Da peneira aos 16 até pendurar a chuteira. Sua carreira, carta a carta.', papel: 'Minigame · você é o jogador' },
 ];
@@ -39,19 +38,6 @@ for (const j of JOGOS.filter((x) => !pedidos.length || pedidos.includes(x.id))) 
     // a escadinha do quiz mede em vw: no clone, largura fixa pra nao cortar os nomes
     const col = clone.querySelector('.quiz-escada-coluna');
     if (col) { col.style.width = '205px'; clone.querySelectorAll('.quiz-escadinha li').forEach((li) => { li.style.fontSize = '13px'; }); clone.querySelector('.quiz-vitrine-carta').style.width = '130px'; }
-    // Quem Ta em Casa?: na home a carta sai por baixo do card; na arte ela aparece inteira e maior
-    const quem = clone.querySelector('.quem-vitrine-carta');
-    if (quem) {
-      quem.style.cssText = 'width:230px;margin:0;flex:none';
-      clone.querySelectorAll('.quem-vitrine-chutes li').forEach((li) => { li.style.fontSize = '19px'; li.style.padding = '8px 12px'; });
-      clone.querySelector('.quem-vitrine-chutes').style.cssText = 'margin:0;gap:10px';
-      clone.style.cssText = 'display:flex;align-items:center;gap:22px;height:auto;min-height:0;padding:0;overflow:visible;background:none;border:0';
-      palco.append(clone);
-      arte.append(textos, palco);
-      document.body.append(arte);
-      window.scrollTo(0, 0);
-      return;
-    }
     const q = origem.getBoundingClientRect();
     clone.style.cssText = `width:${q.width}px;height:${q.height}px;transform:scale(${Math.min(600 / q.width, 560 / q.height)});background:none;border:0;transform-origin:center`;
     palco.append(clone);

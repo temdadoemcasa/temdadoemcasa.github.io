@@ -38,6 +38,11 @@ function evento(nome) {
 
 // --- videos ---------------------------------------------------------------
 
+// por cima da capa: o botao de play do YouTube, o selo e a barra de controles
+const PLAYER_YT = `<span class="video-play" aria-hidden="true"><svg viewBox="0 0 68 48"><path class="video-play-fundo" d="M66.5 7.7c-.8-2.9-2.5-5.4-5.4-6.2C55.8.1 34 0 34 0S12.2.1 6.9 1.6c-3 .7-4.6 3.2-5.4 6.1C.1 13 0 24 0 24s.1 11 1.5 16.3c.8 2.9 2.5 5.4 5.4 6.2C12.2 47.9 34 48 34 48s21.8-.1 27.1-1.6c3-.8 4.6-3.2 5.4-6.2C67.9 35 68 24 68 24s-.1-11-1.5-16.3z"/><path d="M45 24 27 14v20" fill="#fff"/></svg></span>
+<span class="video-selo" aria-hidden="true"><svg viewBox="0 0 28 20"><path fill="#ff0033" d="M27.4 3.1A3.5 3.5 0 0 0 25 .6C22.8 0 14 0 14 0S5.2 0 3 .6A3.5 3.5 0 0 0 .6 3.1C0 5.3 0 10 0 10s0 4.7.6 6.9A3.5 3.5 0 0 0 3 19.4c2.2.6 11 .6 11 .6s8.8 0 11-.6a3.5 3.5 0 0 0 2.4-2.5c.6-2.2.6-6.9.6-6.9s0-4.7-.6-6.9z"/><path fill="#fff" d="m11.2 14.3 7.3-4.3-7.3-4.3z"/></svg>YouTube</span>
+<span class="video-controles" aria-hidden="true"><span class="video-progresso"><i></i></span><span class="video-botoes"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg><svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zm10-12v12h2V6h-2z"/></svg><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4z"/></svg><span class="video-tempo">0:00</span><span class="video-espaco"></span><svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg></span></span>`;
+
 function mostrarVideos(videos) {
   const lista = document.getElementById("lista-videos");
   lista.replaceChildren();
@@ -54,14 +59,25 @@ function mostrarVideos(videos) {
     cartao.href = video.url;
     cartao.target = "_blank";
     cartao.rel = "noopener";
+    // a capa imita o player do YouTube: botao vermelho no meio, barra de progresso e controles
+    const player = el("div", "video-player");
     const img = el("img");
     img.src = video.thumb;
     img.alt = "";
     img.loading = "lazy";
+    player.append(img);
+    player.insertAdjacentHTML("beforeend", PLAYER_YT);
     const texto = el("div", "video-texto");
-    texto.append(el("div", "video-titulo", video.titulo));
-    if (video.publicado) texto.append(el("div", "video-data", dataCurta(video.publicado)));
-    cartao.append(img, texto);
+    const avatar = el("img", "video-avatar");
+    avatar.src = "img/simbolo.svg";
+    avatar.alt = "";
+    const info = el("div", "video-info");
+    info.append(el("div", "video-titulo", video.titulo));
+    const canal = el("div", "video-canal", "Tem dado em casa");
+    if (video.publicado) canal.append(el("span", "video-data", ` · ${dataCurta(video.publicado)}`));
+    info.append(canal);
+    texto.append(avatar, info);
+    cartao.append(player, texto);
     lista.append(cartao);
   }
 }

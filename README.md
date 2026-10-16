@@ -16,7 +16,6 @@ base bruta do Sofascore nem ratings do EA.
 | `index.html` | home: topo (seleção), vídeos, cartas, "de onde vem" |
 | `app.js` | lógica da home e peças comuns (carta, camisa, níveis, envelope); texto dos dados entra por `textContent`, nunca `innerHTML` |
 | `tem-time-em-casa.html`, `draft.js`, `draft.css` | minigame Draft: monta o time com figurinhas e joga a temporada 2026 |
-| `quem-ta-em-casa.html`, `quem-ta.js`, `quem-ta.css` | minigame Quem Tá em Casa?: adivinha o jogador pela carta, 6 chutes, desafio do dia |
 | `motor.js` | simulação de jogos e temporada, sem DOM (roda no navegador e no node) |
 | `dados/competicoes-2026.json` | regulamento e calendário (Brasileirão, Copa do Brasil, Libertadores, Sul-Americana) e força **estimada** dos estrangeiros; editado à mão |
 | `estilo.css` | tokens em `:root`, tema escuro |
@@ -133,17 +132,6 @@ Cada jogador pode trazer `numeros`, com o total da temporada no Brasileirão. To
 ```
 
 Na carta, o rodapé troca os minutos pelos dois números da função do jogador: gols e assistências (centroavante, ponta, meia e meio-campo), desarmes e % de passes certos (volante), desarmes e assistências (lateral), desarmes e interceptações (zagueiro), jogos sem sofrer gol e defesas (goleiro). Na ficha aparecem todos os que vierem. São totais calculados, nunca a base bruta.
-
-## Quem Tá em Casa? (`quem-ta-em-casa.html`)
-
-Uma carta misteriosa e 6 chutes. Usa só as cartas de `dados/overalls-{ano}.json` e as da Europa listadas em `dados/retratos-europa.json` (`overalls-premier-league-2025.json`, `overalls-laliga-2025.json`, `overalls-ligue1-2025.json`, `overalls-champions-2025.json`, geradas por `futdata export-site --torneio 17|8|34|7`, na mesma régua do Brasileirão): nenhum número novo. Só esta página carrega os arquivos da Europa.
-
-- **Sorteio:** carta com nota calculada e 1.500 minutos ou mais na temporada (menos que isso sorteia reserva); 900 na Champions, que tem no máximo 17 jogos. A partida livre filtra por liga (Tudo, Brasileirão, Europa).
-- **Dicas, uma por erro:** liga, ano e posição (desde o início) → 2 maiores atributos → o resto e a seleção → overall → camisa e jogos → cores da camisa do clube (sem escudo). A seleção vem de `dados/paises.json` (`futdata export-paises`, do bruto de escalações do SofaScore, um mapa só pra todas as ligas); sem país no bruto, a dica diz "sem dado".
-- **Cada chute errado** compara com o certo: mesmo clube, mesma posição, overall maior ou menor. Chute sem nota naquela temporada mostra "— OVR", nunca seta: ausência não é zero.
-- **Vale o jogador**, em qualquer temporada ou liga. A carta do chute usada na comparação é a do mesmo retrato do alvo (liga e ano), senão a do mesmo ano, senão a mais nova.
-- **Desafio do dia:** só sorteia temporada fechada (`FASES_DO_DESAFIO`: liga nova entra a partir de uma data, nunca no meio do dia; desde 01/10 Brasileirão 2024 e 2025, Premier, LaLiga e Champions 25/26), porque o retrato da temporada em andamento muda toda semana e o jogador do dia mudaria junto. O pool é embaralhado uma vez com semente fixa e o desafio N pega a posição N: não repete até passar por todos. Uma tentativa por dia (`localStorage`); compartilhar sai em quadradinhos (🟩 acertou, 🟨 mesmo clube e posição, 🟥 errou, ⬜ não usou).
-- **Testes:** `node testes/rodar.mjs quem-ta`.
 
 ## Pacote de craque (home, ao lado do campinho)
 
