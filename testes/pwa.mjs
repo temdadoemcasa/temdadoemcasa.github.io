@@ -20,7 +20,7 @@ await p.waitForTimeout(1500);
 const n = await p.evaluate(async () => { const c = await caches.open((await caches.keys())[0]); return (await c.keys()).length; });
 ok(n >= 10, `service worker guardou ${n} arquivos`);
 const swTexto = await p.evaluate(async () => (await fetch('sw.js')).text());
-ok(/PAGINAS\s*=\s*\[[^\]]*"show-do-dadao\.html"/.test(swTexto) && !/top10|quem-ta/.test(swTexto), 'service worker lista os jogos que existem (sem Top 10 nem Quem Tá)');
+ok(/PAGINAS\s*=\s*\[[^\]]*"show-do-dadao\.html"/.test(swTexto) && /"top10-em-casa\.html"/.test(swTexto) && !/quem-ta/.test(swTexto), 'service worker lista os jogos que existem (com o Top 10, sem Quem Tá)');
 const emCache = await p.evaluate(async () => { const c = await caches.open((await caches.keys())[0]); return !!(await c.match('show-do-dadao.html')) && (await c.keys()).some((r) => /quiz\.js/.test(r.url)); });
 ok(emCache, 'Show do Dadão (pagina e quiz.js) guardado no cache');
 await ctx.setOffline(true);

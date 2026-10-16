@@ -23,6 +23,8 @@ base bruta do Sofascore nem ratings do EA.
 | `dados/temporadas.json` | anos no seletor, o primeiro é o padrão (`[2026, 2025, 2024]`) |
 | `dados/videos.json` | vídeos do canal; atualizado pelo workflow `videos.yml` (RSS, diário) |
 | `dados/uniformes.json` | camisa de cada clube; **editado à mão**, o pipeline não toca |
+| `top10-em-casa.html`, `top10.js`, `top10.css` | minigame Top 10 em Casa: rankings conhecidos com bandeira, 3 vidas, 3 dicas |
+| `dados/top10.json`, `img/bandeiras/` | rankings e busca do Top 10 e as bandeiras (SVG do flag-icons), gerados por `scripts/top10/gerar.py` |
 
 ## Contrato de `dados/overalls-{ano}.json`
 
@@ -132,6 +134,16 @@ Cada jogador pode trazer `numeros`, com o total da temporada no Brasileirão. To
 ```
 
 Na carta, o rodapé troca os minutos pelos dois números da função do jogador: gols e assistências (centroavante, ponta, meia e meio-campo), desarmes e % de passes certos (volante), desarmes e assistências (lateral), desarmes e interceptações (zagueiro), jogos sem sofrer gol e defesas (goleiro). Na ficha aparecem todos os que vierem. São totais calculados, nunca a base bruta.
+
+## Top 10 em Casa (`top10-em-casa.html`)
+
+Rankings fáceis a médios, que dá pra acertar: Bola de Ouro, Troféu Yashin (goleiros), Troféu Kopa (sub-21), artilheiros (Brasileirão, Premier, LaLiga, Serie A, Bundesliga, Ligue 1, Champions), mais valiosos no Transfermarkt numa data (geral, por posição, por país, sub-21) e contratações mais caras da temporada. Os tópicos ficam em `scripts/top10/topicos.py`.
+
+- **Fontes:** Wikipedia (prêmios e artilharia do Brasileirão, páginas em inglês, em cache) e a cópia do futdata do dcaribou/transfermarkt-datasets (CC0). Cada ranking diz a fonte na tela.
+- **Travas do gerador:** cada tópico declara o 1º colocado esperado; se a fonte der outro, o script para. Empate no 10º entra junto (até 12 barras); mais que isso o tópico não serve e é trocado. Nome da Wikipedia casa com o Transfermarkt pelo nome + clube; homônimo de outro clube (ou jogador fora do dataset) entra com identidade e bandeira da própria Wikipedia.
+- **Jogo:** cada barra já mostra a bandeira; 3 vidas (chute fora do top custa uma); até 3 dicas, cada uma revela a inicial e o clube da barra fechada mais alta. A busca tem todo mundo dos rankings + quem já valeu € 15 mi, pra não entregar a resposta.
+- **Regerar:** `uv run --project ~/Documents/brenisio/futdata python scripts/top10/gerar.py --tm ~/Documents/brenisio/futdata/data/externo/transfermarkt --cache ~/Documents/temdadoemcasa/top10-cache`
+- **Testes:** `node testes/rodar.mjs top10`.
 
 ## Pacote de craque (home, ao lado do campinho)
 

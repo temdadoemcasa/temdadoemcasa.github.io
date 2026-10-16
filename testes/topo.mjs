@@ -3,7 +3,7 @@
 import { chromium } from 'playwright';
 const BASE = process.env.BASE || 'http://localhost:8766';
 const ok = (c, m) => console.log(c ? 'OK  ' : 'FALHA', m);
-const JOGOS = ['show-do-dadao.html', 'tem-time-em-casa.html', 'prata-da-casa.html'];
+const JOGOS = ['show-do-dadao.html', 'tem-time-em-casa.html', 'prata-da-casa.html', 'top10-em-casa.html'];
 const b = await chromium.launch();
 for (const w of [360, 390, 768, 820, 900, 1024, 1280, 1440]) {
   const p = await b.newPage({ viewport: { width: w, height: 800 } });
