@@ -3,11 +3,11 @@
  "torneio": 17,
  "temporada_rotulo": "25/26",
  "niveis": {
-  "madeira": 75,
+  "madeira": 76,
   "tijolo": 84,
   "grafeno": 88
  },
- "gerado_em": "2026-10-04T21:02:17+00:00",
+ "gerado_em": "2026-10-17T22:11:41+00:00",
  "populacao": "Premier League",
  "piso_minutos": 450,
  "jogos_com_placar": 380,
@@ -216,6 +216,37 @@
       [
        "4-3-3",
        2,
+       3
+      ]
+     ]
+    },
+    {
+     "player_id": 581310,
+     "nome": "D. Raya",
+     "nome_completo": "David Raya",
+     "posicao": "G",
+     "camisa": 1,
+     "jogos": 37,
+     "minutos": 3330,
+     "overall": 87,
+     "eixos": {
+      "REF": 92,
+      "EVI": 84,
+      "MAO": 68,
+      "PES": 80,
+      "SAI": 88
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.5,
+     "recentes": [
+      [
+       "4-2-3-1",
+       0,
+       6
+      ],
+      [
+       "4-3-3",
+       0,
        3
       ]
      ]
@@ -493,37 +524,6 @@
       [
        "4-2-3-1",
        9,
-       3
-      ]
-     ]
-    },
-    {
-     "player_id": 581310,
-     "nome": "D. Raya",
-     "nome_completo": "David Raya",
-     "posicao": "G",
-     "camisa": 1,
-     "jogos": 37,
-     "minutos": 3330,
-     "overall": 85,
-     "eixos": {
-      "REF": 90,
-      "EVI": 82,
-      "MAO": 66,
-      "PES": 79,
-      "SAI": 86
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.5,
-     "recentes": [
-      [
-       "4-2-3-1",
-       0,
-       6
-      ],
-      [
-       "4-3-3",
-       0,
        3
       ]
      ]
@@ -1146,6 +1146,32 @@
      ]
     },
     {
+     "player_id": 158263,
+     "nome": "E. Martínez",
+     "nome_completo": "Emiliano Martínez",
+     "posicao": "G",
+     "camisa": 23,
+     "jogos": 32,
+     "minutos": 2835,
+     "overall": 82,
+     "eixos": {
+      "REF": 76,
+      "EVI": 84,
+      "MAO": 74,
+      "PES": 90,
+      "SAI": 74
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.5,
+     "recentes": [
+      [
+       "4-2-3-1",
+       0,
+       8
+      ]
+     ]
+    },
+    {
      "player_id": 250223,
      "nome": "J. McGinn",
      "nome_completo": "John McGinn",
@@ -1264,32 +1290,6 @@
      ]
     },
     {
-     "player_id": 158263,
-     "nome": "E. Martínez",
-     "nome_completo": "Emiliano Martínez",
-     "posicao": "G",
-     "camisa": 23,
-     "jogos": 32,
-     "minutos": 2835,
-     "overall": 80,
-     "eixos": {
-      "REF": 74,
-      "EVI": 82,
-      "MAO": 72,
-      "PES": 88,
-      "SAI": 73
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.5,
-     "recentes": [
-      [
-       "4-2-3-1",
-       0,
-       8
-      ]
-     ]
-    },
-    {
      "player_id": 96538,
      "nome": "L. Digne",
      "nome_completo": "Lucas Digne",
@@ -1398,6 +1398,32 @@
       [
        "4-2-3-1",
        6,
+       2
+      ]
+     ]
+    },
+    {
+     "player_id": 100390,
+     "nome": "M. Bizot",
+     "nome_completo": "Marco Bizot",
+     "posicao": "G",
+     "camisa": 40,
+     "jogos": 7,
+     "minutos": 585,
+     "overall": 78,
+     "eixos": {
+      "REF": 63,
+      "EVI": 71,
+      "MAO": 69,
+      "PES": 77,
+      "SAI": 88
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.5,
+     "recentes": [
+      [
+       "4-2-3-1",
+       0,
        2
       ]
      ]
@@ -1540,32 +1566,6 @@
      "sem_nota_por": null,
      "x_medio": 0.617,
      "recentes": []
-    },
-    {
-     "player_id": 100390,
-     "nome": "M. Bizot",
-     "nome_completo": "Marco Bizot",
-     "posicao": "G",
-     "camisa": 40,
-     "jogos": 7,
-     "minutos": 585,
-     "overall": 74,
-     "eixos": {
-      "REF": 61,
-      "EVI": 67,
-      "MAO": 66,
-      "PES": 73,
-      "SAI": 84
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.5,
-     "recentes": [
-      [
-       "4-2-3-1",
-       0,
-       2
-      ]
-     ]
     },
     {
      "player_id": 610766,
@@ -2015,6 +2015,32 @@
      ]
     },
     {
+     "player_id": 882604,
+     "nome": "Đ. Petrović",
+     "nome_completo": "Đorđe Petrović",
+     "posicao": "G",
+     "camisa": 1,
+     "jogos": 38,
+     "minutos": 3420,
+     "overall": 80,
+     "eixos": {
+      "REF": 82,
+      "EVI": 71,
+      "MAO": 89,
+      "PES": 73,
+      "SAI": 62
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.5,
+     "recentes": [
+      [
+       "4-2-3-1",
+       0,
+       10
+      ]
+     ]
+    },
+    {
      "player_id": 1156586,
      "nome": "J. Hill",
      "nome_completo": "James Hill",
@@ -2037,32 +2063,6 @@
       [
        "4-2-3-1",
        2,
-       10
-      ]
-     ]
-    },
-    {
-     "player_id": 882604,
-     "nome": "Đ. Petrović",
-     "nome_completo": "Đorđe Petrović",
-     "posicao": "G",
-     "camisa": 1,
-     "jogos": 38,
-     "minutos": 3420,
-     "overall": 78,
-     "eixos": {
-      "REF": 80,
-      "EVI": 70,
-      "MAO": 87,
-      "PES": 71,
-      "SAI": 61
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.5,
-     "recentes": [
-      [
-       "4-2-3-1",
-       0,
        10
       ]
      ]
@@ -2671,6 +2671,47 @@
      ]
     },
     {
+     "player_id": 827362,
+     "nome": "C. Kelleher",
+     "nome_completo": "Caoimhin Kelleher",
+     "posicao": "G",
+     "camisa": 1,
+     "jogos": 37,
+     "minutos": 3330,
+     "overall": 80,
+     "eixos": {
+      "REF": 84,
+      "EVI": 79,
+      "MAO": 68,
+      "PES": 81,
+      "SAI": 53
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.5,
+     "recentes": [
+      [
+       "4-2-3-1",
+       0,
+       7
+      ],
+      [
+       "4-1-4-1",
+       0,
+       1
+      ],
+      [
+       "4-4-2",
+       0,
+       1
+      ],
+      [
+       "5-3-2",
+       0,
+       1
+      ]
+     ]
+    },
+    {
      "player_id": 924378,
      "nome": "S. van den Berg",
      "nome_completo": "Sepp van den Berg",
@@ -2763,47 +2804,6 @@
        "4-2-3-1",
        6,
        2
-      ]
-     ]
-    },
-    {
-     "player_id": 827362,
-     "nome": "C. Kelleher",
-     "nome_completo": "Caoimhin Kelleher",
-     "posicao": "G",
-     "camisa": 1,
-     "jogos": 37,
-     "minutos": 3330,
-     "overall": 78,
-     "eixos": {
-      "REF": 82,
-      "EVI": 77,
-      "MAO": 67,
-      "PES": 79,
-      "SAI": 52
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.5,
-     "recentes": [
-      [
-       "4-2-3-1",
-       0,
-       7
-      ],
-      [
-       "4-1-4-1",
-       0,
-       1
-      ],
-      [
-       "4-4-2",
-       0,
-       1
-      ],
-      [
-       "5-3-2",
-       0,
-       1
       ]
      ]
     },
@@ -3331,6 +3331,32 @@
      ]
     },
     {
+     "player_id": 994363,
+     "nome": "B. Verbruggen",
+     "nome_completo": "Bart Verbruggen",
+     "posicao": "G",
+     "camisa": 1,
+     "jogos": 38,
+     "minutos": 3420,
+     "overall": 82,
+     "eixos": {
+      "REF": 88,
+      "EVI": 82,
+      "MAO": 50,
+      "PES": 79,
+      "SAI": 48
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.5,
+     "recentes": [
+      [
+       "4-2-3-1",
+       0,
+       10
+      ]
+     ]
+    },
+    {
      "player_id": 115365,
      "nome": "L. Dunk",
      "nome_completo": "Lewis Dunk",
@@ -3354,32 +3380,6 @@
        "4-2-3-1",
        3,
        5
-      ]
-     ]
-    },
-    {
-     "player_id": 994363,
-     "nome": "B. Verbruggen",
-     "nome_completo": "Bart Verbruggen",
-     "posicao": "G",
-     "camisa": 1,
-     "jogos": 38,
-     "minutos": 3420,
-     "overall": 81,
-     "eixos": {
-      "REF": 87,
-      "EVI": 81,
-      "MAO": 49,
-      "PES": 78,
-      "SAI": 48
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.5,
-     "recentes": [
-      [
-       "4-2-3-1",
-       0,
-       10
       ]
      ]
     },
@@ -4183,6 +4183,42 @@
      ]
     },
     {
+     "player_id": 42209,
+     "nome": "M. Dúbravka",
+     "nome_completo": "Martin Dúbravka",
+     "posicao": "G",
+     "camisa": 1,
+     "jogos": 35,
+     "minutos": 3150,
+     "overall": 74,
+     "eixos": {
+      "REF": 56,
+      "EVI": 70,
+      "MAO": 86,
+      "PES": 68,
+      "SAI": 54
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.5,
+     "recentes": [
+      [
+       "4-2-3-1",
+       0,
+       4
+      ],
+      [
+       "5-4-1",
+       0,
+       2
+      ],
+      [
+       "3-4-2-1",
+       0,
+       1
+      ]
+     ]
+    },
+    {
      "player_id": 855845,
      "nome": "F. Luís",
      "nome_completo": "Florentino Luís",
@@ -4441,42 +4477,6 @@
       [
        "5-4-1",
        4,
-       1
-      ]
-     ]
-    },
-    {
-     "player_id": 42209,
-     "nome": "M. Dúbravka",
-     "nome_completo": "Martin Dúbravka",
-     "posicao": "G",
-     "camisa": 1,
-     "jogos": 35,
-     "minutos": 3150,
-     "overall": 69,
-     "eixos": {
-      "REF": 52,
-      "EVI": 65,
-      "MAO": 81,
-      "PES": 63,
-      "SAI": 51
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.5,
-     "recentes": [
-      [
-       "4-2-3-1",
-       0,
-       4
-      ],
-      [
-       "5-4-1",
-       0,
-       2
-      ],
-      [
-       "3-4-2-1",
-       0,
        1
       ]
      ]
@@ -5408,6 +5408,42 @@
      ]
     },
     {
+     "player_id": 920546,
+     "nome": "R. Sánchez",
+     "nome_completo": "Robert Sánchez",
+     "posicao": "G",
+     "camisa": 1,
+     "jogos": 35,
+     "minutos": 3041,
+     "overall": 78,
+     "eixos": {
+      "REF": 72,
+      "EVI": 78,
+      "MAO": 77,
+      "PES": 83,
+      "SAI": 67
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.5,
+     "recentes": [
+      [
+       "4-2-3-1",
+       0,
+       6
+      ],
+      [
+       "3-4-1-2",
+       0,
+       1
+      ],
+      [
+       "5-4-1",
+       0,
+       1
+      ]
+     ]
+    },
+    {
      "player_id": 1597265,
      "nome": "Estêvão",
      "nome_completo": "Estêvão",
@@ -5562,42 +5598,6 @@
       [
        "5-4-1",
        4,
-       1
-      ]
-     ]
-    },
-    {
-     "player_id": 920546,
-     "nome": "R. Sánchez",
-     "nome_completo": "Robert Sánchez",
-     "posicao": "G",
-     "camisa": 1,
-     "jogos": 35,
-     "minutos": 3041,
-     "overall": 75,
-     "eixos": {
-      "REF": 70,
-      "EVI": 75,
-      "MAO": 74,
-      "PES": 80,
-      "SAI": 65
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.5,
-     "recentes": [
-      [
-       "4-2-3-1",
-       0,
-       6
-      ],
-      [
-       "3-4-1-2",
-       0,
-       1
-      ],
-      [
-       "5-4-1",
-       0,
        1
       ]
      ]
@@ -6105,6 +6105,42 @@
      ]
     },
     {
+     "player_id": 788134,
+     "nome": "D. Henderson",
+     "nome_completo": "Dean Henderson",
+     "posicao": "G",
+     "camisa": 1,
+     "jogos": 37,
+     "minutos": 3330,
+     "overall": 78,
+     "eixos": {
+      "REF": 75,
+      "EVI": 83,
+      "MAO": 71,
+      "PES": 47,
+      "SAI": 78
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.5,
+     "recentes": [
+      [
+       "3-4-2-1",
+       0,
+       6
+      ],
+      [
+       "3-4-3",
+       0,
+       2
+      ],
+      [
+       "5-4-1",
+       0,
+       1
+      ]
+     ]
+    },
+    {
      "player_id": 1109771,
      "nome": "A. Wharton",
      "nome_completo": "Adam Wharton",
@@ -6233,42 +6269,6 @@
       [
        "5-4-1",
        9,
-       1
-      ]
-     ]
-    },
-    {
-     "player_id": 788134,
-     "nome": "D. Henderson",
-     "nome_completo": "Dean Henderson",
-     "posicao": "G",
-     "camisa": 1,
-     "jogos": 37,
-     "minutos": 3330,
-     "overall": 76,
-     "eixos": {
-      "REF": 73,
-      "EVI": 81,
-      "MAO": 70,
-      "PES": 46,
-      "SAI": 76
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.5,
-     "recentes": [
-      [
-       "3-4-2-1",
-       0,
-       6
-      ],
-      [
-       "3-4-3",
-       0,
-       2
-      ],
-      [
-       "5-4-1",
-       0,
        1
       ]
      ]
@@ -6964,6 +6964,32 @@
      ]
     },
     {
+     "player_id": 138530,
+     "nome": "J. Pickford",
+     "nome_completo": "Jordan Pickford",
+     "posicao": "G",
+     "camisa": 1,
+     "jogos": 38,
+     "minutos": 3420,
+     "overall": 80,
+     "eixos": {
+      "REF": 56,
+      "EVI": 89,
+      "MAO": 48,
+      "PES": 78,
+      "SAI": 76
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.5,
+     "recentes": [
+      [
+       "4-2-3-1",
+       0,
+       10
+      ]
+     ]
+    },
+    {
      "player_id": 876643,
      "nome": "V. Mykolenko",
      "nome_completo": "Vitaliy Mykolenko",
@@ -7078,32 +7104,6 @@
        "4-2-3-1",
        8,
        1
-      ]
-     ]
-    },
-    {
-     "player_id": 138530,
-     "nome": "J. Pickford",
-     "nome_completo": "Jordan Pickford",
-     "posicao": "G",
-     "camisa": 1,
-     "jogos": 38,
-     "minutos": 3420,
-     "overall": 78,
-     "eixos": {
-      "REF": 55,
-      "EVI": 87,
-      "MAO": 48,
-      "PES": 76,
-      "SAI": 74
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.5,
-     "recentes": [
-      [
-       "4-2-3-1",
-       0,
-       10
       ]
      ]
     },
@@ -7732,6 +7732,47 @@
      ]
     },
     {
+     "player_id": 78152,
+     "nome": "M. Sels",
+     "nome_completo": "Matz Sels",
+     "posicao": "G",
+     "camisa": 26,
+     "jogos": 31,
+     "minutos": 2667,
+     "overall": 76,
+     "eixos": {
+      "REF": 84,
+      "EVI": 84,
+      "MAO": 52,
+      "PES": 60,
+      "SAI": 63
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.5,
+     "recentes": [
+      [
+       "4-2-3-1",
+       0,
+       4
+      ],
+      [
+       "4-4-2",
+       0,
+       4
+      ],
+      [
+       "3-4-2-1",
+       0,
+       1
+      ],
+      [
+       "5-3-2",
+       0,
+       1
+      ]
+     ]
+    },
+    {
      "player_id": 981619,
      "nome": "I. Jesus",
      "nome_completo": "Igor Jesus",
@@ -7939,47 +7980,6 @@
       [
        "4-2-3-1",
        10,
-       1
-      ]
-     ]
-    },
-    {
-     "player_id": 78152,
-     "nome": "M. Sels",
-     "nome_completo": "Matz Sels",
-     "posicao": "G",
-     "camisa": 26,
-     "jogos": 31,
-     "minutos": 2667,
-     "overall": 72,
-     "eixos": {
-      "REF": 80,
-      "EVI": 80,
-      "MAO": 50,
-      "PES": 56,
-      "SAI": 59
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.5,
-     "recentes": [
-      [
-       "4-2-3-1",
-       0,
-       4
-      ],
-      [
-       "4-4-2",
-       0,
-       4
-      ],
-      [
-       "3-4-2-1",
-       0,
-       1
-      ],
-      [
-       "5-3-2",
-       0,
        1
       ]
      ]
@@ -8594,6 +8594,32 @@
      ]
     },
     {
+     "player_id": 103335,
+     "nome": "B. Leno",
+     "nome_completo": "Bernd Leno",
+     "posicao": "G",
+     "camisa": 1,
+     "jogos": 38,
+     "minutos": 3420,
+     "overall": 79,
+     "eixos": {
+      "REF": 71,
+      "EVI": 54,
+      "MAO": 78,
+      "PES": 90,
+      "SAI": 72
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.5,
+     "recentes": [
+      [
+       "4-2-3-1",
+       0,
+       10
+      ]
+     ]
+    },
+    {
      "player_id": 861972,
      "nome": "C. Bassey",
      "nome_completo": "Calvin Bassey",
@@ -8794,32 +8820,6 @@
        "4-2-3-1",
        6,
        1
-      ]
-     ]
-    },
-    {
-     "player_id": 103335,
-     "nome": "B. Leno",
-     "nome_completo": "Bernd Leno",
-     "posicao": "G",
-     "camisa": 1,
-     "jogos": 38,
-     "minutos": 3420,
-     "overall": 77,
-     "eixos": {
-      "REF": 70,
-      "EVI": 52,
-      "MAO": 76,
-      "PES": 88,
-      "SAI": 70
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.5,
-     "recentes": [
-      [
-       "4-2-3-1",
-       0,
-       10
       ]
      ]
     },
@@ -9670,6 +9670,47 @@
      ]
     },
     {
+     "player_id": 123689,
+     "nome": "K. Darlow",
+     "nome_completo": "Karl Darlow",
+     "posicao": "G",
+     "camisa": 26,
+     "jogos": 22,
+     "minutos": 1980,
+     "overall": 74,
+     "eixos": {
+      "REF": 70,
+      "EVI": 67,
+      "MAO": 71,
+      "PES": 63,
+      "SAI": 85
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.5,
+     "recentes": [
+      [
+       "3-5-2",
+       0,
+       4
+      ],
+      [
+       "3-4-2-1",
+       0,
+       3
+      ],
+      [
+       "3-4-1-2",
+       0,
+       2
+      ],
+      [
+       "4-5-1",
+       0,
+       1
+      ]
+     ]
+    },
+    {
      "player_id": 803185,
      "nome": "L. Nmecha",
      "nome_completo": "Lukas Nmecha",
@@ -9809,47 +9850,6 @@
      ]
     },
     {
-     "player_id": 123689,
-     "nome": "K. Darlow",
-     "nome_completo": "Karl Darlow",
-     "posicao": "G",
-     "camisa": 26,
-     "jogos": 22,
-     "minutos": 1980,
-     "overall": 69,
-     "eixos": {
-      "REF": 65,
-      "EVI": 63,
-      "MAO": 66,
-      "PES": 60,
-      "SAI": 80
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.5,
-     "recentes": [
-      [
-       "3-5-2",
-       0,
-       4
-      ],
-      [
-       "3-4-2-1",
-       0,
-       3
-      ],
-      [
-       "3-4-1-2",
-       0,
-       2
-      ],
-      [
-       "4-5-1",
-       0,
-       1
-      ]
-     ]
-    },
-    {
      "player_id": 998951,
      "nome": "W. Gnonto",
      "nome_completo": "Wilfried Gnonto",
@@ -9878,13 +9878,13 @@
      "camisa": 1,
      "jogos": 16,
      "minutos": 1440,
-     "overall": 59,
+     "overall": 65,
      "eixos": {
-      "REF": 53,
-      "EVI": 63,
-      "MAO": 64,
-      "PES": 50,
-      "SAI": 52
+      "REF": 59,
+      "EVI": 69,
+      "MAO": 70,
+      "PES": 53,
+      "SAI": 56
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -10496,6 +10496,32 @@
      ]
     },
     {
+     "player_id": 243609,
+     "nome": "Alisson",
+     "nome_completo": "Alisson",
+     "posicao": "G",
+     "camisa": 1,
+     "jogos": 26,
+     "minutos": 2340,
+     "overall": 81,
+     "eixos": {
+      "REF": 76,
+      "EVI": 60,
+      "MAO": 73,
+      "PES": 95,
+      "SAI": 64
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.5,
+     "recentes": [
+      [
+       "4-2-3-1",
+       0,
+       3
+      ]
+     ]
+    },
+    {
      "player_id": 970361,
      "nome": "J. Frimpong",
      "nome_completo": "Jeremie Frimpong",
@@ -10534,32 +10560,6 @@
        "4-3-1-2",
        1,
        1
-      ]
-     ]
-    },
-    {
-     "player_id": 243609,
-     "nome": "Alisson",
-     "nome_completo": "Alisson",
-     "posicao": "G",
-     "camisa": 1,
-     "jogos": 26,
-     "minutos": 2340,
-     "overall": 78,
-     "eixos": {
-      "REF": 73,
-      "EVI": 58,
-      "MAO": 70,
-      "PES": 94,
-      "SAI": 62
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.5,
-     "recentes": [
-      [
-       "4-2-3-1",
-       0,
-       3
       ]
      ]
     },
@@ -10655,6 +10655,37 @@
      ]
     },
     {
+     "player_id": 930997,
+     "nome": "G. Mamardashvili",
+     "nome_completo": "Giorgi Mamardashvili",
+     "posicao": "G",
+     "camisa": 25,
+     "jogos": 10,
+     "minutos": 868,
+     "overall": 77,
+     "eixos": {
+      "REF": 60,
+      "EVI": 51,
+      "MAO": 62,
+      "PES": 77,
+      "SAI": 95
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.5,
+     "recentes": [
+      [
+       "4-2-3-1",
+       0,
+       4
+      ],
+      [
+       "4-3-1-2",
+       0,
+       1
+      ]
+     ]
+    },
+    {
      "player_id": 1881902,
      "nome": "R. Ngumoha",
      "nome_completo": "Rio Ngumoha",
@@ -10678,37 +10709,6 @@
        "4-2-3-1",
        9,
        5
-      ]
-     ]
-    },
-    {
-     "player_id": 930997,
-     "nome": "G. Mamardashvili",
-     "nome_completo": "Giorgi Mamardashvili",
-     "posicao": "G",
-     "camisa": 25,
-     "jogos": 10,
-     "minutos": 868,
-     "overall": 72,
-     "eixos": {
-      "REF": 57,
-      "EVI": 49,
-      "MAO": 57,
-      "PES": 72,
-      "SAI": 91
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.5,
-     "recentes": [
-      [
-       "4-2-3-1",
-       0,
-       4
-      ],
-      [
-       "4-3-1-2",
-       0,
-       1
       ]
      ]
     },
@@ -12023,6 +12023,32 @@
      ]
     },
     {
+     "player_id": 964753,
+     "nome": "S. Lammens",
+     "nome_completo": "Senne Lammens",
+     "posicao": "G",
+     "camisa": 31,
+     "jogos": 32,
+     "minutos": 2880,
+     "overall": 83,
+     "eixos": {
+      "REF": 84,
+      "EVI": 95,
+      "MAO": 71,
+      "PES": 69,
+      "SAI": 51
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.5,
+     "recentes": [
+      [
+       "4-2-3-1",
+       0,
+       10
+      ]
+     ]
+    },
+    {
      "player_id": 986397,
      "nome": "B. Šeško",
      "nome_completo": "Benjamin Šeško",
@@ -12153,32 +12179,6 @@
        "4-2-3-1",
        9,
        1
-      ]
-     ]
-    },
-    {
-     "player_id": 964753,
-     "nome": "S. Lammens",
-     "nome_completo": "Senne Lammens",
-     "posicao": "G",
-     "camisa": 31,
-     "jogos": 32,
-     "minutos": 2880,
-     "overall": 81,
-     "eixos": {
-      "REF": 82,
-      "EVI": 95,
-      "MAO": 69,
-      "PES": 67,
-      "SAI": 50
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.5,
-     "recentes": [
-      [
-       "4-2-3-1",
-       0,
-       10
       ]
      ]
     },
@@ -12384,13 +12384,13 @@
      "camisa": 1,
      "jogos": 6,
      "minutos": 540,
-     "overall": 67,
+     "overall": 72,
      "eixos": {
       "REF": 45,
-      "EVI": 79,
-      "MAO": 65,
-      "PES": 59,
-      "SAI": 54
+      "EVI": 84,
+      "MAO": 70,
+      "PES": 64,
+      "SAI": 57
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -12982,6 +12982,42 @@
      ]
     },
     {
+     "player_id": 162653,
+     "nome": "N. Pope",
+     "nome_completo": "Nick Pope",
+     "posicao": "G",
+     "camisa": 1,
+     "jogos": 27,
+     "minutos": 2417,
+     "overall": 79,
+     "eixos": {
+      "REF": 89,
+      "EVI": 53,
+      "MAO": 73,
+      "PES": 57,
+      "SAI": 77
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.5,
+     "recentes": [
+      [
+       "4-2-3-1",
+       0,
+       3
+      ],
+      [
+       "3-5-2",
+       0,
+       1
+      ],
+      [
+       "4-1-4-1",
+       0,
+       1
+      ]
+     ]
+    },
+    {
      "player_id": 910046,
      "nome": "S. Botman",
      "nome_completo": "Sven Botman",
@@ -13240,42 +13276,6 @@
      ]
     },
     {
-     "player_id": 162653,
-     "nome": "N. Pope",
-     "nome_completo": "Nick Pope",
-     "posicao": "G",
-     "camisa": 1,
-     "jogos": 27,
-     "minutos": 2417,
-     "overall": 75,
-     "eixos": {
-      "REF": 85,
-      "EVI": 51,
-      "MAO": 69,
-      "PES": 54,
-      "SAI": 73
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.5,
-     "recentes": [
-      [
-       "4-2-3-1",
-       0,
-       3
-      ],
-      [
-       "3-5-2",
-       0,
-       1
-      ],
-      [
-       "4-1-4-1",
-       0,
-       1
-      ]
-     ]
-    },
-    {
      "player_id": 1122603,
      "nome": "W. Osula",
      "nome_completo": "William Osula",
@@ -13360,6 +13360,37 @@
      ]
     },
     {
+     "player_id": 839410,
+     "nome": "A. Ramsdale",
+     "nome_completo": "Aaron Ramsdale",
+     "posicao": "G",
+     "camisa": 32,
+     "jogos": 12,
+     "minutos": 1003,
+     "overall": 73,
+     "eixos": {
+      "REF": 46,
+      "EVI": 72,
+      "MAO": 73,
+      "PES": 66,
+      "SAI": 76
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.5,
+     "recentes": [
+      [
+       "4-3-3",
+       0,
+       3
+      ],
+      [
+       "4-2-3-1",
+       0,
+       2
+      ]
+     ]
+    },
+    {
      "player_id": 805123,
      "nome": "Y. Wissa",
      "nome_completo": "Yoane Wissa",
@@ -13379,37 +13410,6 @@
      "sem_nota_por": null,
      "x_medio": 0.5,
      "recentes": []
-    },
-    {
-     "player_id": 839410,
-     "nome": "A. Ramsdale",
-     "nome_completo": "Aaron Ramsdale",
-     "posicao": "G",
-     "camisa": 32,
-     "jogos": 12,
-     "minutos": 1003,
-     "overall": 68,
-     "eixos": {
-      "REF": 45,
-      "EVI": 67,
-      "MAO": 68,
-      "PES": 62,
-      "SAI": 71
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.5,
-     "recentes": [
-      [
-       "4-3-3",
-       0,
-       3
-      ],
-      [
-       "4-2-3-1",
-       0,
-       2
-      ]
-     ]
     },
     {
      "player_id": 150396,
@@ -13788,6 +13788,32 @@
      ]
     },
     {
+     "player_id": 1012928,
+     "nome": "R. Roefs",
+     "nome_completo": "Robin Roefs",
+     "posicao": "G",
+     "camisa": 22,
+     "jogos": 35,
+     "minutos": 3150,
+     "overall": 80,
+     "eixos": {
+      "REF": 92,
+      "EVI": 65,
+      "MAO": 87,
+      "PES": 63,
+      "SAI": 46
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.5,
+     "recentes": [
+      [
+       "4-2-3-1",
+       0,
+       7
+      ]
+     ]
+    },
+    {
      "player_id": 958878,
      "nome": "D. Ballard",
      "nome_completo": "Daniel Ballard",
@@ -13816,32 +13842,6 @@
        "4-1-4-1",
        2,
        1
-      ]
-     ]
-    },
-    {
-     "player_id": 1012928,
-     "nome": "R. Roefs",
-     "nome_completo": "Robin Roefs",
-     "posicao": "G",
-     "camisa": 22,
-     "jogos": 35,
-     "minutos": 3150,
-     "overall": 78,
-     "eixos": {
-      "REF": 90,
-      "EVI": 63,
-      "MAO": 85,
-      "PES": 62,
-      "SAI": 45
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.5,
-     "recentes": [
-      [
-       "4-2-3-1",
-       0,
-       7
       ]
      ]
     },
@@ -14677,6 +14677,37 @@
      "recentes": []
     },
     {
+     "player_id": 553606,
+     "nome": "G. Vicario",
+     "nome_completo": "Guglielmo Vicario",
+     "posicao": "G",
+     "camisa": 1,
+     "jogos": 31,
+     "minutos": 2790,
+     "overall": 78,
+     "eixos": {
+      "REF": 52,
+      "EVI": 61,
+      "MAO": 73,
+      "PES": 78,
+      "SAI": 87
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.5,
+     "recentes": [
+      [
+       "4-4-2",
+       0,
+       2
+      ],
+      [
+       "3-4-2-1",
+       0,
+       1
+      ]
+     ]
+    },
+    {
      "player_id": 997183,
      "nome": "X. Simons",
      "nome_completo": "Xavi Simons",
@@ -14863,37 +14894,6 @@
       [
        "4-2-3-1",
        8,
-       1
-      ]
-     ]
-    },
-    {
-     "player_id": 553606,
-     "nome": "G. Vicario",
-     "nome_completo": "Guglielmo Vicario",
-     "posicao": "G",
-     "camisa": 1,
-     "jogos": 31,
-     "minutos": 2790,
-     "overall": 75,
-     "eixos": {
-      "REF": 51,
-      "EVI": 59,
-      "MAO": 70,
-      "PES": 75,
-      "SAI": 84
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.5,
-     "recentes": [
-      [
-       "4-4-2",
-       0,
-       2
-      ],
-      [
-       "3-4-2-1",
-       0,
        1
       ]
      ]
@@ -15155,11 +15155,11 @@
      "camisa": 31,
      "jogos": 7,
      "minutos": 630,
-     "overall": 62,
+     "overall": 67,
      "eixos": {
-      "MAO": 59,
-      "PES": 66,
-      "SAI": 63
+      "MAO": 64,
+      "PES": 71,
+      "SAI": 68
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -15748,6 +15748,26 @@
      ]
     },
     {
+     "player_id": 96531,
+     "nome": "A. Aréola",
+     "nome_completo": "Alphonse Aréola",
+     "posicao": "G",
+     "camisa": 23,
+     "jogos": 20,
+     "minutos": 1800,
+     "overall": 73,
+     "eixos": {
+      "REF": 85,
+      "EVI": 62,
+      "MAO": 74,
+      "PES": 45,
+      "SAI": 45
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.5,
+     "recentes": []
+    },
+    {
      "player_id": 827243,
      "nome": "A. Disasi",
      "nome_completo": "Axel Disasi",
@@ -15900,24 +15920,50 @@
      "recentes": []
     },
     {
-     "player_id": 96531,
-     "nome": "A. Aréola",
-     "nome_completo": "Alphonse Aréola",
+     "player_id": 856640,
+     "nome": "M. Hermansen",
+     "nome_completo": "Mads Hermansen",
      "posicao": "G",
-     "camisa": 23,
-     "jogos": 20,
-     "minutos": 1800,
-     "overall": 68,
+     "camisa": 1,
+     "jogos": 18,
+     "minutos": 1620,
+     "overall": 69,
      "eixos": {
-      "REF": 80,
-      "EVI": 57,
-      "MAO": 69,
-      "PES": 45,
-      "SAI": 45
+      "REF": 58,
+      "EVI": 45,
+      "MAO": 76,
+      "PES": 46,
+      "SAI": 77
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
-     "recentes": []
+     "recentes": [
+      [
+       "4-4-1-1",
+       0,
+       4
+      ],
+      [
+       "3-4-2-1",
+       0,
+       3
+      ],
+      [
+       "4-2-3-1",
+       0,
+       1
+      ],
+      [
+       "4-3-3",
+       0,
+       1
+      ],
+      [
+       "4-4-2",
+       0,
+       1
+      ]
+     ]
     },
     {
      "player_id": 113956,
@@ -16072,52 +16118,6 @@
      "sem_nota_por": null,
      "x_medio": 0.333,
      "recentes": []
-    },
-    {
-     "player_id": 856640,
-     "nome": "M. Hermansen",
-     "nome_completo": "Mads Hermansen",
-     "posicao": "G",
-     "camisa": 1,
-     "jogos": 18,
-     "minutos": 1620,
-     "overall": 64,
-     "eixos": {
-      "REF": 53,
-      "EVI": 45,
-      "MAO": 71,
-      "PES": 45,
-      "SAI": 72
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.5,
-     "recentes": [
-      [
-       "4-4-1-1",
-       0,
-       4
-      ],
-      [
-       "3-4-2-1",
-       0,
-       3
-      ],
-      [
-       "4-2-3-1",
-       0,
-       1
-      ],
-      [
-       "4-3-3",
-       0,
-       1
-      ],
-      [
-       "4-4-2",
-       0,
-       1
-      ]
-     ]
     },
     {
      "player_id": 286165,
@@ -16567,6 +16567,42 @@
      ]
     },
     {
+     "player_id": 252669,
+     "nome": "J. Sá",
+     "nome_completo": "José Sá",
+     "posicao": "G",
+     "camisa": 1,
+     "jogos": 23,
+     "minutos": 2070,
+     "overall": 73,
+     "eixos": {
+      "REF": 49,
+      "EVI": 51,
+      "MAO": 88,
+      "PES": 64,
+      "SAI": 69
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.5,
+     "recentes": [
+      [
+       "3-4-2-1",
+       0,
+       4
+      ],
+      [
+       "3-5-1-1",
+       0,
+       2
+      ],
+      [
+       "4-2-3-1",
+       0,
+       1
+      ]
+     ]
+    },
+    {
      "player_id": 846308,
      "nome": "S. Bueno",
      "nome_completo": "Santiago Bueno",
@@ -16789,40 +16825,24 @@
      ]
     },
     {
-     "player_id": 252669,
-     "nome": "J. Sá",
-     "nome_completo": "José Sá",
+     "player_id": 98427,
+     "nome": "S. Johnstone",
+     "nome_completo": "Sam Johnstone",
      "posicao": "G",
-     "camisa": 1,
-     "jogos": 23,
-     "minutos": 2070,
-     "overall": 68,
+     "camisa": 31,
+     "jogos": 12,
+     "minutos": 1080,
+     "overall": 70,
      "eixos": {
-      "REF": 47,
-      "EVI": 48,
-      "MAO": 83,
-      "PES": 59,
-      "SAI": 64
+      "REF": 56,
+      "EVI": 53,
+      "MAO": 66,
+      "PES": 61,
+      "SAI": 85
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
-     "recentes": [
-      [
-       "3-4-2-1",
-       0,
-       4
-      ],
-      [
-       "3-5-1-1",
-       0,
-       2
-      ],
-      [
-       "4-2-3-1",
-       0,
-       1
-      ]
-     ]
+     "recentes": []
     },
     {
      "player_id": 845273,
@@ -16991,26 +17011,6 @@
      },
      "sem_nota_por": null,
      "x_medio": 0.595,
-     "recentes": []
-    },
-    {
-     "player_id": 98427,
-     "nome": "S. Johnstone",
-     "nome_completo": "Sam Johnstone",
-     "posicao": "G",
-     "camisa": 31,
-     "jogos": 12,
-     "minutos": 1080,
-     "overall": 65,
-     "eixos": {
-      "REF": 54,
-      "EVI": 50,
-      "MAO": 61,
-      "PES": 56,
-      "SAI": 80
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.5,
      "recentes": []
     },
     {
