@@ -5,6 +5,13 @@ const erros=[]; p.on('pageerror', e => erros.push(e.message)); p.on('console', m
 const ok = (c, m) => console.log(c ? 'OK  ' : 'FALHA', m);
 await p.goto(BASE + '/'); await p.waitForTimeout(1800);
 ok(await p.locator('#selecao svg').count() > 0, 'selecao da temporada desenhada no topo');
+// selecao 4-4-2 so com quem jogou metade das rodadas (dono, 2026-10-17: Neymar com 13 jogos fica fora)
+const sel = await p.evaluate(() => {
+  const r = estado.r, esc = selecaoDaTemporada(r), minimo = Math.ceil(rodadasDaTemporada(r) / 2);
+  return { n: esc.length, minimo, abaixo: esc.filter((e) => (e.jogador.jogos ?? 0) < minimo).map((e) => e.jogador.nome) };
+});
+ok(sel.n === 11 && sel.minimo > 1 && sel.abaixo.length === 0, `selecao com 11 e ninguem abaixo de ${sel.minimo} jogos (${sel.abaixo.join(', ')})`);
+ok(await p.evaluate(() => Object.entries(FUNCAO_DO_DONO).every(([id, f]) => { const j = estado.r.indice.comNota.find((x) => x.player_id === Number(id)); return !j || FUNCAO.get(j) === f; })), 'funcao fixada pelo dono vale por cima da inferida');
 ok(await p.locator('#elenco .carta').count() > 5, 'cartas do elenco');
 ok(await p.locator('#elenco .carta .carta-figura svg circle').count() === 0, 'carta so com a camisa (sem boneco)');
 ok(await p.evaluate(() => getComputedStyle(document.querySelector('#elenco .carta-eixos div')).backgroundColor === 'rgba(0, 0, 0, 0)'), 'stats em barrinha (sem caixinha colorida)');
