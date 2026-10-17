@@ -566,6 +566,8 @@ const FAMILIA = { GOL: ["G"], LAT: ["D"], ZAG: ["D"], VOL: ["M"], MC: ["M"], MEI
 // (linha e lado); quem nao e, sai do perfil dos eixos. Chute honesto: os
 // dados nao tem posicao fina, so G/D/M/F.
 const FUNCAO = new Map();
+// player_id -> funcao, por cima da inferida (ver inferirFuncoes)
+const FUNCAO_DO_DONO = { 611876: "VOL", 844096: "PON", 1160386: "CA" };
 // funcoes secundarias: onde mais ele foi titular nos jogos recentes (JSON:
 // `recentes`), pela MESMA regra de funcao. O draft deixa escolher e mover.
 const FUNCOES_EXTRAS = new Map();
@@ -653,6 +655,13 @@ function inferirFuncoes(r) {
     else if (j.posicao === "M") f = e(j, "DEF") >= Math.max(e(j, "PAS"), e(j, "FIN")) ? "VOL" : (e(j, "PAS") + e(j, "FIN")) / 2 >= 60 ? "MEI" : "MC";
     else f = e(j, "DRI") + e(j, "RIT") >= e(j, "FIN") + e(j, "FIS") + 10 ? "PON" : "CA";
     FUNCAO.set(j, f);
+  }
+  // funcao fixada pelo dono quando a escalacao base engana (2026-10-17):
+  // Gerson faz a ponta no Cruzeiro mas e volante; Arias e ponta; Andres
+  // Gomez joga de atacante
+  for (const j of r.indice.comNota) {
+    const f = FUNCAO_DO_DONO[j.player_id];
+    if (f) FUNCAO.set(j, f);
   }
   for (const [j, extras] of FUNCOES_EXTRAS) extras.delete(FUNCAO.get(j));
 }
@@ -958,17 +967,23 @@ function ladoDoDefensor(r) {
   return x;
 }
 
-// 4-3-3 pelo maior overall de cada FUNCAO (desempate: mais minutos): um
-// volante, dois meias, dois pontas (cada um no seu lado), um centroavante.
-// A funcao sai de onde o jogador atua na escalacao base (ou do perfil dos
-// eixos). So entra quem tem nota, entao o piso de minutos ja vale aqui.
+// 4-4-2 pelo maior overall de cada FUNCAO (desempate: mais minutos): dois
+// no meio, dois abertos (cada um no seu lado) e dois na frente. A funcao
+// sai de onde o jogador atua na escalacao base (ou do perfil dos eixos).
+// So entra quem tem nota E jogou metade das rodadas (dono, 2026-10-17:
+// Neymar, 13 jogos, nao entra por poucos jogos).
 // Devolve [{ jogador, time, x, y }] com x e y de 0 a 1 (ataque em y = 1).
+function rodadasDaTemporada(r) {
+  return Math.round((r.jogos_com_placar * 2) / Math.max(1, r.times.length));
+}
 function selecaoDaTemporada(r) {
   inferirFuncoes(r); // refaz a cada temporada escolhida
   const ordem = (a, b) => b.overall - a.overall || b.minutos - a.minutos;
+  const minimoDeJogos = Math.ceil(rodadasDaTemporada(r) / 2);
+  const regular = (j) => r.indice.ranqueavel(j) && (j.jogos ?? 0) >= minimoDeJogos;
   const usados = new Set();
   const pegar = (funcoes, n, filtro = () => true) => {
-    const lista = r.indice.comNota.filter((j) => !usados.has(j) && r.indice.ranqueavel(j) && funcoes.includes(FUNCAO.get(j)) && filtro(j)).sort(ordem).slice(0, n);
+    const lista = r.indice.comNota.filter((j) => !usados.has(j) && regular(j) && funcoes.includes(FUNCAO.get(j)) && filtro(j)).sort(ordem).slice(0, n);
     lista.forEach((j) => usados.add(j));
     return lista;
   };
@@ -981,7 +996,7 @@ function selecaoDaTemporada(r) {
   if (goleiro) escalados.push(vaga(goleiro, 0.5, 0));
 
   // laterais: o melhor de cada lado (sem lado registrado, completa onde faltar)
-  const lats = r.indice.comNota.filter((j) => FUNCAO.get(j) === "LAT" && r.indice.ranqueavel(j)).sort(ordem);
+  const lats = r.indice.comNota.filter((j) => FUNCAO.get(j) === "LAT" && regular(j)).sort(ordem);
   let le = lats.find((j) => (lado(j) ?? 0.5) < 0.5), ld = lats.find((j) => j !== le && (lado(j) ?? 0.5) >= 0.5);
   if (!le) le = lats.find((j) => j !== ld);
   if (!ld) ld = lats.find((j) => j !== le);
@@ -990,24 +1005,22 @@ function selecaoDaTemporada(r) {
   if (zags.length < 2) zags.push(...pegar(["LAT"], 2 - zags.length));
   zags.forEach((j, i) => escalados.push(vaga(j, i === 0 ? 0.33 : 0.67, 0.2)));
 
-  // meio (dono, 2026-09-24): dois volantes lado a lado na frente da zaga e
-  // um meia armador a frente deles -- o 4-3-3 com Jorginho e Andreas de
-  // volantes e Arrascaeta de meia. Falta volante: completa com meio-campo.
-  const vols = pegar(["VOL"], 2);
-  if (vols.length < 2) vols.push(...pegar(["MC"], 2 - vols.length));
-  vols.sort((a, b) => (lado(a) ?? 0.5) - (lado(b) ?? 0.5));
-  vols.forEach((j, i) => escalados.push(vaga(j, i === 0 ? 0.33 : 0.67, 0.44)));
-  let [meia] = pegar(["MEI", "MC"], 1);
-  if (!meia) [meia] = pegar(["VOL"], 1);
-  if (meia) escalados.push(vaga(meia, 0.5, 0.64));
-
-  // ataque: centroavante no meio, pontas pelos lados de onde jogam
-  const [ca] = pegar(["CA"], 1);
-  if (ca) escalados.push(vaga(ca, 0.5, 0.97));
+  // abertos: os dois melhores pontas, o mais a esquerda na esquerda (dono,
+  // 2026-10-17: Lino na esquerda, Arias na direita)
   const pontas = pegar(["PON"], 2);
-  if (pontas.length < 2) pontas.push(...pegar(["CA"], 2 - pontas.length));
   pontas.sort((a, b) => (lado(a) ?? 0.5) - (lado(b) ?? 0.5));
-  pontas.forEach((j, i) => escalados.push(vaga(j, i === 0 ? 0.12 : 0.88, 0.86)));
+  pontas.forEach((j, i) => escalados.push(vaga(j, i === 0 ? 0.06 : 0.94, 0.6)));
+
+  // meio: os dois melhores de meio-campo, volante ou meia
+  const meio = pegar(["VOL", "MC", "MEI"], 2);
+  meio.sort((a, b) => (lado(a) ?? 0.5) - (lado(b) ?? 0.5));
+  meio.forEach((j, i) => escalados.push(vaga(j, i === 0 ? 0.37 : 0.63, 0.5)));
+
+  // frente: centroavante e quem sobrar de melhor no ataque
+  const frente = pegar(["CA"], 1);
+  frente.push(...pegar(["CA", "PON"], 2 - frente.length));
+  frente.sort((a, b) => (lado(a) ?? 0.5) - (lado(b) ?? 0.5));
+  frente.forEach((j, i) => escalados.push(vaga(j, i === 0 ? 0.38 : 0.62, 0.92)));
   return escalados;
 }
 
@@ -1020,14 +1033,14 @@ function mostrarSelecao(r) {
     ? `${r.jogos_com_placar} de ${r.jogos_esperados} jogos na base.`
     : `Temporada completa, ${r.jogos_esperados} jogos.`;
   document.getElementById("selecao-regra").textContent =
-    `Sem opinião, só planilha: o maior overall de cada posição, entre quem jogou ${r.piso_minutos}+ minutos. ${jogos}`;
+    `Sem opinião, só planilha: o maior overall de cada posição, entre quem jogou ${r.piso_minutos}+ minutos e metade das rodadas. ${jogos}`;
 
   const escalados = selecaoDaTemporada(r);
   if (!escalados.length) {
     alvo.append(el("figcaption", null, "Ainda não tem jogador com nota nesta temporada."));
     return;
   }
-  const campo = gramado(`Seleção do Brasileirão ${r.temporada} no 4-3-3`);
+  const campo = gramado(`Seleção do Brasileirão ${r.temporada} no 4-4-2`);
   const topo = 20, fundo = 132;
   for (const { jogador, time, x, y } of escalados) {
     const cx = 13 + x * 74;
@@ -1037,7 +1050,7 @@ function mostrarSelecao(r) {
     campo.append(g);
   }
   alvo.append(campo);
-  alvo.append(el("figcaption", null, "4-3-3. Clica num jogador pra abrir a carta."));
+  alvo.append(el("figcaption", null, "4-4-2. Clica num jogador pra abrir a carta."));
 }
 
 // A busca do topo usa a busca da secao de cartas: preenche e rola ate la.
