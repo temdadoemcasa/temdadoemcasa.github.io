@@ -92,3 +92,21 @@
 .acoes-jogo #dica:disabled { opacity: 0.5; cursor: default; }
 .botao-discreto { background: transparent; color: var(--texto-fraco); }
 .sugestao-extra { margin-left: auto; color: var(--texto-fraco); font-size: 0.78rem; white-space: nowrap; }
+
+/* --- 17/10: o chute vem primeiro (busca no topo), vidas e dica numa linha so, barras embaixo --- */
+.top10 .jogo { gap: 0.7rem; }
+.linha-status { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.5rem 0.8rem; }
+.linha-status .acoes-jogo { gap: 0.5rem; }
+.linha-status .botao { padding: 0.45rem 0.9rem; font-size: 0.88rem; }
+@media (max-width: 760px) {
+  .top10 .tela { padding-top: 0.6rem; }
+  .cabeca h2 { font-size: 1.6rem; }
+  .cabeca-sub { font-size: 0.9rem; }
+  .cabeca-recorte { font-size: 0.75rem; }
+  .vida { width: 1.1rem; height: 1.1rem; }
+  .linha-status .botao { padding: 0.4rem 0.7rem; font-size: 0.82rem; }
+  .top10 .aviso { min-height: 0; }
+  .top10 .aviso:empty { display: none; }
+}
+/* o topo do site e fixo: rolar ate a busca (toque no campo, teclado abrindo) nao pode esconder ela embaixo dele */
+.top10 .busca-caixa { scroll-margin-top: calc(var(--altura-topo, 104px) + 0.5rem); }

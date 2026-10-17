@@ -54,6 +54,12 @@ await p.waitForTimeout(500);
 const carregou = await p.$$eval('#barras img.bandeira', (is) => is.every((i) => i.complete && i.naturalWidth > 0));
 ok(carregou, 'bandeiras carregam (svg existe)');
 ok(await p.locator('.vida.cheia').count() === 3, '3 vidas');
+// no celular o chute e a primeira coisa: campo de busca e botao de dica na primeira tela, antes das barras
+const lay = await p.evaluate(() => { const r = (id) => document.getElementById(id).getBoundingClientRect(); return { busca: r('busca').bottom, dica: r('dica').bottom, barras: r('barras').top, tela: innerHeight }; });
+ok(lay.busca < lay.barras && lay.dica <= lay.barras && lay.dica < lay.tela * 0.6, `celular: busca e dica em cima das barras, na primeira tela (${JSON.stringify(lay)})`);
+await p.evaluate(() => window.scrollTo(0, 400)); await p.click('#busca'); await p.waitForTimeout(900);
+const sob = await p.evaluate(() => ({ topo: document.querySelector('header').getBoundingClientRect().bottom, campo: document.getElementById('busca').getBoundingClientRect().top }));
+ok(sob.campo >= sob.topo, `tocar na busca nao deixa ela embaixo do topo fixo (${JSON.stringify(sob)})`);
 ok((await p.textContent('#dica')).includes('(3)') && await p.locator('#dica').isEnabled(), 'botao de dica com 3');
 
 // dica: vai pra barra fechada mais alta, mostra inicial + clube, nada mais
@@ -82,6 +88,9 @@ await p.reload(); await p.waitForSelector('#form-inicio:not([hidden])'); await p
 ok(await p.locator('.vida.cheia').count() === 2 && await p.locator('.barra.aberta').count() === 2 && await p.locator('.barra.com-dica').count() === 3 && await p.locator('#dica').isDisabled(),
   'recarregar mantem acertos, vidas e dicas');
 
+// letra que nao e acento (ø, ı, ł, æ) busca pela letra comum: "sorloth" acha Sørloth
+const especiais = await p.evaluate(() => ['sorloth', 'odegaard', 'hojlund', 'yildiz'].map((x) => [x, buscar(x).map((o) => o.nome)]));
+ok(especiais.every(([x, ns]) => ns.length > 0) && especiais[0][1].some((n) => n.includes('Sørloth')), `busca sem a letra especial: ${JSON.stringify(especiais)}`);
 // a busca acha o jogador, com bandeira, e chutar pela lista funciona
 const nomeBusca = R.top[4].nome;
 await p.fill('#busca', nomeBusca); await p.waitForTimeout(100);
