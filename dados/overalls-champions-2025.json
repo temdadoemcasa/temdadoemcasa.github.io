@@ -7,7 +7,7 @@
   "tijolo": 83,
   "grafeno": 87
  },
- "gerado_em": "2026-10-04T21:03:40+00:00",
+ "gerado_em": "2026-10-17T22:15:17+00:00",
  "populacao": "Champions League",
  "piso_minutos": 450,
  "jogos_com_placar": 189,
@@ -538,6 +538,52 @@
      ]
     },
     {
+     "player_id": 868964,
+     "nome": "P. Köhn",
+     "nome_completo": "Philipp Köhn",
+     "posicao": "G",
+     "camisa": 16,
+     "jogos": 8,
+     "minutos": 720,
+     "overall": 76,
+     "eixos": {
+      "REF": 72,
+      "EVI": 82,
+      "MAO": 77,
+      "PES": 73,
+      "SAI": 63
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.5,
+     "recentes": [
+      [
+       "3-4-2-1",
+       0,
+       3
+      ],
+      [
+       "4-2-3-1",
+       0,
+       2
+      ],
+      [
+       "3-1-4-2",
+       0,
+       1
+      ],
+      [
+       "3-5-2",
+       0,
+       1
+      ],
+      [
+       "4-2-2-2",
+       0,
+       1
+      ]
+     ]
+    },
+    {
      "player_id": 1410148,
      "nome": "M. Coulibaly",
      "nome_completo": "Mamadou Coulibaly",
@@ -575,52 +621,6 @@
       [
        "3-5-2",
        5,
-       1
-      ]
-     ]
-    },
-    {
-     "player_id": 868964,
-     "nome": "P. Köhn",
-     "nome_completo": "Philipp Köhn",
-     "posicao": "G",
-     "camisa": 16,
-     "jogos": 8,
-     "minutos": 720,
-     "overall": 72,
-     "eixos": {
-      "REF": 70,
-      "EVI": 78,
-      "MAO": 73,
-      "PES": 69,
-      "SAI": 61
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.5,
-     "recentes": [
-      [
-       "3-4-2-1",
-       0,
-       3
-      ],
-      [
-       "4-2-3-1",
-       0,
-       2
-      ],
-      [
-       "3-1-4-2",
-       0,
-       1
-      ],
-      [
-       "3-5-2",
-       0,
-       1
-      ],
-      [
-       "4-2-2-2",
-       0,
        1
       ]
      ]
@@ -1287,6 +1287,42 @@
      ]
     },
     {
+     "player_id": 927359,
+     "nome": "V. Jaroš",
+     "nome_completo": "Vítězslav Jaroš",
+     "posicao": "G",
+     "camisa": 1,
+     "jogos": 6,
+     "minutos": 540,
+     "overall": 73,
+     "eixos": {
+      "REF": 55,
+      "EVI": 53,
+      "MAO": 50,
+      "PES": 95,
+      "SAI": 67
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.5,
+     "recentes": [
+      [
+       "4-3-3",
+       0,
+       4
+      ],
+      [
+       "4-1-4-1",
+       0,
+       1
+      ],
+      [
+       "4-2-3-1",
+       0,
+       1
+      ]
+     ]
+    },
+    {
      "player_id": 790989,
      "nome": "K. Itakura",
      "nome_completo": "Ko Itakura",
@@ -1324,42 +1360,6 @@
       [
        "4-3-3",
        6,
-       1
-      ]
-     ]
-    },
-    {
-     "player_id": 927359,
-     "nome": "V. Jaroš",
-     "nome_completo": "Vítězslav Jaroš",
-     "posicao": "G",
-     "camisa": 1,
-     "jogos": 6,
-     "minutos": 540,
-     "overall": 68,
-     "eixos": {
-      "REF": 50,
-      "EVI": 49,
-      "MAO": 48,
-      "PES": 94,
-      "SAI": 62
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.5,
-     "recentes": [
-      [
-       "4-3-3",
-       0,
-       4
-      ],
-      [
-       "4-1-4-1",
-       0,
-       1
-      ],
-      [
-       "4-2-3-1",
-       0,
        1
       ]
      ]
@@ -2884,6 +2884,42 @@
      ]
     },
     {
+     "player_id": 865646,
+     "nome": "M. Carnesecchi",
+     "nome_completo": "Marco Carnesecchi",
+     "posicao": "G",
+     "camisa": 29,
+     "jogos": 10,
+     "minutos": 900,
+     "overall": 79,
+     "eixos": {
+      "REF": 66,
+      "EVI": 81,
+      "MAO": 71,
+      "PES": 68,
+      "SAI": 88
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.5,
+     "recentes": [
+      [
+       "3-4-2-1",
+       0,
+       5
+      ],
+      [
+       "3-4-3",
+       0,
+       2
+      ],
+      [
+       "4-4-2",
+       0,
+       1
+      ]
+     ]
+    },
+    {
      "player_id": 100389,
      "nome": "M. de Roon",
      "nome_completo": "Marten de Roon",
@@ -2985,42 +3021,6 @@
       [
        "4-4-2",
        2,
-       1
-      ]
-     ]
-    },
-    {
-     "player_id": 865646,
-     "nome": "M. Carnesecchi",
-     "nome_completo": "Marco Carnesecchi",
-     "posicao": "G",
-     "camisa": 29,
-     "jogos": 10,
-     "minutos": 900,
-     "overall": 77,
-     "eixos": {
-      "REF": 64,
-      "EVI": 79,
-      "MAO": 69,
-      "PES": 66,
-      "SAI": 86
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.5,
-     "recentes": [
-      [
-       "3-4-2-1",
-       0,
-       5
-      ],
-      [
-       "3-4-3",
-       0,
-       2
-      ],
-      [
-       "4-4-2",
-       0,
        1
       ]
      ]
@@ -3692,6 +3692,37 @@
      ]
     },
     {
+     "player_id": 797291,
+     "nome": "U. Simón",
+     "nome_completo": "Unai Simón",
+     "posicao": "G",
+     "camisa": 1,
+     "jogos": 8,
+     "minutos": 720,
+     "overall": 77,
+     "eixos": {
+      "REF": 61,
+      "EVI": 56,
+      "MAO": 77,
+      "PES": 52,
+      "SAI": 95
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.5,
+     "recentes": [
+      [
+       "4-2-3-1",
+       0,
+       7
+      ],
+      [
+       "3-4-2-1",
+       0,
+       1
+      ]
+     ]
+    },
+    {
      "player_id": 605672,
      "nome": "G. Guruzeta",
      "nome_completo": "Gorka Guruzeta",
@@ -3825,37 +3856,6 @@
       [
        "3-4-2-1",
        5,
-       1
-      ]
-     ]
-    },
-    {
-     "player_id": 797291,
-     "nome": "U. Simón",
-     "nome_completo": "Unai Simón",
-     "posicao": "G",
-     "camisa": 1,
-     "jogos": 8,
-     "minutos": 720,
-     "overall": 73,
-     "eixos": {
-      "REF": 57,
-      "EVI": 54,
-      "MAO": 73,
-      "PES": 50,
-      "SAI": 91
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.5,
-     "recentes": [
-      [
-       "4-2-3-1",
-       0,
-       7
-      ],
-      [
-       "3-4-2-1",
-       0,
        1
       ]
      ]
@@ -4616,6 +4616,37 @@
      ]
     },
     {
+     "player_id": 69768,
+     "nome": "J. Oblak",
+     "nome_completo": "Jan Oblak",
+     "posicao": "G",
+     "camisa": 13,
+     "jogos": 12,
+     "minutos": 1080,
+     "overall": 78,
+     "eixos": {
+      "REF": 56,
+      "EVI": 80,
+      "MAO": 71,
+      "PES": 76,
+      "SAI": 81
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.5,
+     "recentes": [
+      [
+       "4-4-2",
+       0,
+       6
+      ],
+      [
+       "4-3-3",
+       0,
+       1
+      ]
+     ]
+    },
+    {
      "player_id": 84539,
      "nome": "Koke",
      "nome_completo": "Koke",
@@ -4717,37 +4748,6 @@
       [
        "4-4-2",
        10,
-       1
-      ]
-     ]
-    },
-    {
-     "player_id": 69768,
-     "nome": "J. Oblak",
-     "nome_completo": "Jan Oblak",
-     "posicao": "G",
-     "camisa": 13,
-     "jogos": 12,
-     "minutos": 1080,
-     "overall": 76,
-     "eixos": {
-      "REF": 54,
-      "EVI": 78,
-      "MAO": 70,
-      "PES": 74,
-      "SAI": 79
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.5,
-     "recentes": [
-      [
-       "4-4-2",
-       0,
-       6
-      ],
-      [
-       "4-3-3",
-       0,
        1
       ]
      ]
@@ -5330,13 +5330,13 @@
      "camisa": 13,
      "jogos": 9,
      "minutos": 802,
-     "overall": 80,
+     "overall": 81,
      "eixos": {
-      "REF": 52,
-      "EVI": 51,
-      "MAO": 65,
-      "PES": 84,
-      "SAI": 94
+      "REF": 53,
+      "EVI": 52,
+      "MAO": 66,
+      "PES": 85,
+      "SAI": 95
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -6095,13 +6095,13 @@
      "camisa": 1,
      "jogos": 11,
      "minutos": 990,
-     "overall": 83,
+     "overall": 84,
      "eixos": {
-      "REF": 81,
+      "REF": 82,
       "EVI": 64,
-      "MAO": 46,
-      "PES": 79,
-      "SAI": 92
+      "MAO": 47,
+      "PES": 80,
+      "SAI": 93
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -6669,6 +6669,42 @@
      ]
     },
     {
+     "player_id": 966616,
+     "nome": "A. Trubin",
+     "nome_completo": "Anatoliy Trubin",
+     "posicao": "G",
+     "camisa": 1,
+     "jogos": 10,
+     "minutos": 900,
+     "overall": 78,
+     "eixos": {
+      "REF": 90,
+      "EVI": 79,
+      "MAO": 68,
+      "PES": 60,
+      "SAI": 50
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.5,
+     "recentes": [
+      [
+       "4-2-3-1",
+       0,
+       8
+      ],
+      [
+       "4-3-3",
+       0,
+       1
+      ],
+      [
+       "4-4-1-1",
+       0,
+       1
+      ]
+     ]
+    },
+    {
      "player_id": 1015292,
      "nome": "R. Ríos",
      "nome_completo": "Richard Ríos",
@@ -6817,42 +6853,6 @@
       [
        "4-4-1-1",
        7,
-       1
-      ]
-     ]
-    },
-    {
-     "player_id": 966616,
-     "nome": "A. Trubin",
-     "nome_completo": "Anatoliy Trubin",
-     "posicao": "G",
-     "camisa": 1,
-     "jogos": 10,
-     "minutos": 900,
-     "overall": 75,
-     "eixos": {
-      "REF": 87,
-      "EVI": 76,
-      "MAO": 65,
-      "PES": 58,
-      "SAI": 49
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.5,
-     "recentes": [
-      [
-       "4-2-3-1",
-       0,
-       8
-      ],
-      [
-       "4-3-3",
-       0,
-       1
-      ],
-      [
-       "4-4-1-1",
-       0,
        1
       ]
      ]
@@ -7525,6 +7525,42 @@
      ]
     },
     {
+     "player_id": 792624,
+     "nome": "N. Haikin",
+     "nome_completo": "Nikita Haikin",
+     "posicao": "G",
+     "camisa": 12,
+     "jogos": 12,
+     "minutos": 1110,
+     "overall": 81,
+     "eixos": {
+      "REF": 82,
+      "EVI": 75,
+      "MAO": 89,
+      "PES": 52,
+      "SAI": 70
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.5,
+     "recentes": [
+      [
+       "4-3-3",
+       0,
+       8
+      ],
+      [
+       "4-1-4-1",
+       0,
+       1
+      ],
+      [
+       "4-4-2",
+       0,
+       1
+      ]
+     ]
+    },
+    {
      "player_id": 567236,
      "nome": "S. Fet",
      "nome_completo": "Sondre Fet",
@@ -7557,42 +7593,6 @@
       [
        "4-4-2",
        7,
-       1
-      ]
-     ]
-    },
-    {
-     "player_id": 792624,
-     "nome": "N. Haikin",
-     "nome_completo": "Nikita Haikin",
-     "posicao": "G",
-     "camisa": 12,
-     "jogos": 12,
-     "minutos": 1110,
-     "overall": 80,
-     "eixos": {
-      "REF": 81,
-      "EVI": 74,
-      "MAO": 88,
-      "PES": 51,
-      "SAI": 69
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.5,
-     "recentes": [
-      [
-       "4-3-3",
-       0,
-       8
-      ],
-      [
-       "4-1-4-1",
-       0,
-       1
-      ],
-      [
-       "4-4-2",
-       0,
        1
       ]
      ]
@@ -8276,13 +8276,13 @@
      "camisa": 1,
      "jogos": 8,
      "minutos": 675,
-     "overall": 73,
+     "overall": 77,
      "eixos": {
-      "REF": 63,
-      "EVI": 71,
-      "MAO": 62,
-      "PES": 88,
-      "SAI": 53
+      "REF": 66,
+      "EVI": 75,
+      "MAO": 66,
+      "PES": 92,
+      "SAI": 55
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -9137,13 +9137,13 @@
      "camisa": 29,
      "jogos": 6,
      "minutos": 521,
-     "overall": 67,
+     "overall": 72,
      "eixos": {
-      "REF": 50,
-      "EVI": 47,
-      "MAO": 87,
-      "PES": 65,
-      "SAI": 51
+      "REF": 54,
+      "EVI": 49,
+      "MAO": 92,
+      "PES": 70,
+      "SAI": 56
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -9829,6 +9829,32 @@
      ]
     },
     {
+     "player_id": 556866,
+     "nome": "G. Kobel",
+     "nome_completo": "Gregor Kobel",
+     "posicao": "G",
+     "camisa": 1,
+     "jogos": 10,
+     "minutos": 900,
+     "overall": 78,
+     "eixos": {
+      "REF": 66,
+      "EVI": 62,
+      "MAO": 58,
+      "PES": 81,
+      "SAI": 91
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.5,
+     "recentes": [
+      [
+       "3-4-2-1",
+       0,
+       10
+      ]
+     ]
+    },
+    {
      "player_id": 940054,
      "nome": "K. Adeyemi",
      "nome_completo": "Karim Adeyemi",
@@ -9852,32 +9878,6 @@
        "3-4-2-1",
        8,
        5
-      ]
-     ]
-    },
-    {
-     "player_id": 556866,
-     "nome": "G. Kobel",
-     "nome_completo": "Gregor Kobel",
-     "posicao": "G",
-     "camisa": 1,
-     "jogos": 10,
-     "minutos": 900,
-     "overall": 75,
-     "eixos": {
-      "REF": 63,
-      "EVI": 59,
-      "MAO": 57,
-      "PES": 78,
-      "SAI": 88
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.5,
-     "recentes": [
-      [
-       "3-4-2-1",
-       0,
-       10
       ]
      ]
     },
@@ -10538,13 +10538,13 @@
      "camisa": 23,
      "jogos": 5,
      "minutos": 450,
-     "overall": 63,
+     "overall": 68,
      "eixos": {
-      "REF": 63,
-      "EVI": 46,
-      "MAO": 74,
-      "PES": 45,
-      "SAI": 55
+      "REF": 68,
+      "EVI": 50,
+      "MAO": 79,
+      "PES": 46,
+      "SAI": 60
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -11263,6 +11263,42 @@
      ]
     },
     {
+     "player_id": 754330,
+     "nome": "U. Çakır",
+     "nome_completo": "Uğurcan Çakır",
+     "posicao": "G",
+     "camisa": 1,
+     "jogos": 12,
+     "minutos": 1088,
+     "overall": 80,
+     "eixos": {
+      "REF": 88,
+      "EVI": 78,
+      "MAO": 64,
+      "PES": 76,
+      "SAI": 66
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.5,
+     "recentes": [
+      [
+       "4-2-3-1",
+       0,
+       8
+      ],
+      [
+       "4-3-3",
+       0,
+       1
+      ],
+      [
+       "4-4-2",
+       0,
+       1
+      ]
+     ]
+    },
+    {
      "player_id": 754794,
      "nome": "L. Torreira",
      "nome_completo": "Lucas Torreira",
@@ -11428,42 +11464,6 @@
       [
        "4-2-3-1",
        2,
-       1
-      ]
-     ]
-    },
-    {
-     "player_id": 754330,
-     "nome": "U. Çakır",
-     "nome_completo": "Uğurcan Çakır",
-     "posicao": "G",
-     "camisa": 1,
-     "jogos": 12,
-     "minutos": 1088,
-     "overall": 78,
-     "eixos": {
-      "REF": 86,
-      "EVI": 76,
-      "MAO": 63,
-      "PES": 74,
-      "SAI": 65
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.5,
-     "recentes": [
-      [
-       "4-2-3-1",
-       0,
-       8
-      ],
-      [
-       "4-3-3",
-       0,
-       1
-      ],
-      [
-       "4-4-2",
-       0,
        1
       ]
      ]
@@ -11890,6 +11890,32 @@
      ]
     },
     {
+     "player_id": 16206,
+     "nome": "Y. Sommer",
+     "nome_completo": "Yann Sommer",
+     "posicao": "G",
+     "camisa": 1,
+     "jogos": 10,
+     "minutos": 900,
+     "overall": 80,
+     "eixos": {
+      "REF": 71,
+      "EVI": 83,
+      "MAO": 61,
+      "PES": 89,
+      "SAI": 60
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.5,
+     "recentes": [
+      [
+       "3-5-2",
+       0,
+       10
+      ]
+     ]
+    },
+    {
      "player_id": 284361,
      "nome": "F. Dimarco",
      "nome_completo": "Federico Dimarco",
@@ -12014,32 +12040,6 @@
        "3-5-2",
        3,
        1
-      ]
-     ]
-    },
-    {
-     "player_id": 16206,
-     "nome": "Y. Sommer",
-     "nome_completo": "Yann Sommer",
-     "posicao": "G",
-     "camisa": 1,
-     "jogos": 10,
-     "minutos": 900,
-     "overall": 78,
-     "eixos": {
-      "REF": 69,
-      "EVI": 81,
-      "MAO": 59,
-      "PES": 87,
-      "SAI": 58
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.5,
-     "recentes": [
-      [
-       "3-5-2",
-       0,
-       10
       ]
      ]
     },
@@ -12867,12 +12867,12 @@
      "camisa": 16,
      "jogos": 6,
      "minutos": 540,
-     "overall": 72,
+     "overall": 76,
      "eixos": {
-      "REF": 64,
-      "EVI": 53,
-      "MAO": 67,
-      "PES": 87,
+      "REF": 68,
+      "EVI": 56,
+      "MAO": 71,
+      "PES": 91,
       "SAI": 45
      },
      "sem_nota_por": null,
@@ -13346,6 +13346,37 @@
      ]
     },
     {
+     "player_id": 1005884,
+     "nome": "T. Anarbekov",
+     "nome_completo": "Temirlan Anarbekov",
+     "posicao": "G",
+     "camisa": 77,
+     "jogos": 6,
+     "minutos": 540,
+     "overall": 77,
+     "eixos": {
+      "REF": 68,
+      "EVI": 87,
+      "MAO": 68,
+      "PES": 45,
+      "SAI": 78
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.5,
+     "recentes": [
+      [
+       "4-2-3-1",
+       0,
+       5
+      ],
+      [
+       "3-4-3",
+       0,
+       1
+      ]
+     ]
+    },
+    {
      "player_id": 1101824,
      "nome": "A. Mrynskiy",
      "nome_completo": "Aleksandr Mrynskiy",
@@ -13420,37 +13451,6 @@
       [
        "4-4-2",
        4,
-       1
-      ]
-     ]
-    },
-    {
-     "player_id": 1005884,
-     "nome": "T. Anarbekov",
-     "nome_completo": "Temirlan Anarbekov",
-     "posicao": "G",
-     "camisa": 77,
-     "jogos": 6,
-     "minutos": 540,
-     "overall": 75,
-     "eixos": {
-      "REF": 66,
-      "EVI": 85,
-      "MAO": 66,
-      "PES": 45,
-      "SAI": 76
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.5,
-     "recentes": [
-      [
-       "4-2-3-1",
-       0,
-       5
-      ],
-      [
-       "3-4-3",
-       0,
        1
       ]
      ]
@@ -14325,13 +14325,13 @@
      "camisa": 1,
      "jogos": 8,
      "minutos": 720,
-     "overall": 70,
+     "overall": 75,
      "eixos": {
-      "REF": 52,
-      "EVI": 63,
-      "MAO": 68,
-      "PES": 69,
-      "SAI": 75
+      "REF": 55,
+      "EVI": 67,
+      "MAO": 73,
+      "PES": 74,
+      "SAI": 80
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -15113,6 +15113,37 @@
      ]
     },
     {
+     "player_id": 171919,
+     "nome": "M. Flekken",
+     "nome_completo": "Mark Flekken",
+     "posicao": "G",
+     "camisa": 1,
+     "jogos": 6,
+     "minutos": 540,
+     "overall": 78,
+     "eixos": {
+      "REF": 81,
+      "EVI": 83,
+      "MAO": 55,
+      "PES": 72,
+      "SAI": 49
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.5,
+     "recentes": [
+      [
+       "3-4-2-1",
+       0,
+       3
+      ],
+      [
+       "5-3-2",
+       0,
+       1
+      ]
+     ]
+    },
+    {
      "player_id": 975798,
      "nome": "M. Tillman",
      "nome_completo": "Malik Tillman",
@@ -15145,37 +15176,6 @@
      ]
     },
     {
-     "player_id": 171919,
-     "nome": "M. Flekken",
-     "nome_completo": "Mark Flekken",
-     "posicao": "G",
-     "camisa": 1,
-     "jogos": 6,
-     "minutos": 540,
-     "overall": 75,
-     "eixos": {
-      "REF": 78,
-      "EVI": 80,
-      "MAO": 53,
-      "PES": 69,
-      "SAI": 47
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.5,
-     "recentes": [
-      [
-       "3-4-2-1",
-       0,
-       3
-      ],
-      [
-       "5-3-2",
-       0,
-       1
-      ]
-     ]
-    },
-    {
      "player_id": 96832,
      "nome": "J. Blaswich",
      "nome_completo": "Janis Blaswich",
@@ -15183,12 +15183,12 @@
      "camisa": 28,
      "jogos": 6,
      "minutos": 540,
-     "overall": 66,
+     "overall": 71,
      "eixos": {
-      "EVI": 72,
-      "MAO": 63,
-      "PES": 66,
-      "SAI": 59
+      "EVI": 77,
+      "MAO": 68,
+      "PES": 71,
+      "SAI": 62
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -15908,6 +15908,40 @@
      ]
     },
     {
+     "player_id": 243609,
+     "nome": "Alisson",
+     "nome_completo": "Alisson",
+     "posicao": "G",
+     "camisa": 1,
+     "jogos": 6,
+     "minutos": 506,
+     "overall": 79,
+     "eixos": {
+      "MAO": 79,
+      "PES": 90,
+      "SAI": 70
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.5,
+     "recentes": [
+      [
+       "4-3-1-2",
+       0,
+       2
+      ],
+      [
+       "4-2-2-2",
+       0,
+       1
+      ],
+      [
+       "4-2-3-1",
+       0,
+       1
+      ]
+     ]
+    },
+    {
      "player_id": 862967,
      "nome": "C. Gakpo",
      "nome_completo": "Cody Gakpo",
@@ -15977,40 +16011,6 @@
       [
        "4-3-1-2",
        4,
-       1
-      ]
-     ]
-    },
-    {
-     "player_id": 243609,
-     "nome": "Alisson",
-     "nome_completo": "Alisson",
-     "posicao": "G",
-     "camisa": 1,
-     "jogos": 6,
-     "minutos": 506,
-     "overall": 77,
-     "eixos": {
-      "MAO": 77,
-      "PES": 88,
-      "SAI": 68
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.5,
-     "recentes": [
-      [
-       "4-3-1-2",
-       0,
-       2
-      ],
-      [
-       "4-2-2-2",
-       0,
-       1
-      ],
-      [
-       "4-2-3-1",
-       0,
        1
       ]
      ]
@@ -16107,13 +16107,13 @@
      "camisa": 25,
      "jogos": 7,
      "minutos": 574,
-     "overall": 68,
+     "overall": 73,
      "eixos": {
-      "REF": 46,
-      "EVI": 56,
-      "MAO": 61,
-      "PES": 71,
-      "SAI": 75
+      "REF": 48,
+      "EVI": 59,
+      "MAO": 66,
+      "PES": 76,
+      "SAI": 80
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -16590,6 +16590,47 @@
      ]
     },
     {
+     "player_id": 824509,
+     "nome": "G. Donnarumma",
+     "nome_completo": "Gianluigi Donnarumma",
+     "posicao": "G",
+     "camisa": 25,
+     "jogos": 9,
+     "minutos": 810,
+     "overall": 79,
+     "eixos": {
+      "REF": 62,
+      "EVI": 79,
+      "MAO": 62,
+      "PES": 85,
+      "SAI": 75
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.5,
+     "recentes": [
+      [
+       "4-1-4-1",
+       0,
+       4
+      ],
+      [
+       "4-2-3-1",
+       0,
+       2
+      ],
+      [
+       "4-3-3",
+       0,
+       2
+      ],
+      [
+       "4-1-3-2",
+       0,
+       1
+      ]
+     ]
+    },
+    {
      "player_id": 934386,
      "nome": "J. Doku",
      "nome_completo": "Jérémy Doku",
@@ -16763,47 +16804,6 @@
       [
        "4-3-3",
        5,
-       1
-      ]
-     ]
-    },
-    {
-     "player_id": 824509,
-     "nome": "G. Donnarumma",
-     "nome_completo": "Gianluigi Donnarumma",
-     "posicao": "G",
-     "camisa": 25,
-     "jogos": 9,
-     "minutos": 810,
-     "overall": 77,
-     "eixos": {
-      "REF": 61,
-      "EVI": 77,
-      "MAO": 60,
-      "PES": 83,
-      "SAI": 73
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.5,
-     "recentes": [
-      [
-       "4-1-4-1",
-       0,
-       4
-      ],
-      [
-       "4-2-3-1",
-       0,
-       2
-      ],
-      [
-       "4-3-3",
-       0,
-       2
-      ],
-      [
-       "4-1-3-2",
-       0,
        1
       ]
      ]
@@ -17643,6 +17643,52 @@
      ]
     },
     {
+     "player_id": 128383,
+     "nome": "G. Rulli",
+     "nome_completo": "Gerónimo Rulli",
+     "posicao": "G",
+     "camisa": 1,
+     "jogos": 8,
+     "minutos": 720,
+     "overall": 78,
+     "eixos": {
+      "REF": 87,
+      "EVI": 76,
+      "MAO": 64,
+      "PES": 74,
+      "SAI": 72
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.5,
+     "recentes": [
+      [
+       "4-2-3-1",
+       0,
+       4
+      ],
+      [
+       "3-4-1-2",
+       0,
+       1
+      ],
+      [
+       "3-4-2-1",
+       0,
+       1
+      ],
+      [
+       "4-4-2",
+       0,
+       1
+      ],
+      [
+       "5-4-1",
+       0,
+       1
+      ]
+     ]
+    },
+    {
      "player_id": 877102,
      "nome": "N. Aguerd",
      "nome_completo": "Nayef Aguerd",
@@ -17685,52 +17731,6 @@
       [
        "5-4-1",
        4,
-       1
-      ]
-     ]
-    },
-    {
-     "player_id": 128383,
-     "nome": "G. Rulli",
-     "nome_completo": "Gerónimo Rulli",
-     "posicao": "G",
-     "camisa": 1,
-     "jogos": 8,
-     "minutos": 720,
-     "overall": 76,
-     "eixos": {
-      "REF": 85,
-      "EVI": 74,
-      "MAO": 62,
-      "PES": 72,
-      "SAI": 70
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.5,
-     "recentes": [
-      [
-       "4-2-3-1",
-       0,
-       4
-      ],
-      [
-       "3-4-1-2",
-       0,
-       1
-      ],
-      [
-       "3-4-2-1",
-       0,
-       1
-      ],
-      [
-       "4-4-2",
-       0,
-       1
-      ],
-      [
-       "5-4-1",
-       0,
        1
       ]
      ]
@@ -18236,6 +18236,47 @@
      ]
     },
     {
+     "player_id": 356160,
+     "nome": "V. Milinković-Savić",
+     "nome_completo": "Vanja Milinković-Savić",
+     "posicao": "G",
+     "camisa": 32,
+     "jogos": 7,
+     "minutos": 630,
+     "overall": 80,
+     "eixos": {
+      "REF": 76,
+      "EVI": 80,
+      "MAO": 70,
+      "PES": 88,
+      "SAI": 74
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.5,
+     "recentes": [
+      [
+       "3-4-2-1",
+       0,
+       3
+      ],
+      [
+       "4-1-4-1",
+       0,
+       2
+      ],
+      [
+       "4-3-3",
+       0,
+       1
+      ],
+      [
+       "4-4-1-1",
+       0,
+       1
+      ]
+     ]
+    },
+    {
      "player_id": 870263,
      "nome": "A. Buongiorno",
      "nome_completo": "Alessandro Buongiorno",
@@ -18352,47 +18393,6 @@
       [
        "4-3-3",
        6,
-       1
-      ]
-     ]
-    },
-    {
-     "player_id": 356160,
-     "nome": "V. Milinković-Savić",
-     "nome_completo": "Vanja Milinković-Savić",
-     "posicao": "G",
-     "camisa": 32,
-     "jogos": 7,
-     "minutos": 630,
-     "overall": 78,
-     "eixos": {
-      "REF": 74,
-      "EVI": 78,
-      "MAO": 69,
-      "PES": 86,
-      "SAI": 73
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.5,
-     "recentes": [
-      [
-       "3-4-2-1",
-       0,
-       3
-      ],
-      [
-       "4-1-4-1",
-       0,
-       2
-      ],
-      [
-       "4-3-3",
-       0,
-       1
-      ],
-      [
-       "4-4-1-1",
-       0,
        1
       ]
      ]
@@ -19181,6 +19181,37 @@
      ]
     },
     {
+     "player_id": 162653,
+     "nome": "N. Pope",
+     "nome_completo": "Nick Pope",
+     "posicao": "G",
+     "camisa": 1,
+     "jogos": 8,
+     "minutos": 720,
+     "overall": 80,
+     "eixos": {
+      "REF": 89,
+      "EVI": 77,
+      "MAO": 78,
+      "PES": 55,
+      "SAI": 77
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.5,
+     "recentes": [
+      [
+       "4-3-3",
+       0,
+       4
+      ],
+      [
+       "3-4-2-1",
+       0,
+       2
+      ]
+     ]
+    },
+    {
      "player_id": 560128,
      "nome": "Joelinton",
      "nome_completo": "Joelinton",
@@ -19315,37 +19346,6 @@
        "3-4-2-1",
        10,
        1
-      ]
-     ]
-    },
-    {
-     "player_id": 162653,
-     "nome": "N. Pope",
-     "nome_completo": "Nick Pope",
-     "posicao": "G",
-     "camisa": 1,
-     "jogos": 8,
-     "minutos": 720,
-     "overall": 78,
-     "eixos": {
-      "REF": 87,
-      "EVI": 75,
-      "MAO": 76,
-      "PES": 54,
-      "SAI": 75
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.5,
-     "recentes": [
-      [
-       "4-3-3",
-       0,
-       4
-      ],
-      [
-       "3-4-2-1",
-       0,
-       2
       ]
      ]
     },
@@ -19960,6 +19960,32 @@
      ]
     },
     {
+     "player_id": 953414,
+     "nome": "K. Tzolakis",
+     "nome_completo": "Konstantinos Tzolakis",
+     "posicao": "G",
+     "camisa": 88,
+     "jogos": 9,
+     "minutos": 810,
+     "overall": 79,
+     "eixos": {
+      "REF": 47,
+      "EVI": 69,
+      "MAO": 81,
+      "PES": 47,
+      "SAI": 91
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.5,
+     "recentes": [
+      [
+       "4-2-3-1",
+       0,
+       9
+      ]
+     ]
+    },
+    {
      "player_id": 965014,
      "nome": "L. Pirola",
      "nome_completo": "Lorenzo Pirola",
@@ -20047,32 +20073,6 @@
        "4-2-3-1",
        10,
        2
-      ]
-     ]
-    },
-    {
-     "player_id": 953414,
-     "nome": "K. Tzolakis",
-     "nome_completo": "Konstantinos Tzolakis",
-     "posicao": "G",
-     "camisa": 88,
-     "jogos": 9,
-     "minutos": 810,
-     "overall": 77,
-     "eixos": {
-      "REF": 46,
-      "EVI": 67,
-      "MAO": 79,
-      "PES": 46,
-      "SAI": 89
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.5,
-     "recentes": [
-      [
-       "4-2-3-1",
-       0,
-       9
       ]
      ]
     },
@@ -20762,6 +20762,32 @@
      ]
     },
     {
+     "player_id": 800749,
+     "nome": "M. Safonov",
+     "nome_completo": "Matvey Safonov",
+     "posicao": "G",
+     "camisa": 39,
+     "jogos": 11,
+     "minutos": 1020,
+     "overall": 82,
+     "eixos": {
+      "REF": 72,
+      "EVI": 66,
+      "MAO": 86,
+      "PES": 48,
+      "SAI": 91
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.5,
+     "recentes": [
+      [
+       "4-3-3",
+       0,
+       10
+      ]
+     ]
+    },
+    {
      "player_id": 784655,
      "nome": "F. Ruiz",
      "nome_completo": "Fabián Ruiz",
@@ -20794,32 +20820,6 @@
      ]
     },
     {
-     "player_id": 800749,
-     "nome": "M. Safonov",
-     "nome_completo": "Matvey Safonov",
-     "posicao": "G",
-     "camisa": 39,
-     "jogos": 11,
-     "minutos": 1020,
-     "overall": 80,
-     "eixos": {
-      "REF": 70,
-      "EVI": 65,
-      "MAO": 84,
-      "PES": 46,
-      "SAI": 89
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.5,
-     "recentes": [
-      [
-       "4-3-3",
-       0,
-       10
-      ]
-     ]
-    },
-    {
      "player_id": 1473491,
      "nome": "S. Mayulu",
      "nome_completo": "Senny Mayulu",
@@ -20848,12 +20848,12 @@
      "camisa": 30,
      "jogos": 6,
      "minutos": 540,
-     "overall": 72,
+     "overall": 77,
      "eixos": {
-      "EVI": 46,
-      "MAO": 63,
-      "PES": 89,
-      "SAI": 66
+      "EVI": 50,
+      "MAO": 68,
+      "PES": 94,
+      "SAI": 71
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -21369,6 +21369,37 @@
      ]
     },
     {
+     "player_id": 927366,
+     "nome": "M. Kovář",
+     "nome_completo": "Matěj Kovář",
+     "posicao": "G",
+     "camisa": 32,
+     "jogos": 8,
+     "minutos": 720,
+     "overall": 76,
+     "eixos": {
+      "REF": 74,
+      "EVI": 65,
+      "MAO": 89,
+      "PES": 69,
+      "SAI": 53
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.5,
+     "recentes": [
+      [
+       "4-2-3-1",
+       0,
+       4
+      ],
+      [
+       "4-4-2",
+       0,
+       4
+      ]
+     ]
+    },
+    {
      "player_id": 812145,
      "nome": "D. Man",
      "nome_completo": "Dennis Man",
@@ -21429,37 +21460,6 @@
        "4-4-2",
        4,
        3
-      ]
-     ]
-    },
-    {
-     "player_id": 927366,
-     "nome": "M. Kovář",
-     "nome_completo": "Matěj Kovář",
-     "posicao": "G",
-     "camisa": 32,
-     "jogos": 8,
-     "minutos": 720,
-     "overall": 71,
-     "eixos": {
-      "REF": 69,
-      "EVI": 61,
-      "MAO": 84,
-      "PES": 64,
-      "SAI": 50
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.5,
-     "recentes": [
-      [
-       "4-2-3-1",
-       0,
-       4
-      ],
-      [
-       "4-4-2",
-       0,
-       4
       ]
      ]
     },
@@ -22098,13 +22098,13 @@
      "camisa": 93,
      "jogos": 6,
      "minutos": 540,
-     "overall": 76,
+     "overall": 78,
      "eixos": {
-      "REF": 84,
-      "EVI": 70,
-      "MAO": 66,
-      "PES": 45,
-      "SAI": 78
+      "REF": 86,
+      "EVI": 72,
+      "MAO": 68,
+      "PES": 46,
+      "SAI": 80
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -22781,6 +22781,37 @@
      ]
     },
     {
+     "player_id": 851249,
+     "nome": "M. Kochalski",
+     "nome_completo": "Mateusz Kochalski",
+     "posicao": "G",
+     "camisa": 99,
+     "jogos": 10,
+     "minutos": 900,
+     "overall": 75,
+     "eixos": {
+      "REF": 63,
+      "EVI": 80,
+      "MAO": 77,
+      "PES": 72,
+      "SAI": 68
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.5,
+     "recentes": [
+      [
+       "4-2-3-1",
+       0,
+       9
+      ],
+      [
+       "3-4-2-1",
+       0,
+       1
+      ]
+     ]
+    },
+    {
      "player_id": 1048905,
      "nome": "L. Andrade",
      "nome_completo": "Leandro Andrade",
@@ -22809,37 +22840,6 @@
        "4-2-3-1",
        8,
        3
-      ]
-     ]
-    },
-    {
-     "player_id": 851249,
-     "nome": "M. Kochalski",
-     "nome_completo": "Mateusz Kochalski",
-     "posicao": "G",
-     "camisa": 99,
-     "jogos": 10,
-     "minutos": 900,
-     "overall": 70,
-     "eixos": {
-      "REF": 61,
-      "EVI": 75,
-      "MAO": 72,
-      "PES": 67,
-      "SAI": 64
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.5,
-     "recentes": [
-      [
-       "4-2-3-1",
-       0,
-       9
-      ],
-      [
-       "3-4-2-1",
-       0,
-       1
       ]
      ]
     },
@@ -23496,13 +23496,13 @@
      "camisa": 1,
      "jogos": 11,
      "minutos": 945,
-     "overall": 82,
+     "overall": 83,
      "eixos": {
-      "REF": 92,
-      "EVI": 75,
-      "MAO": 59,
-      "PES": 73,
-      "SAI": 81
+      "REF": 93,
+      "EVI": 76,
+      "MAO": 60,
+      "PES": 74,
+      "SAI": 82
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
@@ -24285,6 +24285,42 @@
      ]
     },
     {
+     "player_id": 280601,
+     "nome": "J. Staněk",
+     "nome_completo": "Jindřich Staněk",
+     "posicao": "G",
+     "camisa": 36,
+     "jogos": 6,
+     "minutos": 540,
+     "overall": 74,
+     "eixos": {
+      "REF": 73,
+      "EVI": 78,
+      "MAO": 70,
+      "PES": 71,
+      "SAI": 73
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.5,
+     "recentes": [
+      [
+       "3-4-2-1",
+       0,
+       3
+      ],
+      [
+       "4-2-3-1",
+       0,
+       2
+      ],
+      [
+       "4-4-1-1",
+       0,
+       1
+      ]
+     ]
+    },
+    {
      "player_id": 188307,
      "nome": "T. Chorý",
      "nome_completo": "Tomáš Chorý",
@@ -24322,42 +24358,6 @@
       [
        "4-4-1-1",
        10,
-       1
-      ]
-     ]
-    },
-    {
-     "player_id": 280601,
-     "nome": "J. Staněk",
-     "nome_completo": "Jindřich Staněk",
-     "posicao": "G",
-     "camisa": 36,
-     "jogos": 6,
-     "minutos": 540,
-     "overall": 69,
-     "eixos": {
-      "REF": 68,
-      "EVI": 73,
-      "MAO": 66,
-      "PES": 68,
-      "SAI": 68
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.5,
-     "recentes": [
-      [
-       "3-4-2-1",
-       0,
-       3
-      ],
-      [
-       "4-2-3-1",
-       0,
-       2
-      ],
-      [
-       "4-4-1-1",
-       0,
        1
       ]
      ]
@@ -25095,6 +25095,42 @@
      ]
     },
     {
+     "player_id": 253809,
+     "nome": "R. Silva",
+     "nome_completo": "Rui Silva",
+     "posicao": "G",
+     "camisa": 1,
+     "jogos": 11,
+     "minutos": 1020,
+     "overall": 81,
+     "eixos": {
+      "REF": 84,
+      "EVI": 71,
+      "MAO": 69,
+      "PES": 91,
+      "SAI": 45
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.5,
+     "recentes": [
+      [
+       "4-2-3-1",
+       0,
+       8
+      ],
+      [
+       "3-4-2-1",
+       0,
+       1
+      ],
+      [
+       "5-4-1",
+       0,
+       1
+      ]
+     ]
+    },
+    {
      "player_id": 1001140,
      "nome": "G. Catamo",
      "nome_completo": "Geny Catamo",
@@ -25127,42 +25163,6 @@
       [
        "5-4-1",
        6,
-       1
-      ]
-     ]
-    },
-    {
-     "player_id": 253809,
-     "nome": "R. Silva",
-     "nome_completo": "Rui Silva",
-     "posicao": "G",
-     "camisa": 1,
-     "jogos": 11,
-     "minutos": 1020,
-     "overall": 79,
-     "eixos": {
-      "REF": 82,
-      "EVI": 69,
-      "MAO": 68,
-      "PES": 89,
-      "SAI": 45
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.5,
-     "recentes": [
-      [
-       "4-2-3-1",
-       0,
-       8
-      ],
-      [
-       "3-4-2-1",
-       0,
-       1
-      ],
-      [
-       "5-4-1",
-       0,
        1
       ]
      ]
@@ -26130,12 +26130,12 @@
      "camisa": 1,
      "jogos": 10,
      "minutos": 883,
-     "overall": 79,
+     "overall": 80,
      "eixos": {
-      "REF": 82,
-      "EVI": 86,
-      "MAO": 68,
-      "PES": 72,
+      "REF": 83,
+      "EVI": 87,
+      "MAO": 69,
+      "PES": 73,
       "SAI": 56
      },
      "sem_nota_por": null,
@@ -26949,6 +26949,52 @@
      ]
     },
     {
+     "player_id": 852394,
+     "nome": "K. Scherpen",
+     "nome_completo": "Kjell Scherpen",
+     "posicao": "G",
+     "camisa": 37,
+     "jogos": 8,
+     "minutos": 720,
+     "overall": 77,
+     "eixos": {
+      "REF": 49,
+      "EVI": 63,
+      "MAO": 93,
+      "PES": 77,
+      "SAI": 58
+     },
+     "sem_nota_por": null,
+     "x_medio": 0.5,
+     "recentes": [
+      [
+       "3-4-1-2",
+       0,
+       3
+      ],
+      [
+       "3-4-2-1",
+       0,
+       2
+      ],
+      [
+       "3-1-4-2",
+       0,
+       1
+      ],
+      [
+       "3-5-1-1",
+       0,
+       1
+      ],
+      [
+       "5-4-1",
+       0,
+       1
+      ]
+     ]
+    },
+    {
      "player_id": 880780,
      "nome": "O. Niang",
      "nome_completo": "Ousseynou Niang",
@@ -26986,52 +27032,6 @@
       [
        "3-5-1-1",
        8,
-       1
-      ]
-     ]
-    },
-    {
-     "player_id": 852394,
-     "nome": "K. Scherpen",
-     "nome_completo": "Kjell Scherpen",
-     "posicao": "G",
-     "camisa": 37,
-     "jogos": 8,
-     "minutos": 720,
-     "overall": 74,
-     "eixos": {
-      "REF": 48,
-      "EVI": 60,
-      "MAO": 90,
-      "PES": 74,
-      "SAI": 56
-     },
-     "sem_nota_por": null,
-     "x_medio": 0.5,
-     "recentes": [
-      [
-       "3-4-1-2",
-       0,
-       3
-      ],
-      [
-       "3-4-2-1",
-       0,
-       2
-      ],
-      [
-       "3-1-4-2",
-       0,
-       1
-      ],
-      [
-       "3-5-1-1",
-       0,
-       1
-      ],
-      [
-       "5-4-1",
-       0,
        1
       ]
      ]
@@ -27626,12 +27626,12 @@
      "camisa": 1,
      "jogos": 5,
      "minutos": 450,
-     "overall": 71,
+     "overall": 75,
      "eixos": {
-      "EVI": 52,
-      "MAO": 80,
-      "PES": 58,
-      "SAI": 78
+      "EVI": 55,
+      "MAO": 84,
+      "PES": 62,
+      "SAI": 82
      },
      "sem_nota_por": null,
      "x_medio": 0.5,
