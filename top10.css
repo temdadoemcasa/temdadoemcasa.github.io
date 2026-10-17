@@ -92,3 +92,8 @@
 .acoes-jogo #dica:disabled { opacity: 0.5; cursor: default; }
 .botao-discreto { background: transparent; color: var(--texto-fraco); }
 .sugestao-extra { margin-left: auto; color: var(--texto-fraco); font-size: 0.78rem; white-space: nowrap; }
+
+/* --- dica com iniciais + frase (17/10) --- */
+/* a frase e o fato que ajuda a lembrar: linha propria, legivel no video (1080p) e no celular (360) */
+.barra-frase { color: var(--texto); font-size: 0.85rem; line-height: 1.25; overflow-wrap: anywhere; }
+.barra.com-dica .barra-nome { letter-spacing: 0.06em; }

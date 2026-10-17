@@ -10,7 +10,10 @@ Fontes (nada inventado, cada ranking diz de onde veio):
 Uso (com o ambiente do futdata, que tem duckdb, bs4 e requests):
   uv run --project ~/Documents/brenisio/futdata python scripts/top10/gerar.py \
       --tm ~/Documents/brenisio/futdata/data/externo/transfermarkt \
-      --cache ~/Documents/temdadoemcasa/top10-cache --out dados/top10.json
+      --cache ~/Documents/temdadoemcasa/top10-cache --out dados/top10.json \
+      --copa 2022=/tmp/copa.duckdb --copa 2026=/tmp/copa.duckdb   (copia do data/copa_do_mundo.duckdb)
+
+A frase de cada barra (aberta pela dica) sai de dicas.py.
 
 Cada ranking traz o primeiro colocado esperado: se a fonte mudar ou o parser
 errar a tabela, o script para em vez de publicar ranking torto.
@@ -32,6 +35,7 @@ from bs4 import BeautifulSoup
 sys.path.insert(0, str(Path(__file__).parent))
 from paises import iso_do_pais  # noqa: E402
 from topicos import TOPICOS  # noqa: E402
+from dicas import Dicas  # noqa: E402
 
 # o Transfermarkt veio sem cidadania pra esses (conferido na pagina do jogador)
 PAIS_MANUAL = {28021: "si"}  # Samir Handanovic, Eslovenia
@@ -286,7 +290,7 @@ def lista_da_fonte(tm: TM, cache: Path, t: dict):
     raise Problema(f"fonte desconhecida {t['fonte']}")
 
 
-def um_ranking(tm: TM, cache: Path, t: dict):
+def um_ranking(tm: TM, cache: Path, t: dict, dicas: Dicas | None = None):
     lista = lista_da_fonte(tm, cache, t)
     nome = lambda x: x.get("nome") or tm.jog[x["tm"]][1]
     nomes = lambda: ", ".join(f"{x['pos']}. {nome(x)} ({x['valor']})" for x in lista)
@@ -305,19 +309,25 @@ def um_ranking(tm: TM, cache: Path, t: dict):
             raise Problema(f"sem pais pra {nome(x)}")
         top.append({"pos": x["pos"], "id": x["tm"], "nome": nome(x), "pais": pais,
                     "clube": x["clube"] or None, "valor": formatar(x["valor"], t["unidade"])})
+    if dicas:  # a frase que a dica abre junto com as iniciais (pre-calculada: a base nao vai pro navegador)
+        ids, nomes_top, citados = [x["id"] for x in top], [x["nome"] for x in top], set()
+        for x in top:
+            achado = dicas.frase(t["id"], x, ids, nomes_top, citados)
+            if achado:
+                x["frase_tipo"], x["frase"] = achado
     return {k: t[k] for k in ["id", "titulo", "sub", "recorte", "nivel"]} | {"fonte": t["credito"], "top": top}
 
 
-def montar(tm: TM, cache: Path):
+def montar(tm: TM, cache: Path, dicas: Dicas | None = None):
     rankings, problemas = [], []
     for t in TOPICOS:
         try:
-            r = um_ranking(tm, cache, t)
+            r = um_ranking(tm, cache, t, dicas)
         except Problema as e:
             problemas.append(f"[{t['id']}] {e}")
             continue
         rankings.append(r)
-        print(f"ok {r['id']:<28} " + ", ".join(f"{x['pos']}.{x['nome']}[{x['pais']}|{x['clube']}|{x['valor']}]" for x in r["top"]))
+        print(f"ok {r['id']:<28} " + ", ".join(f"{x['pos']}.{x['nome']}[{x['pais']}|{x['clube']}|{x['valor']}|{x.get('frase')}]" for x in r["top"]))
     if problemas:
         raise SystemExit("\n".join(["", "PROBLEMAS:"] + problemas))
     # busca: quem esta em algum ranking + quem ja valeu 15 mi ou mais (pra busca nao entregar a resposta)
@@ -374,9 +384,13 @@ def main():
     ap.add_argument("--cache", type=Path, required=True)
     ap.add_argument("--out", type=Path, default=Path("dados/top10.json"))
     ap.add_argument("--bandeiras", type=Path, default=Path("img/bandeiras"))
+    ap.add_argument("--copa", type=str, action="append", default=[], metavar="ANO=BANCO",
+                    help="Copa do Mundo pras frases da dica: 2022=~/Documents/brenisio/futdata/data/copa_do_mundo.duckdb (repita por ano)")
     a = ap.parse_args()
     a.cache.mkdir(parents=True, exist_ok=True)
-    rankings, jogadores = montar(TM(a.tm.expanduser()), a.cache.expanduser())
+    tm = TM(a.tm.expanduser())
+    copas = {int(str(c).split("=", 1)[0]): Path(str(c).split("=", 1)[1]).expanduser() for c in a.copa}
+    rankings, jogadores = montar(tm, a.cache.expanduser(), Dicas(tm, limpar_clube, normalizar, copas))
     a.out.write_text(json.dumps({"gerado_em": dt.date.today().isoformat(), "rankings": rankings, "jogadores": jogadores},
                                 ensure_ascii=False, separators=(",", ":")) + "\n")
     baixar_bandeiras({j["pais"] for j in jogadores if j["pais"]}, a.bandeiras)

@@ -1,8 +1,8 @@
 // Top 10 em Casa: acerte os 10 de um ranking conhecido (Bola de Ouro, artilharia,
 // mais valiosos, contratacoes mais caras), com 3 vidas e ate 3 dicas.
 // Os rankings vem prontos de dados/top10.json (scripts/top10/gerar.py, Wikipedia e
-// Transfermarkt): cada barra ja mostra a bandeira do jogador; a dica revela o clube
-// e a inicial de uma barra fechada. Aqui: carregamento, desafio do dia, partida
+// Transfermarkt): cada barra ja mostra a bandeira do jogador; a dica revela as iniciais,
+// o clube e uma frase (clubes da carreira, Copa ou companheiro famoso) de uma barra fechada. Aqui: carregamento, desafio do dia, partida
 // livre, barras, busca, chute, dica, fim, compartilhar e o localStorage.
 "use strict";
 
@@ -162,7 +162,15 @@ function desenharDica() {
   botao.disabled = !resta || T.fim || !barraParaDica();
 }
 
-const inicial = (nome) => [...nome.trim()][0].toUpperCase();
+// "Luka Modrić" -> "L. M.", "Virgil van Dijk" -> "V. D.", "Gavi" -> "G.": a inicial de cada
+// palavra do nome, pulando a particula minuscula (van, de, da, dos, di...). Hifen fica junto
+// ("Heung-min" e uma palavra so). Particula e so a minuscula: "Kevin De Bruyne" -> "K. D. B."
+const PARTICULAS = new Set(["van", "von", "der", "den", "de", "da", "das", "do", "dos", "di", "du", "del", "della", "la", "le", "el", "e", "y", "bin", "al", "ten", "ter"]);
+function iniciais(nome) {
+  const palavras = nome.trim().split(/\s+/).filter(Boolean);
+  const fortes = palavras.filter((p) => !(PARTICULAS.has(p) || (p === p.toLowerCase() && p !== p.toUpperCase())));
+  return (fortes.length ? fortes : palavras).map((p) => `${[...p.replace(/^[^\p{L}]+/u, "") || p][0].toUpperCase()}.`).join(" ");
+}
 
 function linhaDaBarra(item) {
   const li = el("li", "barra");
@@ -176,8 +184,10 @@ function linhaDaBarra(item) {
     nomes.append(el("b", "barra-nome", item.nome), el("small", "barra-clube", item.clube || ""));
     corpo.append(nomes, el("span", "barra-valor", item.valor ?? "sem dado"));
   } else if (T.dicas.includes(item.id)) {
+    // a dica abre as iniciais, o clube da epoca e a frase (fato da base, pre-calculado no gerador)
     li.classList.add("com-dica");
-    nomes.append(el("b", "barra-nome", `${inicial(item.nome)}…`), el("small", "barra-clube", item.clube || "clube: sem dado"));
+    nomes.append(el("b", "barra-nome", iniciais(item.nome)), el("small", "barra-clube", item.clube || "clube: sem dado"));
+    if (item.frase) nomes.append(el("small", "barra-frase", item.frase));
     corpo.append(nomes);
   } else {
     nomes.append(el("span", "barra-segredo", "? ? ?"));
@@ -237,7 +247,7 @@ function pedirDica() {
   T.dicas.push(item.id);
   const i = T.ranking.top.indexOf(item);
   $("barras").children[i].replaceWith(linhaDaBarra(item));
-  avisar(item.clube ? `Dica: o ${item.pos}º começa com ${inicial(item.nome)} e jogava no ${item.clube}.` : `Dica: o ${item.pos}º começa com ${inicial(item.nome)}.`);
+  avisar(`Dica: o ${item.pos}º é ${iniciais(item.nome)}${item.clube ? ` (${item.clube})` : ""}${item.frase ? `. ${item.frase}.` : "."}`);
   guardarDiario();
   desenharDica();
   $("busca").focus({ preventScroll: true });

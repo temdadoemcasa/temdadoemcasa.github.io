@@ -32,6 +32,35 @@ const vistos = new Map(); const iguais = [];
 for (const j of dados.jogadores) { const k = `${norm(j.nome)}|${j.pais}|${j.extra || ''}`; if (vistos.has(k)) iguais.push(j.nome); vistos.set(k, j.id); }
 ok(!iguais.length, 'nenhuma sugestao identica (nome + bandeira + extra) pra jogadores diferentes ' + iguais.slice(0, 5).join(', '));
 
+// --- frase da dica (17/10): fato da base, pre-calculado, sem entregar outra resposta ---
+const TIPOS = new Set(['clubes', 'copa', 'companheiro']);
+const PADRAO = { clubes: /^Já passou por [^,]+( e [^,]+)?$/u, copa: /^Jogou a Copa de (2022|2026) com .+$/u, companheiro: /^Foi companheiro de .+ (no|na) .+$/u };
+const semAcento = (s) => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+const contemNome = (frase, nome) => new RegExp(`(^|[^\\p{L}])${semAcento(nome).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}($|[^\\p{L}])`, 'u').test(semAcento(frase));
+const frases = [], vazamentos = [], tortas = [], copaOutroPais = [];
+// conferido a mao: Transfermarkt diz Franca, mas ele jogou a Copa de 2026 por Marrocos (SofaScore)
+const DUPLA = new Set(['Ayyoub Bouaddi']);
+const poolPorNome = new Map(dados.jogadores.map((j) => [j.nome, j]));
+for (const r of dados.rankings) for (const x of r.top) {
+  if (!('frase' in x) && !('frase_tipo' in x)) continue;
+  frases.push(x);
+  if (typeof x.frase !== 'string' || !x.frase.trim() || /undefined|null|NaN|\[object/.test(x.frase) || !TIPOS.has(x.frase_tipo) || !PADRAO[x.frase_tipo].test(x.frase)) tortas.push(`${r.id}/${x.nome}: ${x.frase_tipo} ${JSON.stringify(x.frase)}`);
+  const outro = r.top.find((y) => typeof x.frase === 'string' && contemNome(x.frase, y.nome));
+  if (outro) vazamentos.push(`${r.id}/${x.nome}: "${x.frase}" cita ${outro.nome}`);
+  const m = /^Jogou a Copa de \d+ com (.+)$/u.exec(x.frase || '');
+  const comp = m && poolPorNome.get(m[1]);
+  if (m && (!comp || (comp.pais !== x.pais && !DUPLA.has(x.nome)))) copaOutroPais.push(`${r.id}/${x.nome} [${x.pais}]: ${x.frase} [${comp?.pais}]`);
+}
+const total = dados.rankings.reduce((n, r) => n + r.top.length, 0);
+const doTM = dados.rankings.reduce((n, r) => n + r.top.filter((x) => typeof x.id === 'number').length, 0);
+const porTipo = Object.fromEntries([...TIPOS].map((t) => [t, frases.filter((x) => x.frase_tipo === t).length]));
+ok(!tortas.length, `toda frase e texto de um dos 3 tipos, sem undefined/null (${frases.length}) ` + tortas.slice(0, 3).join(' | '));
+ok(!vazamentos.length, 'nenhuma frase cita nome que e resposta do mesmo ranking (nem o proprio) ' + vazamentos.slice(0, 3).join(' | '));
+ok(!copaOutroPais.length, 'companheiro de Copa e da mesma selecao (bandeira igual) e esta na busca ' + copaOutroPais.slice(0, 3).join(' | '));
+ok(frases.length >= 0.9 * doTM, `frase em pelo menos 90% das barras do Transfermarkt (${frases.length}/${doTM}, ${total} barras)`);
+ok(Object.values(porTipo).every((n) => n >= 0.1 * total), `os 3 tipos aparecem, cada um em 10%+ das barras ${JSON.stringify(porTipo)}`);
+ok(dados.rankings.every((r) => r.top.every((x) => typeof x.id === 'number' || !x.frase)), 'jogador so da Wikipedia nao ganha frase (nada inventado)');
+
 // --- fluxo no navegador ---------------------------------------------------------
 const b = await chromium.launch(); const erros = [];
 const ctx = await b.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' });
@@ -56,12 +85,25 @@ ok(carregou, 'bandeiras carregam (svg existe)');
 ok(await p.locator('.vida.cheia').count() === 3, '3 vidas');
 ok((await p.textContent('#dica')).includes('(3)') && await p.locator('#dica').isEnabled(), 'botao de dica com 3');
 
-// dica: vai pra barra fechada mais alta, mostra inicial + clube, nada mais
+// iniciais: uma por palavra, pulando a particula minuscula
+const INI = { 'Luka Modrić': 'L. M.', 'Cristiano Ronaldo': 'C. R.', 'Gavi': 'G.', 'Virgil van Dijk': 'V. D.', 'Rafael da Silva': 'R. S.',
+  'Kevin De Bruyne': 'K. D. B.', 'Son Heung-min': 'S. H.', "N'Golo Kanté": 'N. K.', 'Marc-André ter Stegen': 'M. S.', ' Vinicius  Junior ': 'V. J.', 'Éder Militão': 'É. M.' };
+const ini = await p.evaluate((nomes) => (typeof iniciais === 'function' ? nomes.map((n) => iniciais(n)) : []), Object.keys(INI));
+ok(ini.length === Object.keys(INI).length && ini.every((v, i) => v === Object.values(INI)[i]), `iniciais por palavra, sem particula: ${ini.join(' / ')}`);
+// iniciais esperadas, escritas aqui de novo (independente do top10.js)
+const iniDe = (nome) => { const ps = nome.trim().split(/\s+/); const f = ps.filter((w) => !(w === w.toLowerCase() && w !== w.toUpperCase())); return (f.length ? f : ps).map((w) => [...w.replace(/^[^\p{L}]+/u, '')][0].toUpperCase() + '.').join(' '); };
+
+// dica: vai pra barra fechada mais alta, mostra iniciais + clube + frase, nada mais
 ok(await p.evaluate((id) => chutar(id), R.top[0].id) === 'acerto', 'acerto do 1o');
 const d1 = await p.evaluate(() => pedirDica());
 ok(d1 === R.top[1].id, 'dica 1 vai pro 2o (o 1o ja abriu)');
 const b2 = await p.locator('.barra').nth(1).textContent();
-ok(b2.includes(R.top[1].nome[0].toUpperCase() + '…') && (!R.top[1].clube || b2.includes(R.top[1].clube)) && !b2.includes(R.top[1].nome) && !b2.includes(R.top[1].valor), `barra com dica: inicial e clube, sem nome nem valor (${b2.trim()})`);
+const nomeDica = await p.locator('.barra').nth(1).locator('.barra-nome').textContent();
+ok(nomeDica === iniDe(R.top[1].nome) && (!R.top[1].clube || b2.includes(R.top[1].clube)) && !b2.includes(R.top[1].nome) && !b2.includes(R.top[1].valor), `barra com dica: iniciais e clube, sem nome nem valor (${b2.trim()})`);
+const fraseNaBarra = await p.locator('.barra').nth(1).locator('.barra-frase').textContent().catch(() => null);
+ok(R.top[1].frase ? fraseNaBarra === R.top[1].frase : fraseNaBarra === null, `barra com dica mostra a frase do gerador: ${fraseNaBarra}`);
+ok((await p.textContent('#aviso')).includes(iniDe(R.top[1].nome)) && (!R.top[1].frase || (await p.textContent('#aviso')).includes(R.top[1].frase)), `aviso da dica com iniciais e frase: ${await p.textContent('#aviso')}`);
+ok(await p.locator('.barra:not(.com-dica) .barra-frase').count() === 0, 'frase so aparece em barra com dica');
 const d2 = await p.evaluate(() => pedirDica()), d3 = await p.evaluate(() => pedirDica()), d4 = await p.evaluate(() => pedirDica());
 ok(d2 === R.top[2].id && d3 === R.top[3].id && d4 === undefined, 'dicas 2 e 3 descem a fila; a 4a nao existe');
 ok(await p.locator('#dica').isDisabled() && await p.locator('.barra.com-dica').count() === 3, 'sem dica sobrando: botao desliga, 3 barras com dica');

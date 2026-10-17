@@ -13,7 +13,8 @@
 // Cada passo e um chute pela busca (nome do top, de fora, repetido, homonimo), uma dica, recarregar
 // no meio ou desistir. Invariantes checadas em todo passo: sem erro de JS; sem undefined/null/NaN na
 // tela; nada vaza pro lado; vidas = 3 - erros; barras abertas = acertos, na posicao certa; barra
-// fechada nunca mostra nome nem valor; toda barra tem a bandeira do jogador; dica vai pra barra fechada
+// fechada nunca mostra nome nem valor; toda barra tem a bandeira do jogador; dica (iniciais, clube e frase,
+// sem nome de outra resposta) vai pra barra fechada
 // mais alta, no maximo 3; botao de dica desliga quando acaba; recarregar o diario mantem tudo; o fim
 // revela todas, placar e compartilhar coerentes; diario uma vez por dia.
 // Imprime "OK  <invariante> (n checagens)" ou "FALHA <invariante>: caso C semente S passo P: ...".
@@ -140,7 +141,11 @@ async function rodarCaso(b, i) {
           checar("dica vai pra barra fechada mais alta", s.dicas.length === antes.dicas.length + 1 && s.dicas.at(-1) === alvo.id, `${s.dicas.at(-1)} != ${alvo?.id}`);
           const k = R.top.indexOf(alvo);
           const txt = s.barras[k].txt;
-          checar("barra com dica mostra inicial e clube", txt.includes([...alvo.nome][0].toUpperCase() + "…") && (!alvo.clube || txt.includes(alvo.clube)), txt);
+          const ini = alvo.nome.trim().split(/\s+/).filter((w, _, ps) => !(w === w.toLowerCase() && w !== w.toUpperCase()) || ps.every((q) => q === q.toLowerCase()))
+            .map((w) => [...w.replace(/^[^\p{L}]+/u, "")][0].toUpperCase() + ".").join(" ");
+          checar("barra com dica mostra iniciais, clube e a frase", txt.includes(ini) && (!alvo.clube || txt.includes(alvo.clube)) && (!alvo.frase || txt.includes(alvo.frase)), `${ini} | ${txt}`);
+          const outro = R.top.find((y) => y.id !== alvo.id && !s.acertos.includes(y.id) && txt.includes(y.nome));
+          checar("dica nao entrega outra resposta do ranking", !outro, outro?.nome);
           checar("dica nao custa vida", s.vidas === antes.vidas);
         }
         continue;
