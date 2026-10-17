@@ -239,7 +239,8 @@ async function caso(p, semente, cfg, registro) {
         const idxVaga = await p.locator('#gramado .vaga.vaga-cheia').nth(k).evaluate((b) => [...b.parentElement.children].indexOf(b));
         await clicar(p.locator('#gramado .vaga.vaga-cheia').nth(k));
         confere('toque no jogador da resposta na tela (aviso ou vagas marcadas)', (await impressao()) !== antes || await p.locator('#draft-aviso').isVisible());
-        const destinos = await p.locator('#gramado .vaga.vaga-destino').count();
+        // destino pode ser vaga do gramado ou reserva do banco (titular troca com reserva)
+        const destinos = await p.locator('#gramado .vaga.vaga-destino, .banco-lista .vaga-destino').count();
         const aviso = (await p.textContent('#draft-aviso')).trim();
         confere('mudar de posicao: ou marca destinos ou explica por que nao da', destinos > 0 ? /Pra onde vai/.test(aviso) : /não joga em nenhuma outra vaga/.test(aviso), aviso);
         if (destinos) {
@@ -249,20 +250,22 @@ async function caso(p, semente, cfg, registro) {
             confere('cancelar movimento limpa as marcas', (await p.locator('#gramado .vaga-destino').count()) === 0 && (await st()).movendo == null);
           } else {
             marcar('leva o jogador pro destino');
-            const alvoIdx = await p.locator('#gramado .vaga.vaga-destino').nth(Math.floor(rng() * destinos)).evaluate((b) => [...b.parentElement.children].indexOf(b));
+            const alvo = p.locator('#gramado .vaga.vaga-destino, .banco-lista .vaga-destino').nth(Math.floor(rng() * destinos));
+            // indice em [...D.onze, ...D.banco]: no banco, soma o tamanho do onze
+            const alvoIdx = await alvo.evaluate((b) => [...b.parentElement.children].indexOf(b) + (b.classList.contains('banco-vaga') ? D.onze.length : 0));
             const quem = await p.evaluate((k) => D.onze[k].jogador.player_id, idxVaga);
             const lequeAntes = await p.evaluate((k) => (D.leques[k] || []).map((j) => j.player_id), idxVaga);
-            await clicar(p.locator('#gramado .vaga').nth(alvoIdx));
-            const depois = await p.evaluate(([de, para]) => ({ chegou: D.onze[para].jogador && D.onze[para].jogador.player_id, ficou: D.onze[de].jogador && D.onze[de].jogador.player_id, vaga: D.vaga, leque: (D.leques[de] || []).map((j) => j.player_id) }), [idxVaga, alvoIdx]);
+            await clicar(alvo);
+            const depois = await p.evaluate(([de, para]) => { const v = [...D.onze, ...D.banco]; return { chegou: v[para].jogador && v[para].jogador.player_id, ficou: v[de].jogador && v[de].jogador.player_id, vaga: D.vaga, leque: (D.leques[de] || []).map((j) => j.player_id) }; }, [idxVaga, alvoIdx]);
             confere('mover jogador: ele aparece na vaga de destino', depois.chegou === quem, JSON.stringify(depois));
             if (!depois.ficou && lequeAntes.length) confere('vaga que esvazia volta com o leque dela (sem sorteio novo)', depois.leque.every((id) => lequeAntes.includes(id)), `${depois.leque} vs ${lequeAntes}`);
           }
         }
       } else if (rng() < 0.5) {
-        const vazias = await p.locator('#gramado .vaga:not(.vaga-cheia), .banco-clicavel').count();
+        const vazias = await p.locator('#gramado .vaga:not(.vaga-cheia), .banco-clicavel:not(.vaga-cheia)').count();
         if (vazias) {
           marcar('toca outra vaga vazia');
-          await clicar(p.locator('#gramado .vaga:not(.vaga-cheia), .banco-clicavel').nth(Math.floor(rng() * vazias)));
+          await clicar(p.locator('#gramado .vaga:not(.vaga-cheia), .banco-clicavel:not(.vaga-cheia)').nth(Math.floor(rng() * vazias)));
           const s1 = await st();
           confere('tocar vaga vazia abre o leque dela', await p.evaluate(() => !([...D.onze, ...D.banco][D.vaga].jogador) && document.querySelectorAll('#leque .opcao').length > 0), JSON.stringify(s1));
         }

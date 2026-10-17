@@ -442,7 +442,11 @@ function desenharBanco(depois, ativa = -1, { interativo = false } = {}) {
         li.classList.add("banco-clicavel");
         li.tabIndex = 0; li.setAttribute("role", "button");
         li.setAttribute("aria-label", `Escolher reserva: ${VAGAS[slot.pos][2]}`);
-        const abrir = () => { D.movendo = null; D.vaga = D.onze.length + k; abrirLeque(); };
+        // reserva vazia marcada como destino: o titular que esta sendo movido vai pra ela
+        const abrir = () => {
+          if (destinos.includes(idx)) { tocarVaga(idx); return; }
+          D.movendo = null; D.vaga = D.onze.length + k; abrirLeque();
+        };
         li.addEventListener("click", abrir);
         li.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); abrir(); } });
       }
