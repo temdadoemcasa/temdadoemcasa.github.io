@@ -29,4 +29,8 @@ for (const pagina of readdirSync('.').filter((f) => f.endsWith('.html'))) {
     ok(vAntes === undefined || vAntes !== v, `${pagina}: ${arq} mudou na branch e o ?v= (${v}) e novo`);
   }
 }
-ok(n > 0, `conferiu ${n} referencias de arquivos alterados`);
+// PR so de dados ou de teste nao mexe em js/css: nada a conferir e nao e
+// falha (era o caso de todo dados/*.json regerado, 17/10)
+const mudados = git(`diff --name-only ${BASE_GIT} HEAD`).split('\n').filter((f) => /\.(js|css)$/.test(f) && !f.startsWith('testes/') && !f.startsWith('scripts/'));
+if (!mudados.length) ok(true, 'nenhum js/css do site mudou desde a base');
+else ok(n > 0, `conferiu ${n} referencias de arquivos alterados (${mudados.join(', ')})`);
