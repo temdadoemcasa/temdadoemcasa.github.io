@@ -3,7 +3,7 @@
 // - js/css com ?v=, imagens e fontes: cache primeiro e atualiza por tras. Versao nova
 //   e outra URL (?v= no HTML), entao nao tem risco de misturar versoes.
 // Troque VERSAO pra forcar limpar tudo.
-const VERSAO = "tdc-2026-10-16d";
+const VERSAO = "tdc-2026-10-17mm";
 const PAGINAS = ["./", "index.html", "show-do-dadao.html", "tem-time-em-casa.html", "prata-da-casa.html", "top10-em-casa.html", "maior-ou-menor.html"];
 
 // instala com as paginas e tudo que elas puxam (scripts, css, dados, imagens do proprio site),

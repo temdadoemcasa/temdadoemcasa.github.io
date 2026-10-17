@@ -112,6 +112,11 @@ await p.waitForSelector('#tela-jogo:not([hidden])');
 const tela = await p.textContent('#tela-jogo');
 ok(!/undefined|null|NaN/.test(tela), 'tela do jogo sem undefined/null/NaN');
 ok((await p.textContent('.carta.dir .valor')).trim() === '?', 'direita escondida antes de responder');
+// a stat do par tem que estar evidente: faixa, frase com os dois nomes e o botao dizendo o que compara
+const statMesa = await p.evaluate(() => ({ stat: M.dado.stats[M.stat].pergunta, faixa: document.getElementById('pergunta').textContent, frase: document.getElementById('frase').textContent, e: M.esquerda.nome, d: M.direita.nome, mais: document.getElementById('mais').textContent.trim(), menos: document.getElementById('menos').textContent.trim() }));
+ok(statMesa.faixa === statMesa.stat, `faixa mostra a stat (${statMesa.faixa})`);
+ok(statMesa.frase.includes(statMesa.e) && statMesa.frase.includes(statMesa.d), `frase com os dois nomes (${statMesa.frase})`);
+ok(/^▲ \S/.test(statMesa.mais) && statMesa.mais !== '▲ Mais' && /^▼ \S/.test(statMesa.menos) && statMesa.menos !== '▼ Menos', `botoes dizem a stat (${statMesa.mais} / ${statMesa.menos})`);
 const certo = () => p.evaluate(() => (M.direita.valores[M.stat] > M.esquerda.valores[M.stat] ? 'mais' : 'menos'));
 ok(await p.evaluate((e) => responder(e), await certo()) === 'acerto', 'acerto');
 ok(await p.evaluate(() => M.seq) === 1 && (await p.textContent('#seq')).includes('1'), 'sequencia 1');

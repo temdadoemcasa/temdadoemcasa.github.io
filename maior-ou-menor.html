@@ -21,7 +21,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
   <script src="tema.js?v=2026-09-27j"></script>
   <link rel="stylesheet" href="estilo.css?v=2026-10-16mm">
-  <link rel="stylesheet" href="maior-menor.css?v=2026-10-16pub">
+  <link rel="stylesheet" href="maior-menor.css?v=2026-10-17stat">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
 </head>
@@ -62,7 +62,7 @@
     <!-- 2. o jogo -->
     <section class="tela" id="tela-jogo" aria-label="Partida" hidden>
       <div class="jogo-topo">
-        <p class="pergunta" id="pergunta"></p>
+        <p class="stat-faixa" id="stat-faixa"><span class="stat-rotulo" id="stat-recorte"></span> <span class="pergunta" id="pergunta"></span></p>
         <p class="seq" aria-live="polite"><span class="seq-rotulo">Sequência</span> <b id="seq">0</b></p>
       </div>
       <div class="mesa">
@@ -84,9 +84,10 @@
           <p class="valor-bloco"><span class="valor">?</span><span class="unidade"></span></p>
         </article>
       </div>
+      <p class="frase" id="frase"></p>
       <div class="escolha" role="group" aria-label="A carta da direita tem...">
-        <button class="botao botao-escolha mais" id="mais" type="button">▲ Mais</button>
-        <button class="botao botao-escolha menos" id="menos" type="button">▼ Menos</button>
+        <button class="botao botao-escolha mais" id="mais" type="button">▲ <span class="escolha-texto">Mais</span></button>
+        <button class="botao botao-escolha menos" id="menos" type="button">▼ <span class="escolha-texto">Menos</span></button>
       </div>
     </section>
 
@@ -105,6 +106,6 @@
   </main>
 
   <script data-goatcounter="https://temdadoemcasa.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
-  <script src="maior-menor.js?v=2026-10-16pub" defer></script>
+  <script src="maior-menor.js?v=2026-10-17stat" defer></script>
 </body>
 </html>

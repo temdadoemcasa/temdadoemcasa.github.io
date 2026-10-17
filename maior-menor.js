@@ -179,6 +179,8 @@ const espera = (ms) => new Promise((r) => setTimeout(r, ms));
 function preencherCarta(sel, c, valor) {
   const el = document.querySelector(sel);
   el.querySelector(".nome").textContent = c.nome;
+  // nome comprido (K. Kvaratskhelia) quebrava em 3 linhas e empurrava os botoes pra fora
+  el.querySelector(".nome").classList.toggle("longo", c.nome.length > 12);
   el.querySelector(".clube-nome").textContent = c.clube;
   el.querySelector(".bolinha").style.background = c.cor;
   el.querySelector(".posicao").textContent = POSICAO[c.posicao] || "";
@@ -191,8 +193,32 @@ function preencherCarta(sel, c, valor) {
   el.classList.remove("acerto", "erro");
 }
 
+// texto da mesa por stat: botao curto (cabe em 360 px) e a frase da pergunta
+const PALAVRAS = {
+  overall: { mais: "Nota maior", menos: "Nota menor", frase: "nota maior ou menor" },
+  jogos: { mais: "Mais jogos", menos: "Menos jogos", frase: "mais ou menos jogos" },
+  gols: { mais: "Mais gols", menos: "Menos gols", frase: "mais ou menos gols" },
+  assistencias: { mais: "Mais assist.", menos: "Menos assist.", frase: "mais ou menos assistências" },
+  desarmes: { mais: "Mais desarmes", menos: "Menos desarmes", frase: "mais ou menos desarmes" },
+  dribles: { mais: "Mais dribles", menos: "Menos dribles", frase: "mais ou menos dribles certos" },
+  passes_chave: { mais: "Mais passes", menos: "Menos passes", frase: "mais ou menos passes decisivos" },
+  defesas: { mais: "Mais defesas", menos: "Menos defesas", frase: "mais ou menos defesas" },
+};
+const palavras = (stat) => PALAVRAS[stat] || { mais: "Mais", menos: "Menos", frase: "mais ou menos" };
+
 function renderJogo() {
-  $("pergunta").textContent = `${M.dado.stats[M.stat].pergunta} · ${M.esquerda.recorte}`;
+  const faixa = $("stat-faixa");
+  const trocou = faixa.dataset.stat !== M.stat;
+  faixa.dataset.stat = M.stat;
+  $("pergunta").textContent = M.dado.stats[M.stat].pergunta;
+  $("stat-recorte").textContent = M.esquerda.recorte;
+  // stat nova no par: a faixa pisca pra quem joga (e quem assiste) nao perder a troca
+  faixa.classList.remove("nova");
+  if (trocou && M.seq > 0 && !semMovimento()) { void faixa.offsetWidth; faixa.classList.add("nova"); }
+  const w = palavras(M.stat);
+  $("frase").textContent = `${M.direita.nome} tem ${w.frase} que ${M.esquerda.nome}?`;
+  $("mais").querySelector(".escolha-texto").textContent = w.mais;
+  $("menos").querySelector(".escolha-texto").textContent = w.menos;
   $("seq").textContent = String(M.seq);
   preencherCarta(".carta.esq", M.esquerda, M.esquerda.valores[M.stat]);
   preencherCarta(".carta.dir", M.direita, "?");
