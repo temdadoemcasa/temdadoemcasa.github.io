@@ -1795,7 +1795,7 @@ function jogarTemporada({ decidir = true } = {}) {
   J.efeito = efeitoZerado();
   if (parar) {
     J.aposentado = true;
-    linha.fim = J.viraTecnico ? `Pendurou as chuteiras e assumiu o ${J.viraTecnico} como técnico` : J.ultimaTemporada ? "Pendurou as chuteiras no jogo de despedida" : "Pendurou as chuteiras";
+    linha.fim = J.viraTecnico ? `Pendurou as chuteiras e assumiu o ${J.viraTecnico} como técnico` : J.ultimaTemporada ? (jogos > 0 ? "Pendurou as chuteiras no jogo de despedida" : "Pendurou as chuteiras sem entrar em campo no ano da despedida") : "Pendurou as chuteiras";
     return linha;
   }
   // clube atual com a divisao e o titular de agora
@@ -3110,7 +3110,8 @@ function mostrarLinha(linha) {
   alvo.append(numeros);
   // o papel sai do que jogou de fato (jogos do jogador / jogos do clube no ano)
   const fatia = linha.jogosDoClube ? linha.jogos / linha.jogosDoClube : linha.titular;
-  const papel = fatia >= 0.7 ? "Dono da posição" : fatia >= 0.45 ? "Titular na maior parte" : fatia >= 0.2 ? "Primeiro do banco" : "Esquentou banco";
+  // sem jogo nenhum nao e "banco": o ano foi fora de campo (lesao, despedida no estaleiro)
+  const papel = linha.jogos === 0 && !linha.base ? "Não entrou em campo" : fatia >= 0.7 ? "Dono da posição" : fatia >= 0.45 ? "Titular na maior parte" : fatia >= 0.2 ? "Primeiro do banco" : "Esquentou banco";
   alvo.append(el("p", "temporada-papel", papel));
   // ate os 19: deixa claro o que foi no profissional e o que foi na base
   if (linha.base) alvo.append(el("p", "temporada-base", `${linha.jogos} jogos pelo profissional${linha.base.jogos ? ` · ${linha.base.jogos} pelo ${linha.base.cat} (não contam nos números da carreira)` : ""}`));
@@ -3192,7 +3193,8 @@ function mostrarLinha(linha) {
   if (linha.transferencia) avisos.push(`Transferido pro ${linha.transferencia.para} (${linha.transferencia.liga}) ${linha.transferencia.valor ? `por ${dinheiro(linha.transferencia.valor)}` : "de graça, em fim de contrato"}.`);
   const recorde = linha.transferencia && recordeBatido(linha.transferencia);
   if (recorde) avisos.push(`Maior venda da história do ${linha.transferencia.de} (antes: ${recorde.jogador}, ${dinheiro(recorde.valor / 1e6)}, ${recorde.ano}).`);
-  if (linha.ofertasBarradas && linha.ofertasBarradas.length) avisos.push(`O ${linha.clube} recusou ${linha.ofertasBarradas.length === 1 ? "a proposta" : "as propostas"} do ${linha.ofertasBarradas.join(", do ")}: você tem contrato.`);
+  // (com a janela aberta o aviso vai la, junto do "Pede pra ser vendido": aqui repetia a frase)
+  if (linha.ofertasBarradas && linha.ofertasBarradas.length && !(!linha.automatica && !C.J.aposentado && pedidoDeSaidaCabe(C.J, C.ofertasBarradas || []))) avisos.push(`O ${linha.clube} recusou ${linha.ofertasBarradas.length === 1 ? "a proposta" : "as propostas"} do ${linha.ofertasBarradas.join(", do ")}: você tem contrato.`);
   if (linha.voltaDeEmprestimo) avisos.push(`Fim do empréstimo: volta pro ${linha.voltaDeEmprestimo}.`);
   if (linha.fim) avisos.push(`${linha.fim} aos ${linha.idade + 1} anos.`);
   for (const a of avisos) alvo.append(el("p", "temporada-aviso", a));
@@ -3704,6 +3706,9 @@ function fecharTemporadaCompleta() {
   mostrarMercado(linha);
 }
 
+// a janela mostra as propostas barradas (e o botao de pedir pra sair) quando ainda da pra pedir
+const pedidoDeSaidaCabe = (J, barradas) => barradas.length > 0 && anosRestantes(J) >= 1 && !J.pediuSaida;
+
 // janela de transferencias: voce escolhe (ou fica). Da pra pedir vaga de titular.
 // No rapido (so = [proposta]) e so "fica ou vai", sem renovacao nem garantia.
 function mostrarMercado(linha, { so = null, aviso = null } = {}) {
@@ -3735,7 +3740,7 @@ function mostrarMercado(linha, { so = null, aviso = null } = {}) {
   // propostas que o clube recusou (contrato em vigor): da pra pedir pra ser vendido
   const barradas = so ? [] : C.ofertasBarradas || [];
   const pedido = () => {
-    if (!barradas.length || anosRestantes(J) < 1 || J.pediuSaida) return null;
+    if (!pedidoDeSaidaCabe(J, barradas)) return null;
     const box = el("div", "mercado-barradas");
     box.append(el("p", "nota", `O ${J.clube.nome} recusou ${barradas.length === 1 ? "a proposta" : "as propostas"} do ${barradas.map((c) => c.nome).join(", do ")}. Seu contrato vai até ${J.contratoAte}.`));
     const b = el("button", "botao", "Pede pra ser vendido");
@@ -4016,7 +4021,8 @@ function nomeDoFinal(J) {
   else r = ["Carreira de respeito", "Jogou, ganhou, perdeu e saiu pela porta da frente."];
   const depois = J.viraTecnico ? `Depois das chuteiras: técnico do ${J.viraTecnico}.`
     : marcas.futuro_tecnico ? "Depois das chuteiras: curso de treinador pronto e lugar na comissão técnica."
-    : marcas.despedida ? `Despedida com estádio cheio no ${marcas.despedida}.` : null;
+    // estadio cheio so pra quem jogou o ano da despedida (0 jogos: a festa nao aconteceu em campo)
+    : marcas.despedida ? (H.length && H[H.length - 1].jogos > 0 ? `Despedida com estádio cheio no ${marcas.despedida}.` : `Anunciou a despedida no ${marcas.despedida}, mas não entrou em campo no último ano.`) : null;
   return { titulo: r[0], texto: r[1], depois };
 }
 

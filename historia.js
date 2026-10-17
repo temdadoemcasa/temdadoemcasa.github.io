@@ -984,10 +984,13 @@
       eventos.push(CONSEQUENCIAS.aprendiz(J));
     }
     // marcas que voltam sem agenda (o rival companheiro, o banco de tecnico)
+    // (o banco de tecnico no ano fecha a carreira: a despedida nao entra junto,
+    // senao "Ainda tem lenha... mais um ano" vinha antes de "assumiu como tecnico")
+    let banco = false;
     for (const [id, cena] of Object.entries(CENAS_DE_MARCA)) {
       if (eventos.length >= limite) break;
       const ev = cena(J);
-      if (ev) { est.iniciados[id] = true; eventos.push(ev); }
+      if (ev) { est.iniciados[id] = true; eventos.push(ev); if (id === "interino") banco = true; }
     }
     // o arco que abre a fase e sorteado entre os da fase (so um abre cada fase)
     est.abriu = est.abriu || {};
@@ -1004,7 +1007,8 @@
       // apostas: um arco por carreira; o aliciador so volta pra quem ja mexeu com aposta
       || (a.id === "aliciador" && (est.marcas.bet_publi || est.marcas.vazou));
     const f = fase(J);
-    const situacao = INICIOS.find((a) => a.livre && !est.iniciados[a.id] && (!a.fases || a.fases.includes(f)) && podeTema(a) && a.quando(J));
+    const situacao = INICIOS.find((a) => a.livre && !est.iniciados[a.id] && (!a.fases || a.fases.includes(f)) && podeTema(a) && a.quando(J)
+      && !(banco && a.id === "despedida"));
     if (abertura && eventos.length < limite) {
       est.iniciados[abertura.id] = true;
       marcarTema(J, abertura);

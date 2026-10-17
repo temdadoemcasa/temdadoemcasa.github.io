@@ -142,7 +142,14 @@
 .painel-fatos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.6rem; margin: 0; }
 .painel-fatos div { padding: 0.45rem 0.55rem; border-radius: 10px; background: var(--fundo-cartao); border: 1px solid var(--borda); min-width: 0; }
 .painel-fatos dt { font-size: 0.68rem; color: var(--texto-fraco); text-transform: uppercase; letter-spacing: 0.05em; }
-.painel-fatos dd { margin: 0; font-family: var(--numeros); font-weight: 800; font-size: 1.15rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.painel-fatos dd { margin: 0; font-family: var(--numeros); font-weight: 800; font-size: 1.15rem; white-space: nowrap; font-variant-numeric: tabular-nums; }
+/* nada de reticencias (playtest 17/10: "Inte…", "€43,…"): o clube ganha a linha
+   inteira e quebra se precisar; o valor fica com duas colunas ao lado da idade
+   (dense: o valor sobe pro lado da idade, o clube desce pra linha dele) */
+.painel-fatos { grid-auto-flow: row dense; }
+.painel-fatos div:has(> dd[data-fato="Clube"]) { grid-column: 1 / -1; }
+.painel-fatos div:has(> dd[data-fato="Valor"]) { grid-column: span 2; }
+.painel-fatos dd[data-fato="Clube"] { white-space: normal; overflow-wrap: anywhere; line-height: 1.2; }
 .galeria { padding: 0.6rem 0.75rem; border-radius: 10px; background: rgba(242, 194, 48, 0.07); border: 1px solid rgba(242, 194, 48, 0.3); }
 .galeria-premios { background: rgba(92, 200, 255, 0.07); border-color: rgba(92, 200, 255, 0.3); }
 .galeria-rotulo { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: #f2c230; }
@@ -362,7 +369,12 @@
 .carreira-lateral th:nth-child(n+3), .carreira-lateral td:nth-child(n+3) { width: 1.9rem; }
 .carreira-lateral th:nth-child(3), .carreira-lateral td:nth-child(3) { width: 2.6rem; }
 .carreira-lateral th:nth-child(7), .carreira-lateral td:nth-child(7) { width: 2.7rem; }
-.carreira-lateral td:nth-child(2) { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* o nome do clube quebra em duas linhas em vez de vazar por cima do OVR
+   ("Eintracht Frankfur" encostava no selo, playtest 17/10) */
+.carreira-lateral td:nth-child(2) { overflow: hidden; }
+.carreira-lateral .tc-clube { min-width: 0; gap: 0.35rem; overflow-wrap: anywhere; hyphens: auto; }
+.carreira-lateral .tc-clube > .escudo { flex: none; width: 16px; height: 16px; }
+.carreira-lateral .tc-clube > span:not(.escudo) { min-width: 0; }
 .carreira-lateral thead th { position: sticky; top: 0; z-index: 1; background: var(--fundo-cartao); }
 .carreira-lateral td, .carreira-lateral th { padding: 0.22rem 0.3rem; line-height: 1.15; }
 /* linha compacta: sem a liga embaixo do clube e escudo menor -- a carreira
