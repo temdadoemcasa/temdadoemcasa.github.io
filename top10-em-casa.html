@@ -21,7 +21,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
   <script src="tema.js?v=2026-09-27j"></script>
   <link rel="stylesheet" href="estilo.css?v=2026-10-16mm">
-  <link rel="stylesheet" href="top10.css?v=2026-10-17dicas">
+  <link rel="stylesheet" href="top10.css?v=2026-10-17m1">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
 </head>
@@ -64,10 +64,7 @@
           <p class="cabeca-sub" id="cabeca-sub"></p>
           <p class="cabeca-recorte" id="cabeca-recorte"></p>
         </div>
-        <div class="vidas" id="vidas" role="img" aria-label="3 vidas">
-          <span class="vida cheia"></span><span class="vida cheia"></span><span class="vida cheia"></span>
-        </div>
-        <ol class="barras" id="barras" aria-label="Top 10"></ol>
+        <!-- busca primeiro: no celular o chute fica no topo, as barras embaixo -->
         <div class="busca-caixa" id="busca-caixa">
           <label for="busca" class="rotulo">Quem tá no top 10?</label>
           <input id="busca" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Chute um jogador"
@@ -75,11 +72,17 @@
           <ul class="sugestoes" id="sugestoes" role="listbox" hidden></ul>
           <p class="sem-sugestao" id="sem-sugestao" hidden>Nenhum jogador com esse nome na busca.</p>
         </div>
-        <div class="acoes-jogo" id="acoes-jogo">
-          <button class="botao" id="dica" type="button">💡 Pedir dica (3)</button>
-          <button class="botao botao-discreto" id="desistir" type="button">Desistir e ver o top</button>
-        </div>
         <p class="aviso" id="aviso" aria-live="polite"></p>
+        <div class="linha-status">
+          <div class="vidas" id="vidas" role="img" aria-label="3 vidas">
+            <span class="vida cheia"></span><span class="vida cheia"></span><span class="vida cheia"></span>
+          </div>
+          <div class="acoes-jogo" id="acoes-jogo">
+            <button class="botao" id="dica" type="button">💡 Pedir dica (3)</button>
+            <button class="botao botao-discreto" id="desistir" type="button">Desistir</button>
+          </div>
+        </div>
+        <ol class="barras" id="barras" aria-label="Top 10"></ol>
       </div>
     </section>
 
@@ -110,8 +113,8 @@
     <p class="rodape-autor">Site, dados e minigames feitos por <a href="https://www.linkedin.com/in/breno-sayao/" target="_blank" rel="noopener">Breno Sayão</a>, engenheiro de dados · <a href="https://www.linkedin.com/in/breno-sayao/" target="_blank" rel="noopener">LinkedIn</a></p>
   </footer>
 
-  <script src="app.js?v=2026-10-17-442"></script>
-  <script src="top10.js?v=2026-10-17dicas"></script>
+  <script src="app.js?v=2026-10-17m1"></script>
+  <script src="top10.js?v=2026-10-17m1"></script>
   <script data-goatcounter="https://temdadoemcasa.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>
 </html>

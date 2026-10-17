@@ -352,23 +352,10 @@ async function caso(p, semente, cfg, registro) {
     confere('trocar esquema no resumo nao perde nem duplica jogador', antes === depois);
     confere('trocar esquema no resumo redesenha no esquema novo', await p.evaluate((n) => D.esquema === n && document.querySelector('.resumo-info').textContent.includes(n), novo));
   }
-  if (cfg.esperarChances) {
-    marcar('espera as chances');
-    const ok = await p.waitForFunction(() => /Em \d+ temporadas simuladas: G6 \d+% · Z4 \d+% · campeão brasileiro \d+% · algum título \d+%/.test(document.querySelector('.resumo-chances').textContent), null, { timeout: 30000 }).then(() => true, () => false);
-    confere('resumo: chances aparecem (G6/Z4/titulo em %)', ok, await p.textContent('.resumo-chances'));
-  }
-  // chances que ainda estao calculando nao podem continuar gastando o celular depois que a temporada comeca
-  await p.evaluate(() => {
-    window.__rapidas = 0;
-    if (!window.__rapidaOrig) window.__rapidaOrig = simularTemporadaRapida;
-    simularTemporadaRapida = (...a) => { window.__rapidas++; return window.__rapidaOrig(...a); };
-  });
+  // as chances simuladas sairam do resumo em 16/10 (desanimavam): nada de "temporadas simuladas" na tela
+  confere('resumo sem chances simuladas', !/temporadas simuladas|campeão brasileiro \d+%/.test(await p.textContent('#tela-resumo')));
   marcar('comecar a temporada');
   await clicar('#comecar-temporada');
-  const r0 = await p.evaluate(() => window.__rapidas);
-  await p.waitForTimeout(250);
-  const r1 = await p.evaluate(() => window.__rapidas);
-  confere('chances do resumo param de calcular quando a temporada comeca', r1 - r0 <= 1, `${r1 - r0} temporadas rapidas depois do clique`);
 
   // ---- 4. temporada
   const t0 = await p.evaluate(() => ({ jogo: document.getElementById('jogo').innerText, status: document.getElementById('status').innerText, grupo: D.grupo }));
@@ -730,7 +717,7 @@ async function trabalhador() {
     const cc = configDoContexto(s);
     const chave = Math.floor((s - SEMENTE0) / POR_CONTEXTO);
     const r = rngDe(s);
-    const cfg = { ...cc, vp: `${cc.w}x${cc.h}${cc.toque ? ' toque' : ''}${cc.reduzido ? ' reduzido' : ''}`, politicaDraft: pesado(r, POLITICAS_DRAFT), politicaTemp: pesado(r, POLITICAS_TEMP), esperarChances: r() < 0.08 };
+    const cfg = { ...cc, vp: `${cc.w}x${cc.h}${cc.toque ? ' toque' : ''}${cc.reduzido ? ' reduzido' : ''}`, politicaDraft: pesado(r, POLITICAS_DRAFT), politicaTemp: pesado(r, POLITICAS_TEMP) };
     cfg.rotulo = `${cfg.vp}, draft ${cfg.politicaDraft}, temporada ${cfg.politicaTemp}`;
     if (!aberto || chave !== chaveCtx) {
       if (aberto) await aberto.ctx.close();

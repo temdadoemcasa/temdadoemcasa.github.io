@@ -677,7 +677,11 @@ function xNaFuncao(j, funcao, xDe) {
 // Busca por nome: sem acento e sem caixa, palavra por palavra, no nome curto
 // da carta ("B. Bidon") e no completo ("Breno Bidon"). "breno bidon",
 // "bidon" e "gomez" (Gómez) acham; antes so o trecho exato do nome curto.
-const normalizarBusca = (t) => String(t || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+// letras que nao sao "letra + acento" e o NFD nao separa: Sørloth, Ødegaard, Højlund,
+// Gündoğan (ğ separa), Szczęsny, Łukasz, Müller (separa), Æ, ß, Đ, ı (i sem ponto turco)
+const LETRAS_ESPECIAIS = { ø: "o", æ: "ae", œ: "oe", ß: "ss", đ: "d", ð: "d", þ: "th", ł: "l", ı: "i", ħ: "h", ŧ: "t", ŋ: "n" };
+const tirarEspeciais = (s) => s.replace(/[øæœßđðþłıħŧŋ]/g, (c) => LETRAS_ESPECIAIS[c]);
+const normalizarBusca = (t) => tirarEspeciais(String(t || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase());
 function casaComBusca(jogador, termo) {
   const alvo = normalizarBusca(`${jogador.nome} ${jogador.nome_completo || ""}`);
   return normalizarBusca(termo).split(/\s+/).filter(Boolean).every((p) => alvo.includes(p));
@@ -1483,7 +1487,7 @@ function iniciarPacoteDeCraque() {
 // --- controles ------------------------------------------------------------
 
 // "Sao Paulo" acha "são paulo", "gremio" acha "Grêmio"
-const semAcento = (s) => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLocaleLowerCase("pt-BR");
+const semAcento = (s) => tirarEspeciais(s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLocaleLowerCase("pt-BR"));
 
 // Escolha de time pesquisavel. O <select id="time"> escondido continua sendo
 // a fonte do valor (o resto da pagina le dele); este combobox so escreve nele

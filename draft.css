@@ -650,7 +650,6 @@ button.vaga:hover .vaga-vazia { border-color: var(--canal); color: var(--canal);
 .banco-vaga.vaga-ativa .vaga-vazia { color: var(--canal); border-color: var(--canal); animation: pulsar 1.2s ease-in-out infinite; }
 
 .resumo-campo { display: grid; gap: 0.2rem; }
-.resumo-chances { margin: 0.6rem 0 1rem; padding: 0.55rem 0.8rem; border-radius: 10px; background: var(--fundo-cartao); border: 1px solid var(--borda); font-weight: 600; }
 .seletor-esquema { display: inline-flex; align-items: center; gap: 0.45rem; margin: 0.2rem 0; font-size: 0.9rem; color: var(--texto-fraco); }
 .seletor-esquema select { font: inherit; color: var(--texto); background: var(--fundo-cartao); border: 1px solid var(--borda); border-radius: 8px; padding: 0.25rem 0.5rem; }
 .controles-tatica { display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; margin-top: 0.4rem; }
@@ -763,3 +762,7 @@ button.vaga:hover .vaga-vazia { border-color: var(--canal); color: var(--canal);
   .jj-ovr { font-size: 1rem; }
   .janela { padding: 0.9rem 0.8rem; }
 }
+.resumo-aviso { margin: 0.5rem 0 0; }
+.banco-vaga.vaga-movendo { border-color: var(--canal); }
+.banco-vaga.vaga-movendo .vaga-nome { color: var(--canal); }
+.banco-vaga.vaga-destino { outline: 2px dashed var(--canal); outline-offset: 2px; }

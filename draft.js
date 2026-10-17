@@ -250,9 +250,9 @@ function sortearLeque(vaga, chances = chancesDoLeque()) {
   return opcoes;
 }
 
-// No draft o gramado e interativo: toque na vaga vazia abre o leque dela; toque
-// num jogador escolhe quem mover e o toque seguinte, a vaga pra onde ele vai
-// (vazia, ou de outro jogador que tambem cabe na dele: os dois trocam)
+// No draft (e no resumo) o gramado e interativo: toque na vaga vazia abre o leque
+// dela; toque num jogador (titular ou reserva) escolhe quem mover e o toque seguinte,
+// a vaga pra onde ele vai (vazia, ou de outro jogador que tambem cabe na dele: trocam)
 function desenharGramado(alvo, { ativa = -1, interativo = false } = {}) {
   alvo.replaceChildren();
   const movendo = interativo ? D.movendo ?? -1 : -1;
@@ -275,8 +275,8 @@ function desenharGramado(alvo, { ativa = -1, interativo = false } = {}) {
       if (interativo) v.title = `Escolher o ${VAGAS[slot.pos][2].toLowerCase()}`;
     }
     if (interativo) {
-      if (movendo >= 0) v.title = k === movendo ? "Cancelar" : destinos.includes(k) ? `Levar ${sobrenome(D.onze[movendo].jogador.nome)} para ${VAGAS[slot.pos][1]}` : v.title;
-      else if (slot.jogador) v.title = `${v.title} · toque pra mudar de posição`;
+      if (movendo >= 0) v.title = k === movendo ? "Cancelar" : destinos.includes(k) ? `Levar ${sobrenome(todasVagas()[movendo].jogador.nome)} para ${VAGAS[slot.pos][1]}` : v.title;
+      else if (slot.jogador) v.title = `${v.title} · toque pra mudar de posição ou trocar com o banco`;
       v.setAttribute("aria-label", v.title);
       v.addEventListener("click", () => tocarVaga(k));
     }
@@ -284,28 +284,38 @@ function desenharGramado(alvo, { ativa = -1, interativo = false } = {}) {
   });
 }
 
-// toque numa vaga do gramado durante o draft
+// redesenha a tela do momento: o leque (draft rolando) ou o resumo (time completo),
+// sem rolar a pagina pro topo
+const redesenhar = () => (D.vaga >= 0 ? abrirLeque() : mostrarResumo({ manterRolagem: true }));
+
+// toque numa vaga (k indexa todasVagas: 0-10 o onze, depois o banco)
 function tocarVaga(k) {
-  const slot = D.onze[k];
+  const slot = todasVagas()[k];
   if (D.movendo != null && D.movendo >= 0) {
     const de = D.movendo;
     D.movendo = null;
     if (k !== de && destinosDe(de).includes(k)) moverDeVaga(de, k);
-    else abrirLeque();
+    else redesenhar();
     return;
   }
   if (slot.jogador) {
-    if (!destinosDe(k).length) { avisoDoDraft(`${sobrenome(slot.jogador.nome)} não joga em nenhuma outra vaga do esquema.`); return; }
+    if (!destinosDe(k).length) {
+      avisoDoDraft(`${sobrenome(slot.jogador.nome)} não joga em nenhuma outra vaga${k >= D.onze.length ? " do onze" : " do esquema"}.`);
+      return;
+    }
     D.movendo = k;
-    abrirLeque();
-    avisoDoDraft(`Pra onde vai ${sobrenome(slot.jogador.nome)}? Toque numa vaga marcada (ou nele de novo pra cancelar).`);
+    redesenhar();
+    avisoDoDraft(k >= D.onze.length
+      ? `${sobrenome(slot.jogador.nome)} entra no lugar de quem? Toque num titular marcado (ou nele de novo pra cancelar).`
+      : `Pra onde vai ${sobrenome(slot.jogador.nome)}? Toque numa vaga ou reserva marcada (ou nele de novo pra cancelar).`);
     return;
   }
   D.vaga = k;
   abrirLeque();
 }
 function avisoDoDraft(texto) {
-  const a = $("draft-aviso");
+  // no resumo o aviso fica embaixo do gramado dele
+  const a = D.vaga < 0 && !$("tela-resumo").hidden ? document.querySelector(".resumo-aviso") : $("draft-aviso");
   if (!a) return;
   a.textContent = texto;
   a.hidden = !texto;
@@ -408,12 +418,23 @@ function desenharBanco(depois, ativa = -1, { interativo = false } = {}) {
   let lista = pai.querySelector(".banco-lista");
   if (!lista) { lista = el("ol", "banco-lista"); lista.setAttribute("aria-label", "Banco de reservas"); depois.after(lista); }
   lista.replaceChildren();
+  const movendo = interativo ? D.movendo ?? -1 : -1;
+  const destinos = movendo >= 0 ? destinosDe(movendo) : [];
   D.banco.forEach((slot, k) => {
-    const li = el("li", `banco-vaga${k === ativa ? " vaga-ativa" : ""}${slot.jogador ? " vaga-cheia" : ""}`);
+    const idx = D.onze.length + k;
+    const li = el("li", `banco-vaga${k === ativa ? " vaga-ativa" : ""}${slot.jogador ? " vaga-cheia" : ""}${idx === movendo ? " vaga-movendo" : ""}${destinos.includes(idx) ? " vaga-destino" : ""}`);
     if (slot.jogador) {
       const j = slot.jogador;
       li.append(el("span", `vaga-nota nivel-${nivel(j.overall).id}`, String(j.overall)), el("span", "vaga-nome", sobrenome(j.nome)));
       li.title = `${j.nome} · ${NOME_FUNCAO[FUNCAO.get(j)] || ""} · veio do ${TIME_DE.get(j).nome}`;
+      // reserva melhor que um titular: toca nele e depois no titular, os dois trocam
+      if (interativo) {
+        li.classList.add("banco-clicavel");
+        li.tabIndex = 0; li.setAttribute("role", "button");
+        li.setAttribute("aria-label", idx === movendo ? "Cancelar" : destinos.includes(idx) ? `Trocar com ${sobrenome(j.nome)}` : `${j.nome}, reserva · toque pra trocar com um titular`);
+        li.addEventListener("click", () => tocarVaga(idx));
+        li.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); tocarVaga(idx); } });
+      }
     } else {
       li.append(el("span", "vaga-vazia", VAGAS[slot.pos][1]));
       // no draft, reserva vazia tambem e clicavel (o banco depois do onze)
@@ -460,13 +481,19 @@ function cabeNaVaga(j, pos) {
   return typeof x !== "number" || (lado === "D" ? x >= 0.5 : x < 0.5);
 }
 
-// vagas pra onde o jogador da vaga k pode ir: vazia em que ele cabe, ou de
-// outro jogador quando os dois cabem na vaga um do outro (trocam)
+// cabe no slot: no onze, a vaga (com o lado); no banco, uma das funcoes da reserva
+const cabeNoSlot = (j, pos) => (VAGAS[pos][3] ? funcoesDaVaga(pos).some((f) => funcoesDe(j).includes(f)) : cabeNaVaga(j, pos));
+
+// vagas pra onde o jogador da vaga k (onze ou banco) pode ir: vazia em que ele
+// cabe, ou de outro jogador quando os dois cabem na vaga um do outro (trocam).
+// Reserva so troca com titular (de reserva pra reserva nao muda nada no time)
 const destinosDe = (k) => {
-  const j = D.onze[k] && D.onze[k].jogador;
+  const vagas = todasVagas();
+  const j = vagas[k] && vagas[k].jogador;
   if (!j) return [];
-  return D.onze.map((s, i) => i).filter((i) => i !== k && cabeNaVaga(j, D.onze[i].pos)
-    && (!D.onze[i].jogador || cabeNaVaga(D.onze[i].jogador, D.onze[k].pos)));
+  const doBanco = k >= D.onze.length;
+  return vagas.map((s, i) => i).filter((i) => i !== k && !(doBanco && i >= D.onze.length)
+    && cabeNoSlot(j, vagas[i].pos) && (!vagas[i].jogador || cabeNoSlot(vagas[i].jogador, vagas[k].pos)));
 };
 
 // muda o jogador de vaga (Bruno Henrique de CA pra PE pra escolher outro
@@ -474,16 +501,17 @@ const destinosDe = (k) => {
 // um sorteio novo; se o destino tinha alguem, os dois trocam.
 function moverDeVaga(k, i) {
   if (!destinosDe(k).includes(i)) return;
-  const [a, b] = [D.onze[k].jogador, D.onze[i].jogador];
-  D.onze[i].jogador = a;
-  D.onze[k].jogador = b;
+  const vagas = todasVagas();
+  const [a, b] = [vagas[k].jogador, vagas[i].jogador];
+  vagas[i].jogador = a;
+  vagas[k].jogador = b;
   D.movendo = null;
   // a vaga que esvaziou abre na hora (mudou o BH pra PE: agora escolhe o CA);
   // numa troca entre duas cheias, segue a vaga que estava aberta (ou a proxima)
   if (!b) D.vaga = k;
   else if (D.vaga < 0 || todasVagas()[D.vaga].jogador) D.vaga = proximaVaga();
   if (D.vaga >= 0) abrirLeque();
-  else mostrarResumo();
+  else mostrarResumo({ manterRolagem: true });
 }
 
 // --- resumo ------------------------------------------------------------------------
@@ -662,8 +690,8 @@ function serieAComUsuario() {
   return serieA;
 }
 
-function mostrarResumo() {
-  mostrar("resumo");
+function mostrarResumo({ manterRolagem = false } = {}) {
+  if (!manterRolagem) mostrar("resumo");
   const serieA = serieAComUsuario();
   const ranking = Object.values(serieA).sort((a, b) => (b.atq + b.def) - (a.atq + a.def));
   const eu = ranking.find((t) => t.usuario);
@@ -679,8 +707,11 @@ function mostrarResumo() {
   alvo.replaceChildren();
   const coluna = el("div", "resumo-campo");
   const campo = el("div", "gramado gramado-resumo");
-  desenharGramado(campo);
-  coluna.append(campo);
+  desenharGramado(campo, { interativo: true });
+  const aviso = el("p", "nota draft-aviso resumo-aviso");
+  aviso.hidden = true;
+  aviso.setAttribute("aria-live", "polite");
+  coluna.append(campo, aviso);
   const info = el("div", "resumo-info");
   info.append(el("p", "resumo-nome", D.nome));
   const numeros = el("dl", "resumo-numeros");
@@ -697,23 +728,16 @@ function mostrarResumo() {
   info.append(el("p", "nota", `Entrosamento: ${textoEntrosamento(ent)}${clubes.length ? ` · ${clubes.join(", ")}` : " · ninguém do mesmo clube"}. Improvisados: ${D.onze.filter((s) => encaixeNaVaga(s.jogador, s.pos) < ENCAIXE.principal).length}.`));
   info.append(seletorDeEsquema(() => mostrarResumo()));
   info.append(el("p", "nota", `${D.esquema}: ${descreverTatica(D.esquema)}.`));
-  const chances = el("p", "resumo-chances", "Calculando as chances…");
-  chances.setAttribute("aria-live", "polite");
-  info.append(chances);
   const ul = el("ul", "resumo-comps");
   for (const c of [`Brasileirão, no lugar ${doTime(D.sai)}`, "Copa do Brasil, a partir da 5ª fase", `${COMP[D.continental]}: grupo sorteado quando a temporada começar`]) {
     ul.append(el("li", null, c));
   }
   info.append(el("p", "nota", "Temporada:"), ul);
   alvo.append(coluna, info);
-  desenharBanco(campo);
-  // 50 temporadas rapidas (~0,5 s, em pedacos pra tela nao travar)
-  const pedido = (D.pedidoChances = (D.pedidoChances || 0) + 1);
-  estimarChances(50).then((c) => {
-    if (pedido !== D.pedidoChances) return;
-    const p = (v) => `${Math.round((100 * v) / c.n)}%`;
-    chances.textContent = `Em ${c.n} temporadas simuladas: G6 ${p(c.g6)} · Z4 ${p(c.z4)} · campeão brasileiro ${p(c.bra)} · algum título ${p(c.titulo)}`;
-  });
+  // as chances simuladas (G6, Z4, titulo) sairam em 16/10: desanimavam antes de jogar
+  desenharBanco(campo, -1, { interativo: true });
+  if (D.movendo != null && D.movendo >= 0) avisoDoDraft(`Troca: toque num ${D.movendo >= D.onze.length ? "titular" : "lugar"} marcado (ou no mesmo jogador pra cancelar).`);
+  else avisoDoDraft("Toque num reserva pra colocar ele no lugar de um titular, ou num titular pra mudar de posição.");
 }
 
 // uma frase de resenha pro lugar no papel (papel nao entra em campo)
@@ -1005,26 +1029,14 @@ function aplicarJanela(k, jogador) {
   return true;
 }
 
-// chances: temporadas rapidas com o elenco de agora (postura equilibrada,
-// sem janela), sem tocar no sorteio do jogo
+// temporada rapida com o elenco de agora (postura equilibrada, sem janela), sem tocar
+// no sorteio do jogo. A tela nao mostra mais (16/10); fica pras baterias de equilibrio
+// (scripts/bateria/draft)
 function simularTemporadaRapida(semente, rngGrupo) {
   const temp = montarTemporada({ semente, rngGrupo });
   while (!Motor.terminou(temp)) Motor.avancar(temp);
   const pos = Motor.ordenar(temp.bra.tabela).findIndex((l) => l.id === temp.usuario) + 1;
   return { pos, bra: temp.campeoes.bra === temp.usuario, titulo: Object.values(temp.campeoes).includes(temp.usuario) };
-}
-async function estimarChances(n = 50) {
-  const rng = Motor.rngDe(D.desafio ? hashTexto(`${D.desafio.semente}|chances`) : Math.floor(Math.random() * 1e9));
-  const c = { n, g6: 0, z4: 0, bra: 0, titulo: 0 };
-  for (let k = 0; k < n; k++) {
-    const r = simularTemporadaRapida(Math.floor(rng() * 1e9), rng);
-    if (r.pos <= 6) c.g6++;
-    if (r.pos >= 17) c.z4++;
-    if (r.bra) c.bra++;
-    if (r.titulo) c.titulo++;
-    if (k % 10 === 9 && typeof requestAnimationFrame === "function") await respirar();
-  }
-  return c;
 }
 
 // cor principal da camisa (pro fundo do placar)
@@ -1048,7 +1060,6 @@ const nomeDe = (id) => (D.times && D.times[id] ? D.times[id].nome : id);
 // semente refaz a mesma temporada); senao, sorteia
 function comecarTemporada({ semente: sementeDada = null, sementeGrupo: grupoDado = null } = {}) {
   if (!D.repetindo) evento("tem-time/temporada");
-  D.pedidoChances = (D.pedidoChances || 0) + 1; // chances pendentes nao escrevem mais
   const semente = sementeDada ?? (D.desafio ? hashTexto(`${D.desafio.semente}|temporada`) : Math.floor(Math.random() * 1e9));
   const sementeGrupo = grupoDado ?? Math.floor(Math.random() * 1e9);
   const rngGrupo = Motor.rngDe(D.desafio ? hashTexto(`${D.desafio.semente}|grupo`) : sementeGrupo);
