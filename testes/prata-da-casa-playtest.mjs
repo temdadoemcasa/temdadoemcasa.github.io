@@ -4,6 +4,7 @@
 //  2. ano da despedida com 0 jogos: "Esquentou banco" e "estádio cheio"
 //  3. painel e tabela cortando/sobrepondo texto (4 tamanhos de tela)
 //  4. "O clube recusou as propostas do..." duas vezes (resumo e janela)
+//  5. quadrinhos da projecao do ano: a variacao por cima do valor ("7,7+0,1")
 import { chromium } from 'playwright';
 const BASE = process.env.BASE || 'http://localhost:8766';
 const ok = (c, m) => console.log(c ? 'OK  ' : 'FALHA', m);
@@ -154,6 +155,49 @@ for (const [w, h] of [[1920, 1080], [1366, 768], [390, 844], [360, 640]]) {
   ok(!rolaX, `3 ${tam}: sem rolagem horizontal`);
   await p.screenshot({ path: `testes/resultados/playtest-${tam}.png`, fullPage: false });
   ok(!erros.length, `3 ${tam}: sem erro de página ${erros.join(' | ')}`);
+  await p.close();
+}
+
+// ---- 5. projecao do ano: a variacao nunca por cima do valor ----------------------------
+for (const [w, h] of [[1920, 1080], [1366, 768], [390, 844], [360, 640]]) {
+  const { p, erros } = await abrirCarreira({ width: w, height: h });
+  const tam = `${w}x${h}`;
+  await p.evaluate(() => avancarCompleto());
+  await p.waitForFunction(() => C.rolagem && C.rolagem.celulas && Object.keys(C.rolagem.celulas).length >= 5, null, { timeout: 30000 });
+  const medir = () => p.evaluate(() => Object.entries(C.rolagem.celulas).map(([k, c]) => {
+    const faixa = document.createRange(); faixa.selectNodeContents(c.dd);
+    // na horizontal, a largura do texto do valor; na vertical, a linha do valor (o retangulo do
+    // texto inclui a folga da fonte acima/abaixo do algarismo e passa 1 px da linha)
+    const t = faixa.getBoundingClientRect(), l = c.dd.getBoundingClientRect(), d = c.delta.getBoundingClientRect(), caixa = c.box.getBoundingClientRect();
+    const v = { left: t.left, right: t.right, top: l.top, bottom: l.bottom };
+    const cruza = !!c.delta.textContent && v.left < d.right - 0.5 && d.left < v.right - 0.5 && v.top < d.bottom - 0.5 && d.top < v.bottom - 0.5;
+    const vaza = !!c.delta.textContent && (d.right > caixa.right + 0.5 || d.bottom > caixa.bottom + 0.5) || v.right > caixa.right + 0.5;
+    return { k, txt: `${c.dd.textContent}|${c.delta.textContent}`, cruza, vaza, visivel: caixa.width > 0 };
+  }));
+  // (a) variacao de verdade: a projecao "de antes" mais baixa/mais alta, e atualizarProjecao mostra a diferenca
+  await p.evaluate(() => {
+    const R = C.rolagem, a = R.proj;
+    R.proj = { ...a, jogos: a.jogos - 12, gols: a.gols + 9, assist: a.assist - 7, nota: a.nota - 0.4, ovr: a.ovr + 11, vitrine: a.vitrine + 0.5 };
+    atualizarProjecao(R);
+  });
+  await p.waitForTimeout(1000); // fim do pulso
+  const real = await medir();
+  // (b) o pior caso de largura que o jogo escreve: valor e variacao no maximo
+  await p.evaluate(() => {
+    const pior = { jogos: ['58', '−12'], gols: ['41', '+11'], assist: ['27', '−9'], nota: ['7,7', '+0,4'], ovr: ['99', '−12'], vitrine: ['−1,5', '+0,5'] };
+    for (const [k, c] of Object.entries(C.rolagem.celulas)) { c.dd.textContent = pior[k][0]; c.delta.textContent = pior[k][1]; }
+  });
+  const largo = await medir();
+  for (const [nome, m] of [['variação real', real], ['pior largura', largo]]) {
+    const ruins = m.filter((x) => x.cruza || x.vaza);
+    const comDelta = m.filter((x) => x.txt.split('|')[1]).length;
+    ok(m.every((x) => x.visivel) && comDelta >= 5 && !ruins.length,
+      `5 ${tam} (${nome}): variação ao lado/abaixo do valor, sem sobrepor (${ruins.map((x) => `${x.k}="${x.txt}"${x.cruza ? ' sobrepõe' : ' vaza'}`).join(', ') || `${comDelta} quadrinhos ok`})`);
+  }
+  const rolaX = await p.evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 1);
+  ok(!rolaX, `5 ${tam}: sem rolagem horizontal com a projeção na tela`);
+  await p.locator('.projecao').first().screenshot({ path: `testes/resultados/projecao-${tam}.png` });
+  ok(!erros.length, `5 ${tam}: sem erro de página ${erros.join(' | ')}`);
   await p.close();
 }
 await b.close();
