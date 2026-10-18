@@ -286,7 +286,10 @@
 .pergunta-nivel { white-space: nowrap; }
 @media (max-width: 760px) {
   .pergunta-numero { font-size: 1.05rem; }
-  .pergunta-nivel { font-size: 0.62rem; padding: 0.1rem 0.5rem; }
+  .pergunta-nivel { font-size: 0.62rem; padding: 0.1rem 0.45rem; letter-spacing: 0; }
+  /* na final o selo "Vale a Prateleira Rei Pelé" fica na linha do "Pergunta final" (em 360 px
+     ele caia pra uma linha so dele e empurrava as ajudas pra baixo da barra de abas) */
+  .pergunta-cabeca { column-gap: 0.5rem; }
   .enunciado { padding: 0.75rem 0.9rem; min-height: calc(3 * 1.3em + 1.5rem); line-height: 1.3; font-size: 1.02rem; }
   .alternativa { min-height: 2.8rem; padding: 0.4rem 0.75rem; }
   .alternativa-letra { width: 1.75rem; height: 1.75rem; font-size: 1rem; }
