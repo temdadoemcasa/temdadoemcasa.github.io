@@ -895,3 +895,14 @@
   .campo-posicao .gramado { aspect-ratio: 0.86; }
   .previa svg { width: 74%; }
 }
+
+/* --- celular: toque de dedo (18/10) ---------------------------------------------------------
+   44px de area de toque; no campinho de posicao a area cresce por baixo (sem mudar o desenho,
+   os botoes sao vizinhos). Botao fixo na base foi testado e saiu: cobria os chips de baixo
+   (bateria-ux-prata, caso 48 em 360x640); a criacao e a carta terminam no botao, como antes. */
+@media (max-width: 640px) {
+  .pos-botao::after { content: ""; position: absolute; inset: -9px -3px; }
+  .pais, .carreira .chip, .foco-chip { min-height: 44px; }
+  .atributo .atributo-menos, .atributo .atributo-mais { min-height: 44px; min-width: 44px; }
+  .atributo-faixa { height: 2.75rem; }
+}
