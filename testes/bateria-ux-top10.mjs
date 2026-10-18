@@ -132,6 +132,9 @@ async function rodarCaso(b, i) {
         desiste: { certo: 1, fora: 1, dica: 1, desistir: 3 },
       }[politica]);
       const antes = s;
+      // como quem toca fora: a lista de sugestoes aberta (sobra de um chute repetido) cobre Dica e
+      // Desistir; o jogo fecha no blur (caso 71 da bateria cheia de 17/10 travava aqui)
+      if (acao === "dica" || acao === "desistir") { await p.locator("#busca").evaluate((e) => e.blur()); await p.waitForTimeout(300); }
       if (acao === "dica") {
         const alvo = R.top.find((x) => !antes.acertos.includes(x.id) && !antes.dicas.includes(x.id));
         passos.push(`${passo}: dica`);
