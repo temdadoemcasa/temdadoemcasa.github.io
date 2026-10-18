@@ -1346,3 +1346,9 @@ select, input {
   .abertura .jogos .jogo-compacto .top10-vidas { display: none; }
   .abertura .jogos .jogo-compacto .top10-barras li:nth-child(n+4) { display: none; }
 }
+
+/* --- home no celular: filtros e "Inscreva-se" com toque de dedo (18/10) --- */
+@media (max-width: 640px) {
+  .chip[data-grupo], .videos-inscrever, #temporada, #ordem, #time-busca { min-height: 44px; }
+  .videos-inscrever { display: inline-flex; align-items: center; }
+}
