@@ -290,7 +290,15 @@ async function jogarTemporadaClicando(p, r, pol) {
       // toque duplo rapido, e um segundo toque em outra opcao: so a primeira vale
       const alvo = ops.nth(k);
       await alvo.dblclick({ timeout: 4000 }).catch(() => alvo.click({ force: true }));
-      await p.locator(".evento-opcao").nth((k + 1) % n).click({ force: true, timeout: 500 }).catch(() => {});
+      // o segundo toque so vale se a outra opcao estiver mesmo sob o dedo: forcado na posicao dela,
+      // atras da barra de abas fixa do celular, ele tocava a aba "Carta" e escondia a temporada
+      const outra = p.locator(".evento-opcao").nth((k + 1) % n);
+      const naMira = await outra.evaluate((e) => {
+        e.scrollIntoView({ block: "center", behavior: "instant" });
+        const r = e.getBoundingClientRect(), t = document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2);
+        return !!t && e.contains(t);
+      }, null, { timeout: 500 }).catch(() => false);
+      if (naMira) await outra.click({ force: true, timeout: 500 }).catch(() => {});
     } else await tocar(p, ops.nth(k));
     // feedback imediato: a escolha aparece (ou a roleta gira)
     const fb = await p.waitForFunction(() => window.__mudou, null, { timeout: 1500 }).then(() => true, () => false);
