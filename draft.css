@@ -801,20 +801,20 @@ button.vaga:hover .vaga-vazia { border-color: var(--canal); color: var(--canal);
   #tela-resumo > h2 { grid-column: 1; }
   #comecar-temporada { grid-column: 2; grid-row: 1; }
   #tela-resumo > .resumo { grid-column: 1 / -1; margin: 0.4rem 0 0.5rem; gap: 0.5rem 1.4rem; grid-template-columns: minmax(245px, 262px) minmax(0, 1fr); }
-  .resumo-nome { font-size: 1.7rem; }
-  .resumo-numeros { margin: 0.5rem 0; gap: 1.3rem; }
-  .resumo-numeros dd { font-size: 1.9rem; }
+  .resumo-nome { font-size: 1.5rem; }
+  .resumo-numeros { margin: 0.3rem 0; gap: 1.3rem; }
+  .resumo-numeros dd { font-size: 1.6rem; }
   .resumo-frase { font-size: 0.98rem; margin: 0 0 0.5rem; }
-  #tela-resumo .resumo .nota { font-size: 0.8rem; margin: 0.25rem 0; }
+  #tela-resumo .resumo .nota { font-size: 0.78rem; margin: 0.15rem 0; line-height: 1.35; }
   .resumo-comps { font-size: 0.85rem; }
   .resumo-comps li + li { margin-top: 0.1rem; }
   /* o banco sai de baixo do campinho e vai pra coluna do texto */
   #tela-resumo .resumo-campo { display: contents; }
-  #tela-resumo .gramado-resumo { grid-column: 1; grid-row: 1 / span 3; }
+  #tela-resumo .gramado-resumo { grid-column: 1; grid-row: 1 / span 3; align-self: start; }
   #tela-resumo .resumo-info { grid-column: 2; grid-row: 1; }
-  #tela-resumo .resumo > .banco-lista { grid-column: 2; grid-row: 2; margin-top: 0.2rem; }
-  #tela-resumo .resumo > :not(.gramado-resumo):not(.resumo-info):not(.banco-lista) { grid-column: 2; }
-  #tela-resumo .resumo-aviso { margin: 0; font-size: 0.8rem; }
+  /* banco e aviso sao filhos da .resumo-campo (display: contents), nao da .resumo */
+  #tela-resumo .resumo-campo > .banco-lista { grid-column: 2; grid-row: 2; margin-top: 0.2rem; }
+  #tela-resumo .resumo-campo > .resumo-aviso { grid-column: 2; grid-row: 3; margin: 0; font-size: 0.78rem; line-height: 1.3; }
   #tela-resumo .resumo-info > .nota:last-of-type { margin-bottom: 0; }
   /* temporada: status mais baixo e a tabela rola por dentro (o "Proximo jogo" fica a vista) */
   .painel-status { margin: 0.3rem 0 0.6rem; }
