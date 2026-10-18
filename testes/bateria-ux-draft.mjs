@@ -239,8 +239,10 @@ async function caso(p, semente, cfg, registro) {
         const idxVaga = await p.locator('#gramado .vaga.vaga-cheia').nth(k).evaluate((b) => [...b.parentElement.children].indexOf(b));
         await clicar(p.locator('#gramado .vaga.vaga-cheia').nth(k));
         confere('toque no jogador da resposta na tela (aviso ou vagas marcadas)', (await impressao()) !== antes || await p.locator('#draft-aviso').isVisible());
-        // destino pode ser vaga do gramado ou reserva do banco (titular troca com reserva)
-        const destinos = await p.locator('#gramado .vaga.vaga-destino, .banco-lista .vaga-destino').count();
+        // destino pode ser vaga do gramado ou reserva do banco (titular troca com reserva). So o banco
+        // da tela do draft: o do resumo de uma partida anterior fica escondido com as marcas antigas
+        // (sementes 142 e 164 da bateria de 18/10 tocavam num reserva invisivel)
+        const destinos = await p.locator('#gramado .vaga.vaga-destino, #tela-draft .banco-lista .vaga-destino').count();
         const aviso = (await p.textContent('#draft-aviso')).trim();
         confere('mudar de posicao: ou marca destinos ou explica por que nao da', destinos > 0 ? /Pra onde vai/.test(aviso) : /não joga em nenhuma outra vaga/.test(aviso), aviso);
         if (destinos) {
@@ -250,7 +252,7 @@ async function caso(p, semente, cfg, registro) {
             confere('cancelar movimento limpa as marcas', (await p.locator('#gramado .vaga-destino').count()) === 0 && (await st()).movendo == null);
           } else {
             marcar('leva o jogador pro destino');
-            const alvo = p.locator('#gramado .vaga.vaga-destino, .banco-lista .vaga-destino').nth(Math.floor(rng() * destinos));
+            const alvo = p.locator('#gramado .vaga.vaga-destino, #tela-draft .banco-lista .vaga-destino').nth(Math.floor(rng() * destinos));
             // indice em [...D.onze, ...D.banco]: no banco, soma o tamanho do onze
             const alvoIdx = await alvo.evaluate((b) => [...b.parentElement.children].indexOf(b) + (b.classList.contains('banco-vaga') ? D.onze.length : 0));
             const quem = await p.evaluate((k) => D.onze[k].jogador.player_id, idxVaga);

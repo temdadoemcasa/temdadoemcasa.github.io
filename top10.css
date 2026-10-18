@@ -114,3 +114,56 @@
 }
 /* o topo do site e fixo: rolar ate a busca (toque no campo, teclado abrindo) nao pode esconder ela embaixo dele */
 .top10 .busca-caixa { scroll-margin-top: calc(var(--altura-topo, 104px) + 0.5rem); }
+
+/* --- notebook de tela baixa (dono, 18/10): a partida em duas colunas -----------------
+   busca, vidas e botoes (e o fim de jogo) a esquerda, as 10 barras a direita: cabe sem
+   rolar em 1366x657. Celular e monitor grande ficam com a coluna unica de sempre. */
+@media (min-width: 961px) and (max-height: 860px) {
+  .top10 { padding-bottom: 1rem; }
+  .top10 h1 { font-size: 2.3rem; }
+  .top10 .inicio-regras { margin: 0.5rem 0 0.8rem; font-size: 0.95rem; }
+  .top10 #tela-inicio { padding-top: 0.6rem; }
+  .top10 .inicio-form { gap: 0.5rem; }
+  main.top10:has(> #tela-jogo:not([hidden])) {
+    max-width: 64rem; display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    column-gap: 2.2rem; align-content: start; align-items: start;
+  }
+  main.top10:has(> #tela-jogo:not([hidden])) > #tela-jogo,
+  main.top10:has(> #tela-jogo:not([hidden])) .jogo { display: contents; }
+  main.top10:has(> #tela-jogo:not([hidden])) .cabeca,
+  main.top10:has(> #tela-jogo:not([hidden])) .busca-caixa,
+  main.top10:has(> #tela-jogo:not([hidden])) #aviso,
+  main.top10:has(> #tela-jogo:not([hidden])) .linha-status,
+  main.top10:has(> #tela-jogo:not([hidden])) > #tela-fim { grid-column: 1; }
+  main.top10:has(> #tela-jogo:not([hidden])) .barras { grid-column: 2; grid-row: 1 / span 8; margin-top: 1.4rem; }
+  main.top10:has(> #tela-jogo:not([hidden])) .cabeca { margin-top: 1.4rem; }
+  main.top10:has(> #tela-jogo:not([hidden])) .linha-status { flex-wrap: wrap; gap: 0.6rem; }
+  main.top10:has(> #tela-jogo:not([hidden])) > #tela-fim { border-top: 0; padding-top: 0.4rem; }
+  .barras { gap: 0.3rem; }
+  .barra-corpo { min-height: 40px; padding: 0.15rem 0.7rem; }
+  .barra-pos { font-size: 1.4rem; }
+  .barra-valor { font-size: 1.35rem; }
+  .barra-nome { font-size: 0.95rem; }
+  .fim h2 { font-size: 1.6rem; }
+  .fim-botoes { gap: 0.4rem; }
+  .fim-botoes .botao { padding: 0.5rem 0.9rem; }
+  .placar { margin: 0.2rem 0; }
+  .cabeca h2 { font-size: 2rem; }
+  .barras { gap: 0.22rem; }
+  .barra-corpo { min-height: 38px; padding: 0.1rem 0.7rem; }
+  .barra-clube { font-size: 0.74rem; }
+  /* nome e clube na mesma linha: com 12 barras abertas (empates) a coluna ainda cabe */
+  .barra-nomes { display: flex; align-items: baseline; gap: 0.5rem; min-width: 0; }
+  .barra-nome { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+  .barra-clube { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+  .barra-corpo { min-height: 34px; }
+  .top10 .barra { min-height: 34px; }
+  .barra-valor { font-size: 1.2rem; }
+}
+/* celular baixo: a regra e o botao Comecar cabem na primeira tela */
+@media (max-width: 640px) and (max-height: 700px) {
+  .top10 h1 { font-size: 2rem; }
+  .top10 .inicio-regras { margin: 0.5rem 0 0.8rem; font-size: 0.9rem; }
+}
+/* celular: dica e desistir com area de toque de dedo */
+@media (max-width: 640px) { #dica, #desistir { min-height: 44px; } }

@@ -766,3 +766,71 @@ button.vaga:hover .vaga-vazia { border-color: var(--canal); color: var(--canal);
 .banco-vaga.vaga-movendo { border-color: var(--canal); }
 .banco-vaga.vaga-movendo .vaga-nome { color: var(--canal); }
 .banco-vaga.vaga-destino { outline: 2px dashed var(--canal); outline-offset: 2px; }
+
+/* --- notebook de tela baixa (dono, 18/10), so no Tem Time em Casa ------------------------
+   a criacao do time em duas colunas (camisa e campos | copa, dificuldade e o botao), o
+   cabecalho em linha e o draft mais justo: cada etapa cabe em 1366x657 sem rolar.
+   O Prata (main.draft.carreira) tem o bloco dele no carreira.css. */
+@media (min-width: 961px) and (max-height: 860px) {
+  main.draft:not(.carreira) .draft-cabecalho { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 1.2rem; padding: 0.5rem 0 0.55rem; text-align: left; }
+  main.draft:not(.carreira) .draft-cabecalho h1 { font-size: 1.7rem; }
+  main.draft:not(.carreira) .draft-cabecalho .hero-texto { display: none; }
+  main.draft:not(.carreira) .draft-cabecalho .passos { margin: 0; justify-content: flex-start; }
+  main.draft:not(.carreira) .tela { padding-top: 0.6rem; }
+  main.draft:not(.carreira) .tela h2 { font-size: 1.25rem; }
+  main.draft:not(.carreira) { padding-bottom: 0.5rem; }
+  #tela-clube { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); column-gap: 2.2rem; align-items: start; }
+  #tela-clube > h2 { grid-column: 1; }
+  #tela-clube > .criar { grid-column: 1; grid-row: 2 / span 12; grid-template-columns: 130px minmax(0, 1fr); gap: 1rem; margin: 0.3rem 0 0; }
+  #tela-clube > :not(h2):not(.criar) { grid-column: 2; }
+  #tela-clube > h3 { margin: 0.2rem 0 0.15rem; font-size: 1rem; }
+  #tela-clube > h3 ~ h3 { margin-top: 0.6rem; }
+  #tela-clube .nota { font-size: 0.8rem; margin: 0.25rem 0; }
+  #tela-clube .criar-campos { gap: 0.6rem; }
+  #tela-clube .desafio { margin: 0.4rem 0; }
+  #comecar-draft { justify-self: start; margin-top: 0.4rem; }
+  /* draft: leque um pouco menor e menos ar entre as linhas de texto */
+  #tela-draft h2 { margin-bottom: 0.1rem; }
+  #tela-draft .draft-lado .nota { margin: 0.15rem 0; font-size: 0.85rem; }
+  #tela-draft .leque { margin-top: 0.5rem; gap: 0.6rem 0.6rem; }
+  #tela-draft .leque .opcao { zoom: 0.86; }
+  #trocar-leque { padding: 0.45rem 1rem; }
+  #tela-draft .chances { margin-top: 0.3rem; font-size: 0.72rem; line-height: 1.3; }
+  /* resumo: o botao sobe pro lado do titulo e o texto da direita fica mais enxuto */
+  #tela-resumo { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; column-gap: 1rem; }
+  #tela-resumo > h2 { grid-column: 1; }
+  #comecar-temporada { grid-column: 2; grid-row: 1; }
+  #tela-resumo > .resumo { grid-column: 1 / -1; margin: 0.4rem 0 0.5rem; gap: 0.5rem 1.4rem; grid-template-columns: minmax(245px, 262px) minmax(0, 1fr); }
+  .resumo-nome { font-size: 1.7rem; }
+  .resumo-numeros { margin: 0.5rem 0; gap: 1.3rem; }
+  .resumo-numeros dd { font-size: 1.9rem; }
+  .resumo-frase { font-size: 0.98rem; margin: 0 0 0.5rem; }
+  #tela-resumo .resumo .nota { font-size: 0.8rem; margin: 0.25rem 0; }
+  .resumo-comps { font-size: 0.85rem; }
+  .resumo-comps li + li { margin-top: 0.1rem; }
+  /* o banco sai de baixo do campinho e vai pra coluna do texto */
+  #tela-resumo .resumo-campo { display: contents; }
+  #tela-resumo .gramado-resumo { grid-column: 1; grid-row: 1 / span 3; }
+  #tela-resumo .resumo-info { grid-column: 2; grid-row: 1; }
+  #tela-resumo .resumo > .banco-lista { grid-column: 2; grid-row: 2; margin-top: 0.2rem; }
+  #tela-resumo .resumo > :not(.gramado-resumo):not(.resumo-info):not(.banco-lista) { grid-column: 2; }
+  #tela-resumo .resumo-aviso { margin: 0; font-size: 0.8rem; }
+  #tela-resumo .resumo-info > .nota:last-of-type { margin-bottom: 0; }
+  /* temporada: status mais baixo e a tabela rola por dentro (o "Proximo jogo" fica a vista) */
+  .painel-status { margin: 0.3rem 0 0.6rem; }
+  .status-item strong { font-size: 1.05rem; }
+  .coluna-tabelas { position: sticky; top: 4.6rem; max-height: calc(100vh - 5.4rem); overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; }
+}
+/* celular: chips, vagas do campinho e banco com area de toque de dedo */
+@media (max-width: 640px) {
+  main.draft:not(.carreira) .chip { min-height: 44px; }
+  main.draft:not(.carreira) .banco-vaga { min-height: 44px; }
+  main.draft:not(.carreira) button.vaga { min-height: 44px; }
+  /* o botao principal acompanha a rolagem: formulario e resumo sao longos no celular */
+  #comecar-draft, #comecar-temporada { position: sticky; bottom: calc(0.8rem + env(safe-area-inset-bottom, 0px)); z-index: 6; box-shadow: 0 10px 24px -8px rgba(0, 0, 0, 0.7); }
+  /* "Proximo jogo" fica logo acima do menu de baixo da temporada */
+  #visao-jogo .coluna-jogo > .controles-jogo:not(.controles-longos):not(.controles-tatica) {
+    position: sticky; bottom: calc(4.9rem + env(safe-area-inset-bottom, 0px)); z-index: 6;
+    padding: 0.45rem 0; background: color-mix(in srgb, var(--fundo) 92%, transparent); backdrop-filter: blur(6px);
+  }
+}
