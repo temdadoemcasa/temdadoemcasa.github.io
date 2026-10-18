@@ -480,7 +480,8 @@
   .degrau b { font-size: 0.85rem; }
   .degrau:nth-child(1), .degrau:nth-child(6), .degrau:nth-child(11) { margin-bottom: 0.2rem; }
 }
-/* celular: alternativas, ajudas e chips com area de toque de dedo */
+/* celular: chips da abertura e o "trocar" do fim com area de toque de dedo. Alternativas
+   e ajudas ficam como estao: a regra e a pergunta inteira caber sem rolar (show-do-dadao-cabe) */
 @media (max-width: 640px) {
-  .alternativa, .ajuda, .quiz .chip, .fim-textos .confirmar-botoes #trocar { min-height: 44px; }
+  .quiz .inicio-form .chip, .fim-textos .confirmar-botoes #trocar { min-height: 44px; }
 }
