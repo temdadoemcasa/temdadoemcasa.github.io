@@ -46,6 +46,7 @@ const LS_ESTRANHO = [null, 'claro', 'escuro', '{"quebrado":', 'undefined', '0', 
 // --- placar das invariantes ------------------------------------------------------------
 const placar = new Map();
 let casosFeitos = 0, casosComFalha = 0;
+const sementesComFalha = []; // todas (os exemplos param em 3): pra repetir com SO=
 const conta = (inv) => { if (!placar.has(inv)) placar.set(inv, { ok: 0, falha: 0, ex: [] }); return placar.get(inv); };
 
 // --- o que roda dentro da pagina -------------------------------------------------------
@@ -136,7 +137,18 @@ async function caso(p, semente, cfg, registro) {
     confere('nenhum erro de JS / promessa rejeitada / console.error', !e.length, `${onde}: ${e.join(' | ')}`);
   };
   const ocioso = async (ms = 30000) => {
-    const ok = await p.waitForFunction(() => !D.animando && !D.simulando, null, { timeout: ms }).then(() => true, () => false);
+    let ok = await p.waitForFunction(() => !D.animando && !D.simulando, null, { timeout: ms }).then(() => true, () => false);
+    // disputa de penaltis longa (9x8, 11x10: ~22 cobrancas de 1,35 s + 5,2 s do jogo) passa
+    // dos 30 s sem estar travada: enquanto entrar bola nova no placar dos penaltis, espera
+    // mais (ate 2 min); travou e quando nenhuma cobranca anda numa janela de 10 s
+    const bolas = () => p.evaluate(() => document.querySelectorAll('#jogo .pen-bola').length);
+    for (let n0 = await bolas(), t = Date.now(); !ok && n0 > 0 && Date.now() - t < 120000;) {
+      const andou = await p.waitForFunction((n) => (!D.animando && !D.simulando) || document.querySelectorAll('#jogo .pen-bola').length > n, n0, { timeout: 10000 })
+        .then(() => true, () => false);
+      if (!andou) break;
+      ok = await p.evaluate(() => !D.animando && !D.simulando);
+      n0 = await bolas();
+    }
     confere('nenhum travamento (animacao/simulacao termina)', ok, `ficou animando/simulando ${ms} ms`);
     if (!ok) throw new Falha('travou');
   };
@@ -743,7 +755,7 @@ async function trabalhador() {
     if (reg.primeiroLeque) registro.primeiroLeque = reg.primeiroLeque;
     finais[fim]++;
     casosFeitos++;
-    if (reg.falhou) casosComFalha++;
+    if (reg.falhou) { casosComFalha++; sementesComFalha.push(s); }
     if (aberto && fim !== 'completo' && fim !== 'desistiu' && fim !== 'recarregou') { await aberto.ctx.close(); aberto = null; }
     // caso que nao chegou no fim: recarrega pra o proximo comecar limpo
     if (aberto && fim === 'recarregou') { /* ja recarregou dentro do caso */ }
@@ -761,7 +773,7 @@ for (const [inv, c] of [...placar].sort((x, y) => y[1].falha - x[1].falha || x[0
 }
 const seg = ((Date.now() - inicio) / 1000).toFixed(0);
 const total = [...placar.values()].reduce((s, c) => s + c.ok + c.falha, 0);
-linhas.push(`${casosFeitos >= sementes.length ? 'OK ' : 'FALHA'} casos: ${casosFeitos} (sementes ${sementes[0]}..${sementes[sementes.length - 1]}) · completos ${finais.completo}, desistiram no draft ${finais.desistiu}, recarregaram na temporada ${finais.recarregou}, quebraram ${finais.quebrou} · casos com falha ${casosComFalha} · ${total} checagens · ${seg} s`);
+linhas.push(`${casosFeitos >= sementes.length ? 'OK ' : 'FALHA'} casos: ${casosFeitos} (sementes ${sementes[0]}..${sementes[sementes.length - 1]}) · completos ${finais.completo}, desistiram no draft ${finais.desistiu}, recarregaram na temporada ${finais.recarregou}, quebraram ${finais.quebrou} · casos com falha ${casosComFalha}${sementesComFalha.length ? ` (sementes ${sementesComFalha.slice(0, 50).join(', ')})` : ''} · ${total} checagens · ${seg} s`);
 console.log(linhas.join('\n'));
 mkdirSync('testes/resultados', { recursive: true });
 writeFileSync('testes/resultados/bateria-ux-draft.txt', `${new Date().toISOString()} BASE=${BASE} CASOS=${CASOS} SEMENTE=${SEMENTE0}\n${linhas.join('\n')}\n`);
