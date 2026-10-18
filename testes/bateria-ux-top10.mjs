@@ -68,7 +68,7 @@ async function rodarCaso(b, i) {
   let passo = 0;
   const checar = (inv, cond, msg = "") => {
     contagem.set(inv, (contagem.get(inv) || 0) + 1);
-    if (!cond && !falhas.some((f) => f.caso === i && f.inv === inv)) falhas.push({ caso: i, semente, passo, inv, msg: String(msg).slice(0, 300), passos: [...passos] });
+    if (!cond && !falhas.some((f) => f.caso === i && f.inv === inv)) falhas.push({ caso: i, semente, passo, inv, msg: String(msg).slice(0, DETALHE ? 3000 : 300), passos: [...passos] });
   };
   try {
     // estado inicial: limpo, corrompido ou com o diario de hoje parcial
@@ -193,6 +193,9 @@ async function rodarCaso(b, i) {
       const k = await p.evaluate((x) => sugestoes.findIndex((o) => o.id === x), id);
       if (repetido) {
         checar("quem ja foi chutado some da busca", k < 0);
+        // o nome nao aparece e a pessoa apaga o que digitou; sem isso a lista (com os outros
+        // nomes parecidos) fica aberta por cima da dica/desistir e o toque seguinte nao chega
+        await p.fill("#busca", "");
         continue;
       }
       if (k < 0) {
@@ -231,7 +234,7 @@ async function rodarCaso(b, i) {
     }
     checar("sem erro de JS", !erros.length, erros.join(" | "));
   } catch (e) {
-    checar("caso roda ate o fim sem travar", false, e.message.split("\n").filter((l) => l.trim()).slice(0, DETALHE ? 12 : 1).join(" / "));
+    checar("caso roda ate o fim sem travar", false, e.message.split("\n").filter((l) => l.trim()).slice(0, DETALHE ? 40 : 1).join(" / "));
   } finally {
     await ctx.close();
   }
@@ -280,6 +283,8 @@ for (const [inv, n] of [...contagem].sort()) {
   linhas.push(f ? `FALHA ${inv}: caso ${f.caso} semente ${f.semente} passo ${f.passo}: ${f.msg}` : `OK   ${inv} (${n} checagens)`);
   if (f && DETALHE) linhas.push(...f.passos.map((x) => `      ${x}`));
 }
+const casosRuins = [...new Set(falhas.map((f) => f.caso).filter((c) => c !== "todos"))];
+if (casosRuins.length) linhas.push(`casos com falha (${casosRuins.length}): ${casosRuins.slice(0, 50).join(", ")}`); // a FALHA acima so mostra o 1o de cada invariante
 linhas.push(`${casos.length} casos em ${((Date.now() - t0) / 1000).toFixed(0)}s, semente-base ${SEMENTE}`);
 if (falhas.length) linhas.push(`reproduzir um caso: CASO=<n> SEMENTE=${SEMENTE} DETALHE=1 node testes/bateria-ux-top10.mjs`);
 console.log(linhas.join("\n"));
