@@ -317,7 +317,7 @@ const ESTILOS = {
     DRI: ["Segundo atacante", "cria e finaliza"], FIS: ["Pivô", "segura a bola e ganha no corpo"], DEF: ["Atacante operário", "ajuda sem a bola, marca menos"] },
   PON: { RIT: ["Ponta veloz", "ganha na corrida"], DRI: ["Driblador", "cria jogadas e assistências"], FIN: ["Ponta goleador", "entra em diagonal pra finalizar"],
     PAS: ["Ponta garçom", "vive de assistência"], FIS: ["Ponta de força", "aguenta o tranco"], DEF: ["Ponta operário", "volta pra marcar"] },
-  MEI: { PAS: ["Armador clássico", "o camisa 10 que dá o passe"], DRI: ["Meia driblador", "quebra linhas no drible"], FIN: ["Meia chegador", "aparece na área pra fazer gol"],
+  MEI: { PAS: ["Armador clássico", "o camisa 10 que dá o passe"], DRI: ["Meia driblador", "quebra linhas no drible"], FIN: ["Meia ofensivo", "aparece na área pra fazer gol"],
     RIT: ["Meia de transição", "puxa o contra-ataque"], FIS: ["Meia de força", "ganha as divididas"], DEF: ["Meia marcador", "pressiona a saída"] },
   MC: { PAS: ["Construtor", "dita o ritmo do jogo"], DEF: ["Box-to-box", "defende e ataca"], FIN: ["Meia que chega", "chuta de fora e aparece na área"],
     DRI: ["Condutor", "carrega a bola"], FIS: ["Motorzinho", "corre o jogo inteiro"], RIT: ["Carrilero", "ocupa o corredor"] },
