@@ -404,7 +404,8 @@ async function casoCriacao(p, r) {
   const nome = NOMES[Math.floor(r() * NOMES.length)];
   if (teclado) {
     await p.locator("#nome-camisa").focus();
-    await p.keyboard.press("Control+A"); await p.keyboard.type(nome);
+    // Ctrl+A e digitar "" nao apaga nada: o nome do caso anterior ficava e o jogo avancava (17/10)
+    await p.keyboard.press("Control+A"); await p.keyboard.press("Backspace"); await p.keyboard.type(nome);
     await p.keyboard.press("Tab");
     const foco = await p.evaluate(() => { const a = document.activeElement; const cs = getComputedStyle(a); return { id: a.id, visivel: a.matches(":focus-visible") && (cs.outlineStyle !== "none" && parseFloat(cs.outlineWidth) > 0 || cs.boxShadow !== "none") }; });
     checar("foco visível no teclado", foco.visivel, `#${foco.id} sem contorno de foco`);
