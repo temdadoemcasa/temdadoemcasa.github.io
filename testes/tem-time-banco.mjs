@@ -58,7 +58,8 @@ const par = await p.evaluate(() => {
 });
 ok(!!par, 'alguma reserva cabe em algum titular no resumo');
 if (par) {
-  await p.evaluate(() => window.scrollTo(0, 300));
+  // rolagem instantanea: com a suave, o scrollY lido na hora ainda e 0 e o teste acusava falso
+  await p.evaluate(() => window.scrollTo({ top: 300, behavior: 'instant' })); await p.waitForTimeout(100);
   const y0 = await p.evaluate(() => scrollY);
   const a0 = await p.evaluate(({ idx, alvo }) => [todasVagas()[idx].jogador.player_id, D.onze[alvo].jogador.player_id], par);
   // clique pelo DOM: o click do Playwright rola a pagina ate o alvo e mascararia a rolagem do jogo
