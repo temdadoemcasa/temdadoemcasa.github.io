@@ -1352,3 +1352,26 @@ select, input {
   .chip[data-grupo], .videos-inscrever, #temporada, #ordem, #time-busca { min-height: 44px; }
   .videos-inscrever { display: inline-flex; align-items: center; }
 }
+
+/* --- tema claro: acabamento (22/10) ----------------------------------------------
+   O envelope/pacote e um objeto escuro (como as cartas), mas herdava as cores da
+   pagina: texto quase preto no fundo escuro ("CRAQUE" sumia) e o lima virava verde
+   escuro. Aqui ele fica com as cores dele em qualquer tema. */
+:root[data-tema="claro"] .envelope { --texto: #e6edf3; --texto-fraco: #8b949e; --canal: #c8ff00; color: var(--texto); }
+:root[data-tema="claro"] .envelope-aba { color: #111; }
+/* rotulos dos cartoes dos jogos: o amarelo, o rosa e o ciano somem no branco */
+:root[data-tema="claro"] .jogo-quiz { --jogo-cor: #8a6a00; }
+:root[data-tema="claro"] .jogo-carreira { --jogo-cor: #c2185b; }
+:root[data-tema="claro"] .jogo-mm { --jogo-cor: #0a6f8f; }
+/* botoes continuam na cor viva da marca de cada jogo */
+:root[data-tema="claro"] .jogo-quiz .botao-primario { background: #f2c230; border-color: #f2c230; color: #111; }
+:root[data-tema="claro"] .jogo-carreira .botao-primario { background: #ff7d95; border-color: #ff7d95; color: #111; }
+:root[data-tema="claro"] .jogo-mm .botao-primario { background: #5cc8ff; border-color: #5cc8ff; color: #111; }
+:root[data-tema="claro"] .jogo-top10 .botao-primario { background: var(--canal-vivo); border-color: var(--canal-vivo); color: #111; }
+/* vitrine do Top 10: barra aberta em lima com o nome escuro; fechada em cinza claro */
+:root[data-tema="claro"] .top10-barras li { background: #e2e5df; color: var(--texto-fraco); }
+:root[data-tema="claro"] .top10-barras li.aberta,
+:root[data-tema="claro"] .jogo-card:hover .top10-barras li:nth-child(3) { background: var(--canal-vivo); color: #111; box-shadow: 0 0 12px rgba(120, 170, 0, 0.35); }
+/* "▲ G4" do elenco: o lima no branco nao lia */
+:root[data-tema="claro"] .momento-alta { color: var(--canal); }
+:root[data-tema="claro"] .momento-baixa { color: #c62828; }
