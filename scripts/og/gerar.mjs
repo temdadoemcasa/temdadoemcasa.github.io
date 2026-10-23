@@ -56,7 +56,9 @@ for (const j of JOGOS.filter((x) => !pedidos.length || pedidos.includes(x.id))) 
       return;
     }
     const q = origem.getBoundingClientRect();
-    clone.style.cssText = `width:${q.width}px;height:${q.height}px;transform:scale(${Math.min(600 / q.width, 560 / q.height)});background:none;border:0;transform-origin:center`;
+    // 30% a mais de altura e sem corte: a carta mais alta (o 95 do Prata) passava do topo do card
+    const h = q.height * 1.3;
+    clone.style.cssText = `width:${q.width}px;height:${h}px;overflow:visible;transform:scale(${Math.min(600 / q.width, 560 / h)});background:none;border:0;transform-origin:center`;
     palco.append(clone);
     arte.append(textos, palco);
     document.body.append(arte);
