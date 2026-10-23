@@ -1720,7 +1720,9 @@ function mostrarAbertura(r) {
     }, 3800);
   }
   const c = r.cortes || {};
-  const ovrs = [(c.madeira ?? 65) - 4, (c.tijolo ?? 75) + 2, Math.min(97, (c.grafeno ?? 82) + 4)];
+  // a evolucao da propaganda: ruim (palha), mediana (meio da madeira) e craque 95
+  const mad = c.madeira ?? 65, tij = c.tijolo ?? 75;
+  const ovrs = [mad - 6, Math.round((mad + tij) / 2) - 1, 95];
   const etapas = [
     ["16 anos · Série D", { nome: "Série D", kit: { padrao: "lisa", base: "#1f8f4e", numero: "#ffffff" } }],
     ["22 anos · Série A", { nome: "Bahia" }],
