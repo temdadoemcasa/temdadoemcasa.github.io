@@ -191,7 +191,9 @@ for (const [w, h] of [[1920, 1080], [1366, 768], [390, 844], [360, 640]]) {
   for (const [nome, m] of [['variação real', real], ['pior largura', largo]]) {
     const ruins = m.filter((x) => x.cruza || x.vaza);
     const comDelta = m.filter((x) => x.txt.split('|')[1]).length;
-    ok(m.every((x) => x.visivel) && comDelta >= 5 && !ruins.length,
+    // na variacao real quantos numeros mudam depende do sorteio da temporada (as vezes so 2);
+    // o caso "pior largura" escreve os 5 e garante a checagem de sobreposicao
+    ok(m.every((x) => x.visivel) && comDelta >= (nome === 'pior largura' ? 5 : 1) && !ruins.length,
       `5 ${tam} (${nome}): variação ao lado/abaixo do valor, sem sobrepor (${ruins.map((x) => `${x.k}="${x.txt}"${x.cruza ? ' sobrepõe' : ' vaza'}`).join(', ') || `${comDelta} quadrinhos ok`})`);
   }
   const rolaX = await p.evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 1);
